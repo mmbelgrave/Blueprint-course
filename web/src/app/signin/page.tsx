@@ -3,11 +3,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { auth, isSupabaseConfigured } from "@/lib/backend";
+import { auth, isSupabaseConfigured, NotInvitedError } from "@/lib/backend";
 
 function SignInForm() {
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error" | "not-invited">("idle");
   const linkError = useSearchParams().get("error") === "link";
   const { reload } = useApp();
   const router = useRouter();
@@ -54,8 +54,8 @@ function SignInForm() {
         try {
           await auth.sendMagicLink(email.trim());
           setState("sent");
-        } catch {
-          setState("error");
+        } catch (e) {
+          setState(e instanceof NotInvitedError ? "not-invited" : "error");
         }
       }}
     >
@@ -81,6 +81,12 @@ function SignInForm() {
       </button>
       {state === "error" && (
         <p className="text-amber">Something went wrong. Please try again in a minute.</p>
+      )}
+      {state === "not-invited" && (
+        <p className="rounded-lg bg-amber-soft p-3">
+          This email is not on the list yet. The Blueprint is open to invited people
+          only for now. Used a different address before? Try that one.
+        </p>
       )}
     </form>
   );

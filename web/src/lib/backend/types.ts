@@ -23,6 +23,17 @@ export type UserData = {
  * Sign-in lives behind this one interface, so a different login provider
  * (for example Whop) can replace Supabase later without touching the pages.
  */
+/**
+ * Thrown by sendMagicLink when the pilot is invite-only and this email was
+ * not invited. The sign-in page then says so instead of "something went wrong".
+ */
+export class NotInvitedError extends Error {
+  constructor() {
+    super("This email is not on the pilot list.");
+    this.name = "NotInvitedError";
+  }
+}
+
 export interface AuthProvider {
   mode: "supabase" | "local";
   getUser(): Promise<AppUser | null>;

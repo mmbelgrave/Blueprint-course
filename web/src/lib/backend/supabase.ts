@@ -9,6 +9,27 @@ import type {
   Profile,
   UserData,
 } from "./types";
+import { NotInvitedError } from "./types";
+
+/**
+ * Pilot mode. When NEXT_PUBLIC_INVITE_ONLY is "true", a link is only sent to
+ * people who already have an account (invited in Supabase). Strangers who find
+ * the address cannot start an account, so they cannot spend AI credit.
+ */
+export const inviteOnly = process.env.NEXT_PUBLIC_INVITE_ONLY === "true";
+
+/** Supabase says "no account and I may not make one" in these ways. */
+function meansNotInvited(error: { code?: string; message?: string }) {
+  const code = error.code ?? "";
+  const message = (error.message ?? "").toLowerCase();
+  return (
+    code === "otp_disabled" ||
+    code === "signup_disabled" ||
+    message.includes("signups not allowed") ||
+    message.includes("signup is disabled") ||
+    message.includes("signups not allowed for otp")
+  );
+}
 
 let client: ReturnType<typeof createBrowserClient> | null = null;
 
@@ -31,9 +52,14 @@ export const supabaseAuth: AuthProvider = {
   async sendMagicLink(email) {
     const { error } = await supabaseBrowser().auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        // In pilot mode no new accounts are made from this page.
+        ...(inviteOnly ? { shouldCreateUser: false } : {}),
+      },
     });
-    if (error) throw error;
+    if (!error) return;
+    throw meansNotInvited(error) ? new NotInvitedError() : error;
   },
   async signOut() {
     await supabaseBrowser().auth.signOut();

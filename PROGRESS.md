@@ -120,7 +120,9 @@ Brief: `build-prompt-v1.md` + naming update in `My Purpose/AI Companion/build-pr
   "Forget this", drafts, feedback, print, admin; RLS between two accounts;
   "Delete everything" with a test account.
 - The cost in the admin view is an estimate: cache writes are not in `usage_log`.
-- Privacy page is a placeholder; Mwata writes the legal text.
+- Privacy page rewritten for the pilot (what is stored, who reads it, Supabase
+  and Anthropic named, how long, deleting, rights). Add a company name and a
+  contact address before the Blueprint opens to strangers.
 - Git: first commit c50058e on branch main, pushed 2026-09-23 to the private
   repository https://github.com/mmbelgrave/Blueprint-course (98 files). Commits
   use the GitHub no-reply address 329199588+mmbelgrave@users.noreply.github.com,
@@ -129,8 +131,17 @@ Brief: `build-prompt-v1.md` + naming update in `My Purpose/AI Companion/build-pr
   no email address.
 - Code folder inside OneDrive: builds can fail on a file lock while the dev
   server runs (seen 2026-09-22); moving `web/` out of OneDrive would avoid it.
-- Not online yet: publishing (Vercel), the Supabase URL settings for the real
-  address and a domain need Mwata's decision.
+- Going online: all app-side work is done (see GO-LIVE.md). Waiting on Mwata:
+  the Vercel account and import, the seven settings in Vercel, the Supabase URL
+  settings, switching public sign-up off, inviting people, and custom SMTP
+  (Supabase's own email sender is a few mails per hour and will drop invitations).
+
+- **2026-09-23 — ready for the pilot:** invite-only sign-in
+  (`NEXT_PUBLIC_INVITE_ONLY=true` + `shouldCreateUser: false`; a stranger who
+  finds the address gets "not on the list yet" and cannot start an account, so
+  cannot spend AI credit), privacy page finished, GO-LIVE.md written (Vercel,
+  Supabase URLs, closing sign-up, invitations, SMTP, costs). typecheck, lint,
+  tests 27/27, production build: all pass.
 
 ## Next step
 Mwata: signed-in walk-through with a second (test) account. Then decide: git
