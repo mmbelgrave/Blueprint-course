@@ -121,7 +121,12 @@ Brief: `build-prompt-v1.md` + naming update in `My Purpose/AI Companion/build-pr
   "Delete everything" with a test account.
 - The cost in the admin view is an estimate: cache writes are not in `usage_log`.
 - Privacy page is a placeholder; Mwata writes the legal text.
-- No git history yet (ask Mwata before first commit).
+- Git: first commit c50058e on branch main, pushed 2026-09-23 to the private
+  repository https://github.com/mmbelgrave/Blueprint-course (98 files). Commits
+  use the GitHub no-reply address 329199588+mmbelgrave@users.noreply.github.com,
+  so Mwata's real email stays private (GitHub refuses a push that would publish
+  it). .env.local is not in the repository; checked: no API keys, no tokens,
+  no email address.
 - Code folder inside OneDrive: builds can fail on a file lock while the dev
   server runs (seen 2026-09-22); moving `web/` out of OneDrive would avoid it.
 - Not online yet: publishing (Vercel), the Supabase URL settings for the real
