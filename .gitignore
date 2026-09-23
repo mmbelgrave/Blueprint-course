@@ -1,0 +1,19 @@
+# Secrets — never in the repository (keys for Supabase, Anthropic, admin email)
+.env
+.env.*
+!.env.example
+
+# Installed packages and build output
+node_modules/
+.next/
+.next-preview/
+out/
+build/
+
+# Editor and system files
+.DS_Store
+Thumbs.db
+*.swp
+
+# Word's temporary lock files, in case a workbook is copied in here
+~$*

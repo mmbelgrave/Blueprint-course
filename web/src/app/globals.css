@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/* Brand colors from the build brief (section 7). */
+@theme {
+  --color-indigo: #2e2a5c;
+  --color-indigo-soft: #e7e5f2;
+  --color-sand: #f3ece0;
+  --color-sand-deep: #e8dcc6;
+  --color-amber: #c47a1a;
+  --color-amber-soft: #f7e9d3;
+  --color-green: #2f6b4f;
+  --color-green-soft: #e1eee6;
+  --color-ink: #17161e;
+  --color-muted: #5b5866;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+html {
+  font-size: 17px;
+}
+
+body {
+  background: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+/*
+ * Answer tables on phones: each row becomes a small card, and every cell shows
+ * its column name above it (from data-label). No sideways scrolling.
+ */
+@media (max-width: 639px) {
+  .rtable {
+    min-width: 0 !important;
+  }
+  .rtable thead {
+    display: none;
+  }
+  .rtable tbody,
+  .rtable tfoot,
+  .rtable tr,
+  .rtable th,
+  .rtable td {
+    display: block;
+    width: 100%;
+  }
+  .rtable tr {
+    padding: 0.5rem 0.25rem;
+  }
+  .rtable tbody th[scope="row"] {
+    font-weight: 600;
+    color: var(--color-indigo);
+    padding-bottom: 0.25rem;
+  }
+  .rtable td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin-bottom: 0.15rem;
+  }
+  .rtable td:empty {
+    display: none;
+  }
+  .rtable tfoot td {
+    text-align: left !important;
+  }
+}
+
+/* Printing / "Save as PDF": white page, calm margins, no app chrome. */
+@media print {
+  body {
+    background: #fff;
+    font-size: 11pt;
+  }
+  main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  @page {
+    margin: 18mm 16mm;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-amber);
+  outline-offset: 2px;
+}
+
+.field-input {
+  width: 100%;
+  border: 1px solid var(--color-sand-deep);
+  background: #fff;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  color: var(--color-ink);
+}
+.field-input:focus {
+  border-color: var(--color-indigo);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-indigo-soft);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--color-indigo);
+  color: #fff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #24214a;
+}
+.btn-amber {
+  background: var(--color-amber);
+  color: #fff;
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-indigo);
+  border: 1px solid var(--color-indigo);
+}
+.btn-ghost:hover {
+  background: var(--color-indigo-soft);
+}

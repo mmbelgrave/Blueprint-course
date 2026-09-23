@@ -1,0 +1,1470 @@
+{
+  "version": "2",
+  "source": "The Made Real Blueprint - Step 2 Explore (workbook v2).docx, September 2026",
+  "step": {
+    "id": "step2",
+    "number": 2,
+    "title": "Explore",
+    "question": "Where could this life really work?",
+    "tagline": [
+      "In Step 1 you made a picture of the life you want.",
+      "Now you find out where that life can actually happen.",
+      "On paper first. Then with your own eyes."
+    ],
+    "intro_title": "Welcome to Step 2",
+    "intro": [
+      "Most people do this step in the wrong order. They fall in love with a place first, and only later check if their life can work there. Sometimes it works out. Often it costs a lot of time, money and energy.",
+      "In this step you do it the other way round. You start with what you need, then you look for the place that fits it. You check it from home, with real information. And only then you go and feel it with your own eyes.",
+      "You finish with your Explore Summary: one or two places that fit your picture, what you know about them, what you still need to check, and what you want to test in real life."
+    ],
+    "before_you_start": {
+      "title": "What you need before you start",
+      "bullets": [
+        "Your Working Direction from Step 1 — where you want to look further.",
+        "Your Life Picture and your must-haves and dealbreakers — they are your measuring stick in this step.",
+        "Your First Money Picture — you will compare it with real costs."
+      ],
+      "note": "Did you not do Step 1? You can still work through this step. But go back to Step 1 later. Without a picture of your own, every place looks good in the photos."
+    },
+    "where_to_start": {
+      "title": "Where do you start?",
+      "intro": "Not everyone starts at the same place. Read the three lines below and choose yours.",
+      "columns": [
+        "If this is you",
+        "What you do",
+        "Start at"
+      ],
+      "rows": [
+        [
+          "My country is not clear yet",
+          "You compare countries against what your life needs",
+          "Part 1"
+        ],
+        [
+          "My country is clear, my region is not",
+          "You compare regions inside that country",
+          "Part 2"
+        ],
+        [
+          "My country and region are clear",
+          "You check that choice with real information",
+          "Part 3"
+        ]
+      ],
+      "challenge": "Do you want to skip Part 1 or Part 2? Good — but be honest first. Have you seen the place in the cold, wet months as well as in summer? Do you know what living there costs, not what a holiday costs? Do you know that you are legally allowed to live there? And do you know the local rules for what you want to do — build, work, keep animals, run a business? If one answer is no, do that part anyway. It takes a few hours. A wrong place costs years."
+    },
+    "how_it_works": [
+      "Parts 1 and 2 are optional. Use them when the country or the region is still open.",
+      "Parts 3, 4 and 5 are for everybody. They are where the real work happens.",
+      "You are the researcher. I show you what to look for and where to look. You look it up for your own situation.",
+      "Three columns come back again and again: known, estimate, unknown. Writing \"unknown\" is progress. It shows you what to find out next.",
+      "Each part ends with \"What does this tell me?\" There you bring your answers together into one short result.",
+      "The people in the examples are made up. Your answers can be completely different."
+    ],
+    "word_help": [
+      {
+        "term": "Must-have",
+        "meaning": "something your new life really needs."
+      },
+      {
+        "term": "Dealbreaker",
+        "meaning": "something you will not accept."
+      },
+      {
+        "term": "Shortlist",
+        "meaning": "the two or three places you keep looking at."
+      },
+      {
+        "term": "Off-season",
+        "meaning": "the quiet, often cold or wet time of year."
+      },
+      {
+        "term": "Residence permit",
+        "meaning": "official permission to live in a country for a longer time."
+      }
+    ],
+    "route_tip": "Part 3 is not one evening of work. Spread it over a few weeks. Ten minutes a day is enough to make real progress."
+  },
+  "schema_notes": {
+    "ids": "Step 2 page IDs start with 's2-' so they never mix with Step 1 answers. 'number' is what people see. Field IDs are stable keys for saved answers.",
+    "same_as_step1": "Field types, summaries, markers and unknown numbers work as in step1-content.json.",
+    "tables": "'tables' on an exercise are fixed content tables (not filled in). 'place': 'before' or 'after' the answer fields; 'lead' is a sentence shown above the table.",
+    "boxes": "'where_to_check' = official places to look (with the date checked). 'expert_work' = a 'This is expert work' box. Part 'can_skip' = the 'Can you skip this part?' box.",
+    "heading": "A field of type 'heading' has no answer: it shows a marker and a title above the fields that follow.",
+    "copy_from": "A field with 'copy_from' offers the person's answer from Step 1 to copy in. They decide.",
+    "column_names_from": "A table column label like 'Country 1:' is followed by the name the person wrote in the list field named here.",
+    "score": "A 'score' column is chosen from 2 / 1 / 0; the totals row adds them up."
+  },
+  "parts": [
+    {
+      "id": "s2-p0",
+      "number": 0,
+      "label": "Start",
+      "title": "What I am looking for",
+      "route_title": "Write down what you are looking for",
+      "promise": "Before you look at any place, write down what you are measuring it against.",
+      "intro": "This page is your measuring stick for the whole step. Every place you look at gets held next to it.",
+      "time": "20–30 min",
+      "exercises": [
+        {
+          "id": "s2-0.1",
+          "number": "0.1",
+          "title": "What I am looking for",
+          "start_here": {
+            "fields": [
+              {
+                "id": "a_heading",
+                "type": "heading",
+                "marker": "A",
+                "label": "Bring your direction with you",
+                "hint": "Copy the most important lines from your Step 1 Working Direction."
+              },
+              {
+                "id": "life_picture",
+                "type": "long_text",
+                "lines": 3,
+                "label": "My life picture in three sentences",
+                "copy_from": {
+                  "exercise": "5.1",
+                  "field": "life_picture"
+                }
+              },
+              {
+                "id": "directions",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The direction(s) I want to explore",
+                "copy_from": {
+                  "exercise": "5.1",
+                  "field": "directions"
+                }
+              },
+              {
+                "id": "must_haves",
+                "type": "long_text",
+                "lines": 3,
+                "label": "My must-haves — the life needs these",
+                "copy_from": {
+                  "exercise": "1.4",
+                  "field": "must_haves"
+                }
+              },
+              {
+                "id": "dealbreakers",
+                "type": "long_text",
+                "lines": 2,
+                "label": "My dealbreakers — I will not accept these",
+                "copy_from": {
+                  "exercise": "1.4",
+                  "field": "dealbreakers"
+                }
+              },
+              {
+                "id": "willing_to_give",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What I am willing to invest — time, money, comfort",
+                "copy_from": {
+                  "exercise": "5.1",
+                  "field": "willing_to_give"
+                }
+              },
+              {
+                "id": "b_heading",
+                "type": "heading",
+                "marker": "B",
+                "label": "What kind of place does this life need?",
+                "hint": "Do not name a country yet. Describe the place your picture needs. Tick what is true for you."
+              },
+              {
+                "id": "place_needs",
+                "type": "checkbox_pick",
+                "options": [
+                  "Warm all year",
+                  "Real seasons",
+                  "Cool summers",
+                  "Near the sea",
+                  "Mountains",
+                  "Countryside",
+                  "Small town",
+                  "Big city",
+                  "Land to grow food",
+                  "A workshop or space to build",
+                  "Good internet",
+                  "Airport nearby",
+                  "Hospital nearby",
+                  "Schools nearby",
+                  "Low cost of living",
+                  "Many people like me"
+                ]
+              },
+              {
+                "id": "top_three",
+                "type": "long_text",
+                "lines": 3,
+                "hint": "Now write the three things that matter most, in your own words. If a place cannot give you these three, it is not your place."
+              }
+            ]
+          },
+          "example": {
+            "who": "Nadia, 41",
+            "text": "What matters most: (1) I can grow food at least eight months a year, (2) a hospital within 45 minutes because of my daughter, (3) internet good enough for video calls, because my income comes from my clients abroad. Nice but not essential: near the sea."
+          }
+        }
+      ],
+      "talk": "Are you moving with someone? Each of you fills in this page alone first. Then compare. The differences are not a problem — they are the conversation you need to have now, and not after you arrive.",
+      "finish": {
+        "id": "s2-looking_for",
+        "title": "What I Am Looking For",
+        "description": "The measuring stick you use for every place in this step."
+      }
+    },
+    {
+      "id": "s2-p1",
+      "number": 1,
+      "label": "Part 1",
+      "optional": true,
+      "title": "Which country?",
+      "route_title": "Choose your country",
+      "promise": "Ten honest questions that separate a place you like the idea of from a place your life can work in.",
+      "can_skip": "Is your country already clear, and did you answer the challenge on page 3 honestly? Then go to Part 2. Keep this page in mind though: if later in Part 3 you find a wall you cannot climb — for example that you are not allowed to live there — you can always come back here.",
+      "intro": "When I chose my country, I did not start with a map. I started with a list of what my life needed. Then I checked which countries could give me that. This part does the same for you.",
+      "time": "60–90 min",
+      "exercises": [
+        {
+          "id": "s2-1.1",
+          "number": "1.1",
+          "title": "The ten factors",
+          "intro": "These are the ten factors I use. The first eight are the ones I used myself when I compared countries. The last two are the ones that stop most plans, so I added them.",
+          "tables": [
+            {
+              "place": "before",
+              "rows": [
+                [
+                  "1. Climate and nature",
+                  "Not the holiday weather — the whole year. How hot, how cold, how wet, how dry? Is there enough water? Does your body handle it?"
+                ],
+                [
+                  "2. What your plan needs",
+                  "Land, space, a workshop, clients, a job, a school, a studio, quiet. What does your picture from Step 1 physically need?"
+                ],
+                [
+                  "3. The rules",
+                  "What are you allowed to do there? Build, renovate, work from home, keep animals, live off-grid, run a business, work as a foreigner."
+                ],
+                [
+                  "4. Support and costs from the state",
+                  "Some countries help newcomers or certain plans; others make it expensive or slow. Taxes and support change — never take a figure from a forum."
+                ],
+                [
+                  "5. Community",
+                  "Are there people you can connect with? People doing something similar? How is the local language for you?"
+                ],
+                [
+                  "6. Amenities and healthcare",
+                  "Distance to a doctor, a hospital, a pharmacy, shops, schools. What does healthcare cost and who can use it?"
+                ],
+                [
+                  "7. Your budget",
+                  "What does your money buy there — to live, and to buy or rent? A place that fits your money gives you time."
+                ],
+                [
+                  "8. Infrastructure",
+                  "Roads, electricity, water, internet, public transport, deliveries. Can you actually work and live there?"
+                ],
+                [
+                  "9. Your legal right to live there",
+                  "Can you get permission to stay? What do you have to prove — income, savings, insurance, work? How long does it take?"
+                ],
+                [
+                  "10. Distance to the people you love",
+                  "Flights, cost, travel time. Ask yourself the hard question: if someone close to you gets ill, how fast can I be there?"
+                ]
+              ]
+            }
+          ],
+          "start_here": {
+            "fields": []
+          },
+          "tips": [
+            "Factors 3, 4, 6 and 9 are rules. Rules change. Always take them from an official government page, write down the date you checked, and check them again before you decide. Part 3 shows you how."
+          ]
+        },
+        {
+          "id": "s2-1.2",
+          "number": "1.2",
+          "title": "Score your countries",
+          "start_here": {
+            "prompt": "Write down two to five countries you are curious about. Give each factor a score: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty when you do not know yet — that is your research list.",
+            "fields": [
+              {
+                "id": "countries",
+                "type": "list",
+                "count": 4,
+                "item_label": "Country"
+              },
+              {
+                "id": "scores",
+                "type": "table",
+                "row_header": "Factor",
+                "row_labels": [
+                  "1. Climate and nature",
+                  "2. What your plan needs",
+                  "3. The rules",
+                  "4. Support and costs from the state",
+                  "5. Community",
+                  "6. Amenities and healthcare",
+                  "7. Your budget",
+                  "8. Infrastructure",
+                  "9. Legal right to live there",
+                  "10. Distance to loved ones"
+                ],
+                "column_names_from": {
+                  "field": "countries"
+                },
+                "columns": [
+                  {
+                    "id": "c1",
+                    "label": "Country 1:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  },
+                  {
+                    "id": "c2",
+                    "label": "Country 2:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  },
+                  {
+                    "id": "c3",
+                    "label": "Country 3:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  },
+                  {
+                    "id": "c4",
+                    "label": "Country 4:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  }
+                ],
+                "totals": true,
+                "totals_label": "Total"
+              }
+            ]
+          },
+          "challenge": "The total is not your answer. It is a conversation starter. Look at the zeros first: a zero on a must-have ends the story, even with a high total. And look at the empty boxes: those are the things you do not know yet.",
+          "story": {
+            "status": "ready",
+            "text": "Bali had changed. It was busy, and I missed working with my hands and growing something. Then I found a YouTube channel of someone living self-sufficiently, and I knew what I was looking for. I did not start with a country. I made a list of what that life needed — climate and soil, water, the rules about land and off-grid living, community, healthcare nearby, what my money would buy, and the infrastructure to stay connected. Then I compared five countries against that list: Portugal, New Zealand, Costa Rica, Australia and Canada. Portugal came out on top. What surprised me is that Portugal was not in my first picture at all. My dream was Asia. The list, not the dream, pointed me here."
+          }
+        },
+        {
+          "id": "s2-1.3",
+          "number": "1.3",
+          "title": "The two questions that end most plans",
+          "intro": "Answer these two before you fall in love with a country.",
+          "start_here": {
+            "fields": [
+              {
+                "id": "allowed",
+                "type": "long_text",
+                "lines": 3,
+                "label": "Am I allowed to live there?",
+                "hint": "Write what you know today about your own situation — your passport, your income, your family. Write \"I do not know\" where that is true."
+              },
+              {
+                "id": "afford",
+                "type": "long_text",
+                "lines": 3,
+                "label": "Can I afford to live there?",
+                "hint": "Not the holiday price. The monthly price of a normal life: housing, food, energy, health, transport, insurance, and something for fun."
+              }
+            ]
+          },
+          "where_to_check": [
+            "Rules about living in a country come from that country's own government, not from a blog and not from me. For Portugal, the official pages are gov.pt (theme: foreigners in Portugal), aima.gov.pt for residence, and vistos.mne.gov.pt for visas. Other countries have the same kind of official pages. Write the date you checked next to every answer."
+          ],
+          "expert_work": "Tax, residence law and anything to do with pensions or investments are not blueprint work. They are professional work, and the rules differ for every person. Use this workbook to write down your questions — then take those questions to a qualified adviser in the country itself.",
+          "go_deeper": {
+            "prompt": "Take your best country and try to argue against it for ten minutes. What is the strongest reason not to go there? Write it down. If you cannot find one, you have not looked hard enough yet.",
+            "fields": [
+              {
+                "id": "deeper",
+                "type": "long_text",
+                "lines": 3
+              }
+            ]
+          }
+        }
+      ],
+      "summary": {
+        "id": "s2-country_choice",
+        "title": "What does this tell me?",
+        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "questions": [
+          "Which country fits most of my ten factors?",
+          "Where are my zeros — and are they on a must-have?",
+          "What do I still not know, and where can I find it?"
+        ],
+        "prompt": "Now bring it together in My Country Choice. Short sentences are enough.",
+        "fields": [
+          {
+            "id": "country",
+            "type": "long_text",
+            "lines": 2,
+            "label": "The country I want to explore further"
+          },
+          {
+            "id": "reasons",
+            "type": "long_text",
+            "lines": 2,
+            "label": "Two or three reasons why"
+          },
+          {
+            "id": "let_go",
+            "type": "long_text",
+            "lines": 2,
+            "label": "Countries I let go — and why"
+          },
+          {
+            "id": "doubt",
+            "type": "long_text",
+            "lines": 2,
+            "label": "My biggest doubt about this country"
+          },
+          {
+            "id": "must_check",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What I must check before I decide (and where)"
+          }
+        ],
+        "example": {
+          "who": "Tomás, 36",
+          "text": "Country: Portugal. Why: the climate fits my body, my money goes further than at home, and my work is online so I only need good internet. I let go of Costa Rica — too far from my parents, and flights are expensive. My biggest doubt: winter in a stone house. I must check how people heat their homes there, and what that costs."
+        }
+      },
+      "finish": {
+        "id": "s2-country_choice",
+        "title": "My Country Choice",
+        "description": "One country to explore, with your reasons and your open questions."
+      }
+    },
+    {
+      "id": "s2-p2",
+      "number": 2,
+      "label": "Part 2",
+      "optional": true,
+      "title": "Which region?",
+      "route_title": "Choose your region",
+      "promise": "A country is not one place. Inside one country, life can be completely different from one valley to the next.",
+      "can_skip": "Have you already chosen your region, and did you answer the challenge on page 3 honestly? Then go straight to Part 3. Do read exercise 2.1 first — it takes two minutes and it sometimes opens a door people did not know was there.",
+      "intro": "This is where many people get it wrong. They choose a country in their head, then they visit the one region everybody talks about, and they buy there. The region decides your daily life far more than the country does: your weather, your neighbours, your costs, your drive to the hospital, your internet.",
+      "time": "60–90 min",
+      "exercises": [
+        {
+          "id": "s2-2.1",
+          "number": "2.1",
+          "title": "The ten region questions",
+          "tables": [
+            {
+              "place": "before",
+              "rows": [
+                [
+                  "1. Climate through the year",
+                  "Summer heat, winter cold, rain, wind, fog, snow. In one country you can find all of them."
+                ],
+                [
+                  "2. Land and nature",
+                  "Flat or mountains, forest or open land, soil, water, risk of fire or flooding."
+                ],
+                [
+                  "3. What things cost",
+                  "Houses, land, rent. Inside one country prices can differ by three or four times."
+                ],
+                [
+                  "4. Distance to care",
+                  "How far to a doctor, a hospital, a pharmacy? How long does an ambulance take?"
+                ],
+                [
+                  "5. Daily needs",
+                  "Shops, schools, sports, a bank, a post office, petrol. How far is normal life?"
+                ],
+                [
+                  "6. Work and income",
+                  "Jobs, clients, tourists, seasons. Or can you bring your income with you?"
+                ],
+                [
+                  "7. Getting in and out",
+                  "Airport, train, motorway. How easy is it for you to leave and for people to visit?"
+                ],
+                [
+                  "8. Internet and mobile",
+                  "Not \"is there internet\", but: what speed, at your address, on a normal day?"
+                ],
+                [
+                  "9. People and language",
+                  "Who lives there? Are there other newcomers? How much of the local language will you need?"
+                ],
+                [
+                  "10. Busy and quiet",
+                  "Some places are packed in summer and empty in winter. Which of the two are you choosing?"
+                ]
+              ]
+            }
+          ],
+          "start_here": {
+            "fields": []
+          }
+        },
+        {
+          "id": "s2-2.2",
+          "number": "2.2",
+          "title": "Portugal: the map in simple words",
+          "intro": [
+            "This workbook is written Portugal-first, so here is the short version. If your country is different, use the same questions for your own map.",
+            "Mainland Portugal is divided into 18 districts, plus the two island regions, Madeira and the Azores. For statistics the mainland is often grouped into five regions: North, Centre, Lisbon area, Alentejo and Algarve."
+          ],
+          "tables": [
+            {
+              "place": "before",
+              "lead": "The weather is not the same everywhere. The national weather institute, IPMA, classifies the climate of the mainland like this:",
+              "columns": [
+                "Where",
+                "What the climate is like"
+              ],
+              "rows": [
+                [
+                  "Most of the mainland",
+                  "Temperate, with a dry summer"
+                ],
+                [
+                  "Inland Douro valley (part of Bragança district) and most areas south of the Montejunto–Estrela mountain line",
+                  "Warm, dry summers (climate type Csa)"
+                ],
+                [
+                  "Almost all areas north of that mountain line, plus the west coast of Alentejo and the Algarve",
+                  "Milder, dry summers (climate type Csb)"
+                ],
+                [
+                  "A small area in the Beja district, in the Alentejo",
+                  "Dry steppe climate (type BSk)"
+                ],
+                [
+                  "Madeira",
+                  "Warm, dry summers (Csa)"
+                ],
+                [
+                  "Azores",
+                  "Eastern islands: mild dry summers (Csb). Central and western islands: ocean climate, wetter all year (Cfb)"
+                ]
+              ]
+            }
+          ],
+          "start_here": {
+            "fields": []
+          },
+          "where_to_check": [
+            "IPMA — Climate normals and climate classification, ipma.pt (checked 20 September 2026). IPMA also publishes the average temperature and rainfall per month for weather stations across the country, for the periods 1971–2000, 1981–2010 and 1991–2020. Look up the station closest to the place you are considering, and look at the winter months, not only the summer ones."
+          ],
+          "tips": [
+            "Inland and higher up means hotter summers and colder winters. Near the ocean means milder, but also wind and more damp. Many older houses here were built for summer heat, not for winter cold. Ask how a house is heated before you fall in love with it."
+          ]
+        },
+        {
+          "id": "s2-2.3",
+          "number": "2.3",
+          "title": "Your region shortlist",
+          "start_here": {
+            "prompt": "Choose two to four regions and score them the same way: 2 = good for me, 1 = maybe, 0 = no. Empty box = research list.",
+            "fields": [
+              {
+                "id": "regions",
+                "type": "list",
+                "count": 4,
+                "item_label": "Region"
+              },
+              {
+                "id": "scores",
+                "type": "table",
+                "row_header": "Question",
+                "row_labels": [
+                  "1. Climate through the year",
+                  "2. Land and nature",
+                  "3. What things cost",
+                  "4. Distance to care",
+                  "5. Daily needs",
+                  "6. Work and income",
+                  "7. Getting in and out",
+                  "8. Internet and mobile",
+                  "9. People and language",
+                  "10. Busy and quiet"
+                ],
+                "column_names_from": {
+                  "field": "regions"
+                },
+                "columns": [
+                  {
+                    "id": "c1",
+                    "label": "Region 1:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  },
+                  {
+                    "id": "c2",
+                    "label": "Region 2:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  },
+                  {
+                    "id": "c3",
+                    "label": "Region 3:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  },
+                  {
+                    "id": "c4",
+                    "label": "Region 4:",
+                    "kind": "score",
+                    "options": [
+                      "2",
+                      "1",
+                      "0"
+                    ]
+                  }
+                ],
+                "totals": true,
+                "totals_label": "Total"
+              }
+            ]
+          },
+          "story": {
+            "status": "ready",
+            "text": "I live in the Serra da Estrela, in the district of Guarda — mountains, real winters, and space to grow. That is my fit, not a recommendation. What I want you to take from it is this: I only found my region because I kept two or three of them open long enough to compare them properly."
+          },
+          "example": {
+            "who": "Karin, 52",
+            "text": "Region 1 scores high on price and nature but has a hospital 50 minutes away. Region 2 is more expensive but has everything nearby. I keep both. I will use my test visit to find out how much the drive really bothers me — in the rain, in winter, not on a sunny day in June."
+          }
+        }
+      ],
+      "talk": "Find two or three people who actually live in the regions on your list — in online groups, through the network, or through me. Ask them one question: \"What do you wish you had known before you moved here?\" The answer is usually not in any brochure.",
+      "summary": {
+        "id": "s2-region_shortlist",
+        "title": "What does this tell me?",
+        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "questions": [
+          "Which two or three regions stay on my list?",
+          "What makes them different from each other?",
+          "What would make me drop one of them?"
+        ],
+        "prompt": "Now bring it together in My Region Shortlist. Short sentences are enough.",
+        "fields": [
+          {
+            "id": "shortlist",
+            "type": "long_text",
+            "lines": 2,
+            "label": "My shortlist — two or three regions"
+          },
+          {
+            "id": "attracts",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What attracts me in each one"
+          },
+          {
+            "id": "worries",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What worries me in each one"
+          },
+          {
+            "id": "let_go",
+            "type": "long_text",
+            "lines": 2,
+            "label": "Regions I let go — and why"
+          },
+          {
+            "id": "find_out",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What I must find out about each (Part 3)"
+          }
+        ]
+      },
+      "finish": {
+        "id": "s2-region_shortlist",
+        "title": "My Region Shortlist",
+        "description": "Two or three regions, with what you like and what worries you."
+      }
+    },
+    {
+      "id": "s2-p3",
+      "number": 3,
+      "label": "Part 3",
+      "title": "Check it from home",
+      "route_title": "Check it from home",
+      "promise": "Most of the truth about a place can be found before you buy a single ticket.",
+      "intro": [
+        "This is the least romantic part of the blueprint. It is also the part that saves the most money. You are going to fill in a profile for each place on your shortlist, using real sources — not memories, not forums, not what someone said at a party.",
+        "Work with three columns: known (I have it from an official or reliable source, with a date), estimate (my best guess, still to confirm) and unknown (I have not found it yet). Filling in \"unknown\" honestly is the whole point."
+      ],
+      "time": "3–5 hours",
+      "exercises": [
+        {
+          "id": "s2-3.1",
+          "number": "3.1",
+          "title": "The money check",
+          "start_here": {
+            "prompt": "Take your First Money Picture from Step 1 and hold it against this place. Write real numbers for a normal month.",
+            "fields": [
+              {
+                "id": "costs",
+                "type": "table",
+                "row_header": "Monthly cost",
+                "row_labels": [
+                  "Rent or housing cost",
+                  "Electricity, water, gas, fuel",
+                  "Food and household",
+                  "Health — insurance and care",
+                  "Transport and car",
+                  "Internet and phone",
+                  "Insurance and local taxes",
+                  "Fun, travel, unexpected"
+                ],
+                "columns": [
+                  {
+                    "id": "guess",
+                    "label": "My guess",
+                    "kind": "money"
+                  },
+                  {
+                    "id": "found",
+                    "label": "What I found",
+                    "kind": "money"
+                  },
+                  {
+                    "id": "source",
+                    "label": "Source",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "date",
+                    "label": "Date",
+                    "kind": "text"
+                  }
+                ],
+                "totals": true,
+                "totals_label": "Total per month"
+              }
+            ],
+            "app_note": "Show the new-life total from Step 1 exercise 3.2 next to this table, for the 20% check."
+          },
+          "where_to_check": [
+            "Do not use \"cost of living\" websites as your only source. Look at real prices: property and rental websites for the exact area, supermarket websites, energy company price pages, insurance quotes for your own situation. For general statistics in Portugal you can use ine.pt (the national statistics institute) and pordata.pt. Write the date next to everything."
+          ],
+          "challenge": "Compare your total with what you wrote in Step 1. Is the difference more than twenty percent? Then one of the two is wrong. Find out which one before you go further — this single check has saved people years.",
+          "freedom_idea": "Many people ask: what if my costs are fine but my income stops? Thinking about income that can move with you — work you can do from anywhere, more than one source, money that is not tied to one country — makes this step much calmer. I am a member of the Freedom Academy, an online community that shares ideas about this. There is more about it at the end of this workbook, including what it is and what it is not."
+        },
+        {
+          "id": "s2-3.2",
+          "number": "3.2",
+          "title": "The legal check",
+          "intro": "You are checking one thing: are you allowed to live there, and what do you have to prove? The answer depends on your passport, your income and your family situation. Write down what applies to you.",
+          "start_here": {
+            "fields": [
+              {
+                "id": "legal",
+                "type": "table",
+                "row_header": "Question",
+                "row_labels": [
+                  "Which route applies to my passport?",
+                  "What must I prove — income, savings, insurance, work, a place to live?",
+                  "Where and when do I apply — before I travel, or after I arrive?",
+                  "How long does it take, and what does it cost?",
+                  "What does it mean for my family members?",
+                  "What do I have to do every year to keep it?"
+                ],
+                "columns": [
+                  {
+                    "id": "found",
+                    "label": "What I found (and where)",
+                    "kind": "long_text"
+                  },
+                  {
+                    "id": "date",
+                    "label": "Date checked",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "tables": [
+            {
+              "place": "after",
+              "lead": "For Portugal, this is where the official information sits. Two completely different routes exist, and people mix them up all the time:",
+              "rows": [
+                [
+                  "If you hold an EU, EEA, Andorran or Swiss passport",
+                  "You can enter and stay without a visa. If you stay longer than three months, you ask for a registration certificate at the Câmara Municipal (town hall) of the area where you live. The official page says this must be done within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation — that you work there, or that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."
+                ],
+                [
+                  "If you hold any other passport",
+                  "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."
+                ]
+              ]
+            }
+          ],
+          "tips": [
+            "Rules like these change, and details matter more than summaries. Treat the two paragraphs above as a map, not as advice: open the official pages yourself, for your own situation, and write down the date. If your case is not simple, pay a lawyer for one hour. It is the cheapest hour you will spend."
+          ]
+        },
+        {
+          "id": "s2-3.3",
+          "number": "3.3",
+          "title": "The daily life check",
+          "start_here": {
+            "prompt": "Now the practical things. Use maps, official websites, local news and real conversations. Answer for each place on your shortlist.",
+            "fields": [
+              {
+                "id": "places",
+                "type": "list",
+                "count": 2,
+                "item_label": "Place"
+              },
+              {
+                "id": "daily",
+                "type": "table",
+                "row_header": "What I check",
+                "row_labels": [
+                  "Distance and time to a hospital",
+                  "Family doctor — is there one taking new patients?",
+                  "How healthcare works for someone like me",
+                  "Schools, and the language they teach in",
+                  "Internet speed at a real address there",
+                  "Work or clients for me",
+                  "Shops and daily needs",
+                  "Nearest airport and travel time home",
+                  "Winter: how cold, how wet, how long",
+                  "Summer: how hot, how dry, fire risk",
+                  "Water — where does it come from?",
+                  "How much local language I will need"
+                ],
+                "column_names_from": {
+                  "field": "places"
+                },
+                "columns": [
+                  {
+                    "id": "place1",
+                    "label": "Place 1:",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "place2",
+                    "label": "Place 2:",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "certainty",
+                    "label": "Known / estimate / unknown",
+                    "kind": "choice",
+                    "options": [
+                      "Known",
+                      "Estimate",
+                      "Unknown"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "where_to_check": [
+            "In Portugal, the public health service is the SNS (sns.gov.pt). Official service pages for people coming from abroad — including health, tax and social security numbers — are on gov.pt under the theme \"Estrangeiros em Portugal\" (foreigners in Portugal). Checked 20 September 2026."
+          ],
+          "example": {
+            "who": "Dieter, 63",
+            "text": "Hospital: 35 minutes by car, and I checked it on the map in winter road conditions, not in summer. Family doctor: unknown — I will ask when I visit. Internet: the provider says 100 Mbit at that address, but a neighbour in the village told me it drops in the evening. So: estimate, not known."
+          }
+        },
+        {
+          "id": "s2-3.4",
+          "number": "3.4",
+          "title": "Talk to people who live there",
+          "intro": "Numbers tell you what a place costs. People tell you what it is like. Find three people who live in the area — not three people who visited it.",
+          "start_here": {
+            "prompt": "Ask them these questions. The last one is the most useful.",
+            "bullets": [
+              "What does a normal Tuesday in February look like here?",
+              "What did you underestimate before you came?",
+              "What do you pay, roughly, for energy in winter?",
+              "How long did the paperwork take, and what went wrong?",
+              "If you had to do it again, what would you do differently?"
+            ],
+            "fields": [
+              {
+                "id": "conversations",
+                "type": "table",
+                "rows": 3,
+                "columns": [
+                  {
+                    "id": "who",
+                    "label": "Who I spoke to",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "surprised",
+                    "label": "What surprised me",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "confirmed",
+                    "label": "What confirmed my picture",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "check",
+                    "label": "What I will check myself",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "challenge": "Be careful with one kind of answer: the person who moved recently and is still in love with the place, and the person who had one bad experience and is angry about everything. Both are honest. Neither is the whole picture. Three people is the minimum."
+        }
+      ],
+      "summary": {
+        "id": "s2-place_profiles",
+        "title": "What does this tell me?",
+        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "questions": [
+          "Which place still fits my must-haves after real checking?",
+          "Where did reality differ from my guess?",
+          "What is still unknown — and how do I find it out?"
+        ],
+        "prompt": "Now bring it together in My Place Profiles. Short sentences are enough.",
+        "fields": [
+          {
+            "id": "place1",
+            "type": "long_text",
+            "lines": 3,
+            "label": "Place 1 — what I now know"
+          },
+          {
+            "id": "place2",
+            "type": "long_text",
+            "lines": 3,
+            "label": "Place 2 — what I now know"
+          },
+          {
+            "id": "surprise",
+            "type": "long_text",
+            "lines": 2,
+            "label": "The biggest surprise of this research"
+          },
+          {
+            "id": "unknowns",
+            "type": "long_text",
+            "lines": 2,
+            "label": "My unknowns — and how I will close them"
+          },
+          {
+            "id": "test",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What I want to test with my own eyes"
+          }
+        ]
+      },
+      "finish": {
+        "id": "s2-place_profiles",
+        "title": "My Place Profiles",
+        "description": "Real information for each place, with your unknowns written down honestly."
+      }
+    },
+    {
+      "id": "s2-p4",
+      "number": 4,
+      "label": "Part 4",
+      "title": "Test it in real life",
+      "route_title": "Test it in real life",
+      "promise": "Paper can tell you a lot. Your body tells you the rest.",
+      "intro": "Now you go there. Not as a tourist — as someone testing a life. That means you decide before you travel what you want to find out, so that a sunny afternoon and a nice lunch cannot decide it for you.",
+      "time": "A trip",
+      "exercises": [
+        {
+          "id": "s2-4.1",
+          "number": "4.1",
+          "title": "Plan the visit before you book it",
+          "start_here": {
+            "fields": [
+              {
+                "id": "when",
+                "type": "long_text",
+                "lines": 2,
+                "label": "When I go — and why that time of year"
+              },
+              {
+                "id": "how_long",
+                "type": "short_text",
+                "label": "How long I stay"
+              },
+              {
+                "id": "places",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Places on my list"
+              },
+              {
+                "id": "travel",
+                "type": "long_text",
+                "lines": 2,
+                "label": "How I travel there and around"
+              },
+              {
+                "id": "stay",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Where I stay — and why not a hotel in the centre"
+              },
+              {
+                "id": "budget",
+                "type": "short_text",
+                "label": "My budget for this trip"
+              },
+              {
+                "id": "three_questions",
+                "type": "long_text",
+                "lines": 3,
+                "label": "The three questions this trip must answer"
+              }
+            ]
+          },
+          "tips": [
+            "Go outside the high season if you can. Any place is beautiful in good weather. You learn much more in February rain, in the wind, or on the day everything is closed."
+          ],
+          "challenge": "Write your three questions before you book anything, and give this page to someone who knows you. Ask them to hold you to it when you come back excited."
+        },
+        {
+          "id": "s2-4.2",
+          "number": "4.2",
+          "title": "The real-life checklist",
+          "start_here": {
+            "prompt": "Take this with you. Tick what you actually did — not what you planned to do.",
+            "fields": [
+              {
+                "id": "checklist",
+                "type": "checkbox_pick",
+                "options": [
+                  "Did a normal food shop",
+                  "Drove to the hospital",
+                  "Visited a school",
+                  "Used the local internet",
+                  "Walked the area at night",
+                  "Went there in bad weather",
+                  "Talked to a neighbour",
+                  "Visited the town hall",
+                  "Checked mobile signal",
+                  "Looked at winter heating",
+                  "Sat still for an hour",
+                  "Did a boring day",
+                  "Checked the drive to the airport",
+                  "Asked about water",
+                  "Visited on a Sunday",
+                  "Priced a real house or rental"
+                ]
+              },
+              {
+                "id": "notes",
+                "type": "table",
+                "hint": "Write it down the same evening. The memory of day one is gone by day four.",
+                "rows": 4,
+                "columns": [
+                  {
+                    "id": "place",
+                    "label": "Place",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "felt",
+                    "label": "What I felt",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "saw",
+                    "label": "What I saw and measured",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "score",
+                    "label": "Score 1–10",
+                    "kind": "number"
+                  }
+                ]
+              }
+            ]
+          },
+          "story": {
+            "status": "ready",
+            "text": "I travelled through Portugal for two months in a campervan — stopping where I wanted, staying as long as I wanted. What surprised me most was how strongly I felt connected to one region, and how little I felt in another. I could not have read that anywhere. Buying land was not even the plan for that trip. In the end I visited twenty-five pieces of land. The one I bought was the third. I almost knew it then — but I still travelled through the other regions, and I came back a second time and met the owners. Only then was I sure. And because my financial plan from Step 1 was already in place, I was not afraid to commit when the moment came."
+          },
+          "tips": [
+            "Two lessons from that trip. First: visit a place twice before you decide. The second visit tells you things the first one hides. Second: seeing a lot is how you learn to see. The third piece of land only meant something to me because I had seen the others."
+          ]
+        },
+        {
+          "id": "s2-4.3",
+          "number": "4.3",
+          "title": "The honest evening question",
+          "intro": "On your last evening, sit somewhere quiet and answer these three.",
+          "start_here": {
+            "fields": [
+              {
+                "id": "boring_week",
+                "type": "long_text",
+                "lines": 3,
+                "label": "Could I live a normal, boring week here?",
+                "hint": "Not a holiday week. A week with laundry, work, bad weather and nothing special happening."
+              },
+              {
+                "id": "did_not_want",
+                "type": "long_text",
+                "lines": 3,
+                "label": "What did I see that I did not want to see?",
+                "hint": "There is always something."
+              },
+              {
+                "id": "good_surprise",
+                "type": "long_text",
+                "lines": 3,
+                "label": "What surprised me in a good way?"
+              }
+            ]
+          },
+          "example": {
+            "who": "Sofia, 29",
+            "text": "Could I live a boring week here? Yes — but not in the village I loved most. It is beautiful, and after three days I had spoken to nobody. In the small town 20 minutes away I felt lighter. That was not on my list at all, and it may be the most important thing I learned."
+          }
+        }
+      ],
+      "talk": "Did you travel with someone? Do this exercise separately first, then read your answers to each other. If you travelled alone, send your three answers to someone who knows you well and ask what they hear.",
+      "summary": {
+        "id": "s2-test_visit",
+        "title": "What does this tell me?",
+        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "questions": [
+          "Did the place answer my three questions?",
+          "Where was reality better, and where worse, than my research?",
+          "What do I still need to see or test?"
+        ],
+        "prompt": "Now bring it together in My Test Visit Report. Short sentences are enough.",
+        "fields": [
+          {
+            "id": "where_when",
+            "type": "long_text",
+            "lines": 2,
+            "label": "Where I went, and when"
+          },
+          {
+            "id": "confirmed",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What the visit confirmed"
+          },
+          {
+            "id": "changed",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What the visit changed"
+          },
+          {
+            "id": "best_fit",
+            "type": "long_text",
+            "lines": 2,
+            "label": "The place that fits best — and why"
+          },
+          {
+            "id": "still_test",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What I still need to test (and when)"
+          }
+        ]
+      },
+      "finish": {
+        "id": "s2-test_visit",
+        "title": "My Test Visit Report",
+        "description": "What you learned with your own eyes, written down while it is fresh."
+      }
+    },
+    {
+      "id": "s2-p5",
+      "number": 5,
+      "label": "Part 5",
+      "title": "Bring it together",
+      "route_title": "Bring it together",
+      "promise": "One place. One honest picture of it. And the decision about what comes next.",
+      "intro": "You have done the research and you have been there. Now you put it in one place, so that you — and the people close to you — can see the whole picture at once.",
+      "time": "45 min",
+      "exercises": [
+        {
+          "id": "s2-5.1",
+          "number": "5.1",
+          "title": "My Explore Summary",
+          "start_here": {
+            "fields": [
+              {
+                "id": "place",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The place I choose to go further with"
+              },
+              {
+                "id": "location",
+                "type": "short_text",
+                "label": "Country, region, nearest town"
+              },
+              {
+                "id": "reasons",
+                "type": "long_text",
+                "lines": 3,
+                "label": "Three reasons it fits my picture"
+              },
+              {
+                "id": "not_given",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What it does not give me — and how I deal with that"
+              },
+              {
+                "id": "month_cost",
+                "type": "short_text",
+                "label": "What a normal month costs there"
+              },
+              {
+                "id": "income",
+                "type": "long_text",
+                "lines": 2,
+                "label": "How my income will work there"
+              },
+              {
+                "id": "legal_route",
+                "type": "long_text",
+                "lines": 2,
+                "label": "My legal route, and what I must prove"
+              },
+              {
+                "id": "healthcare",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Healthcare: how it works for me"
+              },
+              {
+                "id": "unknown",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What is still unknown"
+              },
+              {
+                "id": "who_i_need",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Who I need — people, advisers, network"
+              },
+              {
+                "id": "choice",
+                "type": "single_choice",
+                "label": "What I choose now",
+                "options": [
+                  "Go further with this place",
+                  "Keep two places open",
+                  "Look somewhere else",
+                  "Stay and improve my life here"
+                ]
+              },
+              {
+                "id": "next_step",
+                "type": "short_text",
+                "label": "My next small step — within two weeks"
+              },
+              {
+                "id": "date",
+                "type": "short_text",
+                "label": "Date"
+              }
+            ]
+          },
+          "choice_explanations_intro": "All four answers are good ones:",
+          "choice_explanations": [
+            "Go further with this place. Step 3 turns it into a real plan, with money, timing and paperwork.",
+            "Keep two places open. That is not weakness. Take both into Step 3 and let the plan decide.",
+            "Look somewhere else. Better now than after you signed something. Go back to Part 1 or 2 — you are much faster the second time.",
+            "Stay and improve your life here. The blueprint has a route for that too. See the next page."
+          ]
+        },
+        {
+          "id": "s2-5.2",
+          "number": "5.2",
+          "title": "Update your money picture",
+          "start_here": {
+            "prompt": "Go back to your First Money Picture from Step 1 and change the numbers to the real ones you found. Then answer one question: with these numbers, how many months could I live there without income?",
+            "fields": [
+              {
+                "id": "months",
+                "type": "long_text",
+                "lines": 3
+              }
+            ]
+          },
+          "expert_work": "Before you move money between countries, sell a house, or change where you pay tax, speak to a qualified adviser in both countries. This workbook helps you arrive with the right questions. It never gives the answers.",
+          "story": {
+            "status": "ready",
+            "text": "Portugal was not in my first picture. My dream was Asia, and for four years Asia was right. What made this work was not that I had the perfect plan from the beginning — it was that I kept my vision, looked honestly at where I was at certain moments, and kept taking steps. Your picture is allowed to change. That is not failure. That is what happens when you are actually paying attention."
+          }
+        },
+        {
+          "id": "s2-5.3",
+          "number": "5.3",
+          "title": "If you decide to stay",
+          "optional": true,
+          "intro": "Some people go through this step and find out that what they want is not in another country. That is a real result, and an honest one. It usually means one of three things:",
+          "intro_bullets": [
+            "What I want is here, but my life is organised wrong. Then your work is about time, work, home and people — not about moving.",
+            "What I want is somewhere else, but not now. Then your work is about the conditions: money, family, work, health. Write down what must be true before you go, and by when.",
+            "I wanted the change, not the place. Then you found something important. Use your Life Picture from Step 1 and change one real thing in the next three months."
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "really_want",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What I now know I really want"
+              },
+              {
+                "id": "change",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What I will change in the next three months"
+              },
+              {
+                "id": "must_be_true",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What must be true before I look abroad again"
+              },
+              {
+                "id": "when",
+                "type": "short_text",
+                "label": "When I will look at this again"
+              }
+            ]
+          },
+          "tips": [
+            "Write the date in your calendar today. A decision to wait is only a decision if it has a date."
+          ]
+        }
+      ],
+      "talk": "Share your Explore Summary with the people this decision touches. Not to ask permission — to make it real, and to hear what they are worried about while there is still time to do something with it.",
+      "finish": {
+        "id": "s2-explore_summary",
+        "title": "My Explore Summary",
+        "description": "One place, one honest picture, and your decision about what comes next."
+      }
+    }
+  ],
+  "closing": {
+    "title": "What comes next",
+    "text": "Well done. This step asks for patience, and most people skip it. You now know more about your place than the photographs ever show — and, just as important, you know what you still do not know.",
+    "next": [
+      "Going further with a place? Step 3 — Decide — turns it into a plan: the money, the timing, the paperwork and the order of things.",
+      "Keeping two places open? Take both into Step 3. A plan on paper is the cheapest way to compare them.",
+      "Staying for now? Use the page before this one, and put a date in your calendar."
+    ],
+    "tip": "Keep your Explore Summary somewhere you can find it. In a year you will want to read what you believed today — and see what turned out to be true.",
+    "last_lines": [
+      "A place does not become yours because it is beautiful.",
+      "It becomes yours because your life can work there."
+    ]
+  },
+  "sources": {
+    "title": "Where the information in this workbook comes from",
+    "intro": "Rules, prices and services change. Everything in this workbook that is not my own experience comes from an official source, and I wrote down the date it was checked. Check it again for your own situation before you decide anything.",
+    "columns": [
+      "Subject",
+      "Official source",
+      "Checked"
+    ],
+    "rows": [
+      [
+        "Living in Portugal with an EU, EEA, Andorran or Swiss passport",
+        "AIMA — registration certificate for EU nationals, aima.gov.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Visas for other passports",
+        "Portuguese visa portal, vistos.mne.gov.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Climate and climate classification",
+        "IPMA — climate normals, ipma.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Official services for foreigners in Portugal",
+        "gov.pt, theme \"Estrangeiros em Portugal\"",
+        "20 Sep 2026"
+      ],
+      [
+        "Public healthcare",
+        "SNS, sns.gov.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Statistics on Portugal and its municipalities",
+        "INE (ine.pt) and Pordata (pordata.pt)",
+        "20 Sep 2026"
+      ]
+    ],
+    "expert_work": "Nothing in this workbook is legal, tax or financial advice. It helps you ask better questions and arrive prepared. The answers for your situation come from qualified professionals in the country itself."
+  },
+  "freedom_appendix": {
+    "title": "About the Freedom idea",
+    "text": "The green Freedom idea box in Part 3 points to the Freedom Academy, an online community that I am a member of. It shares ideas about becoming more financially free — for example, building more than one source of income, depending less on one bank, and letting money work for you using crypto. It is one way to look at money and freedom, not the only way, and it is not right for everyone.",
+    "link": null,
+    "link_placeholder": "[ Freedom Academy link — to be added ]",
+    "honest_note": "If you join through my link, I receive a referral fee. I share it because the ideas helped me.",
+    "risk_note": "Crypto can lose value fast, and you can lose money. Only use money you do not need for your reserve. Crypto also has tax rules — ask a tax adviser before you start."
+  }
+}
