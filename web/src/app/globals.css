@@ -102,13 +102,30 @@ table,
   body {
     background: #fff;
     font-size: 11pt;
+    /* Without this the Pine result banner and the table heads print white. */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   main {
     padding: 0 !important;
     max-width: none !important;
   }
+  /* The result banner runs to the page margin; the text inside keeps its inset. */
   @page {
-    margin: 18mm 16mm;
+    margin: 14mm 15mm;
+  }
+  h1,
+  h2 {
+    break-after: avoid;
+  }
+  table {
+    break-inside: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
+  tr {
+    break-inside: avoid;
   }
 }
 

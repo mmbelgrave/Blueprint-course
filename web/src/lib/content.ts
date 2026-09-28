@@ -11,6 +11,8 @@ export const PRODUCT = {
   brand: "The Life You Choose",
   name: "The Made Real Blueprint",
   edition: "Portugal Edition",
+  /** Shown at the foot of every printed result. */
+  copyright_holder: "Mwata Belgrave",
 };
 
 export type ColumnKind = "text" | "long_text" | "number" | "money" | "choice" | "score";
