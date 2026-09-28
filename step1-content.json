@@ -1,69 +1,146 @@
 {
-  "version": "9",
-  "source": "The Made Real Blueprint - Step 1 Picture (workbook v9).docx, September 2026",
+  "version": 19,
+  "source": "The Made Real Blueprint - Step 1 Picture workbook v19.docx (September 2026)",
+  "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
+  "schema_notes": {
+    "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
+    "text": "'intro' and 'prompt' may be a string or a list of paragraphs. 'intro_title' is the heading above a part's explanation. An exercise 'promise' is the one line under its title. 'bullets' is a bullet list shown after the prompt. A field 'hint' is a short text shown above that field; 'heading' starts a new block inside the exercise. A field 'marker' (A, B, C…) is shown as a large letter before its label.",
+    "optional": "'optional': true marks a part or exercise the person may skip.",
+    "summary": "Each part (except Part 5) ends with a 'summary' block ('What does this tell me?'). The person fills it in; the AI partner may offer a draft from their own answers. 'result' is the one-line result of the part.",
+    "unknown_numbers": "Number and money cells accept 'unknown' or '?'. A total with an unknown number is shown as not complete yet — an unknown never counts as zero.",
+    "story_status": "'draft' = Mwata still checks the wording and facts. 'ready' = checked.",
+    "boxes": "'tips' = a 'Good to know' box. 'watch_out' = a 'Watch out' box. 'challenge' = 'A friendly challenge'. 'story' = 'My story — Mwata' (a 'go_deeper' block may hold its own story). 'talk' (on a part) = 'Talk about it'. 'result_guide' = 'What your result means'. 'example_page' = a fully filled-in example, shown as rows.",
+    "tables": "'tables' on an exercise are fixed content tables (not filled in): 'place' ('before' or 'after' the answer fields), 'lead' above it, optional 'header' row, and 'after' below it."
+  },
+  "field_types": {
+    "long_text": "Free text area. 'lines' is a hint for the height; 'placeholder' is grey ghost text that is never saved.",
+    "short_text": "One line of text.",
+    "list": "A fixed number of short text items ('count').",
+    "table": "Rows x columns. 'row_labels' are fixed labels in the first column ('row_header' is its title; 'row_labels_editable' says which of them the person may rewrite); if 'rows' is given without labels, rows are empty. 'rows_from' fills the rows from another answer. 'columns' lists the columns the user fills in; column 'kind' is text, long_text, number, money or choice (with 'options'). 'column_names_from' renames the columns after another answer. 'totals': true shows totals for money columns ('totals_label'); 'total_filter' counts only rows whose column value is in the list; 'extra_totals' adds further total rows with their own filter.",
+    "checkbox_pick": "Pick from 'options'. 'pick' = how many to choose (no 'pick' = any number). 'allow_custom' = user may add own words.",
+    "yes_no": "One answer per item in 'questions'. 'options' lists the answers (default: Yes, No).",
+    "single_choice": "Choose one of 'options'.",
+    "number": "A number, with optional 'unit'.",
+    "calculation": "A worked calculation with an 'Example' column (fixed text) and a 'Me' column. Each row is an input, comes 'from' a table total in another exercise, or is a 'formula' of earlier row IDs in the same exercise. 'condition' shows a row only when it is true. 'format' (money by default): 'left_or_short' or 'months'.",
+    "image_board": "Pictures the person adds (a vision board), up to 'max'. Each picture has a one-line caption ('caption_label'). The pictures stay in the person's own account; the AI partner reads only the captions."
+  },
   "step": {
     "id": "step1",
     "number": 1,
     "title": "Picture",
     "question": "What life do I really want?",
     "tagline": [
-      "This is where it starts.",
-      "Not with a visa, a house or a plan.",
-      "With a picture — of the life you really want."
+      "Now the real work begins, and it begins with you."
     ],
     "intro": [
-      "When I started building a new life abroad, I had no one to guide me. I had to figure everything out myself. I often wished someone would sit next to me and ask the right questions.",
-      "This workbook is that person next to you.",
-      "In this first step, you make a clearer picture of the life you want. You look honestly at where you stand today, and at the money. You finish with a working direction: what you want to explore next. It is not a final decision. That comes later, in Step 3, when you have checked more.",
-      "I give you the map, the tools and the questions — and my own story, including the parts that changed along the way. You do the walking."
+      "In this first step, you build a clearer picture of the life you want. You look honestly at where you stand today, including your money. You finish with a Working Direction: what you want to explore next. This is not a final decision. That comes in Step 3, after you have explored your options.",
+      "Every exercise starts with a short explanation, then asks you to apply it to your own life. I give you the tools and questions, and share my own story, including the parts that changed along the way. You do the work of deciding what fits you."
     ],
-    "how_it_works": [
-      "Two ways to start. First Picture: about 20–30 minutes, and you have a first summary today. The full Picture step: 5 parts, a few hours in total. You might spread it over two weeks. Take more or less time if that suits you.",
-      "Many exercises have an optional \"Go deeper\" part. Do it when you have time and energy.",
-      "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different.",
-      "There are no perfect answers. \"I don't know\" is an answer, too. Write it down, and write how you could find out.",
-      "You may write in your own language. Type in the boxes, or print and write by hand.",
-      "Each part ends with \"What does this tell me?\" There you bring your answers together into one short result.",
-      "\"Talk about it\" boxes give ideas for good conversations, with your partner, family, friends, the network, or with me."
+    "ways_to_use": {
+      "title": "Three ways to use this step",
+      "rows": [
+        [
+          "This workbook on its own",
+          "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."
+        ],
+        [
+          "With the videos",
+          "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions."
+        ],
+        [
+          "With the app",
+          "The same questions in digital form, with an AI partner that remembers your answers and asks about them later. Useful if you prefer typing to paper."
+        ]
+      ]
+    },
+    "how_it_works": {
+      "title": "How this step works",
+      "bullets": [
+        "Two ways to start. The First Picture takes about 20–30 minutes and gives you a first summary today. The full Picture step has 5 parts and takes a few hours in total. Spread it over two weeks, or work at a pace that suits you.",
+        "Short on time? Follow the core path: the First Picture, 1.1, 1.2, 1.4, 2.1, 3.2 to 3.5, 4.1, 4.2 and Part 5. That gives you a complete Working Direction. The other exercises help you explore it further.",
+        "Every exercise follows the same pattern. First the explanation, then \"Now you\". Some exercises include an optional \"Go deeper\" section. Use it when you have the time and energy.",
+        "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different.",
+        "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
+        "Write in your own language if you prefer.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
+      ]
+    },
+    "word_help": {
+      "title": "Word help",
+      "items": [
+        [
+          "Must-have",
+          "something your new life really needs."
+        ],
+        [
+          "Dealbreaker",
+          "something you will not accept, even if everything else is good."
+        ],
+        [
+          "Reserve (or buffer)",
+          "money you keep aside for emergencies, not for everyday spending."
+        ],
+        [
+          "Trade-off",
+          "getting one thing by giving up another."
+        ],
+        [
+          "Working Direction",
+          "what you want to explore next, not a final decision."
+        ]
+      ]
+    },
+    "tips": [
+      "Stuck on a question? Skip it and come back later. The answer often comes while you walk, cook or shower."
     ],
-    "word_help": [
-      {
-        "term": "Must-have",
-        "meaning": "something your new life really needs."
-      },
-      {
-        "term": "Dealbreaker",
-        "meaning": "something you will not accept, even if everything else is good."
-      },
-      {
-        "term": "Reserve (or buffer)",
-        "meaning": "money you keep aside for emergencies — not for spending."
-      },
-      {
-        "term": "Working direction",
-        "meaning": "where you want to look further — not a final decision."
-      }
-    ],
-    "general_tip": "Stuck on a question? Skip it and come back later. The answer often comes while you walk, cook or shower."
-  },
-  "schema_notes": {
-    "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
-    "text": "'intro' and 'prompt' may be a string or a list of paragraphs. 'bullets' is a bullet list shown after the prompt. A field 'hint' is a short text shown above that field. A field 'marker' (A, B, C…) is shown as a large letter before its label.",
-    "optional": "'optional': true marks a part or exercise the person may skip.",
-    "summary": "Each part (except Part 5) ends with a 'summary' block ('What does this tell me?'). The person fills it in; the AI partner may offer a draft from their own answers.",
-    "unknown_numbers": "Number and money cells accept 'unknown' or '?'. A total with an unknown number is shown as not complete yet — an unknown never counts as zero.",
-    "story_status": "'draft' = Mwata still checks the wording and facts. 'ready' = checked."
-  },
-  "field_types": {
-    "long_text": "Free text area. 'lines' is a hint for the height.",
-    "short_text": "One line of text.",
-    "list": "A fixed number of short text items ('count').",
-    "table": "Rows x columns. 'row_labels' are fixed labels in the first column ('row_header' is its title); if 'rows' is given without labels, rows are empty. 'rows_from' fills the rows from another answer. 'columns' lists the columns the user fills in; column 'kind' is text, long_text, number, money or choice (with 'options'). 'prefill' gives a starting text per row label (first column). 'totals': true shows totals for money columns ('totals_label'); 'total_filter' counts only rows whose column value is in the list.",
-    "checkbox_pick": "Pick from 'options'. 'pick' = how many to choose (no 'pick' = any number). 'allow_custom' = user may add own words.",
-    "yes_no": "One answer per item in 'questions'. 'options' lists the answers (default: Yes, No).",
-    "single_choice": "Choose one of 'options'.",
-    "number": "A number, with optional 'unit'.",
-    "calculation": "A worked calculation with an 'Example' column (fixed text) and a 'Me' column. Each row is an input, comes 'from' a table total in another exercise, or is a 'formula' of earlier row IDs in the same exercise. 'condition' shows a row only when it is true. 'format' (money by default): 'left_or_short' or 'months'."
+    "route": {
+      "title": "Your route through Step 1",
+      "header": [
+        "",
+        "What you do",
+        "Time",
+        "You finish with"
+      ],
+      "rows": [
+        [
+          "Start (optional)",
+          "Your First Picture, a quick way in",
+          "20–30 min",
+          "My First Picture"
+        ],
+        [
+          "Part 1",
+          "Picture your new life",
+          "75–100 min",
+          "My Life Picture"
+        ],
+        [
+          "Part 2",
+          "Look honestly at today",
+          "60–75 min",
+          "My Starting Point"
+        ],
+        [
+          "Part 3",
+          "Make your first money picture",
+          "60 min",
+          "My First Money Picture"
+        ],
+        [
+          "Part 4",
+          "Compare your options",
+          "30–45 min",
+          "My Options"
+        ],
+        [
+          "Part 5",
+          "Choose your working direction",
+          "30 min",
+          "My Working Direction"
+        ]
+      ]
+    }
   },
   "parts": [
     {
@@ -73,8 +150,14 @@
       "optional": true,
       "title": "Your First Picture",
       "promise": "Four questions. About 20 minutes. A first picture of what you want.",
-      "intro": "Short on time? Start here. You leave with something useful today. Later, the full workbook helps you go further.",
+      "intro": "Start here if you want a first picture today. These four questions give you something useful to work with before you explore it further in the full workbook.",
       "time": "20–30 min",
+      "route_title": "Your First Picture, a quick way in",
+      "finish": {
+        "id": "first_picture",
+        "title": "My First Picture",
+        "description": "A first picture of what you want."
+      },
       "exercises": [
         {
           "id": "0.1",
@@ -86,7 +169,7 @@
                 "type": "long_text",
                 "lines": 3,
                 "marker": "A",
-                "label": "A moment that felt good",
+                "label": "One moment that felt good",
                 "hint": "Think of one moment in the last few years when you felt content, engaged or proud. What happened? What made it possible?"
               },
               {
@@ -95,7 +178,7 @@
                 "lines": 5,
                 "marker": "B",
                 "label": "A normal day",
-                "hint": "Imagine a normal day in the life you want — not a holiday. Write five sentences, from morning to evening."
+                "hint": "Imagine a normal day in the life you want. Not a holiday. Write five sentences, from morning to evening."
               },
               {
                 "id": "keep",
@@ -103,7 +186,7 @@
                 "lines": 3,
                 "marker": "C",
                 "label": "What you want to keep",
-                "hint": "What is good in your life now, and do you want to keep — wherever you live?"
+                "hint": "What is good in your life now that you want to keep, wherever you live?"
               },
               {
                 "id": "big_question",
@@ -156,39 +239,125 @@
             "id": "test_later",
             "type": "long_text",
             "lines": 2,
-            "label": "Something I want to test later — and what it would help me learn"
+            "label": "Something I want to test later, and what it would help me learn"
           }
         ],
         "tips": [
-          "Look for something that pulls in two directions. For example: \"I want quiet, but I also want friends close by.\" That is not a problem — it is useful information. Three ways to handle it: choose one for now — combine both, for example a quiet home fifteen minutes from a village — or put them in order: first this, later that. No tension yet? Write \"none noticed yet\". You do not need to find a problem."
+          "Look for wishes that pull in two directions. For example: \"I want quiet, but I also want friends close by.\" That is useful information. You can choose one for now, combine both (a quiet home fifteen minutes from a village), or put them in order: first this, later that. If you have not noticed a tension, write \"none noticed yet\". You do not need to invent a problem."
         ],
         "example": {
           "who": "Sofia, 51",
           "text": "More of: time outside and control over my week. Keep: weekly dinners with my sister. Daily life: calm mornings and meaningful work. Two directions: I want to live in the countryside, but I love being close to my family. Action this week: ask my manager if I can work from another place two days a week."
-        }
-      },
-      "go_further": "Want to go further? Continue with Part 1. If you did the First Picture, bring your answers into Part 1 — add or change them only where useful.",
-      "finish": {
-        "id": "first_picture",
-        "title": "My First Picture"
-      },
-      "route_title": "Your First Picture — a quick way in"
+        },
+        "closing": "Continue with Part 1 when you are ready. If you have completed the First Picture, bring your answers with you. Add to them or change them where it helps."
+      }
     },
     {
       "id": "p1",
       "number": 1,
       "label": "Part 1",
       "title": "Picture your new life",
-      "promise": "Most people know exactly what they do NOT want. Now we find out what you DO want.",
-      "intro": "A new life needs a clear picture — clear enough that you can check it and plan for it. We start with what's easy, using moments you already know.",
-      "time": "60–90 min",
+      "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
+      "intro": [
+        "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" Both questions matter. Here, we begin with the life you want, then look at the place and the money.",
+        "You need something to judge a place or a price against. If you do not know how you want to live, every country looks good in the photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
+        "A picture goes further than a wish. A wish is a word; a picture is a scene. Two people who want \"more freedom\" can mean completely different things. \"I decide what I do on a Tuesday morning\" gives you something concrete. You can compare a job, a house or a country with it and ask: would this give me that Tuesday morning?",
+        "You are also allowed to want something ordinary. Your picture does not have to impress anyone. Mine was simple: land, my hands in the soil, a warm climate, and work that meant something. It took years to build. It never became more impressive. It became more real."
+      ],
+      "intro_title": "Why we start with a picture",
+      "tips": [
+        "You do not need the whole picture. You need enough of it to take the next step. The rest becomes clear after that."
+      ],
+      "time": "75–100 min",
+      "route_title": "Picture your new life",
+      "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you are planning this life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
+      "finish": {
+        "id": "life_picture",
+        "title": "My Life Picture",
+        "description": "What you want more of, what you keep, what is essential, and what is still open."
+      },
       "exercises": [
+        {
+          "id": "1.0",
+          "title": "From \"no\" to \"yes\"",
+          "kicker": "Warm-up",
+          "intro": [
+            "Most people find \"no\" easier than \"yes\". So we start there, and then turn it around.",
+            "A \"no\" tells you what to leave behind. \"No more long evenings at my laptop\" is a useful starting point, but it does not tell you what you want to do with those evenings. For each \"no\", write a \"yes\": what you would actually do instead.",
+            "Give yourself five minutes. Write what comes to mind before you start editing your answers."
+          ],
+          "start_here": {
+            "prompt": "Write five things you no longer want in your life. Then, for each one, write what you want instead. Make it as concrete as you can.",
+            "fields": [
+              {
+                "id": "no_to_yes",
+                "type": "table",
+                "rows": 5,
+                "columns": [
+                  {
+                    "id": "no",
+                    "label": "What I no longer want",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "yes",
+                    "label": "What I want instead",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "example": {
+            "who": "Tom, 58",
+            "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner. No more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
+          },
+          "tips": [
+            "Some things you do not want have no clear \"yes\" yet. Write \"not sure yet\". You come back to them in 1.2, when you describe your normal day."
+          ]
+        },
         {
           "id": "1.1",
           "title": "Moments that felt good",
-          "intro": "\"What is your passion?\" is a hard question. \"When did you feel good?\" is much easier. And the answers tell you a lot.",
+          "promise": "\"What is your passion?\" is a hard question. \"When did you feel good?\" is much easier. And the answers tell you more.",
+          "intro": [
+            "When someone asks what you really want, it can be hard to answer. It is a big question, and \"I don't know\" is often the honest response. So we start with something easier to recall.",
+            "Look at moments in your own life when things felt right. You do not have to invent them or borrow them from someone else's life online. They are real experiences, and they tell you something about what matters to you."
+          ],
+          "tables": [
+            {
+              "place": "before",
+              "lead": "Three things are worth looking for in every good moment:",
+              "header": [
+                "Ingredient",
+                "The question it answers",
+                "For example"
+              ],
+              "rows": [
+                [
+                  "The activity",
+                  "What were you doing?",
+                  "Building something, teaching someone, being outside"
+                ],
+                [
+                  "The people",
+                  "Who was with you, or were you alone?",
+                  "Alone, with one person, in a group"
+                ],
+                [
+                  "The need underneath",
+                  "What did it give you?",
+                  "Calm, meaning, freedom, being useful"
+                ]
+              ],
+              "after": "The third one matters most. The activity may not be possible in your new life. The need comes with you wherever you go."
+            }
+          ],
+          "watch_out": [
+            "Holidays often come to mind first because they are easy to remember. They can show you something real about yourself, but they also show what you needed a break from. That is not always the same as what you want in daily life. Include one holiday if you like, and at least one ordinary day too."
+          ],
           "start_here": {
-            "prompt": "Think of three real moments from the last few years when you felt content, engaged or proud. Where were you? What were you doing? Who was with you? Write them down.",
+            "prompt": "Think of three moments from the last few years when you felt content, engaged or proud. Choose at least one from an ordinary day. Where were you? What were you doing? Who was with you?",
             "fields": [
               {
                 "id": "moments",
@@ -199,29 +368,59 @@
                 "id": "common",
                 "type": "long_text",
                 "lines": 3,
-                "label": "What made these moments possible? And what do they have in common?"
+                "hint": "Look at each moment more closely. What made it possible, and what do the three moments have in common?"
               }
             ]
           },
           "example": {
             "who": "Tom, 58",
-            "text": "Sailing with my brother last summer. Repairing the old bench in the garden. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present — not busy with work or my phone."
+            "text": "Sailing with my brother last summer. Repairing the old bench in the garden. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present, not busy with work or my phone."
           },
           "story": {
             "status": "ready",
-            "text": "Honestly? I found some questions very hard. \"What is your passion?\" \"What makes you truly happy?\" Sometimes I felt frustrated because I could not answer them. What helped me was looking at real moments: building something with my hands, helping someone move forward, and being in nature in a warm climate. The answers were already in my life — I only had to look."
+            "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I was building something with my hands, helping someone move forward, or spending time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
           }
         },
         {
           "id": "1.2",
           "title": "A normal day in your new life",
-          "intro": "Not a holiday. A normal Tuesday. Because most of life is made up of normal days.",
+          "promise": "Not a holiday. A normal Tuesday. Because most days are normal days.",
+          "intro": [
+            "Now you turn those ingredients into a day.",
+            "We use an ordinary day because that is what most of your life will be. It can feel less exciting than imagining a big change, but it gives you a useful question: would I enjoy the everyday life that comes with it?",
+            "An ordinary day also gives you something to test. You can visit a place and try living a normal Tuesday there. It is much harder to test a word like \"happiness\"."
+          ],
+          "tables": [
+            {
+              "place": "before",
+              "lead": "How much detail? Enough that someone else could film it. Look at the difference:",
+              "header": [
+                "Too vague to plan",
+                "Detailed enough to plan"
+              ],
+              "rows": [
+                [
+                  "\"A house with a view\"",
+                  "\"Coffee on the terrace, looking at olive trees, before anyone else is awake\""
+                ],
+                [
+                  "\"Meaningful work\"",
+                  "\"Two mornings a week helping new business owners solve problems I understand\""
+                ],
+                [
+                  "\"Close to family\"",
+                  "\"My sister can come for dinner without booking a flight\""
+                ]
+              ],
+              "after": "The detail in the right-hand column gives you something you can check against a real house, job or town."
+            }
+          ],
           "start_here": {
-            "prompt": "Describe this day from morning to evening. These small questions help:",
+            "prompt": "Describe this day from morning to evening. Include an ordinary detail you would not put in a holiday brochure: housework, rain, or an hour when nothing much happens. Use these questions to help you:",
             "bullets": [
               "Where do you wake up? What do you see from your window?",
               "What do you do in the morning? And in the afternoon?",
-              "What is your work — or how do you spend your time?",
+              "What is your work, or how do you spend your time?",
               "Who is with you? How does the day end?"
             ],
             "fields": [
@@ -240,31 +439,45 @@
               }
             ]
           },
+          "example": {
+            "who": "Maria, 46",
+            "text": "I wake up at 7, without an alarm. From my window, I see olive trees. I drink coffee outside. In the morning, I work four hours online for my clients. In the afternoon, I work in the garden or go to the market in the village. My partner and I cook together. Twice a week, friends come for dinner. Two afternoons a week are for paperwork and cleaning, and I don't enjoy them. I go to bed tired, but happy."
+          },
           "go_deeper": {
             "prompt": [
-              "Now add the less shiny parts: housework, paid work, a tired day, a rainy winter week, time alone. Does the picture still feel good?",
-              "Are there other ways to meet your needs—maybe closer to home?"
+              "Read your day again and underline the concrete details: coffee, terrace, olive trees, clients, sister. If there are only a few, add enough detail for someone else to picture the day as clearly as you do.",
+              "Then add the less enjoyable parts: housework, paid work, a tired day, a rainy winter week, time alone. Does the picture still feel good? Could you meet the same needs another way, including closer to home?"
             ],
             "fields": [
               {
                 "id": "deeper",
                 "type": "long_text",
                 "lines": 4
+              },
+              {
+                "id": "board",
+                "type": "image_board",
+                "max": 8,
+                "label": "Make it visible",
+                "hint": "Collect five to eight photos of ordinary scenes that fit your day: a kitchen table, a path, a workshop, a market. Use your own photos where you can. Under each one, write the need it represents. These pictures will help you compare real places with the daily life you want.",
+                "caption_label": "The need this picture represents"
               }
             ]
           },
-          "example": {
-            "who": "Maria, 46",
-            "text": "I wake up at 7, without an alarm. From my window I see olive trees. I drink coffee outside. In the morning I work four hours online for my clients. In the afternoon, I work in the garden or go to the market in the village. My partner and I cook together. Twice a week, friends come for dinner. I go to bed tired, but happy."
-          },
-          "tips": [
-            "Details help you plan. \"A house with a view\" is a wish. \"Coffee on the terrace, looking at olive trees\" is a picture you can check."
+          "watch_out": [
+            "Some of what comes up will not be yours. It will be a life you have seen online. That is normal, and exercise 1.5 helps you spot it. For now, write everything down. You sort it later."
           ]
         },
         {
           "id": "1.3",
           "title": "If money were no worry",
-          "intro": "Time to play. For a moment, forget what seems possible.",
+          "promise": "Time to play. For a moment, forget what seems possible.",
+          "intro": [
+            "Money can limit what you allow yourself to want before you have even put it into words. It is easy to dismiss an idea as too expensive without looking at what draws you to it.",
+            "You may have done this while describing your normal day in 1.2. For this exercise, set that limit aside.",
+            "Give yourself room to describe what you want. Then bring money back into the picture and ask: what is the smallest first step towards this, and what does it cost?",
+            "Most directions have a small, inexpensive first step. You can compare countries or talk to someone who has made a similar change without spending money. Testing a business idea at a local market takes a weekend, plus the cost of stock and a stall. You do not have to start with the most expensive version."
+          ],
           "start_here": {
             "prompt": "Imagine your essential costs are covered for the rest of your life. How would you spend your time? What would you stop doing? What would you start?",
             "fields": [
@@ -281,8 +494,12 @@
               }
             ]
           },
+          "example": {
+            "who": "Aisha, 33",
+            "text": "I would bake every day and teach others. I would spend more time with my mother. I would stop my office job. With two million: a small house with a big kitchen. The three that matter most: my own bakery, time with my mother, the house."
+          },
           "go_deeper": {
-            "prompt": "Look at your three answers. Which of them really need a lot of money? Which could start much smaller—maybe this year?",
+            "prompt": "Look at your three answers. Which of them really need a lot of money? Which could start much smaller, maybe this year?",
             "fields": [
               {
                 "id": "deeper",
@@ -291,18 +508,39 @@
               }
             ]
           },
-          "example": {
-            "who": "Aisha, 33",
-            "text": "I would bake every day and teach others. I would spend more time with my mother. I would stop my office job. With two million: a small house with a big kitchen. The three that matter most: my own bakery, time with my mother, the house."
-          },
           "story": {
             "status": "ready",
-            "text": "While I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and create a self-sustainable life. I did not have two million euros. But I found out I did not need them to start. My first small step cost nothing: I compared five countries that suit a self-sustainable life — Portugal, New Zealand, Costa Rica, Australia and Canada. Portugal came out on top. Then I travelled through it in a campervan to see if it felt right in real life—not only on paper. Step by step, the picture became real. Today I own land in Portugal, and I am building that life. A wish on paper can be a very first step."
+            "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I did not have two million euros, but I realised I did not need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. The land was officially mine in August 2024. Today, I am building the life I pictured."
           }
         },
         {
           "id": "1.4",
           "title": "What matters most",
+          "promise": "Your values shape your choices, including the ones you make without thinking.",
+          "intro": [
+            "You use your values every day. They influence which job you accept and why a place can feel wrong even when it looks perfect on paper. Naming them helps you understand those reactions and use them when comparing options."
+          ],
+          "tables": [
+            {
+              "place": "before",
+              "lead": "Here, you turn what matters to you into practical criteria for your choices. Sort them into three groups:",
+              "rows": [
+                [
+                  "Must-have",
+                  "Your life needs this. Without it, the whole option is wrong, even when everything else is good."
+                ],
+                [
+                  "Strongly preferred",
+                  "You want it and will work for it. You could live without it for a while."
+                ],
+                [
+                  "Dealbreaker",
+                  "You will not accept this. It ends the discussion."
+                ]
+              ],
+              "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, there are usually two or three that matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
+            }
+          ],
           "start_here": {
             "prompt": "Tick the five words that matter most to you. Missing a word? Write it in an empty box.",
             "fields": [
@@ -338,7 +576,7 @@
                 "id": "top_two",
                 "type": "table",
                 "rows": 2,
-                "hint": "Choose your two most important words. What do they look like in a normal week?",
+                "hint": "Choose your two most important words. What would more room for each one look like in a normal week?",
                 "columns": [
                   {
                     "id": "word",
@@ -360,12 +598,12 @@
                 "columns": [
                   {
                     "id": "must_have",
-                    "label": "My must-haves",
+                    "label": "What my new life needs",
                     "kind": "text"
                   },
                   {
                     "id": "importance",
-                    "label": "Essential or strongly preferred?",
+                    "label": "Which of these are essential, and which are strongly preferred?",
                     "kind": "choice",
                     "options": [
                       "Essential",
@@ -402,14 +640,19 @@
             "text": "Words: family, security, nature, adventure, honesty. \"Family\" in a normal week: dinner together at least four times. Must-have: a good school close to home (essential). A garden (strongly preferred). Dealbreaker: more than one hour from a hospital. Keep: my weekly football team. Let go: a big car."
           },
           "tips": [
-            "Choosing one thing sometimes means giving up another. Decide which trade-offs you accept."
+            "Choosing one thing often means giving up another. Decide which trade-offs you can accept before you have spent money or committed to a place."
           ]
         },
         {
           "id": "1.5",
           "title": "Whose picture is this?",
-          "intro": "Our pictures are shaped by many voices: family, friends, social media, our past. That is normal. Here you look at the voices in your picture. Write your first thought — you can always change it later.",
+          "promise": "Other people help shape your picture. This exercise asks whose influence you can see in it.",
+          "intro": [
+            "Family, friends, social media and past experiences all shape what we want. That does not make a wish wrong. But it is worth checking how much of the picture feels like your own before you commit to it or sell your home.",
+            "Also ask whether you are moving towards something, away from something, or both. Wanting to leave a job that leaves you tired and empty is a valid reason for change. It tells you what needs to end, but you still need to decide what you want in its place. A move is more likely to help when you know which problem you are trying to solve."
+          ],
           "start_here": {
+            "prompt": "Answer these three honestly. Write your first thought. You can always change it later.",
             "fields": [
               {
                 "id": "checks",
@@ -421,33 +664,32 @@
                   "Not sure"
                 ],
                 "questions": [
-                  "I would still want this life if nobody could see it — no photos, no social media.",
-                  "I want to go TOWARDS something — not only AWAY from something.",
+                  "I would still want this life if nobody could see it. No photos, no social media.",
+                  "I am moving towards something, not only away from something.",
                   "A good friend would say: \"Yes, that fits you.\""
                 ]
               },
               {
                 "id": "voices",
                 "type": "long_text",
-                "lines": 3,
-                "label": "Whose expectations or voices do you hear in your picture? Which parts feel most like your own?"
+                "lines": 4,
+                "hint": "Whose expectations or voices do you hear in your picture? Which parts feel most like your own?"
               }
             ]
           },
-          "challenge": "Wanting to leave something behind is a normal start. \"Away from\" can give you energy to begin. A clear \"towards\" helps you choose where to go.",
           "example": {
             "who": "Ingrid, 62",
-            "text": "Partly. I love the idea of living abroad. But I notice that part of it comes from my friends, who all talk about it. I am not sure yet which part is really mine — and that is okay for now."
-          }
+            "text": "Partly. I love the idea of living abroad. But I notice that part of it comes from my friends, who all talk about it. I am not sure yet which part is really mine, and that is okay for now."
+          },
+          "challenge": "Look at the middle statement. If you answered no or not sure, write one sentence about what you are moving towards. Describe what you want, beyond the problem you want to leave. If you cannot put it into words yet, that is something useful to work on."
         }
       ],
-      "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" Do you plan this life together? Then ask your partner to write their own normal day first, then compare. The differences are the best conversation.",
       "summary": {
         "id": "life_picture",
         "title": "What does this tell me?",
-        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "intro": "Read through your answers, then use these questions to complete the summary below:",
         "questions": [
-          "What needs come back more than once?",
+          "Which needs keep coming back?",
           "What do I want to keep?",
           "Which trade-off matters most to me?"
         ],
@@ -492,18 +734,10 @@
         ],
         "example": {
           "who": "Maria, 46",
-          "text": "I want privacy and daily contact with people. I love gardening, but I also want to travel often. So I need a home with outdoor space that doesn't require me to be there all the time. I still don't know whether I want to work fewer hours or change my work completely."
+          "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: ground to grow food, internet good enough for video calls, a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
         },
-        "tips": [
-          "Two wishes pull in different directions? You can choose one for now, combine both, or put them in order: first this, later that."
-        ]
-      },
-      "finish": {
-        "id": "life_picture",
-        "title": "My Life Picture",
-        "description": "What you want more of, what you keep, what is essential, and what is still open."
-      },
-      "route_title": "Picture your new life"
+        "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
+      }
     },
     {
       "id": "p2",
@@ -511,14 +745,35 @@
       "label": "Part 2",
       "title": "Look honestly at today",
       "promise": "You cannot plan a route if you do not know where you start.",
-      "intro": "This part is not about judging yourself. It is about seeing clearly. Be honest — and be kind to yourself. You may also see strengths you forgot about.",
-      "time": "45–60 min",
+      "intro_title": "Honest is not negative",
+      "intro": [
+        "This part is not about judging yourself. It is about seeing clearly.",
+        "This can feel like an invitation to list everything that is wrong. In my experience, it often does the opposite. Most people I have guided found more to build on than they expected: things they had already done, people willing to help, money they had overlooked, and skills they could use in a new setting.",
+        "Your later plans depend on an honest view of where you stand now. If you guess your starting point, you guess your plan too. Give yourself the time to look carefully, without being hard on yourself."
+      ],
+      "time": "60–75 min",
+      "route_title": "Look honestly at today",
+      "talk": "Want to hear what held other people back at the start? Ask in the network, or ask someone who made a big change. You may hear some of your own beliefs, and how they found a way through them.",
+      "finish": {
+        "id": "starting_point",
+        "title": "My Starting Point",
+        "description": "Where you stand, what you can build on, and what you will check."
+      },
       "exercises": [
         {
           "id": "2.1",
-          "title": "Your life today — and in one year",
+          "title": "Your life today, and in one year",
+          "promise": "A simple picture of how your life is doing, area by area.",
+          "intro": [
+            "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, rather than letting one problem dominate it.",
+            "It helps in two ways. First, it separates things that can get mixed together. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
+            "The score is only a starting point. The explanation beside it is what makes it useful."
+          ],
+          "tips": [
+            "A number shows how you feel, not what to do. Next to each score, write what it looks like in real life. Not \"work: 9\", but \"work: 9, I finish in time to eat with my family.\" That sentence tells you what to protect when your life changes."
+          ],
           "start_here": {
-            "prompt": "Give each area a score from 1 (very unhappy) to 10 (very happy): for today, and the score you would like in one year. Not relevant for you? Write \"n/a\". Then write what \"better\" would look like — something you could notice in a normal week.",
+            "prompt": "Score each area from 1 (very unhappy) to 10 (very happy), first for today and then for where you would like to be in one year. Write \"n/a\" for anything that does not apply. Describe what today's score looks like in a normal week, and what would be different in a year.",
             "fields": [
               {
                 "id": "wheel",
@@ -538,26 +793,66 @@
                   {
                     "id": "today",
                     "label": "Today",
-                    "kind": "number",
-                    "allow_na": true
+                    "kind": "number"
                   },
                   {
-                    "id": "one_year",
+                    "id": "year",
                     "label": "In 1 year",
-                    "kind": "number",
-                    "allow_na": true
+                    "kind": "number"
+                  },
+                  {
+                    "id": "week",
+                    "label": "What my score looks like in a normal week",
+                    "kind": "text"
                   },
                   {
                     "id": "better",
-                    "label": "What would be better? A concrete example",
+                    "label": "What would be better?",
                     "kind": "text"
                   }
                 ]
+              },
+              {
+                "id": "time",
+                "type": "table",
+                "row_header": "Where my week goes",
+                "heading": "Then look at your time",
+                "hint": "The wheel shows how you feel. Your week shows how you spend your time. Think of a normal week and estimate the hours. Rough numbers are fine.",
+                "row_labels": [
+                  "Work, including travel to work",
+                  "Home, chores and care for others",
+                  "Family and friends",
+                  "Outside, and moving my body",
+                  "Things I do just for me",
+                  "Screens without a purpose"
+                ],
+                "columns": [
+                  {
+                    "id": "now",
+                    "label": "Hours now",
+                    "kind": "number"
+                  },
+                  {
+                    "id": "want",
+                    "label": "Hours I want",
+                    "kind": "number"
+                  }
+                ]
+              },
+              {
+                "id": "most_time_back",
+                "type": "long_text",
+                "lines": 3,
+                "hint": "Which one change would give you the most time back? Does it need a new country, or could it start next month?"
               }
             ]
           },
+          "example": {
+            "who": "Lucas, 29",
+            "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
+          },
           "go_deeper": {
-            "prompt": "Which area has the biggest gap? Which area pulls you most towards a change — and which one makes a change most difficult?",
+            "prompt": "Which area has the biggest gap? Which area pulls you most towards a change, and which one makes a change most difficult?",
             "fields": [
               {
                 "id": "deeper",
@@ -566,20 +861,21 @@
               }
             ]
           },
-          "tips": [
-            "\"A 9 for work\" is hard to act on. \"I finish work in time to eat with my family\" is something you can plan for."
-          ],
           "story": {
             "status": "ready",
-            "text": "I did the wheel of life for the first time after one year in Bali. Some areas already scored well: my work, and my home and surroundings. Others scored lower, like my relationship and my personal growth. That showed me clearly where to focus, and for those areas I wrote down a few actions. Since then, I do it every year. It is motivating to see that the areas I worked on really improved. But the wheel also taught me something else: an area that is good today can change. As Bali became busier — building everywhere, traffic, pollution — my score for home and surroundings went down. That made me ask an honest question: is Bali still the home I want?"
+            "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
           }
         },
         {
           "id": "2.2",
           "title": "What you have already done",
-          "intro": "Before we look at what is difficult, look at what you have already achieved. You have done hard things before.",
+          "promise": "Before we look at what is difficult, look at what you have already achieved.",
+          "intro": [
+            "When you imagine a big change, it is easy to forget the difficult things you have already managed. That can leave you thinking: \"I could never do that.\"",
+            "Think about how you managed those difficult things. If you moved house on your own while working, you learned to break a big task into steps. If you cared for a parent, you learned how to keep going when someone depended on you. Those experiences can help you work out how to approach a new challenge."
+          ],
           "start_here": {
-            "prompt": "Think of three things in your life you are proud of. How did you do it? And which strength or support could help you again?",
+            "prompt": "Think of three things you are proud of. How did you manage each one? Which strengths or support could you draw on again?",
             "fields": [
               {
                 "id": "successes",
@@ -587,7 +883,7 @@
                 "rows": 3,
                 "columns": [
                   {
-                    "id": "what",
+                    "id": "achieved",
                     "label": "What I achieved",
                     "kind": "text"
                   },
@@ -597,7 +893,7 @@
                     "kind": "text"
                   },
                   {
-                    "id": "strength",
+                    "id": "reuse",
                     "label": "Strength or support I can use again",
                     "kind": "text"
                   }
@@ -607,75 +903,146 @@
           },
           "example": {
             "who": "Ingrid, 62",
-            "text": "I raised two children alone while working full time. I learned to drive at 40. I organised care for my father. How: step by step, and I asked for help. I can use again: patience, making lists, and my sister's support."
+            "text": "I raised two children alone while working full-time. I learned to drive at 40. I organised care for my father. How: step by step, and I asked for help. I can use again: patience, making lists, and my sister's support."
           },
           "tips": [
-            "Look at the last column. Not everything transfers to a new situation. But often more than you think."
+            "Look at the last column. Not everything transfers to a new situation. But usually more than you think."
           ],
           "story": {
             "status": "ready",
-            "text": "Next to my consultancy work, I missed something that was connected to my real passion: building. When I bought my house in Bali, I wanted a building inspector — not because I could not check it myself, but for extra certainty. I could hardly find a good one. That frustration became an idea. I did an online course and became an accredited inspector with InterNACHI. I made a simple website and an Instagram page. The hardest part for me was promoting myself. I have always preferred to show what I can do, rather than to sell it. In the end, my first client did not come from marketing. The estate agent from my own house purchase recommended me to another buyer. That is how my company was born. What I took from it: a frustration can point to your next step — and people who trust you often open the first door."
+            "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about half a year. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after putting the company online and introducing it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
+          },
+          "go_deeper": {
+            "title": "Connect the dots",
+            "prompt": "Look back at your life and mark three turning points: a move, a choice, a person, a setback. What did each one lead to? As Steve Jobs said, you can only connect the dots looking backwards. Together, those moments can show a pattern: a need you keep returning to, a skill you keep using, or a kind of place that keeps drawing you.",
+            "fields": [
+              {
+                "id": "dots",
+                "type": "table",
+                "rows": 3,
+                "columns": [
+                  {
+                    "id": "turning_point",
+                    "label": "Turning point",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "started",
+                    "label": "What it started",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "about_me",
+                    "label": "What it says about me",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "id": "deeper",
+                "type": "long_text",
+                "lines": 3,
+                "hint": "What connects all three? Does it point in the same direction as your Life Picture?"
+              }
+            ],
+            "story": {
+              "status": "ready",
+              "text": "When I was 21, shortly after graduating from technical college (HTS), I moved to Thailand with my parents. The move was their decision, but I was closely involved in finding land, building our home, and settling into a place where we had a new language to learn. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fitted together."
+            }
           }
         },
         {
           "id": "2.3",
           "title": "What stopped you before?",
+          "promise": "Earlier attempts are not failures. They are information.",
+          "intro": [
+            "Most of us have tried to change something before: a plan we never started, a move we postponed, or a business that remained an idea. Look at what stopped you and sort it into three groups.",
+            "Outside your control: rules changing, illness, a pandemic. You cannot prevent these. You can plan for them, with a reserve, a fallback, or a slower timeline.",
+            "Things you can partly influence: money, work, health, and the people around you. You do not decide these alone, but what you do changes them over time.",
+            "Inside your control: the approach you chose, the information you never gathered, the conversation you avoided, the moment you stopped asking. These are worth studying, because you can do them differently this time.",
+            "An earlier attempt can involve all three. Separating them helps you see what to prepare for, what to work on over time, and what to do differently now."
+          ],
           "start_here": {
-            "prompt": "Did you try to change your life before? What happened? Tick what fits, then write a few sentences.",
+            "prompt": "Have you tried to change your life before? What happened? Tick what fits, then write a few sentences.",
             "fields": [
               {
                 "id": "causes",
                 "type": "checkbox_pick",
                 "options": [
-                  "Something outside my control (money, health, family, rules)",
+                  "Something outside my control (rules, illness, events)",
+                  "Something I can influence over time (money, work, health, people)",
                   "Not enough support or information",
                   "My priorities changed",
                   "The approach did not work",
-                  "Doubt or fear",
-                  "Something else"
+                  "Doubt or fear"
                 ]
               },
               {
                 "id": "before",
                 "type": "long_text",
                 "lines": 4
+              },
+              {
+                "id": "differently",
+                "type": "long_text",
+                "lines": 3,
+                "hint": "Now the useful question: what will you do differently this time, and what will you simply plan for?"
               }
             ]
           },
-          "tips": [
-            "Earlier attempts are not failures. They are information. They show what to plan for this time."
-          ],
+          "go_deeper": {
+            "prompt": "Look at your earlier attempts together. Is there a pattern in how they stop? For example: you start strong and stop at the first \"no\". Or you wait until everything is certain. A pattern you can name is a pattern you can plan for.",
+            "fields": [
+              {
+                "id": "deeper",
+                "type": "long_text",
+                "lines": 3
+              }
+            ]
+          },
           "story": {
             "status": "ready",
-            "text": "My first attempt to change my life did not go as planned. I had sold my house in the Netherlands to travel. Then COVID came, and everything stopped. I could have waited. Instead, I rented an apartment in Leiden and used the time: I did Michael Pilarczyk's Perfect Life programme and wrote down my most beautiful life — near the sea, a warm climate, my own business, helping people. Then I took a two-month sabbatical in Bali, to feel if it was right. It was. I moved to Bali on my own, with only two bags. What stopped me was outside my control. What I did with that time was not."
+            "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, running my own business and helping people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
           }
         },
         {
           "id": "2.4",
           "title": "Beliefs I never checked",
-          "intro": "We all carry beliefs we never checked. Some hold us back. Others look attractive — but may not be true either. Both kinds deserve a check.",
-          "belief_examples": [
+          "promise": "We all carry beliefs we never checked. Some hold us back. Others look attractive, but may not be true either.",
+          "intro": [
+            "\"I am too old to start again.\" \"Life there is cheaper.\" These can both feel like facts, even when we have not checked them.",
+            "The beliefs that hold us back are often easier to notice because they hurt. The appealing ones deserve just as much attention. When something supports a plan we like, we are less inclined to question it. That can become expensive later.",
+            "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, rather than treating it as a fact."
+          ],
+          "tables": [
             {
-              "title": "Beliefs that hold people back",
-              "items": [
-                "I am too old to start again.",
-                "I will never find work there.",
-                "My partner will never want this.",
-                "I first need to speak the language perfectly."
-              ]
-            },
-            {
-              "title": "Beliefs that look attractive",
-              "items": [
-                "Life in Portugal will be cheaper.",
-                "I will easily find clients.",
-                "A bigger garden will make me happier.",
-                "Once I move, I will feel less stressed."
+              "place": "before",
+              "header": [
+                "Beliefs that hold people back",
+                "Beliefs that look attractive"
+              ],
+              "rows": [
+                [
+                  "\"I am too old to start again.\"",
+                  "\"Life in Portugal will be cheaper.\""
+                ],
+                [
+                  "\"I will never find work there.\"",
+                  "\"I will easily find clients.\""
+                ],
+                [
+                  "\"My partner will never want this.\"",
+                  "\"A bigger garden will make me happier.\""
+                ],
+                [
+                  "\"I first need to speak the language perfectly.\"",
+                  "\"Once I move, I will feel less stressed.\""
+                ]
               ]
             }
           ],
           "start_here": {
-            "prompt": "Write three of your own beliefs — of either kind. How could you check if each one is true?",
+            "prompt": "Write three of your own beliefs, of either kind. How could you check if each one is true?",
             "fields": [
               {
                 "id": "beliefs",
@@ -689,11 +1056,11 @@
                   },
                   {
                     "id": "kind",
-                    "label": "Holds me back or attractive?",
+                    "label": "Holds me back or sounds attractive?",
                     "kind": "choice",
                     "options": [
                       "Holds me back",
-                      "Attractive"
+                      "Sounds attractive"
                     ]
                   },
                   {
@@ -720,34 +1087,42 @@
           "id": "2.5",
           "title": "Ask people who know you",
           "optional": true,
-          "intro": "Other people sometimes see things in us that we cannot see ourselves.",
+          "promise": "Other people sometimes see things in us that we cannot see ourselves.",
+          "intro": [
+            "In the 1950s, psychologists Joseph Luft and Harrington Ingham developed the Johari window. It has four areas. Here, we use the one they called the blind area: things other people notice about you that you do not see yourself. Asking for specific feedback can help you recognise them.",
+            "Ask for observations and examples. This is not a vote on your plan, and you do not need anyone's permission. A specific question gives people more to work with than a broad request for feedback."
+          ],
           "start_here": {
-            "prompt": [
-              "Ask two or three people who know you well to answer in writing — a message is fine: What am I good at? When do you see me at my happiest? What could hold me back? Then write what surprised you.",
-              "No one to ask? Read old messages, cards or feedback you received. Or ask yourself: what would a good friend say?"
+            "prompt": "Ask two or three people who know you well to answer in writing. A message is fine:",
+            "bullets": [
+              "What am I good at?",
+              "When do you see me at my happiest?",
+              "What could hold me back?",
+              "Please give one example of something you have seen me do."
             ],
             "fields": [
               {
                 "id": "surprised",
                 "type": "long_text",
-                "lines": 4
+                "lines": 4,
+                "hint": "Then write what surprised you."
               }
-            ]
+            ],
+            "closing": "No one to ask? Read old messages, cards or feedback you received. Or ask yourself: what would a good friend say?"
           },
           "tips": [
-            "Their answers are a perspective, not a verdict. Look at the examples they give, and decide which points deserve more thought — also the uncomfortable ones."
+            "Their answers are a perspective, not a verdict. Look at the examples they give, and decide which points deserve more thought, including the uncomfortable ones."
           ],
           "story": {
             "status": "ready",
-            "text": "When I did this exercise, I asked my mother and my brother to write down how they see me. Some things made me proud: that I am reliable, caring, and always there when someone needs help. Other things were harder to read. Both wrote, in their own words, that I sometimes react before I really listen. At first, I was a bit defensive. But it was true — and I had not seen it myself. Since then, I have worked on it, especially in my relationship. Through exercises that help me feel my body and emotions, I learned to first check: do I have room right now to really listen? It still takes practice, but I have become much better at it. That is the gift of this exercise: people who care about you can show you what you cannot see yourself."
+            "text": "I asked my mother and my brother to write down how they saw me. Some of what they said made me proud: that I was reliable, caring, and there when someone needed help. Other parts were harder to read. Both said, in their own words, that I sometimes reacted before really listening. I was defensive at first, but I recognised the truth in it. Since then, I have worked on listening, especially in my relationship. Exercises that help me notice my body and emotions have taught me to pause and ask: do I have room to listen properly right now? I still need to practise, but I have become much better at it. Their feedback helped me see something I had missed on my own."
           }
         }
       ],
-      "talk": "Want to hear what held other people back at the start? Ask in the network, or ask someone who made a big change. You may hear some of your own beliefs — and how they found a way through them.",
       "summary": {
         "id": "starting_point",
         "title": "What does this tell me?",
-        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "intro": "Read through your answers, then use these questions to complete the summary below:",
         "questions": [
           "What can I build on?",
           "Where do I need support?",
@@ -762,6 +1137,12 @@
             "label": "Where I stand today: my strongest and weakest areas"
           },
           {
+            "id": "time",
+            "type": "long_text",
+            "lines": 2,
+            "label": "Where my time goes, and the change that would give me most time back"
+          },
+          {
             "id": "strengths",
             "type": "long_text",
             "lines": 2,
@@ -771,7 +1152,7 @@
             "id": "stopped_before",
             "type": "long_text",
             "lines": 2,
-            "label": "What stopped me before — and what I will do differently"
+            "label": "What stopped me before, and what I will do differently"
           },
           {
             "id": "beliefs_to_check",
@@ -785,14 +1166,9 @@
             "lines": 2,
             "label": "What I still don't know"
           }
-        ]
-      },
-      "finish": {
-        "id": "starting_point",
-        "title": "My Starting Point",
-        "description": "Where you stand, what you can build on, and what you will check."
-      },
-      "route_title": "Look honestly at today"
+        ],
+        "result": "My Starting Point — where you stand, what you can build on, and what you will check."
+      }
     },
     {
       "id": "p3",
@@ -800,21 +1176,30 @@
       "label": "Part 3",
       "title": "Your first money picture",
       "promise": "A picture becomes a plan when you give it numbers.",
+      "intro_title": "Rough numbers now beat perfect numbers later.",
       "intro": [
-        "Some people never look at the numbers. Others look, get scared, and stop. We do it differently: first rough numbers, no stress. You improve them later.",
-        "This part has three simple questions:"
+        "It is easy to put off the numbers, or to look once, feel overwhelmed, and stop. Start with rough figures. You will improve them as you learn more.",
+        "At this stage, the numbers help you choose a direction and a timescale. A plan that is out of reach this year could work in three years or with another source of income. Sometimes a version of your plan will not work financially. Then you need to change it, postpone it, or set it aside.",
+        "Start with three numbers:"
       ],
       "intro_bullets": [
         "What does my new life cost per month? (3.2)",
         "What does the change itself cost, one time? (3.3)",
         "What comes in per month? (3.4)"
       ],
-      "intro_after": "In 3.5 you put these three numbers together in one simple check. An example shows you how.",
+      "intro_after": "In 3.5 you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
       "tips": [
-        "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total is not complete yet — it never counts as zero."
+        "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total isn't complete yet. It never counts as zero.",
+        "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the new-life column unknown wherever you still need information."
       ],
       "setup": {
+        "intro": "Choose one version of your new life to cost first. Keep a move to Portugal separate from a plan to work fewer hours at home. Start with the version you most want to explore. You can repeat the exercise for another version later.",
         "fields": [
+          {
+            "id": "version",
+            "type": "short_text",
+            "label": "The version I am costing here"
+          },
           {
             "id": "currency",
             "type": "short_text",
@@ -830,25 +1215,45 @@
         ]
       },
       "time": "60 min",
+      "route_title": "Make your first money picture",
+      "talk": "Money is often the hardest thing to talk about. If you share your life with someone, talk about it together: what does \"enough money\" mean to each of you? What makes each of you feel safe? Your three words from 3.1 are a good way in. You don't need the same answer, but you need to know each other's answers.",
+      "finish": {
+        "id": "money_picture",
+        "title": "My First Money Picture",
+        "description": "Your first numbers, how sure they are, and what to check next."
+      },
       "exercises": [
         {
           "id": "3.1",
           "title": "What does money mean to you?",
           "optional": true,
+          "intro": [
+            "Before you start calculating, take a minute to notice how you feel about money. Two people with the same balance can make very different choices: one sees freedom, the other worries about running out. Knowing your own response helps you understand how you read the numbers."
+          ],
           "start_here": {
-            "prompt": "Write the first three words that come up when you think about money. Freedom? Worry? Safety? Stress? There is no wrong answer. Your words show how you feel about money — and that feeling can influence your choices.",
+            "prompt": "Write the first three words that come up when you think about money. Freedom? Worry? Safety? Stress? There is no wrong answer.",
             "fields": [
               {
                 "id": "words",
                 "type": "list",
                 "count": 3
+              },
+              {
+                "id": "what_helps",
+                "type": "long_text",
+                "lines": 2,
+                "hint": "What would help you work through the numbers: a quiet hour, a calculator, someone beside you, or two shorter sessions? Write it down, then arrange it."
               }
-            ]
+            ],
+            "closing": "Keep your three words for the summary at the end of this part. Share them with anyone you make money decisions with. If one of you thinks of fear and the other of freedom, the same numbers can feel very different."
           }
         },
         {
           "id": "3.2",
-          "title": "What does your life cost per month — now, and in your new life?",
+          "title": "What does your life cost per month, now and in your new life?",
+          "intro": [
+            "Yearly costs are easy to miss when you think in months: insurance, car repairs, gifts, a holiday, the dentist. Divide them by twelve and include them in the table, unless you have already counted them elsewhere. For example, 1,200 a year for insurance, repairs and gifts adds 100 a month."
+          ],
           "start_here": {
             "prompt": "Write the costs per month. In the last column, mark each new-life number: known, estimate or unknown.",
             "fields": [
@@ -858,13 +1263,16 @@
                 "row_header": "Cost per month",
                 "row_labels": [
                   "Housing (rent or mortgage)",
+                  "Electricity, water, gas, heating",
                   "Food and drinks",
                   "Transport",
                   "Health and insurance",
                   "Phone, internet, subscriptions",
                   "Free time and going out",
                   "Travel (for example, visiting family)",
-                  "Yearly costs not already in the rows above, divided by 12 (for example, gifts, holidays, repairs)",
+                  "Loan or credit repayments",
+                  "Care costs (children, or someone you care for)",
+                  "Yearly costs not already above, divided by 12 (gifts, holidays, repairs)",
                   "Other"
                 ],
                 "columns": [
@@ -879,7 +1287,7 @@
                     "kind": "money"
                   },
                   {
-                    "id": "certainty",
+                    "id": "sure",
                     "label": "Known / estimate / unknown",
                     "kind": "choice",
                     "options": [
@@ -890,16 +1298,23 @@
                   }
                 ],
                 "totals": true,
-                "totals_label": "Total per month — you use this in 3.5"
+                "totals_label": "Total per month (you use this in 3.5)"
               }
             ]
+          },
+          "example": {
+            "who": "Peter and Els, 58 and 61",
+            "text": "A normal month in a small rented house in the interior of central Portugal, 2026. Rent €550. Energy €200, more in winter. Water and waste €30. Food €450, including one meal out a week. Car, fuel and insurance €250. Private health insurance 2 × €60. Phone and internet €35. Free time €150. Flights to visit family €100. Yearly costs divided by 12: €100. Total: about €2,000 a month. Rent is an estimate; energy, food, fuel, internet and health insurance are close to what people here really pay."
           }
         },
         {
           "id": "3.3",
-          "title": "What does the change itself cost — one time?",
+          "title": "What does the change itself cost, one time?",
+          "intro": [
+            "These are the costs you pay once to make the change. Include them early: a monthly budget can work on paper while the initial costs leave you short in month two."
+          ],
           "start_here": {
-            "prompt": "These are costs you pay once, to make the change. Only write money you will really spend.",
+            "prompt": "Only write money you will really spend.",
             "fields": [
               {
                 "id": "one_time",
@@ -919,7 +1334,7 @@
                     "kind": "money"
                   },
                   {
-                    "id": "certainty",
+                    "id": "sure",
                     "label": "Known / estimate / unknown",
                     "kind": "choice",
                     "options": [
@@ -930,19 +1345,41 @@
                   }
                 ],
                 "totals": true,
-                "totals_label": "Total one-time cost — you use this in 3.5"
+                "totals_label": "Total one-time cost (you use this in 3.5)"
               }
             ]
           },
           "tips": [
-            "Deposits — for example for a rental home — are not in this list. You usually get them back later, but you cannot use that money for a while. You add them in 3.5."
+            "Deposits, for example, for a rental home, are not in this list. You usually get them back later, but you cannot use that money for a while. You subtract them in 3.5."
           ]
         },
         {
           "id": "3.4",
           "title": "What comes in per month?",
+          "intro": [
+            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Only confirmed income goes into the check in 3.5. Record agreed income separately, with the month it starts, so you can see it without counting on it yet."
+          ],
+          "tables": [
+            {
+              "place": "before",
+              "rows": [
+                [
+                  "Confirmed",
+                  "You have evidence it continues in the new situation. For example, a contract that allows you to work from abroad."
+                ],
+                [
+                  "Agreed",
+                  "Promised, but not started yet. A client said yes; work begins next year."
+                ],
+                [
+                  "Hoped",
+                  "An idea. It may well happen, but nothing supports it yet."
+                ]
+              ]
+            }
+          ],
           "start_here": {
-            "prompt": "List every source of income now, and the ones you could have in your new life. Use income after tax and other deductions, in every row. Then ask for each one: what shows that this income will continue in the situation I am considering? Mark it as confirmed (you have evidence it continues — for example, a contract that allows you to work from abroad), agreed (promised, but not started) or hoped (an idea, not yet real).",
+            "prompt": "List your current income sources and those you expect in your new life. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the new-life column and note the gross amount alongside it for later. Keep gross amounts out of the confirmed total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
             "fields": [
               {
                 "id": "income",
@@ -965,7 +1402,7 @@
                     "kind": "money"
                   },
                   {
-                    "id": "certainty",
+                    "id": "sure",
                     "label": "Confirmed / agreed / hoped",
                     "kind": "choice",
                     "options": [
@@ -973,44 +1410,54 @@
                       "Agreed",
                       "Hoped"
                     ]
+                  },
+                  {
+                    "id": "starts",
+                    "label": "Starts when?",
+                    "kind": "text"
                   }
                 ],
                 "totals": true,
-                "total_filter": {
-                  "column": "certainty",
-                  "values": [
-                    "Confirmed",
-                    "Agreed"
-                  ]
-                },
-                "totals_label": "Total confirmed or agreed — you use this in 3.5"
+                "totals_label": "Total confirmed (you use this in 3.5)",
+                "total_filter": [
+                  "Confirmed"
+                ],
+                "extra_totals": [
+                  {
+                    "label": "Total agreed (not in the check yet)",
+                    "filter": [
+                      "Agreed"
+                    ]
+                  }
+                ]
               }
             ]
           },
           "example": {
             "who": "Lucas, 29",
-            "text": "Now: salary as a graphic designer. In my new life: that salary stops—my employer doesn't allow me to work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
-          },
-          "freedom_idea": "Some people build more than one source of income, so they depend less on one employer or one client. For others, one stable job fits best. Both can work. What matters is that your income fits the life you want. Curious about other ways to look at money and freedom? See \"About the Freedom idea\" at the end of this workbook."
+            "text": "Now: salary as a graphic designer. In my new life: that salary stops; my employer won't let me work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
+          }
         },
         {
           "id": "3.5",
           "title": "A first money check",
+          "promise": "Two simple questions: do I have money left each month, and if not, how long do my savings cover the gap?",
           "intro": [
-            "This is a first check, not a final answer. It answers two simple questions: Do I have money left each month — or am I short? And if I am short: how long can my savings cover it?",
-            "The middle column shows how it works, with made-up numbers. Write your own numbers in the last column."
+            "The second number is your runway: how long your savings can cover a monthly shortfall before something needs to change. Runway turns worry into a plan: \"I am short 400 a month and have 40 months to work with\" gives you a timescale for action.",
+            "Not all your savings are available to live on. Some will pay for the change, some will be tied up in deposits, and some will remain in your emergency reserve. Only what is left can cover a monthly shortfall. The calculation below shows how long it could last."
           ],
           "start_here": {
+            "prompt": "The middle column shows how it works, with made-up numbers. Write your own numbers in the last column.",
             "fields": [
               {
                 "id": "monthly",
                 "type": "calculation",
-                "label": "Question 1 — every month",
+                "label": "Question 1: every month",
                 "rows": [
                   {
                     "id": "income",
-                    "label": "1. My income per month in my new life — confirmed or agreed (total from 3.4)",
-                    "example": "€1,800",
+                    "label": "1. My confirmed income per month in my new life (from 3.4)",
+                    "example": "€1,600",
                     "from": {
                       "exercise": "3.4",
                       "field": "income",
@@ -1019,8 +1466,8 @@
                   },
                   {
                     "id": "costs",
-                    "label": "2. My costs per month in my new life (total from 3.2)",
-                    "example": "€2,300",
+                    "label": "2. My costs per month in my new life (from 3.2)",
+                    "example": "€2,000",
                     "from": {
                       "exercise": "3.2",
                       "field": "costs",
@@ -1030,7 +1477,7 @@
                   {
                     "id": "balance",
                     "label": "3. Left over or short each month (1 minus 2)",
-                    "example": "€500 short",
+                    "example": "€400 short",
                     "formula": "income - costs",
                     "format": "left_or_short"
                   }
@@ -1039,8 +1486,7 @@
               {
                 "id": "savings",
                 "type": "calculation",
-                "label": "Question 2 — my savings",
-                "hint": "Not all your savings are free to live on. Some pay for the change. Some are tied up in deposits. And some you want to keep for emergencies.",
+                "label": "Question 2: my savings",
                 "rows": [
                   {
                     "id": "savings",
@@ -1050,8 +1496,8 @@
                   },
                   {
                     "id": "one_time",
-                    "label": "5. Minus: the one-time cost of the change (total from 3.3)",
-                    "example": "− €5,000",
+                    "label": "5. Minus: the one-time cost of the change (from 3.3)",
+                    "example": "− €6,000",
                     "from": {
                       "exercise": "3.3",
                       "field": "one_time",
@@ -1060,20 +1506,20 @@
                   },
                   {
                     "id": "deposits",
-                    "label": "6. Minus: deposits — money I pay now and may only get back much later",
-                    "example": "− €3,000",
+                    "label": "6. Minus: deposits, money I pay now and may only get back much later",
+                    "example": "− €1,650",
                     "input": "money"
                   },
                   {
                     "id": "reserve",
-                    "label": "7. Minus: my reserve — money I keep for emergencies, not to live on",
+                    "label": "7. Minus: my reserve, money I keep for emergencies and not to live on",
                     "example": "− €6,000",
                     "input": "money"
                   },
                   {
                     "id": "available",
                     "label": "8. Savings left to live on (4 minus 5, 6 and 7)",
-                    "example": "€16,000",
+                    "example": "€16,350",
                     "formula": "savings - one_time - deposits - reserve"
                   }
                 ]
@@ -1081,13 +1527,13 @@
               {
                 "id": "months",
                 "type": "calculation",
-                "label": "Question 3 — how long?",
+                "label": "Question 3: how long?",
                 "hint": "Only if you are short each month (line 3).",
                 "rows": [
                   {
                     "id": "months",
                     "label": "9. Months my savings can cover: line 8 divided by the amount I am short (line 3)",
-                    "example": "€16,000 ÷ €500 = 32 months",
+                    "example": "€16,350 ÷ €400 = about 40 months",
                     "formula": "available / -balance",
                     "condition": "balance < 0",
                     "format": "months"
@@ -1096,34 +1542,47 @@
               }
             ]
           },
+          "result_guide": {
+            "title": "What your result means",
+            "intro": [
+              "Read these two checks separately.",
+              "Check one: can your savings cover the change itself? Look at line 8. Above zero means the one-time costs, deposits and reserve are covered, with money left to live on. Exactly zero means they are covered with nothing spare. Below zero means something needs to change: a cheaper version, a later date, a smaller reserve you deliberately choose, or more saving first.",
+              "Check two: does your confirmed income cover your monthly costs? That is line 3."
+            ],
+            "bullets": [
+              "Money left over each month. The monthly side works on these numbers. Check one still decides whether you can afford to make the change at all.",
+              "Income and costs exactly equal. On these estimates, nothing is left over each month, so any surprise has to come out of your savings.",
+              "Short each month, with savings left. If these estimates hold, your remaining savings could cover the gap for about the number of months in line 9. Pick a date well before then to review the plan again.",
+              "Short each month, with no savings left to cover it. This version doesn't stand on its own yet. The three ways forward are lower costs, more confirmed income, or more time.",
+              "The amount you need is still unknown. Your result is incomplete, so do not treat the total as a finished calculation. Write what you need to check and where you will find the answer. That list is a useful result in its own right."
+            ],
+            "closing": "Do you plan to live on savings or a pension? Then look at how many years your money will last and discuss the plan with a financial adviser."
+          },
+          "tips": [
+            "The example is made up, but the costs are based on typical 2026 prices for a couple renting a small house in the interior of central Portugal (see the example in 3.2). The €6,000 reserve is made up too. Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. Do not know yet? Write a question mark and come back.",
+            "Short each month? That is not the end. It shows what to work on: lower costs, more income, or more time."
+          ],
           "go_deeper": {
-            "prompt": "What if everything costs 30% more than you think? Does your plan still work? What would you change?",
+            "prompt": "What if everything costs 30% more than you think? Does your plan still work? What would you change first: your costs, your income, or your timing?",
             "fields": [
               {
                 "id": "deeper",
                 "type": "long_text",
                 "lines": 3
               }
-            ],
-            "auto_hint": "The app can show the new-life total from 3.2 x 1.3 next to the question."
+            ]
           },
-          "tips": [
-            "Is one of your numbers unknown? Write a question mark. Your answer is then not complete yet — and that is fine. Now you know what to find out first.",
-            "Do you plan to live from savings or a pension? That can be a good plan. Then look at how many years your money lasts — and talk to a financial adviser.",
-            "Short each month? That is not the end. It shows what to work on: lower costs, more income, or more time."
-          ],
           "story": {
             "status": "ready",
-            "text": "A few years ago, my savings were spread across different accounts — without a real plan. The Perfect Life programme taught me something simple but powerful: set clear financial goals for the life you want. Those goals made my next steps visible. I knew which investments to start. I knew what budget I needed to buy my first house in Bali. And I set a budget for my monthly lifestyle — and checked it every month. That clarity gave me confidence in every big decision. My picture told me what I wanted. My plan told me when I could afford it."
+            "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me when I could afford it."
           },
-          "go_further": "Want to go further? The module Your Money Plan helps you with goals, a budget, investments and your \"freedom date\" — the moment your investments could pay for your life."
+          "go_further": "Want to go further? The module Your Money Plan (future) helps you with goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
         }
       ],
-      "talk": "Money is often the hardest thing to talk about. If you share your life with someone, talk about it together: What does \"enough money\" mean to each of you? What makes each of you feel safe? You don't need the same answers—but you need to know each other's answers.",
       "summary": {
         "id": "money_picture",
         "title": "What does this tell me?",
-        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "intro": "Read through your answers, then use these questions to complete the summary below:",
         "questions": [
           "What do I know for sure?",
           "What is still uncertain?",
@@ -1135,7 +1594,7 @@
             "id": "monthly_costs",
             "type": "long_text",
             "lines": 2,
-            "label": "What my new life costs per month — and how sure I am"
+            "label": "What my new life costs per month, and how sure I am"
           },
           {
             "id": "one_time",
@@ -1159,22 +1618,23 @@
             "id": "first_check",
             "type": "long_text",
             "lines": 2,
-            "label": "My first check: left over or short each month — and how many months my savings cover"
+            "label": "My first check: left over or short each month, and how many months my savings cover"
+          },
+          {
+            "id": "money_words",
+            "type": "long_text",
+            "lines": 2,
+            "label": "My three words about money, and what they tell me"
           },
           {
             "id": "unknowns",
             "type": "long_text",
             "lines": 2,
-            "label": "My biggest money unknowns — and how I will check them"
+            "label": "My biggest money unknowns, and how I will check them"
           }
-        ]
-      },
-      "finish": {
-        "id": "money_picture",
-        "title": "My First Money Picture",
-        "description": "Your first numbers, how sure they are, and what to check next."
-      },
-      "route_title": "Make your first money picture"
+        ],
+        "result": "My First Money Picture — your first numbers, how sure they are, and what to check next."
+      }
     },
     {
       "id": "p4",
@@ -1182,37 +1642,46 @@
       "label": "Part 4",
       "title": "Compare your options",
       "promise": "Moving far away is one option. It is not the only one.",
-      "intro": "Maybe a smaller change gives you most of what you want. Maybe it does not. You only know when you compare honestly.",
-      "time": "45–60 min",
+      "intro_title": "Why we compare instead of decide",
+      "intro": [
+        "You now have a picture of the life you want, an honest starting point, and a first money check. Before choosing a direction, put a few options side by side.",
+        "When we become attached to one option, it is easy to notice what supports it and explain away what does not. Keep at least three options open and compare them against the same list.",
+        "Always include two staying options. The first is to stay and change something important: you may be able to get much of what you want at a lower cost, while keeping the people and things that already work. The second is to change nothing. Include its costs too, so you can compare it fairly with making a change."
+      ],
+      "time": "30–45 min",
+      "route_title": "Compare your options",
+      "talk": "Find one person who made a change like the one you are thinking about: in the network, online, or through me. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
+      "finish": {
+        "id": "options",
+        "title": "My Options",
+        "description": "The options worth investigating, and what you need to learn about them."
+      },
       "exercises": [
         {
           "id": "4.1",
           "title": "Your options",
           "start_here": {
-            "prompt": "Think of three or four options, and write them down. Always include these two options about staying. They help you compare honestly:",
-            "bullets": [
-              "Stay — but change something important. You stay where you live, but you change one big thing: for example your work, your working hours, your home, or how you spend your time.",
-              "Change nothing. Everything stays as it is now. Why write this down? Because doing nothing is also a choice — and it has a price too. It shows you what you really gain with the other options."
-            ],
+            "prompt": "Think of three or four options and write them down. Always include the two options about staying. For each promising option, write what you are not sure about, and a small test that could help you find out.",
             "fields": [
               {
                 "id": "options",
                 "type": "table",
-                "hint": "For each promising option, write what you are not sure about — and a small test that could help you find out.",
+                "row_header": "Option",
                 "row_labels": [
                   "A",
                   "B",
-                  "C",
-                  "D"
+                  "C Stay, but change:",
+                  "D Change nothing"
+                ],
+                "row_labels_editable": [
+                  true,
+                  true,
+                  true,
+                  false
                 ],
                 "columns": [
                   {
-                    "id": "option",
-                    "label": "Option",
-                    "kind": "text"
-                  },
-                  {
-                    "id": "unsure",
+                    "id": "not_sure",
                     "label": "What I am not sure about",
                     "kind": "text"
                   },
@@ -1221,39 +1690,46 @@
                     "label": "A small test",
                     "kind": "text"
                   }
-                ],
-                "prefill": {
-                  "C": "Stay — but change: ",
-                  "D": "Change nothing"
-                }
+                ]
               }
             ]
           },
           "example": {
             "who": "Daniel, 39",
-            "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside summer? Test: a four-week working stay in November. C: Stay — but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
-          }
+            "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside summer? Test: first, three calls with people who live there; then, if that holds up, a four-week working stay in November. C: Stay, but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
+          },
+          "tips": [
+            "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and is a test. A four-week stay is a better test, but it's later and more expensive. Start with the cheap version."
+          ]
         },
         {
           "id": "4.2",
           "title": "Check your options against your must-haves",
+          "intro": [
+            "Use the must-haves you identified in Part 1 to compare your options. Check whether each one meets those needs, regardless of how appealing it sounds.",
+            "Check the dealbreakers first. There is no need to score an option in detail if it already fails on something you will not accept."
+          ],
           "start_here": {
-            "prompt": "First, check your dealbreakers (from 1.4). Does an option break one of them? Write which one. That option is out — or you need a clear way around it.",
+            "prompt": "First, check your dealbreakers (from 1.4). Does an option break one of them? Write which one. That option is out, unless you find a clear way around it.",
             "fields": [
               {
                 "id": "must_have_check",
                 "type": "table",
-                "hint": "Then check each must-have. For each option, mark each must-have yes, partly, no or unknown. Unknown is a good answer before you have explored.",
                 "row_header": "My must-haves (from 1.4)",
-                "rows": 5,
+                "rows": 4,
                 "rows_from": {
                   "exercise": "1.4",
                   "field": "must_haves",
                   "column": "must_have"
                 },
+                "hint": "Then check each must-have. For each option, mark it yes, partly, no or unknown. Unknown is a good answer before you have explored.",
+                "column_names_from": {
+                  "exercise": "4.1",
+                  "field": "options"
+                },
                 "columns": [
                   {
-                    "id": "A",
+                    "id": "a",
                     "label": "A",
                     "kind": "choice",
                     "options": [
@@ -1264,7 +1740,7 @@
                     ]
                   },
                   {
-                    "id": "B",
+                    "id": "b",
                     "label": "B",
                     "kind": "choice",
                     "options": [
@@ -1275,7 +1751,7 @@
                     ]
                   },
                   {
-                    "id": "C",
+                    "id": "c",
                     "label": "C",
                     "kind": "choice",
                     "options": [
@@ -1286,7 +1762,7 @@
                     ]
                   },
                   {
-                    "id": "D",
+                    "id": "d",
                     "label": "D",
                     "kind": "choice",
                     "options": [
@@ -1301,7 +1777,6 @@
               {
                 "id": "overview",
                 "type": "table",
-                "hint": "Then complete the overview. My feeling: how does the option feel when you imagine it? 1 = bad, 5 = very good.",
                 "row_header": "Option",
                 "row_labels": [
                   "A",
@@ -1309,6 +1784,11 @@
                   "C",
                   "D"
                 ],
+                "hint": "Then complete the overview. \"My feeling\" is how the option feels when you imagine it: 1 = bad, 5 = very good.",
+                "column_names_from": {
+                  "exercise": "4.1",
+                  "field": "options"
+                },
                 "columns": [
                   {
                     "id": "dealbreaker",
@@ -1316,7 +1796,7 @@
                     "kind": "text"
                   },
                   {
-                    "id": "essentials_open",
+                    "id": "essentials",
                     "label": "Essentials not met or unknown",
                     "kind": "text"
                   },
@@ -1327,7 +1807,7 @@
                   },
                   {
                     "id": "cost",
-                    "label": "Rough cost per month (first year)",
+                    "label": "Rough cost per month",
                     "kind": "money"
                   },
                   {
@@ -1336,140 +1816,39 @@
                     "kind": "text"
                   }
                 ]
-              }
-            ],
-            "app_note": "Show the option names from 4.1 next to A–D."
-          },
-          "tips": [
-            "This comparison is provisional. It does not choose a winner. It shows what you still need to find out — and that is where Step 2 begins.",
-            "\"Change nothing\" also has a cost. Maybe not in money — but in time, energy or happiness. Write that cost down too."
-          ]
-        },
-        {
-          "id": "4.3",
-          "title": "Two futures",
-          "start_here": {
-            "prompt": "Choose your two strongest options — for example, your best move option and your best \"stay — but change\" option. Imagine it is five years from now. For each option, write a normal good day and a normal difficult day.",
-            "fields": [
-              {
-                "id": "option1_good",
-                "type": "long_text",
-                "lines": 3,
-                "label": "Option 1 — a good day"
               },
               {
-                "id": "option1_difficult",
-                "type": "long_text",
-                "lines": 3,
-                "label": "Option 1 — a difficult day"
-              },
-              {
-                "id": "option2_good",
-                "type": "long_text",
-                "lines": 3,
-                "label": "Option 2 — a good day"
-              },
-              {
-                "id": "option2_difficult",
-                "type": "long_text",
-                "lines": 3,
-                "label": "Option 2 — a difficult day"
-              }
-            ]
-          },
-          "go_deeper": {
-            "prompt": "What would still be difficult, even after moving? Some things change with a place. Some things come with you.",
-            "fields": [
-              {
-                "id": "deeper",
-                "type": "long_text",
-                "lines": 3
-              }
-            ]
-          },
-          "story": {
-            "status": "ready",
-            "text": "After four years in Bali, I started to notice that I did not enjoy it as much anymore. The island had become busy, and around me, friends were leaving too. Then I had an accident with my motorbike. It was not my fault, but I was blamed for it. That was very confronting. It made me realise that, after all those years, I was still seen as a foreigner. When I came across a YouTube channel of someone living a self-sustainable life, the last piece of the puzzle fell into place. I saw two futures: staying in a place that no longer felt like home, or starting again somewhere that fit my new picture. I visited Portugal and travelled around — and as soon as I was back, I put my house up for sale. The hardest part was leaving it all behind: the life and the friends I had built over four years, and knowing I had to start everything again. But I knew it was the right decision."
-          }
-        },
-        {
-          "id": "4.4",
-          "title": "What could go wrong?",
-          "intro": "Fear is normal. Writing a fear down can help you understand what needs attention.",
-          "start_here": {
-            "prompt": "Think of your strongest option. What are you afraid of? How likely is each fear? How big would the impact be? What early sign would warn you? What can you do?",
-            "fields": [
-              {
-                "id": "fears",
+                "id": "staying",
                 "type": "table",
-                "rows": 3,
+                "rows": 1,
+                "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? And what would it cost in time, energy or happiness? Write down both to make the comparison fair.",
                 "columns": [
                   {
-                    "id": "fear",
-                    "label": "What I am afraid of",
-                    "kind": "text"
+                    "id": "protects",
+                    "label": "What staying protects",
+                    "kind": "long_text"
                   },
                   {
-                    "id": "likely",
-                    "label": "How likely? (low/medium/high)",
-                    "kind": "choice",
-                    "options": [
-                      "Low",
-                      "Medium",
-                      "High"
-                    ]
-                  },
-                  {
-                    "id": "impact",
-                    "label": "Impact (small/big)",
-                    "kind": "choice",
-                    "options": [
-                      "Small",
-                      "Big"
-                    ]
-                  },
-                  {
-                    "id": "warning",
-                    "label": "Early warning sign",
-                    "kind": "text"
-                  },
-                  {
-                    "id": "action",
-                    "label": "What I can do",
-                    "kind": "text"
+                    "id": "costs",
+                    "label": "What staying costs",
+                    "kind": "long_text"
                   }
                 ]
               }
             ]
           },
-          "go_deeper": {
-            "prompt": "Look at your biggest fear. What is it telling you? Maybe you need more information. Maybe two of your needs pull in different directions. Maybe it is a real risk to plan for.",
-            "fields": [
-              {
-                "id": "deeper",
-                "type": "long_text",
-                "lines": 3
-              }
-            ]
-          },
-          "example": {
-            "who": "Aisha, 33",
-            "text": "Fear: my bakery fails in the first year. Likely: medium. Impact: big — I would lose savings. Warning sign: after six months, less than half the sales I need. What I can do: first sell at a local market for six months, set aside six months of costs, and know I can work for a bakery again."
-          },
-          "story": {
-            "status": "ready",
-            "text": "One of the hardest moments was when my mother became ill. Being far away made it difficult. But the life I had built also gave me the freedom to fly back and stay with her for weeks — real time together. Being far from family is a real fear. Freedom can be part of the answer."
-          }
+          "tips": [
+            "This comparison is not final. It does not choose a winner. It shows what you still need to find out, and that is where Step 2 begins."
+          ]
         }
       ],
-      "talk": "Find one person who made a change like the one you are thinking about — in the network, online, or through me. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
       "summary": {
         "id": "options",
         "title": "What does this tell me?",
-        "intro": "Read your answers in this part again. These questions help you fill in the summary below:",
+        "intro": "Read through your answers, then use these questions to complete the summary below:",
         "questions": [
-          "Which options are still in the race?",
-          "What must be true for each one?",
+          "Which options do I still want to investigate?",
+          "What would each option need to work for me?",
           "What should I test?"
         ],
         "prompt": "Now bring it together in My Options. Short sentences are enough.",
@@ -1478,25 +1857,25 @@
             "id": "keep",
             "type": "long_text",
             "lines": 2,
-            "label": "Options I keep — and why"
+            "label": "Options I keep, and why"
           },
           {
             "id": "let_go",
             "type": "long_text",
             "lines": 2,
-            "label": "Options I let go — and why"
+            "label": "Options I let go, and why"
           },
           {
             "id": "must_be_true",
             "type": "long_text",
             "lines": 2,
-            "label": "What must be true for each option I keep"
+            "label": "What each option I keep would need to work for me"
           },
           {
             "id": "risks",
             "type": "long_text",
             "lines": 2,
-            "label": "My biggest risks and warning signs"
+            "label": "What worries me most, in one line"
           },
           {
             "id": "find_out",
@@ -1504,14 +1883,10 @@
             "lines": 2,
             "label": "What I still need to find out"
           }
-        ]
-      },
-      "finish": {
-        "id": "options",
-        "title": "My Options",
-        "description": "The options worth investigating, and what you need to learn about them."
-      },
-      "route_title": "Compare your options"
+        ],
+        "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
+        "result": "My Options — the options worth investigating, and what you need to learn about them."
+      }
     },
     {
       "id": "p5",
@@ -1519,8 +1894,21 @@
       "label": "Part 5",
       "title": "Choose your working direction",
       "promise": "Not a final decision. A clear next direction.",
-      "intro": "Now you bring everything together in one place: your Working Direction. It shows where you want to look further, what you already know, and what you still need to check. The real decision comes in Step 3, when you have checked more.",
+      "intro_title": "A direction is not a decision.",
+      "intro": [
+        "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
+        "Make your next step specific. It should be small enough to complete within two weeks, have a date, and teach you something. \"Read more about Portugal\" gives you no clear question or deadline. \"Call two people who moved there and ask what surprised them, before the 15th\" gives you both.",
+        "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier. You will return to this answer in Step 8.",
+        "The final decision comes in Step 3, after you have explored your options."
+      ],
       "time": "30 min",
+      "route_title": "Choose your working direction",
+      "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Are other people moving with you? Ask each of them to fill in their own page first. Then sit together and compare.",
+      "finish": {
+        "id": "working_direction",
+        "title": "My Working Direction",
+        "description": "What you want to explore, what you take with you, and your next step."
+      },
       "exercises": [
         {
           "id": "5.1",
@@ -1540,7 +1928,8 @@
                 "options": [
                   "A direction to investigate",
                   "Compare two or more",
-                  "Improve my current life first",
+                  "Build the life I want where I am",
+                  "Keep the life I have",
                   "Not ready yet"
                 ]
               },
@@ -1554,13 +1943,13 @@
                 "id": "why",
                 "type": "long_text",
                 "lines": 3,
-                "label": "Why — two or three reasons"
+                "label": "Why: two or three reasons"
               },
               {
                 "id": "essentials",
                 "type": "long_text",
                 "lines": 2,
-                "label": "My essential needs — I take these with me"
+                "label": "My essential needs: I take these with me"
               },
               {
                 "id": "assumptions",
@@ -1578,7 +1967,7 @@
                 "id": "willing_to_give",
                 "type": "long_text",
                 "lines": 2,
-                "label": "What I am willing to invest — time, money, comfort"
+                "label": "What I am willing to invest: time, money, comfort"
               },
               {
                 "id": "helpers",
@@ -1586,9 +1975,15 @@
                 "label": "Who can help me"
               },
               {
+                "id": "first_question",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The first question I will investigate, and why it matters most"
+              },
+              {
                 "id": "next_step",
                 "type": "short_text",
-                "label": "My next small step — within two weeks"
+                "label": "My next small step, within two weeks"
               },
               {
                 "id": "step_learning",
@@ -1598,35 +1993,117 @@
               {
                 "id": "date",
                 "type": "short_text",
-                "label": "Date"
+                "label": "Date of this step"
+              },
+              {
+                "id": "review_when",
+                "type": "short_text",
+                "label": "When I will review what I learned"
+              },
+              {
+                "id": "continue_or_stop",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What result would make me continue, change direction, or stop"
+              },
+              {
+                "id": "two_years",
+                "type": "long_text",
+                "lines": 2,
+                "label": "In two years, how I will know this worked"
               }
-            ],
-            "app_note": "Pre-fill suggestions from earlier answers (for example the life picture from the Part 1 summary, the essential must-haves from 1.4), but the person confirms or rewrites every field."
+            ]
           },
-          "choice_explanations_intro": "For \"What I choose now\", four answers are possible — and all four are good:",
+          "choice_explanations_intro": "For \"What I choose now\", five answers are possible, and all five are good:",
           "choice_explanations": [
             "I have a direction I want to investigate. Step 2 is waiting for you.",
             "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-            "I want to improve my current life first. That is a good outcome too. The blueprint has a route for staying.",
-            "I am not ready to choose yet. Your page shows what you need to learn first."
+            "I want to build the life I want where I am. Staying is a real result. It takes the same work of deciding, planning and building. We are developing a full staying route with the first participants.",
+            "I am not ready to choose yet. Your page shows what you need to learn first.",
+            "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
           ],
-          "tips": [
-            "\"Book a trip\" is a start. \"Use a visit to check transport, daily costs, and if I enjoy being there without holiday plans\" is a step that helps you learn."
-          ],
-          "story": {
-            "status": "ready",
-            "text": "When I first wrote down my picture, many details were not clear. I did not know I would start an inspection business — but I did know that I loved everything around building. I did not know that one day I would write this blueprint — but I did know that I am good at helping and supporting people. The details came later, one step at a time. So do not wait until everything is clear. Write down what you do know, and take your first step. The rest will become clear along the way."
-          },
           "example": {
             "who": "Tom, 58",
-            "text": "What I choose now: not ready yet. While doing this workbook, my wife and I found out that we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will first each write our own normal day, and then talk about what we both need. That feels like progress — even without a decision."
+            "text": "What I choose now: not ready yet. While doing this workbook, my wife and I found out that we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
+          },
+          "example_page": {
+            "title": "A completed page",
+            "intro": "Rosa is made up, and she ends up staying. The point is not her answer. It is that every line is filled in, including the parts she does not know yet.",
+            "rows": [
+              [
+                "My life picture in three sentences",
+                "I want time outside every day. I want work I choose, not work that fills every hour. I want my parents close enough to visit in an afternoon."
+              ],
+              [
+                "What I choose now",
+                "Build the life I want where I am."
+              ],
+              [
+                "The direction(s) I want to explore",
+                "Four days a week instead of five, in my current job, and one day a week outside."
+              ],
+              [
+                "Why: two or three reasons",
+                "My parents are twenty minutes away, and that is worth more to me than better weather. Most of what I wanted from moving was time, not another country. A colleague already works four days, so it is possible here."
+              ],
+              [
+                "My essential needs: I take these with me",
+                "Daily time outside. Work I choose. No commute over 30 minutes."
+              ],
+              [
+                "Assumptions I still need to check",
+                "That we can live on about 80% of my income. That my manager will agree in writing. That one day less does not become five days of work in four."
+              ],
+              [
+                "What I need to learn next",
+                "What a year on 80% really costs us, using our own numbers."
+              ],
+              [
+                "What I am willing to invest: time, money, comfort",
+                "About 20% of my income, and one uncomfortable conversation at work."
+              ],
+              [
+                "Who can help me",
+                "My partner, for the budget. My colleague who already works four days."
+              ],
+              [
+                "The first question I will investigate, and why it matters most",
+                "Can we live on 80%? If the answer is no, the rest does not matter, whatever my manager says."
+              ],
+              [
+                "My next small step, within two weeks",
+                "Redo Part 3 with 80% of my take-home pay, using our last three bank statements."
+              ],
+              [
+                "What this step will help me learn",
+                "Whether the gap is small enough to close by cutting costs, or big enough to need another plan."
+              ],
+              [
+                "Date of this step",
+                "Before 15 October."
+              ],
+              [
+                "When I will review what I learned",
+                "1 November, whatever has happened by then."
+              ],
+              [
+                "What result would make me continue, change direction, or stop",
+                "A gap under 150 a month: continue, and ask my manager. A bigger gap: look at other work here first, before I reopen the idea of moving."
+              ],
+              [
+                "In two years, how I will know this worked",
+                "I am outside every day, not only at weekends. I see my parents every week. And my Fridays are still mine."
+              ]
+            ]
           }
         },
         {
           "id": "5.2",
           "title": "The people involved",
           "optional": true,
-          "intro": "Do you not make this choice alone? Then fill this in together — after each person has done their own thinking.",
+          "intro": [
+            "If you are making this choice with someone else, fill in the table together after each of you has worked through your own answers. I have seen how easily a conversation can end with one person's picture and the other person simply agreeing to it."
+          ],
           "start_here": {
             "fields": [
               {
@@ -1662,38 +2139,61 @@
                 ]
               }
             ]
+          },
+          "story": {
+            "status": "ready",
+            "text": "When I first described the life I wanted, I did not know many of the details. I had no plan for an inspection business, but I knew I loved building. I had not imagined writing this Blueprint, but I knew I was good at helping and supporting people. The details took shape as I went. Start with what you know now and take a first step. You will learn more by doing it."
           }
         }
       ],
-      "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Are other people moving with you? Ask each of them to fill in their own page first. Then sit together and compare.",
-      "finish": {
-        "id": "direction",
-        "title": "My Working Direction",
-        "description": "What you want to explore, what you take with you, and your next step."
-      },
-      "route_title": "Choose your working direction"
+      "result": "My Working Direction — what you want to explore, what you take with you, and your next step."
     }
   ],
   "closing": {
     "title": "What comes next",
-    "text": "Well done. You made your picture clearer. You looked honestly at today and at the numbers. And you chose a working direction. That takes courage.",
-    "next": [
-      "Want to investigate a direction? Step 2 — Explore — helps you check it. The questions work for Portugal and for other places.",
-      "Want to improve your current life first? Choose one change from your option C. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. The staying route in the full blueprint guides you further.",
+    "intro": "You have made your picture clearer, looked honestly at your life and your money, and chosen a Working Direction.",
+    "bullets": [
+      "Want to investigate a direction? Step 2, Explore, helps you check it. The questions work for Portugal and for other places.",
+      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Until the full staying route is ready, your Working Direction is your guide.",
       "Not ready yet? Your page tells you what to learn first."
     ],
-    "tip": "Read this workbook again in a few months. See what changed, what didn't, and what you want to try next.",
-    "last_lines": [
+    "tips": [
+      "Read this workbook again in a few months. See what changed, what didn't, and what you want to try next."
+    ],
+    "final": [
       "You cannot control everything. But you can choose, prepare, and take the next step.",
       "You just took the first one."
     ]
   },
-  "freedom_appendix": {
-    "title": "About the Freedom idea",
-    "text": "The green Freedom idea box in Part 3 points to the Freedom Academy, an online community that I am a member of. It shares ideas about becoming more financially free — for example, building more than one source of income, depending less on one bank, and letting money work for you using crypto. It is one way to look at money and freedom, not the only way, and it is not right for everyone.",
-    "link": null,
-    "link_placeholder": "[ Freedom Academy link — to be added ]",
-    "honest_note": "If you join through my link, I receive a referral fee. I share it because the ideas helped me.",
-    "risk_note": "Crypto can lose value fast, and you can lose money. Only use money you do not need for your reserve. Crypto also has tax rules — ask a tax adviser before you start."
+  "sources": {
+    "title": "Where these ideas come from",
+    "intro": "Most of this workbook comes from my experience of building a life in Bali and then starting again in Portugal. Where I draw on someone else's method, I name it below.",
+    "rows": [
+      [
+        "The wheel of life (2.1)",
+        "A tool used in coaching for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."
+      ],
+      [
+        "The Johari window (2.5)",
+        "Described by the psychologists Joseph Luft and Harrington Ingham in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."
+      ],
+      [
+        "Michael Pilarczyk's work (the warm-up, 1.1, 1.3, 2.1, 2.2, 2.5)",
+        "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move. I have adapted the wording for this Blueprint."
+      ],
+      [
+        "Connect the dots (2.2)",
+        "The phrase comes from Steve Jobs' 2005 speech at Stanford University."
+      ],
+      [
+        "Comparing options and small tests (Part 4)",
+        "Common practice in planning and decision-making. Bill Burnett and Dave Evans describe similar ideas in their book Designing Your Life."
+      ],
+      [
+        "Everything else",
+        "My own experience, my mistakes, and what the people I have guided told me was missing."
+      ]
+    ],
+    "closing": "Rules, prices and official procedures change, so this workbook does not state any. You will find those, with their sources and dates, in Step 2 and Step 3, where they belong."
   }
 }

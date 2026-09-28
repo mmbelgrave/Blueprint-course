@@ -1,0 +1,307 @@
+[
+  {
+    "id": "p2",
+    "number": 2,
+    "label": "Part 2",
+    "title": "Look honestly at today",
+    "promise": "You cannot plan a route if you do not know where you start.",
+    "intro_title": "Honest is not negative",
+    "intro": [
+      "This part is not about judging yourself. It is about seeing clearly.",
+      "This can feel like an invitation to list everything that is wrong. In my experience, it often does the opposite. Most people I have guided found more to build on than they expected: things they had already done, people willing to help, money they had overlooked, and skills they could use in a new setting.",
+      "Your later plans depend on an honest view of where you stand now. If you guess your starting point, you guess your plan too. Give yourself the time to look carefully, without being hard on yourself."
+    ],
+    "time": "60–75 min",
+    "route_title": "Look honestly at today",
+    "talk": "Want to hear what held other people back at the start? Ask in the network, or ask someone who made a big change. You may hear some of your own beliefs, and how they found a way through them.",
+    "finish": {
+      "id": "starting_point",
+      "title": "My Starting Point",
+      "description": "Where you stand, what you can build on, and what you will check."
+    },
+    "exercises": [
+      {
+        "id": "2.1",
+        "title": "Your life today, and in one year",
+        "promise": "A simple picture of how your life is doing, area by area.",
+        "intro": [
+          "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, rather than letting one problem dominate it.",
+          "It helps in two ways. First, it separates things that can get mixed together. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
+          "The score is only a starting point. The explanation beside it is what makes it useful."
+        ],
+        "tips": [
+          "A number shows how you feel, not what to do. Next to each score, write what it looks like in real life. Not \"work: 9\", but \"work: 9, I finish in time to eat with my family.\" That sentence tells you what to protect when your life changes."
+        ],
+        "start_here": {
+          "prompt": "Score each area from 1 (very unhappy) to 10 (very happy), first for today and then for where you would like to be in one year. Write \"n/a\" for anything that does not apply. Describe what today's score looks like in a normal week, and what would be different in a year.",
+          "fields": [
+            {
+              "id": "wheel",
+              "type": "table",
+              "row_header": "Area",
+              "row_labels": [
+                "Health and energy",
+                "Money",
+                "Work",
+                "Love and relationship",
+                "Family and friends",
+                "Fun and free time",
+                "Personal growth",
+                "Home and surroundings"
+              ],
+              "columns": [
+                { "id": "today", "label": "Today", "kind": "number" },
+                { "id": "year", "label": "In 1 year", "kind": "number" },
+                { "id": "week", "label": "What my score looks like in a normal week", "kind": "text" },
+                { "id": "better", "label": "What would be better?", "kind": "text" }
+              ]
+            },
+            {
+              "id": "time",
+              "type": "table",
+              "row_header": "Where my week goes",
+              "heading": "Then look at your time",
+              "hint": "The wheel shows how you feel. Your week shows how you spend your time. Think of a normal week and estimate the hours. Rough numbers are fine.",
+              "row_labels": [
+                "Work, including travel to work",
+                "Home, chores and care for others",
+                "Family and friends",
+                "Outside, and moving my body",
+                "Things I do just for me",
+                "Screens without a purpose"
+              ],
+              "columns": [
+                { "id": "now", "label": "Hours now", "kind": "number" },
+                { "id": "want", "label": "Hours I want", "kind": "number" }
+              ]
+            },
+            {
+              "id": "most_time_back",
+              "type": "long_text",
+              "lines": 3,
+              "hint": "Which one change would give you the most time back? Does it need a new country, or could it start next month?"
+            }
+          ]
+        },
+        "example": {
+          "who": "Lucas, 29",
+          "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
+        },
+        "go_deeper": {
+          "prompt": "Which area has the biggest gap? Which area pulls you most towards a change, and which one makes a change most difficult?",
+          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+        },
+        "story": {
+          "status": "ready",
+          "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
+        }
+      },
+      {
+        "id": "2.2",
+        "title": "What you have already done",
+        "promise": "Before we look at what is difficult, look at what you have already achieved.",
+        "intro": [
+          "When you imagine a big change, it is easy to forget the difficult things you have already managed. That can leave you thinking: \"I could never do that.\"",
+          "Think about how you managed those difficult things. If you moved house on your own while working, you learned to break a big task into steps. If you cared for a parent, you learned how to keep going when someone depended on you. Those experiences can help you work out how to approach a new challenge."
+        ],
+        "start_here": {
+          "prompt": "Think of three things you are proud of. How did you manage each one? Which strengths or support could you draw on again?",
+          "fields": [
+            {
+              "id": "successes",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                { "id": "achieved", "label": "What I achieved", "kind": "text" },
+                { "id": "how", "label": "How I did it", "kind": "text" },
+                { "id": "reuse", "label": "Strength or support I can use again", "kind": "text" }
+              ]
+            }
+          ]
+        },
+        "example": {
+          "who": "Ingrid, 62",
+          "text": "I raised two children alone while working full-time. I learned to drive at 40. I organised care for my father. How: step by step, and I asked for help. I can use again: patience, making lists, and my sister's support."
+        },
+        "tips": [
+          "Look at the last column. Not everything transfers to a new situation. But usually more than you think."
+        ],
+        "story": {
+          "status": "ready",
+          "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about half a year. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after putting the company online and introducing it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
+        },
+        "go_deeper": {
+          "title": "Connect the dots",
+          "prompt": "Look back at your life and mark three turning points: a move, a choice, a person, a setback. What did each one lead to? As Steve Jobs said, you can only connect the dots looking backwards. Together, those moments can show a pattern: a need you keep returning to, a skill you keep using, or a kind of place that keeps drawing you.",
+          "fields": [
+            {
+              "id": "dots",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                { "id": "turning_point", "label": "Turning point", "kind": "text" },
+                { "id": "started", "label": "What it started", "kind": "text" },
+                { "id": "about_me", "label": "What it says about me", "kind": "text" }
+              ]
+            },
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3,
+              "hint": "What connects all three? Does it point in the same direction as your Life Picture?"
+            }
+          ],
+          "story": {
+            "status": "ready",
+            "text": "When I was 21, shortly after graduating from technical college (HTS), I moved to Thailand with my parents. The move was their decision, but I was closely involved in finding land, building our home, and settling into a place where we had a new language to learn. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fitted together."
+          }
+        }
+      },
+      {
+        "id": "2.3",
+        "title": "What stopped you before?",
+        "promise": "Earlier attempts are not failures. They are information.",
+        "intro": [
+          "Most of us have tried to change something before: a plan we never started, a move we postponed, or a business that remained an idea. Look at what stopped you and sort it into three groups.",
+          "Outside your control: rules changing, illness, a pandemic. You cannot prevent these. You can plan for them, with a reserve, a fallback, or a slower timeline.",
+          "Things you can partly influence: money, work, health, and the people around you. You do not decide these alone, but what you do changes them over time.",
+          "Inside your control: the approach you chose, the information you never gathered, the conversation you avoided, the moment you stopped asking. These are worth studying, because you can do them differently this time.",
+          "An earlier attempt can involve all three. Separating them helps you see what to prepare for, what to work on over time, and what to do differently now."
+        ],
+        "start_here": {
+          "prompt": "Have you tried to change your life before? What happened? Tick what fits, then write a few sentences.",
+          "fields": [
+            {
+              "id": "causes",
+              "type": "checkbox_pick",
+              "options": [
+                "Something outside my control (rules, illness, events)",
+                "Something I can influence over time (money, work, health, people)",
+                "Not enough support or information",
+                "My priorities changed",
+                "The approach did not work",
+                "Doubt or fear"
+              ]
+            },
+            { "id": "before", "type": "long_text", "lines": 4 },
+            {
+              "id": "differently",
+              "type": "long_text",
+              "lines": 3,
+              "hint": "Now the useful question: what will you do differently this time, and what will you simply plan for?"
+            }
+          ]
+        },
+        "go_deeper": {
+          "prompt": "Look at your earlier attempts together. Is there a pattern in how they stop? For example: you start strong and stop at the first \"no\". Or you wait until everything is certain. A pattern you can name is a pattern you can plan for.",
+          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+        },
+        "story": {
+          "status": "ready",
+          "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, running my own business and helping people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
+        }
+      },
+      {
+        "id": "2.4",
+        "title": "Beliefs I never checked",
+        "promise": "We all carry beliefs we never checked. Some hold us back. Others look attractive, but may not be true either.",
+        "intro": [
+          "\"I am too old to start again.\" \"Life there is cheaper.\" These can both feel like facts, even when we have not checked them.",
+          "The beliefs that hold us back are often easier to notice because they hurt. The appealing ones deserve just as much attention. When something supports a plan we like, we are less inclined to question it. That can become expensive later.",
+          "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, rather than treating it as a fact."
+        ],
+        "tables": [
+          {
+            "place": "before",
+            "header": ["Beliefs that hold people back", "Beliefs that look attractive"],
+            "rows": [
+              ["\"I am too old to start again.\"", "\"Life in Portugal will be cheaper.\""],
+              ["\"I will never find work there.\"", "\"I will easily find clients.\""],
+              ["\"My partner will never want this.\"", "\"A bigger garden will make me happier.\""],
+              ["\"I first need to speak the language perfectly.\"", "\"Once I move, I will feel less stressed.\""]
+            ]
+          }
+        ],
+        "start_here": {
+          "prompt": "Write three of your own beliefs, of either kind. How could you check if each one is true?",
+          "fields": [
+            {
+              "id": "beliefs",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                { "id": "belief", "label": "What I believe", "kind": "text" },
+                {
+                  "id": "kind",
+                  "label": "Holds me back or sounds attractive?",
+                  "kind": "choice",
+                  "options": ["Holds me back", "Sounds attractive"]
+                },
+                { "id": "check", "label": "How I can check it", "kind": "text" }
+              ]
+            }
+          ]
+        },
+        "go_deeper": {
+          "prompt": "Take your strongest belief. Are you 100% sure it is true? How would you act if it turned out to be false?",
+          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+        }
+      },
+      {
+        "id": "2.5",
+        "title": "Ask people who know you",
+        "optional": true,
+        "promise": "Other people sometimes see things in us that we cannot see ourselves.",
+        "intro": [
+          "In the 1950s, psychologists Joseph Luft and Harrington Ingham developed the Johari window. It has four areas. Here, we use the one they called the blind area: things other people notice about you that you do not see yourself. Asking for specific feedback can help you recognise them.",
+          "Ask for observations and examples. This is not a vote on your plan, and you do not need anyone's permission. A specific question gives people more to work with than a broad request for feedback."
+        ],
+        "start_here": {
+          "prompt": "Ask two or three people who know you well to answer in writing. A message is fine:",
+          "bullets": [
+            "What am I good at?",
+            "When do you see me at my happiest?",
+            "What could hold me back?",
+            "Please give one example of something you have seen me do."
+          ],
+          "fields": [
+            {
+              "id": "surprised",
+              "type": "long_text",
+              "lines": 4,
+              "hint": "Then write what surprised you."
+            }
+          ],
+          "closing": "No one to ask? Read old messages, cards or feedback you received. Or ask yourself: what would a good friend say?"
+        },
+        "tips": [
+          "Their answers are a perspective, not a verdict. Look at the examples they give, and decide which points deserve more thought, including the uncomfortable ones."
+        ],
+        "story": {
+          "status": "ready",
+          "text": "I asked my mother and my brother to write down how they saw me. Some of what they said made me proud: that I was reliable, caring, and there when someone needed help. Other parts were harder to read. Both said, in their own words, that I sometimes reacted before really listening. I was defensive at first, but I recognised the truth in it. Since then, I have worked on listening, especially in my relationship. Exercises that help me notice my body and emotions have taught me to pause and ask: do I have room to listen properly right now? I still need to practise, but I have become much better at it. Their feedback helped me see something I had missed on my own."
+        }
+      }
+    ],
+    "summary": {
+      "id": "starting_point",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "What can I build on?",
+        "Where do I need support?",
+        "Which belief should I check first?"
+      ],
+      "prompt": "Now bring it together in My Starting Point. Short sentences are enough.",
+      "fields": [
+        { "id": "today", "type": "long_text", "lines": 2, "label": "Where I stand today: my strongest and weakest areas" },
+        { "id": "time", "type": "long_text", "lines": 2, "label": "Where my time goes, and the change that would give me most time back" },
+        { "id": "strengths", "type": "long_text", "lines": 2, "label": "Strengths and support I can use" },
+        { "id": "stopped_before", "type": "long_text", "lines": 2, "label": "What stopped me before, and what I will do differently" },
+        { "id": "beliefs_to_check", "type": "long_text", "lines": 2, "label": "Beliefs I will check (both kinds)" },
+        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What I still don't know" }
+      ],
+      "result": "My Starting Point — where you stand, what you can build on, and what you will check."
+    }
+  }
+]

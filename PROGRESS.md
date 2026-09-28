@@ -143,6 +143,42 @@ Brief: `build-prompt-v1.md` + naming update in `My Purpose/AI Companion/build-pr
   Supabase URLs, closing sign-up, invitations, SMTP, costs). typecheck, lint,
   tests 27/27, production build: all pass.
 
+## Agreed improvements (2026-09-27, not built yet)
+Mwata first delivers updated text for Step 1 and Step 2; the content port comes
+first, then these, in this order:
+1. **Brand pass.** The app is still built in indigo #2e2a5c, which the brand
+   guide reserves for SabiFasi. Move to Pine #2C3B2F / Sand / Ochre #8F5410,
+   Granite text, Stone captions, Sage panels; Newsreader for headings, Hanken
+   Grotesk for body and UI, tabular figures in the money tables; the real
+   Terraces mark in the header, on print pages and as the favicon.
+   Guide: My Purpose/Brandguide/the-life-you-choose-brand-guide.html.
+2. **Navigation.** Top: the Terraces motif as phase marker (Choose it active,
+   the other two in Sage - exactly three lines, one motif per page), plus a part
+   rail for the step (segments sized by part length, ochre marks where you are)
+   and the pages of the current part as chips. Bottom of each workbook page:
+   the chips of that part only, previous/next (one page at a time; at the edge
+   of a part the next button names the next part), and one "Both steps" button.
+   No full step index at the bottom - the top rail already carries it.
+3. **Examples.** Move each example next to the box it belongs to, folded shut
+   ("See an example"), with ghost text in the box. NO pre-filling on personal
+   pages (it anchors people, blurs whose words are whose, and the AI partner
+   would treat the example as the person's own life). "Use as a starting point"
+   only where the example shows a format, not a life: the money tables (3.2-3.5)
+   and list pages such as the must-haves.
+   Later idea, not for the pilot: on the most personal pages reveal the example
+   only after the person has written something.
+4. **Vision board on 1.2.** Up to nine pictures, one line of caption each,
+   client-side resize, private Supabase Storage bucket (own folder per person,
+   RLS), signed URLs, remove one at a time, included in "Delete everything",
+   printed as a grid. The AI partner reads the captions, never the images
+   (cost and privacy); "let my partner look at my board" could be an opt-in later.
+   Needs one SQL migration Mwata runs, as with the schema.
+
+Mockup of 2, 3 and 4 in brand colours: design/navigation-mockup.html.
+Open with Mwata: does previous/next move one page (assumed) or one part;
+nine pictures enough; hold the pilot invitations until this lands, or let
+people start now and update underneath them.
+
 ## Next step
 Mwata: signed-in walk-through with a second (test) account. Then decide: git
 checkpoint, review round 3 (milestones 5–7), and putting it online for the pilot.

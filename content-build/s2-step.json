@@ -1,0 +1,100 @@
+{
+  "version": 8,
+  "source": "The Made Real Blueprint - Step 2 Explore workbook v8.docx (September 2026)",
+  "step": {
+    "id": "step2",
+    "number": 2,
+    "title": "Explore",
+    "question": "Where could this life really work?",
+    "tagline": [
+      "It is easy to fall in love with a place before checking whether your life can work there."
+    ],
+    "intro": [
+      "Sometimes it works out. When it does not, the cost in time, money and energy can be considerable.",
+      "Start with what you need, then look for a place that fits. Check what you can from home, using real information. Then visit and find out what living there feels like.",
+      "You finish with your Explore Summary: one or two places that fit your picture, what you know about them, what you still need to check, and what you want to test in real life.",
+      "Every exercise starts with a short explanation, then asks you to apply it to your own life."
+    ],
+    "what_you_need": {
+      "title": "What you need before you start",
+      "bullets": [
+        "Your Working Direction from Step 1: what you want to explore next.",
+        "Your Life Picture and your must-haves and dealbreakers. They are your measuring stick in this step.",
+        "Your First Money Picture, which you will compare with real costs."
+      ],
+      "after": "If you have not completed Step 1, you can still use this workbook. Go back to Step 1 afterwards. Your picture of the life you want is the measuring stick for every place you consider."
+    },
+    "where_to_start": {
+      "title": "Where do you start?",
+      "intro": "Use the descriptions below to choose your starting point.",
+      "header": ["If this is you", "What you do", "Start at"],
+      "rows": [
+        ["I have not chosen a country yet", "You compare countries against what your life needs", "Part 1"],
+        ["I have chosen a country, but not a region", "You compare regions inside that country", "Part 2"],
+        ["I have chosen a country and a region", "You check that choice with real information", "Part 3"]
+      ],
+      "challenge": "Before you skip Part 1 or Part 2, check what you already know. Have you visited in the cold, wet months as well as summer? Do you know the cost of living there, beyond a holiday budget? Have you checked your legal right to live there and the local rules for your plans: building, working, keeping animals, or running a business? If any answer is no, work through that part. A few hours now can save you years in the wrong place."
+    },
+    "how_it_works": {
+      "title": "How this step works",
+      "bullets": [
+        "Parts 1 and 2 are optional. Use them if you are still choosing a country or region.",
+        "Parts 3, 4 and 5 are for everyone. They take you through research, a test visit, and your Explore Summary.",
+        "You do the research. I show you what to check and where to look. You find the answers for your own situation.",
+        "This step gives you an overview of what to check and where to look. The planned module Portugal in detail will cover land and building rules, fire safety, water and local costs. Other future modules will focus on finding and choosing land, buying a house, renovating an old house, living off-grid, Your Money Plan, and starting a company.",
+        "Three words come back again and again: known, estimate, unknown. Writing \"unknown\" is progress. It shows you what to find out next.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different."
+      ]
+    },
+    "word_help": {
+      "title": "Word help",
+      "items": [
+        ["Must-have", "something your new life really needs."],
+        ["Dealbreaker", "something you will not accept, even if everything else is good."],
+        ["Shortlist", "the two or three places you want to explore further."],
+        ["Off-season", "the quiet, often cold or wet time of year."],
+        ["Residence permit", "official permission to live in a country for an extended period."],
+        ["Confirmed income", "income you have evidence will continue in your new situation. Only this income counts in the Step 1 money check."]
+      ]
+    },
+    "tips": [
+      "Give Part 3 more than one evening. Spread it over a few weeks. Even ten minutes a day will help you make progress."
+    ],
+    "route": {
+      "title": "Your route through Step 2",
+      "header": ["", "What you do", "Time", "You finish with"]
+    }
+  },
+  "closing": {
+    "title": "What comes next",
+    "intro": "This step takes patience. You now know more about the place than photographs can show, and you have a clearer list of what still needs checking.",
+    "bullets": [
+      "Going further with a place? Step 3, Decide, turns it into a plan: the money, the timing, the paperwork and the order of things.",
+      "Keeping two places open? Take both into Step 3. A plan on paper is the cheapest way to compare them.",
+      "Staying for now? Use \"If you decide to stay\" and put a review date in your calendar."
+    ],
+    "tips": [
+      "Keep your Explore Summary somewhere easy to find. In a year, you can look back at what you expected and see what turned out to be true."
+    ],
+    "final": [
+      "A place does not become yours because it is beautiful.",
+      "It becomes yours because your life can work there."
+    ]
+  },
+  "sources": {
+    "title": "Where the information in this workbook comes from",
+    "intro": "Rules, prices and services change. Everything in this workbook that is not my own experience comes from an official source, and I wrote down the date it was checked. Check it again for your own situation before you decide anything.",
+    "header": ["Subject", "Official source", "Checked"],
+    "rows": [
+      ["Living in Portugal with an EU, EEA, Andorran or Swiss passport", "AIMA, registration certificate for EU nationals, aima.gov.pt", "20 Sep 2026"],
+      ["Visas for other passports", "Portuguese visa portal, vistos.mne.gov.pt", "20 Sep 2026"],
+      ["Climate and climate classification", "IPMA, climate normals, ipma.pt", "20 Sep 2026"],
+      ["Official services for foreigners in Portugal", "gov.pt, theme \"Estrangeiros em Portugal\"", "20 Sep 2026"],
+      ["Public healthcare", "SNS, sns.gov.pt", "20 Sep 2026"],
+      ["Statistics on Portugal and its municipalities", "INE (ine.pt) and Pordata (pordata.pt)", "20 Sep 2026"],
+      ["Land use, fire safety and water", "Câmara municipal and pcgt.dgterritorio.gov.pt (PDM), sgifr.gov.pt (fire safety), apambiente.pt (wells and boreholes)", "27 Sep 2026"]
+    ],
+    "expert_work": "Nothing in this workbook is legal, tax or financial advice. It helps you ask better questions and arrive prepared. The answers for your situation come from qualified professionals in the country itself."
+  }
+}

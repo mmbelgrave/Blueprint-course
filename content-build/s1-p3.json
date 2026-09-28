@@ -1,0 +1,358 @@
+[
+  {
+    "id": "p3",
+    "number": 3,
+    "label": "Part 3",
+    "title": "Your first money picture",
+    "promise": "A picture becomes a plan when you give it numbers.",
+    "intro_title": "Rough numbers now beat perfect numbers later.",
+    "intro": [
+      "It is easy to put off the numbers, or to look once, feel overwhelmed, and stop. Start with rough figures. You will improve them as you learn more.",
+      "At this stage, the numbers help you choose a direction and a timescale. A plan that is out of reach this year could work in three years or with another source of income. Sometimes a version of your plan will not work financially. Then you need to change it, postpone it, or set it aside.",
+      "Start with three numbers:"
+    ],
+    "intro_bullets": [
+      "What does my new life cost per month? (3.2)",
+      "What does the change itself cost, one time? (3.3)",
+      "What comes in per month? (3.4)"
+    ],
+    "intro_after": "In 3.5 you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
+    "tips": [
+      "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total isn't complete yet. It never counts as zero.",
+      "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the new-life column unknown wherever you still need information."
+    ],
+    "setup": {
+      "intro": "Choose one version of your new life to cost first. Keep a move to Portugal separate from a plan to work fewer hours at home. Start with the version you most want to explore. You can repeat the exercise for another version later.",
+      "fields": [
+        {
+          "id": "version",
+          "type": "short_text",
+          "label": "The version I am costing here"
+        },
+        {
+          "id": "currency",
+          "type": "short_text",
+          "label": "My currency",
+          "app_note": "Use the currency from the person's profile; changing it here updates the profile."
+        },
+        {
+          "id": "household",
+          "type": "number",
+          "label": "Number of people in my household",
+          "unit": "people"
+        }
+      ]
+    },
+    "time": "60 min",
+    "route_title": "Make your first money picture",
+    "talk": "Money is often the hardest thing to talk about. If you share your life with someone, talk about it together: what does \"enough money\" mean to each of you? What makes each of you feel safe? Your three words from 3.1 are a good way in. You don't need the same answer, but you need to know each other's answers.",
+    "finish": {
+      "id": "money_picture",
+      "title": "My First Money Picture",
+      "description": "Your first numbers, how sure they are, and what to check next."
+    },
+    "exercises": [
+      {
+        "id": "3.1",
+        "title": "What does money mean to you?",
+        "optional": true,
+        "intro": [
+          "Before you start calculating, take a minute to notice how you feel about money. Two people with the same balance can make very different choices: one sees freedom, the other worries about running out. Knowing your own response helps you understand how you read the numbers."
+        ],
+        "start_here": {
+          "prompt": "Write the first three words that come up when you think about money. Freedom? Worry? Safety? Stress? There is no wrong answer.",
+          "fields": [
+            { "id": "words", "type": "list", "count": 3 },
+            {
+              "id": "what_helps",
+              "type": "long_text",
+              "lines": 2,
+              "hint": "What would help you work through the numbers: a quiet hour, a calculator, someone beside you, or two shorter sessions? Write it down, then arrange it."
+            }
+          ],
+          "closing": "Keep your three words for the summary at the end of this part. Share them with anyone you make money decisions with. If one of you thinks of fear and the other of freedom, the same numbers can feel very different."
+        }
+      },
+      {
+        "id": "3.2",
+        "title": "What does your life cost per month, now and in your new life?",
+        "intro": [
+          "Yearly costs are easy to miss when you think in months: insurance, car repairs, gifts, a holiday, the dentist. Divide them by twelve and include them in the table, unless you have already counted them elsewhere. For example, 1,200 a year for insurance, repairs and gifts adds 100 a month."
+        ],
+        "start_here": {
+          "prompt": "Write the costs per month. In the last column, mark each new-life number: known, estimate or unknown.",
+          "fields": [
+            {
+              "id": "costs",
+              "type": "table",
+              "row_header": "Cost per month",
+              "row_labels": [
+                "Housing (rent or mortgage)",
+                "Electricity, water, gas, heating",
+                "Food and drinks",
+                "Transport",
+                "Health and insurance",
+                "Phone, internet, subscriptions",
+                "Free time and going out",
+                "Travel (for example, visiting family)",
+                "Loan or credit repayments",
+                "Care costs (children, or someone you care for)",
+                "Yearly costs not already above, divided by 12 (gifts, holidays, repairs)",
+                "Other"
+              ],
+              "columns": [
+                { "id": "today", "label": "Today", "kind": "money" },
+                { "id": "new_life", "label": "In my new life", "kind": "money" },
+                {
+                  "id": "sure",
+                  "label": "Known / estimate / unknown",
+                  "kind": "choice",
+                  "options": ["Known", "Estimate", "Unknown"]
+                }
+              ],
+              "totals": true,
+              "totals_label": "Total per month (you use this in 3.5)"
+            }
+          ]
+        },
+        "example": {
+          "who": "Peter and Els, 58 and 61",
+          "text": "A normal month in a small rented house in the interior of central Portugal, 2026. Rent €550. Energy €200, more in winter. Water and waste €30. Food €450, including one meal out a week. Car, fuel and insurance €250. Private health insurance 2 × €60. Phone and internet €35. Free time €150. Flights to visit family €100. Yearly costs divided by 12: €100. Total: about €2,000 a month. Rent is an estimate; energy, food, fuel, internet and health insurance are close to what people here really pay."
+        }
+      },
+      {
+        "id": "3.3",
+        "title": "What does the change itself cost, one time?",
+        "intro": [
+          "These are the costs you pay once to make the change. Include them early: a monthly budget can work on paper while the initial costs leave you short in month two."
+        ],
+        "start_here": {
+          "prompt": "Only write money you will really spend.",
+          "fields": [
+            {
+              "id": "one_time",
+              "type": "table",
+              "row_header": "One-time cost",
+              "row_labels": [
+                "Moving and travel",
+                "Documents and fees",
+                "Furniture and setting up",
+                "Paying for two homes for a while (if this happens)",
+                "Other one-time costs"
+              ],
+              "columns": [
+                { "id": "amount", "label": "Amount", "kind": "money" },
+                {
+                  "id": "sure",
+                  "label": "Known / estimate / unknown",
+                  "kind": "choice",
+                  "options": ["Known", "Estimate", "Unknown"]
+                }
+              ],
+              "totals": true,
+              "totals_label": "Total one-time cost (you use this in 3.5)"
+            }
+          ]
+        },
+        "tips": [
+          "Deposits, for example, for a rental home, are not in this list. You usually get them back later, but you cannot use that money for a while. You subtract them in 3.5."
+        ]
+      },
+      {
+        "id": "3.4",
+        "title": "What comes in per month?",
+        "intro": [
+          "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Only confirmed income goes into the check in 3.5. Record agreed income separately, with the month it starts, so you can see it without counting on it yet."
+        ],
+        "tables": [
+          {
+            "place": "before",
+            "rows": [
+              ["Confirmed", "You have evidence it continues in the new situation. For example, a contract that allows you to work from abroad."],
+              ["Agreed", "Promised, but not started yet. A client said yes; work begins next year."],
+              ["Hoped", "An idea. It may well happen, but nothing supports it yet."]
+            ]
+          }
+        ],
+        "start_here": {
+          "prompt": "List your current income sources and those you expect in your new life. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the new-life column and note the gross amount alongside it for later. Keep gross amounts out of the confirmed total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
+          "fields": [
+            {
+              "id": "income",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                { "id": "source", "label": "Source of income", "kind": "text" },
+                { "id": "now", "label": "Now per month", "kind": "money" },
+                { "id": "new_life", "label": "In my new life", "kind": "money" },
+                {
+                  "id": "sure",
+                  "label": "Confirmed / agreed / hoped",
+                  "kind": "choice",
+                  "options": ["Confirmed", "Agreed", "Hoped"]
+                },
+                { "id": "starts", "label": "Starts when?", "kind": "text" }
+              ],
+              "totals": true,
+              "totals_label": "Total confirmed (you use this in 3.5)",
+              "total_filter": ["Confirmed"],
+              "extra_totals": [
+                {
+                  "label": "Total agreed (not in the check yet)",
+                  "filter": ["Agreed"]
+                }
+              ]
+            }
+          ]
+        },
+        "example": {
+          "who": "Lucas, 29",
+          "text": "Now: salary as a graphic designer. In my new life: that salary stops; my employer won't let me work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
+        }
+      },
+      {
+        "id": "3.5",
+        "title": "A first money check",
+        "promise": "Two simple questions: do I have money left each month, and if not, how long do my savings cover the gap?",
+        "intro": [
+          "The second number is your runway: how long your savings can cover a monthly shortfall before something needs to change. Runway turns worry into a plan: \"I am short 400 a month and have 40 months to work with\" gives you a timescale for action.",
+          "Not all your savings are available to live on. Some will pay for the change, some will be tied up in deposits, and some will remain in your emergency reserve. Only what is left can cover a monthly shortfall. The calculation below shows how long it could last."
+        ],
+        "start_here": {
+          "prompt": "The middle column shows how it works, with made-up numbers. Write your own numbers in the last column.",
+          "fields": [
+            {
+              "id": "monthly",
+              "type": "calculation",
+              "label": "Question 1: every month",
+              "rows": [
+                {
+                  "id": "income",
+                  "label": "1. My confirmed income per month in my new life (from 3.4)",
+                  "example": "€1,600",
+                  "from": { "exercise": "3.4", "field": "income", "column": "new_life" }
+                },
+                {
+                  "id": "costs",
+                  "label": "2. My costs per month in my new life (from 3.2)",
+                  "example": "€2,000",
+                  "from": { "exercise": "3.2", "field": "costs", "column": "new_life" }
+                },
+                {
+                  "id": "balance",
+                  "label": "3. Left over or short each month (1 minus 2)",
+                  "example": "€400 short",
+                  "formula": "income - costs",
+                  "format": "left_or_short"
+                }
+              ]
+            },
+            {
+              "id": "savings",
+              "type": "calculation",
+              "label": "Question 2: my savings",
+              "rows": [
+                {
+                  "id": "savings",
+                  "label": "4. Savings I can use within a month",
+                  "example": "€30,000",
+                  "input": "money"
+                },
+                {
+                  "id": "one_time",
+                  "label": "5. Minus: the one-time cost of the change (from 3.3)",
+                  "example": "− €6,000",
+                  "from": { "exercise": "3.3", "field": "one_time", "column": "amount" }
+                },
+                {
+                  "id": "deposits",
+                  "label": "6. Minus: deposits, money I pay now and may only get back much later",
+                  "example": "− €1,650",
+                  "input": "money"
+                },
+                {
+                  "id": "reserve",
+                  "label": "7. Minus: my reserve, money I keep for emergencies and not to live on",
+                  "example": "− €6,000",
+                  "input": "money"
+                },
+                {
+                  "id": "available",
+                  "label": "8. Savings left to live on (4 minus 5, 6 and 7)",
+                  "example": "€16,350",
+                  "formula": "savings - one_time - deposits - reserve"
+                }
+              ]
+            },
+            {
+              "id": "months",
+              "type": "calculation",
+              "label": "Question 3: how long?",
+              "hint": "Only if you are short each month (line 3).",
+              "rows": [
+                {
+                  "id": "months",
+                  "label": "9. Months my savings can cover: line 8 divided by the amount I am short (line 3)",
+                  "example": "€16,350 ÷ €400 = about 40 months",
+                  "formula": "available / -balance",
+                  "condition": "balance < 0",
+                  "format": "months"
+                }
+              ]
+            }
+          ]
+        },
+        "result_guide": {
+          "title": "What your result means",
+          "intro": [
+            "Read these two checks separately.",
+            "Check one: can your savings cover the change itself? Look at line 8. Above zero means the one-time costs, deposits and reserve are covered, with money left to live on. Exactly zero means they are covered with nothing spare. Below zero means something needs to change: a cheaper version, a later date, a smaller reserve you deliberately choose, or more saving first.",
+            "Check two: does your confirmed income cover your monthly costs? That is line 3."
+          ],
+          "bullets": [
+            "Money left over each month. The monthly side works on these numbers. Check one still decides whether you can afford to make the change at all.",
+            "Income and costs exactly equal. On these estimates, nothing is left over each month, so any surprise has to come out of your savings.",
+            "Short each month, with savings left. If these estimates hold, your remaining savings could cover the gap for about the number of months in line 9. Pick a date well before then to review the plan again.",
+            "Short each month, with no savings left to cover it. This version doesn't stand on its own yet. The three ways forward are lower costs, more confirmed income, or more time.",
+            "The amount you need is still unknown. Your result is incomplete, so do not treat the total as a finished calculation. Write what you need to check and where you will find the answer. That list is a useful result in its own right."
+          ],
+          "closing": "Do you plan to live on savings or a pension? Then look at how many years your money will last and discuss the plan with a financial adviser."
+        },
+        "tips": [
+          "The example is made up, but the costs are based on typical 2026 prices for a couple renting a small house in the interior of central Portugal (see the example in 3.2). The €6,000 reserve is made up too. Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. Do not know yet? Write a question mark and come back.",
+          "Short each month? That is not the end. It shows what to work on: lower costs, more income, or more time."
+        ],
+        "go_deeper": {
+          "prompt": "What if everything costs 30% more than you think? Does your plan still work? What would you change first: your costs, your income, or your timing?",
+          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+        },
+        "story": {
+          "status": "ready",
+          "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me when I could afford it."
+        },
+        "go_further": "Want to go further? The module Your Money Plan (future) helps you with goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
+      }
+    ],
+    "summary": {
+      "id": "money_picture",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "What do I know for sure?",
+        "What is still uncertain?",
+        "What could change the picture a lot?"
+      ],
+      "prompt": "Now bring it together in My First Money Picture. Short sentences are enough.",
+      "fields": [
+        { "id": "monthly_costs", "type": "long_text", "lines": 2, "label": "What my new life costs per month, and how sure I am" },
+        { "id": "one_time", "type": "long_text", "lines": 2, "label": "What the change costs, one time" },
+        { "id": "income_sure", "type": "long_text", "lines": 2, "label": "Income I can count on" },
+        { "id": "income_hoped", "type": "long_text", "lines": 2, "label": "Income I hope for" },
+        { "id": "first_check", "type": "long_text", "lines": 2, "label": "My first check: left over or short each month, and how many months my savings cover" },
+        { "id": "money_words", "type": "long_text", "lines": 2, "label": "My three words about money, and what they tell me" },
+        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "My biggest money unknowns, and how I will check them" }
+      ],
+      "result": "My First Money Picture — your first numbers, how sure they are, and what to check next."
+    }
+  }
+]

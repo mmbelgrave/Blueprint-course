@@ -1,0 +1,465 @@
+[
+  {
+    "id": "s2-p3",
+    "number": 3,
+    "label": "Part 3",
+    "title": "Check it from home",
+    "promise": "You can find out a great deal about a place before booking a ticket.",
+    "intro_title": "Research is a skill, and it has rules",
+    "intro": [
+      "Research takes patience. It also helps you spot expensive problems before you commit to a place.",
+      "Build a profile for each place on your shortlist using sources you can check. Memories, forum posts and conversations can raise useful questions, but they are not enough on their own. Follow these three rules.",
+      "Write the source and the date. Prices and rules change, and a fact without a date is a rumour with good manners. Keep a record so you can see where an answer came from and check whether it is still current.",
+      "Mark how sure you are. Known means you have checked an official or reliable source. Estimate means your best figure or judgement, still to be confirmed. Unknown means you do not have an answer yet. Naming an unknown gives you a clear question to investigate.",
+      "Separate rules from experiences. A government page tells you what is allowed. A person who lives there tells you what it is like. You need both, and they answer different questions."
+    ],
+    "time": "3–5 hours",
+    "route_title": "Check it from home",
+    "finish": {
+      "id": "place_profiles",
+      "title": "My Place Profiles",
+      "description": "Real information for each place, with your unknowns written down honestly."
+    },
+    "exercises": [
+      {
+        "id": "s2-3.1",
+        "number": "3.1",
+        "title": "The money check",
+        "intro": [
+          "Compare your First Money Picture from Step 1 with what life costs in this place. You are checking how close your first figures were, where the gaps are, and what remains unknown."
+        ],
+        "start_here": {
+          "prompt": "Use your First Money Picture to compare your estimates with the costs you find for an ordinary month in this place.",
+          "fields": [
+            {
+              "id": "costs",
+              "type": "table",
+              "row_header": "Monthly cost",
+              "row_labels": [
+                "Rent or housing cost",
+                "Electricity, water, gas, heating",
+                "Food and household",
+                "Health: insurance and care",
+                "Transport and car",
+                "Internet and phone",
+                "Insurance and local taxes",
+                "Fun, travel, unexpected"
+              ],
+              "columns": [
+                { "id": "guess", "label": "My guess", "kind": "money" },
+                { "id": "found", "label": "What I found", "kind": "money" },
+                { "id": "source", "label": "Source", "kind": "text" },
+                { "id": "date", "label": "Date", "kind": "text" }
+              ],
+              "totals": true,
+              "totals_label": "Total per month"
+            },
+            {
+              "id": "income_there",
+              "type": "long_text",
+              "lines": 3,
+              "hint": "Now check whether your confirmed income will continue in this place. Moving can affect remote work, clients, a pension or a job in different ways. As in Step 1, count only the income you have evidence for."
+            }
+          ]
+        },
+        "story": {
+          "status": "ready",
+          "text": "Here is what an ordinary month near the Serra da Estrela costs me in 2026. Energy is about €200 a month; with solar panels now installed, I expect that to fall by about half. Fast fibre internet is €20 and health insurance is €60. Food costs €400 to €500, including a meal out once a week. I expect that to fall as we grow more of our food. Fuel is about €150. These figures give you a sense of scale. They reflect my life, so use your own costs for your budget."
+        },
+        "where_to_check": [
+          "Do not use \"cost of living\" websites as your only source. Look at real prices: property and rental websites for that exact area, supermarket websites, energy company price pages, and insurance quotes for your own situation. For general statistics in Portugal you can use ine.pt (the national statistics institute) and pordata.pt. Write the date next to everything."
+        ],
+        "challenge": "Compare this total with your Step 1 estimate. If they differ by more than twenty percent, go back through both sets of figures. Find out what accounts for the difference before you go further."
+      },
+      {
+        "id": "s2-3.2",
+        "number": "3.2",
+        "title": "The legal check",
+        "intro": [
+          "You are checking one thing: are you allowed to live there, and what do you have to prove? The answer depends on your passport, your income and your family situation, so write down what applies to you, not what applies in general."
+        ],
+        "start_here": {
+          "fields": [
+            {
+              "id": "legal",
+              "type": "table",
+              "row_header": "Question",
+              "row_labels": [
+                "Which route applies to my passport?",
+                "What must I prove: income, savings, insurance, work, a place to live?",
+                "Where and when do I apply: before I travel, or after I arrive?",
+                "How long does it take, and what does it cost?",
+                "What does it mean for my family members?",
+                "What do I have to do every year to keep it?"
+              ],
+              "columns": [
+                { "id": "found", "label": "What I found (and where)", "kind": "long_text" },
+                { "id": "date", "label": "Date checked", "kind": "text" }
+              ]
+            }
+          ]
+        },
+        "tables": [
+          {
+            "place": "after",
+            "lead": "For Portugal, the official information below covers two different routes. Start with the one that applies to your passport:",
+            "rows": [
+              ["If you hold an EU, EEA, Andorran or Swiss passport", "You can enter and stay without a visa. If you stay longer than three months, you ask for a registration certificate at the Câmara Municipal (town hall) of the area where you live. The official page says this must be done within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, or that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."],
+              ["If you hold any other passport", "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."]
+            ]
+          }
+        ],
+        "tips": [
+          "Rules like these change, and details matter more than summaries. Treat the two paragraphs above as a map, not as advice: open the official pages yourself, for your own situation, and write down the date. If your case is not simple, pay a lawyer for one hour. It is the cheapest hour you will spend."
+        ]
+      },
+      {
+        "id": "s2-3.3",
+        "number": "3.3",
+        "title": "The daily life check",
+        "intro": [
+          "Now look at everyday life. You can answer many of these questions from home with a map, official websites, and a few messages."
+        ],
+        "start_here": {
+          "prompt": "Answer for each place on your shortlist.",
+          "fields": [
+            {
+              "id": "daily",
+              "type": "table",
+              "row_header": "What I check",
+              "row_labels": [
+                "Distance and time to a hospital",
+                "Family doctor: is there one taking new patients?",
+                "How healthcare works for someone like me",
+                "Schools, and the language they teach in",
+                "Internet speed at a real address there",
+                "Work or clients for me",
+                "Shops and daily needs",
+                "Nearest airport and travel time home",
+                "Winter: how cold, how wet, how long",
+                "Summer: how hot, how dry, fire risk",
+                "Water: where does it come from?",
+                "How much local language I will need",
+                "What may be built or changed there (municipal plan)",
+                "Fire risk and the land clearing required"
+              ],
+              "columns": [
+                { "id": "p1", "label": "Place 1:", "kind": "text" },
+                { "id": "p2", "label": "Place 2:", "kind": "text" },
+                {
+                  "id": "sure",
+                  "label": "Known / estimate / unknown",
+                  "kind": "choice",
+                  "options": ["Known", "Estimate", "Unknown"]
+                }
+              ]
+            }
+          ]
+        },
+        "story": {
+          "status": "ready",
+          "text": "My own daily life check, today: 15 minutes to the local hospital, and 40 minutes to a larger one in Viseu or Guarda. Fast fibre internet at my address. Water from a well on my own land. Most of my electricity now comes from solar panels."
+        },
+        "where_to_check": [
+          "In Portugal, the public health service is the SNS (sns.gov.pt). Official service pages for people coming from abroad, including health, tax and social security numbers, are on gov.pt under the theme \"Estrangeiros em Portugal\" (foreigners in Portugal). Checked 20 September 2026."
+        ],
+        "tips": [
+          "The planned module Portugal in detail will cover land, building rules, fire safety and water, with official sources and dates."
+        ],
+        "example": {
+          "who": "Dieter, 63",
+          "text": "Hospital: 35 minutes by car, and I checked it on the map for winter road conditions, not in summer. Family doctor: unknown, I will ask when I visit. Internet: the provider says 100 Mbit at that address, but a neighbour in the village told me it drops in the evening. So: estimate, not known."
+        }
+      },
+      {
+        "id": "s2-3.4",
+        "number": "3.4",
+        "title": "Talk to people who live there",
+        "intro": [
+          "People who live there can tell you things the numbers cannot. Their answers also reflect their own circumstances, so choose whom you ask and make your questions specific.",
+          "A recent arrival may still be caught up in the excitement of moving. Someone who has had a bad experience may see the place through that experience. Listen to both, and talk to at least three residents, including someone who has lived there for years."
+        ],
+        "start_here": {
+          "prompt": "Find three people who live in the area, rather than people who have only visited. Ask the questions below, especially the last one.",
+          "bullets": [
+            "What does a normal Tuesday in February look like here?",
+            "What did you underestimate before you came?",
+            "What do you pay, roughly, for energy in winter?",
+            "How long did the paperwork take, and what went wrong?",
+            "If you had to do it again, what would you do differently?"
+          ],
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                { "id": "who", "label": "Who I spoke to", "kind": "text" },
+                { "id": "surprised", "label": "What surprised me", "kind": "text" },
+                { "id": "confirmed", "label": "What confirmed my picture", "kind": "text" },
+                { "id": "check", "label": "What I will check myself", "kind": "text" }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "summary": {
+      "id": "place_profiles",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "Which place still meets my must-haves after this research?",
+        "Where did reality differ from my guess?",
+        "What is still unknown, and how do I find it out?"
+      ],
+      "prompt": "Now bring it together in My Place Profiles. Short sentences are enough.",
+      "fields": [
+        { "id": "place1", "type": "long_text", "lines": 2, "label": "Place 1: what I now know" },
+        { "id": "place2", "type": "long_text", "lines": 2, "label": "Place 2: what I now know" },
+        { "id": "surprise", "type": "long_text", "lines": 2, "label": "The biggest surprise of this research" },
+        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What is still unknown, and how I will find out" },
+        { "id": "first_unknown", "type": "long_text", "lines": 2, "label": "The first unknown I will investigate, and why it matters most" },
+        { "id": "test_in_person", "type": "long_text", "lines": 2, "label": "What I want to test in person" }
+      ],
+      "result": "My Place Profiles — real information for each place, with your unknowns written down honestly."
+    }
+  },
+  {
+    "id": "s2-p4",
+    "number": 4,
+    "label": "Part 4",
+    "title": "Test it in real life",
+    "promise": "Research tells you a lot. A visit shows you how it feels to be there.",
+    "intro_title": "Go as a tester, not as a tourist",
+    "intro": [
+      "Visit with your future daily life in mind.",
+      "A holiday in good weather, with a central hotel and meals out, can leave you loving a place without knowing how ordinary life would feel there. Plan this visit around the questions a holiday cannot answer.",
+      "Visit outside the high season if you can. February rain tells you something different from a sunny afternoon. Decide what the trip must answer before you book, and make time for ordinary things: grocery shopping, a doctor's waiting room, a school, a Sunday when shops are closed. Keep those questions in mind even when the weather and a good lunch make the place feel perfect.",
+      "I would also visit twice. You notice things the second time that you missed on the first."
+    ],
+    "time": "A trip",
+    "route_title": "Test it in real life",
+    "talk": "Did you travel with someone? Do this exercise separately first, then read your answers to each other. If you travelled alone, send your three answers to someone who knows you well and ask what they hear.",
+    "finish": {
+      "id": "test_visit",
+      "title": "My Test Visit Report",
+      "description": "What you learned in person, written down while it is fresh."
+    },
+    "exercises": [
+      {
+        "id": "s2-4.1",
+        "number": "4.1",
+        "title": "Plan the visit before you book it",
+        "start_here": {
+          "fields": [
+            { "id": "when", "type": "long_text", "lines": 2, "label": "When I go, and why that time of year" },
+            { "id": "how_long", "type": "short_text", "label": "How long I stay" },
+            { "id": "places", "type": "long_text", "lines": 2, "label": "Places on my list" },
+            { "id": "travel", "type": "long_text", "lines": 2, "label": "How I travel there and around" },
+            { "id": "stay", "type": "long_text", "lines": 2, "label": "Where I stay, and why it suits the test better than a hotel in the centre" },
+            { "id": "budget", "type": "short_text", "label": "My budget for this trip" },
+            { "id": "three_questions", "type": "long_text", "lines": 3, "label": "The three questions this trip must answer" }
+          ]
+        },
+        "challenge": "Write your three questions before you book anything, and give this page to someone who knows you. Ask them to hold you to it when you come back excited."
+      },
+      {
+        "id": "s2-4.2",
+        "number": "4.2",
+        "title": "The real-life checklist",
+        "intro": ["Take this with you. Tick what you actually did, not what you planned to do."],
+        "start_here": {
+          "fields": [
+            {
+              "id": "did",
+              "type": "checkbox_pick",
+              "options": [
+                "Did a normal food shop", "Drove to the hospital", "Visited a school", "Used the local internet",
+                "Walked the area at night", "Went there in bad weather", "Talked to a neighbour", "Visited the town hall",
+                "Checked mobile signal", "Looked at winter heating", "Sat still for an hour", "Spent an ordinary day there",
+                "Checked the drive to the airport", "Asked about water", "Visited on a Sunday", "Priced a real house or rental"
+              ]
+            },
+            {
+              "id": "notes",
+              "type": "table",
+              "rows": 4,
+              "hint": "Write your notes the same evening. After a few days, memories blur, especially the differences between places.",
+              "columns": [
+                { "id": "place", "label": "Place", "kind": "text" },
+                { "id": "felt", "label": "What I felt", "kind": "text" },
+                { "id": "measured", "label": "What I saw and measured", "kind": "text" },
+                { "id": "score", "label": "Score 1–10", "kind": "number" }
+              ]
+            }
+          ]
+        },
+        "story": {
+          "status": "ready",
+          "text": "In April and May 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited twenty-five plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. The plot I eventually bought was the third: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time, and I was convinced. With a good lawyer, the purchase and registration took one to two months and went smoothly. The land was officially mine in August 2024. Having already made my financial plan from Step 1, I felt ready to commit when the opportunity came."
+        },
+        "tips": [
+          "I took two lessons from that trip. Visit a place twice before deciding: you notice more the second time. And compare several places. Seeing the other plots helped me understand why the third one felt right."
+        ]
+      },
+      {
+        "id": "s2-4.3",
+        "number": "4.3",
+        "title": "The honest evening question",
+        "intro": [
+          "On your last evening, find somewhere quiet and answer these three questions before discussing the trip with anyone else. Give yourself time to form your own view."
+        ],
+        "start_here": {
+          "fields": [
+            {
+              "id": "ordinary_week",
+              "type": "long_text",
+              "lines": 3,
+              "label": "Could I live an ordinary week here, with laundry, work, bad weather and nothing special happening?"
+            },
+            {
+              "id": "rather_overlooked",
+              "type": "long_text",
+              "lines": 3,
+              "label": "What did I notice that I would rather have overlooked?"
+            },
+            {
+              "id": "good_surprise",
+              "type": "long_text",
+              "lines": 3,
+              "label": "What surprised me in a good way?"
+            }
+          ]
+        },
+        "example": {
+          "who": "Sofia, 29",
+          "text": "Could I live an ordinary week here? Yes, but not in the village I loved most. It is beautiful, yet after three days I had spoken to nobody. I felt more at ease in the small town 20 minutes away. It was not on my list, and it may be the most useful thing I learned."
+        }
+      }
+    ],
+    "summary": {
+      "id": "test_visit",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "Did the place answer my three questions?",
+        "What was better than my research suggested, and what was worse?",
+        "What do I still need to see or test?"
+      ],
+      "prompt": "Now bring it together in My Test Visit Report. Short sentences are enough.",
+      "fields": [
+        { "id": "where_when", "type": "long_text", "lines": 2, "label": "Where I went, and when" },
+        { "id": "confirmed", "type": "long_text", "lines": 2, "label": "What the visit confirmed" },
+        { "id": "changed", "type": "long_text", "lines": 2, "label": "What the visit changed" },
+        { "id": "best_fit", "type": "long_text", "lines": 2, "label": "The place that fits best, and why" },
+        { "id": "still_test", "type": "long_text", "lines": 2, "label": "What I still need to test, and when" }
+      ],
+      "result": "My Test Visit Report — what you learned in person, written down while it is fresh."
+    }
+  },
+  {
+    "id": "s2-p5",
+    "number": 5,
+    "label": "Part 5",
+    "title": "Bring it together",
+    "promise": "One place. One honest picture of it. And the decision about what comes next.",
+    "intro_title": "What this step can and cannot decide",
+    "intro": [
+      "Bring your research and visit notes together so you and the people close to you can see the whole picture.",
+      "Your Explore Summary identifies a place worth planning for and the questions you still need to answer. The decision to go comes in Step 3, when you test the plan, money and timing together.",
+      "Expect some gaps in the summary. A few weeks of research will not answer everything. If you have no unknowns left, check that you have kept asking the difficult questions, even as a place has become more appealing."
+    ],
+    "time": "45 min",
+    "route_title": "Bring it together",
+    "talk": "Share your Explore Summary with the people affected by this decision. Explain what you are considering and listen to their concerns while you still have time to work through them.",
+    "finish": {
+      "id": "explore_summary",
+      "title": "My Explore Summary",
+      "description": "One place, one honest picture, and your decision about what comes next."
+    },
+    "exercises": [
+      {
+        "id": "s2-5.1",
+        "number": "5.1",
+        "title": "My Explore Summary",
+        "start_here": {
+          "fields": [
+            { "id": "place", "type": "long_text", "lines": 1, "label": "The place I want to explore further" },
+            { "id": "where", "type": "short_text", "label": "Country, region, nearest town" },
+            { "id": "reasons", "type": "long_text", "lines": 3, "label": "Three reasons it fits my picture" },
+            { "id": "not_give", "type": "long_text", "lines": 2, "label": "What it does not give me, and how I deal with that" },
+            { "id": "monthly_cost", "type": "long_text", "lines": 2, "label": "What a normal month costs there" },
+            { "id": "income", "type": "long_text", "lines": 2, "label": "How my income will work there" },
+            { "id": "legal", "type": "long_text", "lines": 2, "label": "My legal route, and what I must prove" },
+            { "id": "healthcare", "type": "long_text", "lines": 2, "label": "Healthcare: how it works for me" },
+            { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What is still unknown" },
+            { "id": "who_i_need", "type": "long_text", "lines": 2, "label": "Who I need: people, advisers, network" },
+            {
+              "id": "choice",
+              "type": "single_choice",
+              "label": "What I choose now",
+              "options": [
+                "Go further with this place",
+                "Keep two places open",
+                "Look somewhere else",
+                "Stay and build the life I want here"
+              ]
+            },
+            { "id": "next_step", "type": "short_text", "label": "My next small step, within two weeks" },
+            { "id": "date", "type": "short_text", "label": "Date of this step" },
+            { "id": "review_when", "type": "short_text", "label": "When I will review what I learned" }
+          ]
+        },
+        "choice_explanations_intro": "All four answers are good ones:",
+        "choice_explanations": [
+          "Go further with this place. Step 3 turns it into a real plan, with money, timing and paperwork.",
+          "Keep two places open. Take both into Step 3 and compare what it would take to make each one work.",
+          "Look somewhere else. It is better to change direction now than after signing a contract. Return to Part 1 or 2 with what you have learned.",
+          "Stay and build the life you want here. Staying is a real result. It takes the same work of deciding, planning and building. See \"If you decide to stay\" below."
+        ]
+      },
+      {
+        "id": "s2-5.2",
+        "number": "5.2",
+        "title": "Update your money picture",
+        "start_here": {
+          "prompt": "Return to your First Money Picture from Step 1 and replace estimates with the figures you have checked. Then make a separate check: with these costs, how many months could you live there without income?",
+          "fields": [{ "id": "update", "type": "long_text", "lines": 4 }]
+        },
+        "expert_work": "Before you move money between countries, sell a house, or change where you pay tax, speak to a qualified adviser in both countries. This workbook helps you arrive with the right questions. It never gives the answers.",
+        "story": {
+          "status": "ready",
+          "text": "For four years, Asia was right for me. Then the life I wanted changed. I did not have a perfect plan at the start. What helped was keeping my vision in mind, checking honestly how my life was working, and taking the next step. Your picture is allowed to change. That is not failure. It is what happens when you are paying attention."
+        }
+      },
+      {
+        "id": "s2-5.3",
+        "number": "5.3",
+        "title": "If you decide to stay",
+        "optional": true,
+        "intro": [
+          "You may discover that the life you want does not require another country. Staying is a real result. Your answers usually point to one of three things:"
+        ],
+        "intro_bullets": [
+          "What I want is here, but my life needs to be organised differently. Focus on time, work, home and people.",
+          "What I want is somewhere else, but the time is not right. Look at what needs to change in money, family, work or health. Write down what must be in place before you go, and by when.",
+          "I wanted a change more than a different place. Use your Life Picture from Step 1 to choose one concrete change for the next three months."
+        ],
+        "start_here": {
+          "fields": [
+            { "id": "really_want", "type": "long_text", "lines": 2, "label": "What I now know I really want" },
+            { "id": "change", "type": "long_text", "lines": 2, "label": "What I will change in the next three months" },
+            { "id": "protects_costs", "type": "long_text", "lines": 2, "label": "What staying protects, and what it costs me" },
+            { "id": "before_abroad", "type": "long_text", "lines": 2, "label": "What must be true before I look abroad again" },
+            { "id": "review", "type": "short_text", "label": "When I will look at this again" }
+          ]
+        },
+        "tips": [
+          "Put a review date in your calendar today. A decision to wait is only a decision if it has a date."
+        ]
+      }
+    ],
+    "result": "My Explore Summary — one place, one honest picture, and your decision about what comes next."
+  }
+]

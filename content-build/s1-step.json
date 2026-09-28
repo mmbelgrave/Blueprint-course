@@ -1,0 +1,85 @@
+{
+  "version": 19,
+  "source": "The Made Real Blueprint - Step 1 Picture workbook v19.docx (September 2026)",
+  "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
+  "step": {
+    "id": "step1",
+    "number": 1,
+    "title": "Picture",
+    "question": "What life do I really want?",
+    "tagline": [
+      "Now the real work begins, and it begins with you."
+    ],
+    "intro": [
+      "In this first step, you build a clearer picture of the life you want. You look honestly at where you stand today, including your money. You finish with a Working Direction: what you want to explore next. This is not a final decision. That comes in Step 3, after you have explored your options.",
+      "Every exercise starts with a short explanation, then asks you to apply it to your own life. I give you the tools and questions, and share my own story, including the parts that changed along the way. You do the work of deciding what fits you."
+    ],
+    "ways_to_use": {
+      "title": "Three ways to use this step",
+      "rows": [
+        ["This workbook on its own", "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."],
+        ["With the videos", "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions."],
+        ["With the app", "The same questions in digital form, with an AI partner that remembers your answers and asks about them later. Useful if you prefer typing to paper."]
+      ]
+    },
+    "how_it_works": {
+      "title": "How this step works",
+      "bullets": [
+        "Two ways to start. The First Picture takes about 20–30 minutes and gives you a first summary today. The full Picture step has 5 parts and takes a few hours in total. Spread it over two weeks, or work at a pace that suits you.",
+        "Short on time? Follow the core path: the First Picture, 1.1, 1.2, 1.4, 2.1, 3.2 to 3.5, 4.1, 4.2 and Part 5. That gives you a complete Working Direction. The other exercises help you explore it further.",
+        "Every exercise follows the same pattern. First the explanation, then \"Now you\". Some exercises include an optional \"Go deeper\" section. Use it when you have the time and energy.",
+        "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different.",
+        "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
+        "Write in your own language if you prefer.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
+      ]
+    },
+    "word_help": {
+      "title": "Word help",
+      "items": [
+        ["Must-have", "something your new life really needs."],
+        ["Dealbreaker", "something you will not accept, even if everything else is good."],
+        ["Reserve (or buffer)", "money you keep aside for emergencies, not for everyday spending."],
+        ["Trade-off", "getting one thing by giving up another."],
+        ["Working Direction", "what you want to explore next, not a final decision."]
+      ]
+    },
+    "tips": [
+      "Stuck on a question? Skip it and come back later. The answer often comes while you walk, cook or shower."
+    ],
+    "route": {
+      "title": "Your route through Step 1",
+      "header": ["", "What you do", "Time", "You finish with"]
+    }
+  },
+  "closing": {
+    "title": "What comes next",
+    "intro": "You have made your picture clearer, looked honestly at your life and your money, and chosen a Working Direction.",
+    "bullets": [
+      "Want to investigate a direction? Step 2, Explore, helps you check it. The questions work for Portugal and for other places.",
+      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Until the full staying route is ready, your Working Direction is your guide.",
+      "Not ready yet? Your page tells you what to learn first."
+    ],
+    "tips": [
+      "Read this workbook again in a few months. See what changed, what didn't, and what you want to try next."
+    ],
+    "final": [
+      "You cannot control everything. But you can choose, prepare, and take the next step.",
+      "You just took the first one."
+    ]
+  },
+  "sources": {
+    "title": "Where these ideas come from",
+    "intro": "Most of this workbook comes from my experience of building a life in Bali and then starting again in Portugal. Where I draw on someone else's method, I name it below.",
+    "rows": [
+      ["The wheel of life (2.1)", "A tool used in coaching for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."],
+      ["The Johari window (2.5)", "Described by the psychologists Joseph Luft and Harrington Ingham in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."],
+      ["Michael Pilarczyk's work (the warm-up, 1.1, 1.3, 2.1, 2.2, 2.5)", "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move. I have adapted the wording for this Blueprint."],
+      ["Connect the dots (2.2)", "The phrase comes from Steve Jobs' 2005 speech at Stanford University."],
+      ["Comparing options and small tests (Part 4)", "Common practice in planning and decision-making. Bill Burnett and Dave Evans describe similar ideas in their book Designing Your Life."],
+      ["Everything else", "My own experience, my mistakes, and what the people I have guided told me was missing."]
+    ],
+    "closing": "Rules, prices and official procedures change, so this workbook does not state any. You will find those, with their sources and dates, in Step 2 and Step 3, where they belong."
+  }
+}

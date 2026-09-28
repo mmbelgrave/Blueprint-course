@@ -1,0 +1,250 @@
+[
+  {
+    "id": "p4",
+    "number": 4,
+    "label": "Part 4",
+    "title": "Compare your options",
+    "promise": "Moving far away is one option. It is not the only one.",
+    "intro_title": "Why we compare instead of decide",
+    "intro": [
+      "You now have a picture of the life you want, an honest starting point, and a first money check. Before choosing a direction, put a few options side by side.",
+      "When we become attached to one option, it is easy to notice what supports it and explain away what does not. Keep at least three options open and compare them against the same list.",
+      "Always include two staying options. The first is to stay and change something important: you may be able to get much of what you want at a lower cost, while keeping the people and things that already work. The second is to change nothing. Include its costs too, so you can compare it fairly with making a change."
+    ],
+    "time": "30–45 min",
+    "route_title": "Compare your options",
+    "talk": "Find one person who made a change like the one you are thinking about: in the network, online, or through me. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
+    "finish": {
+      "id": "options",
+      "title": "My Options",
+      "description": "The options worth investigating, and what you need to learn about them."
+    },
+    "exercises": [
+      {
+        "id": "4.1",
+        "title": "Your options",
+        "start_here": {
+          "prompt": "Think of three or four options and write them down. Always include the two options about staying. For each promising option, write what you are not sure about, and a small test that could help you find out.",
+          "fields": [
+            {
+              "id": "options",
+              "type": "table",
+              "row_header": "Option",
+              "row_labels": ["A", "B", "C Stay, but change:", "D Change nothing"],
+              "row_labels_editable": [true, true, true, false],
+              "columns": [
+                { "id": "not_sure", "label": "What I am not sure about", "kind": "text" },
+                { "id": "test", "label": "A small test", "kind": "text" }
+              ]
+            }
+          ]
+        },
+        "example": {
+          "who": "Daniel, 39",
+          "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside summer? Test: first, three calls with people who live there; then, if that holds up, a four-week working stay in November. C: Stay, but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
+        },
+        "tips": [
+          "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and is a test. A four-week stay is a better test, but it's later and more expensive. Start with the cheap version."
+        ]
+      },
+      {
+        "id": "4.2",
+        "title": "Check your options against your must-haves",
+        "intro": [
+          "Use the must-haves you identified in Part 1 to compare your options. Check whether each one meets those needs, regardless of how appealing it sounds.",
+          "Check the dealbreakers first. There is no need to score an option in detail if it already fails on something you will not accept."
+        ],
+        "start_here": {
+          "prompt": "First, check your dealbreakers (from 1.4). Does an option break one of them? Write which one. That option is out, unless you find a clear way around it.",
+          "fields": [
+            {
+              "id": "must_have_check",
+              "type": "table",
+              "row_header": "My must-haves (from 1.4)",
+              "rows": 4,
+              "rows_from": { "exercise": "1.4", "field": "must_haves", "column": "must_have" },
+              "hint": "Then check each must-have. For each option, mark it yes, partly, no or unknown. Unknown is a good answer before you have explored.",
+              "column_names_from": { "exercise": "4.1", "field": "options" },
+              "columns": [
+                { "id": "a", "label": "A", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] },
+                { "id": "b", "label": "B", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] },
+                { "id": "c", "label": "C", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] },
+                { "id": "d", "label": "D", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] }
+              ]
+            },
+            {
+              "id": "overview",
+              "type": "table",
+              "row_header": "Option",
+              "row_labels": ["A", "B", "C", "D"],
+              "hint": "Then complete the overview. \"My feeling\" is how the option feels when you imagine it: 1 = bad, 5 = very good.",
+              "column_names_from": { "exercise": "4.1", "field": "options" },
+              "columns": [
+                { "id": "dealbreaker", "label": "Breaks a dealbreaker? Which?", "kind": "text" },
+                { "id": "essentials", "label": "Essentials not met or unknown", "kind": "text" },
+                { "id": "feeling", "label": "My feeling (1–5)", "kind": "number" },
+                { "id": "cost", "label": "Rough cost per month", "kind": "money" },
+                { "id": "risk", "label": "Biggest risk", "kind": "text" }
+              ]
+            },
+            {
+              "id": "staying",
+              "type": "table",
+              "rows": 1,
+              "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? And what would it cost in time, energy or happiness? Write down both to make the comparison fair.",
+              "columns": [
+                { "id": "protects", "label": "What staying protects", "kind": "long_text" },
+                { "id": "costs", "label": "What staying costs", "kind": "long_text" }
+              ]
+            }
+          ]
+        },
+        "tips": [
+          "This comparison is not final. It does not choose a winner. It shows what you still need to find out, and that is where Step 2 begins."
+        ]
+      }
+    ],
+    "summary": {
+      "id": "options",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "Which options do I still want to investigate?",
+        "What would each option need to work for me?",
+        "What should I test?"
+      ],
+      "prompt": "Now bring it together in My Options. Short sentences are enough.",
+      "fields": [
+        { "id": "keep", "type": "long_text", "lines": 2, "label": "Options I keep, and why" },
+        { "id": "let_go", "type": "long_text", "lines": 2, "label": "Options I let go, and why" },
+        { "id": "must_be_true", "type": "long_text", "lines": 2, "label": "What each option I keep would need to work for me" },
+        { "id": "risks", "type": "long_text", "lines": 2, "label": "What worries me most, in one line" },
+        { "id": "find_out", "type": "long_text", "lines": 2, "label": "What I still need to find out" }
+      ],
+      "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
+      "result": "My Options — the options worth investigating, and what you need to learn about them."
+    }
+  },
+  {
+    "id": "p5",
+    "number": 5,
+    "label": "Part 5",
+    "title": "Choose your working direction",
+    "promise": "Not a final decision. A clear next direction.",
+    "intro_title": "A direction is not a decision.",
+    "intro": [
+      "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
+      "Make your next step specific. It should be small enough to complete within two weeks, have a date, and teach you something. \"Read more about Portugal\" gives you no clear question or deadline. \"Call two people who moved there and ask what surprised them, before the 15th\" gives you both.",
+      "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier. You will return to this answer in Step 8.",
+      "The final decision comes in Step 3, after you have explored your options."
+    ],
+    "time": "30 min",
+    "route_title": "Choose your working direction",
+    "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Are other people moving with you? Ask each of them to fill in their own page first. Then sit together and compare.",
+    "finish": {
+      "id": "working_direction",
+      "title": "My Working Direction",
+      "description": "What you want to explore, what you take with you, and your next step."
+    },
+    "exercises": [
+      {
+        "id": "5.1",
+        "title": "My Working Direction",
+        "start_here": {
+          "fields": [
+            { "id": "life_picture", "type": "long_text", "lines": 3, "label": "My life picture in three sentences" },
+            {
+              "id": "choice",
+              "type": "single_choice",
+              "label": "What I choose now",
+              "options": [
+                "A direction to investigate",
+                "Compare two or more",
+                "Build the life I want where I am",
+                "Keep the life I have",
+                "Not ready yet"
+              ]
+            },
+            { "id": "directions", "type": "long_text", "lines": 2, "label": "The direction(s) I want to explore" },
+            { "id": "why", "type": "long_text", "lines": 3, "label": "Why: two or three reasons" },
+            { "id": "essentials", "type": "long_text", "lines": 2, "label": "My essential needs: I take these with me" },
+            { "id": "assumptions", "type": "long_text", "lines": 2, "label": "Assumptions I still need to check" },
+            { "id": "learn_next", "type": "long_text", "lines": 2, "label": "What I need to learn next" },
+            { "id": "willing_to_give", "type": "long_text", "lines": 2, "label": "What I am willing to invest: time, money, comfort" },
+            { "id": "helpers", "type": "short_text", "label": "Who can help me" },
+            { "id": "first_question", "type": "long_text", "lines": 2, "label": "The first question I will investigate, and why it matters most" },
+            { "id": "next_step", "type": "short_text", "label": "My next small step, within two weeks" },
+            { "id": "step_learning", "type": "short_text", "label": "What this step will help me learn" },
+            { "id": "date", "type": "short_text", "label": "Date of this step" },
+            { "id": "review_when", "type": "short_text", "label": "When I will review what I learned" },
+            { "id": "continue_or_stop", "type": "long_text", "lines": 2, "label": "What result would make me continue, change direction, or stop" },
+            { "id": "two_years", "type": "long_text", "lines": 2, "label": "In two years, how I will know this worked" }
+          ]
+        },
+        "choice_explanations_intro": "For \"What I choose now\", five answers are possible, and all five are good:",
+        "choice_explanations": [
+          "I have a direction I want to investigate. Step 2 is waiting for you.",
+          "I want to compare two or more directions. Step 2 helps you explore them side by side.",
+          "I want to build the life I want where I am. Staying is a real result. It takes the same work of deciding, planning and building. We are developing a full staying route with the first participants.",
+          "I am not ready to choose yet. Your page shows what you need to learn first.",
+          "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
+        ],
+        "example": {
+          "who": "Tom, 58",
+          "text": "What I choose now: not ready yet. While doing this workbook, my wife and I found out that we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
+        },
+        "example_page": {
+          "title": "A completed page",
+          "intro": "Rosa is made up, and she ends up staying. The point is not her answer. It is that every line is filled in, including the parts she does not know yet.",
+          "rows": [
+            ["My life picture in three sentences", "I want time outside every day. I want work I choose, not work that fills every hour. I want my parents close enough to visit in an afternoon."],
+            ["What I choose now", "Build the life I want where I am."],
+            ["The direction(s) I want to explore", "Four days a week instead of five, in my current job, and one day a week outside."],
+            ["Why: two or three reasons", "My parents are twenty minutes away, and that is worth more to me than better weather. Most of what I wanted from moving was time, not another country. A colleague already works four days, so it is possible here."],
+            ["My essential needs: I take these with me", "Daily time outside. Work I choose. No commute over 30 minutes."],
+            ["Assumptions I still need to check", "That we can live on about 80% of my income. That my manager will agree in writing. That one day less does not become five days of work in four."],
+            ["What I need to learn next", "What a year on 80% really costs us, using our own numbers."],
+            ["What I am willing to invest: time, money, comfort", "About 20% of my income, and one uncomfortable conversation at work."],
+            ["Who can help me", "My partner, for the budget. My colleague who already works four days."],
+            ["The first question I will investigate, and why it matters most", "Can we live on 80%? If the answer is no, the rest does not matter, whatever my manager says."],
+            ["My next small step, within two weeks", "Redo Part 3 with 80% of my take-home pay, using our last three bank statements."],
+            ["What this step will help me learn", "Whether the gap is small enough to close by cutting costs, or big enough to need another plan."],
+            ["Date of this step", "Before 15 October."],
+            ["When I will review what I learned", "1 November, whatever has happened by then."],
+            ["What result would make me continue, change direction, or stop", "A gap under 150 a month: continue, and ask my manager. A bigger gap: look at other work here first, before I reopen the idea of moving."],
+            ["In two years, how I will know this worked", "I am outside every day, not only at weekends. I see my parents every week. And my Fridays are still mine."]
+          ]
+        }
+      },
+      {
+        "id": "5.2",
+        "title": "The people involved",
+        "optional": true,
+        "intro": [
+          "If you are making this choice with someone else, fill in the table together after each of you has worked through your own answers. I have seen how easily a conversation can end with one person's picture and the other person simply agreeing to it."
+        ],
+        "start_here": {
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 2,
+              "columns": [
+                { "id": "person", "label": "Person", "kind": "text" },
+                { "id": "shared", "label": "Shared wishes", "kind": "text" },
+                { "id": "differ", "label": "Where we differ", "kind": "text" },
+                { "id": "concerns", "label": "Open concerns", "kind": "text" },
+                { "id": "agreed", "label": "What we agreed", "kind": "text" }
+              ]
+            }
+          ]
+        },
+        "story": {
+          "status": "ready",
+          "text": "When I first described the life I wanted, I did not know many of the details. I had no plan for an inspection business, but I knew I loved building. I had not imagined writing this Blueprint, but I knew I was good at helping and supporting people. The details took shape as I went. Start with what you know now and take a first step. You will learn more by doing it."
+        }
+      }
+    ],
+    "result": "My Working Direction — what you want to explore, what you take with you, and your next step."
+  }
+]

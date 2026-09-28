@@ -1,0 +1,435 @@
+[
+  {
+    "id": "p0",
+    "number": 0,
+    "label": "Start",
+    "optional": true,
+    "title": "Your First Picture",
+    "promise": "Four questions. About 20 minutes. A first picture of what you want.",
+    "intro": "Start here if you want a first picture today. These four questions give you something useful to work with before you explore it further in the full workbook.",
+    "time": "20–30 min",
+    "route_title": "Your First Picture, a quick way in",
+    "finish": {
+      "id": "first_picture",
+      "title": "My First Picture",
+      "description": "A first picture of what you want."
+    },
+    "exercises": [
+      {
+        "id": "0.1",
+        "title": "Four questions",
+        "start_here": {
+          "fields": [
+            {
+              "id": "moment",
+              "type": "long_text",
+              "lines": 3,
+              "marker": "A",
+              "label": "One moment that felt good",
+              "hint": "Think of one moment in the last few years when you felt content, engaged or proud. What happened? What made it possible?"
+            },
+            {
+              "id": "normal_day",
+              "type": "long_text",
+              "lines": 5,
+              "marker": "B",
+              "label": "A normal day",
+              "hint": "Imagine a normal day in the life you want. Not a holiday. Write five sentences, from morning to evening."
+            },
+            {
+              "id": "keep",
+              "type": "long_text",
+              "lines": 3,
+              "marker": "C",
+              "label": "What you want to keep",
+              "hint": "What is good in your life now that you want to keep, wherever you live?"
+            },
+            {
+              "id": "big_question",
+              "type": "long_text",
+              "lines": 2,
+              "marker": "D",
+              "label": "Your biggest question",
+              "hint": "What is the biggest question you have about your future right now?"
+            }
+          ]
+        }
+      }
+    ],
+    "summary": {
+      "id": "first_picture",
+      "title": "My First Picture",
+      "prompt": "Look at your four answers. Then finish these sentences.",
+      "fields": [
+        { "id": "more_of", "type": "long_text", "lines": 2, "label": "What I want more of" },
+        { "id": "keep", "type": "long_text", "lines": 2, "label": "What I want to keep" },
+        { "id": "daily_life", "type": "long_text", "lines": 2, "label": "What matters to me in daily life" },
+        { "id": "two_directions", "type": "long_text", "lines": 2, "label": "Something that pulls in two directions" },
+        { "id": "action", "type": "long_text", "lines": 2, "label": "My one small action this week" },
+        { "id": "test_later", "type": "long_text", "lines": 2, "label": "Something I want to test later, and what it would help me learn" }
+      ],
+      "tips": [
+        "Look for wishes that pull in two directions. For example: \"I want quiet, but I also want friends close by.\" That is useful information. You can choose one for now, combine both (a quiet home fifteen minutes from a village), or put them in order: first this, later that. If you have not noticed a tension, write \"none noticed yet\". You do not need to invent a problem."
+      ],
+      "example": {
+        "who": "Sofia, 51",
+        "text": "More of: time outside and control over my week. Keep: weekly dinners with my sister. Daily life: calm mornings and meaningful work. Two directions: I want to live in the countryside, but I love being close to my family. Action this week: ask my manager if I can work from another place two days a week."
+      },
+      "closing": "Continue with Part 1 when you are ready. If you have completed the First Picture, bring your answers with you. Add to them or change them where it helps."
+    }
+  },
+  {
+    "id": "p1",
+    "number": 1,
+    "label": "Part 1",
+    "title": "Picture your new life",
+    "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
+    "intro": [
+      "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" Both questions matter. Here, we begin with the life you want, then look at the place and the money.",
+      "You need something to judge a place or a price against. If you do not know how you want to live, every country looks good in the photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
+      "A picture goes further than a wish. A wish is a word; a picture is a scene. Two people who want \"more freedom\" can mean completely different things. \"I decide what I do on a Tuesday morning\" gives you something concrete. You can compare a job, a house or a country with it and ask: would this give me that Tuesday morning?",
+      "You are also allowed to want something ordinary. Your picture does not have to impress anyone. Mine was simple: land, my hands in the soil, a warm climate, and work that meant something. It took years to build. It never became more impressive. It became more real."
+    ],
+    "intro_title": "Why we start with a picture",
+    "tips": [
+      "You do not need the whole picture. You need enough of it to take the next step. The rest becomes clear after that."
+    ],
+    "time": "75–100 min",
+    "route_title": "Picture your new life",
+    "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you are planning this life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
+    "finish": {
+      "id": "life_picture",
+      "title": "My Life Picture",
+      "description": "What you want more of, what you keep, what is essential, and what is still open."
+    },
+    "exercises": [
+      {
+        "id": "1.0",
+        "title": "From \"no\" to \"yes\"",
+        "kicker": "Warm-up",
+        "intro": [
+          "Most people find \"no\" easier than \"yes\". So we start there, and then turn it around.",
+          "A \"no\" tells you what to leave behind. \"No more long evenings at my laptop\" is a useful starting point, but it does not tell you what you want to do with those evenings. For each \"no\", write a \"yes\": what you would actually do instead.",
+          "Give yourself five minutes. Write what comes to mind before you start editing your answers."
+        ],
+        "start_here": {
+          "prompt": "Write five things you no longer want in your life. Then, for each one, write what you want instead. Make it as concrete as you can.",
+          "fields": [
+            {
+              "id": "no_to_yes",
+              "type": "table",
+              "rows": 5,
+              "columns": [
+                { "id": "no", "label": "What I no longer want", "kind": "text" },
+                { "id": "yes", "label": "What I want instead", "kind": "text" }
+              ]
+            }
+          ]
+        },
+        "example": {
+          "who": "Tom, 58",
+          "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner. No more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
+        },
+        "tips": [
+          "Some things you do not want have no clear \"yes\" yet. Write \"not sure yet\". You come back to them in 1.2, when you describe your normal day."
+        ]
+      },
+      {
+        "id": "1.1",
+        "title": "Moments that felt good",
+        "promise": "\"What is your passion?\" is a hard question. \"When did you feel good?\" is much easier. And the answers tell you more.",
+        "intro": [
+          "When someone asks what you really want, it can be hard to answer. It is a big question, and \"I don't know\" is often the honest response. So we start with something easier to recall.",
+          "Look at moments in your own life when things felt right. You do not have to invent them or borrow them from someone else's life online. They are real experiences, and they tell you something about what matters to you."
+        ],
+        "tables": [
+          {
+            "place": "before",
+            "lead": "Three things are worth looking for in every good moment:",
+            "header": ["Ingredient", "The question it answers", "For example"],
+            "rows": [
+              ["The activity", "What were you doing?", "Building something, teaching someone, being outside"],
+              ["The people", "Who was with you, or were you alone?", "Alone, with one person, in a group"],
+              ["The need underneath", "What did it give you?", "Calm, meaning, freedom, being useful"]
+            ],
+            "after": "The third one matters most. The activity may not be possible in your new life. The need comes with you wherever you go."
+          }
+        ],
+        "watch_out": [
+          "Holidays often come to mind first because they are easy to remember. They can show you something real about yourself, but they also show what you needed a break from. That is not always the same as what you want in daily life. Include one holiday if you like, and at least one ordinary day too."
+        ],
+        "start_here": {
+          "prompt": "Think of three moments from the last few years when you felt content, engaged or proud. Choose at least one from an ordinary day. Where were you? What were you doing? Who was with you?",
+          "fields": [
+            { "id": "moments", "type": "list", "count": 3 },
+            {
+              "id": "common",
+              "type": "long_text",
+              "lines": 3,
+              "hint": "Look at each moment more closely. What made it possible, and what do the three moments have in common?"
+            }
+          ]
+        },
+        "example": {
+          "who": "Tom, 58",
+          "text": "Sailing with my brother last summer. Repairing the old bench in the garden. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present, not busy with work or my phone."
+        },
+        "story": {
+          "status": "ready",
+          "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I was building something with my hands, helping someone move forward, or spending time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
+        }
+      },
+      {
+        "id": "1.2",
+        "title": "A normal day in your new life",
+        "promise": "Not a holiday. A normal Tuesday. Because most days are normal days.",
+        "intro": [
+          "Now you turn those ingredients into a day.",
+          "We use an ordinary day because that is what most of your life will be. It can feel less exciting than imagining a big change, but it gives you a useful question: would I enjoy the everyday life that comes with it?",
+          "An ordinary day also gives you something to test. You can visit a place and try living a normal Tuesday there. It is much harder to test a word like \"happiness\"."
+        ],
+        "tables": [
+          {
+            "place": "before",
+            "lead": "How much detail? Enough that someone else could film it. Look at the difference:",
+            "header": ["Too vague to plan", "Detailed enough to plan"],
+            "rows": [
+              ["\"A house with a view\"", "\"Coffee on the terrace, looking at olive trees, before anyone else is awake\""],
+              ["\"Meaningful work\"", "\"Two mornings a week helping new business owners solve problems I understand\""],
+              ["\"Close to family\"", "\"My sister can come for dinner without booking a flight\""]
+            ],
+            "after": "The detail in the right-hand column gives you something you can check against a real house, job or town."
+          }
+        ],
+        "start_here": {
+          "prompt": "Describe this day from morning to evening. Include an ordinary detail you would not put in a holiday brochure: housework, rain, or an hour when nothing much happens. Use these questions to help you:",
+          "bullets": [
+            "Where do you wake up? What do you see from your window?",
+            "What do you do in the morning? And in the afternoon?",
+            "What is your work, or how do you spend your time?",
+            "Who is with you? How does the day end?"
+          ],
+          "fields": [
+            { "id": "day", "type": "long_text", "lines": 8, "placeholder": "I wake up…" },
+            {
+              "id": "needs",
+              "type": "long_text",
+              "lines": 2,
+              "label": "The need behind the picture.",
+              "hint": "Olive trees might mean calm, nature or space. What are the two or three needs behind your normal day?"
+            }
+          ]
+        },
+        "example": {
+          "who": "Maria, 46",
+          "text": "I wake up at 7, without an alarm. From my window, I see olive trees. I drink coffee outside. In the morning, I work four hours online for my clients. In the afternoon, I work in the garden or go to the market in the village. My partner and I cook together. Twice a week, friends come for dinner. Two afternoons a week are for paperwork and cleaning, and I don't enjoy them. I go to bed tired, but happy."
+        },
+        "go_deeper": {
+          "prompt": [
+            "Read your day again and underline the concrete details: coffee, terrace, olive trees, clients, sister. If there are only a few, add enough detail for someone else to picture the day as clearly as you do.",
+            "Then add the less enjoyable parts: housework, paid work, a tired day, a rainy winter week, time alone. Does the picture still feel good? Could you meet the same needs another way, including closer to home?"
+          ],
+          "fields": [
+            { "id": "deeper", "type": "long_text", "lines": 4 },
+            {
+              "id": "board",
+              "type": "image_board",
+              "max": 8,
+              "label": "Make it visible",
+              "hint": "Collect five to eight photos of ordinary scenes that fit your day: a kitchen table, a path, a workshop, a market. Use your own photos where you can. Under each one, write the need it represents. These pictures will help you compare real places with the daily life you want.",
+              "caption_label": "The need this picture represents"
+            }
+          ]
+        },
+        "watch_out": [
+          "Some of what comes up will not be yours. It will be a life you have seen online. That is normal, and exercise 1.5 helps you spot it. For now, write everything down. You sort it later."
+        ]
+      },
+      {
+        "id": "1.3",
+        "title": "If money were no worry",
+        "promise": "Time to play. For a moment, forget what seems possible.",
+        "intro": [
+          "Money can limit what you allow yourself to want before you have even put it into words. It is easy to dismiss an idea as too expensive without looking at what draws you to it.",
+          "You may have done this while describing your normal day in 1.2. For this exercise, set that limit aside.",
+          "Give yourself room to describe what you want. Then bring money back into the picture and ask: what is the smallest first step towards this, and what does it cost?",
+          "Most directions have a small, inexpensive first step. You can compare countries or talk to someone who has made a similar change without spending money. Testing a business idea at a local market takes a weekend, plus the cost of stock and a stall. You do not have to start with the most expensive version."
+        ],
+        "start_here": {
+          "prompt": "Imagine your essential costs are covered for the rest of your life. How would you spend your time? What would you stop doing? What would you start?",
+          "fields": [
+            { "id": "dream_list", "type": "long_text", "lines": 6 },
+            {
+              "id": "top3",
+              "type": "list",
+              "count": 3,
+              "hint": "Want to think bigger? Imagine you receive two million euros tomorrow. What would you do with it? Add it above. Then write the three answers that matter most to you."
+            }
+          ]
+        },
+        "example": {
+          "who": "Aisha, 33",
+          "text": "I would bake every day and teach others. I would spend more time with my mother. I would stop my office job. With two million: a small house with a big kitchen. The three that matter most: my own bakery, time with my mother, the house."
+        },
+        "go_deeper": {
+          "prompt": "Look at your three answers. Which of them really need a lot of money? Which could start much smaller, maybe this year?",
+          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+        },
+        "story": {
+          "status": "ready",
+          "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I did not have two million euros, but I realised I did not need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. The land was officially mine in August 2024. Today, I am building the life I pictured."
+        }
+      },
+      {
+        "id": "1.4",
+        "title": "What matters most",
+        "promise": "Your values shape your choices, including the ones you make without thinking.",
+        "intro": [
+          "You use your values every day. They influence which job you accept and why a place can feel wrong even when it looks perfect on paper. Naming them helps you understand those reactions and use them when comparing options."
+        ],
+        "tables": [
+          {
+            "place": "before",
+            "lead": "Here, you turn what matters to you into practical criteria for your choices. Sort them into three groups:",
+            "rows": [
+              ["Must-have", "Your life needs this. Without it, the whole option is wrong, even when everything else is good."],
+              ["Strongly preferred", "You want it and will work for it. You could live without it for a while."],
+              ["Dealbreaker", "You will not accept this. It ends the discussion."]
+            ],
+            "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, there are usually two or three that matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
+          }
+        ],
+        "start_here": {
+          "prompt": "Tick the five words that matter most to you. Missing a word? Write it in an empty box.",
+          "fields": [
+            {
+              "id": "values",
+              "type": "checkbox_pick",
+              "pick": 5,
+              "allow_custom": true,
+              "options": [
+                "Freedom", "Security", "Health", "Family",
+                "Love", "Adventure", "Nature", "Peace of mind",
+                "Honesty", "Respect", "Independence", "Personal growth",
+                "Helping others", "Comfort", "Fun", "Community",
+                "Creativity", "Faith", "Success", "Simplicity"
+              ]
+            },
+            {
+              "id": "top_two",
+              "type": "table",
+              "rows": 2,
+              "hint": "Choose your two most important words. What would more room for each one look like in a normal week?",
+              "columns": [
+                { "id": "word", "label": "Word", "kind": "text" },
+                { "id": "week", "label": "What it looks like in a normal week", "kind": "text" }
+              ]
+            },
+            {
+              "id": "must_haves",
+              "type": "table",
+              "rows": 5,
+              "hint": "Now make it concrete. For each must-have, ask: would I say no to a place that has everything else, but not this? Then it is essential. If not, it is strongly preferred.",
+              "columns": [
+                { "id": "must_have", "label": "What my new life needs", "kind": "text" },
+                {
+                  "id": "importance",
+                  "label": "Which of these are essential, and which are strongly preferred?",
+                  "kind": "choice",
+                  "options": ["Essential", "Strongly preferred"]
+                }
+              ]
+            },
+            {
+              "id": "dealbreakers",
+              "type": "long_text",
+              "lines": 3,
+              "label": "My dealbreakers",
+              "hint": "Things I will not accept"
+            },
+            {
+              "id": "keep",
+              "type": "long_text",
+              "lines": 3,
+              "label": "What I want to keep",
+              "hint": "Good things in my life now"
+            },
+            {
+              "id": "let_go",
+              "type": "long_text",
+              "lines": 3,
+              "label": "What I can let go",
+              "hint": "Things I can live without"
+            }
+          ]
+        },
+        "example": {
+          "who": "Daniel, 39",
+          "text": "Words: family, security, nature, adventure, honesty. \"Family\" in a normal week: dinner together at least four times. Must-have: a good school close to home (essential). A garden (strongly preferred). Dealbreaker: more than one hour from a hospital. Keep: my weekly football team. Let go: a big car."
+        },
+        "tips": [
+          "Choosing one thing often means giving up another. Decide which trade-offs you can accept before you have spent money or committed to a place."
+        ]
+      },
+      {
+        "id": "1.5",
+        "title": "Whose picture is this?",
+        "promise": "Other people help shape your picture. This exercise asks whose influence you can see in it.",
+        "intro": [
+          "Family, friends, social media and past experiences all shape what we want. That does not make a wish wrong. But it is worth checking how much of the picture feels like your own before you commit to it or sell your home.",
+          "Also ask whether you are moving towards something, away from something, or both. Wanting to leave a job that leaves you tired and empty is a valid reason for change. It tells you what needs to end, but you still need to decide what you want in its place. A move is more likely to help when you know which problem you are trying to solve."
+        ],
+        "start_here": {
+          "prompt": "Answer these three honestly. Write your first thought. You can always change it later.",
+          "fields": [
+            {
+              "id": "checks",
+              "type": "yes_no",
+              "options": ["Yes", "Partly", "No", "Not sure"],
+              "questions": [
+                "I would still want this life if nobody could see it. No photos, no social media.",
+                "I am moving towards something, not only away from something.",
+                "A good friend would say: \"Yes, that fits you.\""
+              ]
+            },
+            {
+              "id": "voices",
+              "type": "long_text",
+              "lines": 4,
+              "hint": "Whose expectations or voices do you hear in your picture? Which parts feel most like your own?"
+            }
+          ]
+        },
+        "example": {
+          "who": "Ingrid, 62",
+          "text": "Partly. I love the idea of living abroad. But I notice that part of it comes from my friends, who all talk about it. I am not sure yet which part is really mine, and that is okay for now."
+        },
+        "challenge": "Look at the middle statement. If you answered no or not sure, write one sentence about what you are moving towards. Describe what you want, beyond the problem you want to leave. If you cannot put it into words yet, that is something useful to work on."
+      }
+    ],
+    "summary": {
+      "id": "life_picture",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "Which needs keep coming back?",
+        "What do I want to keep?",
+        "Which trade-off matters most to me?"
+      ],
+      "prompt": "Now bring it together in My Life Picture. Short sentences are enough.",
+      "fields": [
+        { "id": "needs_patterns", "type": "long_text", "lines": 2, "label": "Moments and needs that keep coming back" },
+        { "id": "more_of", "type": "long_text", "lines": 2, "label": "What I want more of" },
+        { "id": "keep", "type": "long_text", "lines": 2, "label": "What I want to keep" },
+        { "id": "essentials", "type": "long_text", "lines": 2, "label": "My essential must-haves" },
+        { "id": "tensions", "type": "long_text", "lines": 2, "label": "What pulls in two directions" },
+        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What I still don't know" }
+      ],
+      "example": {
+        "who": "Maria, 46",
+        "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: ground to grow food, internet good enough for video calls, a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
+      },
+      "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
+    }
+  }
+]

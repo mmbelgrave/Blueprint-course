@@ -1,13 +1,12 @@
 "use client";
-// Calm, colored content cards (example, tips, story, challenge, freedom idea).
+// Calm, colored content cards (example, tips, story, challenge, sources).
 import { useState } from "react";
 
 const tones = {
   example: { box: "bg-indigo-soft", title: "text-indigo" },
   tips: { box: "bg-white border border-sand-deep", title: "text-amber" },
   story: { box: "bg-amber-soft", title: "text-amber" },
-  challenge: { box: "bg-white border-l-4 border-amber", title: "text-amber" },
-  freedom: { box: "bg-green-soft", title: "text-green" },
+  challenge: { box: "bg-white border-l-4 border-amber", title: "text-amber" },
   talk: { box: "bg-indigo text-white", title: "text-amber-soft" },
   // Step 2: official sources, expert work, and "Can you skip this part?".
   sources: { box: "bg-white border-l-4 border-indigo", title: "text-indigo" },

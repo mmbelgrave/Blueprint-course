@@ -104,7 +104,6 @@ export type Exercise = {
   tips?: string[];
   story?: { status: string; text: string };
   challenge?: string;
-  freedom_idea?: string;
   where_to_check?: string[];
   expert_work?: string;
   belief_examples?: { title: string; items: string[] }[];
@@ -166,13 +165,6 @@ export type StepContent = {
   parts: Part[];
   closing: { title: string; text: string; next: string[]; tip: string; last_lines: string[] };
   sources?: { title: string; intro: string; columns: string[]; rows: string[][]; expert_work?: string };
-  freedom_appendix: {
-    title: string;
-    text: string;
-    link: string | null;
-    honest_note: string;
-    risk_note: string;
-  };
 };
 
 export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];

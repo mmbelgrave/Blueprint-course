@@ -213,11 +213,6 @@ function StepOverview({ step }: { step: StepContent }) {
         </section>
       )}
 
-      <p className="mt-6 text-sm">
-        <Link href="/freedom-idea" className="text-green underline">
-          About the Freedom idea
-        </Link>
-      </p>
     </>
   );
 }

@@ -331,14 +331,6 @@ function ExerciseBody({ located }: { located: Located }) {
             <p>{exercise.expert_work}</p>
           </Card>
         )}
-        {exercise.freedom_idea && (
-          <Card tone="freedom" title="Freedom idea">
-            <p>{exercise.freedom_idea}</p>
-            <Link href="/freedom-idea" className="inline-block text-sm font-semibold text-green underline">
-              About the Freedom idea
-            </Link>
-          </Card>
-        )}
         {exercise.story && (
           <Card tone="story" title="My story — Mwata">
             <p>{exercise.story.text}</p>
