@@ -12,7 +12,7 @@ export default function Error({ error, retry }: { error: Error & { digest?: stri
 
   return (
     <main className="mx-auto max-w-md flex-1 space-y-4 px-4 py-16 text-center">
-      <h1 className="text-2xl font-bold text-indigo">Something went wrong</h1>
+      <h1 className="text-2xl font-bold text-pine">Something went wrong</h1>
       <p>Your answers are safe. Please try again. If it keeps happening, go back to the overview.</p>
       <div className="flex justify-center gap-3">
         <button className="btn btn-primary" onClick={() => retry()}>

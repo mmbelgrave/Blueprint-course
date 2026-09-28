@@ -6,8 +6,8 @@ export default function Privacy() {
   return (
     <Shell>
       <article className="mx-auto max-w-2xl space-y-4 rounded-2xl bg-white p-6 sm:p-8">
-        <h1 className="text-2xl font-bold text-indigo">Your privacy</h1>
-        <p className="text-muted">
+        <h1 className="text-2xl font-bold text-pine">Your privacy</h1>
+        <p className="text-stone">
           This is a small pilot. You were invited by name. Here is exactly what happens
           with what you write.
         </p>

@@ -15,9 +15,9 @@ const isText = (f: Field) => f.type === "long_text" || f.type === "short_text";
 
 /** The boxes on this page the AI partner may draft (empty = no draft button). */
 export function draftFields(exercise: Exercise): Field[] {
-  if (exercise.kind === "summary") return exercise.start_here.fields.filter(isText);
+  if (exercise.kind === "summary") return (exercise.start_here?.fields ?? []).filter(isText);
   const ids = EXTRA_DRAFTABLE[exercise.id];
-  return ids ? exercise.start_here.fields.filter((f) => isText(f) && ids.includes(f.id)) : [];
+  return ids ? (exercise.start_here?.fields ?? []).filter((f) => isText(f) && ids.includes(f.id)) : [];
 }
 
 /**

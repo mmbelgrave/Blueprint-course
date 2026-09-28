@@ -2,16 +2,22 @@
 // Calm, colored content cards (example, tips, story, challenge, sources).
 import { useState } from "react";
 
+/*
+ * Ochre is the brand's one accent: about one ochre moment per screen. So it
+ * marks only what needs attention — "Watch out" and "A friendly challenge" —
+ * while the calm boxes stay Pine on Sage or white.
+ */
 const tones = {
-  example: { box: "bg-indigo-soft", title: "text-indigo" },
-  tips: { box: "bg-white border border-sand-deep", title: "text-amber" },
-  story: { box: "bg-amber-soft", title: "text-amber" },
-  challenge: { box: "bg-white border-l-4 border-amber", title: "text-amber" },
-  talk: { box: "bg-indigo text-white", title: "text-amber-soft" },
+  example: { box: "bg-white border border-line", title: "text-pine" },
+  tips: { box: "bg-white border-l-4 border-moss", title: "text-pine" },
+  story: { box: "bg-sage", title: "text-pine" },
+  challenge: { box: "bg-white border-l-4 border-ochre", title: "text-ochre" },
+  watch: { box: "bg-ochre-soft", title: "text-ochre" },
+  talk: { box: "bg-pine text-sand", title: "text-ochre-light" },
   // Step 2: official sources, expert work, and "Can you skip this part?".
-  sources: { box: "bg-white border-l-4 border-indigo", title: "text-indigo" },
-  expert: { box: "bg-white border-2 border-indigo/40", title: "text-indigo" },
-  skip: { box: "bg-sand border border-sand-deep", title: "text-muted" },
+  sources: { box: "bg-white border-l-4 border-pine", title: "text-pine" },
+  expert: { box: "bg-white border-2 border-pine/40", title: "text-pine" },
+  skip: { box: "bg-sand border border-line", title: "text-stone" },
 } as const;
 
 export function Card({

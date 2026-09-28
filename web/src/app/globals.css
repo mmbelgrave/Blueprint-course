@@ -1,18 +1,28 @@
 @import "tailwindcss";
 
-/* Brand colors from the build brief (section 7). */
+/*
+ * The Life You Choose — colours and type.
+ * Source of truth: My Purpose/Brandguide/the-life-you-choose-brand-guide.html (v2026.1).
+ * Roughly 55% Sand or white, 22% Pine, 12% Granite, 7% Ochre, 4% Sage or Moss:
+ * Ochre is the accent that marks the one point that matters on a screen.
+ */
 @theme {
-  --color-indigo: #2e2a5c;
-  --color-indigo-soft: #e7e5f2;
-  --color-sand: #f3ece0;
-  --color-sand-deep: #e8dcc6;
-  --color-amber: #c47a1a;
-  --color-amber-soft: #f7e9d3;
-  --color-green: #2f6b4f;
-  --color-green-soft: #e1eee6;
-  --color-ink: #17161e;
-  --color-muted: #5b5866;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --color-pine: #2c3b2f; /* headings, key blocks, primary buttons */
+  --color-pine-deep: #223026; /* only for a pressed primary button */
+  --color-sand: #f3ece0; /* the ground */
+  --color-sage: #e3e1d0; /* panels and callouts */
+  --color-line: #ddd7c6; /* borders on Sand and on white */
+  --color-ochre: #8f5410; /* the accent; text-safe on Sand and white */
+  --color-ochre-light: #d9a55a; /* only on Pine or Granite */
+  --color-ochre-soft: #f6ead9; /* the ground under a warning */
+  --color-moss: #5e7a50; /* the "live it" line, charts, icons */
+  --color-granite: #1c1e1b; /* body text */
+  --color-stone: #66625a; /* captions and secondary text */
+  --color-success: #2e6b45;
+  --color-success-soft: #e4ede7;
+  --color-error: #a23b30;
+  --font-sans: var(--font-body), "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-display-face), Georgia, "Times New Roman", serif;
 }
 
 html {
@@ -21,9 +31,28 @@ html {
 
 body {
   background: var(--color-sand);
-  color: var(--color-ink);
+  color: var(--color-granite);
   font-family: var(--font-sans);
   line-height: 1.6;
+}
+
+/* Newsreader carries meaning; Hanken Grotesk carries the mechanics. */
+h1,
+h2,
+h3,
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+}
+h1 {
+  line-height: 1.06;
+}
+
+/* Columns of money and scores line up only with tabular figures. */
+table,
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 /*
@@ -50,14 +79,14 @@ body {
   }
   .rtable tbody th[scope="row"] {
     font-weight: 600;
-    color: var(--color-indigo);
+    color: var(--color-pine);
     padding-bottom: 0.25rem;
   }
   .rtable td[data-label]::before {
     content: attr(data-label);
     display: block;
     font-size: 0.8rem;
-    color: var(--color-muted);
+    color: var(--color-stone);
     margin-bottom: 0.15rem;
   }
   .rtable td:empty {
@@ -84,22 +113,22 @@ body {
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-amber);
+  outline: 3px solid var(--color-ochre);
   outline-offset: 2px;
 }
 
 .field-input {
   width: 100%;
-  border: 1px solid var(--color-sand-deep);
+  border: 1px solid var(--color-line);
   background: #fff;
   border-radius: 0.6rem;
   padding: 0.55rem 0.75rem;
-  color: var(--color-ink);
+  color: var(--color-granite);
 }
 .field-input:focus {
-  border-color: var(--color-indigo);
+  border-color: var(--color-pine);
   outline: none;
-  box-shadow: 0 0 0 3px var(--color-indigo-soft);
+  box-shadow: 0 0 0 3px var(--color-sage);
 }
 
 .btn {
@@ -117,21 +146,21 @@ body {
   cursor: not-allowed;
 }
 .btn-primary {
-  background: var(--color-indigo);
-  color: #fff;
+  background: var(--color-pine);
+  color: var(--color-sand);
 }
 .btn-primary:hover:not(:disabled) {
-  background: #24214a;
+  background: var(--color-pine-deep);
 }
-.btn-amber {
-  background: var(--color-amber);
+.btn-ochre {
+  background: var(--color-ochre);
   color: #fff;
 }
 .btn-ghost {
   background: transparent;
-  color: var(--color-indigo);
-  border: 1px solid var(--color-indigo);
+  color: var(--color-pine);
+  border: 1px solid var(--color-pine);
 }
 .btn-ghost:hover {
-  background: var(--color-indigo-soft);
+  background: var(--color-sage);
 }

@@ -11,9 +11,9 @@ export default function Welcome() {
   return (
     <Shell>
       <section className="py-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-amber">{PRODUCT.brand}</p>
-        <h1 className="mt-2 text-4xl font-bold text-indigo sm:text-5xl">{first.question}</h1>
-        <div className="mt-4 text-xl text-indigo">
+        <p className="text-sm font-semibold uppercase tracking-wide text-ochre">{PRODUCT.brand}</p>
+        <h1 className="mt-2 text-4xl font-bold text-pine sm:text-5xl">{first.question}</h1>
+        <div className="mt-4 text-xl text-pine">
           {first.tagline.map((l) => (
             <p key={l}>{l}</p>
           ))}
@@ -29,14 +29,14 @@ export default function Welcome() {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-muted">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-stone">
           {PRODUCT.name} · {PRODUCT.edition}
         </h2>
         <ol className="mt-3 grid gap-4 sm:grid-cols-2">
           {steps.map(({ step }) => (
             <li key={step.id} className="rounded-2xl bg-white p-5">
-              <p className="text-sm font-semibold text-amber">Step {step.number}</p>
-              <p className="text-xl font-semibold text-indigo">{step.title}</p>
+              <p className="text-sm font-semibold text-ochre">Step {step.number}</p>
+              <p className="text-xl font-semibold text-pine">{step.title}</p>
               <p className="mt-1">{step.question}</p>
             </li>
           ))}

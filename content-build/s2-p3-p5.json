@@ -147,7 +147,7 @@
                 { "id": "p1", "label": "Place 1:", "kind": "text" },
                 { "id": "p2", "label": "Place 2:", "kind": "text" },
                 {
-                  "id": "sure",
+                  "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
                   "options": ["Known", "Estimate", "Unknown"]

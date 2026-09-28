@@ -1287,7 +1287,7 @@
                     "kind": "money"
                   },
                   {
-                    "id": "sure",
+                    "id": "certainty",
                     "label": "Known / estimate / unknown",
                     "kind": "choice",
                     "options": [
@@ -1334,7 +1334,7 @@
                     "kind": "money"
                   },
                   {
-                    "id": "sure",
+                    "id": "certainty",
                     "label": "Known / estimate / unknown",
                     "kind": "choice",
                     "options": [
@@ -1402,7 +1402,7 @@
                     "kind": "money"
                   },
                   {
-                    "id": "sure",
+                    "id": "certainty",
                     "label": "Confirmed / agreed / hoped",
                     "kind": "choice",
                     "options": [
@@ -1419,15 +1419,21 @@
                 ],
                 "totals": true,
                 "totals_label": "Total confirmed (you use this in 3.5)",
-                "total_filter": [
-                  "Confirmed"
-                ],
+                "total_filter": {
+                  "column": "certainty",
+                  "values": [
+                    "Confirmed"
+                  ]
+                },
                 "extra_totals": [
                   {
                     "label": "Total agreed (not in the check yet)",
-                    "filter": [
-                      "Agreed"
-                    ]
+                    "filter": {
+                      "column": "certainty",
+                      "values": [
+                        "Agreed"
+                      ]
+                    }
                   }
                 ]
               }
@@ -1666,20 +1672,18 @@
               {
                 "id": "options",
                 "type": "table",
-                "row_header": "Option",
                 "row_labels": [
                   "A",
                   "B",
-                  "C Stay, but change:",
-                  "D Change nothing"
-                ],
-                "row_labels_editable": [
-                  true,
-                  true,
-                  true,
-                  false
+                  "C",
+                  "D"
                 ],
                 "columns": [
+                  {
+                    "id": "option",
+                    "label": "Option",
+                    "kind": "text"
+                  },
                   {
                     "id": "not_sure",
                     "label": "What I am not sure about",
@@ -1690,7 +1694,11 @@
                     "label": "A small test",
                     "kind": "text"
                   }
-                ]
+                ],
+                "prefill": {
+                  "C": "Stay, but change: ",
+                  "D": "Change nothing"
+                }
               }
             ]
           },
@@ -1723,10 +1731,6 @@
                   "column": "must_have"
                 },
                 "hint": "Then check each must-have. For each option, mark it yes, partly, no or unknown. Unknown is a good answer before you have explored.",
-                "column_names_from": {
-                  "exercise": "4.1",
-                  "field": "options"
-                },
                 "columns": [
                   {
                     "id": "a",
@@ -1785,10 +1789,6 @@
                   "D"
                 ],
                 "hint": "Then complete the overview. \"My feeling\" is how the option feels when you imagine it: 1 = bad, 5 = very good.",
-                "column_names_from": {
-                  "exercise": "4.1",
-                  "field": "options"
-                },
                 "columns": [
                   {
                     "id": "dealbreaker",

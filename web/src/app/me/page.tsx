@@ -48,16 +48,16 @@ function ProfileItem({
   return (
     <li className="rounded-2xl bg-white p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="font-semibold text-indigo">{field.label}</h2>
-        {corrected && <span className="text-xs text-green">You corrected this</span>}
+        <h2 className="font-semibold text-pine">{field.label}</h2>
+        {corrected && <span className="text-xs text-success">You corrected this</span>}
         {forgotten && (
-          <span className="text-xs text-muted">Forgotten — your AI partner does not use this topic</span>
+          <span className="text-xs text-stone">Forgotten — your AI partner does not use this topic</span>
         )}
       </div>
 
       {editing ? (
         <div className="mt-3 space-y-2">
-          {field.kind === "list" && <p className="text-sm text-muted">One item per line.</p>}
+          {field.kind === "list" && <p className="text-sm text-stone">One item per line.</p>}
           <textarea
             aria-label={field.label}
             className="field-input"
@@ -91,7 +91,7 @@ function ProfileItem({
         <>
           <div className="mt-2">
             {isEmptyItem(value) ? (
-              <p className="text-muted">Nothing yet.</p>
+              <p className="text-stone">Nothing yet.</p>
             ) : Array.isArray(value) ? (
               <ul className="list-disc space-y-1 pl-6">
                 {value.map((v) => (
@@ -104,7 +104,7 @@ function ProfileItem({
           </div>
           <div className="mt-3 flex flex-wrap gap-4 text-sm">
             <button
-              className="text-indigo underline disabled:opacity-50"
+              className="text-pine underline disabled:opacity-50"
               disabled={busy}
               onClick={() => {
                 setDraft(asLines(value));
@@ -115,7 +115,7 @@ function ProfileItem({
             </button>
             {forgotten ? (
               <button
-                className="text-indigo underline"
+                className="text-pine underline"
                 disabled={busy}
                 onClick={() => save({ ...profile, _forgotten: without(profile._forgotten) })}
               >
@@ -123,7 +123,7 @@ function ProfileItem({
               </button>
             ) : (
               <button
-                className="text-muted underline"
+                className="text-stone underline"
                 disabled={busy}
                 onClick={() =>
                   save({
@@ -154,8 +154,8 @@ function DeleteEverything() {
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <section className="mt-10 space-y-3 rounded-2xl border-2 border-amber p-5">
-      <h2 className="text-xl font-semibold text-indigo">Delete everything</h2>
+    <section className="mt-10 space-y-3 rounded-2xl border-2 border-ochre p-5">
+      <h2 className="text-xl font-semibold text-pine">Delete everything</h2>
       <p>
         This deletes all your answers, your chats with your AI partner, what your AI partner knows about you, your
         results and your feedback. It cannot be undone.
@@ -163,14 +163,14 @@ function DeleteEverything() {
       <label className="flex gap-3">
         <input
           type="checkbox"
-          className="mt-1.5 h-5 w-5 accent-indigo"
+          className="mt-1.5 h-5 w-5 accent-pine"
           checked={sure}
           onChange={(e) => setSure(e.target.checked)}
         />
         <span>I understand that everything will be deleted.</span>
       </label>
       <button
-        className="btn btn-amber"
+        className="btn btn-ochre"
         disabled={!sure || busy}
         onClick={async () => {
           setBusy(true);
@@ -198,7 +198,7 @@ function DeleteEverything() {
         {busy ? "Deleting…" : "Delete everything"}
       </button>
       {error && (
-        <p role="alert" className="text-amber">
+        <p role="alert" className="text-ochre">
           {error}
         </p>
       )}
@@ -242,18 +242,18 @@ function PartnerKnows() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-indigo">What my AI partner knows about me</h1>
+      <h1 className="text-3xl font-bold text-pine">What my AI partner knows about me</h1>
       <p className="mt-3 max-w-2xl text-lg">
         Your AI partner writes short notes from your answers, so it remembers you on every page. Here you see
         these notes.
       </p>
-      <ul className="mt-3 max-w-2xl list-disc space-y-1 pl-6 text-muted">
+      <ul className="mt-3 max-w-2xl list-disc space-y-1 pl-6 text-stone">
         <li>
-          <span className="font-semibold text-ink">Correct this:</span> the note is wrong. Your AI partner keeps
+          <span className="font-semibold text-granite">Correct this:</span> the note is wrong. Your AI partner keeps
           your version from now on.
         </li>
         <li>
-          <span className="font-semibold text-ink">Forget this:</span> your AI partner deletes the note and stops
+          <span className="font-semibold text-granite">Forget this:</span> your AI partner deletes the note and stops
           using your answers about this topic. Your answers stay in your workbook, for you. Only when you open that
           page and ask for help there, your AI partner can see what is on it.
         </li>
@@ -262,9 +262,9 @@ function PartnerKnows() {
       {!isSupabaseConfigured ? (
         <p className="mt-6 rounded-lg bg-sand p-4">This works when you are signed in with an account.</p>
       ) : state === "loading" ? (
-        <p className="mt-6 text-muted">One moment…</p>
+        <p className="mt-6 text-stone">One moment…</p>
       ) : state === "error" ? (
-        <p className="mt-6 text-amber">Your AI partner&apos;s notes could not be loaded. Please reload the page.</p>
+        <p className="mt-6 text-ochre">Your AI partner&apos;s notes could not be loaded. Please reload the page.</p>
       ) : (
         <>
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -289,13 +289,13 @@ function PartnerKnows() {
               {updating ? "Updating…" : "Update from my answers now"}
             </button>
             {profile?.last_updated && (
-              <span className="text-sm text-muted">
+              <span className="text-sm text-stone">
                 Last updated {new Date(profile.last_updated).toLocaleString()}
               </span>
             )}
           </div>
           {note && (
-            <p role="alert" className="mt-2 text-amber">
+            <p role="alert" className="mt-2 text-ochre">
               {note}
             </p>
           )}

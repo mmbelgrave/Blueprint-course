@@ -38,10 +38,10 @@ function ParticipantCard({ p }: { p: Participant }) {
     <li className="space-y-4 rounded-2xl bg-white p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <div>
-          <h2 className="text-xl font-semibold text-indigo">{p.name || "(no name yet)"}</h2>
-          <p className="text-sm text-muted">{p.email}</p>
+          <h2 className="text-xl font-semibold text-pine">{p.name || "(no name yet)"}</h2>
+          <p className="text-sm text-stone">{p.email}</p>
         </div>
-        <p className="text-sm text-muted">
+        <p className="text-sm text-stone">
           Started {day(p.started)} · Last active {day(p.lastActivity)}
         </p>
       </div>
@@ -57,7 +57,7 @@ function ParticipantCard({ p }: { p: Participant }) {
                 <span
                   key={part.label}
                   className={`rounded-full px-2.5 py-0.5 text-xs ${
-                    part.complete && part.total ? "bg-green-soft text-green" : part.done ? "bg-indigo-soft" : "bg-sand text-muted"
+                    part.complete && part.total ? "bg-success-soft text-success" : part.done ? "bg-sage" : "bg-sand text-stone"
                   }`}
                   title={part.optional ? "optional" : undefined}
                 >
@@ -68,7 +68,7 @@ function ParticipantCard({ p }: { p: Participant }) {
             </div>
           </div>
         ))}
-        <p className="text-xs text-muted">* optional part</p>
+        <p className="text-xs text-stone">* optional part</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
@@ -77,7 +77,7 @@ function ParticipantCard({ p }: { p: Participant }) {
           <p className="text-sm">
             {n(p.usage.chatMessages)} messages · {n(p.usage.drafts)} drafts · {n(p.usage.noteUpdates)} note updates
           </p>
-          <p className="text-sm text-muted">
+          <p className="text-sm text-stone">
             Tokens: {n(p.usage.inputTokens)} in · {n(p.usage.outputTokens)} out · {n(p.usage.cacheReadTokens)} from cache
           </p>
           <p className="text-sm">
@@ -87,15 +87,15 @@ function ParticipantCard({ p }: { p: Participant }) {
         <div>
           <h3 className="text-sm font-semibold">Feedback</h3>
           {p.feedback.length === 0 ? (
-            <p className="text-sm text-muted">None yet.</p>
+            <p className="text-sm text-stone">None yet.</p>
           ) : (
             <ul className="space-y-1 text-sm">
               {p.feedback.map((f, i) => (
                 <li key={i}>
                   <span className="font-medium">{f.part}:</span>{" "}
-                  <span className="text-amber">{"★".repeat(f.rating ?? 0)}</span>
-                  <span className="text-sand-deep">{"★".repeat(5 - (f.rating ?? 0))}</span>
-                  {f.comment && <span className="text-muted"> — {f.comment}</span>}
+                  <span className="text-ochre">{"★".repeat(f.rating ?? 0)}</span>
+                  <span className="text-line">{"★".repeat(5 - (f.rating ?? 0))}</span>
+                  {f.comment && <span className="text-stone"> — {f.comment}</span>}
                 </li>
               ))}
             </ul>
@@ -103,15 +103,15 @@ function ParticipantCard({ p }: { p: Participant }) {
         </div>
       </div>
 
-      <div className="border-t border-sand-deep pt-3 text-sm">
+      <div className="border-t border-line pt-3 text-sm">
         {p.consentFounder ? (
           <Link href={`/admin/${p.id}`} className="btn btn-ghost py-1.5 text-sm">
             Read answers and AI notes
           </Link>
         ) : (
-          <p className="text-muted">No consent to read answers. You see progress and feedback only.</p>
+          <p className="text-stone">No consent to read answers. You see progress and feedback only.</p>
         )}
-        {!p.consentAi && <p className="mt-1 text-muted">AI partner switched off by this person.</p>}
+        {!p.consentAi && <p className="mt-1 text-stone">AI partner switched off by this person.</p>}
       </div>
     </li>
   );
@@ -136,7 +136,7 @@ function AdminOverview() {
   }, []);
 
   if (error) return <p className="rounded-lg bg-sand p-4">{error}</p>;
-  if (!data) return <p className="text-muted">One moment…</p>;
+  if (!data) return <p className="text-stone">One moment…</p>;
 
   const totalCost = data.reduce((t, p) => t + p.usage.costUsd, 0);
   const totalMessages = data.reduce((t, p) => t + p.usage.chatMessages, 0);
@@ -145,7 +145,7 @@ function AdminOverview() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-indigo">Admin</h1>
+      <h1 className="text-3xl font-bold text-pine">Admin</h1>
       <div className="mt-4 grid gap-3 sm:grid-cols-4">
         {[
           ["Participants", n(data.length)],
@@ -154,12 +154,12 @@ function AdminOverview() {
           ["Estimated AI cost", usd(totalCost)],
         ].map(([label, value]) => (
           <div key={label} className="rounded-2xl bg-white p-4">
-            <p className="text-sm text-muted">{label}</p>
-            <p className="text-2xl font-semibold text-indigo">{value}</p>
+            <p className="text-sm text-stone">{label}</p>
+            <p className="text-2xl font-semibold text-pine">{value}</p>
           </div>
         ))}
       </div>
-      <p className="mt-2 text-xs text-muted">
+      <p className="mt-2 text-xs text-stone">
         Cost is an estimate for claude-opus-5 ($5 in, $25 out, $0.50 cache per million tokens). Saving the workbook to
         the cache is not counted, so the real cost is a little higher. Your Anthropic Console shows the exact bill.
       </p>

@@ -34,7 +34,7 @@ export function DraftHelper({ pageId, onDrafts }: { pageId: string; onDrafts: (d
   if (!isSupabaseConfigured) return null;
   if (!profile?.consent_ai) {
     return (
-      <p className="rounded-lg bg-sand p-3 text-sm text-muted">
+      <p className="rounded-lg bg-sand p-3 text-sm text-stone">
         Your AI partner can write a first draft of this page from your answers. It is switched off in{" "}
         <Link href="/settings" className="underline">
           My settings
@@ -45,7 +45,7 @@ export function DraftHelper({ pageId, onDrafts }: { pageId: string; onDrafts: (d
   }
 
   return (
-    <div className="space-y-2 rounded-lg border border-indigo/30 p-4">
+    <div className="space-y-2 rounded-lg border border-pine/30 p-4">
       <p className="text-sm">
         Your AI partner can write a first draft from your own answers. You decide what to keep and change.
       </p>
@@ -76,7 +76,7 @@ export function DraftHelper({ pageId, onDrafts }: { pageId: string; onDrafts: (d
         {busy ? "Writing a draft…" : has ? "Write a new draft" : "Help me draft this"}
       </button>
       {error && (
-        <p role="alert" className="text-sm text-amber">
+        <p role="alert" className="text-sm text-ochre">
           {error}
         </p>
       )}
@@ -89,7 +89,7 @@ function Star({ filled }: { filled: boolean }) {
     <svg viewBox="0 0 24 24" className="h-8 w-8" aria-hidden>
       <path
         d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"
-        className={filled ? "fill-amber stroke-amber" : "fill-none stroke-muted"}
+        className={filled ? "fill-ochre stroke-ochre" : "fill-none stroke-muted"}
         strokeWidth="1.5"
         strokeLinejoin="round"
       />
@@ -125,9 +125,9 @@ export function PartFeedback({ partId }: { partId: string }) {
 
   if (saved && !editing) {
     return (
-      <section className="rounded-2xl border border-sand-deep p-5">
-        <p className="font-semibold text-green">Thank you for your feedback.</p>
-        <button className="mt-1 text-sm text-muted underline" onClick={() => setEditing(true)}>
+      <section className="rounded-2xl border border-line p-5">
+        <p className="font-semibold text-success">Thank you for your feedback.</p>
+        <button className="mt-1 text-sm text-stone underline" onClick={() => setEditing(true)}>
           Change my answer
         </button>
       </section>
@@ -135,8 +135,8 @@ export function PartFeedback({ partId }: { partId: string }) {
   }
 
   return (
-    <section className="space-y-3 rounded-2xl border border-sand-deep p-5">
-      <h3 className="font-semibold text-indigo">How did this part feel?</h3>
+    <section className="space-y-3 rounded-2xl border border-line p-5">
+      <h3 className="font-semibold text-pine">How did this part feel?</h3>
       <div className="flex gap-1" role="radiogroup" aria-label="How did this part feel? 1 to 5 stars">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -180,7 +180,7 @@ export function PartFeedback({ partId }: { partId: string }) {
         {state === "saving" ? "Sending…" : "Send"}
       </button>
       {state === "error" && (
-        <p role="alert" className="text-sm text-amber">
+        <p role="alert" className="text-sm text-ochre">
           This was not saved. Please check your internet and try again.
         </p>
       )}

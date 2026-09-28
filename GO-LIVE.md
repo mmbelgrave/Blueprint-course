@@ -43,6 +43,14 @@ Now press **Deploy**. After a few minutes you get an address such as
 > If you ever change one of these values, press **Redeploy**. Some of them are
 > baked in when the app is built.
 
+## 2b. Supabase: switch on the picture store (once)
+
+The vision board on 1.2 keeps people's pictures in a private store that does not
+exist yet. Supabase → **SQL Editor → New query** → paste the contents of
+`web/supabase/storage.sql` → **Run**. It is safe to run again.
+
+Without this step everything else works, but adding a picture gives an error.
+
 ## 3. Supabase: let the new address sign people in
 
 Magic links only work for addresses Supabase knows.

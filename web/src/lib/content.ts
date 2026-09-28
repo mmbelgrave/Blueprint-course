@@ -1,5 +1,5 @@
-// Typed access to the workbook content: Step 1 (Picture, workbook v9) and
-// Step 2 (Explore, workbook v2). The JSON files are copied from the project
+// Typed access to the workbook content: Step 1 (Picture, workbook v19) and
+// Step 2 (Explore, workbook v8). The JSON files are copied from the project
 // folder by scripts/sync-content.mjs — never edit the copies.
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
@@ -44,16 +44,24 @@ export type Field = {
     | "yes_no"
     | "single_choice"
     | "number"
-    | "calculation";
+    | "calculation"
+    | "image_board";
   marker?: string;
   label?: string;
   hint?: string;
+  /** Starts a new named block inside an exercise ("Then look at your time"). */
+  heading?: string;
+  /** image_board: how many pictures the person may add, and the caption's label. */
+  max?: number;
+  caption_label?: string;
   placeholder?: string;
   lines?: number;
   count?: number;
   item_label?: string;
   row_header?: string;
   row_labels?: string[];
+  /** Which fixed row labels the person may rewrite (4.1: A, B and C, not D). */
+  row_labels_editable?: boolean[];
   rows?: number | CalcRow[];
   rows_from?: { exercise: string; field: string; column: string };
   column_names_from?: { field: string };
@@ -61,8 +69,10 @@ export type Field = {
   totals?: boolean;
   totals_label?: string;
   total_filter?: { column: string; values: string[] };
+  /** Further total rows with their own filter (3.4: confirmed, then agreed). */
+  extra_totals?: { label: string; filter: { column: string; values: string[] } }[];
   prefill?: Record<string, string>;
-  copy_from?: { exercise: string; field: string };
+  copy_from?: { step?: number; exercise: string; field: string };
   pick?: number;
   allow_custom?: boolean;
   options?: string[];
@@ -75,9 +85,14 @@ export type Field = {
 export type Text = string | string[];
 
 export type Block = {
+  /** A named block ("Connect the dots") and its own story, in "Go deeper". */
+  title?: string;
   prompt?: Text;
   bullets?: string[];
   fields: Field[];
+  /** A sentence after the fields ("No one to ask? …"). */
+  closing?: string;
+  story?: { status: string; text: string };
   auto_hint?: string;
   app_note?: string;
 };
@@ -85,7 +100,16 @@ export type Block = {
 export type Example = { who: string; text: string };
 
 /** A fixed content table (not filled in by the person). */
-export type InfoTable = { place: "before" | "after"; lead?: string; columns?: string[]; rows: string[][] };
+export type InfoTable = {
+  place: "before" | "after";
+  lead?: string;
+  /** A header row, when the table has column titles. */
+  header?: string[];
+  columns?: string[];
+  rows: string[][];
+  /** A sentence under the table. */
+  after?: string;
+};
 
 /** An exercise, or a part summary shown as its own page ("kind": "summary"). */
 export type Exercise = {
@@ -94,14 +118,24 @@ export type Exercise = {
   /** The number people see (Step 2 IDs carry an "s2-" prefix; summaries get the next number). */
   number?: string;
   title: string;
+  /** A word before the title ("Warm-up"). */
+  kicker?: string;
+  /** The one line under the title. */
+  promise?: string;
   optional?: boolean;
   intro?: Text;
   intro_bullets?: string[];
   tables?: InfoTable[];
-  start_here: Block;
+  /** Missing on a page that is only there to be read (Step 2 1.1, 2.1, 2.2). */
+  start_here?: Block;
   go_deeper?: Block;
   example?: Example;
+  /** A fully filled-in example page (5.1: Rosa). */
+  example_page?: { title: string; intro?: string; rows: string[][] };
+  /** "What your result means" (3.5). */
+  result_guide?: { title: string; intro?: Text; bullets?: string[]; closing?: string };
   tips?: string[];
+  watch_out?: string[];
   story?: { status: string; text: string };
   challenge?: string;
   where_to_check?: string[];
@@ -121,6 +155,9 @@ export type Summary = {
   fields: Field[];
   tips?: string[];
   example?: Example;
+  /** A sentence after the boxes, and the one-line result of the part. */
+  closing?: string;
+  result?: string;
 };
 
 export type Part = {
@@ -132,39 +169,59 @@ export type Part = {
   route_title?: string;
   promise: string;
   can_skip?: string;
+  /** The heading above the part's explanation ("Why we start with a picture"). */
+  intro_title?: string;
   intro: Text;
   intro_bullets?: string[];
   intro_after?: string;
   tips?: string[];
-  setup?: { fields: Field[] };
+  setup?: { intro?: string; fields: Field[] };
   time: string;
   exercises: Exercise[];
   talk?: string;
   summary?: Summary;
   go_further?: string;
+  /** Part 5 has no summary page; it states its result directly. */
+  result?: string;
   finish: { id: string; title: string; description?: string };
 };
 
+/** A titled block of bullet points (how this step works, what you need). */
+export type BulletBlock = { title: string; bullets: string[]; after?: string };
+
+/** A titled block of rows (three ways to use this step, the route, the sources). */
+export type RowBlock = {
+  title: string;
+  intro?: string;
+  header?: string[];
+  rows: string[][];
+  challenge?: string;
+  closing?: string;
+  expert_work?: string;
+};
+
 export type StepContent = {
-  version: string;
+  version: number;
+  source?: string;
+  source_note?: string;
   step: {
     id: string;
     number: number;
     title: string;
     question: string;
     tagline: string[];
-    intro_title?: string;
     intro: string[];
-    before_you_start?: { title: string; bullets: string[]; note?: string };
-    where_to_start?: { title: string; intro: string; columns: string[]; rows: string[][]; challenge?: string };
-    how_it_works: string[];
-    word_help: { term: string; meaning: string }[];
-    route_tip?: string;
-    general_tip?: string;
+    ways_to_use?: RowBlock;
+    what_you_need?: BulletBlock;
+    where_to_start?: RowBlock;
+    how_it_works: BulletBlock;
+    word_help: { title: string; items: string[][] };
+    tips?: string[];
+    route: RowBlock;
   };
   parts: Part[];
-  closing: { title: string; text: string; next: string[]; tip: string; last_lines: string[] };
-  sources?: { title: string; intro: string; columns: string[]; rows: string[][]; expert_work?: string };
+  closing: { title: string; intro: string; bullets: string[]; tips?: string[]; final: string[] };
+  sources?: RowBlock;
 };
 
 export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];
@@ -176,21 +233,35 @@ export function getStep(number: number): StepContent | undefined {
 export const paragraphs = (t: Text | undefined): string[] =>
   t === undefined ? [] : Array.isArray(t) ? t : [t];
 
+/**
+ * The summary's number follows the last exercise of the part, not the number of
+ * exercises: Part 1 starts at 1.0 (the warm-up), so its summary is 1.6, not 1.7.
+ */
+function summaryNumber(part: Part): string {
+  const last = part.exercises.at(-1);
+  const shown = last?.number ?? last?.id ?? `${part.number}.0`;
+  const tail = Number(shown.split(".").at(-1));
+  return Number.isFinite(tail) ? `${part.number}.${tail + 1}` : `${part.number}.${part.exercises.length + 1}`;
+}
+
 /** A part summary as a page, so it behaves like any other exercise. */
 function summaryAsExercise(part: Part, s: Summary): Exercise {
   return {
     id: s.id,
     kind: "summary",
-    number: `${part.number}.${part.exercises.length + 1}`,
+    number: summaryNumber(part),
     title: part.finish.title,
     intro: s.intro,
     intro_bullets: s.questions,
-    start_here: { prompt: s.prompt, fields: s.fields },
+    start_here: { prompt: s.prompt, fields: s.fields, closing: s.closing },
     tips: s.tips,
     example: s.example,
     go_further: part.go_further,
   };
 }
+
+/** The one-line result of a part ("My Life Picture — …"), wherever it is stored. */
+export const partResult = (part: Part) => part.summary?.result ?? part.result;
 
 /** "1.4 What matters most", "1.6 My Life Picture". */
 export const displayNumber = (e: Exercise) => e.number ?? e.id;
@@ -218,7 +289,7 @@ export function findExercise(exerciseId: string): Located | undefined {
 
 /** All fields of an exercise (start here + go deeper). Headings are not answers. */
 export function exerciseFields(ex: Exercise): Field[] {
-  return [...ex.start_here.fields, ...(ex.go_deeper?.fields ?? [])].filter((f) => f.type !== "heading");
+  return [...(ex.start_here?.fields ?? []), ...(ex.go_deeper?.fields ?? [])].filter((f) => f.type !== "heading");
 }
 
 /** Where a part's setup answers (for example household size) are stored. */

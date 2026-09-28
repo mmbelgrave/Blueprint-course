@@ -36,7 +36,7 @@ function SignInForm() {
   if (state === "sent") {
     return (
       <div className="space-y-3">
-        <p className="text-lg font-semibold text-indigo">Check your email.</p>
+        <p className="text-lg font-semibold text-pine">Check your email.</p>
         <p>
           We sent a link to <strong>{email}</strong>. Click the link to sign in. You can
           close this page.
@@ -60,7 +60,7 @@ function SignInForm() {
       }}
     >
       {linkError && (
-        <p className="rounded-lg bg-amber-soft p-3">
+        <p className="rounded-lg bg-ochre-soft p-3">
           This link did not work. It may be old or already used. Please ask for a new one.
         </p>
       )}
@@ -80,10 +80,10 @@ function SignInForm() {
         {state === "sending" ? "Sending…" : "Send me a link"}
       </button>
       {state === "error" && (
-        <p className="text-amber">Something went wrong. Please try again in a minute.</p>
+        <p className="text-ochre">Something went wrong. Please try again in a minute.</p>
       )}
       {state === "not-invited" && (
-        <p className="rounded-lg bg-amber-soft p-3">
+        <p className="rounded-lg bg-ochre-soft p-3">
           This email is not on the list yet. The Blueprint is open to invited people
           only for now. Used a different address before? Try that one.
         </p>
@@ -96,7 +96,7 @@ export default function SignIn() {
   return (
     <Shell>
       <div className="mx-auto max-w-md rounded-2xl bg-white p-6 sm:p-8">
-        <h1 className="mb-4 text-2xl font-bold text-indigo">Sign in</h1>
+        <h1 className="mb-4 text-2xl font-bold text-pine">Sign in</h1>
         <Suspense>
           <SignInForm />
         </Suspense>

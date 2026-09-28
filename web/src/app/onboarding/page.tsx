@@ -40,7 +40,7 @@ function ConsentForm() {
       }}
     >
       <section className="space-y-3">
-        <h2 className="text-xl font-semibold text-indigo">Before you start</h2>
+        <h2 className="text-xl font-semibold text-pine">Before you start</h2>
         <p>You will share personal things here. So you should know what happens with them.</p>
         <ul className="list-disc space-y-2 pl-6">
           <li>We store your answers, your chats with your AI partner, and a short summary of what you wrote.</li>
@@ -48,7 +48,7 @@ function ConsentForm() {
           <li>You can see what your AI partner remembers about you, and change it.</li>
           <li>You can delete everything at any time.</li>
         </ul>
-        <p className="text-sm text-muted">
+        <p className="text-sm text-stone">
           Read more on the <Link href="/privacy" className="underline">privacy page</Link>.
         </p>
       </section>
@@ -75,7 +75,7 @@ function ConsentForm() {
             ))}
           </select>
         </label>
-        <p className="text-sm text-muted">
+        <p className="text-sm text-stone">
           The app is in English. You may write your answers in your own language.
         </p>
       </section>
@@ -85,25 +85,25 @@ function ConsentForm() {
           <input
             type="checkbox"
             required
-            className="mt-1.5 h-5 w-5 accent-indigo"
+            className="mt-1.5 h-5 w-5 accent-pine"
             checked={consentAi}
             onChange={(e) => setConsentAi(e.target.checked)}
           />
           <span>
             I understand that an AI model reads my answers to help me, and that I can delete
-            everything at any time. <span className="text-muted">(needed to use the app)</span>
+            everything at any time. <span className="text-stone">(needed to use the app)</span>
           </span>
         </label>
         <label className="flex gap-3">
           <input
             type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-indigo"
+            className="mt-1.5 h-5 w-5 accent-pine"
             checked={founder}
             onChange={(e) => setFounder(e.target.checked)}
           />
           <span>
             Mwata may read my answers and my AI summary to guide me.{" "}
-            <span className="text-muted">(optional — you can change this later)</span>
+            <span className="text-stone">(optional — you can change this later)</span>
           </span>
         </label>
       </section>
@@ -112,7 +112,7 @@ function ConsentForm() {
         {saving ? "Saving…" : "Let's begin"}
       </button>
       {error && (
-        <p role="alert" className="text-amber">
+        <p role="alert" className="text-ochre">
           This was not saved. Please check your internet and try again.
         </p>
       )}

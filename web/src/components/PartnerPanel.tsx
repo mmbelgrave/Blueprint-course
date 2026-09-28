@@ -11,12 +11,12 @@ const MAX_CHARS = 4000;
 function Header() {
   return (
     <div className="flex items-center gap-3">
-      <span aria-hidden className="block h-9 w-9 shrink-0 rounded-full bg-indigo ring-4 ring-indigo-soft" />
+      <span aria-hidden className="block h-9 w-9 shrink-0 rounded-full bg-pine ring-4 ring-sage" />
       <div>
-        <p className="font-semibold text-indigo">
+        <p className="font-semibold text-pine">
           Your AI partner
         </p>
-        <p className="text-sm text-muted">I help you think. You decide.</p>
+        <p className="text-sm text-stone">I help you think. You decide.</p>
       </div>
     </div>
   );
@@ -60,7 +60,7 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
     return (
       <div className="rounded-2xl bg-white p-5 shadow-sm">
         <Header />
-        <p className="mt-4 rounded-lg bg-sand p-3 text-sm text-muted">
+        <p className="mt-4 rounded-lg bg-sand p-3 text-sm text-stone">
           Your AI partner works when you are signed in with an account. This is preview mode.
         </p>
       </div>
@@ -71,7 +71,7 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
     return (
       <div className="rounded-2xl bg-white p-5 shadow-sm">
         <Header />
-        <p className="mt-4 rounded-lg bg-sand p-3 text-sm text-muted">
+        <p className="mt-4 rounded-lg bg-sand p-3 text-sm text-stone">
           Your AI partner is switched off. You can switch it on in{" "}
           <Link href="/settings" className="underline">
             My settings
@@ -152,7 +152,7 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
             type="button"
             disabled={busy || loadState !== "ready"}
             onClick={() => send(h)}
-            className="rounded-xl border border-sand-deep px-3 py-2 text-left text-sm hover:border-indigo disabled:opacity-50"
+            className="rounded-xl border border-line px-3 py-2 text-left text-sm hover:border-pine disabled:opacity-50"
           >
             {HELPER_LABELS[h]}
           </button>
@@ -164,9 +164,9 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
         aria-live="polite"
         className="mt-4 min-h-[6rem] flex-1 space-y-3 overflow-y-auto pr-1 lg:max-h-[50vh]"
       >
-        {loadState === "loading" && <p className="text-sm text-muted">One moment…</p>}
+        {loadState === "loading" && <p className="text-sm text-stone">One moment…</p>}
         {loadState === "error" && (
-          <p className="text-sm text-amber">Your earlier chat could not be loaded. Please reload the page.</p>
+          <p className="text-sm text-ochre">Your earlier chat could not be loaded. Please reload the page.</p>
         )}
         {loadState === "ready" && earlier.length > 0 && (
           <div className="space-y-3">
@@ -174,7 +174,7 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
               type="button"
               aria-expanded={showEarlier}
               onClick={() => setShowEarlier(!showEarlier)}
-              className="text-sm text-indigo underline"
+              className="text-sm text-pine underline"
             >
               {showEarlier
                 ? "Hide earlier conversation"
@@ -187,20 +187,20 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
                     key={`e${i}`}
                     className={
                       m.role === "user"
-                        ? "ml-6 rounded-xl bg-indigo-soft/60 px-3 py-2 text-sm text-muted"
-                        : "mr-2 whitespace-pre-line rounded-xl bg-sand/60 px-3 py-2 text-sm text-muted"
+                        ? "ml-6 rounded-xl bg-sage/60 px-3 py-2 text-sm text-stone"
+                        : "mr-2 whitespace-pre-line rounded-xl bg-sand/60 px-3 py-2 text-sm text-stone"
                     }
                   >
                     {m.content}
                   </div>
                 ))}
-                <p className="border-t border-sand-deep pt-2 text-center text-xs text-muted">This visit</p>
+                <p className="border-t border-line pt-2 text-center text-xs text-stone">This visit</p>
               </>
             )}
           </div>
         )}
         {loadState === "ready" && messages.length === 0 && (
-          <p className="text-sm text-muted">
+          <p className="text-sm text-stone">
             {earlier.length > 0
               ? "Your AI partner remembers your earlier conversation. Press a button above, or write below."
               : "Stuck, or want a second look? Press a button above, or write to your AI partner below."}
@@ -211,21 +211,21 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
             key={i}
             className={
               m.role === "user"
-                ? "ml-6 rounded-xl bg-indigo-soft px-3 py-2 text-sm"
+                ? "ml-6 rounded-xl bg-sage px-3 py-2 text-sm"
                 : "mr-2 whitespace-pre-line rounded-xl bg-sand px-3 py-2 text-sm"
             }
           >
-            {m.role === "assistant" && !m.content && busy ? <span className="text-muted">Thinking…</span> : m.content}
+            {m.role === "assistant" && !m.content && busy ? <span className="text-stone">Thinking…</span> : m.content}
           </div>
         ))}
       </div>
 
       {error && (
-        <p role="alert" className="mt-2 text-sm text-amber">
+        <p role="alert" className="mt-2 text-sm text-ochre">
           {error}
         </p>
       )}
-      {notice && <p className="mt-2 text-sm text-muted">{notice}</p>}
+      {notice && <p className="mt-2 text-sm text-stone">{notice}</p>}
 
       <form
         className="mt-3 flex gap-2"

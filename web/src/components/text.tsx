@@ -25,17 +25,31 @@ export function Bullets({ items, className = "" }: { items?: string[]; className
 }
 
 /** A fixed content table: the first column is shown as a label. */
-export function InfoTable({ columns, rows, lead }: { columns?: string[]; rows: string[][]; lead?: string }) {
+export function InfoTable({
+  columns,
+  header,
+  rows,
+  lead,
+  after,
+}: {
+  columns?: string[];
+  header?: string[];
+  rows: string[][];
+  lead?: string;
+  after?: string;
+  place?: "before" | "after";
+}) {
+  const head = header ?? columns;
   return (
     <div className="space-y-2">
       {lead && <p>{lead}</p>}
-      <div className="overflow-x-auto rounded-xl border border-sand-deep bg-white">
+      <div className="overflow-x-auto rounded-xl border border-line bg-white">
         <table className="w-full border-collapse text-left text-[0.95rem]">
-          {columns && (
+          {head && (
             <thead className="bg-sand/60 text-sm">
               <tr>
-                {columns.map((c) => (
-                  <th key={c} className="p-2 pl-3 font-medium">
+                {head.map((c, i) => (
+                  <th key={`${c}-${i}`} className="p-2 pl-3 font-medium">
                     {c}
                   </th>
                 ))}
@@ -43,11 +57,11 @@ export function InfoTable({ columns, rows, lead }: { columns?: string[]; rows: s
             </thead>
           )}
           <tbody>
-            {rows.map((row) => (
-              <tr key={row[0]} className="border-t border-sand-deep first:border-t-0">
+            {rows.map((row, r) => (
+              <tr key={`${row[0]}-${r}`} className="border-t border-line first:border-t-0">
                 {row.map((cell, i) =>
                   i === 0 ? (
-                    <th key={i} scope="row" className="w-1/3 p-2 pl-3 align-top font-semibold text-indigo">
+                    <th key={i} scope="row" className="w-1/3 p-2 pl-3 align-top font-semibold text-pine">
                       {cell}
                     </th>
                   ) : (
@@ -61,6 +75,7 @@ export function InfoTable({ columns, rows, lead }: { columns?: string[]; rows: s
           </tbody>
         </table>
       </div>
+      {after && <p>{after}</p>}
     </div>
   );
 }

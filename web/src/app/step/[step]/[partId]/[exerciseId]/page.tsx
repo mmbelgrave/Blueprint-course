@@ -10,7 +10,6 @@ import { Bullets, InfoTable, Paragraphs } from "@/components/text";
 import { useApp } from "@/lib/app-state";
 import {
   displayNumber,
-  displayTitle,
   exerciseFields,
   findExercise,
   partItems,
@@ -23,9 +22,10 @@ import {
   type Part,
 } from "@/lib/content";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
+import { PartRail, WhereNext } from "@/components/journey";
 import { draftFields } from "@/lib/drafts";
 import { fieldExtras } from "@/lib/field-extras";
-import { hrefOf, partProgress, rememberLastExercise, stepHref } from "@/lib/progress";
+import { partProgress, rememberLastExercise, stepHref } from "@/lib/progress";
 
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
 
@@ -70,6 +70,7 @@ function Fields({
             value={values[field.id]}
             currency={profile?.currency ?? "EUR"}
             extras={extrasFor(field)}
+            pageId={storeId}
             onChange={(v) => setAnswer(storeId, field.id, v)}
           />
         );
@@ -108,10 +109,39 @@ function SetupFields({ part }: { part: Part }) {
               <option key={c}>{c}</option>
             ))}
           </select>
-          {error && <span className="mt-1 block text-sm text-amber">Not saved. Please try again.</span>}
+          {error && <span className="mt-1 block text-sm text-ochre">Not saved. Please try again.</span>}
         </label>
       )}
       <Fields storeId={setupKey(part)} exercise={setupExercise} block={{ fields }} />
+    </div>
+  );
+}
+
+/**
+ * The example sits next to the box it belongs to, closed. It is never written
+ * into the answer: the blank box is doing real work, and an example that became
+ * an answer would end up in the person's notes, drafts and print-out as if it
+ * were their own life.
+ */
+function ExampleFold({ example }: { example: { who: string; text: string } }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen(!open)}
+        className="text-sm font-semibold text-pine underline"
+      >
+        See an example {open ? "▴" : "▾"}
+      </button>
+      {open && (
+        <div className="mt-2 rounded-xl bg-sage p-4">
+          <p className="display text-pine">Made-up example — {example.who}</p>
+          <p className="mt-1">{example.text}</p>
+          <p className="mt-2 text-sm text-stone">Your answer can be completely different.</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -125,7 +155,7 @@ function SaveIndicator() {
     error: "Not saved yet. We keep trying. Please check your internet.",
   }[saveState];
   return (
-    <span aria-live="polite" className={`text-sm ${saveState === "error" ? "text-amber" : "text-muted"}`}>
+    <span aria-live="polite" className={`text-sm ${saveState === "error" ? "text-ochre" : "text-stone"}`}>
       {text}
     </span>
   );
@@ -215,12 +245,19 @@ function ExerciseBody({ located }: { located: Located }) {
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
       <article className="min-w-0 space-y-6">
         <header>
-          <Link href={stepHref(stepNumber)} className="text-sm text-muted hover:underline">
-            Step {stepNumber} · {step.step.title} · {part.label} · {part.title} · {progress.done} of {progress.total} done
-          </Link>
+          <div className="rounded-2xl bg-white p-4 sm:p-5">
+            <PartRail content={step} statuses={statuses} currentPartId={part.id} />
+          </div>
+          <p className="mt-3 text-sm text-stone">
+            <Link href={stepHref(stepNumber)} className="hover:underline">
+              Step {stepNumber} · {step.step.title}
+            </Link>
+            {" · "}
+            {part.label} · {part.title} · {progress.done} of {progress.total} done
+          </p>
           {isFirstOfPart && (
             <div className="mt-4 space-y-2 rounded-2xl bg-white p-5">
-              <p className="text-lg font-semibold text-indigo">{part.promise}</p>
+              <p className="display text-lg text-pine">{part.promise}</p>
               {part.can_skip && (
                 <div className="py-1">
                   <Card tone="skip" title="Can you skip this part?" collapsible={false}>
@@ -228,26 +265,30 @@ function ExerciseBody({ located }: { located: Located }) {
                   </Card>
                 </div>
               )}
+              {part.intro_title && <h2 className="pt-1 text-lg text-pine">{part.intro_title}</h2>}
               <Paragraphs text={part.intro} />
               <Bullets items={part.intro_bullets} />
               {part.intro_after && <p>{part.intro_after}</p>}
               {part.tips?.map((t) => (
-                <p key={t} className="rounded-lg border border-sand-deep p-3 text-sm">
-                  <span className="font-semibold text-amber">Good to know: </span>
+                <p key={t} className="rounded-lg border border-line p-3 text-sm">
+                  <span className="font-semibold text-ochre">Good to know: </span>
                   {t}
                 </p>
               ))}
               <SetupFields part={part} />
             </div>
           )}
-          {isSummary && (
-            <p className="mt-5 text-sm font-semibold uppercase tracking-wide text-amber">What does this tell me?</p>
+          {(isSummary || exercise.kicker) && (
+            <p className="mt-5 text-sm font-semibold tracking-wide text-ochre">
+              {isSummary ? "What does this tell me?" : exercise.kicker}
+            </p>
           )}
-          <h1 className={`${isSummary ? "mt-1" : "mt-5"} text-3xl font-bold text-indigo`}>
-            <span className="mr-2 text-amber">{displayNumber(exercise)}</span>
+          <h1 className={`${isSummary || exercise.kicker ? "mt-1" : "mt-5"} text-3xl text-pine`}>
+            <span className="mr-2 text-ochre">{displayNumber(exercise)}</span>
             {exercise.title}
-            {exercise.optional && <span className="ml-2 align-middle text-base font-normal text-muted">(optional)</span>}
+            {exercise.optional && <span className="ml-2 align-middle text-base font-normal text-stone">(optional)</span>}
           </h1>
+          {exercise.promise && <p className="mt-2 display text-lg text-pine">{exercise.promise}</p>}
           <div className="mt-3 space-y-2 text-lg">
             <Paragraphs text={exercise.intro} />
           </div>
@@ -257,11 +298,11 @@ function ExerciseBody({ located }: { located: Located }) {
         {tablesAt("before")}
 
         {exercise.belief_examples && (
-          <div className="grid gap-4 rounded-2xl border border-sand-deep p-4 sm:grid-cols-2">
+          <div className="grid gap-4 rounded-2xl border border-line p-4 sm:grid-cols-2">
             {exercise.belief_examples.map((g) => (
               <div key={g.title}>
                 <p className="font-semibold">{g.title}</p>
-                <ul className="mt-1 space-y-1 italic text-muted">
+                <ul className="mt-1 space-y-1 italic text-stone">
                   {g.items.map((b) => (
                     <li key={b}>&ldquo;{b}&rdquo;</li>
                   ))}
@@ -271,18 +312,20 @@ function ExerciseBody({ located }: { located: Located }) {
           </div>
         )}
 
-        {exercise.start_here.fields.length > 0 && (
+        {exercise.start_here && exercise.start_here.fields.length > 0 && (
           <section className="space-y-4 rounded-2xl bg-white p-5 sm:p-6">
             {!isSummary && (
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-amber">Start here</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-ochre">Start here</h2>
             )}
             <div className="space-y-2 text-lg">
               <Paragraphs text={exercise.start_here.prompt} />
             </div>
-            <Bullets items={exercise.start_here.bullets} className="text-muted" />
+            <Bullets items={exercise.start_here.bullets} className="text-stone" />
             <Step1MoneyHint exercise={exercise} />
+            {exercise.example && <ExampleFold example={exercise.example} />}
             {canDraft && <DraftHelper pageId={exercise.id} onDrafts={setDrafts} />}
             <Fields storeId={exercise.id} exercise={exercise} block={exercise.start_here} drafts={drafts} />
+            {exercise.start_here.closing && <p className="text-stone">{exercise.start_here.closing}</p>}
           </section>
         )}
 
@@ -295,12 +338,36 @@ function ExerciseBody({ located }: { located: Located }) {
         )}
 
         {exercise.go_deeper && (
-          <Card tone="tips" title="Go deeper (optional)">
+          <Card
+            tone="tips"
+            title={`Go deeper (optional)${exercise.go_deeper.title ? ` · ${exercise.go_deeper.title}` : ""}`}
+          >
             <Paragraphs text={exercise.go_deeper.prompt} />
             <DeeperHint exercise={exercise} />
             <div className="pt-2">
               <Fields storeId={exercise.id} exercise={exercise} block={exercise.go_deeper} />
             </div>
+            {exercise.go_deeper.story && (
+              <div className="mt-4 rounded-xl bg-sage p-4">
+                <p className="display text-pine">My story — Mwata</p>
+                <p className="mt-1">{exercise.go_deeper.story.text}</p>
+              </div>
+            )}
+          </Card>
+        )}
+
+        {exercise.result_guide && (
+          <Card tone="sources" title={exercise.result_guide.title} collapsible={false}>
+            <Paragraphs text={exercise.result_guide.intro} />
+            <Bullets items={exercise.result_guide.bullets} className="mt-2" />
+            {exercise.result_guide.closing && <p className="mt-2">{exercise.result_guide.closing}</p>}
+          </Card>
+        )}
+
+        {exercise.example_page && (
+          <Card tone="example" title={exercise.example_page.title}>
+            {exercise.example_page.intro && <p className="mb-2">{exercise.example_page.intro}</p>}
+            <InfoTable rows={exercise.example_page.rows} />
           </Card>
         )}
 
@@ -309,11 +376,11 @@ function ExerciseBody({ located }: { located: Located }) {
             <p>{w}</p>
           </Card>
         ))}
-        {exercise.example && (
-          <Card tone="example" title={`Made-up example — ${exercise.example.who}`}>
-            <p>{exercise.example.text}</p>
+        {exercise.watch_out?.map((w) => (
+          <Card key={w} tone="watch" title="Watch out" collapsible={false}>
+            <p>{w}</p>
           </Card>
-        )}
+        ))}
         {exercise.tips && (
           <Card tone="tips" title="Good to know">
             {exercise.tips.map((t) => (
@@ -337,24 +404,24 @@ function ExerciseBody({ located }: { located: Located }) {
           </Card>
         )}
         {exercise.go_further && (
-          <p className="rounded-2xl border border-sand-deep p-4 text-muted">{exercise.go_further}</p>
+          <p className="rounded-2xl border border-line p-4 text-stone">{exercise.go_further}</p>
         )}
 
         {(isSummary || (!part.summary && exercise.id === part.exercises.at(-1)!.id)) && (
-          <p className="rounded-2xl bg-green-soft p-4">
-            <span className="font-semibold text-green">Result: {part.finish.title}</span>
+          <p className="rounded-2xl bg-success-soft p-4">
+            <span className="font-semibold text-success">✓ Result: {part.finish.title}</span>
             {part.finish.description && <> — {part.finish.description}</>}
           </p>
         )}
 
-        <div className="flex flex-wrap items-center gap-4 border-t border-sand-deep pt-6">
+        <div className="flex flex-wrap items-center gap-4 border-t border-line pt-6">
           {done ? (
             <>
-              <span className="inline-flex items-center gap-2 font-semibold text-green">
-                <span aria-hidden className="inline-block h-3 w-3 rounded-full bg-green" />
+              <span className="inline-flex items-center gap-2 font-semibold text-success">
+                <span aria-hidden className="inline-block h-3 w-3 rounded-full bg-success" />
                 Done
               </span>
-              <button className="text-sm text-muted underline" onClick={() => changeStatus("in_progress")}>
+              <button className="text-sm text-stone underline" onClick={() => changeStatus("in_progress")}>
                 Mark as not done
               </button>
             </>
@@ -365,7 +432,7 @@ function ExerciseBody({ located }: { located: Located }) {
           )}
           <SaveIndicator />
           {statusError && (
-            <p role="alert" className="w-full text-sm text-amber">
+            <p role="alert" className="w-full text-sm text-ochre">
               This was not saved. Please check your internet and try again.
             </p>
           )}
@@ -385,24 +452,14 @@ function ExerciseBody({ located }: { located: Located }) {
           </Card>
         )}
 
-        <nav className="flex justify-between gap-4 pt-2">
-          {prev ? (
-            <Link href={hrefOf(prev)} className="btn btn-ghost">
-              ← {displayNumber(prev.exercise)}
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <Link href={hrefOf(next)} className="btn btn-ghost text-right">
-              {displayTitle(next.exercise)} →
-            </Link>
-          ) : (
-            <Link href={stepHref(stepNumber)} className="btn btn-ghost">
-              Step {stepNumber} overview →
-            </Link>
-          )}
-        </nav>
+        <WhereNext
+          content={step}
+          part={part}
+          current={exercise}
+          previous={prev && prev.step.step.number === stepNumber ? { part: prev.part, exercise: prev.exercise } : undefined}
+          next={next && next.step.step.number === stepNumber ? { part: next.part, exercise: next.exercise } : undefined}
+          statuses={statuses}
+        />
       </article>
 
       <aside className="lg:sticky lg:top-6 lg:self-start">

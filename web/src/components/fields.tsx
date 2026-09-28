@@ -1,6 +1,7 @@
 "use client";
 // Renders one answer field from step1-content.json, for every field type.
 import { useState } from "react";
+import { ImageBoard } from "@/components/board";
 import { tableRows, type CalcRow, type Field, type TableColumn } from "@/lib/content";
 import { tableTotal, type CalcResult, type Total } from "@/lib/money";
 
@@ -35,6 +36,8 @@ type FieldProps = {
   onChange: (value: unknown) => void;
   currency: string;
   extras?: FieldExtras;
+  /** The page these answers belong to; the vision board stores pictures under it. */
+  pageId?: string;
 };
 
 export function formatMoney(amount: number, currency: string) {
@@ -71,11 +74,14 @@ export function FieldInput(props: FieldProps) {
   const showSuggestion = s && s.text && (empty || (s.replaceButton && value !== s.text));
   return (
     <div className="space-y-2">
+      {field.heading && (
+        <h3 className="border-t border-line pt-5 text-lg text-pine">{field.heading}</h3>
+      )}
       {field.marker ? (
-        <p className="flex items-center gap-3 pt-2 text-lg font-semibold text-indigo">
+        <p className="flex items-center gap-3 pt-2 text-lg font-semibold text-pine">
           <span
             aria-hidden
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber text-xl font-bold text-white"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ochre text-xl font-bold text-white"
           >
             {field.marker}
           </span>
@@ -87,7 +93,7 @@ export function FieldInput(props: FieldProps) {
       ) : (
         field.label && <p className="font-medium">{field.label}</p>
       )}
-      {field.hint && <p className="text-muted">{field.hint}</p>}
+      {field.hint && <p className="text-stone">{field.hint}</p>}
       {field.type !== "heading" && <Control {...props} />}
       {showSuggestion && (
         <div className="flex flex-wrap items-start gap-3 rounded-lg bg-sand p-3 text-sm">
@@ -104,7 +110,7 @@ export function FieldInput(props: FieldProps) {
   );
 }
 
-function Control({ field, value, onChange, currency, extras }: FieldProps) {
+function Control({ field, value, onChange, currency, extras, pageId }: FieldProps) {
   switch (field.type) {
     case "long_text":
       return (
@@ -139,7 +145,7 @@ function Control({ field, value, onChange, currency, extras }: FieldProps) {
             value={typeof value === "string" ? value : ""}
             onChange={(e) => onChange(e.target.value)}
           />
-          {field.unit && <span className="text-muted">{field.unit}</span>}
+          {field.unit && <span className="text-stone">{field.unit}</span>}
         </div>
       );
 
@@ -150,7 +156,7 @@ function Control({ field, value, onChange, currency, extras }: FieldProps) {
         <ol className="space-y-2">
           {items.map((item, i) => (
             <li key={i} className="flex items-center gap-3">
-              <span className="w-5 text-right text-muted">{i + 1}.</span>
+              <span className="w-5 text-right text-stone">{i + 1}.</span>
               <input
                 aria-label={`${field.item_label ?? field.label ?? field.hint ?? field.id} ${i + 1}`}
                 placeholder={field.item_label ? `${field.item_label} ${i + 1}` : undefined}
@@ -217,6 +223,9 @@ function Control({ field, value, onChange, currency, extras }: FieldProps) {
 
     case "calculation":
       return <Calculation field={field} value={value} onChange={onChange} currency={currency} extras={extras} />;
+
+    case "image_board":
+      return <ImageBoard field={field} pageId={pageId ?? ""} value={value} onChange={onChange} />;
   }
 }
 
@@ -244,8 +253,8 @@ function Chip({
       onClick={onClick}
       className={`rounded-full border px-4 py-1.5 text-left transition ${
         selected
-          ? "border-indigo bg-indigo text-white"
-          : "border-sand-deep bg-white hover:border-indigo disabled:opacity-40"
+          ? "border-pine bg-pine text-white"
+          : "border-line bg-white hover:border-pine disabled:opacity-40"
       }`}
     >
       {children}
@@ -272,7 +281,7 @@ function CheckboxPick({ field, value, onChange }: Omit<FieldProps, "currency">) 
   return (
     <div className="space-y-3">
       {field.pick && (
-        <p className="text-sm text-muted">
+        <p className="text-sm text-stone">
           Chosen: {picked.length} of {max}
         </p>
       )}
@@ -347,7 +356,7 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
 
   return (
     <div className="space-y-2">
-      <div className="overflow-x-auto rounded-xl border border-sand-deep bg-white">
+      <div className="overflow-x-auto rounded-xl border border-line bg-white">
         <table
           className="rtable w-full border-collapse text-left"
           style={{
@@ -361,14 +370,14 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
               {cols.map((c) => (
                 <th key={c.id} className="p-2 align-bottom font-medium">
                   {colLabel(c)}
-                  {c.kind === "money" && <span className="font-normal text-muted"> ({currency})</span>}
+                  {c.kind === "money" && <span className="font-normal text-stone"> ({currency})</span>}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
             {rows.map(({ key, label }) => (
-              <tr key={key} className="border-t border-sand-deep">
+              <tr key={key} className="border-t border-line">
                 {hasLabels && (
                   <th scope="row" className="p-2 pl-3 align-middle font-normal">
                     {rowLabel(key, label)}
@@ -419,7 +428,7 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
           </tbody>
           {field.totals && (
             <tfoot>
-              <tr className="border-t-2 border-indigo/30 font-semibold">
+              <tr className="border-t-2 border-pine/30 font-semibold">
                 {hasLabels && <th className="p-2 pl-3">{field.totals_label ?? "Total"}</th>}
                 {cols.map((c, i) => (
                   <td
@@ -437,12 +446,30 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                   </td>
                 ))}
               </tr>
+              {/* 3.4: confirmed income is the total that counts; agreed is shown apart. */}
+              {field.extra_totals?.map((extra) => (
+                <tr key={extra.label} className="border-t border-line text-stone">
+                  {hasLabels && <th className="p-2 pl-3 font-medium">{extra.label}</th>}
+                  {cols.map((c, i) => (
+                    <td key={c.id} className="p-2 pr-4 text-right" data-label={c.kind === "money" ? colLabel(c) : undefined}>
+                      {c.kind === "money" ? (
+                        formatTotal(
+                          tableTotal(data, c.id, { filter: extra.filter, certaintyColumn: extra.filter.column }),
+                          currency,
+                        )
+                      ) : !hasLabels && i === 0 ? (
+                        <span className="block text-left">{extra.label}</span>
+                      ) : null}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tfoot>
           )}
         </table>
       </div>
       {field.totals && cols.some((c) => c.kind === "money" && !tableFieldTotal(field, data, c.id).complete) && (
-        <p className="text-sm text-amber">
+        <p className="text-sm text-ochre">
           Not complete yet: some amounts are unknown or not marked. That is fine — now you know what to check.
         </p>
       )}
@@ -464,12 +491,12 @@ function Calculation({ field, value, onChange, currency, extras }: FieldProps) {
   const rows = (Array.isArray(field.rows) ? field.rows : []) as CalcRow[];
   const inputs = (value && typeof value === "object" && !Array.isArray(value) ? value : {}) as Record<string, string>;
   return (
-    <div className="overflow-x-auto rounded-xl border border-sand-deep bg-white">
+    <div className="overflow-x-auto rounded-xl border border-line bg-white">
       <table className="rtable w-full min-w-[30rem] border-collapse text-left">
         <thead className="bg-sand/60 text-sm">
           <tr>
             <th className="p-2 pl-3 font-medium" />
-            <th className="w-32 p-2 font-medium text-muted">Example</th>
+            <th className="w-32 p-2 font-medium text-stone">Example</th>
             <th className="w-44 p-2 font-medium">Me</th>
           </tr>
         </thead>
@@ -478,11 +505,11 @@ function Calculation({ field, value, onChange, currency, extras }: FieldProps) {
             const r = extras?.calc?.[row.id];
             if (r && !r.visible) return null;
             return (
-              <tr key={row.id} className="border-t border-sand-deep">
+              <tr key={row.id} className="border-t border-line">
                 <th scope="row" className="p-2 pl-3 align-middle font-normal">
                   {row.label}
                 </th>
-                <td className="p-2 text-muted" data-label="Example">
+                <td className="p-2 text-stone" data-label="Example">
                   {row.example}
                 </td>
                 <td className="p-1.5" data-label="Me">
@@ -494,7 +521,7 @@ function Calculation({ field, value, onChange, currency, extras }: FieldProps) {
                       onChange={(e) => onChange({ ...inputs, [row.id]: e.target.value })}
                     />
                   ) : (
-                    <output className={`block px-2 text-right font-semibold ${r && !r.complete ? "text-amber" : ""}`}>
+                    <output className={`block px-2 text-right font-semibold ${r && !r.complete ? "text-ochre" : ""}`}>
                       {r ? formatCalc(row, r, currency) : "—"}
                     </output>
                   )}

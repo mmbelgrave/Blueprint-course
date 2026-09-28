@@ -33,22 +33,22 @@ function ParticipantDetail({ id }: { id: string }) {
 
   return (
     <>
-      <Link href="/admin" className="text-sm text-indigo underline">
+      <Link href="/admin" className="text-sm text-pine underline">
         ← Back to the overview
       </Link>
       {error ? (
         <p className="mt-4 rounded-lg bg-sand p-4">{error}</p>
       ) : !data ? (
-        <p className="mt-4 text-muted">One moment…</p>
+        <p className="mt-4 text-stone">One moment…</p>
       ) : (
         <>
-          <h1 className="mt-3 text-3xl font-bold text-indigo">{data.name || "(no name yet)"}</h1>
-          <p className="mt-1 text-sm text-muted">Read-only. This person agreed that you may read their answers.</p>
+          <h1 className="mt-3 text-3xl font-bold text-pine">{data.name || "(no name yet)"}</h1>
+          <p className="mt-1 text-sm text-stone">Read-only. This person agreed that you may read their answers.</p>
 
           <section className="mt-6 space-y-3 rounded-2xl bg-white p-5">
-            <h2 className="text-xl font-semibold text-indigo">What their AI partner knows</h2>
+            <h2 className="text-xl font-semibold text-pine">What their AI partner knows</h2>
             {data.notes.length === 0 ? (
-              <p className="text-muted">No notes yet.</p>
+              <p className="text-stone">No notes yet.</p>
             ) : (
               <dl className="space-y-2">
                 {data.notes.map((n) => (
@@ -62,15 +62,15 @@ function ParticipantDetail({ id }: { id: string }) {
           </section>
 
           {data.workbook.every((s) => s.parts.length === 0) && (
-            <p className="mt-6 text-muted">No answers yet.</p>
+            <p className="mt-6 text-stone">No answers yet.</p>
           )}
           {data.workbook.map((s) =>
             s.parts.length ? (
               <section key={s.step} className="mt-8 space-y-4">
-                <h2 className="text-2xl font-semibold text-indigo">{s.step}</h2>
+                <h2 className="text-2xl font-semibold text-pine">{s.step}</h2>
                 {s.parts.map((p) => (
                   <div key={p.part} className="space-y-3 rounded-2xl bg-white p-5">
-                    <h3 className="font-semibold text-amber">{p.part}</h3>
+                    <h3 className="font-semibold text-ochre">{p.part}</h3>
                     {p.pages.map((pg) => (
                       <div key={pg.title}>
                         <p className="font-semibold">{pg.title}</p>

@@ -143,41 +143,52 @@ Brief: `build-prompt-v1.md` + naming update in `My Purpose/AI Companion/build-pr
   Supabase URLs, closing sign-up, invitations, SMTP, costs). typecheck, lint,
   tests 27/27, production build: all pass.
 
-## Agreed improvements (2026-09-27, not built yet)
-Mwata first delivers updated text for Step 1 and Step 2; the content port comes
-first, then these, in this order:
-1. **Brand pass.** The app is still built in indigo #2e2a5c, which the brand
-   guide reserves for SabiFasi. Move to Pine #2C3B2F / Sand / Ochre #8F5410,
-   Granite text, Stone captions, Sage panels; Newsreader for headings, Hanken
-   Grotesk for body and UI, tabular figures in the money tables; the real
-   Terraces mark in the header, on print pages and as the favicon.
-   Guide: My Purpose/Brandguide/the-life-you-choose-brand-guide.html.
-2. **Navigation.** Top: the Terraces motif as phase marker (Choose it active,
-   the other two in Sage - exactly three lines, one motif per page), plus a part
-   rail for the step (segments sized by part length, ochre marks where you are)
-   and the pages of the current part as chips. Bottom of each workbook page:
-   the chips of that part only, previous/next (one page at a time; at the edge
-   of a part the next button names the next part), and one "Both steps" button.
-   No full step index at the bottom - the top rail already carries it.
-3. **Examples.** Move each example next to the box it belongs to, folded shut
-   ("See an example"), with ghost text in the box. NO pre-filling on personal
-   pages (it anchors people, blurs whose words are whose, and the AI partner
-   would treat the example as the person's own life). "Use as a starting point"
-   only where the example shows a format, not a life: the money tables (3.2-3.5)
-   and list pages such as the must-haves.
-   Later idea, not for the pilot: on the most personal pages reveal the example
-   only after the person has written something.
-4. **Vision board on 1.2.** Up to nine pictures, one line of caption each,
-   client-side resize, private Supabase Storage bucket (own folder per person,
-   RLS), signed URLs, remove one at a time, included in "Delete everything",
-   printed as a grid. The AI partner reads the captions, never the images
-   (cost and privacy); "let my partner look at my board" could be an opt-in later.
-   Needs one SQL migration Mwata runs, as with the schema.
+## Version 2 (2026-09-28) — new content and the four improvements
 
-Mockup of 2, 3 and 4 in brand colours: design/navigation-mockup.html.
-Open with Mwata: does previous/next move one page (assumed) or one part;
-nine pictures enough; hold the pilot invitations until this lands, or let
-people start now and update underneath them.
+**Content.** Step 1 rebuilt from workbook v19 (21 pages: new warm-up 1.0, no 4.3
+and 4.4, reworked Part 3, 16-line 5.1 with Rosa's completed example) and Step 2
+from workbook v8 (17 pages, same structure, rewritten). Both checked sentence by
+sentence against the Word text, in both directions. The Freedom Academy box and
+its page are gone: they are not in either workbook any more.
+
+**Brand.** The app was built in indigo, which the brand guide reserves for
+SabiFasi. Now Pine #2C3B2F / Sand / Ochre #8F5410, Granite text, Stone captions,
+Sage panels, Moss for the third terrace; Newsreader for headings, Hanken Grotesk
+for body and UI; tabular figures in every table; the real Terraces mark in the
+header and as the favicon (src/app/icon.svg). Ochre is kept for the one thing
+that matters on a screen: "you are here", "Watch out", "A friendly challenge".
+
+**Navigation.** The journey motif on the step overview shows the phase (Choose
+it, with Build it and Live it in Sage; exactly three lines, one motif per page).
+A part rail on every workbook page shows the whole step: a segment per part,
+filled as pages are done, with an ochre marker on the part you are in. At the
+foot of each page: the pages of that part as chips (tick = done, half = started),
+previous and next by page (at the edge of a part the next button names the next
+part), and "Step overview" / "Both steps".
+
+**Examples.** Each example now sits next to the box it belongs to, closed, as
+"See an example". Nothing is ever written into an answer box. The planned "Use
+as a starting point" button for the format pages is NOT built: the workbook's
+examples are prose, so inserting one would mean inventing structured content.
+
+**Vision board (1.2 "Go deeper").** Up to eight pictures, each with one line
+about the need it represents, matching the workbook's "five to eight photos".
+Pictures are shrunk in the browser (long side 1600px, JPEG) and stored in a
+private Supabase bucket, one folder per person, shown through one-hour signed
+links. Remove one at a time; "Delete everything" removes the whole folder; the
+Step 1 print page shows the board three to a row. The AI partner reads only the
+lines, never the pictures, and is told so in its instructions.
+**Mwata must run `web/supabase/storage.sql` once** before the board works.
+
+**Checked:** typecheck, lint, tests 27/27, production build. All 56 addresses
+walked in the preview copy at 1280px and the main ones at 375px: every page
+renders, none is wider than the screen, no console errors. Computed styles
+confirm Sand ground, Granite text, Newsreader headings, Hanken Grotesk body,
+Pine buttons, tabular figures, and no indigo left anywhere.
+
+**Fixed on the way:** the summary page number (Part 1 starts at 1.0, so its
+summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
+2.1, 2.2 have no answer boxes and used to crash).
 
 ## Next step
 Mwata: signed-in walk-through with a second (test) account. Then decide: git

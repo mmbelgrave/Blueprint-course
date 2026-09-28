@@ -1089,7 +1089,7 @@
                     "kind": "text"
                   },
                   {
-                    "id": "sure",
+                    "id": "certainty",
                     "label": "Known / estimate / unknown",
                     "kind": "choice",
                     "options": [

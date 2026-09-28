@@ -57,17 +57,17 @@ function SettingsForm({ profile }: { profile: Profile }) {
       </section>
 
       <section className="space-y-4">
-        <h2 className="text-xl font-semibold text-indigo">Who may read your answers</h2>
+        <h2 className="text-xl font-semibold text-pine">Who may read your answers</h2>
         <label className="flex gap-3">
           <input
             type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-indigo"
+            className="mt-1.5 h-5 w-5 accent-pine"
             checked={draft.consent_ai}
             onChange={(e) => set({ consent_ai: e.target.checked })}
           />
           <span>
             My AI partner may read my answers to help me.
-            <span className="block text-sm text-muted">
+            <span className="block text-sm text-stone">
               If you switch this off, your AI partner stops helping and stops making notes. Your answers stay.
             </span>
           </span>
@@ -75,13 +75,13 @@ function SettingsForm({ profile }: { profile: Profile }) {
         <label className="flex gap-3">
           <input
             type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-indigo"
+            className="mt-1.5 h-5 w-5 accent-pine"
             checked={draft.consent_founder_access}
             onChange={(e) => set({ consent_founder_access: e.target.checked })}
           />
           <span>
             Mwata may read my answers and my AI summary to guide me.
-            <span className="block text-sm text-muted">Optional. You can change this at any time.</span>
+            <span className="block text-sm text-stone">Optional. You can change this at any time.</span>
           </span>
         </label>
       </section>
@@ -90,15 +90,15 @@ function SettingsForm({ profile }: { profile: Profile }) {
         <button className="btn btn-primary" disabled={state === "saving"}>
           {state === "saving" ? "Saving…" : "Save"}
         </button>
-        {state === "saved" && <span className="text-green">Saved.</span>}
+        {state === "saved" && <span className="text-success">Saved.</span>}
         {state === "error" && (
-          <span role="alert" className="text-amber">
+          <span role="alert" className="text-ochre">
             This was not saved. Please check your internet and try again.
           </span>
         )}
       </div>
 
-      <p className="text-sm text-muted">
+      <p className="text-sm text-stone">
         Want to see or delete what your AI partner knows, or delete everything?{" "}
         <Link href="/me" className="underline">
           What my AI partner knows
@@ -115,7 +115,7 @@ export default function SettingsPage() {
     <Shell>
       <RequireUser>
         <div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 sm:p-8">
-          <h1 className="mb-6 text-2xl font-bold text-indigo">My settings</h1>
+          <h1 className="mb-6 text-2xl font-bold text-pine">My settings</h1>
           {profile && <SettingsForm profile={profile} />}
         </div>
       </RequireUser>

@@ -104,7 +104,7 @@
                 { "id": "today", "label": "Today", "kind": "money" },
                 { "id": "new_life", "label": "In my new life", "kind": "money" },
                 {
-                  "id": "sure",
+                  "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
                   "options": ["Known", "Estimate", "Unknown"]
@@ -143,7 +143,7 @@
               "columns": [
                 { "id": "amount", "label": "Amount", "kind": "money" },
                 {
-                  "id": "sure",
+                  "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
                   "options": ["Known", "Estimate", "Unknown"]
@@ -186,7 +186,7 @@
                 { "id": "now", "label": "Now per month", "kind": "money" },
                 { "id": "new_life", "label": "In my new life", "kind": "money" },
                 {
-                  "id": "sure",
+                  "id": "certainty",
                   "label": "Confirmed / agreed / hoped",
                   "kind": "choice",
                   "options": ["Confirmed", "Agreed", "Hoped"]
@@ -195,11 +195,11 @@
               ],
               "totals": true,
               "totals_label": "Total confirmed (you use this in 3.5)",
-              "total_filter": ["Confirmed"],
+              "total_filter": { "column": "certainty", "values": ["Confirmed"] },
               "extra_totals": [
                 {
                   "label": "Total agreed (not in the check yet)",
-                  "filter": ["Agreed"]
+                  "filter": { "column": "certainty", "values": ["Agreed"] }
                 }
               ]
             }

@@ -33,6 +33,14 @@ export function answerText(field: Field, value: unknown, separator = "; "): stri
       const lines = (field.questions ?? []).map((q, i) => (value[i] ? `${q} → ${value[i]}` : null));
       return lines.filter(Boolean).join(separator) || null;
     }
+    // A vision board is read as the lines the person wrote, never the pictures.
+    if (field.type === "image_board") {
+      const captions = value
+        .map((p) => (p && typeof p === "object" ? String((p as { caption?: string }).caption ?? "").trim() : ""))
+        .filter(Boolean);
+      if (!captions.length) return value.length ? `${value.length} pictures, no lines written yet` : null;
+      return clip(`${value.length} pictures. The lines under them: ${captions.join(separator)}`);
+    }
     const items = value.filter((v) => typeof v === "string" && v.trim());
     return items.length ? clip(items.join(separator)) : null;
   }

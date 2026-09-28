@@ -29,13 +29,33 @@
             {
               "id": "options",
               "type": "table",
-              "row_header": "Option",
-              "row_labels": ["A", "B", "C Stay, but change:", "D Change nothing"],
-              "row_labels_editable": [true, true, true, false],
+              "row_labels": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
               "columns": [
-                { "id": "not_sure", "label": "What I am not sure about", "kind": "text" },
-                { "id": "test", "label": "A small test", "kind": "text" }
-              ]
+                {
+                  "id": "option",
+                  "label": "Option",
+                  "kind": "text"
+                },
+                {
+                  "id": "not_sure",
+                  "label": "What I am not sure about",
+                  "kind": "text"
+                },
+                {
+                  "id": "test",
+                  "label": "A small test",
+                  "kind": "text"
+                }
+              ],
+              "prefill": {
+                "C": "Stay, but change: ",
+                "D": "Change nothing"
+              }
             }
           ]
         },
@@ -62,29 +82,96 @@
               "type": "table",
               "row_header": "My must-haves (from 1.4)",
               "rows": 4,
-              "rows_from": { "exercise": "1.4", "field": "must_haves", "column": "must_have" },
+              "rows_from": {
+                "exercise": "1.4",
+                "field": "must_haves",
+                "column": "must_have"
+              },
               "hint": "Then check each must-have. For each option, mark it yes, partly, no or unknown. Unknown is a good answer before you have explored.",
-              "column_names_from": { "exercise": "4.1", "field": "options" },
               "columns": [
-                { "id": "a", "label": "A", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] },
-                { "id": "b", "label": "B", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] },
-                { "id": "c", "label": "C", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] },
-                { "id": "d", "label": "D", "kind": "choice", "options": ["Yes", "Partly", "No", "Unknown"] }
+                {
+                  "id": "a",
+                  "label": "A",
+                  "kind": "choice",
+                  "options": [
+                    "Yes",
+                    "Partly",
+                    "No",
+                    "Unknown"
+                  ]
+                },
+                {
+                  "id": "b",
+                  "label": "B",
+                  "kind": "choice",
+                  "options": [
+                    "Yes",
+                    "Partly",
+                    "No",
+                    "Unknown"
+                  ]
+                },
+                {
+                  "id": "c",
+                  "label": "C",
+                  "kind": "choice",
+                  "options": [
+                    "Yes",
+                    "Partly",
+                    "No",
+                    "Unknown"
+                  ]
+                },
+                {
+                  "id": "d",
+                  "label": "D",
+                  "kind": "choice",
+                  "options": [
+                    "Yes",
+                    "Partly",
+                    "No",
+                    "Unknown"
+                  ]
+                }
               ]
             },
             {
               "id": "overview",
               "type": "table",
               "row_header": "Option",
-              "row_labels": ["A", "B", "C", "D"],
+              "row_labels": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
               "hint": "Then complete the overview. \"My feeling\" is how the option feels when you imagine it: 1 = bad, 5 = very good.",
-              "column_names_from": { "exercise": "4.1", "field": "options" },
               "columns": [
-                { "id": "dealbreaker", "label": "Breaks a dealbreaker? Which?", "kind": "text" },
-                { "id": "essentials", "label": "Essentials not met or unknown", "kind": "text" },
-                { "id": "feeling", "label": "My feeling (1–5)", "kind": "number" },
-                { "id": "cost", "label": "Rough cost per month", "kind": "money" },
-                { "id": "risk", "label": "Biggest risk", "kind": "text" }
+                {
+                  "id": "dealbreaker",
+                  "label": "Breaks a dealbreaker? Which?",
+                  "kind": "text"
+                },
+                {
+                  "id": "essentials",
+                  "label": "Essentials not met or unknown",
+                  "kind": "text"
+                },
+                {
+                  "id": "feeling",
+                  "label": "My feeling (1–5)",
+                  "kind": "number"
+                },
+                {
+                  "id": "cost",
+                  "label": "Rough cost per month",
+                  "kind": "money"
+                },
+                {
+                  "id": "risk",
+                  "label": "Biggest risk",
+                  "kind": "text"
+                }
               ]
             },
             {
@@ -93,8 +180,16 @@
               "rows": 1,
               "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? And what would it cost in time, energy or happiness? Write down both to make the comparison fair.",
               "columns": [
-                { "id": "protects", "label": "What staying protects", "kind": "long_text" },
-                { "id": "costs", "label": "What staying costs", "kind": "long_text" }
+                {
+                  "id": "protects",
+                  "label": "What staying protects",
+                  "kind": "long_text"
+                },
+                {
+                  "id": "costs",
+                  "label": "What staying costs",
+                  "kind": "long_text"
+                }
               ]
             }
           ]
@@ -115,11 +210,36 @@
       ],
       "prompt": "Now bring it together in My Options. Short sentences are enough.",
       "fields": [
-        { "id": "keep", "type": "long_text", "lines": 2, "label": "Options I keep, and why" },
-        { "id": "let_go", "type": "long_text", "lines": 2, "label": "Options I let go, and why" },
-        { "id": "must_be_true", "type": "long_text", "lines": 2, "label": "What each option I keep would need to work for me" },
-        { "id": "risks", "type": "long_text", "lines": 2, "label": "What worries me most, in one line" },
-        { "id": "find_out", "type": "long_text", "lines": 2, "label": "What I still need to find out" }
+        {
+          "id": "keep",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Options I keep, and why"
+        },
+        {
+          "id": "let_go",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Options I let go, and why"
+        },
+        {
+          "id": "must_be_true",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What each option I keep would need to work for me"
+        },
+        {
+          "id": "risks",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What worries me most, in one line"
+        },
+        {
+          "id": "find_out",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I still need to find out"
+        }
       ],
       "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
       "result": "My Options — the options worth investigating, and what you need to learn about them."
@@ -152,7 +272,12 @@
         "title": "My Working Direction",
         "start_here": {
           "fields": [
-            { "id": "life_picture", "type": "long_text", "lines": 3, "label": "My life picture in three sentences" },
+            {
+              "id": "life_picture",
+              "type": "long_text",
+              "lines": 3,
+              "label": "My life picture in three sentences"
+            },
             {
               "id": "choice",
               "type": "single_choice",
@@ -165,20 +290,85 @@
                 "Not ready yet"
               ]
             },
-            { "id": "directions", "type": "long_text", "lines": 2, "label": "The direction(s) I want to explore" },
-            { "id": "why", "type": "long_text", "lines": 3, "label": "Why: two or three reasons" },
-            { "id": "essentials", "type": "long_text", "lines": 2, "label": "My essential needs: I take these with me" },
-            { "id": "assumptions", "type": "long_text", "lines": 2, "label": "Assumptions I still need to check" },
-            { "id": "learn_next", "type": "long_text", "lines": 2, "label": "What I need to learn next" },
-            { "id": "willing_to_give", "type": "long_text", "lines": 2, "label": "What I am willing to invest: time, money, comfort" },
-            { "id": "helpers", "type": "short_text", "label": "Who can help me" },
-            { "id": "first_question", "type": "long_text", "lines": 2, "label": "The first question I will investigate, and why it matters most" },
-            { "id": "next_step", "type": "short_text", "label": "My next small step, within two weeks" },
-            { "id": "step_learning", "type": "short_text", "label": "What this step will help me learn" },
-            { "id": "date", "type": "short_text", "label": "Date of this step" },
-            { "id": "review_when", "type": "short_text", "label": "When I will review what I learned" },
-            { "id": "continue_or_stop", "type": "long_text", "lines": 2, "label": "What result would make me continue, change direction, or stop" },
-            { "id": "two_years", "type": "long_text", "lines": 2, "label": "In two years, how I will know this worked" }
+            {
+              "id": "directions",
+              "type": "long_text",
+              "lines": 2,
+              "label": "The direction(s) I want to explore"
+            },
+            {
+              "id": "why",
+              "type": "long_text",
+              "lines": 3,
+              "label": "Why: two or three reasons"
+            },
+            {
+              "id": "essentials",
+              "type": "long_text",
+              "lines": 2,
+              "label": "My essential needs: I take these with me"
+            },
+            {
+              "id": "assumptions",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Assumptions I still need to check"
+            },
+            {
+              "id": "learn_next",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I need to learn next"
+            },
+            {
+              "id": "willing_to_give",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I am willing to invest: time, money, comfort"
+            },
+            {
+              "id": "helpers",
+              "type": "short_text",
+              "label": "Who can help me"
+            },
+            {
+              "id": "first_question",
+              "type": "long_text",
+              "lines": 2,
+              "label": "The first question I will investigate, and why it matters most"
+            },
+            {
+              "id": "next_step",
+              "type": "short_text",
+              "label": "My next small step, within two weeks"
+            },
+            {
+              "id": "step_learning",
+              "type": "short_text",
+              "label": "What this step will help me learn"
+            },
+            {
+              "id": "date",
+              "type": "short_text",
+              "label": "Date of this step"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text",
+              "label": "When I will review what I learned"
+            },
+            {
+              "id": "continue_or_stop",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What result would make me continue, change direction, or stop"
+            },
+            {
+              "id": "two_years",
+              "type": "long_text",
+              "lines": 2,
+              "label": "In two years, how I will know this worked"
+            }
           ]
         },
         "choice_explanations_intro": "For \"What I choose now\", five answers are possible, and all five are good:",
@@ -197,22 +387,70 @@
           "title": "A completed page",
           "intro": "Rosa is made up, and she ends up staying. The point is not her answer. It is that every line is filled in, including the parts she does not know yet.",
           "rows": [
-            ["My life picture in three sentences", "I want time outside every day. I want work I choose, not work that fills every hour. I want my parents close enough to visit in an afternoon."],
-            ["What I choose now", "Build the life I want where I am."],
-            ["The direction(s) I want to explore", "Four days a week instead of five, in my current job, and one day a week outside."],
-            ["Why: two or three reasons", "My parents are twenty minutes away, and that is worth more to me than better weather. Most of what I wanted from moving was time, not another country. A colleague already works four days, so it is possible here."],
-            ["My essential needs: I take these with me", "Daily time outside. Work I choose. No commute over 30 minutes."],
-            ["Assumptions I still need to check", "That we can live on about 80% of my income. That my manager will agree in writing. That one day less does not become five days of work in four."],
-            ["What I need to learn next", "What a year on 80% really costs us, using our own numbers."],
-            ["What I am willing to invest: time, money, comfort", "About 20% of my income, and one uncomfortable conversation at work."],
-            ["Who can help me", "My partner, for the budget. My colleague who already works four days."],
-            ["The first question I will investigate, and why it matters most", "Can we live on 80%? If the answer is no, the rest does not matter, whatever my manager says."],
-            ["My next small step, within two weeks", "Redo Part 3 with 80% of my take-home pay, using our last three bank statements."],
-            ["What this step will help me learn", "Whether the gap is small enough to close by cutting costs, or big enough to need another plan."],
-            ["Date of this step", "Before 15 October."],
-            ["When I will review what I learned", "1 November, whatever has happened by then."],
-            ["What result would make me continue, change direction, or stop", "A gap under 150 a month: continue, and ask my manager. A bigger gap: look at other work here first, before I reopen the idea of moving."],
-            ["In two years, how I will know this worked", "I am outside every day, not only at weekends. I see my parents every week. And my Fridays are still mine."]
+            [
+              "My life picture in three sentences",
+              "I want time outside every day. I want work I choose, not work that fills every hour. I want my parents close enough to visit in an afternoon."
+            ],
+            [
+              "What I choose now",
+              "Build the life I want where I am."
+            ],
+            [
+              "The direction(s) I want to explore",
+              "Four days a week instead of five, in my current job, and one day a week outside."
+            ],
+            [
+              "Why: two or three reasons",
+              "My parents are twenty minutes away, and that is worth more to me than better weather. Most of what I wanted from moving was time, not another country. A colleague already works four days, so it is possible here."
+            ],
+            [
+              "My essential needs: I take these with me",
+              "Daily time outside. Work I choose. No commute over 30 minutes."
+            ],
+            [
+              "Assumptions I still need to check",
+              "That we can live on about 80% of my income. That my manager will agree in writing. That one day less does not become five days of work in four."
+            ],
+            [
+              "What I need to learn next",
+              "What a year on 80% really costs us, using our own numbers."
+            ],
+            [
+              "What I am willing to invest: time, money, comfort",
+              "About 20% of my income, and one uncomfortable conversation at work."
+            ],
+            [
+              "Who can help me",
+              "My partner, for the budget. My colleague who already works four days."
+            ],
+            [
+              "The first question I will investigate, and why it matters most",
+              "Can we live on 80%? If the answer is no, the rest does not matter, whatever my manager says."
+            ],
+            [
+              "My next small step, within two weeks",
+              "Redo Part 3 with 80% of my take-home pay, using our last three bank statements."
+            ],
+            [
+              "What this step will help me learn",
+              "Whether the gap is small enough to close by cutting costs, or big enough to need another plan."
+            ],
+            [
+              "Date of this step",
+              "Before 15 October."
+            ],
+            [
+              "When I will review what I learned",
+              "1 November, whatever has happened by then."
+            ],
+            [
+              "What result would make me continue, change direction, or stop",
+              "A gap under 150 a month: continue, and ask my manager. A bigger gap: look at other work here first, before I reopen the idea of moving."
+            ],
+            [
+              "In two years, how I will know this worked",
+              "I am outside every day, not only at weekends. I see my parents every week. And my Fridays are still mine."
+            ]
           ]
         }
       },
@@ -230,11 +468,31 @@
               "type": "table",
               "rows": 2,
               "columns": [
-                { "id": "person", "label": "Person", "kind": "text" },
-                { "id": "shared", "label": "Shared wishes", "kind": "text" },
-                { "id": "differ", "label": "Where we differ", "kind": "text" },
-                { "id": "concerns", "label": "Open concerns", "kind": "text" },
-                { "id": "agreed", "label": "What we agreed", "kind": "text" }
+                {
+                  "id": "person",
+                  "label": "Person",
+                  "kind": "text"
+                },
+                {
+                  "id": "shared",
+                  "label": "Shared wishes",
+                  "kind": "text"
+                },
+                {
+                  "id": "differ",
+                  "label": "Where we differ",
+                  "kind": "text"
+                },
+                {
+                  "id": "concerns",
+                  "label": "Open concerns",
+                  "kind": "text"
+                },
+                {
+                  "id": "agreed",
+                  "label": "What we agreed",
+                  "kind": "text"
+                }
               ]
             }
           ]
