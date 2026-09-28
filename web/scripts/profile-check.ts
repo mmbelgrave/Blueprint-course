@@ -15,7 +15,12 @@ const answers: Answers = {
     dealbreakers: "More than 2 hours from my daughter",
   },
   "3.4": { income: { r0: { source: "Pension", new_life: "900", certainty: "Confirmed" }, r1: { source: "Online teaching", new_life: "600", certainty: "Hoped" } } },
-  "4.4": { fears: { r0: { fear: "Being lonely in winter", likely: "Medium", impact: "Big", warning: "", action: "Join a club in the first month" } } },
+  // v19 has no 4.4: what worried a person now comes from 2.3 and the Part 4 summary.
+  "2.3": { before: "I nearly went in 2019 and stopped: I was afraid of being lonely in winter.", differently: "Join a club in the first month." },
+  "1.2": {
+    day: "Coffee outside at 7, then the workshop.",
+    board: [{ path: "u/1.2/a.jpg", caption: "Morning light on the terrace - calm before the day starts" }],
+  },
   "s2-1.2": { countries: ["Portugal", "Spain"] },
 };
 
@@ -37,6 +42,10 @@ async function main() {
     ["forgotten item empty", Array.isArray(p.fears) && p.fears.length === 0],
     ["must-haves taken from the answers", JSON.stringify(p.must_haves ?? "").toLowerCase().includes("sea")],
     ["places mention Portugal", String(p.places ?? "").includes("Portugal")],
+    [
+      "the board line is used, the picture is not invented",
+      JSON.stringify(p).toLowerCase().includes("terrace") || JSON.stringify(p).toLowerCase().includes("morning"),
+    ],
   ] as const;
   for (const [name, ok] of checks) console.log(`${ok ? "PASS" : "FAIL"}  ${name}`);
   console.log(`tokens: in=${result.usage.input_tokens} out=${result.usage.output_tokens}`);

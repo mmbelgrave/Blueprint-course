@@ -13,7 +13,8 @@
     "test": "node --test tests/*.test.ts",
     "partner-check": "node scripts/sync-content.mjs && tsx --env-file=.env.local scripts/partner-check.ts",
     "profile-check": "node scripts/sync-content.mjs && tsx --env-file=.env.local scripts/profile-check.ts",
-    "draft-check": "node scripts/sync-content.mjs && tsx --env-file=.env.local scripts/draft-check.ts"
+    "draft-check": "node scripts/sync-content.mjs && tsx --env-file=.env.local scripts/draft-check.ts",
+    "s2-draft-check": "node scripts/sync-content.mjs && tsx --env-file=.env.local scripts/s2-draft-check.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.127.0",

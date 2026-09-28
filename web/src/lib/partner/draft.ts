@@ -11,18 +11,27 @@ import { allAnswersText } from "./prompt";
 
 // Brief 5: "Part result: Write a short, warm summary in the person's own words and
 // language, only from their answers for this part. No advice, no new facts. Max 150 words."
-const INSTRUCTIONS = `Write a short, warm summary in the person's own words and language, only from their answers for this part. No advice, no new facts. Max 150 words.
+const INSTRUCTIONS = `Write a short, warm summary in the person's own words and language, only from their answers for this part. No advice, no new facts.
 
 How:
 - You fill in the boxes of one page. For each box, write one to three short sentences that answer that box, using only what the person wrote.
 - If the answers say nothing for a box, return an empty string for it. Never guess or invent.
 - Use their own words where you can. Write in the language they wrote their answers in; if that is unclear, use the FALLBACK LANGUAGE.
 - Simple words and short sentences. No judging, no advice, no recommendations, no questions.
-- All boxes together: at most 150 words. A box asking for "three sentences" gets three sentences.`;
+- At most 25 words per box, and never more than the WORD BUDGET for the whole page. A box asking for "three sentences" gets three sentences.
+- Write real letters (câmara, não), never escape codes.`;
 
 const LANGUAGES: Record<string, string> = { en: "English", nl: "Dutch", pt: "Portuguese", de: "German", fr: "French", es: "Spanish" };
 
 export type Drafts = Record<string, string>;
+
+/**
+ * Now and then the model writes an escape code instead of the letter, so a
+ * draft would read "câmara" in the box. Put the letter back.
+ */
+export function plainLetters(text: string): string {
+  return text.replace(/\\u([0-9a-fA-F]{4})/g, (_, code) => String.fromCharCode(parseInt(code, 16)));
+}
 
 export async function draftPage(
   client: Anthropic,
@@ -58,6 +67,8 @@ export async function draftPage(
         content: [
           `<page>Step ${found.step.step.number}, ${found.part.label} · ${found.part.title}: ${displayTitle(found.exercise)}</page>`,
           `<boxes>\n${boxes}\n</boxes>`,
+          // 150 words suits a six-box summary; the Explore Summary has ten boxes.
+          `<word_budget>${Math.max(150, fields.length * 20)} words for the whole page</word_budget>`,
           `<fallback_language>${LANGUAGES[language] ?? "English"}</fallback_language>`,
           `<answers>\n${allAnswersText(source) || "No answers yet."}\n</answers>`,
         ].join("\n\n"),
@@ -69,7 +80,7 @@ export async function draftPage(
   if (response.stop_reason !== "end_turn" || !response.parsed_output) return null;
   const drafts: Drafts = {};
   for (const f of fields) {
-    const text = String((response.parsed_output as Record<string, unknown>)[f.id] ?? "").trim();
+    const text = plainLetters(String((response.parsed_output as Record<string, unknown>)[f.id] ?? "").trim());
     if (text) drafts[f.id] = text;
   }
   return { drafts, usage: response.usage };

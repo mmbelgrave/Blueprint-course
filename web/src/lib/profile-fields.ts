@@ -37,8 +37,12 @@ export type AiProfile = Partial<Record<ProfileKey, string | string[]>> & {
  */
 export const PROFILE_SOURCES: Record<ProfileKey, { page: string; fields?: string[] }[]> = {
   life_picture: [
-    { page: "1.2" },
+    { page: "1.0" },
+    { page: "1.2" }, // the normal day, the needs behind it, and the lines under the board
+    { page: "1.3" },
+    { page: "1.5" },
     { page: "life_picture" },
+    { page: "first_picture", fields: ["more_of", "keep", "daily_life", "two_directions"] },
     { page: "5.1", fields: ["life_picture"] },
     { page: "s2-0.1", fields: ["life_picture"] },
   ],
@@ -53,8 +57,8 @@ export const PROFILE_SOURCES: Record<ProfileKey, { page: string; fields?: string
     { page: "s2-0.1", fields: ["dealbreakers"] },
   ],
   wheel_scores: [{ page: "2.1" }],
-  strengths: [{ page: "2.2" }],
-  beliefs: [{ page: "2.4" }],
+  strengths: [{ page: "2.2" }, { page: "2.5" }, { page: "starting_point", fields: ["strengths"] }],
+  beliefs: [{ page: "2.4" }, { page: "starting_point", fields: ["beliefs_to_check"] }],
   money: [
     { page: "3.1" },
     { page: "3.2" },
@@ -66,19 +70,40 @@ export const PROFILE_SOURCES: Record<ProfileKey, { page: string; fields?: string
     { page: "s2-3.1" },
     { page: "s2-5.2" },
   ],
-  options: [{ page: "4.1" }, { page: "4.2" }, { page: "4.3" }],
-  fears: [{ page: "4.4" }],
+  // Workbook v19 dropped 4.3 and 4.4; what worried a person now comes from
+  // "What stopped you before" and the one-line worry in the Part 4 summary.
+  options: [
+    { page: "4.1" },
+    { page: "4.2" },
+    { page: "5.2" },
+    { page: "options", fields: ["keep", "let_go", "must_be_true", "find_out"] },
+    { page: "s2-5.3" },
+  ],
+  fears: [
+    { page: "2.3" },
+    { page: "options", fields: ["risks"] },
+    { page: "starting_point", fields: ["stopped_before"] },
+  ],
   places: [
     { page: "s2-1.2" },
+    { page: "s2-1.3" },
     { page: "s2-2.3" },
+    { page: "s2-3.2" },
     { page: "s2-3.3" },
-    { page: "s2-country_choice" },
-    { page: "s2-region_shortlist" },
-    { page: "s2-place_profiles" },
-    { page: "s2-test_visit" },
-    { page: "s2-5.1", fields: ["place", "location"] },
+    { page: "s2-3.4" },
+    { page: "s2-4.1" },
+    { page: "s2-4.2" },
+    { page: "s2-4.3" },
+    { page: "country_choice" },
+    { page: "region_shortlist" },
+    { page: "place_profiles" },
+    { page: "test_visit" },
+    { page: "s2-5.1", fields: ["place", "where", "reasons", "not_give"] },
   ],
-  open_questions: [{ page: "0.1", fields: ["big_question"] }],
+  open_questions: [
+    { page: "0.1", fields: ["big_question"] },
+    { page: "first_picture", fields: ["test_later"] },
+  ],
   patterns_and_tensions: [],
 };
 

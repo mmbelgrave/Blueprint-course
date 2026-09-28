@@ -7,8 +7,21 @@ import { findExercise, partItems, stepExercises, type Exercise, type Field } fro
  * bring earlier answers together. Choices, next steps and dates stay the person's own.
  */
 const EXTRA_DRAFTABLE: Record<string, string[]> = {
-  "5.1": ["life_picture", "essentials", "assumptions"], // Step 1 Working Direction
-  "s2-5.1": ["place", "location", "reasons", "not_given", "month_cost", "income", "legal_route", "healthcare", "unknown"], // Explore Summary
+  // Step 1 Working Direction. The choice, the next step and the dates are theirs.
+  "5.1": ["life_picture", "essentials", "assumptions"],
+  // Explore Summary (workbook v8 field names).
+  "s2-5.1": [
+    "place",
+    "where",
+    "reasons",
+    "not_give",
+    "monthly_cost",
+    "income",
+    "legal",
+    "healthcare",
+    "unknowns",
+    "who_i_need",
+  ],
 };
 
 const isText = (f: Field) => f.type === "long_text" || f.type === "short_text";

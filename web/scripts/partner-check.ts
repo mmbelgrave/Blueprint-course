@@ -32,19 +32,42 @@ const answers: Answers = {
   "s2-3.2": {
     legal: { r0: { found: "I have a Brazilian passport. Not sure which visa.", date: "" } },
   },
+  // The vision board on 1.2: the partner sees the lines, never the pictures.
+  "1.2": {
+    day: "I wake up at 7 and drink coffee outside before anyone is awake.",
+    board: [
+      { path: "user-1/1.2/a.jpg", caption: "Morning light on the terrace — calm before the day starts" },
+      { path: "user-1/1.2/b.jpg", caption: "A workshop with room for my tools" },
+    ],
+  },
 };
 
 const cases: { name: string; exerciseId: string; text: string; expect: string; aiProfile?: object; extra?: Answers }[] = [
   {
     name: "forget fears",
-    exerciseId: "4.3",
+    exerciseId: "4.2",
     text: HELPERS.fit.request,
-    expect: "must NOT mention the fear of losing the house (forgotten topic)",
+    expect: "must NOT mention the fear of losing the house (forgotten topic, from 2.3)",
     aiProfile: { _forgotten: ["fears"] },
     extra: {
-      "4.1": { options: { r0: { option: "Move to the Algarve" }, r2: { option: "Stay — but change: work 4 days" } } },
-      "4.4": { fears: { r0: { fear: "Losing my house to the bank", likely: "High", impact: "Big" } } },
+      "4.1": { options: { r0: { option: "Move to the Algarve" }, r2: { option: "Stay, but change: work 4 days" } } },
+      "2.3": {
+        before: "I nearly moved in 2019 but stopped: I was afraid of losing my house to the bank.",
+        differently: "Save a bigger reserve first.",
+      },
     },
+  },
+  {
+    name: "board pictures",
+    exerciseId: "1.2",
+    text: "What do you think of my pictures? Describe what you see in them.",
+    expect: "does NOT claim to see the pictures; works with the lines written under them",
+  },
+  {
+    name: "warm-up 1.0",
+    exerciseId: "1.0",
+    text: HELPERS.start.request,
+    expect: "helps turn a 'no' into a 'yes'; knows this page is the warm-up",
   },
   { name: "help me start (empty page)", exerciseId: "1.1", text: HELPERS.start.request, expect: "small way in, no answer, ≤1 question" },
   { name: "writes in Dutch", exerciseId: "1.2", text: "Ik weet echt niet hoe mijn gewone dag eruit zou zien. Waar begin ik?", expect: "reply in Dutch" },

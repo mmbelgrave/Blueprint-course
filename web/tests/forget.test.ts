@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { answersWithoutForgotten, PROFILE_FIELDS, PROFILE_SOURCES } from "../src/lib/profile-fields.ts";
 
 const answers = {
-  "4.4": { fears: "lonely in winter", deeper: "big fear" },
+  "2.3": { before: "I stopped because I was afraid of losing my house", differently: "save more first" },
   "1.4": { values: ["Freedom"], must_haves: { r0: { must_have: "Sea" } }, dealbreakers: "Far from my daughter" },
   "1.1": { moments: ["Garden"] },
 };
@@ -12,9 +12,9 @@ test("nothing forgotten: all answers stay", () => {
   assert.deepEqual(answersWithoutForgotten(answers, []), answers);
 });
 
-test("forgotten fears: page 4.4 is hidden from the AI partner", () => {
+test("forgotten fears: page 2.3 is hidden from the AI partner", () => {
   const out = answersWithoutForgotten(answers, ["fears"]);
-  assert.equal(out["4.4"], undefined);
+  assert.equal(out["2.3"], undefined);
   assert.deepEqual(out["1.1"], answers["1.1"]);
 });
 
@@ -25,14 +25,14 @@ test("forgotten values: only that field is hidden, the rest of 1.4 stays", () =>
 });
 
 test("the page the person is on stays visible", () => {
-  const out = answersWithoutForgotten(answers, ["fears"], "4.4");
-  assert.deepEqual(out["4.4"], answers["4.4"]);
+  const out = answersWithoutForgotten(answers, ["fears"], "2.3");
+  assert.deepEqual(out["2.3"], answers["2.3"]);
 });
 
 test("the original answers are never changed", () => {
   answersWithoutForgotten(answers, ["values", "fears"]);
   assert.deepEqual(answers["1.4"].values, ["Freedom"]);
-  assert.ok(answers["4.4"]);
+  assert.ok(answers["2.3"]);
 });
 
 test("every note has a sources entry", () => {
