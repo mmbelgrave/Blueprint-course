@@ -3,15 +3,29 @@ import Link from "next/link";
 import { JourneyMotif } from "@/components/brand";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { displayTitle, journey, partItems, PRODUCT, steps } from "@/lib/content";
+import { journey, partItems, PRODUCT, steps } from "@/lib/content";
 import { continueTarget, exerciseHref, hrefOf, stepHref, stepProgress } from "@/lib/progress";
 
 /** The whole road: three phases, eight steps. Two of them are in the app today. */
 function WholeRoad() {
-  const { statuses } = useApp();
+  const { user, statuses } = useApp();
   const doneStep = (n: number) => {
     const s = steps.find((x) => x.step.number === n);
     return s ? stepProgress(s, statuses) : null;
+  };
+  /**
+   * A step you have started opens where you stopped. A step you have not
+   * started opens at its very first page — including the optional Start part,
+   * which "continue" would otherwise skip.
+   */
+  const stepTarget = (n: number) => {
+    const content = steps.find((x) => x.step.number === n);
+    if (!content) return stepHref(n);
+    const first = content.parts[0];
+    const fromTheTop = exerciseHref(n, first.id, partItems(first)[0].id);
+    if (!stepProgress(content, statuses).started) return fromTheTop;
+    const next = continueTarget(n, statuses, user?.id);
+    return next ? hrefOf(next) : fromTheTop;
   };
 
   return (
@@ -44,20 +58,22 @@ function WholeRoad() {
                     <li key={s.number}>
                       {s.in_app ? (
                         <Link
-                          href={stepHref(s.number)}
+                          href={stepTarget(s.number)}
                           className="flex h-full gap-3 rounded-xl border-[1.75px] border-line bg-white p-3 transition hover:border-pine"
                         >
                           <StepNumber n={s.number} active />
-                          <span className="min-w-0">
+                          <span className="min-w-0 flex-1">
                             <span className="block font-semibold text-pine">{s.title}</span>
                             <span className="block text-sm text-stone">{s.question}</span>
                             {progress && (
-                              <span className="mt-1 block text-sm">
-                                {progress.complete ? (
-                                  <span className="font-semibold text-success">✓ done</span>
-                                ) : (
-                                  `${progress.done} of ${progress.total} pages done`
-                                )}
+                              <span className="mt-2 flex items-center gap-2">
+                                <span className="h-2 flex-1 overflow-hidden rounded-full bg-sage">
+                                  <span
+                                    className={`block h-full rounded-full ${progress.complete ? "bg-success" : "bg-pine"}`}
+                                    style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }}
+                                  />
+                                </span>
+                                {progress.complete && <span className="text-sm font-semibold text-success">✓</span>}
                               </span>
                             )}
                           </span>
@@ -99,7 +115,7 @@ function StepNumber({ n, active = false }: { n: number; active?: boolean }) {
 }
 
 function Dashboard() {
-  const { user, profile, statuses } = useApp();
+  const { profile } = useApp();
 
   return (
     <>
@@ -119,55 +135,6 @@ function Dashboard() {
       <div className="mt-6">
         <WholeRoad />
       </div>
-
-      <h2 className="mt-10 text-xl text-pine">Where you are now</h2>
-      <ol className="mt-3 grid gap-4 sm:grid-cols-2">
-        {steps.map((step) => {
-          const n = step.step.number;
-          const { done, total, complete, started } = stepProgress(step, statuses);
-          const next = continueTarget(n, statuses, user?.id);
-          const first = step.parts[0];
-          // Both cards have the same shape, so progress, "next" line and buttons line up.
-          const nextHref = started && next ? hrefOf(next) : exerciseHref(n, first.id, partItems(first)[0].id);
-          const nextLabel = complete
-            ? "All done — well done."
-            : started && next
-              ? `Next: ${displayTitle(next.exercise)}`
-              : `First: ${first.title}`;
-          return (
-            <li key={step.step.id} className="flex flex-col rounded-2xl bg-white p-5">
-              <p className="text-sm font-semibold text-ochre">Step {n}</p>
-              <h3 className="text-2xl text-pine">{step.step.title}</h3>
-              <p className="mt-1 flex-1 text-lg">{step.step.question}</p>
-              <div className="mt-6">
-                <div className="flex justify-between text-sm">
-                  <span>
-                    {done} of {total} done
-                  </span>
-                  {complete && <span className="font-semibold text-success">✓ Well done</span>}
-                </div>
-                <div className="mt-1 h-2 overflow-hidden rounded-full bg-sage">
-                  <div
-                    className={`h-full rounded-full ${complete ? "bg-success" : "bg-pine"}`}
-                    style={{ width: `${total ? (done / total) * 100 : 0}%` }}
-                  />
-                </div>
-              </div>
-              <p className="mt-4 min-h-[3rem] text-sm text-stone">{nextLabel}</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {!complete && (
-                  <Link href={nextHref} className="btn btn-primary text-sm">
-                    {started ? "Continue" : "Start"}
-                  </Link>
-                )}
-                <Link href={stepHref(n)} className="btn btn-ghost text-sm">
-                  Step overview
-                </Link>
-              </div>
-            </li>
-          );
-        })}
-      </ol>
 
       <p className="mt-8 text-sm text-stone">{journey.not_here_yet}</p>
     </>

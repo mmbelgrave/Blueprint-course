@@ -3,13 +3,12 @@
 //   PartRail   — the whole step as one line: a segment per part, sized by how
 //                long the part is, with an ochre marker on the part you are in.
 //   PageChips  — the pages of one part, with their state.
-//   WhereNext  — the block at the foot of a workbook page.
 // The rail is a line diagram (Pine on Sand, Ochre marking the one point that
 // matters), not the brand motif: the motif must always be exactly three lines.
 import Link from "next/link";
 import type { ExerciseStatus } from "@/lib/backend";
-import { displayNumber, displayTitle, partItems, type Exercise, type Part, type StepContent } from "@/lib/content";
-import { exerciseHref, partProgress, stepHref } from "@/lib/progress";
+import { displayNumber, displayTitle, partItems, type Part, type StepContent } from "@/lib/content";
+import { exerciseHref, partProgress } from "@/lib/progress";
 
 type Statuses = Record<string, ExerciseStatus>;
 
@@ -36,12 +35,15 @@ export function PageChips({
   statuses,
   currentId,
   lead,
+  trailing,
 }: {
   step: number;
   part: Part;
   statuses: Statuses;
   currentId?: string;
   lead?: string;
+  /** A last chip in the same row, for the way back out. */
+  trailing?: { href: string; label: string };
 }) {
   const items = partItems(part);
   return (
@@ -65,6 +67,14 @@ export function PageChips({
           </Link>
         );
       })}
+      {trailing && (
+        <Link
+          href={trailing.href}
+          className="inline-flex items-center gap-1 rounded-lg border-[1.75px] border-pine bg-sage px-2 py-0.5 text-sm font-medium text-pine"
+        >
+          {trailing.label}
+        </Link>
+      )}
     </div>
   );
 }
@@ -136,55 +146,5 @@ export function PartRail({
         ))}
       </div>
     </section>
-  );
-}
-
-/** The foot of a workbook page: this part's pages, one step back or on, and out. */
-export function WhereNext({
-  content,
-  part,
-  current,
-  previous,
-  next,
-  statuses,
-}: {
-  content: StepContent;
-  part: Part;
-  current: Exercise;
-  previous?: { part: Part; exercise: Exercise };
-  next?: { part: Part; exercise: Exercise };
-  statuses: Statuses;
-}) {
-  const n = content.step.number;
-  return (
-    <nav aria-label="Where to next" className="mt-10 border-t border-line pt-5 print:hidden">
-      <PageChips step={n} part={part} statuses={statuses} currentId={current.id} lead={`${part.label}:`} />
-
-      <div className="mt-4 flex flex-wrap gap-3">
-        {previous ? (
-          <Link href={exerciseHref(n, previous.part.id, previous.exercise.id)} className="btn btn-ghost flex-1 sm:flex-none">
-            ← {displayTitle(previous.exercise)}
-          </Link>
-        ) : (
-          <Link href={stepHref(n)} className="btn btn-ghost flex-1 sm:flex-none">
-            ← Step overview
-          </Link>
-        )}
-        {next ? (
-          <Link href={exerciseHref(n, next.part.id, next.exercise.id)} className="btn btn-primary flex-1 sm:flex-none">
-            {next.part.id !== part.id ? `${next.part.label} · ${next.part.title}` : displayTitle(next.exercise)} →
-          </Link>
-        ) : (
-          <Link href={stepHref(n)} className="btn btn-primary flex-1 sm:flex-none">
-            Finish this step →
-          </Link>
-        )}
-        {/* One way out, after the step back and forward: the whole road. */}
-        <Link href="/dashboard" className="btn btn-ghost flex-1 sm:flex-none">
-          All steps
-        </Link>
-      </div>
-
-    </nav>
   );
 }

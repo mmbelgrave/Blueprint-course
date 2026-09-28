@@ -10,6 +10,7 @@ import { Bullets, InfoTable, Paragraphs } from "@/components/text";
 import { useApp } from "@/lib/app-state";
 import {
   displayNumber,
+  displayTitle,
   exerciseFields,
   findExercise,
   partItems,
@@ -23,10 +24,10 @@ import {
 } from "@/lib/content";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
 import { Fold, VideoSlot } from "@/components/fold";
-import { PartRail, WhereNext } from "@/components/journey";
+import { PageChips, PartRail } from "@/components/journey";
 import { draftFields } from "@/lib/drafts";
 import { fieldExtras } from "@/lib/field-extras";
-import { partProgress, rememberLastExercise, stepHref } from "@/lib/progress";
+import { exerciseHref, partProgress, rememberLastExercise, stepHref } from "@/lib/progress";
 
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
 
@@ -147,6 +148,34 @@ function ExampleFold({ example }: { example: { who: string; text: string } }) {
   );
 }
 
+/** A step back or on, next to "Mark as done". The title is in the tooltip. */
+function PageArrow({
+  direction,
+  target,
+  step,
+}: {
+  direction: "back" | "on";
+  target?: Located;
+  step: number;
+}) {
+  const label = target
+    ? `${direction === "back" ? "Back to" : "On to"} ${displayTitle(target.exercise)}`
+    : direction === "back"
+      ? "Back to the step overview"
+      : "Finish this step";
+  const href = target ? exerciseHref(step, target.part.id, target.exercise.id) : stepHref(step);
+  return (
+    <Link
+      href={href}
+      aria-label={label}
+      title={label}
+      className="btn btn-ghost h-11 w-11 shrink-0 px-0 text-lg"
+    >
+      <span aria-hidden>{direction === "back" ? "←" : "→"}</span>
+    </Link>
+  );
+}
+
 /** Rough reading time, so a fold can say what it costs to open it. */
 function readingMinutes(source: { intro?: unknown; intro_bullets?: unknown; intro_after?: unknown }) {
   const text = JSON.stringify([source.intro, source.intro_bullets, source.intro_after]);
@@ -239,14 +268,14 @@ function ExerciseBody({ located }: { located: Located }) {
   const index = pages.findIndex((e) => e.exercise.id === exercise.id);
   const prev = pages[index - 1];
   const next = pages[index + 1];
+  const prevHere = prev && prev.step.step.number === stepNumber ? prev : undefined;
+  const nextHere = next && next.step.step.number === stepNumber ? next : undefined;
   const items = partItems(part);
   const isFirstOfPart = items[0].id === exercise.id;
   const isSummary = exercise.kind === "summary";
   const showTalk = part.talk && exercise.id === part.exercises.at(-1)!.id;
   const done = statuses[exercise.id] === "done";
   const progress = partProgress(part, statuses);
-  // Someone who has not started this part yet gets the explanation opened for them.
-  const freshPart = progress.done === 0;
   const hasWhy = Boolean(exercise.intro || exercise.intro_bullets?.length);
   const whyMinutes = readingMinutes(exercise);
   const tablesAt = (place: "before" | "after") =>
@@ -278,7 +307,6 @@ function ExerciseBody({ located }: { located: Located }) {
               <Fold
                 title={part.intro_title ?? `About ${part.label}`}
                 minutes={readingMinutes(part)}
-                defaultOpen={freshPart}
               >
                 <Paragraphs text={part.intro} />
                 <Bullets items={part.intro_bullets} />
@@ -352,7 +380,7 @@ function ExerciseBody({ located }: { located: Located }) {
          * someone who has not started this part yet.
          */}
         {hasWhy && (
-          <Fold title="Why this exercise" minutes={whyMinutes} defaultOpen={freshPart}>
+          <Fold title="Why this exercise" minutes={whyMinutes}>
             <div className="space-y-3 text-lg">
               <Paragraphs text={exercise.intro} />
             </div>
@@ -445,25 +473,32 @@ function ExerciseBody({ located }: { located: Located }) {
           </p>
         )}
 
-        <div className="flex flex-wrap items-center gap-4 border-t border-line pt-6">
-          {done ? (
-            <>
-              <span className="inline-flex items-center gap-2 font-semibold text-success">
-                <span aria-hidden className="inline-block h-3 w-3 rounded-full bg-success" />
-                Done
+        {/* One row: a step back, what this page is for, a step on. */}
+        <div className="border-t border-line pt-6">
+          <div className="flex items-center justify-center gap-3">
+            <PageArrow direction="back" target={prevHere} step={stepNumber} />
+            {done ? (
+              <span className="flex flex-col items-center gap-0.5">
+                <span className="inline-flex items-center gap-2 font-semibold text-success">
+                  <span aria-hidden>✓</span>
+                  Done
+                </span>
+                <button className="text-sm text-stone underline" onClick={() => changeStatus("in_progress")}>
+                  Mark as not done
+                </button>
               </span>
-              <button className="text-sm text-stone underline" onClick={() => changeStatus("in_progress")}>
-                Mark as not done
+            ) : (
+              <button className="btn btn-primary" onClick={() => changeStatus("done")}>
+                Mark as done
               </button>
-            </>
-          ) : (
-            <button className="btn btn-primary" onClick={() => changeStatus("done")}>
-              Mark as done
-            </button>
-          )}
-          <SaveIndicator />
+            )}
+            <PageArrow direction="on" target={nextHere} step={stepNumber} />
+          </div>
+          <p className="mt-3 text-center">
+            <SaveIndicator />
+          </p>
           {statusError && (
-            <p role="alert" className="w-full text-sm text-ochre">
+            <p role="alert" className="mt-1 text-center text-sm text-ochre">
               This was not saved. Please check your internet and try again.
             </p>
           )}
@@ -483,14 +518,17 @@ function ExerciseBody({ located }: { located: Located }) {
           </Card>
         )}
 
-        <WhereNext
-          content={step}
-          part={part}
-          current={exercise}
-          previous={prev && prev.step.step.number === stepNumber ? { part: prev.part, exercise: prev.exercise } : undefined}
-          next={next && next.step.step.number === stepNumber ? { part: next.part, exercise: next.exercise } : undefined}
-          statuses={statuses}
-        />
+        {/* The pages of this part, and the way back out, in one line. */}
+        <nav aria-label="The pages of this part" className="print:hidden">
+          <PageChips
+            step={stepNumber}
+            part={part}
+            statuses={statuses}
+            currentId={exercise.id}
+            lead={`${part.label}:`}
+            trailing={{ href: "/dashboard", label: "Back to overview" }}
+          />
+        </nav>
       </article>
 
       <aside className="lg:sticky lg:top-6 lg:self-start">

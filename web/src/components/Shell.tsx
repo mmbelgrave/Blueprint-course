@@ -38,10 +38,6 @@ export function Shell({
               <Link href="/dashboard" className="text-pine hover:underline">
                 Overview
               </Link>
-              <Link href="/how-it-works" className="text-pine hover:underline">
-                <span className="hidden sm:inline">How this app works</span>
-                <span className="sm:hidden">How it works</span>
-              </Link>
               <Link href="/me" className="text-pine hover:underline">
                 <span className="hidden sm:inline">What my AI partner knows</span>
                 <span className="sm:hidden">My notes</span>

@@ -36,15 +36,6 @@
         "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions.",
         "The video and the written explanation say the same thing. Use whichever suits you; you do not need both."
       ]
-    },
-    {
-      "id": "ways",
-      "title": "Three ways to use a step",
-      "rows": [
-        ["This workbook on its own", "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."],
-        ["With the videos", "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions."],
-        ["With the app", "The same questions in digital form, with an AI partner that remembers your answers and asks about them later. Useful if you prefer typing to paper."]
-      ]
     }
   ],
   "closing": "Stuck on a question? Skip it and come back later. The answer often comes while you walk, cook or shower."

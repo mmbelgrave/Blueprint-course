@@ -33,8 +33,8 @@ function Closing({ step }: { step: StepContent }) {
 }
 
 /** The step's own introduction, collapsed after the person has started. */
-function StepIntro({ step, startOpen }: { step: StepContent; startOpen: boolean }) {
-  const [open, setOpen] = useState(startOpen);
+function StepIntro({ step }: { step: StepContent }) {
+  const [open, setOpen] = useState(false);
   const s = step.step;
   return (
     <section className="rounded-2xl bg-white p-5 sm:p-6">
@@ -161,7 +161,7 @@ function StepOverview({ step }: { step: StepContent }) {
       )}
 
       <div className="mt-6">
-        <StepIntro step={step} startOpen={!started} />
+        <StepIntro step={step} />
       </div>
 
       {next === null && (
