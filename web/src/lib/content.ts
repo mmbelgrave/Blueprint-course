@@ -12,7 +12,7 @@ export const PRODUCT = {
   name: "The Made Real Blueprint",
   edition: "Portugal Edition",
   /** Shown at the foot of every printed result. */
-  copyright_holder: "Mwata Belgrave",
+  copyright_holder: "The Life You Choose",
 };
 
 export type ColumnKind = "text" | "long_text" | "number" | "money" | "choice" | "score";

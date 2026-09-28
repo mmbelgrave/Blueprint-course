@@ -241,9 +241,9 @@ function PrintPage({ step }: { step: StepContent }) {
               ))}
             </div>
             <p className="text-[8.5pt] leading-relaxed text-stone">
-              © {new Date().getFullYear()} {PRODUCT.copyright_holder} · {PRODUCT.name} — {PRODUCT.edition} ·{" "}
-              {PRODUCT.brand}. Your answers are your own. This page is for your personal use; the workbook text and
-              layout may not be copied or shared.
+              © {new Date().getFullYear()} {PRODUCT.copyright_holder} · {PRODUCT.name} — {PRODUCT.edition}. Your
+              answers are your own. This page is for your personal use; the workbook text and layout may not be
+              copied or shared.
             </p>
           </footer>
         </div>
