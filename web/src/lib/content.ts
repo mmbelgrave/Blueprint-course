@@ -3,6 +3,8 @@
 // folder by scripts/sync-content.mjs — never edit the copies.
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
+import journeyRaw from "@/content/journey.json";
+import appGuideRaw from "@/content/app-guide.json";
 
 /** Product naming (decision of 20 Sep 2026, see PROJECT.md). */
 export const PRODUCT = {
@@ -179,6 +181,8 @@ export type Part = {
   time: string;
   exercises: Exercise[];
   talk?: string;
+  /** One video per part; the address follows when Mwata has recorded it. */
+  video?: { title: string; length: string | null; url: string | null };
   summary?: Summary;
   go_further?: string;
   /** Part 5 has no summary page; it states its result directly. */
@@ -223,6 +227,33 @@ export type StepContent = {
   closing: { title: string; intro: string; bullets: string[]; tips?: string[]; final: string[] };
   sources?: RowBlock;
 };
+
+/** The whole road (Introduction v5): three phases, eight steps. */
+export type Journey = {
+  title: string;
+  intro: string;
+  phases: { id: string; name: string; steps: number[]; says: string }[];
+  two_outcomes: string;
+  steps: { number: number; title: string; question: string; result: string; in_app: boolean }[];
+  not_here_yet: string;
+};
+
+/** "Read this first": what is the same in every step, so no step repeats it. */
+export type AppGuide = {
+  title: string;
+  intro: string;
+  sections: { id: string; title: string; shared_bullets?: boolean; bullets?: string[]; rows?: string[][] }[];
+  closing: string;
+};
+
+export const journey = journeyRaw as Journey;
+export const appGuide = appGuideRaw as AppGuide;
+
+/** The bullets the guide already carries; a step overview leaves those out. */
+const SHARED_BULLETS = new Set(
+  appGuide.sections.filter((s) => s.shared_bullets).flatMap((s) => s.bullets ?? []),
+);
+export const stepOnlyBullets = (bullets: string[]) => bullets.filter((b) => !SHARED_BULLETS.has(b));
 
 export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];
 

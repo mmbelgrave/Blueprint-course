@@ -50,10 +50,26 @@
                 "Home and surroundings"
               ],
               "columns": [
-                { "id": "today", "label": "Today", "kind": "number" },
-                { "id": "year", "label": "In 1 year", "kind": "number" },
-                { "id": "week", "label": "What my score looks like in a normal week", "kind": "text" },
-                { "id": "better", "label": "What would be better?", "kind": "text" }
+                {
+                  "id": "today",
+                  "label": "Today",
+                  "kind": "number"
+                },
+                {
+                  "id": "year",
+                  "label": "In 1 year",
+                  "kind": "number"
+                },
+                {
+                  "id": "week",
+                  "label": "What my score looks like in a normal week",
+                  "kind": "text"
+                },
+                {
+                  "id": "better",
+                  "label": "What would be better?",
+                  "kind": "text"
+                }
               ]
             },
             {
@@ -71,8 +87,16 @@
                 "Screens without a purpose"
               ],
               "columns": [
-                { "id": "now", "label": "Hours now", "kind": "number" },
-                { "id": "want", "label": "Hours I want", "kind": "number" }
+                {
+                  "id": "now",
+                  "label": "Hours now",
+                  "kind": "number"
+                },
+                {
+                  "id": "want",
+                  "label": "Hours I want",
+                  "kind": "number"
+                }
               ]
             },
             {
@@ -89,7 +113,13 @@
         },
         "go_deeper": {
           "prompt": "Which area has the biggest gap? Which area pulls you most towards a change, and which one makes a change most difficult?",
-          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         },
         "story": {
           "status": "ready",
@@ -112,9 +142,21 @@
               "type": "table",
               "rows": 3,
               "columns": [
-                { "id": "achieved", "label": "What I achieved", "kind": "text" },
-                { "id": "how", "label": "How I did it", "kind": "text" },
-                { "id": "reuse", "label": "Strength or support I can use again", "kind": "text" }
+                {
+                  "id": "achieved",
+                  "label": "What I achieved",
+                  "kind": "text"
+                },
+                {
+                  "id": "how",
+                  "label": "How I did it",
+                  "kind": "text"
+                },
+                {
+                  "id": "reuse",
+                  "label": "Strength or support I can use again",
+                  "kind": "text"
+                }
               ]
             }
           ]
@@ -139,9 +181,21 @@
               "type": "table",
               "rows": 3,
               "columns": [
-                { "id": "turning_point", "label": "Turning point", "kind": "text" },
-                { "id": "started", "label": "What it started", "kind": "text" },
-                { "id": "about_me", "label": "What it says about me", "kind": "text" }
+                {
+                  "id": "turning_point",
+                  "label": "Turning point",
+                  "kind": "text"
+                },
+                {
+                  "id": "started",
+                  "label": "What it started",
+                  "kind": "text"
+                },
+                {
+                  "id": "about_me",
+                  "label": "What it says about me",
+                  "kind": "text"
+                }
               ]
             },
             {
@@ -183,7 +237,11 @@
                 "Doubt or fear"
               ]
             },
-            { "id": "before", "type": "long_text", "lines": 4 },
+            {
+              "id": "before",
+              "type": "long_text",
+              "lines": 4
+            },
             {
               "id": "differently",
               "type": "long_text",
@@ -194,7 +252,13 @@
         },
         "go_deeper": {
           "prompt": "Look at your earlier attempts together. Is there a pattern in how they stop? For example: you start strong and stop at the first \"no\". Or you wait until everything is certain. A pattern you can name is a pattern you can plan for.",
-          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         },
         "story": {
           "status": "ready",
@@ -213,12 +277,27 @@
         "tables": [
           {
             "place": "before",
-            "header": ["Beliefs that hold people back", "Beliefs that look attractive"],
+            "header": [
+              "Beliefs that hold people back",
+              "Beliefs that look attractive"
+            ],
             "rows": [
-              ["\"I am too old to start again.\"", "\"Life in Portugal will be cheaper.\""],
-              ["\"I will never find work there.\"", "\"I will easily find clients.\""],
-              ["\"My partner will never want this.\"", "\"A bigger garden will make me happier.\""],
-              ["\"I first need to speak the language perfectly.\"", "\"Once I move, I will feel less stressed.\""]
+              [
+                "\"I am too old to start again.\"",
+                "\"Life in Portugal will be cheaper.\""
+              ],
+              [
+                "\"I will never find work there.\"",
+                "\"I will easily find clients.\""
+              ],
+              [
+                "\"My partner will never want this.\"",
+                "\"A bigger garden will make me happier.\""
+              ],
+              [
+                "\"I first need to speak the language perfectly.\"",
+                "\"Once I move, I will feel less stressed.\""
+              ]
             ]
           }
         ],
@@ -230,21 +309,38 @@
               "type": "table",
               "rows": 3,
               "columns": [
-                { "id": "belief", "label": "What I believe", "kind": "text" },
+                {
+                  "id": "belief",
+                  "label": "What I believe",
+                  "kind": "text"
+                },
                 {
                   "id": "kind",
                   "label": "Holds me back or sounds attractive?",
                   "kind": "choice",
-                  "options": ["Holds me back", "Sounds attractive"]
+                  "options": [
+                    "Holds me back",
+                    "Sounds attractive"
+                  ]
                 },
-                { "id": "check", "label": "How I can check it", "kind": "text" }
+                {
+                  "id": "check",
+                  "label": "How I can check it",
+                  "kind": "text"
+                }
               ]
             }
           ]
         },
         "go_deeper": {
           "prompt": "Take your strongest belief. Are you 100% sure it is true? How would you act if it turned out to be false?",
-          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         }
       },
       {
@@ -294,14 +390,49 @@
       ],
       "prompt": "Now bring it together in My Starting Point. Short sentences are enough.",
       "fields": [
-        { "id": "today", "type": "long_text", "lines": 2, "label": "Where I stand today: my strongest and weakest areas" },
-        { "id": "time", "type": "long_text", "lines": 2, "label": "Where my time goes, and the change that would give me most time back" },
-        { "id": "strengths", "type": "long_text", "lines": 2, "label": "Strengths and support I can use" },
-        { "id": "stopped_before", "type": "long_text", "lines": 2, "label": "What stopped me before, and what I will do differently" },
-        { "id": "beliefs_to_check", "type": "long_text", "lines": 2, "label": "Beliefs I will check (both kinds)" },
-        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What I still don't know" }
+        {
+          "id": "today",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Where I stand today: my strongest and weakest areas"
+        },
+        {
+          "id": "time",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Where my time goes, and the change that would give me most time back"
+        },
+        {
+          "id": "strengths",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Strengths and support I can use"
+        },
+        {
+          "id": "stopped_before",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What stopped me before, and what I will do differently"
+        },
+        {
+          "id": "beliefs_to_check",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Beliefs I will check (both kinds)"
+        },
+        {
+          "id": "unknowns",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I still don't know"
+        }
       ],
       "result": "My Starting Point — where you stand, what you can build on, and what you will check."
+    },
+    "video": {
+      "title": "Part 2 · Look honestly at today",
+      "length": "10–14 min",
+      "url": null
     }
   }
 ]

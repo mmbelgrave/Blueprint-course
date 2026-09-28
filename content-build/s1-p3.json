@@ -62,7 +62,11 @@
         "start_here": {
           "prompt": "Write the first three words that come up when you think about money. Freedom? Worry? Safety? Stress? There is no wrong answer.",
           "fields": [
-            { "id": "words", "type": "list", "count": 3 },
+            {
+              "id": "words",
+              "type": "list",
+              "count": 3
+            },
             {
               "id": "what_helps",
               "type": "long_text",
@@ -101,13 +105,25 @@
                 "Other"
               ],
               "columns": [
-                { "id": "today", "label": "Today", "kind": "money" },
-                { "id": "new_life", "label": "In my new life", "kind": "money" },
+                {
+                  "id": "today",
+                  "label": "Today",
+                  "kind": "money"
+                },
+                {
+                  "id": "new_life",
+                  "label": "In my new life",
+                  "kind": "money"
+                },
                 {
                   "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
-                  "options": ["Known", "Estimate", "Unknown"]
+                  "options": [
+                    "Known",
+                    "Estimate",
+                    "Unknown"
+                  ]
                 }
               ],
               "totals": true,
@@ -141,12 +157,20 @@
                 "Other one-time costs"
               ],
               "columns": [
-                { "id": "amount", "label": "Amount", "kind": "money" },
+                {
+                  "id": "amount",
+                  "label": "Amount",
+                  "kind": "money"
+                },
                 {
                   "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
-                  "options": ["Known", "Estimate", "Unknown"]
+                  "options": [
+                    "Known",
+                    "Estimate",
+                    "Unknown"
+                  ]
                 }
               ],
               "totals": true,
@@ -168,9 +192,18 @@
           {
             "place": "before",
             "rows": [
-              ["Confirmed", "You have evidence it continues in the new situation. For example, a contract that allows you to work from abroad."],
-              ["Agreed", "Promised, but not started yet. A client said yes; work begins next year."],
-              ["Hoped", "An idea. It may well happen, but nothing supports it yet."]
+              [
+                "Confirmed",
+                "You have evidence it continues in the new situation. For example, a contract that allows you to work from abroad."
+              ],
+              [
+                "Agreed",
+                "Promised, but not started yet. A client said yes; work begins next year."
+              ],
+              [
+                "Hoped",
+                "An idea. It may well happen, but nothing supports it yet."
+              ]
             ]
           }
         ],
@@ -182,24 +215,54 @@
               "type": "table",
               "rows": 4,
               "columns": [
-                { "id": "source", "label": "Source of income", "kind": "text" },
-                { "id": "now", "label": "Now per month", "kind": "money" },
-                { "id": "new_life", "label": "In my new life", "kind": "money" },
+                {
+                  "id": "source",
+                  "label": "Source of income",
+                  "kind": "text"
+                },
+                {
+                  "id": "now",
+                  "label": "Now per month",
+                  "kind": "money"
+                },
+                {
+                  "id": "new_life",
+                  "label": "In my new life",
+                  "kind": "money"
+                },
                 {
                   "id": "certainty",
                   "label": "Confirmed / agreed / hoped",
                   "kind": "choice",
-                  "options": ["Confirmed", "Agreed", "Hoped"]
+                  "options": [
+                    "Confirmed",
+                    "Agreed",
+                    "Hoped"
+                  ]
                 },
-                { "id": "starts", "label": "Starts when?", "kind": "text" }
+                {
+                  "id": "starts",
+                  "label": "Starts when?",
+                  "kind": "text"
+                }
               ],
               "totals": true,
               "totals_label": "Total confirmed (you use this in 3.5)",
-              "total_filter": { "column": "certainty", "values": ["Confirmed"] },
+              "total_filter": {
+                "column": "certainty",
+                "values": [
+                  "Confirmed"
+                ]
+              },
               "extra_totals": [
                 {
                   "label": "Total agreed (not in the check yet)",
-                  "filter": { "column": "certainty", "values": ["Agreed"] }
+                  "filter": {
+                    "column": "certainty",
+                    "values": [
+                      "Agreed"
+                    ]
+                  }
                 }
               ]
             }
@@ -230,13 +293,21 @@
                   "id": "income",
                   "label": "1. My confirmed income per month in my new life (from 3.4)",
                   "example": "€1,600",
-                  "from": { "exercise": "3.4", "field": "income", "column": "new_life" }
+                  "from": {
+                    "exercise": "3.4",
+                    "field": "income",
+                    "column": "new_life"
+                  }
                 },
                 {
                   "id": "costs",
                   "label": "2. My costs per month in my new life (from 3.2)",
                   "example": "€2,000",
-                  "from": { "exercise": "3.2", "field": "costs", "column": "new_life" }
+                  "from": {
+                    "exercise": "3.2",
+                    "field": "costs",
+                    "column": "new_life"
+                  }
                 },
                 {
                   "id": "balance",
@@ -262,7 +333,11 @@
                   "id": "one_time",
                   "label": "5. Minus: the one-time cost of the change (from 3.3)",
                   "example": "− €6,000",
-                  "from": { "exercise": "3.3", "field": "one_time", "column": "amount" }
+                  "from": {
+                    "exercise": "3.3",
+                    "field": "one_time",
+                    "column": "amount"
+                  }
                 },
                 {
                   "id": "deposits",
@@ -324,7 +399,13 @@
         ],
         "go_deeper": {
           "prompt": "What if everything costs 30% more than you think? Does your plan still work? What would you change first: your costs, your income, or your timing?",
-          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         },
         "story": {
           "status": "ready",
@@ -344,15 +425,55 @@
       ],
       "prompt": "Now bring it together in My First Money Picture. Short sentences are enough.",
       "fields": [
-        { "id": "monthly_costs", "type": "long_text", "lines": 2, "label": "What my new life costs per month, and how sure I am" },
-        { "id": "one_time", "type": "long_text", "lines": 2, "label": "What the change costs, one time" },
-        { "id": "income_sure", "type": "long_text", "lines": 2, "label": "Income I can count on" },
-        { "id": "income_hoped", "type": "long_text", "lines": 2, "label": "Income I hope for" },
-        { "id": "first_check", "type": "long_text", "lines": 2, "label": "My first check: left over or short each month, and how many months my savings cover" },
-        { "id": "money_words", "type": "long_text", "lines": 2, "label": "My three words about money, and what they tell me" },
-        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "My biggest money unknowns, and how I will check them" }
+        {
+          "id": "monthly_costs",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What my new life costs per month, and how sure I am"
+        },
+        {
+          "id": "one_time",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What the change costs, one time"
+        },
+        {
+          "id": "income_sure",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Income I can count on"
+        },
+        {
+          "id": "income_hoped",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Income I hope for"
+        },
+        {
+          "id": "first_check",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My first check: left over or short each month, and how many months my savings cover"
+        },
+        {
+          "id": "money_words",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My three words about money, and what they tell me"
+        },
+        {
+          "id": "unknowns",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My biggest money unknowns, and how I will check them"
+        }
       ],
       "result": "My First Money Picture — your first numbers, how sure they are, and what to check next."
+    },
+    "video": {
+      "title": "Part 3 · Your first money picture",
+      "length": "12–15 min",
+      "url": null
     }
   }
 ]

@@ -38,35 +38,55 @@
               "type": "long_text",
               "lines": 3,
               "label": "My life picture in three sentences",
-              "copy_from": { "step": 1, "exercise": "5.1", "field": "life_picture" }
+              "copy_from": {
+                "step": 1,
+                "exercise": "5.1",
+                "field": "life_picture"
+              }
             },
             {
               "id": "directions",
               "type": "long_text",
               "lines": 2,
               "label": "The direction(s) I want to explore",
-              "copy_from": { "step": 1, "exercise": "5.1", "field": "directions" }
+              "copy_from": {
+                "step": 1,
+                "exercise": "5.1",
+                "field": "directions"
+              }
             },
             {
               "id": "must_haves",
               "type": "long_text",
               "lines": 3,
               "label": "My must-haves: what this life needs",
-              "copy_from": { "step": 1, "exercise": "1.4", "field": "must_haves" }
+              "copy_from": {
+                "step": 1,
+                "exercise": "1.4",
+                "field": "must_haves"
+              }
             },
             {
               "id": "dealbreakers",
               "type": "long_text",
               "lines": 2,
               "label": "My dealbreakers: what I will not accept",
-              "copy_from": { "step": 1, "exercise": "1.4", "field": "dealbreakers" }
+              "copy_from": {
+                "step": 1,
+                "exercise": "1.4",
+                "field": "dealbreakers"
+              }
             },
             {
               "id": "willing_to_invest",
               "type": "long_text",
               "lines": 2,
               "label": "What I am willing to invest: time, money, comfort",
-              "copy_from": { "step": 1, "exercise": "5.1", "field": "willing_to_give" }
+              "copy_from": {
+                "step": 1,
+                "exercise": "5.1",
+                "field": "willing_to_give"
+              }
             },
             {
               "id": "b_heading",
@@ -80,10 +100,22 @@
               "type": "checkbox_pick",
               "allow_custom": true,
               "options": [
-                "Warm all year", "Real seasons", "Cool summers", "Near the sea",
-                "Mountains", "Countryside", "Small town", "Big city",
-                "Land to grow food", "A workshop or space to build", "Good internet", "Airport nearby",
-                "Hospital nearby", "Schools nearby", "Low cost of living", "People I can connect with"
+                "Warm all year",
+                "Real seasons",
+                "Cool summers",
+                "Near the sea",
+                "Mountains",
+                "Countryside",
+                "Small town",
+                "Big city",
+                "Land to grow food",
+                "A workshop or space to build",
+                "Good internet",
+                "Airport nearby",
+                "Hospital nearby",
+                "Schools nearby",
+                "Low cost of living",
+                "People I can connect with"
               ]
             },
             {
@@ -132,16 +164,46 @@
           {
             "place": "before",
             "rows": [
-              ["1. Climate and nature", "Look at the whole year. How hot, cold, wet or dry does it get? Is there enough water? How do you cope with that climate?"],
-              ["2. What your plan needs", "Land, space, a workshop, clients, a job, a school, a studio, quiet. What does your picture from Step 1 physically need?"],
-              ["3. The rules", "What are you allowed to do there? Build, renovate, work from home, keep animals, live off-grid, run a business, work as a foreigner."],
-              ["4. Support and costs from the state", "Some countries offer support for newcomers or particular plans; others make the process expensive or slow. Taxes and support change, so check any figure you find on a forum against an official source."],
-              ["5. Community and language", "Are there people you can connect with? People doing something similar? How hard is the local language for you, and how much will you need it?"],
-              ["6. Amenities and healthcare", "Distance to a doctor, a hospital, a pharmacy, shops, schools. What does healthcare cost, and who is allowed to use it?"],
-              ["7. Your budget", "What can you afford to buy or rent, and what will daily life cost? A place that fits your budget gives you more time to settle in."],
-              ["8. Infrastructure", "Roads, electricity, water, internet, public transport, deliveries. Can you actually work and live there?"],
-              ["9. Your legal right to live there", "Can you get permission to stay? What do you have to prove: income, savings, insurance, work? How long does it take?"],
-              ["10. Distance to the people you love", "Flights, cost, travel time. And a harder question: if someone close to you becomes ill, how quickly could you reach them?"]
+              [
+                "1. Climate and nature",
+                "Look at the whole year. How hot, cold, wet or dry does it get? Is there enough water? How do you cope with that climate?"
+              ],
+              [
+                "2. What your plan needs",
+                "Land, space, a workshop, clients, a job, a school, a studio, quiet. What does your picture from Step 1 physically need?"
+              ],
+              [
+                "3. The rules",
+                "What are you allowed to do there? Build, renovate, work from home, keep animals, live off-grid, run a business, work as a foreigner."
+              ],
+              [
+                "4. Support and costs from the state",
+                "Some countries offer support for newcomers or particular plans; others make the process expensive or slow. Taxes and support change, so check any figure you find on a forum against an official source."
+              ],
+              [
+                "5. Community and language",
+                "Are there people you can connect with? People doing something similar? How hard is the local language for you, and how much will you need it?"
+              ],
+              [
+                "6. Amenities and healthcare",
+                "Distance to a doctor, a hospital, a pharmacy, shops, schools. What does healthcare cost, and who is allowed to use it?"
+              ],
+              [
+                "7. Your budget",
+                "What can you afford to buy or rent, and what will daily life cost? A place that fits your budget gives you more time to settle in."
+              ],
+              [
+                "8. Infrastructure",
+                "Roads, electricity, water, internet, public transport, deliveries. Can you actually work and live there?"
+              ],
+              [
+                "9. Your legal right to live there",
+                "Can you get permission to stay? What do you have to prove: income, savings, insurance, work? How long does it take?"
+              ],
+              [
+                "10. Distance to the people you love",
+                "Flights, cost, travel time. And a harder question: if someone close to you becomes ill, how quickly could you reach them?"
+              ]
             ]
           }
         ],
@@ -159,7 +221,12 @@
         "start_here": {
           "prompt": "Choose two to five countries you are curious about. Score each factor: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty if you do not know yet, and add it to your research list.",
           "fields": [
-            { "id": "countries", "type": "list", "count": 4, "item_label": "Country" },
+            {
+              "id": "countries",
+              "type": "list",
+              "count": 4,
+              "item_label": "Country"
+            },
             {
               "id": "scores",
               "type": "table",
@@ -176,12 +243,30 @@
                 "9. Legal right to live there",
                 "10. Distance to loved ones"
               ],
-              "column_names_from": { "field": "countries" },
+              "column_names_from": {
+                "field": "countries"
+              },
               "columns": [
-                { "id": "c1", "label": "Country 1:", "kind": "score" },
-                { "id": "c2", "label": "Country 2:", "kind": "score" },
-                { "id": "c3", "label": "Country 3:", "kind": "score" },
-                { "id": "c4", "label": "Country 4:", "kind": "score" }
+                {
+                  "id": "c1",
+                  "label": "Country 1:",
+                  "kind": "score"
+                },
+                {
+                  "id": "c2",
+                  "label": "Country 2:",
+                  "kind": "score"
+                },
+                {
+                  "id": "c3",
+                  "label": "Country 3:",
+                  "kind": "score"
+                },
+                {
+                  "id": "c4",
+                  "label": "Country 4:",
+                  "kind": "score"
+                }
               ],
               "totals": true,
               "totals_label": "Total"
@@ -197,19 +282,103 @@
           {
             "place": "after",
             "lead": "My own comparison, simplified: 2 = good for me, 1 = maybe, 0 = no.",
-            "header": ["Factor", "Portugal", "New Zealand", "Costa Rica", "Australia", "Canada"],
+            "header": [
+              "Factor",
+              "Portugal",
+              "New Zealand",
+              "Costa Rica",
+              "Australia",
+              "Canada"
+            ],
             "rows": [
-              ["1. Climate and nature", "2", "2", "2", "1", "0"],
-              ["2. What your plan needs", "2", "2", "2", "2", "2"],
-              ["3. The rules", "1", "1", "1", "1", "1"],
-              ["4. Support and costs from the state", "1", "1", "1", "1", "1"],
-              ["5. Community and language", "2", "1", "1", "1", "1"],
-              ["6. Amenities and healthcare", "2", "2", "1", "2", "2"],
-              ["7. Your budget", "2", "0", "1", "0", "1"],
-              ["8. Infrastructure", "2", "2", "1", "2", "2"],
-              ["9. Legal right to live there", "2", "0", "1", "0", "0"],
-              ["10. Distance to loved ones", "2", "0", "0", "0", "1"],
-              ["Total", "18", "11", "11", "10", "11"]
+              [
+                "1. Climate and nature",
+                "2",
+                "2",
+                "2",
+                "1",
+                "0"
+              ],
+              [
+                "2. What your plan needs",
+                "2",
+                "2",
+                "2",
+                "2",
+                "2"
+              ],
+              [
+                "3. The rules",
+                "1",
+                "1",
+                "1",
+                "1",
+                "1"
+              ],
+              [
+                "4. Support and costs from the state",
+                "1",
+                "1",
+                "1",
+                "1",
+                "1"
+              ],
+              [
+                "5. Community and language",
+                "2",
+                "1",
+                "1",
+                "1",
+                "1"
+              ],
+              [
+                "6. Amenities and healthcare",
+                "2",
+                "2",
+                "1",
+                "2",
+                "2"
+              ],
+              [
+                "7. Your budget",
+                "2",
+                "0",
+                "1",
+                "0",
+                "1"
+              ],
+              [
+                "8. Infrastructure",
+                "2",
+                "2",
+                "1",
+                "2",
+                "2"
+              ],
+              [
+                "9. Legal right to live there",
+                "2",
+                "0",
+                "1",
+                "0",
+                "0"
+              ],
+              [
+                "10. Distance to loved ones",
+                "2",
+                "0",
+                "0",
+                "0",
+                "1"
+              ],
+              [
+                "Total",
+                "18",
+                "11",
+                "11",
+                "10",
+                "11"
+              ]
             ]
           }
         ]
@@ -226,10 +395,30 @@
         "start_here": {
           "prompt": "Write what you know about your situation today. Use \"unknown\" where you still need an answer. It gives you something clear to investigate.",
           "fields": [
-            { "id": "allowed", "type": "long_text", "lines": 3, "label": "Am I allowed to live there? What I know today" },
-            { "id": "prove", "type": "long_text", "lines": 2, "label": "What I would have to prove" },
-            { "id": "afford", "type": "long_text", "lines": 3, "label": "Can I afford a normal month there? What I know today" },
-            { "id": "find_out", "type": "long_text", "lines": 2, "label": "What I still need to find out, and where" }
+            {
+              "id": "allowed",
+              "type": "long_text",
+              "lines": 3,
+              "label": "Am I allowed to live there? What I know today"
+            },
+            {
+              "id": "prove",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I would have to prove"
+            },
+            {
+              "id": "afford",
+              "type": "long_text",
+              "lines": 3,
+              "label": "Can I afford a normal month there? What I know today"
+            },
+            {
+              "id": "find_out",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I still need to find out, and where"
+            }
           ]
         },
         "where_to_check": [
@@ -238,7 +427,13 @@
         "expert_work": "Take questions about tax, residence law, pensions and investments to a qualified adviser in the country concerned. The answers depend on your circumstances. Use this workbook to prepare the questions you need to ask.",
         "go_deeper": {
           "prompt": "Take your best country and argue against it for ten minutes. What is the strongest reason not to go there? Write it down. If you cannot find one, you have not looked hard enough yet.",
-          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         }
       }
     ],
@@ -253,17 +448,47 @@
       ],
       "prompt": "Now bring it together in My Country Choice. Short sentences are enough.",
       "fields": [
-        { "id": "country", "type": "long_text", "lines": 1, "label": "The country I want to explore further" },
-        { "id": "reasons", "type": "long_text", "lines": 2, "label": "Two or three reasons why" },
-        { "id": "let_go", "type": "long_text", "lines": 2, "label": "Countries I let go, and why" },
-        { "id": "doubt", "type": "long_text", "lines": 2, "label": "My biggest doubt about this country" },
-        { "id": "must_check", "type": "long_text", "lines": 2, "label": "What I must check before I decide, and where" }
+        {
+          "id": "country",
+          "type": "long_text",
+          "lines": 1,
+          "label": "The country I want to explore further"
+        },
+        {
+          "id": "reasons",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Two or three reasons why"
+        },
+        {
+          "id": "let_go",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Countries I let go, and why"
+        },
+        {
+          "id": "doubt",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My biggest doubt about this country"
+        },
+        {
+          "id": "must_check",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I must check before I decide, and where"
+        }
       ],
       "example": {
         "who": "Tomás, 36",
         "text": "Country: Portugal. Why: I feel well in that climate, my money goes further than at home, and I work online, so I need reliable internet. I ruled out Costa Rica because it is too far from my parents and flights are expensive. My biggest doubt is winter in a stone house. I need to find out how people heat their homes and what it costs."
       },
       "result": "My Country Choice — one country to explore, with your reasons and your open questions."
+    },
+    "video": {
+      "title": "Part 1 · Which country?",
+      "length": "12–16 min",
+      "url": null
     }
   },
   {
@@ -297,16 +522,46 @@
           {
             "place": "before",
             "rows": [
-              ["1. Climate through the year", "Summer heat, winter cold, rain, wind, fog, snow. In one country you can find all of them."],
-              ["2. Land and nature", "Flat land or mountains, forest or open ground, soil, water, and the risk of fire or flooding."],
-              ["3. What things cost", "Houses, land, rent. Inside one country prices can differ by three or four times."],
-              ["4. Distance to care", "How far to a doctor, a hospital, a pharmacy? How long does an ambulance take?"],
-              ["5. Daily needs", "Shops, schools, sports, a bank, a post office, fuel. How far would you travel for everyday needs?"],
-              ["6. Work and income", "Jobs, clients, tourists, seasons. Or can you bring your income with you?"],
-              ["7. Getting in and out", "Airport, train, motorway. How easy is it for you to leave, and for people to visit?"],
-              ["8. Internet and mobile", "Check the speed at a specific address on an ordinary evening, rather than simply asking whether internet is available."],
-              ["9. People and language", "Who lives there? Are there other newcomers? How much of the local language will you need?"],
-              ["10. Busy and quiet", "Some places are packed in summer and empty in winter. Would both seasons suit you?"]
+              [
+                "1. Climate through the year",
+                "Summer heat, winter cold, rain, wind, fog, snow. In one country you can find all of them."
+              ],
+              [
+                "2. Land and nature",
+                "Flat land or mountains, forest or open ground, soil, water, and the risk of fire or flooding."
+              ],
+              [
+                "3. What things cost",
+                "Houses, land, rent. Inside one country prices can differ by three or four times."
+              ],
+              [
+                "4. Distance to care",
+                "How far to a doctor, a hospital, a pharmacy? How long does an ambulance take?"
+              ],
+              [
+                "5. Daily needs",
+                "Shops, schools, sports, a bank, a post office, fuel. How far would you travel for everyday needs?"
+              ],
+              [
+                "6. Work and income",
+                "Jobs, clients, tourists, seasons. Or can you bring your income with you?"
+              ],
+              [
+                "7. Getting in and out",
+                "Airport, train, motorway. How easy is it for you to leave, and for people to visit?"
+              ],
+              [
+                "8. Internet and mobile",
+                "Check the speed at a specific address on an ordinary evening, rather than simply asking whether internet is available."
+              ],
+              [
+                "9. People and language",
+                "Who lives there? Are there other newcomers? How much of the local language will you need?"
+              ],
+              [
+                "10. Busy and quiet",
+                "Some places are packed in summer and empty in winter. Would both seasons suit you?"
+              ]
             ]
           }
         ]
@@ -323,24 +578,57 @@
         "tables": [
           {
             "place": "before",
-            "header": ["Where", "What the climate is like"],
+            "header": [
+              "Where",
+              "What the climate is like"
+            ],
             "rows": [
-              ["Most of the mainland", "Temperate, with a dry summer"],
-              ["Inland Douro valley (part of Bragança district) and most areas south of the Montejunto–Estrela mountain line", "Warm, dry summers (climate type Csa)"],
-              ["Almost all areas north of that mountain line, plus the west coast of Alentejo and the Algarve", "Milder, dry summers (climate type Csb)"],
-              ["A small area in the Beja district, in the Alentejo", "Dry steppe climate (type BSk)"],
-              ["Madeira", "Warm, dry summers (Csa)"],
-              ["Azores", "Eastern islands: mild dry summers (Csb). Central and western islands: ocean climate, wetter all year (Cfb)"]
+              [
+                "Most of the mainland",
+                "Temperate, with a dry summer"
+              ],
+              [
+                "Inland Douro valley (part of Bragança district) and most areas south of the Montejunto–Estrela mountain line",
+                "Warm, dry summers (climate type Csa)"
+              ],
+              [
+                "Almost all areas north of that mountain line, plus the west coast of Alentejo and the Algarve",
+                "Milder, dry summers (climate type Csb)"
+              ],
+              [
+                "A small area in the Beja district, in the Alentejo",
+                "Dry steppe climate (type BSk)"
+              ],
+              [
+                "Madeira",
+                "Warm, dry summers (Csa)"
+              ],
+              [
+                "Azores",
+                "Eastern islands: mild dry summers (Csb). Central and western islands: ocean climate, wetter all year (Cfb)"
+              ]
             ]
           },
           {
             "place": "after",
             "lead": "Beyond the weather: what else changes from region to region. Weather is often the first difference you notice. These four areas also vary between municipalities and can surprise newcomers. For now, know which questions to ask. The planned module Portugal in detail will cover each one more fully.",
             "rows": [
-              ["Land and building rules", "Every municipality has its own plan, the PDM (Plano Diretor Municipal), that says what may be built where. Land is usually classed as rústico (rural) or urbano (urban). On rural land, building a new house is often not allowed. The rules on this have changed recently, so check the current situation for the exact plot before you fall for it."],
-              ["Fire risk", "Large parts of the interior have a high fire risk. Owners must keep the land around houses clear of vegetation, and this is checked. Ask what it means for the place you look at, in work and in cost."],
-              ["Water", "Mains water does not reach everywhere. In the countryside, many homes use a well or a borehole, and these may need permission or registration with the environment agency."],
-              ["Support and demand", "Lisbon, Porto, the coast and the Algarve cost much more than the interior. The interior is cheaper, and there are sometimes programmes that support people who move there. Those programmes change, so check what is current."]
+              [
+                "Land and building rules",
+                "Every municipality has its own plan, the PDM (Plano Diretor Municipal), that says what may be built where. Land is usually classed as rústico (rural) or urbano (urban). On rural land, building a new house is often not allowed. The rules on this have changed recently, so check the current situation for the exact plot before you fall for it."
+              ],
+              [
+                "Fire risk",
+                "Large parts of the interior have a high fire risk. Owners must keep the land around houses clear of vegetation, and this is checked. Ask what it means for the place you look at, in work and in cost."
+              ],
+              [
+                "Water",
+                "Mains water does not reach everywhere. In the countryside, many homes use a well or a borehole, and these may need permission or registration with the environment agency."
+              ],
+              [
+                "Support and demand",
+                "Lisbon, Porto, the coast and the Algarve cost much more than the interior. The interior is cheaper, and there are sometimes programmes that support people who move there. Those programmes change, so check what is current."
+              ]
             ]
           }
         ],
@@ -359,7 +647,12 @@
         "start_here": {
           "prompt": "Choose two to four regions. Score each factor: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty if you do not know yet, and add it to your research list.",
           "fields": [
-            { "id": "regions", "type": "list", "count": 4, "item_label": "Region" },
+            {
+              "id": "regions",
+              "type": "list",
+              "count": 4,
+              "item_label": "Region"
+            },
             {
               "id": "scores",
               "type": "table",
@@ -376,12 +669,30 @@
                 "9. People and language",
                 "10. Busy and quiet"
               ],
-              "column_names_from": { "field": "regions" },
+              "column_names_from": {
+                "field": "regions"
+              },
               "columns": [
-                { "id": "r1", "label": "Region 1:", "kind": "score" },
-                { "id": "r2", "label": "Region 2:", "kind": "score" },
-                { "id": "r3", "label": "Region 3:", "kind": "score" },
-                { "id": "r4", "label": "Region 4:", "kind": "score" }
+                {
+                  "id": "r1",
+                  "label": "Region 1:",
+                  "kind": "score"
+                },
+                {
+                  "id": "r2",
+                  "label": "Region 2:",
+                  "kind": "score"
+                },
+                {
+                  "id": "r3",
+                  "label": "Region 3:",
+                  "kind": "score"
+                },
+                {
+                  "id": "r4",
+                  "label": "Region 4:",
+                  "kind": "score"
+                }
               ],
               "totals": true,
               "totals_label": "Total"
@@ -409,13 +720,43 @@
       ],
       "prompt": "Now bring it together in My Region Shortlist. Short sentences are enough.",
       "fields": [
-        { "id": "shortlist", "type": "long_text", "lines": 2, "label": "My shortlist: two or three regions" },
-        { "id": "attracts", "type": "long_text", "lines": 2, "label": "What attracts me in each one" },
-        { "id": "worries", "type": "long_text", "lines": 2, "label": "What worries me in each one" },
-        { "id": "let_go", "type": "long_text", "lines": 2, "label": "Regions I let go, and why" },
-        { "id": "find_out", "type": "long_text", "lines": 2, "label": "What I must find out about each (Part 3)" }
+        {
+          "id": "shortlist",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My shortlist: two or three regions"
+        },
+        {
+          "id": "attracts",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What attracts me in each one"
+        },
+        {
+          "id": "worries",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What worries me in each one"
+        },
+        {
+          "id": "let_go",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Regions I let go, and why"
+        },
+        {
+          "id": "find_out",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I must find out about each (Part 3)"
+        }
       ],
       "result": "My Region Shortlist — two or three regions, with what you like and what worries you."
+    },
+    "video": {
+      "title": "Part 2 · Which region?",
+      "length": "10–14 min",
+      "url": null
     }
   }
 ]

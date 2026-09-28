@@ -737,6 +737,11 @@
           "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: ground to grow food, internet good enough for video calls, a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
         },
         "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
+      },
+      "video": {
+        "title": "Part 1 · Picture your new life",
+        "length": "12–16 min",
+        "url": null
       }
     },
     {
@@ -1168,6 +1173,11 @@
           }
         ],
         "result": "My Starting Point — where you stand, what you can build on, and what you will check."
+      },
+      "video": {
+        "title": "Part 2 · Look honestly at today",
+        "length": "10–14 min",
+        "url": null
       }
     },
     {
@@ -1640,6 +1650,11 @@
           }
         ],
         "result": "My First Money Picture — your first numbers, how sure they are, and what to check next."
+      },
+      "video": {
+        "title": "Part 3 · Your first money picture",
+        "length": "12–15 min",
+        "url": null
       }
     },
     {
@@ -1886,6 +1901,11 @@
         ],
         "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
         "result": "My Options — the options worth investigating, and what you need to learn about them."
+      },
+      "video": {
+        "title": "Part 4 · Compare your options",
+        "length": "8–12 min",
+        "url": null
       }
     },
     {
@@ -2146,7 +2166,12 @@
           }
         }
       ],
-      "result": "My Working Direction — what you want to explore, what you take with you, and your next step."
+      "result": "My Working Direction — what you want to explore, what you take with you, and your next step.",
+      "video": {
+        "title": "Part 5 · Choose your working direction",
+        "length": "8–10 min",
+        "url": null
+      }
     }
   ],
   "closing": {

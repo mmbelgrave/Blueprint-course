@@ -243,6 +243,11 @@
       ],
       "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
       "result": "My Options — the options worth investigating, and what you need to learn about them."
+    },
+    "video": {
+      "title": "Part 4 · Compare your options",
+      "length": "8–12 min",
+      "url": null
     }
   },
   {
@@ -503,6 +508,11 @@
         }
       }
     ],
-    "result": "My Working Direction — what you want to explore, what you take with you, and your next step."
+    "result": "My Working Direction — what you want to explore, what you take with you, and your next step.",
+    "video": {
+      "title": "Part 5 · Choose your working direction",
+      "length": "8–10 min",
+      "url": null
+    }
   }
 ]

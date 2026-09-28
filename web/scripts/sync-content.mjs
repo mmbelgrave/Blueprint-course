@@ -2,7 +2,7 @@
 // into the app. Runs automatically before `npm run dev` and `npm run build`.
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 
-for (const name of ["step1-content.json", "step2-content.json"]) {
+for (const name of ["step1-content.json", "step2-content.json", "journey.json", "app-guide.json"]) {
   const source = new URL(`../../${name}`, import.meta.url);
   const target = new URL(`../src/content/${name}`, import.meta.url);
   if (!existsSync(source)) {

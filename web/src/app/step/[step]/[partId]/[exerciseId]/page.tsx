@@ -22,6 +22,7 @@ import {
   type Part,
 } from "@/lib/content";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
+import { Fold, VideoSlot } from "@/components/fold";
 import { PartRail, WhereNext } from "@/components/journey";
 import { draftFields } from "@/lib/drafts";
 import { fieldExtras } from "@/lib/field-extras";
@@ -146,6 +147,12 @@ function ExampleFold({ example }: { example: { who: string; text: string } }) {
   );
 }
 
+/** Rough reading time, so a fold can say what it costs to open it. */
+function readingMinutes(source: { intro?: unknown; intro_bullets?: unknown; intro_after?: unknown }) {
+  const text = JSON.stringify([source.intro, source.intro_bullets, source.intro_after]);
+  return Math.max(1, Math.round(text.split(/\s+/).length / 200));
+}
+
 function SaveIndicator() {
   const { saveState } = useApp();
   const text = {
@@ -238,6 +245,10 @@ function ExerciseBody({ located }: { located: Located }) {
   const showTalk = part.talk && exercise.id === part.exercises.at(-1)!.id;
   const done = statuses[exercise.id] === "done";
   const progress = partProgress(part, statuses);
+  // Someone who has not started this part yet gets the explanation opened for them.
+  const freshPart = progress.done === 0;
+  const hasWhy = Boolean(exercise.intro || exercise.intro_bullets?.length);
+  const whyMinutes = readingMinutes(exercise);
   const tablesAt = (place: "before" | "after") =>
     exercise.tables?.filter((t) => t.place === place).map((t) => <InfoTable key={t.rows[0][0]} {...t} />);
 
@@ -256,26 +267,35 @@ function ExerciseBody({ located }: { located: Located }) {
             {part.label} · {part.title} · {progress.done} of {progress.total} done
           </p>
           {isFirstOfPart && (
-            <div className="mt-4 space-y-2 rounded-2xl bg-white p-5">
+            <div className="mt-4 space-y-3">
               <p className="display text-lg text-pine">{part.promise}</p>
               {part.can_skip && (
-                <div className="py-1">
-                  <Card tone="skip" title="Can you skip this part?" collapsible={false}>
-                    <p>{part.can_skip}</p>
-                  </Card>
+                <Card tone="skip" title="Can you skip this part?" collapsible={false}>
+                  <p>{part.can_skip}</p>
+                </Card>
+              )}
+              <VideoSlot video={part.video} />
+              <Fold
+                title={part.intro_title ?? `About ${part.label}`}
+                minutes={readingMinutes(part)}
+                defaultOpen={freshPart}
+              >
+                <Paragraphs text={part.intro} />
+                <Bullets items={part.intro_bullets} />
+                {part.intro_after && <p>{part.intro_after}</p>}
+                {part.tips?.map((t) => (
+                  <p key={t} className="rounded-lg border border-line p-3 text-sm">
+                    <span className="font-semibold text-ochre">Good to know: </span>
+                    {t}
+                  </p>
+                ))}
+              </Fold>
+              {part.setup && (
+                <div className="rounded-2xl bg-white p-5">
+                  {part.setup.intro && <p className="mb-2">{part.setup.intro}</p>}
+                  <SetupFields part={part} />
                 </div>
               )}
-              {part.intro_title && <h2 className="pt-1 text-lg text-pine">{part.intro_title}</h2>}
-              <Paragraphs text={part.intro} />
-              <Bullets items={part.intro_bullets} />
-              {part.intro_after && <p>{part.intro_after}</p>}
-              {part.tips?.map((t) => (
-                <p key={t} className="rounded-lg border border-line p-3 text-sm">
-                  <span className="font-semibold text-ochre">Good to know: </span>
-                  {t}
-                </p>
-              ))}
-              <SetupFields part={part} />
             </div>
           )}
           {(isSummary || exercise.kicker) && (
@@ -289,12 +309,9 @@ function ExerciseBody({ located }: { located: Located }) {
             {exercise.optional && <span className="ml-2 align-middle text-base font-normal text-stone">(optional)</span>}
           </h1>
           {exercise.promise && <p className="mt-2 display text-lg text-pine">{exercise.promise}</p>}
-          <div className="mt-3 space-y-2 text-lg">
-            <Paragraphs text={exercise.intro} />
-          </div>
-          <Bullets items={exercise.intro_bullets} className="mt-2 text-lg" />
         </header>
 
+        {/* Reference people use while answering stays in view; the "why" folds. */}
         {tablesAt("before")}
 
         {exercise.belief_examples && (
@@ -327,6 +344,20 @@ function ExerciseBody({ located }: { located: Located }) {
             <Fields storeId={exercise.id} exercise={exercise} block={exercise.start_here} drafts={drafts} />
             {exercise.start_here.closing && <p className="text-stone">{exercise.start_here.closing}</p>}
           </section>
+        )}
+
+        {/*
+         * The explanation of why we do this exercise — the same thing the video
+         * says — sits under the questions, folded. It opens by itself only for
+         * someone who has not started this part yet.
+         */}
+        {hasWhy && (
+          <Fold title="Why this exercise" minutes={whyMinutes} defaultOpen={freshPart}>
+            <div className="space-y-3 text-lg">
+              <Paragraphs text={exercise.intro} />
+            </div>
+            <Bullets items={exercise.intro_bullets} className="text-lg" />
+          </Fold>
         )}
 
         {tablesAt("after")}

@@ -46,10 +46,26 @@
                 "Fun, travel, unexpected"
               ],
               "columns": [
-                { "id": "guess", "label": "My guess", "kind": "money" },
-                { "id": "found", "label": "What I found", "kind": "money" },
-                { "id": "source", "label": "Source", "kind": "text" },
-                { "id": "date", "label": "Date", "kind": "text" }
+                {
+                  "id": "guess",
+                  "label": "My guess",
+                  "kind": "money"
+                },
+                {
+                  "id": "found",
+                  "label": "What I found",
+                  "kind": "money"
+                },
+                {
+                  "id": "source",
+                  "label": "Source",
+                  "kind": "text"
+                },
+                {
+                  "id": "date",
+                  "label": "Date",
+                  "kind": "text"
+                }
               ],
               "totals": true,
               "totals_label": "Total per month"
@@ -93,8 +109,16 @@
                 "What do I have to do every year to keep it?"
               ],
               "columns": [
-                { "id": "found", "label": "What I found (and where)", "kind": "long_text" },
-                { "id": "date", "label": "Date checked", "kind": "text" }
+                {
+                  "id": "found",
+                  "label": "What I found (and where)",
+                  "kind": "long_text"
+                },
+                {
+                  "id": "date",
+                  "label": "Date checked",
+                  "kind": "text"
+                }
               ]
             }
           ]
@@ -104,8 +128,14 @@
             "place": "after",
             "lead": "For Portugal, the official information below covers two different routes. Start with the one that applies to your passport:",
             "rows": [
-              ["If you hold an EU, EEA, Andorran or Swiss passport", "You can enter and stay without a visa. If you stay longer than three months, you ask for a registration certificate at the Câmara Municipal (town hall) of the area where you live. The official page says this must be done within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, or that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."],
-              ["If you hold any other passport", "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."]
+              [
+                "If you hold an EU, EEA, Andorran or Swiss passport",
+                "You can enter and stay without a visa. If you stay longer than three months, you ask for a registration certificate at the Câmara Municipal (town hall) of the area where you live. The official page says this must be done within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, or that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."
+              ],
+              [
+                "If you hold any other passport",
+                "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."
+              ]
             ]
           }
         ],
@@ -144,13 +174,25 @@
                 "Fire risk and the land clearing required"
               ],
               "columns": [
-                { "id": "p1", "label": "Place 1:", "kind": "text" },
-                { "id": "p2", "label": "Place 2:", "kind": "text" },
+                {
+                  "id": "p1",
+                  "label": "Place 1:",
+                  "kind": "text"
+                },
+                {
+                  "id": "p2",
+                  "label": "Place 2:",
+                  "kind": "text"
+                },
                 {
                   "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
-                  "options": ["Known", "Estimate", "Unknown"]
+                  "options": [
+                    "Known",
+                    "Estimate",
+                    "Unknown"
+                  ]
                 }
               ]
             }
@@ -194,10 +236,26 @@
               "type": "table",
               "rows": 3,
               "columns": [
-                { "id": "who", "label": "Who I spoke to", "kind": "text" },
-                { "id": "surprised", "label": "What surprised me", "kind": "text" },
-                { "id": "confirmed", "label": "What confirmed my picture", "kind": "text" },
-                { "id": "check", "label": "What I will check myself", "kind": "text" }
+                {
+                  "id": "who",
+                  "label": "Who I spoke to",
+                  "kind": "text"
+                },
+                {
+                  "id": "surprised",
+                  "label": "What surprised me",
+                  "kind": "text"
+                },
+                {
+                  "id": "confirmed",
+                  "label": "What confirmed my picture",
+                  "kind": "text"
+                },
+                {
+                  "id": "check",
+                  "label": "What I will check myself",
+                  "kind": "text"
+                }
               ]
             }
           ]
@@ -215,14 +273,49 @@
       ],
       "prompt": "Now bring it together in My Place Profiles. Short sentences are enough.",
       "fields": [
-        { "id": "place1", "type": "long_text", "lines": 2, "label": "Place 1: what I now know" },
-        { "id": "place2", "type": "long_text", "lines": 2, "label": "Place 2: what I now know" },
-        { "id": "surprise", "type": "long_text", "lines": 2, "label": "The biggest surprise of this research" },
-        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What is still unknown, and how I will find out" },
-        { "id": "first_unknown", "type": "long_text", "lines": 2, "label": "The first unknown I will investigate, and why it matters most" },
-        { "id": "test_in_person", "type": "long_text", "lines": 2, "label": "What I want to test in person" }
+        {
+          "id": "place1",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Place 1: what I now know"
+        },
+        {
+          "id": "place2",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Place 2: what I now know"
+        },
+        {
+          "id": "surprise",
+          "type": "long_text",
+          "lines": 2,
+          "label": "The biggest surprise of this research"
+        },
+        {
+          "id": "unknowns",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What is still unknown, and how I will find out"
+        },
+        {
+          "id": "first_unknown",
+          "type": "long_text",
+          "lines": 2,
+          "label": "The first unknown I will investigate, and why it matters most"
+        },
+        {
+          "id": "test_in_person",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I want to test in person"
+        }
       ],
       "result": "My Place Profiles — real information for each place, with your unknowns written down honestly."
+    },
+    "video": {
+      "title": "Part 3 · Check it from home",
+      "length": "12–15 min",
+      "url": null
     }
   },
   {
@@ -253,13 +346,46 @@
         "title": "Plan the visit before you book it",
         "start_here": {
           "fields": [
-            { "id": "when", "type": "long_text", "lines": 2, "label": "When I go, and why that time of year" },
-            { "id": "how_long", "type": "short_text", "label": "How long I stay" },
-            { "id": "places", "type": "long_text", "lines": 2, "label": "Places on my list" },
-            { "id": "travel", "type": "long_text", "lines": 2, "label": "How I travel there and around" },
-            { "id": "stay", "type": "long_text", "lines": 2, "label": "Where I stay, and why it suits the test better than a hotel in the centre" },
-            { "id": "budget", "type": "short_text", "label": "My budget for this trip" },
-            { "id": "three_questions", "type": "long_text", "lines": 3, "label": "The three questions this trip must answer" }
+            {
+              "id": "when",
+              "type": "long_text",
+              "lines": 2,
+              "label": "When I go, and why that time of year"
+            },
+            {
+              "id": "how_long",
+              "type": "short_text",
+              "label": "How long I stay"
+            },
+            {
+              "id": "places",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Places on my list"
+            },
+            {
+              "id": "travel",
+              "type": "long_text",
+              "lines": 2,
+              "label": "How I travel there and around"
+            },
+            {
+              "id": "stay",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Where I stay, and why it suits the test better than a hotel in the centre"
+            },
+            {
+              "id": "budget",
+              "type": "short_text",
+              "label": "My budget for this trip"
+            },
+            {
+              "id": "three_questions",
+              "type": "long_text",
+              "lines": 3,
+              "label": "The three questions this trip must answer"
+            }
           ]
         },
         "challenge": "Write your three questions before you book anything, and give this page to someone who knows you. Ask them to hold you to it when you come back excited."
@@ -268,17 +394,31 @@
         "id": "s2-4.2",
         "number": "4.2",
         "title": "The real-life checklist",
-        "intro": ["Take this with you. Tick what you actually did, not what you planned to do."],
+        "intro": [
+          "Take this with you. Tick what you actually did, not what you planned to do."
+        ],
         "start_here": {
           "fields": [
             {
               "id": "did",
               "type": "checkbox_pick",
               "options": [
-                "Did a normal food shop", "Drove to the hospital", "Visited a school", "Used the local internet",
-                "Walked the area at night", "Went there in bad weather", "Talked to a neighbour", "Visited the town hall",
-                "Checked mobile signal", "Looked at winter heating", "Sat still for an hour", "Spent an ordinary day there",
-                "Checked the drive to the airport", "Asked about water", "Visited on a Sunday", "Priced a real house or rental"
+                "Did a normal food shop",
+                "Drove to the hospital",
+                "Visited a school",
+                "Used the local internet",
+                "Walked the area at night",
+                "Went there in bad weather",
+                "Talked to a neighbour",
+                "Visited the town hall",
+                "Checked mobile signal",
+                "Looked at winter heating",
+                "Sat still for an hour",
+                "Spent an ordinary day there",
+                "Checked the drive to the airport",
+                "Asked about water",
+                "Visited on a Sunday",
+                "Priced a real house or rental"
               ]
             },
             {
@@ -287,10 +427,26 @@
               "rows": 4,
               "hint": "Write your notes the same evening. After a few days, memories blur, especially the differences between places.",
               "columns": [
-                { "id": "place", "label": "Place", "kind": "text" },
-                { "id": "felt", "label": "What I felt", "kind": "text" },
-                { "id": "measured", "label": "What I saw and measured", "kind": "text" },
-                { "id": "score", "label": "Score 1–10", "kind": "number" }
+                {
+                  "id": "place",
+                  "label": "Place",
+                  "kind": "text"
+                },
+                {
+                  "id": "felt",
+                  "label": "What I felt",
+                  "kind": "text"
+                },
+                {
+                  "id": "measured",
+                  "label": "What I saw and measured",
+                  "kind": "text"
+                },
+                {
+                  "id": "score",
+                  "label": "Score 1–10",
+                  "kind": "number"
+                }
               ]
             }
           ]
@@ -349,13 +505,43 @@
       ],
       "prompt": "Now bring it together in My Test Visit Report. Short sentences are enough.",
       "fields": [
-        { "id": "where_when", "type": "long_text", "lines": 2, "label": "Where I went, and when" },
-        { "id": "confirmed", "type": "long_text", "lines": 2, "label": "What the visit confirmed" },
-        { "id": "changed", "type": "long_text", "lines": 2, "label": "What the visit changed" },
-        { "id": "best_fit", "type": "long_text", "lines": 2, "label": "The place that fits best, and why" },
-        { "id": "still_test", "type": "long_text", "lines": 2, "label": "What I still need to test, and when" }
+        {
+          "id": "where_when",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Where I went, and when"
+        },
+        {
+          "id": "confirmed",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What the visit confirmed"
+        },
+        {
+          "id": "changed",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What the visit changed"
+        },
+        {
+          "id": "best_fit",
+          "type": "long_text",
+          "lines": 2,
+          "label": "The place that fits best, and why"
+        },
+        {
+          "id": "still_test",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I still need to test, and when"
+        }
       ],
       "result": "My Test Visit Report — what you learned in person, written down while it is fresh."
+    },
+    "video": {
+      "title": "Part 4 · Test it in real life",
+      "length": "8–12 min",
+      "url": null
     }
   },
   {
@@ -385,16 +571,65 @@
         "title": "My Explore Summary",
         "start_here": {
           "fields": [
-            { "id": "place", "type": "long_text", "lines": 1, "label": "The place I want to explore further" },
-            { "id": "where", "type": "short_text", "label": "Country, region, nearest town" },
-            { "id": "reasons", "type": "long_text", "lines": 3, "label": "Three reasons it fits my picture" },
-            { "id": "not_give", "type": "long_text", "lines": 2, "label": "What it does not give me, and how I deal with that" },
-            { "id": "monthly_cost", "type": "long_text", "lines": 2, "label": "What a normal month costs there" },
-            { "id": "income", "type": "long_text", "lines": 2, "label": "How my income will work there" },
-            { "id": "legal", "type": "long_text", "lines": 2, "label": "My legal route, and what I must prove" },
-            { "id": "healthcare", "type": "long_text", "lines": 2, "label": "Healthcare: how it works for me" },
-            { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What is still unknown" },
-            { "id": "who_i_need", "type": "long_text", "lines": 2, "label": "Who I need: people, advisers, network" },
+            {
+              "id": "place",
+              "type": "long_text",
+              "lines": 1,
+              "label": "The place I want to explore further"
+            },
+            {
+              "id": "where",
+              "type": "short_text",
+              "label": "Country, region, nearest town"
+            },
+            {
+              "id": "reasons",
+              "type": "long_text",
+              "lines": 3,
+              "label": "Three reasons it fits my picture"
+            },
+            {
+              "id": "not_give",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What it does not give me, and how I deal with that"
+            },
+            {
+              "id": "monthly_cost",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What a normal month costs there"
+            },
+            {
+              "id": "income",
+              "type": "long_text",
+              "lines": 2,
+              "label": "How my income will work there"
+            },
+            {
+              "id": "legal",
+              "type": "long_text",
+              "lines": 2,
+              "label": "My legal route, and what I must prove"
+            },
+            {
+              "id": "healthcare",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Healthcare: how it works for me"
+            },
+            {
+              "id": "unknowns",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What is still unknown"
+            },
+            {
+              "id": "who_i_need",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Who I need: people, advisers, network"
+            },
             {
               "id": "choice",
               "type": "single_choice",
@@ -406,9 +641,21 @@
                 "Stay and build the life I want here"
               ]
             },
-            { "id": "next_step", "type": "short_text", "label": "My next small step, within two weeks" },
-            { "id": "date", "type": "short_text", "label": "Date of this step" },
-            { "id": "review_when", "type": "short_text", "label": "When I will review what I learned" }
+            {
+              "id": "next_step",
+              "type": "short_text",
+              "label": "My next small step, within two weeks"
+            },
+            {
+              "id": "date",
+              "type": "short_text",
+              "label": "Date of this step"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text",
+              "label": "When I will review what I learned"
+            }
           ]
         },
         "choice_explanations_intro": "All four answers are good ones:",
@@ -425,7 +672,13 @@
         "title": "Update your money picture",
         "start_here": {
           "prompt": "Return to your First Money Picture from Step 1 and replace estimates with the figures you have checked. Then make a separate check: with these costs, how many months could you live there without income?",
-          "fields": [{ "id": "update", "type": "long_text", "lines": 4 }]
+          "fields": [
+            {
+              "id": "update",
+              "type": "long_text",
+              "lines": 4
+            }
+          ]
         },
         "expert_work": "Before you move money between countries, sell a house, or change where you pay tax, speak to a qualified adviser in both countries. This workbook helps you arrive with the right questions. It never gives the answers.",
         "story": {
@@ -448,11 +701,35 @@
         ],
         "start_here": {
           "fields": [
-            { "id": "really_want", "type": "long_text", "lines": 2, "label": "What I now know I really want" },
-            { "id": "change", "type": "long_text", "lines": 2, "label": "What I will change in the next three months" },
-            { "id": "protects_costs", "type": "long_text", "lines": 2, "label": "What staying protects, and what it costs me" },
-            { "id": "before_abroad", "type": "long_text", "lines": 2, "label": "What must be true before I look abroad again" },
-            { "id": "review", "type": "short_text", "label": "When I will look at this again" }
+            {
+              "id": "really_want",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I now know I really want"
+            },
+            {
+              "id": "change",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I will change in the next three months"
+            },
+            {
+              "id": "protects_costs",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What staying protects, and what it costs me"
+            },
+            {
+              "id": "before_abroad",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What must be true before I look abroad again"
+            },
+            {
+              "id": "review",
+              "type": "short_text",
+              "label": "When I will look at this again"
+            }
           ]
         },
         "tips": [
@@ -460,6 +737,11 @@
         ]
       }
     ],
-    "result": "My Explore Summary — one place, one honest picture, and your decision about what comes next."
+    "result": "My Explore Summary — one place, one honest picture, and your decision about what comes next.",
+    "video": {
+      "title": "Part 5 · Bring it together",
+      "length": "8–10 min",
+      "url": null
+    }
   }
 ]

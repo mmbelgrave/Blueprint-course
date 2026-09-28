@@ -8,7 +8,7 @@ import { PartRail } from "@/components/journey";
 import { RequireUser, Shell } from "@/components/Shell";
 import { Bullets, InfoTable } from "@/components/text";
 import { useApp } from "@/lib/app-state";
-import { displayTitle, getStep, partItems, type StepContent } from "@/lib/content";
+import { displayTitle, getStep, partItems, stepOnlyBullets, type StepContent } from "@/lib/content";
 import { continueTarget, exerciseHref, hrefOf, partProgress } from "@/lib/progress";
 
 function Closing({ step }: { step: StepContent }) {
@@ -57,12 +57,7 @@ function StepIntro({ step, startOpen }: { step: StepContent; startOpen: boolean 
             ))}
           </div>
 
-          {s.ways_to_use && (
-            <div className="space-y-2">
-              <h3 className="display text-lg text-pine">{s.ways_to_use.title}</h3>
-              <InfoTable rows={s.ways_to_use.rows} />
-            </div>
-          )}
+          {/* "Three ways to use a step" is the same everywhere: it lives in the guide. */}
 
           {s.what_you_need && (
             <div className="space-y-2">
@@ -84,10 +79,18 @@ function StepIntro({ step, startOpen }: { step: StepContent; startOpen: boolean 
             </div>
           )}
 
-          <div className="space-y-2">
-            <h3 className="display text-lg text-pine">{s.how_it_works.title}</h3>
-            <Bullets items={s.how_it_works.bullets} />
-          </div>
+          {/* Only what is true for this step; the rest lives in "How this app works". */}
+          {stepOnlyBullets(s.how_it_works.bullets).length > 0 && (
+            <div className="space-y-2">
+              <h3 className="display text-lg text-pine">{s.how_it_works.title}</h3>
+              <Bullets items={stepOnlyBullets(s.how_it_works.bullets)} />
+              <p className="text-sm">
+                <Link href="/how-it-works" className="text-pine underline">
+                  The things that are the same in every step
+                </Link>
+              </p>
+            </div>
+          )}
 
           <div>
             <h3 className="display text-lg text-pine">{s.word_help.title}</h3>
@@ -101,10 +104,7 @@ function StepIntro({ step, startOpen }: { step: StepContent; startOpen: boolean 
             </dl>
           </div>
 
-          <div className="space-y-2">
-            <h3 className="display text-lg text-pine">{s.route.title}</h3>
-            <InfoTable columns={s.route.header} rows={s.route.rows} />
-          </div>
+          {/* The route table is not repeated here: the part cards below carry it. */}
 
           {s.tips?.map((t) => (
             <Card key={t} tone="tips" title="Good to know" collapsible={false}>
@@ -190,6 +190,13 @@ function StepOverview({ step }: { step: StepContent }) {
                 </div>
                 <h2 className="mt-1 text-xl text-pine">{part.title}</h2>
                 <p className="mt-2 flex-1 text-stone">{part.promise}</p>
+                {part.video && (
+                  <p className="mt-2 text-sm text-stone">
+                    <span aria-hidden>▶ </span>
+                    Video {part.video.length ? `· ${part.video.length}` : ""}
+                    {part.video.url ? "" : " · being recorded"}
+                  </p>
+                )}
                 <div className="mt-4">
                   <div className="flex justify-between text-sm">
                     <span>

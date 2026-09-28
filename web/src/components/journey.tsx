@@ -179,16 +179,12 @@ export function WhereNext({
             Finish this step →
           </Link>
         )}
+        {/* One way out, after the step back and forward: the whole road. */}
+        <Link href="/dashboard" className="btn btn-ghost flex-1 sm:flex-none">
+          All steps
+        </Link>
       </div>
 
-      <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm">
-        <Link href={stepHref(n)} className="text-pine hover:underline">
-          Step overview
-        </Link>
-        <Link href="/dashboard" className="text-pine hover:underline">
-          Both steps
-        </Link>
-      </p>
     </nav>
   );
 }

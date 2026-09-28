@@ -638,6 +638,11 @@
           "text": "Country: Portugal. Why: I feel well in that climate, my money goes further than at home, and I work online, so I need reliable internet. I ruled out Costa Rica because it is too far from my parents and flights are expensive. My biggest doubt is winter in a stone house. I need to find out how people heat their homes and what it costs."
         },
         "result": "My Country Choice — one country to explore, with your reasons and your open questions."
+      },
+      "video": {
+        "title": "Part 1 · Which country?",
+        "length": "12–16 min",
+        "url": null
       }
     },
     {
@@ -901,6 +906,11 @@
           }
         ],
         "result": "My Region Shortlist — two or three regions, with what you like and what worries you."
+      },
+      "video": {
+        "title": "Part 2 · Which region?",
+        "length": "10–14 min",
+        "url": null
       }
     },
     {
@@ -1215,6 +1225,11 @@
           }
         ],
         "result": "My Place Profiles — real information for each place, with your unknowns written down honestly."
+      },
+      "video": {
+        "title": "Part 3 · Check it from home",
+        "length": "12–15 min",
+        "url": null
       }
     },
     {
@@ -1436,6 +1451,11 @@
           }
         ],
         "result": "My Test Visit Report — what you learned in person, written down while it is fresh."
+      },
+      "video": {
+        "title": "Part 4 · Test it in real life",
+        "length": "8–12 min",
+        "url": null
       }
     },
     {
@@ -1631,7 +1651,12 @@
           ]
         }
       ],
-      "result": "My Explore Summary — one place, one honest picture, and your decision about what comes next."
+      "result": "My Explore Summary — one place, one honest picture, and your decision about what comes next.",
+      "video": {
+        "title": "Part 5 · Bring it together",
+        "length": "8–10 min",
+        "url": null
+      }
     }
   ],
   "closing": {

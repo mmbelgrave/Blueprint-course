@@ -1,0 +1,51 @@
+{
+  "note": "Read this first: the things that are the same in every step, so no step has to repeat them. The 'shared_bullets' are taken word for word from the workbooks; a step overview leaves out any bullet that also stands here.",
+  "title": "How this app works",
+  "intro": "A few things are the same in every step. Read this once, then you can forget it.",
+  "sections": [
+    {
+      "id": "exercises",
+      "title": "How each exercise works",
+      "shared_bullets": true,
+      "bullets": [
+        "Every exercise follows the same pattern. First the explanation, then \"Now you\". Some exercises include an optional \"Go deeper\" section. Use it when you have the time and energy.",
+        "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different.",
+        "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
+        "Write in your own language if you prefer.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
+      ]
+    },
+    {
+      "id": "app",
+      "title": "What the app does for you",
+      "bullets": [
+        "Your answers save themselves while you write. You can stop in the middle of a sentence and come back next week.",
+        "Every page shows where you are in the step, and the pages of that part sit at the bottom, so you can jump straight to one.",
+        "Your AI partner sits beside each page. It helps you think. You decide and you write.",
+        "Under \"What my AI partner knows\" you can read the notes it keeps, correct them, or make it forget a topic.",
+        "You can delete everything you ever wrote, at any time, in one go.",
+        "At the end of a step you can print your result, or save it as a PDF.",
+        "The explanation of each exercise is folded shut once you know it. Open \"Why this exercise\" whenever you want it back."
+      ]
+    },
+    {
+      "id": "video",
+      "title": "The videos",
+      "bullets": [
+        "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions.",
+        "The video and the written explanation say the same thing. Use whichever suits you; you do not need both."
+      ]
+    },
+    {
+      "id": "ways",
+      "title": "Three ways to use a step",
+      "rows": [
+        ["This workbook on its own", "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."],
+        ["With the videos", "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions."],
+        ["With the app", "The same questions in digital form, with an AI partner that remembers your answers and asks about them later. Useful if you prefer typing to paper."]
+      ]
+    }
+  ],
+  "closing": "Stuck on a question? Skip it and come back later. The answer often comes while you walk, cook or shower."
+}

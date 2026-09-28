@@ -61,12 +61,42 @@
       "title": "My First Picture",
       "prompt": "Look at your four answers. Then finish these sentences.",
       "fields": [
-        { "id": "more_of", "type": "long_text", "lines": 2, "label": "What I want more of" },
-        { "id": "keep", "type": "long_text", "lines": 2, "label": "What I want to keep" },
-        { "id": "daily_life", "type": "long_text", "lines": 2, "label": "What matters to me in daily life" },
-        { "id": "two_directions", "type": "long_text", "lines": 2, "label": "Something that pulls in two directions" },
-        { "id": "action", "type": "long_text", "lines": 2, "label": "My one small action this week" },
-        { "id": "test_later", "type": "long_text", "lines": 2, "label": "Something I want to test later, and what it would help me learn" }
+        {
+          "id": "more_of",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I want more of"
+        },
+        {
+          "id": "keep",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I want to keep"
+        },
+        {
+          "id": "daily_life",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What matters to me in daily life"
+        },
+        {
+          "id": "two_directions",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Something that pulls in two directions"
+        },
+        {
+          "id": "action",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My one small action this week"
+        },
+        {
+          "id": "test_later",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Something I want to test later, and what it would help me learn"
+        }
       ],
       "tips": [
         "Look for wishes that pull in two directions. For example: \"I want quiet, but I also want friends close by.\" That is useful information. You can choose one for now, combine both (a quiet home fifteen minutes from a village), or put them in order: first this, later that. If you have not noticed a tension, write \"none noticed yet\". You do not need to invent a problem."
@@ -120,8 +150,16 @@
               "type": "table",
               "rows": 5,
               "columns": [
-                { "id": "no", "label": "What I no longer want", "kind": "text" },
-                { "id": "yes", "label": "What I want instead", "kind": "text" }
+                {
+                  "id": "no",
+                  "label": "What I no longer want",
+                  "kind": "text"
+                },
+                {
+                  "id": "yes",
+                  "label": "What I want instead",
+                  "kind": "text"
+                }
               ]
             }
           ]
@@ -146,11 +184,27 @@
           {
             "place": "before",
             "lead": "Three things are worth looking for in every good moment:",
-            "header": ["Ingredient", "The question it answers", "For example"],
+            "header": [
+              "Ingredient",
+              "The question it answers",
+              "For example"
+            ],
             "rows": [
-              ["The activity", "What were you doing?", "Building something, teaching someone, being outside"],
-              ["The people", "Who was with you, or were you alone?", "Alone, with one person, in a group"],
-              ["The need underneath", "What did it give you?", "Calm, meaning, freedom, being useful"]
+              [
+                "The activity",
+                "What were you doing?",
+                "Building something, teaching someone, being outside"
+              ],
+              [
+                "The people",
+                "Who was with you, or were you alone?",
+                "Alone, with one person, in a group"
+              ],
+              [
+                "The need underneath",
+                "What did it give you?",
+                "Calm, meaning, freedom, being useful"
+              ]
             ],
             "after": "The third one matters most. The activity may not be possible in your new life. The need comes with you wherever you go."
           }
@@ -161,7 +215,11 @@
         "start_here": {
           "prompt": "Think of three moments from the last few years when you felt content, engaged or proud. Choose at least one from an ordinary day. Where were you? What were you doing? Who was with you?",
           "fields": [
-            { "id": "moments", "type": "list", "count": 3 },
+            {
+              "id": "moments",
+              "type": "list",
+              "count": 3
+            },
             {
               "id": "common",
               "type": "long_text",
@@ -192,11 +250,23 @@
           {
             "place": "before",
             "lead": "How much detail? Enough that someone else could film it. Look at the difference:",
-            "header": ["Too vague to plan", "Detailed enough to plan"],
+            "header": [
+              "Too vague to plan",
+              "Detailed enough to plan"
+            ],
             "rows": [
-              ["\"A house with a view\"", "\"Coffee on the terrace, looking at olive trees, before anyone else is awake\""],
-              ["\"Meaningful work\"", "\"Two mornings a week helping new business owners solve problems I understand\""],
-              ["\"Close to family\"", "\"My sister can come for dinner without booking a flight\""]
+              [
+                "\"A house with a view\"",
+                "\"Coffee on the terrace, looking at olive trees, before anyone else is awake\""
+              ],
+              [
+                "\"Meaningful work\"",
+                "\"Two mornings a week helping new business owners solve problems I understand\""
+              ],
+              [
+                "\"Close to family\"",
+                "\"My sister can come for dinner without booking a flight\""
+              ]
             ],
             "after": "The detail in the right-hand column gives you something you can check against a real house, job or town."
           }
@@ -210,7 +280,12 @@
             "Who is with you? How does the day end?"
           ],
           "fields": [
-            { "id": "day", "type": "long_text", "lines": 8, "placeholder": "I wake up…" },
+            {
+              "id": "day",
+              "type": "long_text",
+              "lines": 8,
+              "placeholder": "I wake up…"
+            },
             {
               "id": "needs",
               "type": "long_text",
@@ -230,7 +305,11 @@
             "Then add the less enjoyable parts: housework, paid work, a tired day, a rainy winter week, time alone. Does the picture still feel good? Could you meet the same needs another way, including closer to home?"
           ],
           "fields": [
-            { "id": "deeper", "type": "long_text", "lines": 4 },
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 4
+            },
             {
               "id": "board",
               "type": "image_board",
@@ -258,7 +337,11 @@
         "start_here": {
           "prompt": "Imagine your essential costs are covered for the rest of your life. How would you spend your time? What would you stop doing? What would you start?",
           "fields": [
-            { "id": "dream_list", "type": "long_text", "lines": 6 },
+            {
+              "id": "dream_list",
+              "type": "long_text",
+              "lines": 6
+            },
             {
               "id": "top3",
               "type": "list",
@@ -273,7 +356,13 @@
         },
         "go_deeper": {
           "prompt": "Look at your three answers. Which of them really need a lot of money? Which could start much smaller, maybe this year?",
-          "fields": [{ "id": "deeper", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "deeper",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         },
         "story": {
           "status": "ready",
@@ -292,9 +381,18 @@
             "place": "before",
             "lead": "Here, you turn what matters to you into practical criteria for your choices. Sort them into three groups:",
             "rows": [
-              ["Must-have", "Your life needs this. Without it, the whole option is wrong, even when everything else is good."],
-              ["Strongly preferred", "You want it and will work for it. You could live without it for a while."],
-              ["Dealbreaker", "You will not accept this. It ends the discussion."]
+              [
+                "Must-have",
+                "Your life needs this. Without it, the whole option is wrong, even when everything else is good."
+              ],
+              [
+                "Strongly preferred",
+                "You want it and will work for it. You could live without it for a while."
+              ],
+              [
+                "Dealbreaker",
+                "You will not accept this. It ends the discussion."
+              ]
             ],
             "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, there are usually two or three that matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
           }
@@ -308,11 +406,26 @@
               "pick": 5,
               "allow_custom": true,
               "options": [
-                "Freedom", "Security", "Health", "Family",
-                "Love", "Adventure", "Nature", "Peace of mind",
-                "Honesty", "Respect", "Independence", "Personal growth",
-                "Helping others", "Comfort", "Fun", "Community",
-                "Creativity", "Faith", "Success", "Simplicity"
+                "Freedom",
+                "Security",
+                "Health",
+                "Family",
+                "Love",
+                "Adventure",
+                "Nature",
+                "Peace of mind",
+                "Honesty",
+                "Respect",
+                "Independence",
+                "Personal growth",
+                "Helping others",
+                "Comfort",
+                "Fun",
+                "Community",
+                "Creativity",
+                "Faith",
+                "Success",
+                "Simplicity"
               ]
             },
             {
@@ -321,8 +434,16 @@
               "rows": 2,
               "hint": "Choose your two most important words. What would more room for each one look like in a normal week?",
               "columns": [
-                { "id": "word", "label": "Word", "kind": "text" },
-                { "id": "week", "label": "What it looks like in a normal week", "kind": "text" }
+                {
+                  "id": "word",
+                  "label": "Word",
+                  "kind": "text"
+                },
+                {
+                  "id": "week",
+                  "label": "What it looks like in a normal week",
+                  "kind": "text"
+                }
               ]
             },
             {
@@ -331,12 +452,19 @@
               "rows": 5,
               "hint": "Now make it concrete. For each must-have, ask: would I say no to a place that has everything else, but not this? Then it is essential. If not, it is strongly preferred.",
               "columns": [
-                { "id": "must_have", "label": "What my new life needs", "kind": "text" },
+                {
+                  "id": "must_have",
+                  "label": "What my new life needs",
+                  "kind": "text"
+                },
                 {
                   "id": "importance",
                   "label": "Which of these are essential, and which are strongly preferred?",
                   "kind": "choice",
-                  "options": ["Essential", "Strongly preferred"]
+                  "options": [
+                    "Essential",
+                    "Strongly preferred"
+                  ]
                 }
               ]
             },
@@ -385,7 +513,12 @@
             {
               "id": "checks",
               "type": "yes_no",
-              "options": ["Yes", "Partly", "No", "Not sure"],
+              "options": [
+                "Yes",
+                "Partly",
+                "No",
+                "Not sure"
+              ],
               "questions": [
                 "I would still want this life if nobody could see it. No photos, no social media.",
                 "I am moving towards something, not only away from something.",
@@ -418,18 +551,53 @@
       ],
       "prompt": "Now bring it together in My Life Picture. Short sentences are enough.",
       "fields": [
-        { "id": "needs_patterns", "type": "long_text", "lines": 2, "label": "Moments and needs that keep coming back" },
-        { "id": "more_of", "type": "long_text", "lines": 2, "label": "What I want more of" },
-        { "id": "keep", "type": "long_text", "lines": 2, "label": "What I want to keep" },
-        { "id": "essentials", "type": "long_text", "lines": 2, "label": "My essential must-haves" },
-        { "id": "tensions", "type": "long_text", "lines": 2, "label": "What pulls in two directions" },
-        { "id": "unknowns", "type": "long_text", "lines": 2, "label": "What I still don't know" }
+        {
+          "id": "needs_patterns",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Moments and needs that keep coming back"
+        },
+        {
+          "id": "more_of",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I want more of"
+        },
+        {
+          "id": "keep",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I want to keep"
+        },
+        {
+          "id": "essentials",
+          "type": "long_text",
+          "lines": 2,
+          "label": "My essential must-haves"
+        },
+        {
+          "id": "tensions",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What pulls in two directions"
+        },
+        {
+          "id": "unknowns",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I still don't know"
+        }
       ],
       "example": {
         "who": "Maria, 46",
         "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: ground to grow food, internet good enough for video calls, a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
       },
       "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
+    },
+    "video": {
+      "title": "Part 1 · Picture your new life",
+      "length": "12–16 min",
+      "url": null
     }
   }
 ]
