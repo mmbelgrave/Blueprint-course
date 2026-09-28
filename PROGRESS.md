@@ -60,6 +60,18 @@ Brief: `build-prompt-v1.md` + naming update in `My Purpose/AI Companion/build-pr
   - Printable result page `/step/1/print` (My Working Direction) and
     `/step/2/print` (My Explore Summary) with the closing words; "Save as PDF"
     via the browser print window; app menus hidden when printing.
+  - **2026-09-28 — the printed result redesigned (one layout for every step):**
+    Pine result banner (product, edition, result title, step · name · date), the
+    first answer in a Sage panel with an ochre bar, labelled answers, then the
+    other exercises under their own headings. Table answers now print as real
+    tables (heads Sand on Pine, fixed row names on Sage, money columns show the
+    currency, empty rows left out) instead of one dash-joined line. Ends with the
+    step's closing words and a copyright line (holder in `PRODUCT.copyright_holder`,
+    year set by the browser). Print CSS: `print-color-adjust: exact` so the brand
+    colours survive, table heads repeat on the next page, rows are not split.
+    Checked: typecheck, tests 27/27, production build, both steps on screen and in
+    print view (`design/print-step1-result.png`, `print-step2-result.png`).
+    Open for Mwata: the copyright holder's name, and the wording of the use line.
   - Live check `npm run draft-check`: 5/5 PASS (77 words, own words, empty boxes
     left empty, no Part 2 answers, forgotten topic not used).
 
