@@ -526,6 +526,7 @@ function ExerciseBody({ located }: { located: Located }) {
             statuses={statuses}
             currentId={exercise.id}
             lead={`${part.label}:`}
+            nextPart={step.parts[step.parts.indexOf(part) + 1]}
             trailing={{ href: "/dashboard", label: "Back to overview" }}
           />
         </nav>

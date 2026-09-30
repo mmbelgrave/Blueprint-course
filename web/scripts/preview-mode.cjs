@@ -13,6 +13,15 @@ const bin = path.join(web, "node_modules/next/dist/bin/next");
 // A separate build folder, so the real build in .next is never overwritten.
 process.env.NEXT_DIST_DIR_PREVIEW = "1";
 execFileSync(process.execPath, [path.join(web, "scripts/sync-content.mjs")], { stdio: "inherit" });
-execFileSync(process.execPath, [bin, "build", web], { stdio: "inherit", env: process.env });
+
+// A build that failed once (for example while the network was down while the
+// fonts were fetched) leaves a cache that keeps failing. Wipe it and try again.
+try {
+  execFileSync(process.execPath, [bin, "build", web], { stdio: "inherit", env: process.env });
+} catch {
+  console.log("\npreview: that build failed. Clearing .next-preview and building once more…\n");
+  require("node:fs").rmSync(path.join(web, ".next-preview"), { recursive: true, force: true });
+  execFileSync(process.execPath, [bin, "build", web], { stdio: "inherit", env: process.env });
+}
 process.argv = [process.argv[0], bin, "start", web, "-p", "3001"];
 require(bin);

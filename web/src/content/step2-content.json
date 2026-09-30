@@ -1,6 +1,7 @@
 {
   "version": 8,
   "source": "The Made Real Blueprint - Step 2 Explore workbook v8.docx (September 2026)",
+  "source_note": "App adaptations (Mwata, 30 Sep 2026): the five-country comparison table in 1.2 is left out of the app as too much detail; his story about that comparison stays. The paper-only line \"Use an extra sheet if you include a fifth country\" is left out; the app has four columns.",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
     "same_as_step1": "Field types, boxes, summaries, markers and unknown numbers work as in step1-content.json.",
@@ -431,111 +432,7 @@
           "story": {
             "status": "ready",
             "text": "As Bali became busier, I missed working with my hands and growing things. A YouTube channel about self-sufficient living helped me see what I wanted next. I listed what that life needed: climate and soil, water, rules for land and off-grid living, community, healthcare nearby, an affordable place to live, and the infrastructure to stay connected. I compared five countries: Portugal, New Zealand, Costa Rica, Australia and Canada. Portugal fitted best. That surprised me because my first picture had been of a life in Asia. Comparing what I needed helped me see a different possibility."
-          },
-          "tables": [
-            {
-              "place": "after",
-              "lead": "My own comparison, simplified: 2 = good for me, 1 = maybe, 0 = no.",
-              "header": [
-                "Factor",
-                "Portugal",
-                "New Zealand",
-                "Costa Rica",
-                "Australia",
-                "Canada"
-              ],
-              "rows": [
-                [
-                  "1. Climate and nature",
-                  "2",
-                  "2",
-                  "2",
-                  "1",
-                  "0"
-                ],
-                [
-                  "2. What your plan needs",
-                  "2",
-                  "2",
-                  "2",
-                  "2",
-                  "2"
-                ],
-                [
-                  "3. The rules",
-                  "1",
-                  "1",
-                  "1",
-                  "1",
-                  "1"
-                ],
-                [
-                  "4. Support and costs from the state",
-                  "1",
-                  "1",
-                  "1",
-                  "1",
-                  "1"
-                ],
-                [
-                  "5. Community and language",
-                  "2",
-                  "1",
-                  "1",
-                  "1",
-                  "1"
-                ],
-                [
-                  "6. Amenities and healthcare",
-                  "2",
-                  "2",
-                  "1",
-                  "2",
-                  "2"
-                ],
-                [
-                  "7. Your budget",
-                  "2",
-                  "0",
-                  "1",
-                  "0",
-                  "1"
-                ],
-                [
-                  "8. Infrastructure",
-                  "2",
-                  "2",
-                  "1",
-                  "2",
-                  "2"
-                ],
-                [
-                  "9. Legal right to live there",
-                  "2",
-                  "0",
-                  "1",
-                  "0",
-                  "0"
-                ],
-                [
-                  "10. Distance to loved ones",
-                  "2",
-                  "0",
-                  "0",
-                  "0",
-                  "1"
-                ],
-                [
-                  "Total",
-                  "18",
-                  "11",
-                  "11",
-                  "10",
-                  "11"
-                ]
-              ]
-            }
-          ]
+          }
         },
         {
           "id": "s2-1.3",

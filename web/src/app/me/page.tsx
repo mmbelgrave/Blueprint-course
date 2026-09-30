@@ -157,8 +157,8 @@ function DeleteEverything() {
     <section className="mt-10 space-y-3 rounded-2xl border-2 border-ochre p-5">
       <h2 className="text-xl font-semibold text-pine">Delete everything</h2>
       <p>
-        This deletes all your answers, your chats with your AI partner, what your AI partner knows about you, your
-        results and your feedback. It cannot be undone.
+        This deletes your workbook answers, your pictures, your chats with your AI partner, what your AI partner knows
+        about you, your results and your feedback. It cannot be undone.
       </p>
       <label className="flex gap-3">
         <input
@@ -169,6 +169,7 @@ function DeleteEverything() {
         />
         <span>I understand that everything will be deleted.</span>
       </label>
+      <div className="flex justify-center">
       <button
         className="btn btn-ochre"
         disabled={!sure || busy}
@@ -197,6 +198,7 @@ function DeleteEverything() {
       >
         {busy ? "Deleting…" : "Delete everything"}
       </button>
+      </div>
       {error && (
         <p role="alert" className="text-ochre">
           {error}
@@ -254,8 +256,7 @@ function PartnerKnows() {
         </li>
         <li>
           <span className="font-semibold text-granite">Forget this:</span> your AI partner deletes the note and stops
-          using your answers about this topic. Your answers stay in your workbook, for you. Only when you open that
-          page and ask for help there, your AI partner can see what is on it.
+          using your answers about this topic. Your answers are not deleted from your workbook.
         </li>
       </ul>
 
@@ -267,7 +268,18 @@ function PartnerKnows() {
         <p className="mt-6 text-ochre">Your AI partner&apos;s notes could not be loaded. Please reload the page.</p>
       ) : (
         <>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          {note && (
+            <p role="alert" className="mt-2 text-ochre">
+              {note}
+            </p>
+          )}
+          <ul className="mt-6 space-y-4">
+            {PROFILE_FIELDS.map((f) => (
+              <ProfileItem key={f.key} field={f} profile={profile ?? {}} onSave={save} locked={updating} />
+            ))}
+          </ul>
+          {/* After the notes: ask your AI partner to read your answers again. */}
+          <div className="mt-6 flex flex-col items-center gap-2">
             <button
               className="btn btn-ghost text-sm"
               disabled={updating}
@@ -294,16 +306,6 @@ function PartnerKnows() {
               </span>
             )}
           </div>
-          {note && (
-            <p role="alert" className="mt-2 text-ochre">
-              {note}
-            </p>
-          )}
-          <ul className="mt-6 space-y-4">
-            {PROFILE_FIELDS.map((f) => (
-              <ProfileItem key={f.key} field={f} profile={profile ?? {}} onSave={save} locked={updating} />
-            ))}
-          </ul>
         </>
       )}
 

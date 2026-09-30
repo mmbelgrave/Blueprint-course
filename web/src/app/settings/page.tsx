@@ -68,7 +68,7 @@ function SettingsForm({ profile }: { profile: Profile }) {
           <span>
             My AI partner may read my answers to help me.
             <span className="block text-sm text-stone">
-              If you switch this off, your AI partner stops helping and stops making notes. Your answers stay.
+              If you switch this off, your AI partner stops helping and stops making notes.
             </span>
           </span>
         </label>
@@ -81,12 +81,12 @@ function SettingsForm({ profile }: { profile: Profile }) {
           />
           <span>
             Mwata may read my answers and my AI summary to guide me.
-            <span className="block text-sm text-stone">Optional. You can change this at any time.</span>
+            <span className="block text-sm text-stone">You can change this at any time.</span>
           </span>
         </label>
       </section>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className="flex flex-col items-center gap-2">
         <button className="btn btn-primary" disabled={state === "saving"}>
           {state === "saving" ? "Saving…" : "Save"}
         </button>

@@ -31,8 +31,8 @@ export default function HowItWorks() {
           {appGuide.closing}
         </p>
 
-        <p className="text-sm">
-          <Link href="/dashboard" className="text-pine underline">
+        <p className="text-center">
+          <Link href="/dashboard" className="btn btn-ghost">
             Back to the overview
           </Link>
         </p>

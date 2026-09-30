@@ -1,7 +1,7 @@
 {
   "note": "Read this first: the things that are the same in every step, so no step has to repeat them. The 'shared_bullets' are taken word for word from the workbooks; a step overview leaves out any bullet that also stands here.",
   "title": "How this app works",
-  "intro": "A few things are the same in every step. Read this once, then you can forget it.",
+  "intro": "A few things are the same at every step. Read this carefully once before you start.",
   "sections": [
     {
       "id": "exercises",
@@ -20,13 +20,13 @@
       "id": "app",
       "title": "What the app does for you",
       "bullets": [
-        "Your answers save themselves while you write. You can stop in the middle of a sentence and come back next week.",
+        "Your answers are saved while you write. You can stop in the middle of a sentence and come back next week.",
         "Every page shows where you are in the step, and the pages of that part sit at the bottom, so you can jump straight to one.",
-        "Your AI partner sits beside each page. It helps you think. You decide and you write.",
+        "Your AI partner is available with each step. It helps you think. You decide and you write.",
         "Under \"What my AI partner knows\" you can read the notes it keeps, correct them, or make it forget a topic.",
         "You can delete everything you ever wrote, at any time, in one go.",
         "At the end of a step you can print your result, or save it as a PDF.",
-        "The explanation of each exercise is folded shut once you know it. Open \"Why this exercise\" whenever you want it back."
+        "Open \"Why this exercise\" to get an explanation for each exercise."
       ]
     },
     {
@@ -34,7 +34,7 @@
       "title": "The videos",
       "bullets": [
         "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions.",
-        "The video and the written explanation say the same thing. Use whichever suits you; you do not need both."
+        "The video and the written explanation say the same thing. Use whichever suits you."
       ]
     }
   ],

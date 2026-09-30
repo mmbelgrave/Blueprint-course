@@ -27,11 +27,27 @@
     "where_to_start": {
       "title": "Where do you start?",
       "intro": "Use the descriptions below to choose your starting point.",
-      "header": ["If this is you", "What you do", "Start at"],
+      "header": [
+        "If this is you",
+        "What you do",
+        "Start at"
+      ],
       "rows": [
-        ["I have not chosen a country yet", "You compare countries against what your life needs", "Part 1"],
-        ["I have chosen a country, but not a region", "You compare regions inside that country", "Part 2"],
-        ["I have chosen a country and a region", "You check that choice with real information", "Part 3"]
+        [
+          "I have not chosen a country yet",
+          "You compare countries against what your life needs",
+          "Part 1"
+        ],
+        [
+          "I have chosen a country, but not a region",
+          "You compare regions inside that country",
+          "Part 2"
+        ],
+        [
+          "I have chosen a country and a region",
+          "You check that choice with real information",
+          "Part 3"
+        ]
       ],
       "challenge": "Before you skip Part 1 or Part 2, check what you already know. Have you visited in the cold, wet months as well as summer? Do you know the cost of living there, beyond a holiday budget? Have you checked your legal right to live there and the local rules for your plans: building, working, keeping animals, or running a business? If any answer is no, work through that part. A few hours now can save you years in the wrong place."
     },
@@ -50,12 +66,30 @@
     "word_help": {
       "title": "Word help",
       "items": [
-        ["Must-have", "something your new life really needs."],
-        ["Dealbreaker", "something you will not accept, even if everything else is good."],
-        ["Shortlist", "the two or three places you want to explore further."],
-        ["Off-season", "the quiet, often cold or wet time of year."],
-        ["Residence permit", "official permission to live in a country for an extended period."],
-        ["Confirmed income", "income you have evidence will continue in your new situation. Only this income counts in the Step 1 money check."]
+        [
+          "Must-have",
+          "something your new life really needs."
+        ],
+        [
+          "Dealbreaker",
+          "something you will not accept, even if everything else is good."
+        ],
+        [
+          "Shortlist",
+          "the two or three places you want to explore further."
+        ],
+        [
+          "Off-season",
+          "the quiet, often cold or wet time of year."
+        ],
+        [
+          "Residence permit",
+          "official permission to live in a country for an extended period."
+        ],
+        [
+          "Confirmed income",
+          "income you have evidence will continue in your new situation. Only this income counts in the Step 1 money check."
+        ]
       ]
     },
     "tips": [
@@ -63,7 +97,12 @@
     ],
     "route": {
       "title": "Your route through Step 2",
-      "header": ["", "What you do", "Time", "You finish with"]
+      "header": [
+        "",
+        "What you do",
+        "Time",
+        "You finish with"
+      ]
     }
   },
   "closing": {
@@ -85,16 +124,49 @@
   "sources": {
     "title": "Where the information in this workbook comes from",
     "intro": "Rules, prices and services change. Everything in this workbook that is not my own experience comes from an official source, and I wrote down the date it was checked. Check it again for your own situation before you decide anything.",
-    "header": ["Subject", "Official source", "Checked"],
+    "header": [
+      "Subject",
+      "Official source",
+      "Checked"
+    ],
     "rows": [
-      ["Living in Portugal with an EU, EEA, Andorran or Swiss passport", "AIMA, registration certificate for EU nationals, aima.gov.pt", "20 Sep 2026"],
-      ["Visas for other passports", "Portuguese visa portal, vistos.mne.gov.pt", "20 Sep 2026"],
-      ["Climate and climate classification", "IPMA, climate normals, ipma.pt", "20 Sep 2026"],
-      ["Official services for foreigners in Portugal", "gov.pt, theme \"Estrangeiros em Portugal\"", "20 Sep 2026"],
-      ["Public healthcare", "SNS, sns.gov.pt", "20 Sep 2026"],
-      ["Statistics on Portugal and its municipalities", "INE (ine.pt) and Pordata (pordata.pt)", "20 Sep 2026"],
-      ["Land use, fire safety and water", "Câmara municipal and pcgt.dgterritorio.gov.pt (PDM), sgifr.gov.pt (fire safety), apambiente.pt (wells and boreholes)", "27 Sep 2026"]
+      [
+        "Living in Portugal with an EU, EEA, Andorran or Swiss passport",
+        "AIMA, registration certificate for EU nationals, aima.gov.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Visas for other passports",
+        "Portuguese visa portal, vistos.mne.gov.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Climate and climate classification",
+        "IPMA, climate normals, ipma.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Official services for foreigners in Portugal",
+        "gov.pt, theme \"Estrangeiros em Portugal\"",
+        "20 Sep 2026"
+      ],
+      [
+        "Public healthcare",
+        "SNS, sns.gov.pt",
+        "20 Sep 2026"
+      ],
+      [
+        "Statistics on Portugal and its municipalities",
+        "INE (ine.pt) and Pordata (pordata.pt)",
+        "20 Sep 2026"
+      ],
+      [
+        "Land use, fire safety and water",
+        "Câmara municipal and pcgt.dgterritorio.gov.pt (PDM), sgifr.gov.pt (fire safety), apambiente.pt (wells and boreholes)",
+        "27 Sep 2026"
+      ]
     ],
     "expert_work": "Nothing in this workbook is legal, tax or financial advice. It helps you ask better questions and arrive prepared. The answers for your situation come from qualified professionals in the country itself."
-  }
+  },
+  "source_note": "App adaptations (Mwata, 30 Sep 2026): the five-country comparison table in 1.2 is left out of the app as too much detail; his story about that comparison stays. The paper-only line \"Use an extra sheet if you include a fifth country\" is left out; the app has four columns."
 }

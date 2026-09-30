@@ -23,9 +23,9 @@ const CHIP: Record<string, string> = {
   open: "border-line text-stone bg-white",
 };
 
+/** Only "done" gets a mark: a half sign on a page you merely opened says nothing. */
 function ChipMark({ state }: { state: string }) {
   if (state === "done") return <span className="text-success" aria-hidden>✓</span>;
-  if (state === "started") return <span className="text-stone" aria-hidden>½</span>;
   return null;
 }
 
@@ -36,6 +36,7 @@ export function PageChips({
   currentId,
   lead,
   trailing,
+  nextPart,
 }: {
   step: number;
   part: Part;
@@ -44,8 +45,11 @@ export function PageChips({
   lead?: string;
   /** A last chip in the same row, for the way back out. */
   trailing?: { href: string; label: string };
+  /** On the last page of a part: the way into the next one, in the same row. */
+  nextPart?: Part;
 }) {
   const items = partItems(part);
+  const onLastPage = currentId === items.at(-1)?.id;
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       {lead && <span className="mr-0.5 text-sm text-stone">{lead}</span>}
@@ -67,6 +71,15 @@ export function PageChips({
           </Link>
         );
       })}
+      {nextPart && onLastPage && (
+        <Link
+          href={exerciseHref(step, nextPart.id, partItems(nextPart)[0].id)}
+          title={`${nextPart.label} · ${nextPart.title}`}
+          className="inline-flex items-center gap-1 rounded-lg border-[1.75px] border-pine bg-pine px-2 py-0.5 text-sm font-medium text-sand"
+        >
+          {nextPart.label.replace("Part ", "P")} →
+        </Link>
+      )}
       {trailing && (
         <Link
           href={trailing.href}

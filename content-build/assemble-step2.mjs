@@ -6,6 +6,7 @@ const parts = [...read("s2-p0-p2.json"), ...read("s2-p3-p5.json")];
 const content = {
   version: head.version,
   source: head.source,
+  source_note: head.source_note,
   schema_notes: {
     ids: "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
     same_as_step1: "Field types, boxes, summaries, markers and unknown numbers work as in step1-content.json.",

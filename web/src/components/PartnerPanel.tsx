@@ -227,8 +227,9 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
       )}
       {notice && <p className="mt-2 text-sm text-stone">{notice}</p>}
 
+      {/* The box is as wide as the panel; Send sits underneath, in the middle. */}
       <form
-        className="mt-3 flex gap-2"
+        className="mt-3 flex flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           send(null);
@@ -237,9 +238,9 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
         <textarea
           aria-label="Write to your AI partner"
           placeholder="Write to your AI partner…"
-          rows={2}
+          rows={3}
           maxLength={MAX_CHARS * 2}
-          className="field-input flex-1 resize-none text-sm"
+          className="field-input w-full resize-none text-sm"
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => {
@@ -249,7 +250,7 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
             }
           }}
         />
-        <button className="btn btn-primary self-end px-4 py-2 text-sm" disabled={busy || !draft.trim()}>
+        <button className="btn btn-primary self-center px-6 py-2 text-sm" disabled={busy || !draft.trim()}>
           Send
         </button>
       </form>
