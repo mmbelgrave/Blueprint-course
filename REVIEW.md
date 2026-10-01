@@ -297,3 +297,156 @@ s2-1.2, s2-3.2, 3.5, 5.1, `/me`, `/settings`): `scrollWidth` = 375 on all,
 "Sign out" fully visible (right edge 315 px).
 **Still not checked (needs a signed-in account):** the R2-1 race by hand, RLS
 between two accounts, "Delete everything" with a test account.
+
+---
+
+# Review round 3 — LLM2 (Reviewer), 2026-10-01
+
+## What was reviewed
+Commit `c90fd61` (branch main, working tree clean): Step 1 workbook v19 and
+Step 2 v8, the new brand and navigation, examples next to the box, the vision
+board with pictures, milestone 6 (admin view), milestone 7 (polish), the
+redesigned printed result, and the invite-only pilot settings. Checked against
+`build-prompt-v1.md`, the update sections in `PROJECT.md` (checks 1–14) and
+the round 2 fixes.
+
+## Checks that actually ran
+| Check | Result |
+|---|---|
+| `tsc --noEmit`, `eslint` | pass |
+| `npm test` | 27/27 pass |
+| Production build (the preview copy builds the real thing) | pass, 18 routes |
+| Content copies in `web/src/content` equal the four files in the project folder | yes |
+| Script: every cross-reference in both workbooks — copy-from, calculation sources, row and column sources, total filters and their allowed values, prefill labels, show-if fields, forget rules, draft rules | 48 pages, 173 fields, **0 problems** |
+| Script: every field type the content uses is one the app renders | yes (10 types, no unknown ones, no duplicate ids) |
+| Script: every answer type through the text the AI partner, print page and admin view use | no crashes; a vision board becomes "2 pictures. The lines under them: …" and **never a file name or path** |
+| Browser files (`.next/static`) scanned for the service-role key, Anthropic key, admin email and the AI instructions | none found |
+| Browser: all **61 pages** of the app at 1280 px and at 375 px | every page has a title, none wider than the screen, no page errors |
+| Browser: money chain 3.2 → 3.3 → 3.4 → 3.5 with a real "unknown" and a "hoped" income | correct throughout (see below) |
+| Browser: check 11 (4.2 shows my must-haves from 1.4 and my option names from 4.1) | pass |
+| Browser: check 13 (Step 2 start page copies nothing without a click) | pass |
+| Browser: mark as done, part feedback (4 stars), progress rail | saved and shown correctly |
+| Browser: `/admin` without an admin account | server refuses: "This page is only for the admin." |
+| Browser console / network | only the expected 403 from the admin check in preview mode |
+
+The money chain in detail: costs €1,200 + €300 with one row marked Unknown →
+"€1,500 + unknown"; income €2,000 Confirmed + €500 Hoped → "Total confirmed
+€2,000", hoped money correctly left out; 3.5 then shows income €2,000, costs
+"€1,500 — not complete yet", "€500 left over — not complete yet", savings
+€20,000 − €5,000 − €2,000 − €3,000 = €10,000, and with income lowered to
+€1,000: "20 months — not complete yet". The "not complete yet" warning travels
+all the way through, which is exactly the workbook rule.
+
+Test data was made up, and removed afterwards. The preview server I started
+was stopped. The working tree is unchanged (`git status` clean).
+
+**Not checked (needs a signed-in account; I may not sign in or create one):**
+the AI partner, the notes page, drafts, the admin view with real data,
+uploading a picture, "Delete everything", and row-level security between two
+accounts. I did not call the Anthropic API (it costs money); the Engineer's
+live checks were read, not repeated.
+
+## Round 2 findings — recheck
+| # | Result |
+|---|---|
+| R2-1 "Forget this" undone by an update | **Fixed.** `/api/profile` reads the notes again right before saving and re-applies the person's choices (`applyPersonChoices`); `/me` blocks Correct/Forget while updating. Covered by `tests/person-choices.test.ts`. |
+| R2-2 header too wide on a phone | **Fixed.** Measured again at 375 px on all 61 pages: no page wider than the screen. |
+| Concern 1 forgotten topic in "patterns" | **Fixed.** Forgetting clears `patterns_and_tensions` too, unless the person corrected that note themselves. |
+| Concern 2 cost limits | **Fixed.** The chat limit is counted in `usage_log` (people cannot change it), with chats as fallback; `pageAnswers` over 50,000 characters is ignored. |
+| Concern 3 leftovers in browser storage | **Fixed.** |
+| Concern 4 cut-off reply | **Fixed.** The reply gets "(My answer was cut off. Please ask me again.)". |
+
+## New findings
+
+### R3-1. The consent screen and privacy page do not mention the pictures  (MEDIUM — before the pilot)
+- **Where:** `web/src/app/onboarding/page.tsx` (the "we store" list) and
+  `web/src/app/privacy/page.tsx` ("What we store", "Deleting").
+- **What is wrong:** the app now stores photographs — of someone's home,
+  family, street — in Supabase storage. Both places that tell people what is
+  kept were written before the vision board existed and still list only
+  answers, chats, notes and feedback. The delete screen does mention pictures
+  (`me/page.tsx:160`), so the app contradicts itself.
+- **Why it matters:** this is a privacy-first product about to be shown to
+  real people, and photos are the most personal thing in it. The promise has
+  to match what happens.
+- **Fix idea:** add one line to both: pictures you add to your board are
+  stored in your own folder in the same European database, only you can open
+  them, your AI partner only reads the line you write under a picture, and
+  they are deleted with everything else.
+- **How to check:** read both pages; every kind of data in `schema.sql` plus
+  the `boards` store appears in the list.
+
+### R3-2. Picture problems show the person a technical error  (LOW–MEDIUM)
+- **Where:** `web/src/components/board.tsx:63-64` shows `e.message` directly;
+  the messages come from `web/src/lib/backend/pictures.ts` and Supabase.
+- **What happens:** if `web/supabase/storage.sql` has not been run yet, the
+  person sees "Bucket not found". A blocked upload shows "new row violates
+  row-level security policy". A photo the browser cannot decode (an iPhone
+  HEIC file on a desktop browser) shows "The source image could not be
+  decoded" — and `createImageBitmap` is what fails, so this is not caught as
+  a friendly `PictureError` at all.
+- **Fix idea:** one plain sentence per case ("This picture could not be
+  opened. JPEG or PNG works best."), with the technical detail in the console
+  only. And make sure the bucket exists before the pilot — `GO-LIVE.md`
+  already has the step, but 1.2 breaks if it is skipped.
+
+### R3-3. "Delete everything" leaves the pictures when the service key is missing  (LOW)
+- **Where:** `web/src/app/api/account/delete/route.ts:35-45`: `deletePictures`
+  runs only inside `if (admin)`. In the fallback path (no service-role key)
+  the rows go, the account stays, and the pictures stay too — while the
+  screen says everything is gone.
+- **Why it matters:** on Vercel the key will be set, so this is the fallback
+  only. Still, it is the one promise where silence is worst.
+- **Fix idea:** delete the pictures in both paths, or say plainly what could
+  not be removed.
+
+### R3-4. 3.5 shows an empty table when you have money left over  (LOW, cosmetic)
+- **Where:** `web/src/components/fields.tsx` `Calculation` — rows that are
+  hidden by their condition leave an empty table with only its headers.
+- **Reproduced:** with €500 left over each month, "Question 3: how long?"
+  shows an empty box with "Example | Me" and nothing in it.
+- **Fix idea:** when every row of a calculation is hidden, leave out the whole
+  block (or say "Only needed if you are short each month").
+
+### R3-5. A row marked "Unknown" makes the *other* column's total look used  (VERY LOW, cosmetic)
+- **Where:** `web/src/lib/money.ts:45`.
+- **Reproduced:** in 3.2 I filled only "in my new life" amounts and marked one
+  row Unknown. The **Today** column then shows "€0 + unknown", although no
+  "today" amount was ever typed. Expected: "—".
+
+## Concerns (not tested)
+1. **Picture links last an hour.** A page left open longer shows empty picture
+   frames until it is reloaded (`pictures.ts:11`, board and print page). A
+   fresh link on error, or a gentle "reload to see your pictures", would help.
+2. **A picture uploaded while saving fails** stays in storage without being in
+   any answer. It is only cleaned up by "Delete everything".
+3. **The admin overview reads up to 1000 accounts** (`admin-overview.ts:15`) —
+   fine for the pilot, worth remembering later.
+4. Nothing checks that `ADMIN_EMAIL` belongs to a real account; a typo simply
+   means no one sees the admin pages (fails safe).
+
+## Looks good
+- Content and code match exactly: every cross-reference in both new workbooks
+  points at something that exists. That is the part most likely to break in a
+  content port, and it is clean.
+- The money rules behave exactly as the workbook says, including "unknown
+  never counts as zero" and "only confirmed income counts".
+- Pictures are private by design: own folder per person, private bucket,
+  short-lived links, rules in `storage.sql` that match the folder to the
+  account, and the AI partner is given only the written lines — confirmed by
+  test, no path or file name reaches it.
+- Admin access is decided on the server for every request, the admin email
+  never reaches the browser, and answers are refused unless that person ticked
+  the consent box.
+- Invite-only sign-in gives a friendly "not on the list yet" instead of an
+  error, so a stranger cannot start an account or spend AI credit.
+- All 61 pages work at phone width — the round 2 finding stays fixed.
+
+## Suggested order for LLM1
+1. R3-1 (say what is stored, before anyone is invited).
+2. R3-2 (picture errors, and make sure the bucket exists).
+3. R3-3, then R3-4 and R3-5 whenever convenient.
+Then the signed-in walk-through that no review has been able to do: add and
+remove a picture, chat with the partner, forget a note, make a draft, print,
+look at the admin view, and delete a test account — plus two accounts open at
+once to see that neither can read the other's answers.

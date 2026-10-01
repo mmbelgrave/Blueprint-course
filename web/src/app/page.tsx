@@ -1,46 +1,64 @@
 "use client";
+// The door: what someone sees before they sign in. This is app text, not
+// workbook text — the step welcome that used to stand here was written for a
+// person already inside the workbook.
 import Link from "next/link";
+import { Mark } from "@/components/brand";
 import { Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { PRODUCT, steps } from "@/lib/content";
+import { journey, PRODUCT } from "@/lib/content";
 
 export default function Welcome() {
   const { user } = useApp();
-  const first = steps[0].step;
+  const live = journey.steps.filter((s) => s.in_app).length;
 
   return (
     <Shell>
       <section className="py-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-ochre">{PRODUCT.brand}</p>
-        <h1 className="mt-2 text-4xl font-bold text-pine sm:text-5xl">{first.question}</h1>
-        <div className="mt-4 text-xl text-pine">
-          {first.tagline.map((l) => (
-            <p key={l}>{l}</p>
-          ))}
-        </div>
+        <p className="flex items-center gap-2.5 text-sm font-semibold tracking-wide text-ochre">
+          <Mark size={26} />
+          {PRODUCT.brand}
+        </p>
+
+        <h1 className="mt-4 text-4xl text-pine sm:text-5xl">Welcome. You already took the first step.</h1>
+
         <div className="mt-6 max-w-2xl space-y-4 text-lg">
-          {first.intro.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
+          <p>
+            You decided to look at your life properly, and to do something with what you find. That is the part most
+            people keep putting off.
+          </p>
+          <p>
+            This app is the workbook, with room to write and an AI partner beside you that remembers what you wrote and
+            asks about it later.
+          </p>
+          <p>
+            Work at your own pace. Your answers save themselves, so you can stop in the middle of a sentence and come
+            back next week.
+          </p>
         </div>
-        <Link href={user ? "/dashboard" : "/signin"} className="btn btn-primary mt-8 text-lg">
-          {user ? "Continue" : "Start"}
-        </Link>
+
+        <div className="mt-8">
+          <Link href={user ? "/dashboard" : "/signin"} className="btn btn-primary text-lg">
+            {user ? "Continue" : "Sign in"}
+          </Link>
+          {!user && (
+            <p className="mt-2 text-stone">Use the email address you were invited with.</p>
+          )}
+        </div>
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-stone">
-          {PRODUCT.name} · {PRODUCT.edition}
-        </h2>
-        <ol className="mt-3 grid gap-4 sm:grid-cols-2">
-          {steps.map(({ step }) => (
-            <li key={step.id} className="rounded-2xl bg-white p-5">
-              <p className="text-sm font-semibold text-ochre">Step {step.number}</p>
-              <p className="text-xl font-semibold text-pine">{step.title}</p>
-              <p className="mt-1">{step.question}</p>
-            </li>
-          ))}
-        </ol>
+      <section className="mt-10 max-w-2xl border-t border-line pt-6 text-stone">
+        <p>
+          {PRODUCT.name} · {PRODUCT.edition}. The Blueprint has {journey.steps.length} steps in three phases: choose
+          it, build it, live it. The first {live === 2 ? "two" : live} are here now; the rest are being written.
+        </p>
+        <p className="mt-3">
+          Everything you write stays yours. You can read it, correct it, or delete all of it at any time.{" "}
+          <Link href="/privacy" className="text-pine underline">
+            Your privacy
+          </Link>
+          .
+        </p>
       </section>
     </Shell>
   );
