@@ -1,16 +1,44 @@
 "use client";
+// Signing in. The email carries a six-digit code and a link. The code is the
+// way in that cannot be taken from you: a mail scanner (Outlook Safe Links)
+// opens the link before you do and uses it up, but it cannot use a code.
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
+import { cleanCode, friendlySignInError } from "@/lib/auth-errors";
 import { auth, isSupabaseConfigured, NotInvitedError } from "@/lib/backend";
 
 function SignInForm() {
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error" | "not-invited">("idle");
+  const [code, setCode] = useState("");
+  const [step, setStep] = useState<"email" | "code">("email");
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  const [notInvited, setNotInvited] = useState(false);
   const linkError = useSearchParams().get("error") === "link";
   const { reload } = useApp();
   const router = useRouter();
+
+  const goIn = async () => {
+    await reload();
+    router.push("/dashboard");
+  };
+
+  const sendCode = async () => {
+    setBusy(true);
+    setProblem(null);
+    setNotInvited(false);
+    try {
+      await auth.sendMagicLink(email.trim());
+      setStep("code");
+    } catch (e) {
+      if (e instanceof NotInvitedError) setNotInvited(true);
+      else setProblem(friendlySignInError(e instanceof Error ? e.message : ""));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   if (!isSupabaseConfigured) {
     return (
@@ -23,8 +51,7 @@ function SignInForm() {
           className="btn btn-primary"
           onClick={async () => {
             await auth.sendMagicLink("");
-            await reload();
-            router.push("/dashboard");
+            await goIn();
           }}
         >
           Continue in preview mode
@@ -33,13 +60,74 @@ function SignInForm() {
     );
   }
 
-  if (state === "sent") {
+  if (step === "code") {
     return (
-      <div className="space-y-3">
-        <p className="text-lg font-semibold text-pine">Check your email.</p>
-        <p>
-          We sent a link to <strong>{email}</strong>. Click the link to sign in. You can
-          close this page.
+      <div className="space-y-4">
+        <div>
+          <p className="text-lg font-semibold text-pine">Check your email.</p>
+          <p className="mt-1">
+            We sent a six-digit code to <strong>{email}</strong>. Type it here. The email also has a link you can
+            click; if the link says it has already been used, the code still works.
+          </p>
+        </div>
+
+        <form
+          className="space-y-3"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setBusy(true);
+            setProblem(null);
+            try {
+              await auth.verifyCode(email.trim(), code);
+              await goIn();
+            } catch (err) {
+              setProblem(friendlySignInError(err instanceof Error ? err.message : ""));
+              setBusy(false);
+            }
+          }}
+        >
+          <label className="block">
+            <span className="mb-1 block font-medium">Your six-digit code</span>
+            <input
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              autoFocus
+              required
+              placeholder="123456"
+              className="field-input max-w-[12rem] text-center text-2xl tracking-[0.4em] tabular"
+              value={code}
+              onChange={(e) => setCode(cleanCode(e.target.value))}
+            />
+          </label>
+          <button className="btn btn-primary" disabled={busy || code.length < 6}>
+            {busy ? "One moment…" : "Sign in"}
+          </button>
+        </form>
+
+        {problem && (
+          <p role="alert" className="rounded-lg bg-ochre-soft p-3">
+            {problem}
+          </p>
+        )}
+
+        <p className="text-sm text-stone">
+          No email?{" "}
+          <button type="button" className="text-pine underline" disabled={busy} onClick={sendCode}>
+            Send a new code
+          </button>{" "}
+          · Wrong address?{" "}
+          <button
+            type="button"
+            className="text-pine underline"
+            onClick={() => {
+              setStep("email");
+              setCode("");
+              setProblem(null);
+            }}
+          >
+            Start again
+          </button>
         </p>
       </div>
     );
@@ -48,23 +136,18 @@ function SignInForm() {
   return (
     <form
       className="space-y-4"
-      onSubmit={async (e) => {
+      onSubmit={(e) => {
         e.preventDefault();
-        setState("sending");
-        try {
-          await auth.sendMagicLink(email.trim());
-          setState("sent");
-        } catch (e) {
-          setState(e instanceof NotInvitedError ? "not-invited" : "error");
-        }
+        void sendCode();
       }}
     >
       {linkError && (
         <p className="rounded-lg bg-ochre-soft p-3">
-          This link did not work. It may be old or already used. Please ask for a new one.
+          That link did not work. It may be old, or already used — some mail programs open links before you do. Ask
+          for a code below and type it instead.
         </p>
       )}
-      <p>No password needed. We send you a link to sign in.</p>
+      <p>No password needed. We send you a six-digit code.</p>
       <label className="block">
         <span className="mb-1 block font-medium">Your email</span>
         <input
@@ -76,16 +159,18 @@ function SignInForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <button className="btn btn-primary" disabled={state === "sending"}>
-        {state === "sending" ? "Sending…" : "Send me a link"}
+      <button className="btn btn-primary" disabled={busy}>
+        {busy ? "Sending…" : "Send me a code"}
       </button>
-      {state === "error" && (
-        <p className="text-ochre">Something went wrong. Please try again in a minute.</p>
+      {problem && (
+        <p role="alert" className="text-ochre">
+          {problem}
+        </p>
       )}
-      {state === "not-invited" && (
+      {notInvited && (
         <p className="rounded-lg bg-ochre-soft p-3">
-          This email is not on the list yet. The Blueprint is open to invited people
-          only for now. Used a different address before? Try that one.
+          This email is not on the list yet. The Blueprint is open to invited people only for now. Used a different
+          address before? Try that one.
         </p>
       )}
     </form>

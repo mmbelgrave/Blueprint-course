@@ -34,6 +34,12 @@ export const localAuth: AuthProvider = {
       d.signedIn = true;
     });
   },
+  // Preview mode has no email and no accounts, so any code opens the door.
+  async verifyCode() {
+    write((d) => {
+      d.signedIn = true;
+    });
+  },
   async signOut() {
     write((d) => {
       d.signedIn = false;

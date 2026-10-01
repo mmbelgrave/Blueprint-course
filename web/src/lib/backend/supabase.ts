@@ -61,6 +61,10 @@ export const supabaseAuth: AuthProvider = {
     if (!error) return;
     throw meansNotInvited(error) ? new NotInvitedError() : error;
   },
+  async verifyCode(email, code) {
+    const { error } = await supabaseBrowser().auth.verifyOtp({ email, token: code, type: "email" });
+    if (error) throw error;
+  },
   async signOut() {
     await supabaseBrowser().auth.signOut();
   },
