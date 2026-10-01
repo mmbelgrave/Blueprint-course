@@ -70,3 +70,31 @@ test("missing and incomplete inputs flow through", () => {
   assert.deepEqual(evaluate("a - b", { a: n(5), b: n(2, false) }), n(3, false));
   assert.deepEqual(evaluate("a / b", { a: n(5), b: n(0) }), n(null));
 });
+
+// Review round 3, finding 8: the "known / estimate / unknown" mark describes one
+// column. A row marked Unknown must not make the other column read "€0 + unknown".
+test("an 'unknown' mark only touches the column it describes", () => {
+  const costs = {
+    r0: { today: "900", new_life: "", certainty: "Unknown" },
+    r1: { today: "100", new_life: "80", certainty: "Known" },
+  };
+  const today = tableTotal(costs, "today", {});
+  assert.equal(today.value, 1000);
+  assert.equal(today.complete, true, "today is fully filled in, so the total is complete");
+
+  const newLife = tableTotal(costs, "new_life", { certaintyColumn: "certainty" });
+  assert.equal(newLife.value, 80);
+  assert.equal(newLife.complete, false, "the new-life column has an unknown");
+});
+
+// The filter (3.4: only confirmed income counts) still reads its own column.
+test("a filtered total still counts the rows it should", () => {
+  const income = {
+    r0: { now: "2500", new_life: "1600", certainty: "Confirmed" },
+    r1: { now: "0", new_life: "400", certainty: "Agreed" },
+  };
+  const filter = { column: "certainty", values: ["Confirmed"] };
+  assert.equal(tableTotal(income, "new_life", { filter, certaintyColumn: "certainty" }).value, 1600);
+  assert.equal(tableTotal(income, "now", { filter }).value, 2500, "the now column filters on the same mark");
+  assert.equal(tableTotal(income, "new_life", { filter: { column: "certainty", values: ["Agreed"] } }).value, 400);
+});

@@ -215,7 +215,7 @@ function PrintPage({ step }: { step: StepContent }) {
               </section>
             </>
           ) : (
-            <p className="rounded-lg bg-sand p-4 print:hidden">
+            <p className="rounded-lg bg-sand p-4">
               Nothing written yet. Fill in {main.number ?? main.id} {main.title} first — then your page appears here.
             </p>
           )}
@@ -232,14 +232,17 @@ function PrintPage({ step }: { step: StepContent }) {
           {step.step.number === 1 && <BoardSection />}
 
           <footer className="break-inside-avoid space-y-4 border-t-2 border-pine pt-5">
-            <div className="space-y-1">
-              <p className="text-[10.5pt] text-stone">{step.closing.intro}</p>
-              {step.closing.final.map((l) => (
-                <p key={l} className="display text-[13pt] text-pine">
-                  {l}
-                </p>
-              ))}
-            </div>
+            {/* "You just took the first one" on an empty page congratulates nobody. */}
+            {mainFilled && (
+              <div className="space-y-1">
+                <p className="text-[10.5pt] text-stone">{step.closing.intro}</p>
+                {step.closing.final.map((l) => (
+                  <p key={l} className="display text-[13pt] text-pine">
+                    {l}
+                  </p>
+                ))}
+              </div>
+            )}
             <p className="text-[8.5pt] leading-relaxed text-stone">
               © {new Date().getFullYear()} {PRODUCT.copyright_holder} · {PRODUCT.name} — {PRODUCT.edition}. Your
               answers are your own. This page is for your personal use; the workbook text and layout may not be

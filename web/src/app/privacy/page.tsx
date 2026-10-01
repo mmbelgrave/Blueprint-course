@@ -14,9 +14,16 @@ export default function Privacy() {
 
         <h2 className="font-semibold">What we store</h2>
         <p>
-          Your email address, your first name, your answers, your chats with your AI
-          partner, the short notes your AI partner keeps about your answers, and your
-          feedback on each part.
+          Your email address, your first name, your answers, the pictures you add to your
+          board, your chats with your AI partner, the short notes your AI partner keeps
+          about your answers, and your feedback on each part.
+        </p>
+
+        <h2 className="font-semibold">Your pictures</h2>
+        <p>
+          The pictures you add in 1.2 are kept in your own folder, which only you can open.
+          Nobody can reach them with a plain link. Your AI partner never sees a picture: it
+          reads only the line you write under it.
         </p>
 
         <h2 className="font-semibold">Who reads it</h2>
@@ -44,8 +51,8 @@ export default function Privacy() {
         <h2 className="font-semibold">Deleting</h2>
         <p>
           Go to <strong>What my AI partner knows</strong> and choose{" "}
-          <strong>Delete everything</strong>. Your answers, your chats, the notes and your
-          account are gone at once. You can also make your AI partner forget one single
+          <strong>Delete everything</strong>. Your answers, your pictures, your chats, the
+          notes and your account are gone at once. You can also make your AI partner forget one single
           topic and keep the rest.
         </p>
 

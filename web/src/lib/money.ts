@@ -29,20 +29,26 @@ export function tableTotal(
   for (const row of Object.values(rows)) {
     if (!row) continue;
     const amount = parseAmount(row[columnId]);
-    const mark = options.certaintyColumn ? row[options.certaintyColumn] : undefined;
     if (options.filter) {
+      const filterMark = row[options.filter.column];
       if (amount.kind === "empty") continue;
       // An amount that is not marked yet: we cannot know if it counts.
-      if (!mark) {
+      if (!filterMark) {
         complete = false;
         continue;
       }
-      if (!options.filter.values.includes(mark)) continue;
+      if (!options.filter.values.includes(filterMark)) continue;
     }
+    /*
+     * "Known / estimate / unknown" describes one column — in 3.2 the new-life
+     * amount, not what the same cost is today. So an empty box only counts as
+     * an unknown in the column the mark is about (see tableFieldTotal).
+     */
+    const certainty = options.certaintyColumn ? row[options.certaintyColumn] : undefined;
     if (amount.kind === "number") {
       value += amount.value;
       filled++;
-    } else if (amount.kind === "unknown" || (amount.kind === "empty" && mark === "Unknown")) {
+    } else if (amount.kind === "unknown" || (amount.kind === "empty" && certainty === "Unknown")) {
       complete = false;
       filled++;
     }

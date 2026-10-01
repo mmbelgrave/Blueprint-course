@@ -450,3 +450,183 @@ Then the signed-in walk-through that no review has been able to do: add and
 remove a picture, chat with the partner, forget a note, make a draft, print,
 look at the admin view, and delete a test account — plus two accounts open at
 once to see that neither can read the other's answers.
+
+---
+
+## Round 3, part two — the signed-in walk-through (2026-10-01)
+
+Done on the **live site** (blueprint-course.vercel.app) with a test account
+Mwata created (`m.belgrave@kci.nl`, user id `8cb46…be7c`), signed in with a
+one-time link generated from the service key. Mwata's own account and data were
+not touched. The test account was deleted at the end, with his approval.
+
+### What now works, proven on the live app
+| Acceptance check | Result |
+|---|---|
+| 1. Sign in, consent, start the workbook | pass |
+| 2. Answers autosave and survive a reload | pass — three answers typed, reloaded, all still there |
+| 3. Partner answers short and simple, one question, refuses to write my answers | pass — asked "I am tired, please just write my third moment for me": *"I will not write it for you… Write three words only, like 'garden, Saturday, quiet'"* |
+| 4. In a new session the partner still knows earlier answers | pass — the chat is saved per page (6 messages after reload) and the first reply used my own answers |
+| 5. Refuses legal/tax/visa advice and names the right expert | pass — asked for D7 income and tax numbers: *"I cannot give you those numbers…"*, named vistos.mne.gov.pt and aima.gov.pt, suggested a Portuguese tax adviser, said to write down the date checked |
+| 6. See, correct, forget, delete | pass — see below |
+| 7. Drafts | pass — on the Part 1 summary the draft came only from my own answers ("Quiet mornings keep coming back in my picture"), marked "Draft — make it yours", boxes with nothing behind them left empty |
+| 8. Admin only with consent | partly — a normal account is refused by both admin APIs (403), not just a hidden link. The consent branch itself still unverified (needs the admin account) |
+| 9. Keys never in the browser; people never see each other's data | **pass, properly tested — see below** |
+| 14. Notes update from my answers; corrected stays, forgotten stays empty | pass |
+
+### The two security tests that mattered
+**A stranger with no account** (public key only): every table returned nothing,
+inserts into `answers` and `profiles` refused (42501), a plain picture link
+gives 400, the picture store cannot be listed.
+
+**One signed-in person against another's data.** Signed in as the test account
+I asked the database directly for every table. It returned 3 answers, 8 chats,
+1 profile, 2 statuses, 6 usage rows — **all mine, none belonging to the other
+account**, while that other account did have 2 answers, 2 chats, 2 statuses and
+a profile in the same tables at that moment. Writing a row for another user id:
+refused (403). Listing picture folders: only my own folder. This is the check
+that was open since round 1.
+
+### "Forget this", end to end
+Marking a page done filled the note "What your good moments have in common"
+from my answers only. Pressing **Forget this** emptied it and it stayed
+forgotten after a reload. On a **different page** the partner then said: *"I do
+not have earlier answers from you saved"* — so the answers behind the forgotten
+note really are hidden from it. While a notes update is running, Correct this /
+Forget this / Allow again are disabled (the R2-1 fix, confirmed in the live app).
+
+### Pictures, end to end
+Uploaded a picture on 1.2: stored under `boards/<my user id>/1.2/…`, shown
+through a signed link (200), the same file without a signature refused (400).
+The caption saved. The printed Step 1 result showed the picture and its line.
+**Remove** took it out of the answer and deleted the file from the store (0
+files left). The `boards` store on the live project exists and is private,
+5 MB per picture, images only — so storage.sql has been run.
+
+### "Delete everything"
+Everything went: 0 rows in all eight tables, the account itself deleted, the
+picture folder gone, and the app's keys cleared from the browser. Only Mwata's
+own account remains in the project.
+
+## New findings from the live walk-through
+
+### R3-6. After "Delete everything" people land on the sign-in page, not the confirmation  (LOW–MEDIUM)
+- **Where:** `web/src/app/me/page.tsx:191-192`.
+- **What happens (reproduced):** the code sends the person to `/deleted` and
+  then signs them out. Signing out empties the app state while `/me` is still
+  on screen, and `RequireUser` immediately redirects to `/signin` — which wins
+  the race. The "Everything is deleted" page exists but is never seen.
+- **Why it matters:** someone who just deleted their life story gets an
+  anonymous sign-in form, with no word that it worked, nothing about whether
+  the account itself is gone, and no way back to the explanation.
+- **Fix idea:** sign out first and then navigate, or keep a "deleting" flag so
+  `RequireUser` does not redirect while the delete is finishing.
+- **How to check:** delete a test account; the confirmation page must appear.
+
+### R3-7. The sign-in email is the weakest part of going live  (HIGH for the pilot)
+Two separate problems, both seen today:
+- **Outlook Safe Links uses the link before the person does.** The magic link
+  sent to an `@kci.nl` address was already spent on its very first open
+  ("otp_expired"). Microsoft's scanner fetches links in incoming mail, and a
+  magic link is single use. Invitees on Microsoft 365 may never get in.
+- **Supabase's own email sender runs out.** Creating a user by invitation
+  failed with "email rate limit exceeded" after a handful of mails. The free
+  built-in sender allows only a few per hour across all auth email.
+- **Fix idea:** set up custom SMTP (GO-LIVE.md already lists this) *before*
+  inviting anyone, and test one invitation to a Microsoft 365 address end to
+  end. If Safe Links keeps eating links, send a 6-digit code instead of a link
+  (`{{ .Token }}` in the email template plus a small code box on the sign-in
+  screen) — a scanner cannot use up a code.
+- Note: creating the test user from the Supabase dashboard with "Create new
+  user" (not "Invite user") sends no email and avoids the limit.
+
+### R3-8. An empty result still prints a congratulation  (LOW, cosmetic)
+- **Where:** `web/src/app/step/[step]/print/page.tsx`.
+- **Reproduced:** with 5.1 empty, the printed page shows the heading, the board
+  and the closing words "You have made your picture clearer… and chosen a
+  Working Direction". The "Nothing written yet" note is `print:hidden`, so on
+  paper nothing says the page is empty.
+- **Fix idea:** leave the closing words out until the result page has content.
+
+### R3-2 update
+The `boards` store exists and is correctly configured on the live project, so
+only the wording half of that finding remains: Supabase's technical messages
+("Bucket not found", a row-level-security message, "The source image could not
+be decoded" for an iPhone HEIC photo) are still shown to the person as they are.
+
+## What is still unverified
+- The admin view with real data, and the "only with consent" branch — both need
+  the admin account (`ADMIN_EMAIL`), which this test account is not.
+- The feedback stars with a real account (they worked in preview mode).
+- Step 2 pages signed in (the workbook itself was walked through in preview).
+
+---
+
+# Round 3 — the fix list for LLM1
+
+Eight findings, in the order I would do them. Nothing here is disputed; all of
+it was either reproduced or read straight from the code. Details and evidence
+are in the sections above.
+
+| # | What | Severity | Where |
+|---|---|---|---|
+| R3-7 | Sign-in email: links are used up before the person clicks, and the sender runs out | **High — blocks the pilot** | Supabase settings + `signin/page.tsx` if a code is added |
+| R3-1 | Consent screen and privacy page never mention the pictures | Medium — before anyone is invited | `app/onboarding/page.tsx`, `app/privacy/page.tsx` |
+| R3-6 | After "Delete everything" people land on the sign-in page, not the confirmation | Low–medium | `app/me/page.tsx:191-192` |
+| R3-2 | Picture problems show Supabase's technical message; a HEIC photo fails uncaught | Low–medium | `components/board.tsx:63-64`, `lib/backend/pictures.ts` |
+| R3-3 | "Delete everything" leaves pictures when the service key is missing | Low | `app/api/account/delete/route.ts:35-45` |
+| R3-8 | An empty result page still prints the closing congratulation | Low | `app/step/[step]/print/page.tsx` |
+| R3-4 | 3.5 shows an empty table when all its rows are hidden | Low | `components/fields.tsx` (`Calculation`) |
+| R3-5 | A row marked "Unknown" makes the other column's total read "€0 + unknown" | Very low | `lib/money.ts:45` |
+
+**R3-7 in practice:** custom SMTP in Supabase before inviting anyone (GO-LIVE
+step), then one real invitation to a Microsoft 365 address, opened by the
+person it was sent to. If that link is dead on arrival again, switch the email
+template to `{{ .Token }}` and add a six-digit code box to the sign-in screen;
+a mail scanner cannot use up a code. For test accounts, use the Supabase
+dashboard's "Create new user" (no email, no rate limit) rather than "Invite".
+
+## Please do not re-open these — verified working on the live site
+Autosave and reload; the partner's tone, refusals (writing answers, visa and
+tax) and saved chat; notes built only from the person's own answers; "Forget
+this" hiding the answers behind a note on other pages; corrections and forget
+protected while the notes update runs; drafts only from the person's own
+answers; picture upload, signed links, removal and storage rules; "Delete
+everything" clearing every table, the account and the picture folder; admin
+refused for a normal account; a stranger reaching nothing; and one signed-in
+person being unable to read or write another's rows.
+
+## Two things for Mwata, not the Engineer
+1. Open `/admin` while signed in as `ADMIN_EMAIL` and check a participant who
+   has **not** ticked the consent box: progress and feedback should show,
+   answers should not. This is the last acceptance check nobody has run.
+2. Decide the copyright holder's name and the use line on the printed result
+   (already open in PROGRESS.md).
+
+---
+
+# Fixes and rechecks — round 3 (LLM1, 2026-10-01)
+
+Seven of the eight are done. Finding 1 waits on Mwata's SMTP test, because the
+answer depends on what that test shows.
+
+| # | Finding | What changed | Checked |
+| --- | --- | --- | --- |
+| 1 | Sign-in email: Safe Links used the link, and the built-in sender hit its limit | **Open — Mwata first.** Custom SMTP fixes the rate limit but not Safe Links: the scanner opens the link before the person does, and a magic link is single use. If the real invitation to a Microsoft 365 address dies again, the six-digit code is ready to build: the sign-in screen gains a code box, `verifyOtp` replaces the link, and the Supabase email template needs `{{ .Token }}`. About an hour. | — |
+| 2 | Consent screen and privacy page never mention the pictures | Both now name them, and the privacy page gained a "Your pictures" section: own folder, no plain link, the AI partner reads only the line under a picture. "Deleting" names the pictures too. | Read on both pages |
+| 3 | After "Delete everything" people land on the sign-in page | This page's own "please sign in" guard was overtaking the move to the confirmation page. Now: sign out, then leave with a full page load, which the guard cannot overtake. | Code; needs one live delete to confirm |
+| 4 | Picture errors showed Supabase's technical text | Every message goes through one translation (`lib/picture-errors.ts`): the store not switched on, an expired sign-in, a HEIC photo (with what to do about it), too big, no connection. A browser that cannot decode a photo is now caught as a friendly error instead of falling through. | 5 new tests |
+| 5 | "Delete everything" left pictures when the service key is missing | The browser deletes the person's own folder first, under their own sign-in; the server deletes again if it can. So the screen's promise holds on both paths. | Code; needs one live delete |
+| 6 | An empty result page printed a congratulation | The closing words only print when the page has answers, and "Nothing written yet" now prints instead of being hidden. | Printed view of an empty 5.1 |
+| 7 | 3.5 showed an empty table when you have money left over | A calculation whose every row is hidden now renders nothing at all — heading included. | Seeded answers with money left over: the block is gone |
+| 8 | A row marked "Unknown" made the other column read "€0 + unknown" | The mark describes the column in front of it ("In my new life"), not what that cost is today. Totals only treat an empty box as unknown in the column the mark is about; the 3.4 confirmed/agreed filter still reads its own column. | 2 new tests, plus 3.2 live: Today €1,000 complete, new life €80 + unknown |
+
+Tests 34/34 (five on the picture messages, two on the totals), typecheck, lint
+and the production build all pass.
+
+## Still only Mwata can do these
+
+1. The SMTP test, then one real invitation to a Microsoft 365 address (finding 1).
+2. `/admin` as the admin address, on a participant who has **not** ticked the
+   consent box: progress and feedback show, answers do not.
+3. The copyright holder's name on the printed result.

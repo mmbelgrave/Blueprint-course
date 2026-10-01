@@ -43,7 +43,11 @@ function ConsentForm() {
         <h2 className="text-xl font-semibold text-pine">Before you start</h2>
         <p>You will share personal things here. So you should know what happens with them.</p>
         <ul className="list-disc space-y-2 pl-6">
-          <li>We store your answers, your chats with your AI partner, and a short summary of what you wrote.</li>
+          <li>
+            We store your answers, the pictures you add to your board, your chats with your AI partner, and a short
+            summary of what you wrote.
+          </li>
+          <li>Your pictures stay in your own account. Your AI partner reads only the line you write under a picture.</li>
           <li>An AI model reads your answers to help you think. It does not decide anything for you.</li>
           <li>You can see what your AI partner remembers about you, and change it.</li>
           <li>You can delete everything at any time.</li>

@@ -54,7 +54,12 @@ export function formatMoney(amount: number, currency: string) {
 
 /** Totals follow the workbook rule: an unknown never counts as zero. */
 export function tableFieldTotal(field: Field, value: unknown, columnId: string): Total {
-  const certainty = field.columns?.find((c) => c.id === "certainty") ? "certainty" : undefined;
+  const cols = field.columns ?? [];
+  const at = cols.findIndex((c) => c.id === "certainty");
+  // The mark sits behind the column it describes: "In my new life | known /
+  // estimate / unknown". It says nothing about what that cost is today.
+  const describes = at > 0 ? cols[at - 1].id : undefined;
+  const certainty = at >= 0 && describes === columnId ? "certainty" : undefined;
   return tableTotal(value, columnId, { filter: field.total_filter, certaintyColumn: certainty });
 }
 
@@ -72,6 +77,17 @@ export function FieldInput(props: FieldProps) {
   const s = extras?.suggestion;
   const empty = isEmpty(value);
   const showSuggestion = s && s.text && (empty || (s.replaceButton && value !== s.text));
+
+  /*
+   * 3.5 question 3 ("how long do my savings cover the gap?") only applies when
+   * you are short each month. With money left over every row is hidden, so the
+   * heading and an empty table are all that is left — say nothing instead.
+   */
+  if (field.type === "calculation") {
+    const rows = (Array.isArray(field.rows) ? field.rows : []) as CalcRow[];
+    if (rows.length > 0 && rows.every((row) => extras?.calc?.[row.id]?.visible === false)) return null;
+  }
+
   return (
     <div className="space-y-2">
       {field.heading && (

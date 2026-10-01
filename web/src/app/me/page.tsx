@@ -1,10 +1,10 @@
 "use client";
 // "What my AI partner knows about me" (brief 4.4): see, correct and forget what the
 // AI partner remembers — and delete everything.
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
+import { deleteAllPictures, picturesAvailable } from "@/lib/backend/pictures";
 import { isSupabaseConfigured, store } from "@/lib/backend";
 import { isEmptyItem, PROFILE_FIELDS, type AiProfile, type ProfileKey } from "@/lib/profile-fields";
 
@@ -147,8 +147,7 @@ function ProfileItem({
 }
 
 function DeleteEverything() {
-  const router = useRouter();
-  const { signOut } = useApp();
+  const { signOut, user } = useApp();
   const [sure, setSure] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -177,6 +176,10 @@ function DeleteEverything() {
           setBusy(true);
           setError(null);
           try {
+            // The pictures first, from here: without the service role key the
+            // server cannot reach the picture store, and this screen promises
+            // that everything goes. The server deletes them again if it can.
+            if (picturesAvailable && user) await deleteAllPictures(user.id).catch(() => undefined);
             const res = await fetch("/api/account/delete", { method: "POST" });
             const body = await res.json();
             if (!res.ok) throw new Error(body.error);
@@ -188,8 +191,11 @@ function DeleteEverything() {
             } catch {
               // Storage blocked: nothing stored there either.
             }
-            router.replace(`/deleted?account=${body.accountDeleted ? 1 : 0}`);
-            await signOut();
+            // Sign out first, then leave with a full page load: a client-side
+            // move is overtaken by this page's own "please sign in" guard, and
+            // someone who just deleted their life story lands on a login form.
+            await signOut().catch(() => undefined);
+            window.location.replace(`/deleted?account=${body.accountDeleted ? 1 : 0}`);
           } catch (e) {
             setError((e as Error).message || "Not everything could be deleted. Please try again.");
             setBusy(false);

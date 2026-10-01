@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/lib/app-state";
 import {
   deletePicture,
+  friendlyError,
   pictureLinks,
   picturesAvailable,
   uploadPicture,
@@ -44,7 +45,7 @@ export function ImageBoard({
     let cancelled = false;
     pictureLinks(paths.split("|"))
       .then((l) => !cancelled && setLinks(l))
-      .catch(() => !cancelled && setError("The pictures could not be loaded. Please reload the page."));
+      .catch((e) => !cancelled && setError(friendlyError(e instanceof Error ? e.message : "")));
     return () => {
       cancelled = true;
     };
@@ -61,7 +62,7 @@ export function ImageBoard({
         added.push({ path: await uploadPicture(user.id, pageId, file), caption: "" });
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "The picture could not be added.");
+      setError(friendlyError(e instanceof Error ? e.message : ""));
     } finally {
       if (added.length) onChange([...pictures, ...added]);
       setBusy(false);
