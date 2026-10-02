@@ -69,6 +69,9 @@ function SignInForm() {
           <p className="mt-1">
             We sent a code to <strong>{email}</strong>. Type it here. It works for one hour.
           </p>
+          <p className="mt-2 text-stone">
+            No email? Look in your spam or junk folder. It comes from <strong>The Life You Choose</strong>.
+          </p>
         </div>
 
         <form
@@ -113,7 +116,7 @@ function SignInForm() {
         )}
 
         <p className="text-sm text-stone">
-          No email at all?{" "}
+          Still nothing?{" "}
           <button type="button" className="text-pine underline" disabled={busy} onClick={sendCode}>
             Send a new code
           </button>{" "}
