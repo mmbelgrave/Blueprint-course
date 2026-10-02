@@ -30,8 +30,8 @@ test("anything unknown still gets a plain sentence", () => {
   assert.ok(said.length > 15);
 });
 
-// How long a code is, is a Supabase setting (6 to 10). This project sends 8, so
-// the app must not cut one short: "13811227" stays whole.
+// How long a code is, is a Supabase setting (6 to 10) and it can be changed at
+// any time, so the app must not cut one short: "13811227" stays whole.
 test("a pasted code is cleaned up, whatever length Supabase sends", () => {
   assert.equal(cleanCode("123 456"), "123456");
   assert.equal(cleanCode("code: 13811227"), "13811227", "an eight-digit code survives");

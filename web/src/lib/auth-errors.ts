@@ -25,9 +25,9 @@ export function friendlySignInError(raw: string): string {
 }
 
 /**
- * How long a code is, is a Supabase setting (6 to 10 digits; this project sends
- * 8). So the app never assumes six: it keeps the digits people paste — "123 456"
- * or "code: 13811227" — up to the longest Supabase can send.
+ * How long a code is, is a Supabase setting (6 to 10 digits) that can be changed
+ * at any time. So the app never assumes a length: it keeps the digits people
+ * paste — "123 456" or "code: 13811227" — up to the longest Supabase can send.
  */
 export const MIN_CODE = 6;
 export const MAX_CODE = 10;
