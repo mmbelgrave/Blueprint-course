@@ -111,8 +111,14 @@ function SignInForm() {
           </p>
         )}
 
+        {/* Until the email template carries the code, the link is still the way in. */}
         <p className="text-sm text-stone">
-          No email?{" "}
+          No code in the email? Click the link in it instead — that works too, unless your mail program opened it
+          first.
+        </p>
+
+        <p className="text-sm text-stone">
+          No email at all?{" "}
           <button type="button" className="text-pine underline" disabled={busy} onClick={sendCode}>
             Send a new code
           </button>{" "}
