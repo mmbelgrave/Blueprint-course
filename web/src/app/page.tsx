@@ -43,7 +43,7 @@ export default function Welcome() {
           </Link>
           {!user && (
             <p className="mt-2 text-stone">
-              First time here? Type your email and we send you a six-digit code. No password to remember.
+              First time here? Type your email and we send you a code. No password to remember.
             </p>
           )}
         </div>

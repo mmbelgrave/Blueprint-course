@@ -37,7 +37,7 @@ export class NotInvitedError extends Error {
 export interface AuthProvider {
   mode: "supabase" | "local";
   getUser(): Promise<AppUser | null>;
-  /** Sends the email that carries both a six-digit code and a link. */
+  /** Sends the email that carries both a code and a link. */
   sendMagicLink(email: string): Promise<void>;
   /**
    * Signs in with the code from that email. A mail scanner (Outlook Safe Links)

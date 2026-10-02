@@ -24,5 +24,11 @@ export function friendlySignInError(raw: string): string {
   return "Something went wrong. Please try again in a minute.";
 }
 
-/** Only six digits are worth sending: people paste "123 456" or "code: 123456". */
-export const cleanCode = (typed: string) => (typed ?? "").replace(/\D/g, "").slice(0, 6);
+/**
+ * How long a code is, is a Supabase setting (6 to 10 digits; this project sends
+ * 8). So the app never assumes six: it keeps the digits people paste — "123 456"
+ * or "code: 13811227" — up to the longest Supabase can send.
+ */
+export const MIN_CODE = 6;
+export const MAX_CODE = 10;
+export const cleanCode = (typed: string) => (typed ?? "").replace(/\D/g, "").slice(0, MAX_CODE);

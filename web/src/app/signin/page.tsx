@@ -1,12 +1,12 @@
 "use client";
-// Signing in. The email carries a six-digit code and a link. The code is the
+// Signing in. The email carries a code and a link. The code is the
 // way in that cannot be taken from you: a mail scanner (Outlook Safe Links)
 // opens the link before you do and uses it up, but it cannot use a code.
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { cleanCode, friendlySignInError } from "@/lib/auth-errors";
+import { cleanCode, friendlySignInError, MAX_CODE, MIN_CODE } from "@/lib/auth-errors";
 import { auth, isSupabaseConfigured, NotInvitedError } from "@/lib/backend";
 
 function SignInForm() {
@@ -66,7 +66,7 @@ function SignInForm() {
         <div>
           <p className="text-lg font-semibold text-pine">Check your email.</p>
           <p className="mt-1">
-            We sent a six-digit code to <strong>{email}</strong>. Type it here. The email also has a link you can
+            We sent a code to <strong>{email}</strong>. Type it here. The email also has a link you can
             click; if the link says it has already been used, the code still works.
           </p>
         </div>
@@ -87,7 +87,7 @@ function SignInForm() {
           }}
         >
           <label className="block">
-            <span className="mb-1 block font-medium">Your six-digit code</span>
+            <span className="mb-1 block font-medium">The code from the email</span>
             <input
               type="text"
               inputMode="numeric"
@@ -95,12 +95,13 @@ function SignInForm() {
               autoFocus
               required
               placeholder="123456"
-              className="field-input max-w-[12rem] text-center text-2xl tracking-[0.4em] tabular"
+              maxLength={MAX_CODE}
+              className="field-input max-w-[15rem] text-center text-2xl tracking-[0.3em] tabular"
               value={code}
               onChange={(e) => setCode(cleanCode(e.target.value))}
             />
           </label>
-          <button className="btn btn-primary" disabled={busy || code.length < 6}>
+          <button className="btn btn-primary" disabled={busy || code.length < MIN_CODE}>
             {busy ? "One moment…" : "Sign in"}
           </button>
         </form>
@@ -153,7 +154,7 @@ function SignInForm() {
           for a code below and type it instead.
         </p>
       )}
-      <p>No password needed. We send you a six-digit code.</p>
+      <p>No password needed. We send you a code by email.</p>
       <label className="block">
         <span className="mb-1 block font-medium">Your email</span>
         <input

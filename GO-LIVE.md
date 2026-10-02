@@ -65,7 +65,7 @@ Magic links only work for addresses Supabase knows.
 Authentication → **Sign In / Providers → Email** → **Allow new users to sign up**.
 
 - **On** (how it stands now): anyone who knows the address types their email,
-  gets a six-digit code, and the account is made for them. Nothing for you to do
+  gets a code by email, and the account is made for them. Nothing for you to do
   per person. Anyone who finds the address can also start one, and each person
   can spend AI credit — the app limits them to 80 messages and 20 drafts a day.
 - **Off**: only people who already have an account can get a code. You then add
@@ -95,7 +95,7 @@ link email", which a person reads as "Something went wrong". Use
 `onboarding@resend.dev` to test (it only reaches your own Resend account
 address), and your own verified domain for real people.
 
-## 6. The six-digit code in the email
+## 6. The code in the email
 
 Once custom SMTP is on, Authentication → Emails → **Templates → Magic link or
 OTP** can be edited. The body needs the code, because a mail scanner (Outlook
@@ -105,6 +105,10 @@ Safe Links) opens a link before the person does and uses it up:
 <p>Your code: <strong>{{ .Token }}</strong></p>
 <p>Or click this link: <a href="{{ .ConfirmationURL }}">Sign in</a></p>
 ```
+
+How long the code is comes from Authentication → Sign In / Providers → Email →
+the OTP length setting (6 to 10 digits; this project sends 8). The app takes the
+code whatever its length, so you can change that setting freely.
 
 The **Invite user** template still carries only a link. So do not invite people
 from the dashboard: let them sign in themselves, or add them under Users and
