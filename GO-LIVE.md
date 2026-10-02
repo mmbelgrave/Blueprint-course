@@ -132,6 +132,17 @@ Then tell people the address. They sign themselves in.
 
 ---
 
+## Before the first paying customer: Supabase Pro
+
+Decided 2 October 2026. The free plan has **no backups** and **pauses the
+project after about a week without use**. Answers live in one place only, so a
+mistake or a corruption would have nothing to restore from, and a paused project
+means nobody can sign in until someone clicks restore in the dashboard.
+
+Supabase Pro (about $25 a month) adds daily backups and removes the pausing.
+Mwata moves to Pro when the course goes on sale. A friend testing meanwhile is
+fine: what he writes is in the database, tied to his account, on every device.
+
 ## Later
 
 - **Your own address**: Vercel → Settings → Domains → add e.g.

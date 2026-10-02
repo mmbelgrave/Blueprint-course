@@ -202,6 +202,15 @@ Pine buttons, tabular figures, and no indigo left anywhere.
 summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
 2.1, 2.2 have no answer boxes and used to crash).
 
+## Decided, waiting on launch
+
+- **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
+  keeps no backups and pauses after about a week idle. Fine for testing, not for
+  people who paid. Mwata upgrades when the course goes on sale.
+- Sign-in is a code only. The email must never carry a link again: Supabase
+  issues one token per email, so a mail scanner that opens the link burns the
+  code with it (see GO-LIVE.md section 6).
+
 ## Next step
 Mwata: signed-in walk-through with a second (test) account. Then decide: git
 checkpoint, review round 3 (milestones 5–7), and putting it online for the pilot.
