@@ -95,24 +95,31 @@ link email", which a person reads as "Something went wrong". Use
 `onboarding@resend.dev` to test (it only reaches your own Resend account
 address), and your own verified domain for real people.
 
-## 6. The code in the email
+## 6. The code in the email, and why there is no link
 
 Once custom SMTP is on, Authentication → Emails → **Templates → Magic link or
-OTP** can be edited. The body needs the code, because a mail scanner (Outlook
-Safe Links) opens a link before the person does and uses it up:
+OTP** can be edited. The body carries the code and nothing else:
 
 ```html
-<p>Your code: <strong>{{ .Token }}</strong></p>
-<p>Or click this link: <a href="{{ .ConfirmationURL }}">Sign in</a></p>
+<h2>Your sign-in code</h2>
+<p>Type this code in the app to sign in:</p>
+<p style="font-size:28px;letter-spacing:6px"><strong>{{ .Token }}</strong></p>
+<p>The code works for one hour. If you did not ask for it, you can ignore this email.</p>
 ```
 
-How long the code is comes from Authentication → Sign In / Providers → Email →
-the OTP length setting (6 to 10 digits; this project sends 8). The app takes the
-code whatever its length, so you can change that setting freely.
+**Never put `{{ .ConfirmationURL }}` back in.** Supabase issues one token per
+email, and the link and the code are two faces of it. Outlook Safe Links opens
+the link the moment the mail arrives, which uses the token up — and the code in
+the same email dies with it. Proved on 2 October: open the link, then type the
+code, and Supabase answers "Token has expired or is invalid". Both of Mwata's
+failed sign-ins were this, not a broken code.
 
-The **Invite user** template still carries only a link. So do not invite people
-from the dashboard: let them sign in themselves, or add them under Users and
-tell them to sign in. Both routes use the email above, with the code.
+How long the code is comes from Authentication → Sign In / Providers → Email →
+the OTP length setting (6 to 10 digits). The app takes the code whatever its
+length, so that setting can change freely.
+
+The **Invite user** template still carries only a link, so do not invite people
+from the dashboard: let them sign in themselves, which uses the email above.
 
 ## 7. Check it yourself
 

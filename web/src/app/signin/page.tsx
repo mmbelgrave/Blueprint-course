@@ -1,7 +1,8 @@
 "use client";
-// Signing in. The email carries a code and a link. The code is the
-// way in that cannot be taken from you: a mail scanner (Outlook Safe Links)
-// opens the link before you do and uses it up, but it cannot use a code.
+// Signing in with a code from the email, and nothing else. Supabase gives one
+// token per email: the link and the code are the same thing, so a mail scanner
+// that opens the link (Outlook Safe Links) burns the code with it. The email
+// therefore carries the code alone - see the template in Supabase.
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Shell } from "@/components/Shell";
@@ -66,8 +67,7 @@ function SignInForm() {
         <div>
           <p className="text-lg font-semibold text-pine">Check your email.</p>
           <p className="mt-1">
-            We sent a code to <strong>{email}</strong>. Type it here. The email also has a link you can
-            click; if the link says it has already been used, the code still works.
+            We sent a code to <strong>{email}</strong>. Type it here. It works for one hour.
           </p>
         </div>
 
@@ -112,12 +112,6 @@ function SignInForm() {
           </p>
         )}
 
-        {/* Until the email template carries the code, the link is still the way in. */}
-        <p className="text-sm text-stone">
-          No code in the email? Click the link in it instead — that works too, unless your mail program opened it
-          first.
-        </p>
-
         <p className="text-sm text-stone">
           No email at all?{" "}
           <button type="button" className="text-pine underline" disabled={busy} onClick={sendCode}>
@@ -150,8 +144,7 @@ function SignInForm() {
     >
       {linkError && (
         <p className="rounded-lg bg-ochre-soft p-3">
-          That link did not work. It may be old, or already used — some mail programs open links before you do. Ask
-          for a code below and type it instead.
+          That link did not work. We send codes now instead of links. Ask for one below and type it.
         </p>
       )}
       <p>No password needed. We send you a code by email.</p>
