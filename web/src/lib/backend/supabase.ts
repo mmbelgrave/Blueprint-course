@@ -12,9 +12,9 @@ import type {
 import { NotInvitedError } from "./types";
 
 /**
- * Pilot mode. When NEXT_PUBLIC_INVITE_ONLY is "true", a link is only sent to
- * people who already have an account (invited in Supabase). Strangers who find
- * the address cannot start an account, so they cannot spend AI credit.
+ * Closed mode. When NEXT_PUBLIC_INVITE_ONLY is "true", a code is only sent to
+ * people who already have an account, so nobody can let themselves in. Left
+ * unset — the normal case now — anyone can start an account with their email.
  */
 export const inviteOnly = process.env.NEXT_PUBLIC_INVITE_ONLY === "true";
 
@@ -54,7 +54,7 @@ export const supabaseAuth: AuthProvider = {
       email,
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
-        // In pilot mode no new accounts are made from this page.
+        // In closed mode no new accounts are made from this page.
         ...(inviteOnly ? { shouldCreateUser: false } : {}),
       },
     });

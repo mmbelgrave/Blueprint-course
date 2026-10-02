@@ -175,8 +175,8 @@ function SignInForm() {
       )}
       {notInvited && (
         <p className="rounded-lg bg-ochre-soft p-3">
-          This email is not on the list yet. The Blueprint is open to invited people only for now. Used a different
-          address before? Try that one.
+          This address cannot start an account right now. Used a different address before? Try that one. Otherwise
+          write to info@belgraveconsultancy.com and we will sort it out.
         </p>
       )}
     </form>

@@ -1,6 +1,6 @@
 "use client";
 // Milestone 5 on the page: "Help me draft this" (AI partner drafts from the
-// person's own answers) and "How did this part feel?" (pilot feedback).
+// person's own answers) and "How did this part feel?" (feedback per part).
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useApp } from "@/lib/app-state";

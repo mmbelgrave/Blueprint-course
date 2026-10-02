@@ -1,4 +1,4 @@
-# Putting the Blueprint online (pilot)
+# Putting the Blueprint online
 
 Everything in the app is ready. What is left are the parts that need your own
 accounts: Vercel (the web address), Supabase (who may sign in, and the emails)
@@ -11,7 +11,7 @@ They live in `web/.env.local` on your computer and in Vercel's own settings.
 
 ## 1. Vercel: make the web address
 
-Vercel runs the app and gives it an address. The free plan is enough for a pilot.
+Vercel runs the app and gives it an address. The free plan is enough to start.
 
 1. Go to **vercel.com** and choose **Continue with GitHub**. Allow it to see your
    account. (Vercel only sees what you let it see.)
@@ -60,63 +60,85 @@ Magic links only work for addresses Supabase knows.
 3. **Redirect URLs**: add `https://your-address.vercel.app/auth/callback`
    (keep `http://localhost:3000/auth/callback` so your computer still works).
 
-## 4. Supabase: close the door to strangers
+## 4. Supabase: who may start an account
 
-The address is on the open internet. Without this step anyone who finds it can
-make an account and spend your Anthropic credit.
+Authentication → **Sign In / Providers → Email** → **Allow new users to sign up**.
 
-1. Supabase → **Authentication → Sign In / Providers → Email**.
-2. Switch **Allow new users to sign up** *off*.
-3. Save.
+- **On** (how it stands now): anyone who knows the address types their email,
+  gets a six-digit code, and the account is made for them. Nothing for you to do
+  per person. Anyone who finds the address can also start one, and each person
+  can spend AI credit — the app limits them to 80 messages and 20 drafts a day.
+- **Off**: only people who already have an account can get a code. You then add
+  each person yourself under **Users → Add user** (tick **Auto Confirm User**).
 
-Together with `NEXT_PUBLIC_INVITE_ONLY=true` this means: only people you invite
-can get in. Anyone else sees "This email is not on the list yet."
+If you switch it off, also set `NEXT_PUBLIC_INVITE_ONLY=true` in Vercel and
+redeploy, so the app says "this address cannot start an account right now"
+instead of a vague error. With sign-up open, leave that setting out entirely.
 
-## 5. Supabase: invite the pilot people
+## 5. Sending email: the trap that costs an afternoon
 
-1. Supabase → **Authentication → Users → Invite user**.
-2. Type the person's email. They get an email with a link. That link makes their
-   account; from then on they sign in from the app's own sign-in page.
-3. Invite **yourself first** and walk through the app before you invite anyone else.
+Supabase's own sender is for testing: a handful of emails an hour, and it will
+not let you change the email text. Both of those block a real launch, so set up
+Resend (free) under Authentication → Emails → **SMTP Settings**:
 
-## 6. The email limit (do this before you invite more than one or two)
+| Field | Value |
+| --- | --- |
+| Host | `smtp.resend.com` |
+| Port | `465` |
+| Username | `resend` |
+| Password | your Resend API key |
+| Sender email address | **an address on a domain you verified in Resend** |
 
-Supabase's built-in email sender is only meant for testing: a handful of emails
-per hour for the whole project. With more pilot people, invitations and sign-in
-links will silently not arrive.
+**The sender address is where this goes wrong.** Resend refuses to send from a
+hotmail.com or gmail.com address, and Supabase then reports "Error sending magic
+link email", which a person reads as "Something went wrong". Use
+`onboarding@resend.dev` to test (it only reaches your own Resend account
+address), and your own verified domain for real people.
 
-Fix it once: make a free account at **resend.com**, verify a domain (or use the
-one they give you), then Supabase → **Project Settings → Authentication → SMTP
-Settings** → switch on **Enable Custom SMTP** and paste Resend's host, port, user
-and password. Now email is normal and the limit is gone.
+## 6. The six-digit code in the email
 
-## 7. Check it yourself, then invite
+Once custom SMTP is on, Authentication → Emails → **Templates → Magic link or
+OTP** can be edited. The body needs the code, because a mail scanner (Outlook
+Safe Links) opens a link before the person does and uses it up:
+
+```html
+<p>Your code: <strong>{{ .Token }}</strong></p>
+<p>Or click this link: <a href="{{ .ConfirmationURL }}">Sign in</a></p>
+```
+
+The **Invite user** template still carries only a link. So do not invite people
+from the dashboard: let them sign in themselves, or add them under Users and
+tell them to sign in. Both routes use the email above, with the code.
+
+## 7. Check it yourself
 
 Sign in on the real address and walk through:
 sign in by email · consent screen · a page of Step 1 · your AI partner answers ·
 mark a page done · **What my AI partner knows** shows a note · "Forget this" ·
 "Help me draft this" on a summary page · the print page · **Admin** (only you).
 
-Then invite your pilot people.
+Then tell people the address. They sign themselves in.
 
 ---
 
-## Later, when the pilot goes well
+## Later
 
 - **Your own address**: Vercel → Settings → Domains → add e.g.
   `blueprint.yourdomain.com`. Then repeat step 3 with the new address.
-- **Open sign-up**: set `NEXT_PUBLIC_INVITE_ONLY` to `false` and switch Supabase
+- **Closing the door again**: set `NEXT_PUBLIC_INVITE_ONLY` to `true` and switch Supabase
   sign-ups back on. Only do this when you are ready to pay for whoever walks in.
-- **Privacy text**: `/privacy` is written for a small invited pilot. Add your
-  company name and a contact address before you open it to strangers.
+- **Privacy text**: `/privacy` names Belgrave Management, Unipessoal Lda and
+  info@belgraveconsultancy.com, as the website privacy note does. Keep the two
+  in step when either changes.
 - **The code folder is inside OneDrive.** That is fine for GitHub, but builds on
   your own computer sometimes fail on a locked file. Moving `web/` out of
   OneDrive one day would remove that.
 
 ## What it costs
 
-- Vercel: free plan is enough for a pilot.
-- Supabase: free plan is enough; keep an eye on the database size.
+- Vercel: the free plan is enough to start.
+- Supabase: the free plan is enough; keep an eye on the database size. Resend is
+  free up to 3,000 emails a month, which is plenty for sign-in codes.
 - Anthropic: the only real cost. Each person is limited to 80 AI messages and
   20 drafts per day. The **Admin** page shows an estimate per person; your
   Anthropic Console shows the exact bill.

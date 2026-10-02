@@ -42,7 +42,9 @@ export default function Welcome() {
             {user ? "Continue" : "Sign in"}
           </Link>
           {!user && (
-            <p className="mt-2 text-stone">Use the email address you were invited with.</p>
+            <p className="mt-2 text-stone">
+              First time here? Type your email and we send you a six-digit code. No password to remember.
+            </p>
           )}
         </div>
       </section>
