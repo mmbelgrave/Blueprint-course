@@ -35,7 +35,7 @@ add these seven. Copy each value from your own `web/.env.local` file.
 | `ANTHROPIC_API_KEY` | console.anthropic.com → API Keys (secret) |
 | `ANTHROPIC_WORKSPACE_ID` | only if your key sits outside a workspace |
 | `ADMIN_EMAIL` | the address you sign in with, so you get the Admin page |
-| `NEXT_PUBLIC_INVITE_ONLY` | type `true` |
+| `NEXT_PUBLIC_INVITE_ONLY` | only if you close sign-up (step 4); leave it out while anyone may start an account |
 
 Now press **Deploy**. After a few minutes you get an address such as
 `blueprint-course.vercel.app`. Write it down; step 3 needs it.
@@ -51,14 +51,17 @@ exist yet. Supabase → **SQL Editor → New query** → paste the contents of
 
 Without this step everything else works, but adding a picture gives an error.
 
-## 3. Supabase: let the new address sign people in
+## 3. Supabase: let the address sign people in
 
-Magic links only work for addresses Supabase knows.
+Supabase only signs people in at addresses it knows. This is done, and this is
+how it stands:
 
 1. Supabase → **Authentication → URL Configuration**.
-2. **Site URL**: `https://your-address.vercel.app`
-3. **Redirect URLs**: add `https://your-address.vercel.app/auth/callback`
-   (keep `http://localhost:3000/auth/callback` so your computer still works).
+2. **Site URL**: `https://app.maderealblueprint.com`
+3. **Redirect URLs**: `https://app.maderealblueprint.com/auth/callback`
+   (and `http://localhost:3000/auth/callback` so your computer still works).
+
+Do this again if the address ever changes.
 
 ## 4. Supabase: who may start an account
 
@@ -87,13 +90,24 @@ Resend (free) under Authentication → Emails → **SMTP Settings**:
 | Port | `465` |
 | Username | `resend` |
 | Password | your Resend API key |
-| Sender email address | **an address on a domain you verified in Resend** |
+| Sender email address | `info@maderealblueprint.com` |
+| Sender name | `The Life You Choose` |
 
 **The sender address is where this goes wrong.** Resend refuses to send from a
 hotmail.com or gmail.com address, and Supabase then reports "Error sending magic
-link email", which a person reads as "Something went wrong". Use
-`onboarding@resend.dev` to test (it only reaches your own Resend account
-address), and your own verified domain for real people.
+link email", which a person reads as "Something went wrong". The sender has to
+sit on a domain that is verified in Resend.
+
+`maderealblueprint.com` was verified on 3 October: Resend → Domains → Add, then
+its three records at Hostnet (one TXT named `resend._domainkey`, two CNAMEs
+named `rsend` and `send`), then **Verify DNS Records**. The address is
+`info@` and not `noreply@` on purpose: someone stuck at the door replies to
+that email, and a no-reply address throws the reply away.
+
+**A record that looks missing may not be.** Asking for a name before it exists
+makes a computer remember "no such name" for up to an hour, so it keeps saying
+missing long after the record is live. Ask the domain's own nameservers
+(`ns01.hostnet.nl`) instead; they keep no such memory.
 
 ## 6. The code in the email, and why there is no link
 
@@ -145,8 +159,9 @@ fine: what he writes is in the database, tied to his account, on every device.
 
 ## Later
 
-- **Your own address**: Vercel → Settings → Domains → add e.g.
-  `blueprint.yourdomain.com`. Then repeat step 3 with the new address.
+- **The address**: `app.maderealblueprint.com` (Vercel → Settings → Domains).
+  The old `blueprint-course.vercel.app` permanently redirects to it and keeps
+  the path, so a link written down earlier still arrives.
 - **Closing the door again**: set `NEXT_PUBLIC_INVITE_ONLY` to `true` and switch Supabase
   sign-ups back on. Only do this when you are ready to pay for whoever walks in.
 - **Privacy text**: `/privacy` names Belgrave Management, Unipessoal Lda and

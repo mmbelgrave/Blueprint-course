@@ -202,6 +202,21 @@ Pine buttons, tabular figures, and no indigo left anywhere.
 summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
 2.1, 2.2 have no answer boxes and used to crash).
 
+## Online (3 October 2026)
+
+- **Address: https://app.maderealblueprint.com**, on Vercel, with a certificate.
+  The first address, `blueprint-course.vercel.app`, permanently redirects to it
+  and keeps the path, so older links still arrive.
+- Supabase Site URL and redirect both point at the new address; signing in there
+  was tested end to end.
+- **Sign-in emails come from `info@maderealblueprint.com`**, name
+  "The Life You Choose", through Resend. `maderealblueprint.com` is verified in
+  Resend (TXT `resend._domainkey`, CNAMEs `rsend` and `send`, all at Hostnet).
+  `info@` and not `noreply@`: a person stuck at the door replies to that email.
+- Anyone may start an account themselves. No list to keep, nobody to add by hand.
+- Worth knowing: a DNS name asked for before it exists is remembered as "missing"
+  for up to an hour. Ask `ns01.hostnet.nl` directly to see the truth.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
@@ -212,8 +227,11 @@ summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
   code with it (see GO-LIVE.md section 6).
 
 ## Next step
-Mwata: signed-in walk-through with a second (test) account. Then decide: git
-checkpoint, review round 3 (milestones 5–7), and putting it online for the pilot.
+Mwata, on the live address: the AI partner across a whole part, the vision board
+with photos from a phone, and the print page. Two checks only he can do: `/admin`
+on someone who has not ticked consent (progress and feedback show, answers do
+not), and the copyright holder's name on the printed result. Still to come: the
+video addresses for the per-part slots, which say "being recorded" for now.
 
 ## Last handoff
 Read `build-prompt-v1.md`, `PROJECT.md` (incl. update sections), this file,
