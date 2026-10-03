@@ -18,6 +18,14 @@ type Participant = {
     parts: { label: string; optional: boolean; done: number; total: number; complete: boolean }[];
   }[];
   feedback: { part: string; rating: number | null; comment: string; date: string }[];
+  questions: {
+    topic: string;
+    page: string;
+    question: string;
+    replyBy: "email" | "whatsapp";
+    whatsapp: string;
+    date: string;
+  }[];
   usage: {
     chatMessages: number;
     drafts: number;
@@ -103,6 +111,39 @@ function ParticipantCard({ p }: { p: Participant }) {
         </div>
       </div>
 
+      {p.questions.length > 0 && (
+        <div className="border-t border-line pt-3">
+          <h3 className="text-sm font-semibold">Questions</h3>
+          <ul className="mt-1 space-y-2 text-sm">
+            {p.questions.map((q, i) => (
+              <li key={i} className="rounded-lg bg-sand p-3">
+                <p className="text-stone">
+                  {day(q.date)} · {q.topic}
+                  {q.page ? ` · ${q.page}` : ""}
+                </p>
+                <p className="mt-1 whitespace-pre-wrap">{q.question}</p>
+                <p className="mt-1">
+                  {q.replyBy === "whatsapp" ? (
+                    <a
+                      className="text-pine underline"
+                      href={`https://wa.me/${q.whatsapp.replace(/D/g, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Reply on WhatsApp ({q.whatsapp})
+                    </a>
+                  ) : (
+                    <a className="text-pine underline" href={`mailto:${p.email}`}>
+                      Reply by email
+                    </a>
+                  )}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="border-t border-line pt-3 text-sm">
         {p.consentFounder ? (
           <Link href={`/admin/${p.id}`} className="btn btn-ghost py-1.5 text-sm">
@@ -119,6 +160,7 @@ function ParticipantCard({ p }: { p: Participant }) {
 
 function AdminOverview() {
   const [data, setData] = useState<Participant[] | null>(null);
+  const [emailOff, setEmailOff] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -127,7 +169,9 @@ function AdminOverview() {
       .then(async (r) => {
         const body = await r.json();
         if (!r.ok) throw new Error(body.error);
-        if (!cancelled) setData(body.participants);
+        if (cancelled) return;
+        setData(body.participants);
+        setEmailOff(body.emailNotifications === false);
       })
       .catch((e) => !cancelled && setError((e as Error).message || "Could not load the overview."));
     return () => {
@@ -146,9 +190,16 @@ function AdminOverview() {
   return (
     <>
       <h1 className="text-3xl font-bold text-pine">Admin</h1>
-      <div className="mt-4 grid gap-3 sm:grid-cols-4">
+      {emailOff && (
+        <p className="mt-3 rounded-lg bg-ochre-soft p-3 text-sm">
+          Questions are saved and shown here, but no email is sent: RESEND_API_KEY is missing. Add it in Vercel to get
+          every question in your inbox.
+        </p>
+      )}
+      <div className="mt-4 grid gap-3 sm:grid-cols-5">
         {[
           ["Participants", n(data.length)],
+          ["Questions", n(data.reduce((t, p) => t + p.questions.length, 0))],
           ["AI messages", n(totalMessages)],
           ["Average feedback", `${avg} / 5`],
           ["Estimated AI cost", usd(totalCost)],

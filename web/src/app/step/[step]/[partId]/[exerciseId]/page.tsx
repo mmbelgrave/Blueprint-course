@@ -27,6 +27,7 @@ import { Fold, VideoSlot } from "@/components/fold";
 import { PageChips, PartRail } from "@/components/journey";
 import { draftFields } from "@/lib/drafts";
 import { fieldExtras } from "@/lib/field-extras";
+import { helpHref } from "@/lib/support";
 import { exerciseHref, partProgress, rememberLastExercise, stepHref } from "@/lib/progress";
 
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
@@ -534,6 +535,14 @@ function ExerciseBody({ located }: { located: Located }) {
 
       <aside className="lg:sticky lg:top-6 lg:self-start">
         <PartnerPanel exerciseId={exercise.id} />
+        {/* The question your AI partner cannot answer goes to Mwata, with this
+            page already named so nobody has to explain where they were. */}
+        <p className="mt-3 text-center text-sm text-stone print:hidden">
+          A question only Mwata can answer?{" "}
+          <Link href={helpHref(stepNumber, displayTitle(exercise))} className="text-pine underline">
+            Ask Mwata
+          </Link>
+        </p>
       </aside>
     </div>
   );

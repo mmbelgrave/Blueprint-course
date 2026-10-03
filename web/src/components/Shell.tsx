@@ -45,6 +45,9 @@ export function Shell({
               <Link href="/settings" className="text-pine hover:underline">
                 Settings
               </Link>
+              <Link href="/help" className="text-pine hover:underline">
+                Help
+              </Link>
               {isAdmin && (
                 <Link href="/admin" className="font-semibold text-ochre hover:underline">
                   Admin

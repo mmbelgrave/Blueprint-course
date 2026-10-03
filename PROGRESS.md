@@ -217,6 +217,32 @@ summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
 - Worth knowing: a DNS name asked for before it exists is remembered as "missing"
   for up to an hour. Ask `ns01.hostnet.nl` directly to see the truth.
 
+## Help: asking Mwata a question (3 October 2026)
+
+The website promises short questions by email or WhatsApp between the meetings.
+The app had nothing for that, so:
+
+- **`/help`**, reached from **Help** in the menu and from "Ask Mwata" beside the
+  AI partner on every exercise page. Coming from a page, the step and the page
+  are already filled in, so nobody has to explain where they were.
+- A question has a topic (something general, a step, the app itself, meetings,
+  payment), the page, the question, and whether the answer should come by email
+  or WhatsApp. Name and email come from the account.
+- Three ways out, all carrying the same opening line: the form, a WhatsApp link
+  (the number from the website), and an email link.
+- **Saved first, emailed second** (`questions` table, `/api/question`,
+  `src/lib/support.ts`, `src/lib/support-email.ts`). The email can fail; the
+  question must not vanish with it. It shows on **Admin** under that person,
+  with their progress beside it, and Admin says so plainly when
+  `RESEND_API_KEY` is missing and no email is going out.
+- The mail comes from `info@maderealblueprint.com` with the person's own
+  address as reply-to, so answering is pressing Reply.
+- Checked on the live database: a stranger holding the public key can neither
+  read nor write a question (row-level security), and the test row was removed.
+- The page repeats the line from the website: own experience, not legal, tax or
+  financial advice. No founding-member gating yet — everyone who signs in can
+  ask, which is right while the first 12 are all founding members.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
@@ -227,7 +253,9 @@ summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
   code with it (see GO-LIVE.md section 6).
 
 ## Next step
-Mwata, on the live address: the AI partner across a whole part, the vision board
+Mwata: add `RESEND_API_KEY` in Vercel (Resend → API keys) so questions reach
+your inbox, then send one question to yourself from the live app. Also on the
+live address: the AI partner across a whole part, the vision board
 with photos from a phone, and the print page. Two checks only he can do: `/admin`
 on someone who has not ticked consent (progress and feedback show, answers do
 not), and the copyright holder's name on the printed result. Still to come: the

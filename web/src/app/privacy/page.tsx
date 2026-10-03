@@ -29,7 +29,8 @@ export default function Privacy() {
         <h2 className="font-semibold">What we store</h2>
         <p>
           Your email address, your first name, your answers, the pictures you add to your board, your chats with your
-          AI partner, the short notes your AI partner keeps about your answers, and your feedback on each part.
+          AI partner, the short notes your AI partner keeps about your answers, your feedback on each part, and any
+          question you send from the Help page.
         </p>
 
         <h2 className="font-semibold">Who reads it</h2>
@@ -44,11 +45,19 @@ export default function Privacy() {
           a plain link. Your AI partner never sees a picture: it reads only the line you write under it.
         </p>
 
+        <h2 className="font-semibold">When you ask a question</h2>
+        <p>
+          A question you send from <strong>Help</strong> is stored with your name and email, and emailed to Mwata so he
+          can answer it. If you ask him to reply by WhatsApp, the number you give is stored with the question. Your
+          answers are not attached to it.
+        </p>
+
         <h2 className="font-semibold">The help we use</h2>
         <p>
           Two companies help run this app. <strong>Supabase</strong> stores your account and your answers in a database
           in the European Union. <strong>Anthropic</strong> runs the AI model (Claude) that your AI partner uses.
-          Anthropic does not use what you write to train its models.
+          Anthropic does not use what you write to train its models. <strong>Resend</strong> delivers the emails: your
+          sign-in code, and the questions you send from Help.
         </p>
 
         <h2 className="font-semibold">How long</h2>
@@ -60,7 +69,7 @@ export default function Privacy() {
         <h2 className="font-semibold">Deleting</h2>
         <p>
           Go to <strong>What my AI partner knows</strong> and choose <strong>Delete everything</strong>. Your answers,
-          your pictures, your chats, the notes and your account are gone at once. You can also make your AI partner
+          your pictures, your chats, the notes, your questions and your account are gone at once. You can also make your AI partner
           forget one single topic and keep the rest.
         </p>
 

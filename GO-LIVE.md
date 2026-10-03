@@ -35,6 +35,7 @@ add these seven. Copy each value from your own `web/.env.local` file.
 | `ANTHROPIC_API_KEY` | console.anthropic.com → API Keys (secret) |
 | `ANTHROPIC_WORKSPACE_ID` | only if your key sits outside a workspace |
 | `ADMIN_EMAIL` | the address you sign in with, so you get the Admin page |
+| `RESEND_API_KEY` | Resend → API keys (secret). Without it, questions from the Help page are saved but no email reaches you |
 | `NEXT_PUBLIC_INVITE_ONLY` | only if you close sign-up (step 4); leave it out while anyone may start an account |
 
 Now press **Deploy**. After a few minutes you get an address such as
@@ -42,6 +43,14 @@ Now press **Deploy**. After a few minutes you get an address such as
 
 > If you ever change one of these values, press **Redeploy**. Some of them are
 > baked in when the app is built.
+
+## 2a. Supabase: the tables
+
+`web/supabase/schema.sql` holds every table. It is safe to run again, and it
+only creates what is missing — so after a change like the **questions** table
+(3 October), paste it into **SQL Editor → New query** and run it. Supabase warns
+that the script is "potentially destructive" because it re-creates the access
+rules; it only touches this app's own tables.
 
 ## 2b. Supabase: switch on the picture store (once)
 
@@ -135,7 +144,32 @@ length, so that setting can change freely.
 The **Invite user** template still carries only a link, so do not invite people
 from the dashboard: let them sign in themselves, which uses the email above.
 
-## 7. Check it yourself
+## 7. Questions from people
+
+**Help** in the menu, and "Ask Mwata" beside the AI partner on every exercise
+page. Someone picks what the question is about (a step, the app, meetings,
+payment), writes it, and chooses email or WhatsApp for the answer. Coming from an
+exercise page, the step and the page are filled in already.
+
+A question goes two ways at once:
+
+- **Into the database**, so it is never lost and shows on the **Admin** page
+  under that person, with their progress beside it.
+- **Into your inbox** at `info@maderealblueprint.com`, through Resend, with
+  their own address as reply-to. Pressing Reply answers them directly.
+
+The email needs `RESEND_API_KEY` (step 2). Without it nothing breaks: the
+question is still saved, and Admin says plainly at the top that no email is
+being sent.
+
+The WhatsApp number and the address come from `web/src/lib/support.ts`. They are
+the ones on the website; change them in that one file if either ever changes.
+
+Everyone who signs in can ask. The website makes email and WhatsApp a founding
+member benefit, so when you start selling without meetings, a flag per person is
+the next step — not needed while the first 12 are all founding members.
+
+## 8. Check it yourself
 
 Sign in on the real address and walk through:
 sign in by email · consent screen · a page of Step 1 · your AI partner answers ·

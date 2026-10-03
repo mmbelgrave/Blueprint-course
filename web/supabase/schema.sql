@@ -70,6 +70,18 @@ create table if not exists public.feedback (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.questions (
+  id bigint generated always as identity primary key,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  topic text not null,
+  page text,
+  question text not null,
+  reply_by text not null default 'email' check (reply_by in ('email', 'whatsapp')),
+  whatsapp text,
+  created_at timestamptz not null default now()
+);
+create index if not exists questions_user on public.questions (user_id, created_at desc);
+
 create table if not exists public.usage_log (
   id bigint generated always as identity primary key,
   user_id uuid not null references auth.users (id) on delete cascade,
@@ -85,7 +97,7 @@ do $$
 declare t text;
 begin
   foreach t in array array['profiles','answers','exercise_status','conversations',
-                           'ai_profile','part_results','feedback']
+                           'ai_profile','part_results','feedback','questions']
   loop
     execute format('alter table public.%I enable row level security', t);
     execute format('drop policy if exists "own rows" on public.%I', t);

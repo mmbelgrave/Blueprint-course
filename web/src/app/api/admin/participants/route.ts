@@ -8,7 +8,10 @@ export async function GET() {
   const auth = await requireAdmin();
   if ("error" in auth) return auth.error;
   try {
-    return Response.json({ participants: await buildOverview(auth.admin) });
+    return Response.json({
+      participants: await buildOverview(auth.admin),
+      emailNotifications: !!process.env.RESEND_API_KEY,
+    });
   } catch (e) {
     return Response.json({ error: (e as Error).message }, { status: 500 });
   }
