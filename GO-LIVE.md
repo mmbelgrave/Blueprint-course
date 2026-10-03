@@ -147,8 +147,7 @@ from the dashboard: let them sign in themselves, which uses the email above.
 ## 7. Questions from people
 
 **Help** in the menu, and "Ask Mwata" beside the AI partner on every exercise
-page. Someone picks what the question is about (a step, the app, meetings,
-payment), writes it, and chooses email or WhatsApp for the answer. Coming from an
+page. Someone picks what the question is about (a step, the app, meetings, payment), writes it, and chooses email or WhatsApp for the answer. Coming from an
 exercise page, the step and the page are filled in already.
 
 A question goes two ways at once:

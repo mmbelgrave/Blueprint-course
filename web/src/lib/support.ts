@@ -24,7 +24,7 @@ export function supportTopics(steps: { number: number; title: string }[]): Topic
   return [
     { id: "general", label: "Something general" },
     ...steps.map((s) => ({ id: `step-${s.number}`, label: `Step ${s.number} ${s.title}` })),
-    { id: "app", label: "The app itself — something is not working" },
+    { id: "app", label: "The app itself (something is not working)" },
     { id: "meetings", label: "Meetings and booking" },
     { id: "payment", label: "Payment" },
   ];
