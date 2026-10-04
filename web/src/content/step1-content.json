@@ -1472,7 +1472,7 @@
           "id": "3.4",
           "title": "What comes in per month?",
           "intro": [
-            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Confirmed and agreed income go into the check in 3.5. Hoped income stays out of it. Write the month agreed income starts, so you can see what the check depends on."
+            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. In 3.5 you add your confirmed and agreed income together. Hoped income is left out."
           ],
           "tables": [
             {
@@ -1490,7 +1490,8 @@
                   "Hoped",
                   "An idea. It may well happen, but nothing supports it yet."
                 ]
-              ]
+              ],
+              "after": "Agreed income is counted in 3.5, so write down when it starts. If it begins in six months, the sums in 3.5 show your life from then, not your life today."
             }
           ],
           "start_here": {

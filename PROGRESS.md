@@ -233,8 +233,9 @@ the front matter and the headings the app has never carried.
   confirmed income counts. **Mwata decided on 4 October: the check counts
   confirmed plus agreed.** The app does that now (3.4's total, 3.5 line 1, and
   the four sentences that said otherwise). Hoped income has its own total and
-  stays out of the check. The same four sentences need changing in the Word
-  file, and Step 2's own money page still says "count only the income you have
+  stays out of the check. The same four sentences, and the new line under the
+  Confirmed/Agreed/Hoped table about when agreed income starts, need changing in
+  the Word file, and Step 2's own money page still says "count only the income you have
   evidence for" - to align when Step 2 is finalised.
 - The app leaves out the printing instructions and the copyright page on purpose.
 
