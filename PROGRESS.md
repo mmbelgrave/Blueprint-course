@@ -229,10 +229,13 @@ the front matter and the headings the app has never carried.
 - 2.2's story reads "When I was 21, shortly after, I moved to Thailand": a word
   was lost. Mended here to match the Introduction, which says "shortly after
   graduating".
-- 3.4's total row now says "Total confirmed/agreed (you use this in 3.5)" and
-  3.5 line 1 dropped the word "confirmed", but the prose in both still says only
-  confirmed income counts. **The app still counts confirmed only** until Mwata
-  says otherwise, because that is what the explanations say.
+- 3.4's total row said "Total confirmed/agreed" while the prose still said only
+  confirmed income counts. **Mwata decided on 4 October: the check counts
+  confirmed plus agreed.** The app does that now (3.4's total, 3.5 line 1, and
+  the four sentences that said otherwise). Hoped income has its own total and
+  stays out of the check. The same four sentences need changing in the Word
+  file, and Step 2's own money page still says "count only the income you have
+  evidence for" - to align when Step 2 is finalised.
 - The app leaves out the printing instructions and the copyright page on purpose.
 
 **Step 2 is closed** (journey.json, in_app: false, note "opens soon"). Its

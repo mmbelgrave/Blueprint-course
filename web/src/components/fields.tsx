@@ -462,7 +462,7 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                   </td>
                 ))}
               </tr>
-              {/* 3.4: confirmed income is the total that counts; agreed is shown apart. */}
+              {/* 3.4: confirmed and agreed are the total that counts; hoped is shown apart. */}
               {field.extra_totals?.map((extra) => (
                 <tr key={extra.label} className="border-t border-line text-stone">
                   {hasLabels && <th className="p-2 pl-3 font-medium">{extra.label}</th>}

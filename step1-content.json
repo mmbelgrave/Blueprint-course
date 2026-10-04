@@ -1057,7 +1057,7 @@
             ],
             "story": {
               "status": "ready",
-              "text": "When I was 21, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fit together."
+              "text": "When I was 21, shortly after graduating, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fit together."
             }
           }
         },
@@ -1472,7 +1472,7 @@
           "id": "3.4",
           "title": "What comes in per month?",
           "intro": [
-            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Only confirmed income goes into the check in 3.5. Record agreed income separately, with the month it starts, so you can see it without counting on it yet."
+            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Confirmed and agreed income go into the check in 3.5. Hoped income stays out of it. Write the month agreed income starts, so you can see what the check depends on."
           ],
           "tables": [
             {
@@ -1494,7 +1494,7 @@
             }
           ],
           "start_here": {
-            "prompt": "List your current income sources and those you expect in your new life. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the new-life column and note the gross amount alongside it for later. Keep gross amounts out of the confirmed total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
+            "prompt": "List your current income sources and those you expect in your new life. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the new-life column and note the gross amount alongside it for later. Keep gross amounts out of the total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
             "fields": [
               {
                 "id": "income",
@@ -1533,20 +1533,21 @@
                   }
                 ],
                 "totals": true,
-                "totals_label": "Total confirmed (you use this in 3.5)",
+                "totals_label": "Total confirmed/agreed (you use this in 3.5)",
                 "total_filter": {
                   "column": "certainty",
                   "values": [
-                    "Confirmed"
+                    "Confirmed",
+                    "Agreed"
                   ]
                 },
                 "extra_totals": [
                   {
-                    "label": "Total agreed (not in the check yet)",
+                    "label": "Total hoped",
                     "filter": {
                       "column": "certainty",
                       "values": [
-                        "Agreed"
+                        "Hoped"
                       ]
                     }
                   }
@@ -1577,7 +1578,7 @@
                 "rows": [
                   {
                     "id": "income",
-                    "label": "1. My confirmed income per month in my new life (from 3.4)",
+                    "label": "1. My income per month in my new life (from 3.4)",
                     "example": "€1,600",
                     "from": {
                       "exercise": "3.4",
@@ -1668,13 +1669,13 @@
             "intro": [
               "Read these two checks separately.",
               "Check one: can your savings cover the change itself? Look at line 8. Above zero means the one-time costs, deposits and reserve are covered, with money left to live on. Exactly zero means they are covered with nothing spare. Below zero means something needs to change: a cheaper version, a later date, a smaller reserve you deliberately choose, or more saving first.",
-              "Check two: does your confirmed income cover your monthly costs? That is line 3."
+              "Check two: does your income cover your monthly costs? That is line 3."
             ],
             "bullets": [
               "Money left over each month. The monthly side works on these numbers. Check one still decides whether you can afford to make the change at all.",
               "Income and costs exactly equal. On these estimates, nothing is left over each month, so any surprise has to come out of your savings.",
               "Short each month, with savings left. If these estimates hold, your remaining savings could cover the gap for about the number of months in line 9. Pick a date well before then to review the plan again.",
-              "Short each month, with no savings left to cover it. This version doesn't stand on its own yet. The three ways forward are lower costs, more confirmed income, or more time.",
+              "Short each month, with no savings left to cover it. This version doesn't stand on its own yet. The three ways forward are lower costs, more certain income, or more time.",
               "The amount you need is still unknown. Your result is incomplete, so do not treat the total as a finished calculation. Write what you need to check and where you will find the answer. That list is a useful result in its own right."
             ],
             "closing": "Do you plan to live on savings or a pension? Then look at how many years your money will last and discuss the plan with a financial adviser."

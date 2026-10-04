@@ -76,7 +76,7 @@ export type Field = {
   totals?: boolean;
   totals_label?: string;
   total_filter?: { column: string; values: string[] };
-  /** Further total rows with their own filter (3.4: confirmed, then agreed). */
+  /** Further total rows with their own filter (3.4: confirmed/agreed, then hoped). */
   extra_totals?: { label: string; filter: { column: string; values: string[] } }[];
   prefill?: Record<string, string>;
   copy_from?: { step?: number; exercise: string; field: string };
