@@ -248,6 +248,29 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## Releasing while someone is working (4 October 2026)
+
+Answers are written straight from the browser to Supabase, so a release cannot
+touch them: Vercel swaps the website, the database is untouched, and a failed
+save retries every five seconds. The one thing a person can notice is a tab left
+open across a release: it still holds the old files, and moving to a page whose
+file changed asks for a file that is no longer there.
+
+The app now recognises that. src/lib/stale-version.ts tells "this tab is old"
+apart from a real fault, and the error screen loads the page afresh instead of
+offering "Try again", which would only run the same old code. At most one
+automatic reload a minute, so a page broken for another reason cannot spin; if
+it is held back, the screen says "A newer version is ready" with a button.
+
+Vercel Skew Protection, which would pin a tab to the version it started on, is
+Pro and Enterprise only. This project is on Hobby, so it is not available
+without upgrading, and the reload above covers the same ground.
+
+The real risk is not releasing, it is renaming. Answers are stored under a page
+id and a field id; rename one and the answer stays under the old name and the
+box looks empty. Wording may change freely, ids may not, while anyone is
+working.
+
 ## Online (3 October 2026)
 
 - **Address: https://app.maderealblueprint.com**, on Vercel, with a certificate.
