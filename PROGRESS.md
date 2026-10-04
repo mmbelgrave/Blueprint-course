@@ -256,6 +256,11 @@ save retries every five seconds. The one thing a person can notice is a tab left
 open across a release: it still holds the old files, and moving to a page whose
 file changed asks for a file that is no longer there.
 
+Measured on the live site (4 October): a release that changed 3 of the 13
+files on a page left all three of the old ones still being served, 200 each.
+Vercel keeps content-addressed files across releases, so in practice a tab left
+open keeps working. The reload below is the safety net for when it does not.
+
 The app now recognises that. src/lib/stale-version.ts tells "this tab is old"
 apart from a real fault, and the error screen loads the page afresh instead of
 offering "Try again", which would only run the same old code. At most one
