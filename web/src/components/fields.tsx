@@ -496,7 +496,8 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
 function formatCalc(row: CalcRow, r: CalcResult, currency: string) {
   if (r.value === null) return "—";
   let text: string;
-  if (row.format === "months") text = `${Math.floor(r.value * 10) / 10} months`;
+  if (row.format === "percent") text = `${Math.round(r.value)}%`;
+  else if (row.format === "months") text = `${Math.floor(r.value * 10) / 10} months`;
   else if (row.format === "left_or_short")
     text = r.value < 0 ? `${formatMoney(-r.value, currency)} short` : `${formatMoney(r.value, currency)} left over`;
   else text = formatMoney(r.value, currency);
@@ -519,7 +520,7 @@ function Calculation({ field, value, onChange, currency, extras }: FieldProps) {
         <tbody>
           {rows.map((row) => {
             const r = extras?.calc?.[row.id];
-            if (r && !r.visible) return null;
+            if (row.hidden || (r && !r.visible)) return null;
             return (
               <tr key={row.id} className="border-t border-line">
                 <th scope="row" className="p-2 pl-3 align-middle font-normal">

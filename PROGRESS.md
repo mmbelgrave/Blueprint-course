@@ -202,6 +202,48 @@ Pine buttons, tabular figures, and no indigo left anywhere.
 summary is 1.6, not 1.7) and pages that are only there to be read (Step 2 1.1,
 2.1, 2.2 have no answer boxes and used to crash).
 
+## Version 3 (4 October 2026) — the issued workbook, and Step 2 closed
+
+Step 1 rebuilt from **The Made Real Blueprint - Step 1 Picture workbook - Issued
+(version 21)**, the file Mwata sends to Michael. Same six parts and the same 21
+pages; the changes are inside the exercises.
+
+**The new work in 2.1, "Then look at who decides".** Three kinds of time (fixed
+by others, must-dos, my choice) in hours now and hours wanted, then the share of
+a 112-hour week the person decides themselves, then the must-dos they can drop
+and the one block they will take back next month. A second made-up example and a
+second story (the renovation year) come with it. **The app does the division the
+workbook asks the reader to do**: 37 of 112 hours shows as 33%, which is the
+workbook's own example.
+
+**3.5 now closes the loop with time**: fixed costs are paid in hours you do not
+choose, so two questions ask how many hours a month pay the fixed costs and how
+much of the income depends on a fixed time and place.
+
+Everything else was wording: contractions, tightened sentences, "C Stay, but
+change", the two-year line in 5.1 pointing at time and at Step 8, and the
+sources page. Checked both ways against the issued text: what remains is only
+the front matter and the headings the app has never carried.
+
+**Three things found in the issued file**, all reported to Mwata:
+- 2.2's story reads "When I was 21, shortly after, I moved to Thailand": a word
+  was lost. Mended here to match the Introduction, which says "shortly after
+  graduating".
+- 3.4's total row now says "Total confirmed/agreed (you use this in 3.5)" and
+  3.5 line 1 dropped the word "confirmed", but the prose in both still says only
+  confirmed income counts. **The app still counts confirmed only** until Mwata
+  says otherwise, because that is what the explanations say.
+- The app leaves out the printing instructions and the copyright page on purpose.
+
+**Step 2 is closed** (journey.json, in_app: false, note "opens soon"). Its
+content and everyone's answers are untouched: the overview shows it greyed, and
+the step page, any page inside it and its print page all show "not open yet".
+Setting in_app back to true opens it again, nothing else.
+
+**The AI partner keeps a new note, "Your time, and who decides it"**, from the
+two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
+today and in one year" is now the wheel alone.
+
 ## Online (3 October 2026)
 
 - **Address: https://app.maderealblueprint.com**, on Vercel, with a certificate.

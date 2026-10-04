@@ -25,6 +25,15 @@ export function optionNames(answers: Answers): Record<string, string> {
   return names;
 }
 
+/** One cell of a table elsewhere, found by its row label. */
+function oneRow(from: NonNullable<CalcRow["from"]>, answers: Answers): CalcResult {
+  const src = sourceField(from.exercise, from.field);
+  const key = src && tableRows(src).find((r) => r.label === from.row)?.key;
+  const table = answers[from.exercise]?.[from.field] as TableValue | undefined;
+  const a = parseAmount(key ? table?.[key]?.[from.column] : undefined);
+  return a.kind === "number" ? { value: a.value, complete: true } : { value: null, complete: a.kind === "empty" };
+}
+
 function calculate(exercise: Exercise, answers: Answers) {
   const vars: Record<string, CalcResult> = {};
   const out: Record<string, CalcResult & { visible: boolean }> = {};
@@ -35,7 +44,9 @@ function calculate(exercise: Exercise, answers: Answers) {
 
   for (const { row, fieldId } of rowsWithField) {
     let r: CalcResult;
-    if (row.from) {
+    if (row.from?.row) {
+      r = oneRow(row.from, answers);
+    } else if (row.from) {
       const src = sourceField(row.from.exercise, row.from.field);
       const t = src
         ? tableFieldTotal(src, answers[row.from.exercise]?.[row.from.field], row.from.column)

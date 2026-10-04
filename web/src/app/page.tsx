@@ -10,6 +10,8 @@ import { journey, PRODUCT } from "@/lib/content";
 
 export default function Welcome() {
   const { user } = useApp();
+  // Steps open to people. A step can be written and still be closed (Step 2
+  // waits for its final workbook), so this counts the open ones, not the ready ones.
   const live = journey.steps.filter((s) => s.in_app).length;
 
   return (
@@ -52,7 +54,8 @@ export default function Welcome() {
       <section className="mt-10 max-w-2xl border-t border-line pt-6 text-stone">
         <p>
           {PRODUCT.name} · {PRODUCT.edition}. The Blueprint has {journey.steps.length} steps in three phases: choose
-          it, build it, live it. The first {live === 2 ? "two" : live} are here now; the rest are being written.
+          it, build it, live it. {live === 1 ? "The first one is open now" : `The first ${live === 2 ? "two" : live} are open now`}; the
+          rest follow.
         </p>
         <p className="mt-3">
           Everything you write stays yours. You can read it, correct it, or delete all of it at any time.{" "}

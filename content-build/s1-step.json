@@ -1,6 +1,6 @@
 {
-  "version": 19,
-  "source": "The Made Real Blueprint - Step 1 Picture workbook v19.docx (September 2026)",
+  "version": 21,
+  "source": "The Made Real Blueprint - Step 1 Picture workbook - Issued.docx (version 21, October 2026)",
   "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
   "step": {
     "id": "step1",
@@ -31,7 +31,7 @@
         "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different.",
         "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
         "Write in your own language if you prefer.",
-        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
         "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
       ]
     },
@@ -73,9 +73,9 @@
     "title": "Where these ideas come from",
     "intro": "Most of this workbook comes from my experience of building a life in Bali and then starting again in Portugal. Where I draw on someone else's method, I name it below.",
     "rows": [
-      ["The wheel of life (2.1)", "A tool used in coaching for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."],
-      ["The Johari window (2.5)", "Described by the psychologists Joseph Luft and Harrington Ingham in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."],
-      ["Michael Pilarczyk's work (the warm-up, 1.1, 1.3, 2.1, 2.2, 2.5)", "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move. I have adapted the wording for this Blueprint."],
+      ["The wheel of life (2.1)", "A coaching tool used for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."],
+      ["The Johari window (2.5)", "Psychologists Joseph Luft and Harrington Ingham described it in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."],
+      ["Michael Pilarczyk's work", "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move."],
       ["Connect the dots (2.2)", "The phrase comes from Steve Jobs' 2005 speech at Stanford University."],
       ["Comparing options and small tests (Part 4)", "Common practice in planning and decision-making. Bill Burnett and Dave Evans describe similar ideas in their book Designing Your Life."],
       ["Everything else", "My own experience, my mistakes, and what the people I have guided told me was missing."]

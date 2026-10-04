@@ -1,6 +1,6 @@
 {
-  "version": 19,
-  "source": "The Made Real Blueprint - Step 1 Picture workbook v19.docx (September 2026)",
+  "version": 21,
+  "source": "The Made Real Blueprint - Step 1 Picture workbook - Issued.docx (version 21, October 2026)",
   "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
@@ -62,7 +62,7 @@
         "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different.",
         "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
         "Write in your own language if you prefer.",
-        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
         "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
       ]
     },
@@ -310,7 +310,7 @@
           },
           "example": {
             "who": "Tom, 58",
-            "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner. No more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
+            "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner—no more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
           },
           "tips": [
             "Some things you do not want have no clear \"yes\" yet. Write \"not sure yet\". You come back to them in 1.2, when you describe your normal day."
@@ -378,7 +378,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I was building something with my hands, helping someone move forward, or spending time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
+            "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I built something with my hands, helped someone move forward, or spent time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
           }
         },
         {
@@ -441,7 +441,7 @@
           },
           "example": {
             "who": "Maria, 46",
-            "text": "I wake up at 7, without an alarm. From my window, I see olive trees. I drink coffee outside. In the morning, I work four hours online for my clients. In the afternoon, I work in the garden or go to the market in the village. My partner and I cook together. Twice a week, friends come for dinner. Two afternoons a week are for paperwork and cleaning, and I don't enjoy them. I go to bed tired, but happy."
+            "text": "I wake up at 7, without an alarm. From my window, I see olive trees. I drink coffee outside. In the morning, I work online for my clients for four hours. In the afternoon, I work in the garden or go to the village market. My partner and I cook together. Twice a week, friends come for dinner. Two afternoons a week are for paperwork and cleaning, and I don't enjoy them. I go to bed tired, but happy."
           },
           "go_deeper": {
             "prompt": [
@@ -460,7 +460,7 @@
                 "max": 8,
                 "label": "Make it visible",
                 "hint": "Collect five to eight photos of ordinary scenes that fit your day: a kitchen table, a path, a workshop, a market. Use your own photos where you can. Under each one, write the need it represents. These pictures will help you compare real places with the daily life you want.",
-                "caption_label": "The need this picture represents"
+                "caption_label": "The need it represents"
               }
             ]
           },
@@ -510,7 +510,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I did not have two million euros, but I realised I did not need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. The land was officially mine in August 2024. Today, I am building the life I pictured."
+            "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I didn't have two million euros, but I realised I didn't need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. In August 2024, I signed for the land, and by the end of that year it was officially mine. Today, I am building the life I pictured."
           }
         },
         {
@@ -538,7 +538,7 @@
                   "You will not accept this. It ends the discussion."
                 ]
               ],
-              "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, there are usually two or three that matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
+              "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, two or three usually matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
             }
           ],
           "start_here": {
@@ -640,13 +640,13 @@
             "text": "Words: family, security, nature, adventure, honesty. \"Family\" in a normal week: dinner together at least four times. Must-have: a good school close to home (essential). A garden (strongly preferred). Dealbreaker: more than one hour from a hospital. Keep: my weekly football team. Let go: a big car."
           },
           "tips": [
-            "Choosing one thing often means giving up another. Decide which trade-offs you can accept before you have spent money or committed to a place."
+            "Choosing one thing often means giving up another. Decide which trade-offs you can accept before you spend money or commit to a place."
           ]
         },
         {
           "id": "1.5",
           "title": "Whose picture is this?",
-          "promise": "Other people help shape your picture. This exercise asks whose influence you can see in it.",
+          "promise": "Other people help shape your picture. This exercise asks whose influence you can see.",
           "intro": [
             "Family, friends, social media and past experiences all shape what we want. That does not make a wish wrong. But it is worth checking how much of the picture feels like your own before you commit to it or sell your home.",
             "Also ask whether you are moving towards something, away from something, or both. Wanting to leave a job that leaves you tired and empty is a valid reason for change. It tells you what needs to end, but you still need to decide what you want in its place. A move is more likely to help when you know which problem you are trying to solve."
@@ -699,7 +699,7 @@
             "id": "needs_patterns",
             "type": "long_text",
             "lines": 2,
-            "label": "Moments and needs that keep coming back"
+            "label": "Moments and needs that keep coming back."
           },
           {
             "id": "more_of",
@@ -753,7 +753,7 @@
       "intro_title": "Honest is not negative",
       "intro": [
         "This part is not about judging yourself. It is about seeing clearly.",
-        "This can feel like an invitation to list everything that is wrong. In my experience, it often does the opposite. Most people I have guided found more to build on than they expected: things they had already done, people willing to help, money they had overlooked, and skills they could use in a new setting.",
+        "This can feel like an invitation to list everything wrong. In my experience, it often does the opposite. Most people I have guided found more to build on than they expected: things they had already done, people willing to help, money they had overlooked, and skills they could use in a new setting.",
         "Your later plans depend on an honest view of where you stand now. If you guess your starting point, you guess your plan too. Give yourself the time to look carefully, without being hard on yourself."
       ],
       "time": "60–75 min",
@@ -771,7 +771,7 @@
           "promise": "A simple picture of how your life is doing, area by area.",
           "intro": [
             "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, rather than letting one problem dominate it.",
-            "It helps in two ways. First, it separates things that can get mixed together. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
+            "It helps in two ways. First, it separates things that can get mixed up. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
             "The score is only a starting point. The explanation beside it is what makes it useful."
           ],
           "tips": [
@@ -849,15 +849,114 @@
                 "type": "long_text",
                 "lines": 3,
                 "hint": "Which one change would give you the most time back? Does it need a new country, or could it start next month?"
+              },
+              {
+                "id": "decides_intro",
+                "type": "heading",
+                "heading": "Then look at who decides",
+                "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. Being busy is not the problem. Being busy with what others decide is."
+              },
+              {
+                "id": "decides",
+                "type": "table",
+                "row_header": "Who decides my week?",
+                "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of your whole week (about 112 hours) is really yours.",
+                "row_labels": [
+                  "Fixed by others",
+                  "Must-dos",
+                  "My choice"
+                ],
+                "columns": [
+                  {
+                    "id": "now",
+                    "label": "Hours now",
+                    "kind": "number"
+                  },
+                  {
+                    "id": "want",
+                    "label": "Hours I want",
+                    "kind": "number"
+                  }
+                ]
+              },
+              {
+                "id": "share",
+                "type": "calculation",
+                "app_note": "The workbook asks the person to work the share out themselves; the app does the division.",
+                "rows": [
+                  {
+                    "id": "choice_now",
+                    "label": "My choice, hours now",
+                    "example": "37",
+                    "hidden": true,
+                    "from": {
+                      "exercise": "2.1",
+                      "field": "decides",
+                      "column": "now",
+                      "row": "My choice"
+                    }
+                  },
+                  {
+                    "id": "choice_want",
+                    "label": "My choice, hours I want",
+                    "example": "50",
+                    "hidden": true,
+                    "from": {
+                      "exercise": "2.1",
+                      "field": "decides",
+                      "column": "want",
+                      "row": "My choice"
+                    }
+                  },
+                  {
+                    "id": "share_now",
+                    "label": "Share I decide myself (my choice ÷ 112)",
+                    "example": "33%",
+                    "formula": "choice_now * 100 / 112",
+                    "format": "percent"
+                  },
+                  {
+                    "id": "share_want",
+                    "label": "Share I want",
+                    "example": "45%",
+                    "formula": "choice_want * 100 / 112",
+                    "format": "percent"
+                  }
+                ]
+              },
+              {
+                "id": "drop",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Must-dos I can drop, simplify, share or outsource",
+                "hint": "Look at your must-dos first. Which can you drop, simplify, share or outsource? Then look at one fixed block. Could you move it, shorten it, or ask for it to be different?"
+              },
+              {
+                "id": "fixed_block",
+                "type": "long_text",
+                "lines": 2,
+                "label": "A fixed block I could move, shorten or negotiate."
+              },
+              {
+                "id": "take_back",
+                "type": "long_text",
+                "lines": 2,
+                "label": "One block of my week I will take back in the next month."
               }
             ]
           },
-          "example": {
-            "who": "Lucas, 29",
-            "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
-          },
+          "example": [
+            {
+              "who": "Lucas, 29",
+              "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
+            },
+            {
+              "who": "Lucas, 29",
+              "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of my waking week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
+            }
+          ],
           "go_deeper": {
-            "prompt": "Which area has the biggest gap? Which area pulls you most towards a change, and which one makes a change most difficult?",
+            "prompt": "Which area has the biggest gap? Which area pulls you most toward change, and which one makes change most difficult?",
             "fields": [
               {
                 "id": "deeper",
@@ -866,10 +965,16 @@
               }
             ]
           },
-          "story": {
-            "status": "ready",
-            "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
-          }
+          "story": [
+            {
+              "status": "ready",
+              "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
+            },
+            {
+              "status": "ready",
+              "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: not more free time, but more say over my time."
+            }
+          ]
         },
         {
           "id": "2.2",
@@ -915,7 +1020,7 @@
           ],
           "story": {
             "status": "ready",
-            "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about half a year. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after putting the company online and introducing it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
+            "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about six months. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after I put the company online and introduced it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
           },
           "go_deeper": {
             "title": "Connect the dots",
@@ -952,7 +1057,7 @@
             ],
             "story": {
               "status": "ready",
-              "text": "When I was 21, shortly after graduating from technical college (HTS), I moved to Thailand with my parents. The move was their decision, but I was closely involved in finding land, building our home, and settling into a place where we had a new language to learn. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fitted together."
+              "text": "When I was 21, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fit together."
             }
           }
         },
@@ -1007,7 +1112,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, running my own business and helping people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
+            "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, run my own business, and help people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
           }
         },
         {
@@ -1015,7 +1120,7 @@
           "title": "Beliefs I never checked",
           "promise": "We all carry beliefs we never checked. Some hold us back. Others look attractive, but may not be true either.",
           "intro": [
-            "\"I am too old to start again.\" \"Life there is cheaper.\" These can both feel like facts, even when we have not checked them.",
+            "\"I am too old to start again.\" \"Life there is cheaper.\" These can feel like facts, even when we haven't checked them.",
             "The beliefs that hold us back are often easier to notice because they hurt. The appealing ones deserve just as much attention. When something supports a plan we like, we are less inclined to question it. That can become expensive later.",
             "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, rather than treating it as a fact."
           ],
@@ -1094,8 +1199,8 @@
           "optional": true,
           "promise": "Other people sometimes see things in us that we cannot see ourselves.",
           "intro": [
-            "In the 1950s, psychologists Joseph Luft and Harrington Ingham developed the Johari window. It has four areas. Here, we use the one they called the blind area: things other people notice about you that you do not see yourself. Asking for specific feedback can help you recognise them.",
-            "Ask for observations and examples. This is not a vote on your plan, and you do not need anyone's permission. A specific question gives people more to work with than a broad request for feedback."
+            "In the 1950s, psychologists Joseph Luft and Harrington Ingham developed the Johari window. It has four areas. Here, we use what they called the blind area: things other people notice about you that you don't see yourself. Asking for specific feedback can help you recognise them.",
+            "Ask for observations and examples. This isn't a vote on your plan, and you don't need anyone's permission. A specific question gives people more to work with than a broad request for feedback."
           ],
           "start_here": {
             "prompt": "Ask two or three people who know you well to answer in writing. A message is fine:",
@@ -1145,7 +1250,7 @@
             "id": "time",
             "type": "long_text",
             "lines": 2,
-            "label": "Where my time goes, and the change that would give me most time back"
+            "label": "Where my time goes, the share I decide myself, and the block I will take back first"
           },
           {
             "id": "strengths",
@@ -1197,7 +1302,7 @@
         "What does the change itself cost, one time? (3.3)",
         "What comes in per month? (3.4)"
       ],
-      "intro_after": "In 3.5 you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
+      "intro_after": "In 3.5, you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
       "tips": [
         "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total isn't complete yet. It never counts as zero.",
         "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the new-life column unknown wherever you still need information."
@@ -1282,7 +1387,7 @@
                   "Travel (for example, visiting family)",
                   "Loan or credit repayments",
                   "Care costs (children, or someone you care for)",
-                  "Yearly costs not already above, divided by 12 (gifts, holidays, repairs)",
+                  "Yearly costs not already above, divided by 12",
                   "Other"
                 ],
                 "columns": [
@@ -1321,7 +1426,7 @@
           "id": "3.3",
           "title": "What does the change itself cost, one time?",
           "intro": [
-            "These are the costs you pay once to make the change. Include them early: a monthly budget can work on paper while the initial costs leave you short in month two."
+            "These are the costs you pay once to make the change. Include them early: a monthly budget can work on paper, but the initial costs can leave you short in month two."
           ],
           "start_here": {
             "prompt": "Only write money you will really spend.",
@@ -1413,7 +1518,7 @@
                   },
                   {
                     "id": "certainty",
-                    "label": "Confirmed / agreed / hoped",
+                    "label": "Confirmed/agreed/hoped",
                     "kind": "choice",
                     "options": [
                       "Confirmed",
@@ -1544,7 +1649,7 @@
                 "id": "months",
                 "type": "calculation",
                 "label": "Question 3: how long?",
-                "hint": "Only if you are short each month (line 3).",
+                "hint": "Only if you are short each month (line 3)",
                 "rows": [
                   {
                     "id": "months",
@@ -1559,7 +1664,7 @@
             ]
           },
           "result_guide": {
-            "title": "What your result means",
+            "title": "What your result means.",
             "intro": [
               "Read these two checks separately.",
               "Check one: can your savings cover the change itself? Look at line 8. Above zero means the one-time costs, deposits and reserve are covered, with money left to live on. Exactly zero means they are covered with nothing spare. Below zero means something needs to change: a cheaper version, a later date, a smaller reserve you deliberately choose, or more saving first.",
@@ -1585,12 +1690,31 @@
                 "id": "deeper",
                 "type": "long_text",
                 "lines": 3
+              },
+              {
+                "id": "money_time",
+                "type": "heading",
+                "heading": "Money and time are connected.",
+                "hint": "You pay every fixed cost with hours you don't choose. Lower fixed costs mean fewer must-dos and less need to sell your hours on someone else's schedule."
+              },
+              {
+                "id": "hours_for_fixed",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Hours a month I work to pay my fixed costs.",
+                "hint": "How many hours a month do you work just to pay your fixed costs? And how much of your income depends on being somewhere at a fixed time? Write both down. They show where you could gain more control over your time: lower costs or a different way of earning."
+              },
+              {
+                "id": "income_fixed_place",
+                "type": "long_text",
+                "lines": 2,
+                "label": "How much of my income depends on a fixed time and place"
               }
             ]
           },
           "story": {
             "status": "ready",
-            "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me when I could afford it."
+            "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
           },
           "go_further": "Want to go further? The module Your Money Plan (future) helps you with goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
         }
@@ -1719,10 +1843,10 @@
           },
           "example": {
             "who": "Daniel, 39",
-            "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside summer? Test: first, three calls with people who live there; then, if that holds up, a four-week working stay in November. C: Stay, but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
+            "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside of summer? Test: first, three calls with people who live there; then, if that holds up, a four-week working stay in November. C: Stay, but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
           },
           "tips": [
-            "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and is a test. A four-week stay is a better test, but it's later and more expensive. Start with the cheap version."
+            "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and tests it. A four-week stay is a better test, but it comes later and costs more. Start with the cheap version."
           ]
         },
         {
@@ -1918,8 +2042,8 @@
       "intro": [
         "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
         "Make your next step specific. It should be small enough to complete within two weeks, have a date, and teach you something. \"Read more about Portugal\" gives you no clear question or deadline. \"Call two people who moved there and ask what surprised them, before the 15th\" gives you both.",
-        "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier. You will return to this answer in Step 8.",
-        "The final decision comes in Step 3, after you have explored your options."
+        "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier, and include one line about your time. For example: \"I can take a day off when the weather is good, without asking anyone.\" You will return to this answer in Step 8.",
+        "You make the final decision in Step 3, after you have explored your options."
       ],
       "time": "30 min",
       "route_title": "Choose your working direction",
@@ -2038,7 +2162,7 @@
           "choice_explanations": [
             "I have a direction I want to investigate. Step 2 is waiting for you.",
             "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-            "I want to build the life I want where I am. Staying is a real result. It takes the same work of deciding, planning and building. We are developing a full staying route with the first participants.",
+            "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. We are developing a full staying route with the first participants.",
             "I am not ready to choose yet. Your page shows what you need to learn first.",
             "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
           ],
@@ -2088,7 +2212,7 @@
               ],
               [
                 "The first question I will investigate, and why it matters most",
-                "Can we live on 80%? If the answer is no, the rest does not matter, whatever my manager says."
+                "Can we live on 80%? If the answer is no, the rest doesn't matter, no matter what my manager says."
               ],
               [
                 "My next small step, within two weeks",
@@ -2122,7 +2246,7 @@
           "title": "The people involved",
           "optional": true,
           "intro": [
-            "If you are making this choice with someone else, fill in the table together after each of you has worked through your own answers. I have seen how easily a conversation can end with one person's picture and the other person simply agreeing to it."
+            "If you are making this choice with someone else, fill in the table together after each of you has worked through your own answers. I have seen how easily a conversation can end with one person's picture and the other person simply agreeing."
           ],
           "start_here": {
             "fields": [
@@ -2162,7 +2286,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "When I first described the life I wanted, I did not know many of the details. I had no plan for an inspection business, but I knew I loved building. I had not imagined writing this Blueprint, but I knew I was good at helping and supporting people. The details took shape as I went. Start with what you know now and take a first step. You will learn more by doing it."
+            "text": "When I first described the life I wanted, I didn't know many of the details. I had no plan for an inspection business, but I knew I loved building. I had not imagined writing this Blueprint, but I knew I was good at helping and supporting people. The details took shape as I went. Start with what you know now and take a first step. You will learn more by doing it."
           }
         }
       ],
@@ -2196,15 +2320,15 @@
     "rows": [
       [
         "The wheel of life (2.1)",
-        "A tool used in coaching for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."
+        "A coaching tool used for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."
       ],
       [
         "The Johari window (2.5)",
-        "Described by the psychologists Joseph Luft and Harrington Ingham in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."
+        "Psychologists Joseph Luft and Harrington Ingham described it in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."
       ],
       [
-        "Michael Pilarczyk's work (the warm-up, 1.1, 1.3, 2.1, 2.2, 2.5)",
-        "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move. I have adapted the wording for this Blueprint."
+        "Michael Pilarczyk's work",
+        "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move."
       ],
       [
         "Connect the dots (2.2)",

@@ -61,10 +61,10 @@
         },
         "example": {
           "who": "Daniel, 39",
-          "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside summer? Test: first, three calls with people who live there; then, if that holds up, a four-week working stay in November. C: Stay, but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
+          "text": "A: Move with my family to the Algarve. Not sure: would working there feel good outside of summer? Test: first, three calls with people who live there; then, if that holds up, a four-week working stay in November. C: Stay, but work four days a week. Not sure: can we live on less income? Test: live on 80% of our income for three months. D: Change nothing."
         },
         "tips": [
-          "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and is a test. A four-week stay is a better test, but it's later and more expensive. Start with the cheap version."
+          "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and tests it. A four-week stay is a better test, but it comes later and costs more. Start with the cheap version."
         ]
       },
       {
@@ -260,8 +260,8 @@
     "intro": [
       "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
       "Make your next step specific. It should be small enough to complete within two weeks, have a date, and teach you something. \"Read more about Portugal\" gives you no clear question or deadline. \"Call two people who moved there and ask what surprised them, before the 15th\" gives you both.",
-      "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier. You will return to this answer in Step 8.",
-      "The final decision comes in Step 3, after you have explored your options."
+      "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier, and include one line about your time. For example: \"I can take a day off when the weather is good, without asking anyone.\" You will return to this answer in Step 8.",
+      "You make the final decision in Step 3, after you have explored your options."
     ],
     "time": "30 min",
     "route_title": "Choose your working direction",
@@ -380,7 +380,7 @@
         "choice_explanations": [
           "I have a direction I want to investigate. Step 2 is waiting for you.",
           "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-          "I want to build the life I want where I am. Staying is a real result. It takes the same work of deciding, planning and building. We are developing a full staying route with the first participants.",
+          "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. We are developing a full staying route with the first participants.",
           "I am not ready to choose yet. Your page shows what you need to learn first.",
           "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
         ],
@@ -430,7 +430,7 @@
             ],
             [
               "The first question I will investigate, and why it matters most",
-              "Can we live on 80%? If the answer is no, the rest does not matter, whatever my manager says."
+              "Can we live on 80%? If the answer is no, the rest doesn't matter, no matter what my manager says."
             ],
             [
               "My next small step, within two weeks",
@@ -464,7 +464,7 @@
         "title": "The people involved",
         "optional": true,
         "intro": [
-          "If you are making this choice with someone else, fill in the table together after each of you has worked through your own answers. I have seen how easily a conversation can end with one person's picture and the other person simply agreeing to it."
+          "If you are making this choice with someone else, fill in the table together after each of you has worked through your own answers. I have seen how easily a conversation can end with one person's picture and the other person simply agreeing."
         ],
         "start_here": {
           "fields": [
@@ -504,7 +504,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "When I first described the life I wanted, I did not know many of the details. I had no plan for an inspection business, but I knew I loved building. I had not imagined writing this Blueprint, but I knew I was good at helping and supporting people. The details took shape as I went. Start with what you know now and take a first step. You will learn more by doing it."
+          "text": "When I first described the life I wanted, I didn't know many of the details. I had no plan for an inspection business, but I knew I loved building. I had not imagined writing this Blueprint, but I knew I was good at helping and supporting people. The details took shape as I went. Start with what you know now and take a first step. You will learn more by doing it."
         }
       }
     ],

@@ -16,7 +16,7 @@
       "What does the change itself cost, one time? (3.3)",
       "What comes in per month? (3.4)"
     ],
-    "intro_after": "In 3.5 you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
+    "intro_after": "In 3.5, you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
     "tips": [
       "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total isn't complete yet. It never counts as zero.",
       "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the new-life column unknown wherever you still need information."
@@ -101,7 +101,7 @@
                 "Travel (for example, visiting family)",
                 "Loan or credit repayments",
                 "Care costs (children, or someone you care for)",
-                "Yearly costs not already above, divided by 12 (gifts, holidays, repairs)",
+                "Yearly costs not already above, divided by 12",
                 "Other"
               ],
               "columns": [
@@ -140,7 +140,7 @@
         "id": "3.3",
         "title": "What does the change itself cost, one time?",
         "intro": [
-          "These are the costs you pay once to make the change. Include them early: a monthly budget can work on paper while the initial costs leave you short in month two."
+          "These are the costs you pay once to make the change. Include them early: a monthly budget can work on paper, but the initial costs can leave you short in month two."
         ],
         "start_here": {
           "prompt": "Only write money you will really spend.",
@@ -232,7 +232,7 @@
                 },
                 {
                   "id": "certainty",
-                  "label": "Confirmed / agreed / hoped",
+                  "label": "Confirmed/agreed/hoped",
                   "kind": "choice",
                   "options": [
                     "Confirmed",
@@ -363,7 +363,7 @@
               "id": "months",
               "type": "calculation",
               "label": "Question 3: how long?",
-              "hint": "Only if you are short each month (line 3).",
+              "hint": "Only if you are short each month (line 3)",
               "rows": [
                 {
                   "id": "months",
@@ -378,7 +378,7 @@
           ]
         },
         "result_guide": {
-          "title": "What your result means",
+          "title": "What your result means.",
           "intro": [
             "Read these two checks separately.",
             "Check one: can your savings cover the change itself? Look at line 8. Above zero means the one-time costs, deposits and reserve are covered, with money left to live on. Exactly zero means they are covered with nothing spare. Below zero means something needs to change: a cheaper version, a later date, a smaller reserve you deliberately choose, or more saving first.",
@@ -404,12 +404,31 @@
               "id": "deeper",
               "type": "long_text",
               "lines": 3
+            },
+            {
+              "id": "money_time",
+              "type": "heading",
+              "heading": "Money and time are connected.",
+              "hint": "You pay every fixed cost with hours you don't choose. Lower fixed costs mean fewer must-dos and less need to sell your hours on someone else's schedule."
+            },
+            {
+              "id": "hours_for_fixed",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Hours a month I work to pay my fixed costs.",
+              "hint": "How many hours a month do you work just to pay your fixed costs? And how much of your income depends on being somewhere at a fixed time? Write both down. They show where you could gain more control over your time: lower costs or a different way of earning."
+            },
+            {
+              "id": "income_fixed_place",
+              "type": "long_text",
+              "lines": 2,
+              "label": "How much of my income depends on a fixed time and place"
             }
           ]
         },
         "story": {
           "status": "ready",
-          "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me when I could afford it."
+          "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
         },
         "go_further": "Want to go further? The module Your Money Plan (future) helps you with goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
       }

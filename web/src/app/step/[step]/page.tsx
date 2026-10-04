@@ -8,7 +8,8 @@ import { PartRail } from "@/components/journey";
 import { RequireUser, Shell } from "@/components/Shell";
 import { Bullets, InfoTable } from "@/components/text";
 import { useApp } from "@/lib/app-state";
-import { displayTitle, getStep, partItems, stepOnlyBullets, type StepContent } from "@/lib/content";
+import { ClosedStep } from "@/components/closed-step";
+import { displayTitle, getStep, partItems, stepIsOpen, stepOnlyBullets, type StepContent } from "@/lib/content";
 import { continueTarget, exerciseHref, hrefOf, partProgress } from "@/lib/progress";
 
 function Closing({ step }: { step: StepContent }) {
@@ -245,7 +246,9 @@ export default function StepPage() {
   return (
     <Shell>
       <RequireUser>
-        {content ? (
+        {content && !stepIsOpen(Number(step)) ? (
+          <ClosedStep step={Number(step)} />
+        ) : content ? (
           <StepOverview step={content} />
         ) : (
           <p>

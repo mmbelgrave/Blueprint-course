@@ -8,7 +8,7 @@
     "intro_title": "Honest is not negative",
     "intro": [
       "This part is not about judging yourself. It is about seeing clearly.",
-      "This can feel like an invitation to list everything that is wrong. In my experience, it often does the opposite. Most people I have guided found more to build on than they expected: things they had already done, people willing to help, money they had overlooked, and skills they could use in a new setting.",
+      "This can feel like an invitation to list everything wrong. In my experience, it often does the opposite. Most people I have guided found more to build on than they expected: things they had already done, people willing to help, money they had overlooked, and skills they could use in a new setting.",
       "Your later plans depend on an honest view of where you stand now. If you guess your starting point, you guess your plan too. Give yourself the time to look carefully, without being hard on yourself."
     ],
     "time": "60–75 min",
@@ -26,7 +26,7 @@
         "promise": "A simple picture of how your life is doing, area by area.",
         "intro": [
           "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, rather than letting one problem dominate it.",
-          "It helps in two ways. First, it separates things that can get mixed together. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
+          "It helps in two ways. First, it separates things that can get mixed up. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
           "The score is only a starting point. The explanation beside it is what makes it useful."
         ],
         "tips": [
@@ -104,15 +104,104 @@
               "type": "long_text",
               "lines": 3,
               "hint": "Which one change would give you the most time back? Does it need a new country, or could it start next month?"
+            },
+            {
+              "id": "decides_intro",
+              "type": "heading",
+              "heading": "Then look at who decides",
+              "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. Being busy is not the problem. Being busy with what others decide is."
+            },
+            {
+              "id": "decides",
+              "type": "table",
+              "row_header": "Who decides my week?",
+              "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of your whole week (about 112 hours) is really yours.",
+              "row_labels": [
+                "Fixed by others",
+                "Must-dos",
+                "My choice"
+              ],
+              "columns": [
+                {
+                  "id": "now",
+                  "label": "Hours now",
+                  "kind": "number"
+                },
+                {
+                  "id": "want",
+                  "label": "Hours I want",
+                  "kind": "number"
+                }
+              ]
+            },
+            {
+              "id": "share",
+              "type": "calculation",
+              "app_note": "The workbook asks the person to work the share out themselves; the app does the division.",
+              "rows": [
+                {
+                  "id": "choice_now",
+                  "label": "My choice, hours now",
+                  "example": "37",
+                  "hidden": true,
+                  "from": { "exercise": "2.1", "field": "decides", "column": "now", "row": "My choice" }
+                },
+                {
+                  "id": "choice_want",
+                  "label": "My choice, hours I want",
+                  "example": "50",
+                  "hidden": true,
+                  "from": { "exercise": "2.1", "field": "decides", "column": "want", "row": "My choice" }
+                },
+                {
+                  "id": "share_now",
+                  "label": "Share I decide myself (my choice ÷ 112)",
+                  "example": "33%",
+                  "formula": "choice_now * 100 / 112",
+                  "format": "percent"
+                },
+                {
+                  "id": "share_want",
+                  "label": "Share I want",
+                  "example": "45%",
+                  "formula": "choice_want * 100 / 112",
+                  "format": "percent"
+                }
+              ]
+            },
+            {
+              "id": "drop",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Must-dos I can drop, simplify, share or outsource",
+              "hint": "Look at your must-dos first. Which can you drop, simplify, share or outsource? Then look at one fixed block. Could you move it, shorten it, or ask for it to be different?"
+            },
+            {
+              "id": "fixed_block",
+              "type": "long_text",
+              "lines": 2,
+              "label": "A fixed block I could move, shorten or negotiate."
+            },
+            {
+              "id": "take_back",
+              "type": "long_text",
+              "lines": 2,
+              "label": "One block of my week I will take back in the next month."
             }
           ]
         },
-        "example": {
-          "who": "Lucas, 29",
-          "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
-        },
+        "example": [
+          {
+            "who": "Lucas, 29",
+            "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
+          },
+          {
+            "who": "Lucas, 29",
+            "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of my waking week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
+          }
+        ],
         "go_deeper": {
-          "prompt": "Which area has the biggest gap? Which area pulls you most towards a change, and which one makes a change most difficult?",
+          "prompt": "Which area has the biggest gap? Which area pulls you most toward change, and which one makes change most difficult?",
           "fields": [
             {
               "id": "deeper",
@@ -121,10 +210,16 @@
             }
           ]
         },
-        "story": {
-          "status": "ready",
-          "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
-        }
+        "story": [
+          {
+            "status": "ready",
+            "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
+          },
+          {
+            "status": "ready",
+            "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: not more free time, but more say over my time."
+          }
+        ]
       },
       {
         "id": "2.2",
@@ -170,7 +265,7 @@
         ],
         "story": {
           "status": "ready",
-          "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about half a year. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after putting the company online and introducing it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
+          "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about six months. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after I put the company online and introduced it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
         },
         "go_deeper": {
           "title": "Connect the dots",
@@ -207,7 +302,7 @@
           ],
           "story": {
             "status": "ready",
-            "text": "When I was 21, shortly after graduating from technical college (HTS), I moved to Thailand with my parents. The move was their decision, but I was closely involved in finding land, building our home, and settling into a place where we had a new language to learn. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fitted together."
+            "text": "When I was 21, shortly after graduating, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fit together."
           }
         }
       },
@@ -262,7 +357,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, running my own business and helping people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
+          "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, run my own business, and help people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
         }
       },
       {
@@ -270,7 +365,7 @@
         "title": "Beliefs I never checked",
         "promise": "We all carry beliefs we never checked. Some hold us back. Others look attractive, but may not be true either.",
         "intro": [
-          "\"I am too old to start again.\" \"Life there is cheaper.\" These can both feel like facts, even when we have not checked them.",
+          "\"I am too old to start again.\" \"Life there is cheaper.\" These can feel like facts, even when we haven't checked them.",
           "The beliefs that hold us back are often easier to notice because they hurt. The appealing ones deserve just as much attention. When something supports a plan we like, we are less inclined to question it. That can become expensive later.",
           "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, rather than treating it as a fact."
         ],
@@ -349,8 +444,8 @@
         "optional": true,
         "promise": "Other people sometimes see things in us that we cannot see ourselves.",
         "intro": [
-          "In the 1950s, psychologists Joseph Luft and Harrington Ingham developed the Johari window. It has four areas. Here, we use the one they called the blind area: things other people notice about you that you do not see yourself. Asking for specific feedback can help you recognise them.",
-          "Ask for observations and examples. This is not a vote on your plan, and you do not need anyone's permission. A specific question gives people more to work with than a broad request for feedback."
+          "In the 1950s, psychologists Joseph Luft and Harrington Ingham developed the Johari window. It has four areas. Here, we use what they called the blind area: things other people notice about you that you don't see yourself. Asking for specific feedback can help you recognise them.",
+          "Ask for observations and examples. This isn't a vote on your plan, and you don't need anyone's permission. A specific question gives people more to work with than a broad request for feedback."
         ],
         "start_here": {
           "prompt": "Ask two or three people who know you well to answer in writing. A message is fine:",
@@ -400,7 +495,7 @@
           "id": "time",
           "type": "long_text",
           "lines": 2,
-          "label": "Where my time goes, and the change that would give me most time back"
+          "label": "Where my time goes, the share I decide myself, and the block I will take back first"
         },
         {
           "id": "strengths",

@@ -30,10 +30,13 @@ export type CalcRow = {
   label: string;
   example: string;
   input?: "money";
-  from?: { exercise: string; field: string; column: string };
+  /** A column total of a table, or one row of it when 'row' names a row label. */
+  from?: { exercise: string; field: string; column: string; row?: string };
   formula?: string;
   condition?: string;
-  format?: "money" | "left_or_short" | "months";
+  format?: "money" | "left_or_short" | "months" | "percent";
+  /** Feeds the formulas without being shown (2.1: the hours behind the share). */
+  hidden?: boolean;
 };
 
 export type Field = {
@@ -102,6 +105,11 @@ export type Block = {
 };
 
 export type Example = { who: string; text: string };
+export type Story = { status: string; text: string };
+
+/** One or many, always read as a list. */
+export const asList = <T,>(v: T | T[] | undefined): T[] =>
+  v === undefined ? [] : Array.isArray(v) ? v : [v];
 
 /** A fixed content table (not filled in by the person). */
 export type InfoTable = {
@@ -133,14 +141,14 @@ export type Exercise = {
   /** Missing on a page that is only there to be read (Step 2 1.1, 2.1, 2.2). */
   start_here?: Block;
   go_deeper?: Block;
-  example?: Example;
+  example?: Example | Example[];
   /** A fully filled-in example page (5.1: Rosa). */
   example_page?: { title: string; intro?: string; rows: string[][] };
   /** "What your result means" (3.5). */
   result_guide?: { title: string; intro?: Text; bullets?: string[]; closing?: string };
   tips?: string[];
   watch_out?: string[];
-  story?: { status: string; text: string };
+  story?: Story | Story[];
   challenge?: string;
   where_to_check?: string[];
   expert_work?: string;
@@ -236,7 +244,15 @@ export type Journey = {
   intro: string;
   phases: { id: string; name: string; steps: number[]; says: string }[];
   two_outcomes: string;
-  steps: { number: number; title: string; question: string; result: string; in_app: boolean }[];
+  steps: {
+    number: number;
+    title: string;
+    question: string;
+    result: string;
+    in_app: boolean;
+    /** What the overview says about a step that is not open ("being written"). */
+    note?: string;
+  }[];
   not_here_yet: string;
 };
 
@@ -256,6 +272,13 @@ const SHARED_BULLETS = new Set(
   appGuide.sections.filter((s) => s.shared_bullets).flatMap((s) => s.bullets ?? []),
 );
 export const stepOnlyBullets = (bullets: string[]) => bullets.filter((b) => !SHARED_BULLETS.has(b));
+
+/**
+ * Is this step open to people? A step can be written and still be closed: Step 2
+ * waits for its final workbook. Its content and everyone's answers stay where
+ * they are; only the door is shut (journey.json, in_app).
+ */
+export const stepIsOpen = (n: number) => journey.steps.some((s) => s.number === n && s.in_app);
 
 export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];
 

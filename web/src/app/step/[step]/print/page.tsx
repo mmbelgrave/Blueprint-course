@@ -6,12 +6,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { pictureLinks, picturesAvailable } from "@/lib/backend/pictures";
+import { ClosedStep } from "@/components/closed-step";
 import { RequireUser, Shell } from "@/components/Shell";
 import { fieldAnswerText } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
 import {
   exerciseFields,
   getStep,
+  stepIsOpen,
   tableRows,
   PRODUCT,
   type Exercise,
@@ -261,7 +263,13 @@ export default function Print() {
   return (
     <Shell>
       <RequireUser>
-        {content ? <PrintPage step={content} /> : <p>This step does not exist.</p>}
+        {content && !stepIsOpen(Number(step)) ? (
+          <ClosedStep step={Number(step)} />
+        ) : content ? (
+          <PrintPage step={content} />
+        ) : (
+          <p>This step does not exist.</p>
+        )}
       </RequireUser>
     </Shell>
   );

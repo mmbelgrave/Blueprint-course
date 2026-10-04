@@ -3,12 +3,14 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/cards";
+import { ClosedStep } from "@/components/closed-step";
 import { FieldInput, formatMoney, tableFieldTotal } from "@/components/fields";
 import { PartnerPanel } from "@/components/PartnerPanel";
 import { RequireUser, Shell } from "@/components/Shell";
 import { Bullets, InfoTable, Paragraphs } from "@/components/text";
 import { useApp } from "@/lib/app-state";
 import {
+  asList,
   displayNumber,
   displayTitle,
   exerciseFields,
@@ -16,6 +18,7 @@ import {
   partItems,
   setupKey,
   stepExercises,
+  stepIsOpen,
   type Block,
   type Exercise,
   type Field,
@@ -235,6 +238,7 @@ function Step1MoneyHint({ exercise }: { exercise: Exercise }) {
 }
 
 function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exerciseId: string }) {
+  if (!stepIsOpen(stepNumber)) return <ClosedStep step={stepNumber} />;
   const found = findExercise(exerciseId);
   if (!found || found.step.step.number !== stepNumber) {
     return (
@@ -368,7 +372,9 @@ function ExerciseBody({ located }: { located: Located }) {
             </div>
             <Bullets items={exercise.start_here.bullets} className="text-stone" />
             <Step1MoneyHint exercise={exercise} />
-            {exercise.example && <ExampleFold example={exercise.example} />}
+            {asList(exercise.example).map((ex) => (
+              <ExampleFold key={ex.who + ex.text.slice(0, 20)} example={ex} />
+            ))}
             {canDraft && <DraftHelper pageId={exercise.id} onDrafts={setDrafts} />}
             <Fields storeId={exercise.id} exercise={exercise} block={exercise.start_here} drafts={drafts} />
             {exercise.start_here.closing && <p className="text-stone">{exercise.start_here.closing}</p>}
@@ -458,11 +464,11 @@ function ExerciseBody({ located }: { located: Located }) {
             <p>{exercise.expert_work}</p>
           </Card>
         )}
-        {exercise.story && (
-          <Card tone="story" title="My story — Mwata">
-            <p>{exercise.story.text}</p>
+        {asList(exercise.story).map((s) => (
+          <Card key={s.text.slice(0, 30)} tone="story" title="My story — Mwata">
+            <p>{s.text}</p>
           </Card>
-        )}
+        ))}
         {exercise.go_further && (
           <p className="rounded-2xl border border-line p-4 text-stone">{exercise.go_further}</p>
         )}

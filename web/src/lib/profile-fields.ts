@@ -9,6 +9,7 @@ export const PROFILE_FIELDS = [
   { key: "must_haves", label: "Your must-haves", kind: "list" },
   { key: "dealbreakers", label: "Your dealbreakers", kind: "list" },
   { key: "wheel_scores", label: "Your life today and in one year", kind: "text" },
+  { key: "time", label: "Your time, and who decides it", kind: "text" },
   { key: "strengths", label: "Your strengths and support", kind: "list" },
   { key: "beliefs", label: "Beliefs you want to check", kind: "list" },
   { key: "money", label: "Your money picture", kind: "text" },
@@ -56,7 +57,12 @@ export const PROFILE_SOURCES: Record<ProfileKey, { page: string; fields?: string
     { page: "1.4", fields: ["dealbreakers"] },
     { page: "s2-0.1", fields: ["dealbreakers"] },
   ],
-  wheel_scores: [{ page: "2.1" }],
+  wheel_scores: [{ page: "2.1", fields: ["wheel"] }],
+  time: [
+    { page: "2.1", fields: ["time", "most_time_back", "decides", "share", "drop", "fixed_block", "take_back"] },
+    { page: "3.5", fields: ["hours_for_fixed", "income_fixed_place"] },
+    { page: "starting_point", fields: ["time"] },
+  ],
   strengths: [{ page: "2.2" }, { page: "2.5" }, { page: "starting_point", fields: ["strengths"] }],
   beliefs: [{ page: "2.4" }, { page: "starting_point", fields: ["beliefs_to_check"] }],
   money: [

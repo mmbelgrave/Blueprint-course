@@ -166,7 +166,7 @@
         },
         "example": {
           "who": "Tom, 58",
-          "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner. No more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
+          "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner—no more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
         },
         "tips": [
           "Some things you do not want have no clear \"yes\" yet. Write \"not sure yet\". You come back to them in 1.2, when you describe your normal day."
@@ -234,7 +234,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I was building something with my hands, helping someone move forward, or spending time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
+          "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I built something with my hands, helped someone move forward, or spent time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
         }
       },
       {
@@ -297,7 +297,7 @@
         },
         "example": {
           "who": "Maria, 46",
-          "text": "I wake up at 7, without an alarm. From my window, I see olive trees. I drink coffee outside. In the morning, I work four hours online for my clients. In the afternoon, I work in the garden or go to the market in the village. My partner and I cook together. Twice a week, friends come for dinner. Two afternoons a week are for paperwork and cleaning, and I don't enjoy them. I go to bed tired, but happy."
+          "text": "I wake up at 7, without an alarm. From my window, I see olive trees. I drink coffee outside. In the morning, I work online for my clients for four hours. In the afternoon, I work in the garden or go to the village market. My partner and I cook together. Twice a week, friends come for dinner. Two afternoons a week are for paperwork and cleaning, and I don't enjoy them. I go to bed tired, but happy."
         },
         "go_deeper": {
           "prompt": [
@@ -316,7 +316,7 @@
               "max": 8,
               "label": "Make it visible",
               "hint": "Collect five to eight photos of ordinary scenes that fit your day: a kitchen table, a path, a workshop, a market. Use your own photos where you can. Under each one, write the need it represents. These pictures will help you compare real places with the daily life you want.",
-              "caption_label": "The need this picture represents"
+              "caption_label": "The need it represents"
             }
           ]
         },
@@ -366,7 +366,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I did not have two million euros, but I realised I did not need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. The land was officially mine in August 2024. Today, I am building the life I pictured."
+          "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I didn't have two million euros, but I realised I didn't need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. In August 2024, I signed for the land, and by the end of that year it was officially mine. Today, I am building the life I pictured."
         }
       },
       {
@@ -394,7 +394,7 @@
                 "You will not accept this. It ends the discussion."
               ]
             ],
-            "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, there are usually two or three that matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
+            "after": "It is easy to label everything essential. A list of ten must-haves can leave you with no workable option. In my experience, two or three usually matter most. Some situations need more: health, caring for someone, or access to a school can each be essential."
           }
         ],
         "start_here": {
@@ -496,13 +496,13 @@
           "text": "Words: family, security, nature, adventure, honesty. \"Family\" in a normal week: dinner together at least four times. Must-have: a good school close to home (essential). A garden (strongly preferred). Dealbreaker: more than one hour from a hospital. Keep: my weekly football team. Let go: a big car."
         },
         "tips": [
-          "Choosing one thing often means giving up another. Decide which trade-offs you can accept before you have spent money or committed to a place."
+          "Choosing one thing often means giving up another. Decide which trade-offs you can accept before you spend money or commit to a place."
         ]
       },
       {
         "id": "1.5",
         "title": "Whose picture is this?",
-        "promise": "Other people help shape your picture. This exercise asks whose influence you can see in it.",
+        "promise": "Other people help shape your picture. This exercise asks whose influence you can see.",
         "intro": [
           "Family, friends, social media and past experiences all shape what we want. That does not make a wish wrong. But it is worth checking how much of the picture feels like your own before you commit to it or sell your home.",
           "Also ask whether you are moving towards something, away from something, or both. Wanting to leave a job that leaves you tired and empty is a valid reason for change. It tells you what needs to end, but you still need to decide what you want in its place. A move is more likely to help when you know which problem you are trying to solve."
@@ -555,7 +555,7 @@
           "id": "needs_patterns",
           "type": "long_text",
           "lines": 2,
-          "label": "Moments and needs that keep coming back"
+          "label": "Moments and needs that keep coming back."
         },
         {
           "id": "more_of",
