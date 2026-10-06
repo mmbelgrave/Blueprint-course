@@ -190,16 +190,38 @@ them:
 
 | Setting | Where in Bunny |
 | --- | --- |
-| `BUNNY_TOKEN_KEY` | Stream → your library → Security → token authentication key (secret) |
-| `BUNNY_LIBRARY_ID` | Stream → your library → API |
-| `NEXT_PUBLIC_BUNNY_CDN` | Stream → your library → the pull zone hostname |
+| `BUNNY_TOKEN_KEY` | **Stream → your library → Security → General**, at the foot: *Token authentication key* |
+| `BUNNY_LIBRARY_ID` | Stream → your library → API (it is also in the dashboard address) |
+| `NEXT_PUBLIC_BUNNY_CDN` | Stream → your library → Delivery: the pull zone hostname |
 
 The library id and the hostname are not secrets: they are half of every playback
 address. The token key is, and it is what makes an address work for a few
 minutes only, for someone who owns the step.
 
-Turn **token authentication** on once the first real video is up. Leave it off
-while testing and nothing is exposed that is not meant to be.
+**Security → General has two token switches, and we need the second one:**
+
+- *Embed view token authentication* protects **Bunny's own embedded player**,
+  which this app does not use.
+- **CDN token authentication** protects **the video files themselves**. Our
+  player asks the CDN for them directly, so this is the one to turn on.
+
+Turn it on once the first real video is up and playing. While it is off nothing
+is exposed that is not meant to be, because no videos exist yet.
+
+On the same page, **Allowed domains** is worth filling in as well:
+`app.maderealblueprint.com`, and `localhost` while testing. It is not a
+replacement for the token — a referer is easy to fake — but it costs nothing.
+
+**In Vercel**, add all three to **Production and Preview**. Preview is where the
+branch is tested, so leaving it out means the next version cannot play anything.
+Development is not needed: `web/.env.local` covers your own computer.
+`NEXT_PUBLIC_BUNNY_CDN` cannot be marked secret, and should not be — anything
+beginning `NEXT_PUBLIC_` is compiled into the page and the browser can read it.
+That is why it is the hostname and not the key.
+
+**The sound-only files go in the same video library.** Bunny Stream takes MP3 and
+WAV as well as video, so an audio version is uploaded beside its video and
+carries the same signing and the same player. No Storage zone is needed.
 
 The sound-only files (an MP3 per lesson, drawn from the finished video) live in
 a **Storage zone**, not in Stream.

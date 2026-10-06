@@ -432,9 +432,10 @@ the rest in the car, and the place is the same either way; finishing one counts
 as finishing the lesson. Listening always uses the small player, because the
 point of it is to be doing something else.
 
-Bunny Stream has no sound-only output of its own, so the audio is a separate
-file (an MP3 drawn from the finished video) kept in Bunny Storage and named in
-the content beside the video address. Subtitles still matter as much: someone on
+Bunny Stream makes no sound-only version by itself, so each one is an MP3 drawn
+from the finished video — but it is uploaded to the **same video library**,
+which accepts MP3 and WAV, so it carries the same signing and plays in the same
+player. It is named in the content beside the video address. Subtitles still matter as much: someone on
 a train with no headphones has neither.
 
 **Choice:** host the videos on a **video streaming service** and play them
