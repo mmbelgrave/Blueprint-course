@@ -459,10 +459,12 @@ before anything is built. The review must cover these points:
   at the same second. A video started before shows "Continue at 4:12" and
   "Start again".
 - **It keeps playing while I do something else.**
-  - *Inside the app:* moving from the step page to the exercises does not stop
-    the video. It shrinks to a **mini-player** at the bottom (above the tab bar,
-    §6.9) and keeps playing, so someone can listen while writing. The player
-    lives in the app's shared layout, so changing page does not reload it.
+  - *Inside the app:* the video stays where it is put. **Scrolling never moves
+    it**, which was the first thing Mwata noticed and disliked. A **Pop out**
+    button on the player hands it to the corner, where it keeps playing while he
+    moves around the app, and puts it back again. Listening does the same, since
+    a picture is beside the point then. Walking away from a video without asking
+    for either simply stops it, with the place kept for next time.
   - *Outside the app:* **picture-in-picture** (a small floating window on top
     of other apps), and lock-screen and notification controls (play, pause,
     skip 10 seconds) through the browser's media controls.
@@ -555,40 +557,64 @@ you plan your move with, and many exercises are for couples).
   remove the partner and invite someone else.
 - Their AI use counts in Admin like anyone else's.
 
-### 6.9 A bottom tab bar on phones
-**Why.** The app is mostly used on a phone, and the links sit at the top, out of
-thumb reach, scrolling away as soon as someone starts reading. A fixed bar at the
-bottom is how people expect to move around a phone app.
+### 6.9 How the app is laid out
+**Decided 7 October**, from Mwata's sketch. This replaces the earlier tab-bar
+section: the bar is not a new way to reach the same pages, it is the shape of
+the app.
 
-**What it is**
-- A fixed bar at the bottom of the screen, **phones only** (below the `sm`
-  breakpoint). On a tablet or computer the top links stay as they are.
-- Four tabs, each an icon above a short word, with the current one marked in
-  Ochre and announced with `aria-current="page"`:
-  1. **Overview** — the eight steps.
-  2. **Continue** — straight to the page I last had open; the first time, to the
-     start of Step 1.
-  3. **My notes** — what my AI partner knows.
-  4. **Settings** — including Help and Sign out, which leave the top bar.
-- **Decided 6 October:** Help is *not* a tab. It stays in Settings, because it
-  already has a better entry point — "Ask Mwata" sits beside the AI partner on
-  every exercise page, which is where people actually get stuck.
+**Five places along the bottom:**
 
-**What it must get right**
-- The page needs bottom padding equal to the bar, so the last answer box and the
-  "Mark as done" row are never covered.
-- It respects the iPhone home-bar inset (`env(safe-area-inset-bottom)`).
-- It is **not** shown signed out (front door, sign-in), and never printed.
-- It must not compete with the "Mark as done" row at the foot of an exercise:
-  check the two together on a real phone before releasing.
-- Admin stays off the bar: a link on the overview, for Mwata only.
-- Icons: simple line icons in the brand's weight. The app has no icon set yet,
-  so one has to be drawn or chosen; the mark in `brand.tsx` sets the style.
-- Works in light and dark, and at the largest text size a phone can set.
+| | Holds |
+| --- | --- |
+| **Modules** | The course: videos and workbooks |
+| **Exercises** | The workbook in the app, as it is today |
+| **Made Real AI** | What my AI partner knows (later, a partner for questions that belong to no page) |
+| **Settings** | Settings and signing out |
+| **Help** | Asking Mwata a question |
 
-**Done when:** on a phone I can reach every main place with my thumb without
-scrolling, nothing is hidden behind the bar, the current place is obvious, and
-the computer layout is unchanged.
+**Modules has three levels.**
+
+1. **What you can open**, by what you own (§6.1): Free material, Step 1, Step 2,
+   Step 3, each with its overall progress.
+2. **Inside a step**: the parts, each with its title, the thumbnail from its
+   video, and its progress.
+3. **A part**: the video, the workbook to download, a link **to the exercises in
+   the app**, a tickbox for *module completed*, and the lessons that follow.
+
+So two people can use the same course differently: one watches and writes in the
+PDF, the other watches and answers in the app. Neither is the odd one out.
+
+**Exercises** keeps today's overview, and from a video the link goes straight to
+the part of the step it belongs to.
+
+**Must the video be watched first?** Mwata asked; the answer is **no, order it
+rather than lock it**.
+- The website promises buyers "the workbooks as PDF downloads" on payment.
+  Holding one back until a video has been watched breaks a promise already made,
+  and the first support question would be "where is the workbook I paid for".
+- Some people read rather than watch, some have a poor connection, and some will
+  have watched already on another device. A lock punishes all three.
+- What it is really for — making sure the video is seen — is better served by
+  putting it first on the page, by letting the tickbox be the obvious next
+  thing, and by one line saying the workbook makes more sense afterwards.
+
+**Still to decide before building**
+- **Two doors to one course.** Modules and Exercises both lead to Step 1, by
+  different routes. The names have to make the difference obvious at a glance,
+  and each should link to the other so nobody feels lost between them.
+- **Five labels on a small phone.** "Made Real AI" will not fit; "AI" or
+  "Partner" will. Worth checking at 375 pixels before it is built.
+- **Two kinds of progress.** A module's progress is videos watched; a step's is
+  pages done. They will differ, and the overview has to be honest about which it
+  is showing.
+
+**What it must get right** (unchanged from the earlier plan): room at the foot of
+a page so nothing hides behind the bar, the iPhone home-bar inset, never shown
+signed out, never printed, and the current place obvious and announced.
+
+**Done when:** on a phone I can reach every part of the app with my thumb; from
+Modules I can watch a video, download its workbook and go to its exercises; and
+what I do not own is visibly not mine.
 
 ### 6.10 Also waiting
 - **Steps 2 and 3**: both workbooks are final the weekend of 10–11 October.

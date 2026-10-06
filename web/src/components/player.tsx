@@ -63,6 +63,8 @@ export const useVideo = () => useContext(Ctx);
 export function PlayerHost({ children }: { children: React.ReactNode }) {
   const [now, setNow] = useState<Video | null>(null);
   const [listening, setListening] = useState(false);
+  /** The corner player, only ever because the person asked for it. */
+  const [popped, setPopped] = useState(false);
   const [rect, setRect] = useState<Rect | null>(null);
   const [progress, setProgress] = useState<Record<string, Progress>>({});
   const media = useRef<HTMLVideoElement | null>(null);
@@ -73,6 +75,7 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
   const play = useCallback((video: Video, asAudio = false) => {
     lastSaved.current = null;
     setListening(asAudio && !!video.audioSrc);
+    setPopped(false);
     setNow(video);
   }, []);
   const stop = useCallback(() => setNow(null), []);
@@ -157,17 +160,33 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
     };
   }, [now, listening, save, progress]);
 
+  /*
+   * Walking away from a video stops it, with the place kept, so it is waiting
+   * when the person comes back. It only follows them to another page if they
+   * asked it to, by popping it out or by listening.
+   */
+  useEffect(() => {
+    if (!now || rect !== null || popped || listening) return;
+    const el = media.current;
+    if (el) save(now, el.currentTime, el.duration, true);
+    setNow(null);
+  }, [now, rect, popped, listening, save]);
+
   const value = useMemo<VideoState>(
     () => ({ now, listening, listen, play, stop, claim, progressOf }),
     [now, listening, listen, play, stop, claim, progressOf],
   );
 
-  // Over its slot when there is one; otherwise, and whenever someone is only
-  // listening, the small player in the corner.
-  const mini = rect === null || listening;
-  const style: React.CSSProperties = mini
-    ? { right: "1rem", bottom: "1rem", width: "min(22rem, 70vw)" }
-    : { top: rect.top, left: rect.left, width: rect.width };
+  /*
+   * The corner player appears for two reasons only: the person pressed the
+   * button, or they are listening rather than watching, where a picture would
+   * be beside the point. Leaving the page is not one of them — see below.
+   */
+  const mini = popped || listening || rect === null;
+  const style: React.CSSProperties =
+    mini || rect === null
+      ? { right: "1rem", bottom: "1rem", width: "min(22rem, 70vw)" }
+      : { top: rect.top, left: rect.left, width: rect.width };
 
   return (
     <Ctx.Provider value={value}>
@@ -193,15 +212,27 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
               </HlsJsVideo>
             </VideoSkin>
           </VideoPlayer>
-          {now.audioSrc && (
-            <button
-              type="button"
-              className="absolute left-1 top-1 z-10 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white"
-              onClick={() => listen(!listening)}
-            >
-              {listening ? "Watch" : "Listen"}
-            </button>
-          )}
+          <div className="absolute left-1 top-1 z-10 flex gap-1">
+            {now.audioSrc && (
+              <button
+                type="button"
+                className="rounded-full bg-black/60 px-2 py-0.5 text-xs text-white"
+                onClick={() => listen(!listening)}
+              >
+                {listening ? "Watch" : "Listen"}
+              </button>
+            )}
+            {!listening && (
+              <button
+                type="button"
+                className="rounded-full bg-black/60 px-2 py-0.5 text-xs text-white"
+                onClick={() => setPopped(!popped)}
+                title={popped ? "Put the video back on the page" : "Keep watching while you move around the app"}
+              >
+                {popped ? "Back in place" : "Pop out"}
+              </button>
+            )}
+          </div>
           {mini && (
             <button
               type="button"

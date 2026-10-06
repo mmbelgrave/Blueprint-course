@@ -7,7 +7,7 @@
  * or the person moves to another page, the slot stops reporting and the player
  * becomes the small one in the corner, still playing.
  */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useVideo, type Video } from "@/components/player";
 import { shouldOfferResume, timeLabel } from "@/lib/video";
 
@@ -26,22 +26,18 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
   const ctx = useVideo();
   const videoId = id ?? video?.title ?? "";
   const playingThis = ctx?.now?.id === videoId;
-  const [onScreen, setOnScreen] = useState(true);
 
   const report = useCallback(() => {
     const el = box.current;
     if (!el || !ctx) return;
-    const r = el.getBoundingClientRect();
     /*
-     * Only hand the video to the corner once it has genuinely gone. Judging by
-     * "has an edge left the window" made it jump to the corner while most of
-     * the picture was still on screen, which is startling while you are
-     * watching. So it keeps its place until less than a third of it is visible.
+     * The video stays where it is put. Scrolling never moves it to the corner:
+     * that only happens when the person asks for it, with the button on the
+     * player. Scrolling past a video and having it leap into the corner is
+     * startling, and it is not what anyone asked for.
      */
-    const shown = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
-    const visible = r.height > 0 && shown / r.height > 0.33;
-    setOnScreen(visible);
-    ctx.claim(videoId, visible ? { top: r.top, left: r.left, width: r.width } : null);
+    const r = el.getBoundingClientRect();
+    ctx.claim(videoId, { top: r.top, left: r.left, width: r.width });
   }, [ctx, videoId]);
 
   useEffect(() => {
@@ -78,7 +74,7 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
       <div ref={box} className="aspect-video w-full overflow-hidden rounded-2xl border border-line bg-pine">
         {/* The space is kept whether or not the player is sitting here, so the
             page does not jump when the video starts or scrolls out of view. */}
-        {(!playingThis || !onScreen) && (
+        {!playingThis && (
           <button
             type="button"
             className="flex h-full w-full flex-col items-center justify-center gap-2 text-sand"
