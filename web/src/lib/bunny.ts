@@ -6,11 +6,19 @@
  * asks /api/video/url for an address and gets one that works for a few minutes,
  * and only if that person owns the step.
  *
- * The trap is HLS. A playlist is not one file: it names dozens of segments, and
- * the player fetches each of them. A token signed for the playlist alone would
- * let the playlist load and then every segment would be refused. So the token
- * is signed for the **directory** (Bunny calls this token_path), which covers
- * the playlist and everything beside it.
+ * The trap is HLS, and it has two halves. A playlist is not one file: it names
+ * other playlists and dozens of segments, and the player fetches each of them.
+ *
+ *   1. The token must cover the whole **directory**, not one file (token_path).
+ *   2. The token must travel **in the path**, not in the query. The addresses
+ *      inside a playlist are relative, and a relative address inherits the
+ *      folder it sits in but never the query string. Signed in the query, the
+ *      playlist loads and every segment is refused — which looks like a broken
+ *      video, not a permissions problem.
+ *
+ * Proved on 6 October against the real CDN: with the token in the query,
+ * /{id}/playlist.m3u8 was 200 and the 360p playlist beside it was 403. With the
+ * token in the path, both are 200 and the player needs no special handling.
  *
  * Bunny's "advanced" scheme, from their documentation:
  *   hashed   = signature_path + expires + [user_ip] + signing_data
@@ -61,8 +69,8 @@ export type PlaybackOptions = {
 export type Playback = { url: string; expires: number };
 
 /**
- * An address the player can use. The directory is signed, so the playlist and
- * every segment under it are allowed by the same token.
+ * An address the player can use. The token sits in the path, before the video's
+ * own folder, so everything the playlist points at inherits it.
  */
 export function playbackUrl({
   cdn,
@@ -75,8 +83,8 @@ export function playbackUrl({
   const expires = Math.floor(now / 1000) + minutes * 60;
   const tokenPath = `/${videoId}/`;
   const token = signToken({ key, tokenPath, expires, params: { token_path: tokenPath } });
-  const query = new URLSearchParams({ token, expires: String(expires), token_path: tokenPath });
-  return { url: `https://${cdn}${tokenPath}${file}?${query}`, expires };
+  const prefix = `/bcdn_token=${encodeURIComponent(token)}&expires=${expires}&token_path=${encodeURIComponent(tokenPath)}`;
+  return { url: `https://${cdn}${prefix}${tokenPath}${file}`, expires };
 }
 
 /** Is this a Bunny video id rather than something a person typed? */

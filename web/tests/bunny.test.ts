@@ -38,16 +38,27 @@ test("the extra parameters are signed in a fixed order", () => {
   assert.equal(one, two, "the order they were written in must not matter");
 });
 
-// The whole point: a playlist names dozens of segments, and the player fetches
-// each one. The token covers the directory, so they are all allowed by it.
-test("the address is signed for the directory, not the playlist", () => {
+/*
+ * The whole point, and it cost an afternoon to learn: a playlist names other
+ * playlists and dozens of segments by *relative* address. A relative address
+ * inherits the folder it sits in and never the query string. So the token has
+ * to be in the path, before the video's folder, or the playlist loads and every
+ * segment is refused.
+ */
+test("the token is in the path, so relative addresses inherit it", () => {
   const { url, expires } = playbackUrl({ cdn: "vz-test.b-cdn.net", videoId: VIDEO, key: KEY, now: NOW });
   const u = new URL(url);
   assert.equal(u.host, "vz-test.b-cdn.net");
-  assert.equal(u.pathname, `/${VIDEO}/playlist.m3u8`);
-  assert.equal(u.searchParams.get("token_path"), `/${VIDEO}/`, "the directory, so the segments work too");
-  assert.equal(u.searchParams.get("expires"), String(expires));
-  assert.match(u.searchParams.get("token") ?? "", /^HS256-/);
+  assert.equal(u.search, "", "nothing in the query: that is the whole point");
+  assert.ok(u.pathname.startsWith("/bcdn_token="), "the token comes first");
+  assert.ok(u.pathname.endsWith(`/${VIDEO}/playlist.m3u8`), "the video's own folder comes last");
+  assert.ok(u.pathname.includes(`expires=${expires}`));
+  assert.ok(u.pathname.includes(encodeURIComponent(`/${VIDEO}/`)), "the directory is declared");
+
+  // What the player will actually ask for next, resolved the way a browser does.
+  const child = new URL("360p/video.m3u8", url).href;
+  assert.ok(child.includes("bcdn_token="), "the child playlist keeps the token");
+  assert.ok(child.endsWith(`/${VIDEO}/360p/video.m3u8`));
 });
 
 test("an address stops working, and not too soon", () => {
@@ -61,12 +72,9 @@ test("an address stops working, and not too soon", () => {
 test("the sound-only file is signed by the same directory token", () => {
   const video = playbackUrl({ cdn: "c", videoId: VIDEO, key: KEY, now: NOW });
   const audio = playbackUrl({ cdn: "c", videoId: VIDEO, key: KEY, now: NOW, file: "audio.mp3" });
-  assert.equal(new URL(audio.url).pathname, `/${VIDEO}/audio.mp3`);
-  assert.equal(
-    new URL(audio.url).searchParams.get("token"),
-    new URL(video.url).searchParams.get("token"),
-    "same directory, same token",
-  );
+  assert.ok(new URL(audio.url).pathname.endsWith(`/${VIDEO}/audio.mp3`));
+  const tokenOf = (u: string) => new URL(u).pathname.split("/")[1];
+  assert.equal(tokenOf(audio.url), tokenOf(video.url), "same directory, same token");
 });
 
 test("a video id is recognised, and nonsense is not", () => {
