@@ -6,6 +6,7 @@ import { Lockup } from "@/components/brand";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { PRODUCT } from "@/lib/content";
+import { Tabs, TABS_ROOM } from "@/components/tabs";
 import { resetIsAdmin, useIsAdmin } from "@/lib/use-is-admin";
 
 export function Shell({
@@ -34,7 +35,7 @@ export function Shell({
             <Lockup />
           </Link>
           {user && (
-            <nav className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+            <nav className="hidden flex-wrap items-center gap-x-4 gap-y-1 text-sm sm:flex">
               <Link href="/dashboard" className="text-pine hover:underline">
                 Overview
               </Link>
@@ -67,10 +68,11 @@ export function Shell({
           )}
         </div>
       </header>
-      <main className={`mx-auto w-full flex-1 px-4 py-8 ${wide ? "max-w-7xl" : "max-w-4xl"}`}>
+      <main className={`mx-auto w-full flex-1 px-4 py-8 ${wide ? "max-w-7xl" : "max-w-4xl"} ${user ? TABS_ROOM : ""}`}>
         {children}
       </main>
-      <footer className="border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden">
+      {user && <Tabs />}
+      <footer className={`border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}>
         <Link href="/privacy" className="hover:underline">
           Privacy
         </Link>
