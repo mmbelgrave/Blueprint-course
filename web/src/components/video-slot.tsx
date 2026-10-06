@@ -32,8 +32,14 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
     const el = box.current;
     if (!el || !ctx) return;
     const r = el.getBoundingClientRect();
-    // Off the top or the bottom of the window: let it become the small player.
-    const visible = r.bottom > 56 && r.top < window.innerHeight - 24;
+    /*
+     * Only hand the video to the corner once it has genuinely gone. Judging by
+     * "has an edge left the window" made it jump to the corner while most of
+     * the picture was still on screen, which is startling while you are
+     * watching. So it keeps its place until less than a third of it is visible.
+     */
+    const shown = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+    const visible = r.height > 0 && shown / r.height > 0.33;
     setOnScreen(visible);
     ctx.claim(videoId, visible ? { top: r.top, left: r.left, width: r.width } : null);
   }, [ctx, videoId]);
