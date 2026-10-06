@@ -6,14 +6,25 @@
       "kind": "free",
       "name": "Free material",
       "blurb": "A taste of the method. Try something before you decide.",
-      "items": []
+      "items": [
+        {
+          "id": "ordinary-tuesday",
+          "title": "A normal day in your new life",
+          "blurb": "About 20 minutes. Describe one ordinary Tuesday in the life you want, down to the detail, and add pictures to your board. It is the exercise people say changed how they saw the whole thing.",
+          "href": "/step/1/p1/1.2"
+        }
+      ]
     },
     {
       "id": "introduction",
       "kind": "lesson",
       "name": "Introduction",
       "blurb": "Why I made this, and how the course works.",
-      "video": { "title": "Welcome to The Made Real Blueprint", "length": null, "url": null },
+      "video": {
+        "title": "Welcome to The Made Real Blueprint",
+        "length": null,
+        "url": null
+      },
       "workbook": {
         "name": "The Made Real Blueprint — Introduction",
         "file": null,
@@ -25,27 +36,50 @@
       "kind": "phase",
       "name": "Phase 1 · Choose it",
       "blurb": "Decide what you want, and whether to move.",
-      "steps": [1, 2, 3]
+      "steps": [
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": "phase-2",
       "kind": "phase",
       "name": "Phase 2 · Build it",
       "blurb": "Put the foundations in place, then build your life in Portugal.",
-      "steps": [4, 5, 6, 7]
+      "steps": [
+        4,
+        5,
+        6,
+        7
+      ]
     },
     {
       "id": "phase-3",
       "kind": "phase",
       "name": "Phase 3 · Live it",
       "blurb": "Settle in, and keep checking that it works for you.",
-      "steps": [8]
+      "steps": [
+        8
+      ]
     }
   ],
   "workbooks": {
-    "step-1": { "name": "The Made Real Blueprint — Step 1 Picture workbook", "file": null, "updated": null },
-    "step-2": { "name": "The Made Real Blueprint — Step 2 Explore workbook", "file": null, "updated": null },
-    "step-3": { "name": "The Made Real Blueprint — Step 3 Decide workbook", "file": null, "updated": null }
+    "step-1": {
+      "name": "The Made Real Blueprint — Step 1 Picture workbook",
+      "file": null,
+      "updated": null
+    },
+    "step-2": {
+      "name": "The Made Real Blueprint — Step 2 Explore workbook",
+      "file": null,
+      "updated": null
+    },
+    "step-3": {
+      "name": "The Made Real Blueprint — Step 3 Decide workbook",
+      "file": null,
+      "updated": null
+    }
   },
   "buy_url": "https://www.maderealblueprint.com/#options"
 }
