@@ -409,15 +409,18 @@ is easy to copy.
 Watching is the point, so the video is always what is offered first; listening
 is there for the walk, the drive and the kitchen, and for the phone whose screen
 is locked.
-**Bunny Stream for hosting, and the app's own player (Vidstack) on top**, not
+**Bunny Stream for hosting, and the app's own player (Video.js 10) on top**, not
 Bunny's embedded player. Bunny is an EU company with EU storage, free encoding
 and signed HLS links, and at this size costs under €1 a month at twelve buyers
 and under €10 at two hundred — Cloudflare Stream's per-minute-delivered price
 punishes rewatching, and Mux costs more than both for analytics this project
 does not need. The player has to be the app's own because an embedded iframe
 cannot survive a change of page, which the mini-player below requires, and
-cannot report position accurately enough to resume to the second. Vidstack is
-React-first and sets Media Session metadata, which video.js does not.
+cannot report position accurately enough to resume to the second. Video.js 10 is the player: Vidstack was chosen first
+and deprecated in favour of it the same day, so the move was made before any
+content existed. Video.js does not set Media Session metadata by itself, so the
+app does, or a locked phone would show nothing while the sound-only version
+plays.
 
 **The honest limit, from the review:** background audio with the screen locked is
 **not** reliable on an iPhone — a normal Safari tab does better than an app added

@@ -14,13 +14,18 @@
  * Where someone had got to is kept on the server (see /api/video/progress), so
  * the phone picks up where the laptop stopped, and a release in the middle of
  * watching loses nothing.
+ *
+ * Built on Video.js 10. Vidstack was the first choice and was deprecated in
+ * favour of this the same day, so it was moved before any content existed. One
+ * thing had to be added by hand that Vidstack did for itself: the Media Session
+ * details, which put the title and the controls on a locked phone screen — the
+ * whole point of the sound-only version.
  */
-import { MediaPlayer, MediaProvider, type MediaPlayerInstance } from "@vidstack/react";
-import { defaultLayoutIcons, DefaultVideoLayout } from "@vidstack/react/player/layouts/default";
+import { HlsJsVideo } from "@videojs/react/media/hlsjs-video";
+import { VideoPlayer, VideoSkin } from "@videojs/react/video";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { SAVE_EVERY_MS, startAt, worthSaving, type Progress } from "@/lib/video";
-import "@vidstack/react/player/styles/default/theme.css";
-import "@vidstack/react/player/styles/default/layouts/video.css";
+import "@videojs/react/video/skin.css";
 
 export type Video = {
   id: string;
@@ -60,72 +65,105 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
   const [listening, setListening] = useState(false);
   const [rect, setRect] = useState<Rect | null>(null);
   const [progress, setProgress] = useState<Record<string, Progress>>({});
-  const player = useRef<MediaPlayerInstance>(null);
+  const media = useRef<HTMLVideoElement | null>(null);
   const lastSaved = useRef<number | null>(null);
   const lastSentAt = useRef(0);
+  const keepPlace = useRef(0);
 
   const play = useCallback((video: Video, asAudio = false) => {
     lastSaved.current = null;
     setListening(asAudio && !!video.audioSrc);
     setNow(video);
   }, []);
-
-  /**
-   * Swapping the sound-only version in and out without losing the place: the
-   * position is taken before the source changes and put back once the new one
-   * is ready.
-   */
-  const keepPlace = useRef(0);
+  const stop = useCallback(() => setNow(null), []);
   const listen = useCallback((on: boolean) => {
-    keepPlace.current = player.current?.currentTime ?? 0;
+    keepPlace.current = media.current?.currentTime ?? 0;
     setListening(on);
   }, []);
-  const stop = useCallback(() => setNow(null), []);
   const claim = useCallback((id: string, next: Rect | null) => {
     setRect((current) => (next === null && current === null ? current : next));
   }, []);
   const progressOf = useCallback((id: string) => progress[id] ?? null, [progress]);
 
-  const save = useCallback(
-    (video: Video, seconds: number, duration: number, beacon = false) => {
-      const body = JSON.stringify({ videoId: video.id, seconds, duration });
-      lastSaved.current = seconds;
-      setProgress((p) => ({ ...p, [video.id]: { seconds, duration } }));
-      // On the way out there is no time for a round trip; a beacon survives the
-      // tab closing, the phone locking and the app going to the background.
-      if (beacon && navigator.sendBeacon) {
-        navigator.sendBeacon("/api/video/progress", new Blob([body], { type: "application/json" }));
-        return;
-      }
-      void fetch("/api/video/progress", { method: "POST", headers: { "content-type": "application/json" }, body }).catch(
-        () => {},
-      );
-    },
-    [],
-  );
+  const save = useCallback((video: Video, seconds: number, duration: number, beacon = false) => {
+    const body = JSON.stringify({ videoId: video.id, seconds, duration });
+    lastSaved.current = seconds;
+    setProgress((p) => ({ ...p, [video.id]: { seconds, duration } }));
+    // On the way out there is no time for a round trip; a beacon survives the
+    // tab closing, the phone locking and the app going to the background.
+    if (beacon && navigator.sendBeacon) {
+      navigator.sendBeacon("/api/video/progress", new Blob([body], { type: "application/json" }));
+      return;
+    }
+    void fetch("/api/video/progress", { method: "POST", headers: { "content-type": "application/json" }, body }).catch(
+      () => {},
+    );
+  }, []);
 
-  // Leaving, hiding or locking: keep the place before the page goes.
+  /*
+   * Everything that happens on the media element itself: starting where the
+   * person stopped, keeping that place, and telling a locked phone what is
+   * playing. Video.js hands us the element, so these are plain media events.
+   */
   useEffect(() => {
-    if (!now) return;
-    const keep = () => {
-      const p = player.current;
-      if (p) save(now, p.currentTime, p.duration, true);
+    const el = media.current;
+    if (!el || !now) return;
+
+    const onLoaded = () => {
+      // Opening a half-watched lesson, or coming back from a swap between
+      // watching and listening.
+      const resumeAt = keepPlace.current > 0 ? keepPlace.current : startAt(progress[now.id]);
+      if (resumeAt > 0 && Math.abs(el.currentTime - resumeAt) > 1) el.currentTime = resumeAt;
+      keepPlace.current = 0;
+      void el.play().catch(() => {
+        // A browser that will not start without a tap. The controls are there.
+      });
+      // Vidstack set this for itself; Video.js does not. Without it a locked
+      // phone shows nothing useful while the sound-only version plays.
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: now.title,
+          artist: "The Made Real Blueprint",
+          artwork: now.poster ? [{ src: now.poster }] : undefined,
+        });
+      }
     };
+
+    const onTime = () => {
+      const at = Date.now();
+      if (at - lastSentAt.current < SAVE_EVERY_MS) return;
+      if (!worthSaving(lastSaved.current, el.currentTime)) return;
+      lastSentAt.current = at;
+      save(now, el.currentTime, el.duration);
+    };
+
+    const onEnded = () => save(now, el.duration, el.duration);
+    const keep = () => save(now, el.currentTime, el.duration, true);
     const onHide = () => document.visibilityState === "hidden" && keep();
+
+    el.addEventListener("loadedmetadata", onLoaded);
+    el.addEventListener("timeupdate", onTime);
+    el.addEventListener("ended", onEnded);
     window.addEventListener("pagehide", keep);
     document.addEventListener("visibilitychange", onHide);
+    if (el.readyState >= 1) onLoaded();
+
     return () => {
+      el.removeEventListener("loadedmetadata", onLoaded);
+      el.removeEventListener("timeupdate", onTime);
+      el.removeEventListener("ended", onEnded);
       window.removeEventListener("pagehide", keep);
       document.removeEventListener("visibilitychange", onHide);
     };
-  }, [now, save]);
+  }, [now, listening, save, progress]);
 
   const value = useMemo<VideoState>(
     () => ({ now, listening, listen, play, stop, claim, progressOf }),
     [now, listening, listen, play, stop, claim, progressOf],
   );
 
-  // Over its slot when there is one, otherwise a small player in the corner.
+  // Over its slot when there is one; otherwise, and whenever someone is only
+  // listening, the small player in the corner.
   const mini = rect === null || listening;
   const style: React.CSSProperties = mini
     ? { right: "1rem", bottom: "1rem", width: "min(22rem, 70vw)" }
@@ -139,60 +177,26 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
           className={`fixed z-40 overflow-hidden rounded-2xl bg-black shadow-lg print:hidden ${mini ? "ring-1 ring-line" : ""}`}
           style={style}
         >
-          <MediaPlayer
-            ref={player}
-            className="w-full"
-            title={now.title}
-            src={listening && now.audioSrc ? now.audioSrc : now.src}
-            poster={now.poster}
-            currentTime={startAt(progress[now.id])}
-            playsInline
-            // The person already pressed Play on the slot; a second press on the
-            // player itself would be a strange thing to ask for.
-            autoPlay
-            load="eager"
-            keyTarget="player"
-            storage="blueprint:player"
-            onTimeUpdate={() => {
-              const p = player.current;
-              if (!p) return;
-              const at = Date.now();
-              if (at - lastSentAt.current < SAVE_EVERY_MS) return;
-              if (!worthSaving(lastSaved.current, p.currentTime)) return;
-              lastSentAt.current = at;
-              save(now, p.currentTime, p.duration);
-            }}
-            onCanPlay={() => {
-              // Coming back after a swap between watching and listening.
-              const p = player.current;
-              if (p && keepPlace.current > 0) {
-                p.currentTime = keepPlace.current;
-                keepPlace.current = 0;
-              }
-            }}
-            onEnded={() => {
-              const p = player.current;
-              if (p) save(now, p.duration, p.duration);
-            }}
-          >
-            <MediaProvider>
-              {now.captions?.map((c) => (
-                <track
-                  key={c.src}
-                  src={c.src}
-                  kind="subtitles"
-                  label={c.label}
-                  srcLang={c.language}
-                  default={c.default}
-                />
-              ))}
-            </MediaProvider>
-            <DefaultVideoLayout icons={defaultLayoutIcons} />
-          </MediaPlayer>
+          <VideoPlayer title={now.title} poster={now.poster}>
+            <VideoSkin style={{ aspectRatio: "16 / 9" }}>
+              <HlsJsVideo ref={media} source={{ src: listening && now.audioSrc ? now.audioSrc : now.src }} playsInline>
+                {now.captions?.map((c) => (
+                  <track
+                    key={c.src}
+                    kind="captions"
+                    src={c.src}
+                    label={c.label}
+                    srcLang={c.language}
+                    default={c.default}
+                  />
+                ))}
+              </HlsJsVideo>
+            </VideoSkin>
+          </VideoPlayer>
           {now.audioSrc && (
             <button
               type="button"
-              className="absolute left-1 top-1 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white"
+              className="absolute left-1 top-1 z-10 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white"
               onClick={() => listen(!listening)}
             >
               {listening ? "Watch" : "Listen"}
@@ -202,7 +206,7 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               aria-label="Close the video"
-              className="absolute right-1 top-1 rounded-full bg-black/60 px-2 text-white"
+              className="absolute right-1 top-1 z-10 rounded-full bg-black/60 px-2 text-white"
               onClick={stop}
             >
               ×
