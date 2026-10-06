@@ -88,5 +88,8 @@ export function phaseProgress(m: ModuleDef, statuses: Record<string, string>) {
   return progressOfPhase((m.steps ?? []).filter(stepIsOpen).map((n) => stepProgress(m.id, n, statuses)));
 }
 
+/** A free exercise, which is a PDF rather than a page. */
+export const freeItemById = (id: string) => modules.flatMap((x) => x.items ?? []).find((i) => i.id === id);
+
 export { watchedKey };
 export { lessonKey } from "@/lib/modules";

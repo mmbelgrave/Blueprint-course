@@ -9,9 +9,10 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Lesson } from "@/components/lesson";
+import { ModuleHeader } from "@/components/module-header";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { lessonKey, moduleById, noteForStep, stateOf, stepProgress, stepsOfPhase } from "@/lib/modules-app";
+import { lessonKey, moduleById, phaseProgress, stateOf, stepProgress, stepsOfPhase } from "@/lib/modules-app";
 
 export default function ModulePage() {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -21,7 +22,7 @@ export default function ModulePage() {
 
   if (!course || stateOf(course, entitlements) !== "open") {
     return (
-      <Shell>
+      <Shell quiet>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">{course?.name ?? "That module"} is not open</h1>
@@ -34,25 +35,22 @@ export default function ModulePage() {
     );
   }
 
-  const back = (
-    <p className="text-sm">
-      <Link href="/modules" className="text-pine hover:underline">
-        ← Modules
-      </Link>
-    </p>
-  );
+  const back = null;
 
   const header = (
-    <header>
-      <h1 className="mt-2 text-3xl text-pine">{course.name}</h1>
-      {course.blurb && <p className="mt-1 text-lg text-stone">{course.blurb}</p>}
-    </header>
+    <ModuleHeader
+      back="/modules"
+      backLabel="Back to the modules"
+      title={course.name}
+      blurb={course.edition ? `${course.edition} · ${course.blurb ?? ""}`.replace(/ · $/, "") : course.blurb}
+      percent={course.kind === "phase" ? phaseProgress(course, statuses).percent : undefined}
+    />
   );
 
   // The Introduction is a lesson on its own: a video and a workbook, no exercises.
   if (course.kind === "lesson") {
     return (
-      <Shell>
+      <Shell quiet>
         <RequireUser>
           <article className="space-y-6">
             {back}
@@ -72,7 +70,7 @@ export default function ModulePage() {
   if (course.kind === "free") {
     const items = course.items ?? [];
     return (
-      <Shell>
+      <Shell quiet>
         <RequireUser>
           <article className="space-y-6">
             {back}
@@ -82,13 +80,27 @@ export default function ModulePage() {
                 The first free exercise is being prepared. It will appear here.
               </p>
             ) : (
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {items.map((i) => (
-                  <li key={i.id}>
-                    <Link href={i.href ?? "#"} className="block rounded-2xl bg-white p-5">
-                      <span className="block font-semibold text-pine">{i.title}</span>
-                      {i.blurb && <span className="mt-1 block text-stone">{i.blurb}</span>}
-                    </Link>
+                  <li key={i.id} className="rounded-2xl bg-white p-5 text-center sm:text-left">
+                    <h2 className="text-xl text-pine">{i.title}</h2>
+                    {i.blurb && <p className="mt-1 text-stone">{i.blurb}</p>}
+                    <p className="mt-4 flex justify-center sm:justify-start">
+                      {i.pdf ? (
+                        <a
+                          className="btn btn-primary"
+                          href={`/api/workbook?free=${i.id}&open=1`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Do the exercise
+                        </a>
+                      ) : (
+                        <Link className="btn btn-primary" href={i.href ?? "#"}>
+                          Do the exercise
+                        </Link>
+                      )}
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -102,7 +114,7 @@ export default function ModulePage() {
   const steps = stepsOfPhase(course);
 
   return (
-    <Shell>
+    <Shell quiet>
       <RequireUser>
         <article className="space-y-6">
           {back}
@@ -120,7 +132,7 @@ export default function ModulePage() {
                         {s.title}
                       </span>
                       <span className="block text-sm text-stone">{s.question}</span>
-                      {!s.released && <span className="mt-1 block text-sm text-stone">{noteForStep(s.number)}</span>}
+                      {!s.released && <span className="mt-1 block text-sm text-stone">coming soon</span>}
                     </span>
                     {progress?.complete && <span className="shrink-0 text-success">✓</span>}
                   </div>

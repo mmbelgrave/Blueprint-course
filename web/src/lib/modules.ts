@@ -24,13 +24,23 @@ export type Workbook = { name: string; file: string | null; updated: string | nu
 
 export type ModuleKind = "free" | "lesson" | "phase";
 
-export type FreeItem = { id: string; title: string; blurb?: string; href?: string; video?: ModuleVideo };
+export type FreeItem = {
+  id: string;
+  title: string;
+  blurb?: string;
+  /** A free exercise is a PDF: no account, no progress, nothing to lose. */
+  pdf?: string;
+  href?: string;
+  video?: ModuleVideo;
+};
 
 export type ModuleDef = {
   id: string;
   kind: ModuleKind;
   name: string;
   blurb?: string;
+  /** Which edition a phase belongs to; a later phase may not be Portugal. */
+  edition?: string;
   /** free: the things on offer. */
   items?: FreeItem[];
   /** lesson: its own video and workbook (the Introduction). */

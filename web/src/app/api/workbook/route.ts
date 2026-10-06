@@ -13,7 +13,7 @@
 import type { Entitlement } from "@/lib/access";
 import { ownedSteps } from "@/lib/access";
 import { accessConfig, requirePurchase } from "@/lib/access-app";
-import { moduleById, workbookOf } from "@/lib/modules-app";
+import { freeItemById, moduleById, workbookOf } from "@/lib/modules-app";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -31,9 +31,18 @@ export async function GET(request: Request) {
   const params = new URL(request.url).searchParams;
   const stepId = params.get("step");
   const moduleId = params.get("module");
+  const freeId = params.get("free");
   const asDownload = params.get("open") !== "1";
 
-  const workbook = stepId ? workbookOf(stepId) : moduleId ? moduleById(moduleId)?.workbook : undefined;
+  // A free exercise is a PDF like any other, and belongs to nobody in particular.
+  const free = freeId ? freeItemById(freeId) : undefined;
+  const workbook = free
+    ? { name: free.title, file: free.pdf ?? null, updated: null }
+    : stepId
+      ? workbookOf(stepId)
+      : moduleId
+        ? moduleById(moduleId)?.workbook
+        : undefined;
   if (!workbook) return fail(404, "There is no such workbook.");
   if (!workbook.file) return fail(404, "That workbook is not ready yet.");
 

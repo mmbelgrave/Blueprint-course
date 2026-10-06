@@ -12,9 +12,12 @@ import { resetIsAdmin, useIsAdmin } from "@/lib/use-is-admin";
 export function Shell({
   children,
   wide = false,
+  quiet = false,
 }: {
   children: React.ReactNode;
   wide?: boolean;
+  /** Modules is the course, not the workbook: it carries no AI footer. */
+  quiet?: boolean;
 }) {
   const { user, signOut } = useApp();
   const router = useRouter();
@@ -27,11 +30,11 @@ export function Shell({
           Preview mode — no account. Your answers are saved in this browser only.
         </div>
       )}
-      <header className="border-b border-line bg-sand print:hidden">
+      <header className={`border-b border-line bg-sand print:hidden ${quiet ? "hidden sm:block" : ""}`}>
         <div
           className={`mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 ${wide ? "max-w-7xl" : "max-w-4xl"}`}
         >
-          <Link href={user ? "/dashboard" : "/"} aria-label={`${PRODUCT.name} — ${PRODUCT.edition}`}>
+          <Link href={user ? "/modules" : "/"} aria-label={`${PRODUCT.name} — ${PRODUCT.edition}`}>
             <Lockup />
           </Link>
           {user && (
@@ -72,13 +75,17 @@ export function Shell({
         {children}
       </main>
       {user && <Tabs />}
-      <footer className={`border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}>
-        <Link href="/privacy" className="hover:underline">
-          Privacy
-        </Link>
-        <span className="mx-2">·</span>
-        This app uses an AI partner. It helps you think. You decide.
-      </footer>
+      {!quiet && (
+        <footer
+          className={`border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
+        >
+          <Link href="/privacy" className="hover:underline">
+            Privacy
+          </Link>
+          <span className="mx-2">·</span>
+          This app uses an AI partner. It helps you think. You decide.
+        </footer>
+      )}
     </div>
   );
 }

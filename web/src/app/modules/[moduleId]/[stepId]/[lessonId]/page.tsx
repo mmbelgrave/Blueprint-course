@@ -19,7 +19,7 @@ export default function LessonPage() {
 
   if (!course || !step || !step.in_app || stateOf(course, entitlements) !== "open") {
     return (
-      <Shell>
+      <Shell quiet>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">Not open yet</h1>
@@ -38,7 +38,7 @@ export default function LessonPage() {
 
   if (!lesson) {
     return (
-      <Shell>
+      <Shell quiet>
         <RequireUser>
           <p className="text-center">
             That lesson does not exist.{" "}
@@ -55,7 +55,7 @@ export default function LessonPage() {
   const following = lessons.slice(index + 1);
 
   return (
-    <Shell>
+    <Shell quiet>
       <RequireUser>
         <article className="space-y-6">
           <p className="text-sm">
@@ -91,7 +91,7 @@ export default function LessonPage() {
                     >
                       <span className="w-6 shrink-0 font-semibold text-ochre tabular">{index + i + 2}</span>
                       <span className="min-w-0 flex-1 font-medium text-pine">{l.title}</span>
-                      <span className="relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-pine">
+                      <span className="relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-sage">
                         {l.video?.url && (
                           <span className="absolute inset-0 flex items-center justify-center text-sand" aria-hidden>
                             ▶

@@ -9,9 +9,9 @@
       "items": [
         {
           "id": "ordinary-tuesday",
-          "title": "A normal day in your new life",
-          "blurb": "About 20 minutes. Describe one ordinary Tuesday in the life you want, down to the detail, and add pictures to your board. It is the exercise people say changed how they saw the whole thing.",
-          "href": "/step/1/p1/1.2"
+          "title": "The Ordinary Tuesday",
+          "blurb": "About 20 minutes. Describe one ordinary Tuesday in the life you want, down to the detail. Most people find it tells them more than a year of wishing.",
+          "pdf": "free-ordinary-tuesday.pdf"
         }
       ]
     },
@@ -27,8 +27,8 @@
       },
       "workbook": {
         "name": "The Made Real Blueprint — Introduction",
-        "file": null,
-        "updated": null
+        "file": "introduction.pdf",
+        "updated": "6 October 2026"
       }
     },
     {
@@ -40,7 +40,8 @@
         1,
         2,
         3
-      ]
+      ],
+      "edition": "Portugal Edition"
     },
     {
       "id": "phase-2",
@@ -52,7 +53,8 @@
         5,
         6,
         7
-      ]
+      ],
+      "edition": "Portugal Edition"
     },
     {
       "id": "phase-3",
@@ -61,22 +63,23 @@
       "blurb": "Settle in, and keep checking that it works for you.",
       "steps": [
         8
-      ]
+      ],
+      "edition": "Portugal Edition"
     }
   ],
   "workbooks": {
     "step-1": {
-      "name": "The Made Real Blueprint — Step 1 Picture workbook",
-      "file": null,
-      "updated": null
+      "name": "The Made Real Blueprint — Step 1 Picture",
+      "file": "step-1.pdf",
+      "updated": "6 October 2026"
     },
     "step-2": {
-      "name": "The Made Real Blueprint — Step 2 Explore workbook",
-      "file": null,
-      "updated": null
+      "name": "The Made Real Blueprint — Step 2 Explore",
+      "file": "step-2.pdf",
+      "updated": "6 October 2026"
     },
     "step-3": {
-      "name": "The Made Real Blueprint — Step 3 Decide workbook",
+      "name": "The Made Real Blueprint — Step 3 Decide",
       "file": null,
       "updated": null
     }

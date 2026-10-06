@@ -5,7 +5,6 @@
 import Link from "next/link";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { PRODUCT } from "@/lib/content";
 import { buyUrl, lessonKey, modules, phaseProgress, stateOf } from "@/lib/modules-app";
 
 export default function Modules() {
@@ -15,15 +14,10 @@ export default function Modules() {
   const entitlements: never[] = [];
 
   return (
-    <Shell>
+    <Shell quiet>
       <RequireUser>
         <section className="space-y-6">
-          <header>
-            <h1 className="text-3xl text-pine">Modules</h1>
-            <p className="mt-2 text-lg text-stone">
-              {PRODUCT.name} · {PRODUCT.edition}
-            </p>
-          </header>
+          <h1 className="text-3xl text-pine">Modules</h1>
 
           <ul className="space-y-4">
             {modules.map((m) => {
@@ -34,8 +28,11 @@ export default function Modules() {
               const inside = (
                 <>
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <h2 className={`text-xl ${state === "open" ? "text-pine" : "text-stone"}`}>{m.name}</h2>
-                    {state === "coming" && <span className="text-sm text-stone">on its way</span>}
+                    <span>
+                      <h2 className={`text-xl ${state === "open" ? "text-pine" : "text-stone"}`}>{m.name}</h2>
+                      {m.edition && <span className="block text-sm text-stone">{m.edition}</span>}
+                    </span>
+                    {state === "coming" && <span className="text-sm text-stone">coming soon</span>}
                     {watched && <span className="text-sm text-success">✓ watched</span>}
                   </div>
                   {m.blurb && <p className="mt-1 text-stone">{m.blurb}</p>}
