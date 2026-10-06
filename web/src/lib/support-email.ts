@@ -15,8 +15,6 @@ export type QuestionMail = {
   topicLabel: string;
   page?: string;
   question: string;
-  replyBy: "email" | "whatsapp";
-  whatsapp?: string;
   /** Link to this person's page in Admin, so progress is one click away. */
   adminUrl?: string;
 };
@@ -28,12 +26,7 @@ const TO = process.env.SUPPORT_EMAIL_TO ?? "info@maderealblueprint.com";
 export function questionMail(q: QuestionMail) {
   const who = q.name || q.email;
   const about = q.page ? `${q.topicLabel}, ${q.page}` : q.topicLabel;
-  // With WhatsApp chosen, their email still belongs here: it is the address
-  // this mail replies to, and the one that identifies them.
-  const reply =
-    q.replyBy === "whatsapp"
-      ? [`Reply by WhatsApp: ${q.whatsapp ?? "(no number given)"}`, `Their email: ${q.email}`]
-      : [`Reply by email: ${q.email}`];
+  const reply = [`Reply by email: ${q.email}`];
 
   const lines = [`${who} asked a question about ${about}.`, "", q.question.trim(), "", "---", ...reply];
   if (q.adminUrl) lines.push(`Their progress: ${q.adminUrl}`);

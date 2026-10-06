@@ -8,7 +8,6 @@ const base = {
   topicLabel: "Step 1 Picture",
   page: "1.2 A normal day in your new life",
   question: "  Can I answer in Dutch?  ",
-  replyBy: "email" as const,
   adminUrl: "https://app.maderealblueprint.com/admin/abc",
 };
 
@@ -25,12 +24,6 @@ test("the body holds the question, the way back and nothing else", () => {
   assert.match(text, /\n\nCan I answer in Dutch\?\n\n/, "the question stands on its own, trimmed");
   assert.match(text, /Reply by email: anna@example\.com/);
   assert.match(text, /Their progress: https:\/\/app\.maderealblueprint\.com\/admin\/abc/);
-});
-
-test("a WhatsApp answer carries the number, and still the email address", () => {
-  const { text } = questionMail({ ...base, replyBy: "whatsapp", whatsapp: "+31 6 1234 5678" });
-  assert.match(text, /Reply by WhatsApp: \+31 6 1234 5678/);
-  assert.match(text, /Their email: anna@example\.com/, "the reply-to address must still be visible");
 });
 
 test("no page and no admin link still reads properly", () => {

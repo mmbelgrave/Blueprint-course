@@ -48,7 +48,7 @@ export default function Privacy() {
         <h2 className="font-semibold">When you ask a question</h2>
         <p>
           A question you send from <strong>Help</strong> is stored with your name and email, and emailed to Mwata so he
-          can answer it. If you ask him to reply by WhatsApp, the number you give is stored with the question. Your
+          can answer it. He answers by email. Your
           answers are not attached to it.
         </p>
 

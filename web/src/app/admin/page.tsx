@@ -22,8 +22,6 @@ type Participant = {
     topic: string;
     page: string;
     question: string;
-    replyBy: "email" | "whatsapp";
-    whatsapp: string;
     date: string;
   }[];
   usage: {
@@ -123,20 +121,9 @@ function ParticipantCard({ p }: { p: Participant }) {
                 </p>
                 <p className="mt-1 whitespace-pre-wrap">{q.question}</p>
                 <p className="mt-1">
-                  {q.replyBy === "whatsapp" ? (
-                    <a
-                      className="text-pine underline"
-                      href={`https://wa.me/${q.whatsapp.replace(/D/g, "")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Reply on WhatsApp ({q.whatsapp})
-                    </a>
-                  ) : (
-                    <a className="text-pine underline" href={`mailto:${p.email}`}>
-                      Reply by email
-                    </a>
-                  )}
+                  <a className="text-pine underline" href={`mailto:${p.email}`}>
+                    Reply by email
+                  </a>
                 </p>
               </li>
             ))}
