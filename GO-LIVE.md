@@ -173,6 +173,31 @@ Everyone who signs in can ask. When the course sells without meetings, a flag
 per person is the next step, so Help can offer the right thing to each — not
 needed while the first 12 are all founding members.
 
+## 7b. Video (Bunny Stream)
+
+One **bunny.net** account. Inside it, a **Stream video library** — there is no
+second account to make. The library gives you three things, and a fourth once
+you make it private:
+
+| Setting | Where in Bunny |
+| --- | --- |
+| `BUNNY_LIBRARY_ID` | Stream → your library → API |
+| `BUNNY_STREAM_API_KEY` | Stream → your library → API (secret) |
+| `NEXT_PUBLIC_BUNNY_CDN` | Stream → your library → the pull zone hostname |
+| `BUNNY_TOKEN_KEY` | Stream → your library → Security → token authentication (secret) |
+
+Turn **token authentication** on once the first real video is up, so a playback
+address only works for a few minutes and only for someone who owns the step.
+Leave it off while testing and nothing is exposed that is not meant to be.
+
+The sound-only files (an MP3 per lesson, drawn from the finished video) live in
+a **Storage zone**, not in Stream.
+
+**Adding these in Vercel:** Settings → Environment Variables → Add, one at a
+time, all environments, then **Deployments → the latest → Redeploy**. The three
+secrets are never written into the code or into this file. Add the same lines to
+`web/.env.local` to work on your own computer.
+
 ## 8. Check it yourself
 
 Sign in on the real address and walk through:

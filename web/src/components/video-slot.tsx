@@ -15,6 +15,8 @@ export type VideoContent = {
   title: string;
   length: string | null;
   url: string | null;
+  /** The same lesson as sound only (spec §6.4). */
+  audio_url?: string | null;
   poster?: string;
   captions?: Video["captions"];
 };
@@ -79,6 +81,7 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
                 id: videoId,
                 title: video.title,
                 src: video.url!,
+                audioSrc: video.audio_url ?? undefined,
                 poster: video.poster,
                 captions: video.captions,
               })
@@ -97,9 +100,32 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
           </button>
         )}
       </div>
-      <p className="mt-2 px-1 text-sm text-stone">
-        <span className="font-semibold text-pine">{video.title}</span>
-        {video.length ? ` · ${video.length}` : ""} — the written explanation says the same thing.
+      <p className="mt-2 flex flex-wrap items-center gap-x-2 px-1 text-sm text-stone">
+        <span>
+          <span className="font-semibold text-pine">{video.title}</span>
+          {video.length ? ` · ${video.length}` : ""} — the written explanation says the same thing.
+        </span>
+        {video.audio_url && (
+          <button
+            type="button"
+            className="text-pine underline"
+            onClick={() =>
+              ctx?.play(
+                {
+                  id: videoId,
+                  title: video.title,
+                  src: video.url!,
+                  audioSrc: video.audio_url ?? undefined,
+                  poster: video.poster,
+                  captions: video.captions,
+                },
+                true,
+              )
+            }
+          >
+            Listen instead
+          </button>
+        )}
       </p>
     </div>
   );

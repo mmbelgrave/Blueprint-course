@@ -27,6 +27,12 @@ export type Video = {
   title: string;
   /** An HLS address from the video service. */
   src: string;
+  /**
+   * The same lesson as sound only, for listening while walking or driving. It
+   * shares this video's id, so switching between watching and listening keeps
+   * your place, and finishing either one counts as finishing the lesson.
+   */
+  audioSrc?: string;
   poster?: string;
   /** English subtitles, and Dutch where they exist. */
   captions?: { src: string; label: string; language: string; default?: boolean }[];
@@ -36,7 +42,9 @@ type Rect = { top: number; left: number; width: number };
 
 type VideoState = {
   now: Video | null;
-  play: (video: Video) => void;
+  listening: boolean;
+  listen: (on: boolean) => void;
+  play: (video: Video, asAudio?: boolean) => void;
   stop: () => void;
   /** A slot tells the player where to sit, and null when it leaves the screen. */
   claim: (id: string, rect: Rect | null) => void;
@@ -49,15 +57,28 @@ export const useVideo = () => useContext(Ctx);
 
 export function PlayerHost({ children }: { children: React.ReactNode }) {
   const [now, setNow] = useState<Video | null>(null);
+  const [listening, setListening] = useState(false);
   const [rect, setRect] = useState<Rect | null>(null);
   const [progress, setProgress] = useState<Record<string, Progress>>({});
   const player = useRef<MediaPlayerInstance>(null);
   const lastSaved = useRef<number | null>(null);
   const lastSentAt = useRef(0);
 
-  const play = useCallback((video: Video) => {
+  const play = useCallback((video: Video, asAudio = false) => {
     lastSaved.current = null;
+    setListening(asAudio && !!video.audioSrc);
     setNow(video);
+  }, []);
+
+  /**
+   * Swapping the sound-only version in and out without losing the place: the
+   * position is taken before the source changes and put back once the new one
+   * is ready.
+   */
+  const keepPlace = useRef(0);
+  const listen = useCallback((on: boolean) => {
+    keepPlace.current = player.current?.currentTime ?? 0;
+    setListening(on);
   }, []);
   const stop = useCallback(() => setNow(null), []);
   const claim = useCallback((id: string, next: Rect | null) => {
@@ -99,10 +120,13 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
     };
   }, [now, save]);
 
-  const value = useMemo<VideoState>(() => ({ now, play, stop, claim, progressOf }), [now, play, stop, claim, progressOf]);
+  const value = useMemo<VideoState>(
+    () => ({ now, listening, listen, play, stop, claim, progressOf }),
+    [now, listening, listen, play, stop, claim, progressOf],
+  );
 
   // Over its slot when there is one, otherwise a small player in the corner.
-  const mini = rect === null;
+  const mini = rect === null || listening;
   const style: React.CSSProperties = mini
     ? { right: "1rem", bottom: "1rem", width: "min(22rem, 70vw)" }
     : { top: rect.top, left: rect.left, width: rect.width };
@@ -119,7 +143,7 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
             ref={player}
             className="w-full"
             title={now.title}
-            src={now.src}
+            src={listening && now.audioSrc ? now.audioSrc : now.src}
             poster={now.poster}
             currentTime={startAt(progress[now.id])}
             playsInline
@@ -137,6 +161,14 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
               if (!worthSaving(lastSaved.current, p.currentTime)) return;
               lastSentAt.current = at;
               save(now, p.currentTime, p.duration);
+            }}
+            onCanPlay={() => {
+              // Coming back after a swap between watching and listening.
+              const p = player.current;
+              if (p && keepPlace.current > 0) {
+                p.currentTime = keepPlace.current;
+                keepPlace.current = 0;
+              }
             }}
             onEnded={() => {
               const p = player.current;
@@ -157,6 +189,15 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
             </MediaProvider>
             <DefaultVideoLayout icons={defaultLayoutIcons} />
           </MediaPlayer>
+          {now.audioSrc && (
+            <button
+              type="button"
+              className="absolute left-1 top-1 rounded-full bg-black/60 px-2 py-0.5 text-xs text-white"
+              onClick={() => listen(!listening)}
+            >
+              {listening ? "Watch" : "Listen"}
+            </button>
+          )}
           {mini && (
             <button
               type="button"

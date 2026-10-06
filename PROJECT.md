@@ -405,8 +405,10 @@ a slow connection gets the full-size file, there is no quality that adjusts to
 the connection, every view counts against the hosting allowance, and the file
 is easy to copy.
 
-**Approved 6 October.** Audio-only versions were considered and turned down:
-Mwata would rather the videos were watched.
+**Approved 6 October**, including a **sound-only version of each lesson**.
+Watching is the point, so the video is always what is offered first; listening
+is there for the walk, the drive and the kitchen, and for the phone whose screen
+is locked.
 **Bunny Stream for hosting, and the app's own player (Vidstack) on top**, not
 Bunny's embedded player. Bunny is an EU company with EU storage, free encoding
 and signed HLS links, and at this size costs under €1 a month at twelve buyers
@@ -420,10 +422,20 @@ React-first and sets Media Session metadata, which video.js does not.
 **The honest limit, from the review:** background audio with the screen locked is
 **not** reliable on an iPhone — a normal Safari tab does better than an app added
 to the home screen, where Apple suspends playback after about thirty seconds. So
-the app does not promise background listening. Picture-in-picture and the
-in-app mini-player do work. If listening on the go matters, the real answer is
-an **audio-only version of each video**, which has to be decided before
-recording.
+the app never promises background listening. Picture-in-picture and the in-app
+small player do work.
+
+**Sound only.** Each lesson also exists as an audio file, offered as "Listen
+instead" beside the video and as a "Listen" button on the player itself. It
+shares the video's id, so a person can watch half a lesson at home, listen to
+the rest in the car, and the place is the same either way; finishing one counts
+as finishing the lesson. Listening always uses the small player, because the
+point of it is to be doing something else.
+
+Bunny Stream has no sound-only output of its own, so the audio is a separate
+file (an MP3 drawn from the finished video) kept in Bunny Storage and named in
+the content beside the video address. Subtitles still matter as much: someone on
+a train with no headphones has neither.
 
 **Choice:** host the videos on a **video streaming service** and play them
 **inside the app**, in its own player. The person never leaves the app or sees
@@ -466,16 +478,25 @@ before anything is built. The review must cover these points:
   dark.
 - **Secure:** playback links are signed and short-lived, made only for someone
   who owns the step (or for free videos, anyone signed in).
-- A video address is stored per step (and optionally per part) in
-  `journey.json`, not in the code.
+- A video address, and the sound-only address beside it, are stored per step
+  (and optionally per part) in the content, not in the code.
 - The streaming service is added to the app's privacy page and the website's
   privacy note before the first video goes live.
 
-**Done when:** Mwata has approved the proposal; a video starts within a few
-seconds on a phone on mobile data, has English subtitles, continues at the same
-second after switching apps, locking the phone or changing device, keeps playing
-in the mini-player while I move to the exercises, plays in picture-in-picture,
-and cannot be played by someone who does not own the step.
+**Done when:** a video starts within a few seconds on a phone on mobile data,
+has English subtitles, continues at the same second after switching apps,
+locking the phone or changing device, keeps playing in the small player while I
+move to the exercises, plays in picture-in-picture, lets me switch to sound only
+without losing my place, and cannot be played by someone who does not own the
+step.
+
+**What Bunny needs (set up by Mwata, keys never pasted into the code):** one
+bunny.net account, with a **Stream video library** created inside it — there is
+no second account. From that library: the **library id**, the **Stream API key**
+and the **CDN hostname**, plus the **token authentication key** once the library
+is set to private, so playback addresses are signed and short-lived. A Storage
+zone holds the sound-only files. All of it goes into Vercel's environment
+variables and `web/.env.local`.
 
 ### 6.5 My Blueprint per phase
 **Why.** The website promises "you finish with your own blueprint". Each step

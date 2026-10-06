@@ -191,8 +191,11 @@ export type Part = {
   time: string;
   exercises: Exercise[];
   talk?: string;
-  /** One video per part; the address follows when Mwata has recorded it. */
-  video?: { title: string; length: string | null; url: string | null };
+  /**
+   * One video per part; the address follows when Mwata has recorded it.
+   * 'audio_url' is the same lesson as sound only, for listening on the go.
+   */
+  video?: { title: string; length: string | null; url: string | null; audio_url?: string | null };
   summary?: Summary;
   go_further?: string;
   /** Part 5 has no summary page; it states its result directly. */
