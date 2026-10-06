@@ -25,7 +25,7 @@ export async function buildOverview(admin: SupabaseClient) {
       .order("created_at", { ascending: false }),
     admin
       .from("questions")
-      .select("user_id, topic, page, question, reply_by, whatsapp, created_at")
+      .select("user_id, topic, page, question, created_at")
       .order("created_at", { ascending: false }),
     admin.from("usage_log").select("user_id, request_type, input_tokens, output_tokens, cache_read_tokens"),
   ]);
@@ -113,8 +113,6 @@ export async function buildOverview(admin: SupabaseClient) {
         topic: topicLabel(topics, q.topic as string),
         page: (q.page as string) ?? "",
         question: q.question as string,
-        replyBy: q.reply_by as "email" | "whatsapp",
-        whatsapp: (q.whatsapp as string) ?? "",
         date: q.created_at as string,
       })),
       usage: {

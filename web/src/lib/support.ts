@@ -1,20 +1,20 @@
 /**
- * Asking Mwata a question: the topics, the two ways out of the app (WhatsApp
- * and email) and the checks on what someone typed.
+ * Asking Mwata a question: the topics, the way out of the app (email) and the
+ * checks on what someone typed.
  *
- * The website promises "short questions by email or WhatsApp", so both are
- * here, with the step and the page already written into the message. Nobody
- * should have to explain where they were.
+ * The step and the page are written into the message already, so nobody has to
+ * explain where they were.
  *
  * Kept free of React and of the content files so it can be tested on its own.
  */
 
-/** Where a question goes. The number is the one on the website. */
+/**
+ * Where a question goes. Email only, on purpose: answering someone's own plans
+ * on WhatsApp reads as a service, and the shop does not allow services. Any
+ * meetings are sold and booked outside the course area.
+ */
 export const SUPPORT = {
-  whatsapp: "31657930469",
   email: "info@maderealblueprint.com",
-  /** Shown to people, not used for dialling. */
-  whatsappReadable: "+31 6 5793 0469",
 };
 
 export type Topic = { id: string; label: string };
@@ -43,8 +43,8 @@ export function helpHref(step: number, page: string) {
 }
 
 /**
- * The first line of a WhatsApp or email message. It names the page, because a
- * question without it costs two messages to understand.
+ * The first line of the message. It names the page, because a question without
+ * it costs two messages to understand.
  */
 export function questionOpening(topic: string, page?: string) {
   return `Hi Mwata, a question about ${about(topic, page)}:`;
@@ -58,9 +58,6 @@ export const mailSubject = (topic: string, page?: string) => `Question about ${a
 /** …and its body is a greeting and the question, not the subject again. */
 export const mailBody = (question: string) => `Hi Mwata,\n\n${question.trim()}`;
 
-export const whatsappHref = (text: string) =>
-  `https://wa.me/${SUPPORT.whatsapp}?text=${encodeURIComponent(text)}`;
-
 export const mailtoHref = (subject: string, body: string) =>
   `mailto:${SUPPORT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
@@ -70,8 +67,6 @@ export type QuestionDraft = {
   topic: string;
   page?: string;
   question: string;
-  replyBy: "email" | "whatsapp";
-  whatsapp?: string;
 };
 
 /**
@@ -86,9 +81,5 @@ export function checkQuestion(d: QuestionDraft): string | null {
     return `That is longer than ${MAX_QUESTION} characters. Please shorten it, or send it by email.`;
   }
   if (!d.topic) return "Please choose what your question is about.";
-  if (d.replyBy === "whatsapp") {
-    const digits = (d.whatsapp ?? "").replace(/\D/g, "");
-    if (digits.length < 8) return "Please give the WhatsApp number to reply to, with the country code.";
-  }
   return null;
 }

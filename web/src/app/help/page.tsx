@@ -1,8 +1,9 @@
 "use client";
 /*
- * Ask a question. The website promises short questions by email or WhatsApp
- * between the meetings, so both are here, and a form for everyone whose
- * computer does not open a mail app when you click an address.
+ * Ask a question. By email only: answering someone's own plans on WhatsApp
+ * reads as a service, and the shop does not allow services (spec 6.10). The
+ * form is there for everyone whose computer does not open a mail app when you
+ * click an address.
  *
  * Coming from an exercise page, the step and the page are already filled in.
  * This is app text, not workbook text, so it lives here and not in a content
@@ -21,12 +22,10 @@ import {
   mailSubject,
   mailtoHref,
   MAX_QUESTION,
-  questionOpening,
   SUPPORT,
   supportTopics,
   topicHasPage,
   topicLabel,
-  whatsappHref,
 } from "@/lib/support";
 
 const TOPICS = supportTopics(steps.map((s) => s.step));
@@ -42,17 +41,11 @@ function AskForm() {
   const [topic, setTopic] = useState(params.get("topic") ?? "general");
   const [page, setPage] = useState(params.get("page") ?? "");
   const [question, setQuestion] = useState("");
-  const [replyBy, setReplyBy] = useState<"email" | "whatsapp">("email");
-  const [whatsapp, setWhatsapp] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
   const [problem, setProblem] = useState<string | null>(null);
   const [earlier, setEarlier] = useState<Earlier[]>([]);
 
-  const draft = { topic, page: topicHasPage(topic) ? page.trim() || undefined : undefined, question, replyBy, whatsapp };
-  // The same opening line for WhatsApp and for email, so a question arrives
-  // with its step and page whichever way it travels.
-  const opening = questionOpening(topicLabel(TOPICS, topic), draft.page);
-  const message = question.trim() ? `${opening}\n\n${question.trim()}` : opening;
+  const draft = { topic, page: topicHasPage(topic) ? page.trim() || undefined : undefined, question };
 
   // Re-read the list after a question is sent. Earlier questions are a nicety:
   // if they cannot be read, asking a new one still works.
@@ -146,37 +139,6 @@ function AskForm() {
           />
         </label>
 
-        <fieldset>
-          <legend className="mb-1 font-medium">How shall I reply?</legend>
-          <div className="flex flex-wrap gap-4">
-            {(["email", "whatsapp"] as const).map((how) => (
-              <label key={how} className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="replyBy"
-                  checked={replyBy === how}
-                  onChange={() => setReplyBy(how)}
-                />
-                {how === "email" ? "By email" : "By WhatsApp"}
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        {replyBy === "whatsapp" && (
-          <label className="block">
-            <span className="mb-1 block font-medium">Your WhatsApp number</span>
-            <input
-              type="tel"
-              className="field-input max-w-[16rem]"
-              placeholder="+31 6 1234 5678"
-              value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-            />
-            <span className="mt-1 block text-sm text-stone">With the country code, please.</span>
-          </label>
-        )}
-
         {isSupabaseConfigured ? (
           <div className="flex flex-wrap items-center gap-3">
             <button className="btn btn-primary" disabled={state === "sending"} onClick={send}>
@@ -190,7 +152,7 @@ function AskForm() {
           </div>
         ) : (
           <p className="rounded-lg bg-sand p-3 text-stone">
-            Preview mode has no account, so the form cannot send. WhatsApp and email below work.
+            Preview mode has no account, so the form cannot send. The email link below works.
           </p>
         )}
 
@@ -201,19 +163,16 @@ function AskForm() {
         )}
 
         <p className="text-stone">
-          I read every question myself and reply as soon as I can, in English or Dutch.
+          I read every question myself and reply by email as soon as I can, in English or Dutch.
         </p>
       </section>
 
       <section className="space-y-3 rounded-2xl border border-line p-5">
-        <h2 className="text-xl text-pine">Or send it straight to me</h2>
+        <h2 className="text-xl text-pine">Or write to me yourself</h2>
         <p className="text-stone">
           Whatever you chose above travels with the message, so you do not have to explain where you were.
         </p>
         <div className="flex flex-wrap gap-3">
-          <a className="btn btn-ghost" href={whatsappHref(message)} target="_blank" rel="noopener noreferrer">
-            WhatsApp
-          </a>
           <a
             className="btn btn-ghost"
             href={mailtoHref(mailSubject(topicLabel(TOPICS, topic), draft.page), mailBody(question))}
@@ -221,9 +180,7 @@ function AskForm() {
             Email
           </a>
         </div>
-        <p className="text-sm text-stone">
-          {SUPPORT.whatsappReadable} · {SUPPORT.email}
-        </p>
+        <p className="text-sm text-stone">{SUPPORT.email}</p>
       </section>
 
       {earlier.length > 0 && (
@@ -240,7 +197,7 @@ function AskForm() {
               </li>
             ))}
           </ul>
-          <p className="text-sm text-stone">My answer comes by email or WhatsApp, not here.</p>
+          <p className="text-sm text-stone">My answer comes by email, not here.</p>
         </section>
       )}
     </div>

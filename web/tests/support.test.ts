@@ -10,8 +10,7 @@ import {
   supportTopics,
   topicHasPage,
   topicLabel,
-  whatsappHref,
-} from "../src/lib/support.ts";
+  } from "../src/lib/support.ts";
 
 const TOPICS = supportTopics([
   { number: 1, title: "Picture" },
@@ -50,31 +49,22 @@ test("the message says the step and the page", () => {
   assert.equal(questionOpening("Something general"), "Hi Mwata, a question about Something general:");
 });
 
-test("spaces and accents survive the WhatsApp and email links", () => {
-  const text = "Hi Mwata, a question about Step 1 Picture, 1.2 My picture:";
-  assert.equal(whatsappHref(text), `https://wa.me/31657930469?text=${encodeURIComponent(text)}`);
-  assert.ok(!whatsappHref(text).includes(" "), "a raw space would cut the message short");
-
+test("spaces and line breaks survive the email link", () => {
   const link = mailtoHref("A question", "Line one\nLine two");
   assert.match(link, /^mailto:info@maderealblueprint\.com\?/);
+  assert.match(link, /subject=A%20question/);
   assert.match(link, /body=Line%20one%0ALine%20two/);
+  assert.ok(!link.includes(" "), "a raw space would cut the link short");
 });
 
 test("a question is checked before it is sent", () => {
-  const ok = { topic: "general", question: "How do I book a meeting?", replyBy: "email" as const };
+  const ok = { topic: "general", question: "How do I book a meeting?" };
   assert.equal(checkQuestion(ok), null);
 
   assert.match(checkQuestion({ ...ok, question: "  " })!, /write your question/i);
   assert.match(checkQuestion({ ...ok, question: "hm" })!, /write your question/i);
   assert.match(checkQuestion({ ...ok, question: "x".repeat(2001) })!, /shorten/i);
   assert.match(checkQuestion({ ...ok, topic: "" })!, /what your question is about/i);
-});
-
-test("a WhatsApp reply needs a number to reply to", () => {
-  const base = { topic: "general", question: "Can we talk this week?", replyBy: "whatsapp" as const };
-  assert.match(checkQuestion(base)!, /WhatsApp number/i);
-  assert.match(checkQuestion({ ...base, whatsapp: "06123" })!, /WhatsApp number/i);
-  assert.equal(checkQuestion({ ...base, whatsapp: "+31 6 1234 5678" }), null);
 });
 
 // An email carries the step in its subject, so the body does not repeat it.

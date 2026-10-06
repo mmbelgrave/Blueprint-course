@@ -135,9 +135,9 @@ there is a print page that saves as PDF with the copyright line on it.
 ### 3.8 Help
 **Help** in the menu, and "Ask Mwata" beside the AI partner on every page. A
 question carries its topic and, when it comes from a page, the step and page
-already filled in. The person chooses an answer by email or WhatsApp. Three ways
-out, all carrying the same opening line: the form, a WhatsApp link and an email
-link. A question is **saved first and emailed second**, so it survives a failed
+already filled in. Answers come by email only: the shop does not allow
+services, and answering someone's own plans on WhatsApp reads as coaching. Two
+ways out, both carrying the same opening line: the form and an email link. A question is **saved first and emailed second**, so it survives a failed
 email; Admin says plainly when `RESEND_API_KEY` is missing.
 
 ### 3.9 Admin (Mwata only, checked on the server)

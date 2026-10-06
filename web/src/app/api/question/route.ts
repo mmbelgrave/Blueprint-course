@@ -55,8 +55,6 @@ export async function POST(request: Request) {
     topic: String(body.topic ?? ""),
     page: body.page ? String(body.page).slice(0, 120) : undefined,
     question: String(body.question ?? ""),
-    replyBy: body.replyBy === "whatsapp" ? "whatsapp" : "email",
-    whatsapp: body.whatsapp ? String(body.whatsapp).slice(0, 40) : undefined,
   };
   // The browser checks this too. This is the check that counts.
   const wrong = checkQuestion(draft);
@@ -68,8 +66,8 @@ export async function POST(request: Request) {
     topic: draft.topic,
     page: draft.page ?? null,
     question: draft.question.trim(),
-    reply_by: draft.replyBy,
-    whatsapp: draft.replyBy === "whatsapp" ? draft.whatsapp : null,
+    reply_by: "email",
+    whatsapp: null,
   });
   if (error) return fail(500, "Your question was not saved. Please check your internet and try again.");
 
@@ -85,8 +83,6 @@ export async function POST(request: Request) {
     topicLabel: topicLabel(TOPICS, draft.topic),
     page: draft.page,
     question: draft.question,
-    replyBy: draft.replyBy,
-    whatsapp: draft.whatsapp,
     adminUrl: new URL(`/admin/${user.id}`, request.url).toString(),
   });
 

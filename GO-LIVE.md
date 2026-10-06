@@ -147,7 +147,7 @@ from the dashboard: let them sign in themselves, which uses the email above.
 ## 7. Questions from people
 
 **Help** in the menu, and "Ask Mwata" beside the AI partner on every exercise
-page. Someone picks what the question is about (a step, the app, meetings, payment), writes it, and chooses email or WhatsApp for the answer. Coming from an
+page. Someone picks what the question is about (a step, the app, meetings, payment), writes it, and it is answered by email. Coming from an
 exercise page, the step and the page are filled in already.
 
 A question goes two ways at once:
@@ -161,12 +161,17 @@ The email needs `RESEND_API_KEY` (step 2). Without it nothing breaks: the
 question is still saved, and Admin says plainly at the top that no email is
 being sent.
 
-The WhatsApp number and the address come from `web/src/lib/support.ts`. They are
-the ones on the website; change them in that one file if either ever changes.
+The address comes from `web/src/lib/support.ts`; change it in that one file if it
+ever changes.
 
-Everyone who signs in can ask. The website makes email and WhatsApp a founding
-member benefit, so when you start selling without meetings, a flag per person is
-the next step — not needed while the first 12 are all founding members.
+**Answers go by email only**, decided 6 October. Lemon Squeezy does not allow
+services, and answering questions about someone's own plans on WhatsApp reads as
+coaching. Help stays for questions about the course, a download or an order. Any
+meetings are sold and booked outside the course area, never inside it.
+
+Everyone who signs in can ask. When the course sells without meetings, a flag
+per person is the next step, so Help can offer the right thing to each — not
+needed while the first 12 are all founding members.
 
 ## 8. Check it yourself
 
