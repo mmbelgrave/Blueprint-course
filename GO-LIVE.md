@@ -208,6 +208,15 @@ minutes only, for someone who owns the step.
 Turn it on once the first real video is up and playing. While it is off nothing
 is exposed that is not meant to be, because no videos exist yet.
 
+**Allowed domains blocks more than you think.** With it set, a request that
+carries **no referer at all** is refused however good its token — which is how
+a video can be perfectly set up and still refuse to play from a script, a test
+or a preview build. Put all of these in the list, not only the live address:
+
+- `app.maderealblueprint.com` — the app
+- `localhost` — working on your own computer
+- `vercel.app` — the branch previews, where the next version is tested
+
 On the same page, **Allowed domains** is worth filling in as well:
 `app.maderealblueprint.com`, and `localhost` while testing. It is not a
 replacement for the token — a referer is easy to fake — but it costs nothing.
