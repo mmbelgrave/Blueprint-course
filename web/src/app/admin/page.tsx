@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
+import { products } from "@/lib/access-app";
 
 type Participant = {
   id: string;
@@ -18,6 +19,16 @@ type Participant = {
     parts: { label: string; optional: boolean; done: number; total: number; complete: boolean }[];
   }[];
   feedback: { part: string; rating: number | null; comment: string; date: string }[];
+  owns: {
+    id: number;
+    product: string;
+    status: "active" | "refunded" | "revoked";
+    source: "lemonsqueezy" | "granted";
+    orderId: string;
+    amount: string;
+    testMode: boolean;
+    date: string;
+  }[];
   questions: {
     topic: string;
     page: string;
@@ -40,6 +51,80 @@ type Participant = {
 const day = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString() : "—");
 const n = (x: number) => x.toLocaleString();
 const usd = (x: number) => `$${x.toFixed(2)}`;
+
+/** What this person owns, and giving or ending it by hand (spec 6.1). */
+function Owns({ p }: { p: Participant }) {
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState<string | null>(null);
+  const live = p.owns.filter((o) => o.status === "active");
+
+  const send = async (url: string, body: unknown) => {
+    setBusy(true);
+    setProblem(null);
+    try {
+      const res = await fetch(url, { method: body && "id" in (body as object) ? "PATCH" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
+      if (!res.ok) setProblem(((await res.json()) as { error?: string }).error ?? "That did not work.");
+      else location.reload();
+    } catch {
+      setProblem("That did not work. Check your internet.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="border-t border-line pt-3">
+      <h3 className="text-sm font-semibold">Owns</h3>
+      {p.owns.length === 0 ? (
+        <p className="text-sm text-stone">Nothing yet.</p>
+      ) : (
+        <ul className="mt-1 space-y-1 text-sm">
+          {p.owns.map((o) => (
+            <li key={o.id}>
+              <span className="font-medium">{o.product}</span>
+              {o.status !== "active" && <span className="text-stone"> — {o.status}</span>}
+              <span className="text-stone">
+                {" "}
+                · {o.source === "granted" ? "given by hand" : `order ${o.orderId || "?"}`}
+                {o.amount ? ` · ${o.amount}` : ""}
+                {o.testMode ? " · test" : ""} · {day(o.date)}
+              </span>
+              {o.status === "active" && (
+                <button
+                  className="ml-2 text-pine underline"
+                  disabled={busy}
+                  onClick={() => send("/api/admin/entitlements", { id: o.id, status: "revoked" })}
+                >
+                  End it
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+        <span className="text-stone">Give:</span>
+        {products
+          .filter((pr) => !live.some((o) => o.product === pr.id))
+          .map((pr) => (
+            <button
+              key={pr.id}
+              className="btn btn-ghost py-1 text-sm"
+              disabled={busy}
+              onClick={() => send("/api/admin/entitlements", { userId: p.id, product: pr.id })}
+            >
+              {pr.name}
+            </button>
+          ))}
+      </p>
+      {problem && (
+        <p role="alert" className="text-sm text-ochre">
+          {problem}
+        </p>
+      )}
+    </div>
+  );
+}
 
 function ParticipantCard({ p }: { p: Participant }) {
   return (
@@ -143,6 +228,8 @@ function ParticipantCard({ p }: { p: Participant }) {
           </ul>
         </div>
       )}
+
+      <Owns p={p} />
 
       <div className="border-t border-line pt-3 text-sm">
         {p.consentFounder ? (

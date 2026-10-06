@@ -1,0 +1,19 @@
+{
+  "source_note": "Who may open what. Deliberately apart from the workbook content, so changing what is free or what a product contains can never disturb the content check. Copied into the app by web/scripts/sync-content.mjs.",
+  "products": {
+    "phase1": {
+      "name": "Phase 1 · Choose it",
+      "steps": [1, 2, 3]
+    },
+    "full": {
+      "name": "The whole Blueprint · Portugal Edition",
+      "steps": [1, 2, 3, 4, 5, 6, 7, 8]
+    }
+  },
+  "free": {
+    "note": "What anyone signed in may open without buying (§6.2).",
+    "items": ["introduction"],
+    "steps": [],
+    "pages": ["1.2"]
+  }
+}

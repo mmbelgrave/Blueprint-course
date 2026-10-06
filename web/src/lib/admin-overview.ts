@@ -12,7 +12,7 @@ type Row = Record<string, unknown>;
 const latest = (a: string | null, b: string | null | undefined) => (!b ? a : !a || b > a ? b : a);
 
 export async function buildOverview(admin: SupabaseClient) {
-  const [users, profiles, statuses, answers, chats, feedback, questions, usage] = await Promise.all([
+  const [users, profiles, statuses, answers, chats, feedback, entitlements, questions, usage] = await Promise.all([
     admin.auth.admin.listUsers({ perPage: 1000 }),
     admin.from("profiles").select("user_id, first_name, consent_ai, consent_founder_access, created_at"),
     admin.from("exercise_status").select("user_id, exercise_id, status, updated_at"),
@@ -20,12 +20,16 @@ export async function buildOverview(admin: SupabaseClient) {
     admin.from("conversations").select("user_id, created_at"),
     admin.from("feedback").select("user_id, part_id, rating, comment, created_at").order("created_at"),
     admin
+      .from("entitlements")
+      .select("id, user_id, product, status, source, order_id, amount_cents, currency, test_mode, created_at")
+      .order("created_at", { ascending: false }),
+    admin
       .from("questions")
       .select("user_id, topic, page, question, reply_by, whatsapp, created_at")
       .order("created_at", { ascending: false }),
     admin.from("usage_log").select("user_id, request_type, input_tokens, output_tokens, cache_read_tokens"),
   ]);
-  for (const r of [profiles, statuses, answers, chats, feedback, questions, usage]) {
+  for (const r of [profiles, statuses, answers, chats, feedback, entitlements, questions, usage]) {
     if (r.error) throw new Error(`Could not read the database: ${r.error.message}`);
   }
   if (users.error) throw new Error("Could not read the accounts.");
@@ -44,6 +48,7 @@ export async function buildOverview(admin: SupabaseClient) {
   const chatBy = byUser(chats.data);
   const feedbackBy = byUser(feedback.data);
   const questionBy = byUser(questions.data);
+  const entitlementBy = byUser(entitlements.data);
   const usageBy = byUser(usage.data);
   const profileBy = new Map((profiles.data ?? []).map((p) => [p.user_id as string, p]));
 
@@ -93,6 +98,16 @@ export async function buildOverview(admin: SupabaseClient) {
         rating: f.rating as number | null,
         comment: (f.comment as string) ?? "",
         date: f.created_at as string,
+      })),
+      owns: (entitlementBy.get(u.id) ?? []).map((e) => ({
+        id: e.id as number,
+        product: e.product as string,
+        status: e.status as "active" | "refunded" | "revoked",
+        source: e.source as "lemonsqueezy" | "granted",
+        orderId: (e.order_id as string) ?? "",
+        amount: e.amount_cents ? `${((e.amount_cents as number) / 100).toFixed(2)} ${e.currency ?? ""}`.trim() : "",
+        testMode: !!e.test_mode,
+        date: e.created_at as string,
       })),
       questions: (questionBy.get(u.id) ?? []).map((q) => ({
         topic: topicLabel(topics, q.topic as string),

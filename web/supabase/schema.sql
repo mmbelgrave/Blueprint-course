@@ -82,6 +82,28 @@ create table if not exists public.questions (
 );
 create index if not exists questions_user on public.questions (user_id, created_at desc);
 
+-- What a person owns (spec 6.1). Written only by the server: a webhook from
+-- Lemon Squeezy, or Mwata granting it by hand. A person may read their own.
+create table if not exists public.entitlements (
+  id bigint generated always as identity primary key,
+  user_id uuid not null references auth.users (id) on delete cascade,
+  product text not null,
+  status text not null default 'active' check (status in ('active', 'refunded', 'revoked')),
+  source text not null default 'lemonsqueezy' check (source in ('lemonsqueezy', 'granted')),
+  order_id text,
+  variant_id text,
+  amount_cents int,
+  currency text,
+  test_mode boolean not null default false,
+  note text,
+  created_at timestamptz not null default now(),
+  ended_at timestamptz
+);
+-- The same order never counts twice, however often Lemon Squeezy sends it.
+create unique index if not exists entitlements_order on public.entitlements (order_id)
+  where order_id is not null;
+create index if not exists entitlements_user on public.entitlements (user_id, status);
+
 create table if not exists public.usage_log (
   id bigint generated always as identity primary key,
   user_id uuid not null references auth.users (id) on delete cascade,
@@ -107,6 +129,12 @@ begin
          with check (user_id = (select auth.uid()))', t);
   end loop;
 end $$;
+
+-- entitlements: people may see what they own; only the server gives or ends it.
+alter table public.entitlements enable row level security;
+drop policy if exists "read own entitlements" on public.entitlements;
+create policy "read own entitlements" on public.entitlements for select to authenticated
+  using (user_id = (select auth.uid()));
 
 -- usage_log: people may read their own usage, but only the server writes it.
 alter table public.usage_log enable row level security;
