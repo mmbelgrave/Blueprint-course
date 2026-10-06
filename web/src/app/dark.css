@@ -1,0 +1,112 @@
+/*
+ * The dark ground.
+ *
+ * It follows the brand guide's own dark rules rather than inventing a palette:
+ * Sand for text, Ochre-light for the accent (the guide allows Ochre-light only
+ * on Pine or Granite), cards as a thin veil of Sand over the ground, and
+ * #B9C0B2 for captions.
+ *
+ * The token names are the ones the whole app already uses, so no component
+ * changes: only what the names point at. Two names do double duty in the light
+ * app and need a word of explanation:
+ *   --color-pine   headings and the filled button. On black a Pine heading
+ *                  disappears, so here it is Sand, and the filled button is
+ *                  set to Ochre further down.
+ *   --color-ochre  the accent. Ochre itself is too dark to read on black, so
+ *                  here it is Ochre-light, which the guide made for exactly
+ *                  this ground.
+ *
+ * Switched on by data-theme="dark" on <html> (see src/lib/theme.ts). Light
+ * carries no attribute, so the light app is untouched.
+ */
+
+[data-theme="dark"] {
+  /* The page, and the two surfaces that sit on it. */
+  --color-sand: #101210; /* the ground */
+  --color-white: #1a1d19; /* cards: Sand at 7% over the ground */
+  --color-sage: #262b25; /* panels, callouts, and the track behind a progress bar */
+  --color-line: #343a33; /* borders: Sand at 18% */
+
+  /* Text. */
+  --color-granite: #f0eadf; /* body */
+  --color-pine: #f3ece0; /* headings */
+  --color-pine-deep: #ffffff;
+  --color-stone: #b9c0b2; /* captions, the guide's own dark caption colour */
+
+  /* The accent. */
+  --color-ochre: #d9a55a;
+  --color-ochre-light: #e8bd7e;
+  --color-ochre-soft: #2a2117; /* the ground under a warning */
+
+  --color-moss: #8aa87c;
+  --color-success: #7fbf95;
+  --color-success-soft: #17251c;
+  --color-error: #e08478;
+
+  /* Scrollbars, form controls and the browser's own furniture follow. */
+  color-scheme: dark;
+}
+
+/* The handful of places that name a colour instead of a token. */
+[data-theme="dark"] .field-input {
+  background: #151814;
+  border-color: var(--color-line);
+  color: var(--color-granite);
+}
+[data-theme="dark"] .field-input::placeholder {
+  color: #7d8479;
+}
+[data-theme="dark"] .field-input:focus {
+  border-color: var(--color-ochre);
+  box-shadow: 0 0 0 3px rgba(217, 165, 90, 0.25);
+}
+
+/* On a dark ground the filled button is the warm one; Pine would disappear. */
+[data-theme="dark"] .btn-primary {
+  background: var(--color-ochre);
+  color: #14160f;
+}
+[data-theme="dark"] .btn-primary:hover:not(:disabled) {
+  background: var(--color-ochre-light);
+}
+[data-theme="dark"] .btn-ochre {
+  background: var(--color-ochre);
+  color: #14160f;
+}
+[data-theme="dark"] .btn-ghost {
+  color: var(--color-pine);
+  border-color: var(--color-line);
+}
+[data-theme="dark"] .btn-ghost:hover {
+  background: rgba(243, 236, 224, 0.08);
+}
+
+/* Printing happens on paper, whatever the screen is set to. */
+@media print {
+  [data-theme="dark"] {
+    --color-sand: #f3ece0;
+    --color-white: #ffffff;
+    --color-sage: #e3e1d0;
+    --color-line: #ddd7c6;
+    --color-granite: #1c1e1b;
+    --color-pine: #2c3b2f;
+    --color-pine-deep: #223026;
+    --color-stone: #66625a;
+    --color-ochre: #8f5410;
+    --color-ochre-light: #d9a55a;
+    --color-ochre-soft: #f6ead9;
+    --color-moss: #5e7a50;
+    --color-success: #2e6b45;
+    --color-success-soft: #e4ede7;
+    --color-error: #a23b30;
+    color-scheme: light;
+  }
+  [data-theme="dark"] .field-input {
+    background: #fff;
+    color: var(--color-granite);
+  }
+  [data-theme="dark"] .btn-primary {
+    background: var(--color-pine);
+    color: var(--color-sand);
+  }
+}

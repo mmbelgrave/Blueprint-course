@@ -248,6 +248,36 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## A dark ground, and a switch (6 October 2026)
+
+Mwata wanted the app on black, like an app he had seen, without leaving the
+brand. The brand guide turned out to answer it already: its own dark rules are
+Sand text, Ochre-light for the accent (the guide allows Ochre-light only on Pine
+or Granite), cards as a thin veil of Sand over the ground, and #B9C0B2 for
+captions. Those are the values used, on a near-black ground rather than the
+guide's Pine, which Mwata chose after seeing both.
+
+- **src/app/dark.css** redefines the token names the app already uses, so no
+  component changed, only what the names point at. Two names do double duty and
+  needed a decision: Pine is headings and the filled button, so on black
+  headings become Sand and the filled button becomes Ochre; Ochre itself is too
+  dark to read on black, so it becomes Ochre-light.
+- **A switch in My settings**: follow my device (the default), light, or dark.
+  Kept in this browser rather than in the account, because it belongs to the
+  screen you are reading on and because it has to be known before the first
+  pixel: a small script in the page head sets it, so there is no flash of the
+  wrong ground. src/lib/theme.ts holds the rules, theme-store.ts makes them
+  something React can subscribe to.
+- **The mark now follows the theme** (brand.tsx reads the tokens instead of
+  fixed hex), so the terraces are Sand on black with the dot still gold, rather
+  than Pine lines that disappear.
+- **Printing stays on paper.** The print rules put the light palette back, so a
+  Working Direction never prints on black. Checked in the built stylesheet.
+
+Checked in the app: a light device with no choice gets the light app untouched,
+a dark device with no choice gets dark, a chosen light beats a dark device, and
+a choice survives a reload with the attribute already set before paint.
+
 ## Releasing while someone is working (4 October 2026)
 
 Answers are written straight from the browser to Supabase, so a release cannot

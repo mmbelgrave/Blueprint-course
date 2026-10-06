@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
+import { ThemeChoice } from "@/components/theme-choice";
 import { useApp } from "@/lib/app-state";
 import type { Profile } from "@/lib/backend";
 
@@ -117,6 +118,10 @@ export default function SettingsPage() {
         <div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 sm:p-8">
           <h1 className="mb-6 text-2xl font-bold text-pine">My settings</h1>
           {profile && <SettingsForm profile={profile} />}
+          {/* Outside the form: it takes effect as you pick it, with no Save. */}
+          <div className="mt-8 border-t border-line pt-8">
+            <ThemeChoice />
+          </div>
         </div>
       </RequireUser>
     </Shell>

@@ -6,10 +6,13 @@
 // are set in Sage; the dot is at full colour only in "Live it" content.
 import { PRODUCT } from "@/lib/content";
 
-const PINE = "#2c3b2f";
-const MOSS = "#5e7a50";
-const OCHRE = "#8f5410";
-const SAGE = "#e3e1d0";
+// The colours come from the theme, not from fixed hex: on the dark ground the
+// same tokens point at Sand, Ochre-light and Moss-light, so the mark stays the
+// mark instead of turning into Pine lines on black.
+const PINE = "var(--color-pine)";
+const MOSS = "var(--color-moss)";
+const OCHRE = "var(--color-ochre)";
+const SAGE = "var(--color-sage)";
 
 /** The mark on its own: three stacked terraces and the dot. */
 export function Mark({ size = 34, className = "" }: { size?: number; className?: string }) {
