@@ -220,9 +220,11 @@ beginning `NEXT_PUBLIC_` is compiled into the page and the browser can read it.
 That is why it is the hostname and not the key.
 
 **Proving it works.** After turning CDN token authentication on, upload one
-short video and run:
+short video and run, from the `web` folder:
 
-
+```bash
+node scripts/bunny-check.mjs THE-VIDEO-ID
+```
 
 It signs an address both ways Bunny documents, tries each against the real CDN,
 and says which one your library accepts. It also checks that an address with no
