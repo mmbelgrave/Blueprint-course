@@ -1,56 +1,92 @@
 /**
- * The module rules (modules.ts) tied to this app's own content: modules.json
- * for the list, the step content for the parts, and the access layer for what
- * a person may open.
+ * The module rules (modules.ts) tied to this app's own files: modules.json for
+ * the list, the step content for the lessons, access.json for who may open
+ * what, and journey.json for what has been released.
  */
 import modulesRaw from "@/content/modules.json";
-import { itemFor, stepFor } from "@/lib/access-app";
 import type { Entitlement } from "@/lib/access";
+import { ownedSteps } from "@/lib/access";
+import { accessConfig, requirePurchase } from "@/lib/access-app";
 import { getStep, journey, partItems, stepIsOpen } from "@/lib/content";
-import { moduleProgress, moduleState, partsOfModule, watchedKey, type ModuleDef, type ModulePart } from "@/lib/modules";
+import {
+  lessonsOfStep,
+  moduleState,
+  progressOfLessons,
+  progressOfPhase,
+  watchedKey,
+  type Lesson,
+  type ModuleDef,
+  type StepSummary,
+  type Workbook,
+} from "@/lib/modules";
 
-export const modules = (modulesRaw as unknown as { modules: ModuleDef[] }).modules;
+const raw = modulesRaw as unknown as {
+  modules: ModuleDef[];
+  workbooks: Record<string, Workbook>;
+  buy_url: string;
+};
+
+export const modules = raw.modules;
+export const workbooks = raw.workbooks;
+export const buyUrl = raw.buy_url;
 
 export const moduleById = (id: string) => modules.find((m) => m.id === id);
+export const stepIdOf = (step: number) => `step-${step}`;
+export const workbookOf = (stepId: string) => workbooks[stepId];
 
-/** Parts of a step, named once in the step's own content. */
-const stepParts = (step: number) =>
-  (getStep(step)?.parts ?? []).map((p) => ({
+/** Which steps this person owns. Until buying exists, every released step. */
+const owns = (entitlements: Entitlement[]) => {
+  if (!requirePurchase) return () => true;
+  const mine = new Set(ownedSteps(entitlements, accessConfig));
+  return (step: number) => mine.has(step);
+};
+
+export const stateOf = (m: ModuleDef, entitlements: Entitlement[]) =>
+  moduleState(m, { owns: owns(entitlements), released: stepIsOpen });
+
+/** The steps of a phase, with what the overview needs to draw them. */
+export function stepsOfPhase(m: ModuleDef): StepSummary[] {
+  return (m.steps ?? []).map((n) => {
+    const fromJourney = journey.steps.find((s) => s.number === n);
+    return {
+      id: stepIdOf(n),
+      number: n,
+      title: fromJourney?.title ?? `Step ${n}`,
+      question: fromJourney?.question ?? "",
+      released: stepIsOpen(n),
+    };
+  });
+}
+
+/** What a closed step says: "opens soon", or that it is still being written. */
+export const noteForStep = (n: number) =>
+  journey.steps.find((s) => s.number === n)?.note ?? "being written";
+
+export function lessonsOf(step: number): Lesson[] {
+  const parts = (getStep(step)?.parts ?? []).map((p) => ({
     id: p.id,
     label: p.label,
     title: p.title,
     video: p.video,
     firstPage: partItems(p)[0]?.id,
   }));
+  return lessonsOfStep(step, parts);
+}
 
-export const partsOf = (module: ModuleDef): ModulePart[] => partsOfModule(module, stepParts);
+const watchedFrom = (statuses: Record<string, string>) => (key: string) => statuses[key] === "done";
 
-/** Is this module open to this person? Free modules go through the free list. */
-export const stateOf = (module: ModuleDef, entitlements: Entitlement[]) =>
-  moduleState(module, {
-    released: stepIsOpen,
-    open: (m) => (m.step === undefined ? itemFor(m.id, entitlements).open : stepFor(m.step, entitlements).open),
-  });
-
-/**
- * What has been watched. The tickbox writes an exercise_status row under a key
- * that cannot collide with a page id, so the machinery that already saves "done"
- * saves this too.
- */
-export const watchedFrom = (statuses: Record<string, string>, module: ModuleDef, parts: ModulePart[]) => {
+export function stepProgress(moduleId: string, step: number, statuses: Record<string, string>) {
+  const stepId = stepIdOf(step);
+  const lessons = lessonsOf(step);
+  const seen = watchedFrom(statuses);
   const watched: Record<string, boolean> = {};
-  for (const p of parts) {
-    const key = watchedKey(module.id, p.id);
-    watched[key] = statuses[key] === "done";
-  }
-  return watched;
-};
+  for (const l of lessons) watched[watchedKey(moduleId, stepId, l.id)] = seen(watchedKey(moduleId, stepId, l.id));
+  return progressOfLessons(moduleId, stepId, lessons, watched);
+}
 
-export const progressOf = (module: ModuleDef, parts: ModulePart[], statuses: Record<string, string>) =>
-  moduleProgress(module, parts, watchedFrom(statuses, module, parts));
-
-/** What the overview says about a module that is not open: "opens soon", or why. */
-export const noteFor = (course: ModuleDef) =>
-  (course.step !== undefined && journey.steps.find((s) => s.number === course.step)?.note) || "being written";
+export function phaseProgress(m: ModuleDef, statuses: Record<string, string>) {
+  return progressOfPhase((m.steps ?? []).filter(stepIsOpen).map((n) => stepProgress(m.id, n, statuses)));
+}
 
 export { watchedKey };
+export { lessonKey } from "@/lib/modules";

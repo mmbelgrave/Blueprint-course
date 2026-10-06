@@ -21,7 +21,16 @@ export type VideoContent = {
   captions?: Video["captions"];
 };
 
-export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) {
+export function VideoSlot({
+  video,
+  id,
+  plain = false,
+}: {
+  video?: VideoContent;
+  id?: string;
+  /** On a lesson page the video stands alone: no line about the writing below. */
+  plain?: boolean;
+}) {
   const box = useRef<HTMLDivElement>(null);
   const ctx = useVideo();
   const videoId = id ?? video?.title ?? "";
@@ -61,7 +70,8 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
     return (
       <p className="rounded-2xl border border-dashed border-line bg-white px-5 py-3 text-stone print:hidden">
         <span className="font-semibold text-pine">Video: {video.title}</span> — being recorded
-        {video.length ? `, about ${video.length}` : ""}. The written explanation below says the same thing.
+        {video.length ? `, about ${video.length}` : ""}.
+        {plain ? "" : " The written explanation below says the same thing."}
       </p>
     );
   }
@@ -102,10 +112,11 @@ export function VideoSlot({ video, id }: { video?: VideoContent; id?: string }) 
           </button>
         )}
       </div>
-      <p className="mt-2 flex flex-wrap items-center gap-x-2 px-1 text-sm text-stone">
+      <p className="mt-2 flex flex-wrap items-center justify-center gap-x-2 px-1 text-sm text-stone sm:justify-start">
         <span>
           <span className="font-semibold text-pine">{video.title}</span>
-          {video.length ? ` · ${video.length}` : ""} — the written explanation says the same thing.
+          {video.length ? ` · ${video.length}` : ""}
+          {plain ? "" : " — the written explanation says the same thing."}
         </span>
         {video.audio_url && (
           <button

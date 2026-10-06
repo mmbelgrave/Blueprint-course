@@ -1,18 +1,19 @@
 {
-  "source_note": "The course as people watch it: modules, and the workbook that belongs to each (spec §6.9). Parts and their titles are NOT repeated here — they come from the step content, so there is one place where a part is named. This file holds only what the step content does not know: the free module, and which workbook file belongs to a step.",
+  "source_note": "The course as people watch it (spec §6.9): free material, the Introduction, and the three phases. Steps and their parts are NOT repeated here — they come from the step content, so a part is named in one place. This file holds only what the content cannot know: the free items, the Introduction, and which workbook belongs to which step.",
   "modules": [
     {
       "id": "free",
+      "kind": "free",
       "name": "Free material",
-      "blurb": "Start here. The welcome video and the Introduction workbook.",
-      "items": [
-        {
-          "id": "introduction",
-          "title": "Welcome to The Made Real Blueprint",
-          "blurb": "Why I made this, and how the course works.",
-          "video": { "title": "Welcome", "length": null, "url": null }
-        }
-      ],
+      "blurb": "A taste of the method. Try something before you decide.",
+      "items": []
+    },
+    {
+      "id": "introduction",
+      "kind": "lesson",
+      "name": "Introduction",
+      "blurb": "Why I made this, and how the course works.",
+      "video": { "title": "Welcome to The Made Real Blueprint", "length": null, "url": null },
       "workbook": {
         "name": "The Made Real Blueprint — Introduction",
         "file": null,
@@ -20,37 +21,31 @@
       }
     },
     {
-      "id": "step-1",
-      "step": 1,
-      "name": "Step 1 · Picture",
-      "blurb": "What life do I really want?",
-      "workbook": {
-        "name": "The Made Real Blueprint — Step 1 Picture workbook",
-        "file": null,
-        "updated": null
-      }
+      "id": "phase-1",
+      "kind": "phase",
+      "name": "Phase 1 · Choose it",
+      "blurb": "Decide what you want, and whether to move.",
+      "steps": [1, 2, 3]
     },
     {
-      "id": "step-2",
-      "step": 2,
-      "name": "Step 2 · Explore",
-      "blurb": "Where can this life happen?",
-      "workbook": {
-        "name": "The Made Real Blueprint — Step 2 Explore workbook",
-        "file": null,
-        "updated": null
-      }
+      "id": "phase-2",
+      "kind": "phase",
+      "name": "Phase 2 · Build it",
+      "blurb": "Put the foundations in place, then build your life in Portugal.",
+      "steps": [4, 5, 6, 7]
     },
     {
-      "id": "step-3",
-      "step": 3,
-      "name": "Step 3 · Decide",
-      "blurb": "Am I ready for this option?",
-      "workbook": {
-        "name": "The Made Real Blueprint — Step 3 Decide workbook",
-        "file": null,
-        "updated": null
-      }
+      "id": "phase-3",
+      "kind": "phase",
+      "name": "Phase 3 · Live it",
+      "blurb": "Settle in, and keep checking that it works for you.",
+      "steps": [8]
     }
-  ]
+  ],
+  "workbooks": {
+    "step-1": { "name": "The Made Real Blueprint — Step 1 Picture workbook", "file": null, "updated": null },
+    "step-2": { "name": "The Made Real Blueprint — Step 2 Explore workbook", "file": null, "updated": null },
+    "step-3": { "name": "The Made Real Blueprint — Step 3 Decide workbook", "file": null, "updated": null }
+  },
+  "buy_url": "https://www.maderealblueprint.com/#options"
 }

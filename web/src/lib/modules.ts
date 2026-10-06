@@ -1,88 +1,105 @@
 /**
  * The course as people watch it (spec §6.9).
  *
- * A module is a step seen from the video side: its parts, each with a video, a
- * workbook to download, and a way into the exercises. "Free material" is a
- * module too, so there is one shape for everything on the Modules screen.
+ * Four levels, and three kinds of module:
+ *
+ *   Modules   free material · the Introduction · Phase 1 · Phase 2 · Phase 3
+ *   a phase   the steps inside it
+ *   a step    its lessons
+ *   a lesson  the video, the workbook, the way into the exercises
+ *
+ * The Introduction is a lesson on its own: a welcome video and a workbook, with
+ * no exercises, so it stops at the third line above.
  *
  * Two kinds of progress live in this app and they are deliberately different:
+ * modules count what has been **watched**, exercises count pages **done**.
+ * Someone working in the printed workbook never moves the exercise count and
+ * should still see progress, so the two are never averaged into one number.
  *
- *   - **Modules** count what has been *watched*.
- *   - **Exercises** count pages *done*.
- *
- * Someone who works in the printed workbook will never move the exercise count
- * and should still see their progress, which is why the two are kept apart
- * rather than averaged into one misleading number.
- *
- * Nothing is imported here but the types, so this can be tested on its own.
+ * Nothing is imported here, so this can be tested on its own.
  */
 
 export type ModuleVideo = { title: string; length: string | null; url: string | null; audio_url?: string | null };
-
-export type ModuleItem = {
-  id: string;
-  title: string;
-  blurb?: string;
-  video?: ModuleVideo;
-};
-
 export type Workbook = { name: string; file: string | null; updated: string | null };
+
+export type ModuleKind = "free" | "lesson" | "phase";
+
+export type FreeItem = { id: string; title: string; blurb?: string; href?: string; video?: ModuleVideo };
 
 export type ModuleDef = {
   id: string;
+  kind: ModuleKind;
   name: string;
   blurb?: string;
-  /** A module that is a step takes its parts from the step's own content. */
-  step?: number;
-  /** A module that is not a step lists what it holds. */
-  items?: ModuleItem[];
+  /** free: the things on offer. */
+  items?: FreeItem[];
+  /** lesson: its own video and workbook (the Introduction). */
+  video?: ModuleVideo;
   workbook?: Workbook;
+  /** phase: which steps it holds. */
+  steps?: number[];
 };
 
-/** One part of a module, as the screens need it. */
-export type ModulePart = {
+/** One lesson of a step, as the screens need it. */
+export type Lesson = {
   id: string;
   title: string;
-  blurb?: string;
   video?: ModuleVideo;
-  /** Where this part's exercises start, when it has any. */
+  /** Where this lesson's exercises start. The Introduction has none. */
   exerciseHref?: string;
 };
 
-/** Watched is the tickbox, or a video seen to the end — either counts. */
 export type Watched = Record<string, boolean>;
 
-export function partsOfModule(
-  module: ModuleDef,
-  stepParts: (step: number) => { id: string; label: string; title: string; video?: ModuleVideo; firstPage?: string }[],
-): ModulePart[] {
-  if (module.step !== undefined) {
-    return stepParts(module.step).map((p) => ({
-      id: p.id,
-      title: `${p.label} · ${p.title}`,
-      video: p.video,
-      exerciseHref: p.firstPage ? `/step/${module.step}/${p.id}/${p.firstPage}` : undefined,
-    }));
-  }
-  return (module.items ?? []).map((i) => ({ id: i.id, title: i.title, blurb: i.blurb, video: i.video }));
+/** The key a lesson's "watched" is stored under, kept well away from page ids. */
+export const watchedKey = (moduleId: string, stepId: string, lessonId: string) =>
+  `module:${moduleId}:${stepId}:${lessonId}`;
+
+/** The Introduction is its own lesson, so it still needs a key. */
+export const lessonKey = (moduleId: string) => `module:${moduleId}`;
+
+export type StepSummary = { id: string; number: number; title: string; question: string; released: boolean };
+
+export function lessonsOfStep(
+  step: number,
+  parts: { id: string; label: string; title: string; video?: ModuleVideo; firstPage?: string }[],
+): Lesson[] {
+  return parts.map((p) => ({
+    id: p.id,
+    title: `${p.label} · ${p.title}`,
+    video: p.video,
+    exerciseHref: p.firstPage ? `/step/${step}/${p.id}/${p.firstPage}` : undefined,
+  }));
 }
 
-/** The key a part's "watched" is stored under, kept well away from exercise ids. */
-export const watchedKey = (moduleId: string, partId: string) => `module:${moduleId}:${partId}`;
-
-export function moduleProgress(module: ModuleDef, parts: ModulePart[], watched: Watched) {
-  const total = parts.length;
-  const done = parts.filter((p) => watched[watchedKey(module.id, p.id)]).length;
+export function progressOfLessons(moduleId: string, stepId: string, lessons: Lesson[], watched: Watched) {
+  const total = lessons.length;
+  const done = lessons.filter((l) => watched[watchedKey(moduleId, stepId, l.id)]).length;
   return { done, total, percent: total === 0 ? 0 : Math.round((done / total) * 100), complete: total > 0 && done === total };
 }
 
-/** A module nobody can open yet still shows, so people can see what is coming. */
-export type ModuleState = "open" | "locked" | "not-released";
+/** A phase adds up the steps it holds. */
+export function progressOfPhase(
+  perStep: { done: number; total: number }[],
+): { done: number; total: number; percent: number; complete: boolean } {
+  const done = perStep.reduce((t, s) => t + s.done, 0);
+  const total = perStep.reduce((t, s) => t + s.total, 0);
+  return { done, total, percent: total === 0 ? 0 : Math.round((done / total) * 100), complete: total > 0 && done === total };
+}
 
+export type ModuleState = "open" | "buy" | "coming";
+
+/**
+ * What to show for a module: open it, offer to buy it, or say it is on its way.
+ * A phase nobody has bought says "buy" even when its steps are not written yet,
+ * because that is the useful thing to tell someone looking at it.
+ */
 export function moduleState(
-  module: ModuleDef,
-  opts: { released: (step: number) => boolean; open: (module: ModuleDef) => boolean },
+  m: ModuleDef,
+  opts: { owns: (step: number) => boolean; released: (step: number) => boolean },
 ): ModuleState {
-  if (module.step !== undefined && !opts.released(module.step)) return "not-released";
-  return opts.open(module) ? "open" : "locked";
+  if (m.kind !== "phase") return "open";
+  const steps = m.steps ?? [];
+  if (!steps.some(opts.owns)) return "buy";
+  return steps.some(opts.released) ? "open" : "coming";
 }

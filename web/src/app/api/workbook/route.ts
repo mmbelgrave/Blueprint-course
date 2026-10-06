@@ -1,14 +1,19 @@
 /*
- * The workbook of one module, as a download (spec §6.9).
+ * A workbook, to open or to download (spec §6.9).
  *
  * The PDFs sit in a private place, so this hands out a link that works for a
- * few minutes and only for someone who may open that module. Whether the video
- * has been watched is not asked: the workbook is something people paid for, and
- * the website promises it on payment.
+ * few minutes and only for someone who may open that step. Whether the video
+ * has been watched is never asked: the workbook is something people paid for,
+ * and the website promises it on payment.
+ *
+ *   ?step=step-1        a step's workbook
+ *   ?module=introduction  a module that carries its own (the Introduction)
+ *   &open=1             opens in the browser instead of downloading
  */
 import type { Entitlement } from "@/lib/access";
-import { stepFor, itemFor } from "@/lib/access-app";
-import { moduleById } from "@/lib/modules-app";
+import { ownedSteps } from "@/lib/access";
+import { accessConfig, requirePurchase } from "@/lib/access-app";
+import { moduleById, workbookOf } from "@/lib/modules-app";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -23,20 +28,26 @@ export async function GET(request: Request) {
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return fail(401, "Please sign in again.");
 
-  const id = new URL(request.url).searchParams.get("module") ?? "";
-  const course = moduleById(id);
-  if (!course) return fail(404, "There is no such module.");
-  if (!course.workbook?.file) return fail(404, "That workbook is not ready yet.");
+  const params = new URL(request.url).searchParams;
+  const stepId = params.get("step");
+  const moduleId = params.get("module");
+  const asDownload = params.get("open") !== "1";
 
-  const { data: rows } = await supabase.from("entitlements").select("product, status");
-  const entitlements = (rows ?? []) as Entitlement[];
-  const verdict =
-    course.step === undefined ? itemFor(course.id, entitlements) : stepFor(course.step, entitlements);
-  if (!verdict.open) return fail(403, "This workbook is part of the course.");
+  const workbook = stepId ? workbookOf(stepId) : moduleId ? moduleById(moduleId)?.workbook : undefined;
+  if (!workbook) return fail(404, "There is no such workbook.");
+  if (!workbook.file) return fail(404, "That workbook is not ready yet.");
 
-  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(course.workbook.file, 300, {
-    download: `${course.workbook.name}.pdf`,
-  });
+  // A step's workbook belongs to the step; a module's own (the Introduction) is free.
+  if (stepId && requirePurchase) {
+    const number = Number(stepId.replace("step-", ""));
+    const { data: rows } = await supabase.from("entitlements").select("product, status");
+    const mine = ownedSteps((rows ?? []) as Entitlement[], accessConfig);
+    if (!mine.includes(number)) return fail(403, "This workbook is part of the course.");
+  }
+
+  const { data, error } = await supabase.storage
+    .from(BUCKET)
+    .createSignedUrl(workbook.file, 300, asDownload ? { download: `${workbook.name}.pdf` } : {});
   if (error || !data) return fail(502, "We could not fetch that workbook. Please try again.");
 
   return Response.redirect(data.signedUrl, 302);
