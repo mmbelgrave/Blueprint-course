@@ -492,9 +492,10 @@ step.
 
 **What Bunny needs (set up by Mwata, keys never pasted into the code):** one
 bunny.net account, with a **Stream video library** created inside it — there is
-no second account. From that library: the **library id**, the **Stream API key**
-and the **CDN hostname**, plus the **token authentication key** once the library
-is set to private, so playback addresses are signed and short-lived. A Storage
+no second account. From that library the app needs the **token
+authentication key**, which signs playback addresses, plus the **library id**
+and the **CDN hostname**, which are not secrets. It does **not** take the
+library API key: that one can delete videos, and the app only plays them. A Storage
 zone holds the sound-only files. All of it goes into Vercel's environment
 variables and `web/.env.local`.
 

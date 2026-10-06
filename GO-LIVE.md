@@ -179,16 +179,27 @@ One **bunny.net** account. Inside it, a **Stream video library** — there is no
 second account to make. The library gives you three things, and a fourth once
 you make it private:
 
+A Bunny library has **three different keys**, and the app needs only one of
+them:
+
+| Key | What it is for | Does the app need it? |
+| --- | --- | --- |
+| **API key** | Uploading, changing and **deleting** videos | **No.** You upload in the Bunny dashboard. A key that can delete your videos has no business sitting in a web app |
+| **Read-only API key** | Reading video details, and signing Bunny's webhooks | Not yet. Only if the app one day fills in lengths and thumbnails by itself |
+| **Token authentication key** | **Signing playback addresses** | **Yes — this is the one** |
+
 | Setting | Where in Bunny |
 | --- | --- |
+| `BUNNY_TOKEN_KEY` | Stream → your library → Security → token authentication key (secret) |
 | `BUNNY_LIBRARY_ID` | Stream → your library → API |
-| `BUNNY_STREAM_API_KEY` | Stream → your library → API (secret) |
 | `NEXT_PUBLIC_BUNNY_CDN` | Stream → your library → the pull zone hostname |
-| `BUNNY_TOKEN_KEY` | Stream → your library → Security → token authentication (secret) |
 
-Turn **token authentication** on once the first real video is up, so a playback
-address only works for a few minutes and only for someone who owns the step.
-Leave it off while testing and nothing is exposed that is not meant to be.
+The library id and the hostname are not secrets: they are half of every playback
+address. The token key is, and it is what makes an address work for a few
+minutes only, for someone who owns the step.
+
+Turn **token authentication** on once the first real video is up. Leave it off
+while testing and nothing is exposed that is not meant to be.
 
 The sound-only files (an MP3 per lesson, drawn from the finished video) live in
 a **Storage zone**, not in Stream.
