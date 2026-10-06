@@ -1,6 +1,6 @@
 # The Made Real Blueprint — the app
 
-**Specification, version 3 · 6 October 2026.** This file says what the app is
+**Specification, version 4 · 6 October 2026.** This file says what the app is
 and what it does today. It replaces the earlier brief for anything they
 disagree on.
 
@@ -24,7 +24,9 @@ them. People work at their own pace, mostly in English as a second language.
 - **Live at** https://app.maderealblueprint.com (the old `.vercel.app` address
   redirects there permanently).
 - **Who uses it:** anyone who signs themselves in. The first twelve are founding
-  members doing Phase 1; the app does not yet know who bought what.
+  members doing Phase 1; the app does not yet know who bought what. That changes
+  with §6.1: buying on Lemon Squeezy creates the account and opens the steps
+  bought.
 - **Mwata (admin):** sees progress, feedback and questions for everyone, and
   answers only from people who ticked that box.
 
@@ -38,6 +40,8 @@ them. People work at their own pace, mostly in English as a second language.
 | Pictures | Supabase Storage, a private folder per person |
 | AI | Anthropic `claude-opus-5`, streaming, prompt caching |
 | Email | Resend SMTP, from `info@maderealblueprint.com` |
+| Buying | Lemon Squeezy (seller of record), webhook into the app (§6.1, to build) |
+| Video | A streaming service, played inside the app (§6.4, to build) |
 | Brand | `My Purpose/Brandguide/the-life-you-choose-brand-guide.html` |
 
 Keys live in `web/.env.local` and in Vercel. They never reach the browser.
@@ -206,7 +210,325 @@ page afresh instead of offering a retry that cannot help, at most once a minute.
 
 ## 6. To build next
 
-### 6.1 A bottom tab bar on phones
+In this order. 6.1 to 6.6 come before the app is part of what people buy;
+6.7 to 6.10 can follow once the first founding members are using it.
+
+### The build order (Product Manager, 6 October)
+Work happens on the branch `next-version`. The live app only ever builds from
+`main`, so nothing here can disturb someone working. Each slice is finished,
+reviewed and tried before the next one starts.
+
+| Slice | What | Why this order |
+| --- | --- | --- |
+| **1** | The access layer (§6.0), the `entitlements` table, granting and revoking by hand in Admin | Everything else gates on it, and granting by hand opens steps for testers today |
+| **2** | Steps 2 and 3 content when the workbooks arrive (10–11 Oct) | §6.10: both must be in the app before anyone buys. The real gate on selling |
+| **3** | The course area (§6.3), the Introduction (§6.3a), workbook PDFs | Gives every step a home with its video, workbook and exercises |
+| **4** | Free access (§6.2) and the `/free` page | Needs 1 and 3; the sharing link Mwata has been waiting for |
+| **5** | Purchases (§6.1), proved in Lemon Squeezy test mode | Needs 1; cannot be finished until the store clears identity review |
+| **6** | Video (§6.4), once Mwata approves Bunny and the own player | Biggest single piece; the videos do not exist yet either |
+| **7** | The tab bar (§6.9) | Best once the places it points at exist |
+| **8** | The smaller ones: Help by email only (§6.10), feedback per page (§6.7), download my answers (§6.6), the phase blueprint (§6.5), the partner seat (§6.8) | Independent of each other; fill gaps between the larger slices |
+
+**Help by email only (§6.10) is ready to go now** and is also a correction to
+what is live: it can be taken to `main` on its own, the day Mwata says so.
+
+**Not started until approved:** video (§6.4, the proposal above), and anything
+that spends money.
+
+### 6.0 One access layer
+Three different questions decide whether a person may open something, and they
+must be answered in one place or they will disagree with each other:
+
+1. **Is it released?** (§3.3 — Step 2 is written but closed.)
+2. **Is it free?** (§6.2 — `access.json`.)
+3. **Does this person own it?** (§6.1 — their entitlements.)
+
+One function answers all three for a step, a page, a workbook PDF, a video and a
+print page, and every door uses it: the overview, the step page, a page inside a
+step, a PDF link, a print page and the API routes. A page must never be open by
+one rule and shut by another.
+
+### 6.1 Purchases and access
+**Why.** Buying happens on Lemon Squeezy (the seller of record). The app has to
+know who bought what, open the right steps for them, and close them again after
+a refund, without Mwata adding anyone by hand.
+
+**What it is**
+- **A webhook** at `/api/lemonsqueezy/webhook` that receives `order_created` and
+  `order_refunded`.
+  - Every request is checked against the signing secret (`X-Signature`, HMAC
+    SHA-256 of the raw body). Unsigned or wrong: rejected, nothing written.
+  - **The same order never counts twice.** Lemon Squeezy can send a message
+    more than once; the order id is the key, so a repeat changes nothing.
+  - Test and live have **separate secrets and keys** (`LS_WEBHOOK_SECRET_TEST`,
+    `LS_WEBHOOK_SECRET_LIVE`). A test order (`test_mode: true`) is stored as a
+    test, and never opens anything in the live app unless
+    `ALLOW_TEST_ORDERS=true`.
+- **On a new order**
+  1. Find the account with the order's email, or create one (Supabase admin,
+     email already confirmed). A founding member who signed in before keeps
+     everything they already wrote.
+  2. Add an **entitlement**: which product, order id, amount and currency paid,
+     date, test or live. Products are recognised by their Lemon Squeezy variant
+     id, set in configuration (`LS_VARIANT_PHASE1`, later `LS_VARIANT_FULL`),
+     never written into the code.
+  3. Send a **welcome email** (Resend): your workbooks are ready, sign in at
+     app.maderealblueprint.com with this email address. It carries no sign-in
+     link and no code (the rule in §3.1 still holds).
+- **On a refund** the entitlement is marked refunded and the steps close. The
+  person's answers stay until they delete them themselves, and Admin shows the
+  refund.
+- **New table `entitlements`**: person, product, order id, variant id, amount
+  paid, currency, status (active, refunded), test or live, created, ended.
+  Row-level security: a person reads only their own; only the server writes.
+- **A signed-in person without a purchase** has free access (§6.2): the free
+  pages are open, everything else is locked.
+- **"Bought but no access?"** on the locked overview and in Help: the person
+  types the email they paid with, a code goes to that address, and once it is
+  typed in, the purchase moves to the account they are signed in with. This
+  covers a different email at checkout, and a webhook that never arrived.
+- **Admin:** each person shows what they own and from which order; Mwata can
+  **grant** access by hand (for test persons, marked "complimentary") and
+  **revoke** it. A list of webhook messages received, with any that failed.
+- **The upgrade credit.** When the whole Blueprint opens, the entitlement
+  already holds what each person paid for Phase 1, so a personal discount for
+  that amount can be made without searching through orders.
+
+**Where it stands (6 October):** the store is **still in identity review**, so
+only test-mode orders exist. Everything here is built and proved against test
+mode; the live secret is added, and one real low-value order run through, on the
+day the store is approved. Nothing can open the live app before then.
+
+**Done when:** a test purchase in Lemon Squeezy creates the account, opens
+Phase 1 and sends the welcome email within a minute; sending the same message
+again changes nothing; a test refund closes Phase 1 and keeps the answers; a
+purchase with another email can be claimed; a test order does not open the live
+app.
+
+### 6.2 Free access
+**Why.** Not everyone is ready to buy. A free account lets people try the
+method, get to know the app, and buy later from inside it. It also replaces
+sending the free exercise by hand.
+
+**What it is**
+- **A sign-up link to share** on the website, Instagram, Facebook and in
+  messages: `app.maderealblueprint.com/free`. It leads to a short page (what you
+  get for free, in two or three lines) and the normal sign-in with a code
+  (§3.1). Signing in there creates an account with **free access**.
+- The link can carry where it was shared (`?from=instagram`, `?from=website`
+  …). The app stores it with the account, so Admin shows where people came from.
+- **What free access opens** is set in `access.json` — page ids and course
+  items, never in the code, and deliberately not inside the workbook content, so
+  changing what is free cannot disturb the content check (§3.3). To start with:
+  1. **The Introduction** (§6.3a): the welcome video and the Introduction
+     workbook as a PDF;
+  2. **1.2 A normal day in your new life** (the Ordinary Tuesday), with its
+     vision board;
+  3. the **Step 1 video**, so people meet Mwata before they buy.
+- Everything else shows a lock with one line on what it holds and a button,
+  **Get Phase 1**, to the website's options section.
+- **Updates:** the sign-up page has its own unticked box, "Send me an occasional
+  update when something new is ready". Signing up is not the same as
+  subscribing. **For now the app only records the tick** and Admin can export the
+  addresses; connecting MailerLite is a later, small piece of work (decided
+  6 October), which keeps a third party out of the privacy notes until it earns
+  its place.
+- **The AI partner** works on the free pages too, with a lower daily limit
+  (`FREE_PARTNER_DAILY_LIMIT`, suggested 15 messages, no drafts), so a free
+  account cannot run up real cost. Admin shows AI cost for free and paying
+  accounts separately.
+- **When a free member buys**, the purchase finds their account by email
+  (§6.1) and the rest opens. Everything they already wrote stays where it is.
+  If they paid with another email, "Bought but no access?" connects it.
+- **Protection against misuse:** sign-up is limited per email and per network
+  address, and the code rules of §3.1 still apply. `NEXT_PUBLIC_INVITE_ONLY`
+  still closes the door if needed.
+- **Admin:** a count and list of free accounts, where they came from, what they
+  did on the free pages, and who went on to buy.
+
+**Done when:** someone with the link can sign up with a code, use the free pages
+and the AI partner within the free limit, cannot open any other page by its
+address, PDF or print page, and after a test purchase with the same email sees
+Phase 1 open with their free answers still there.
+
+### 6.3 The course area: phases and steps
+**Why.** A buyer gets three things per step: a video, a workbook and the
+exercises. They should find all three in one place.
+
+**What it is**
+- **The overview** shows the three phases (Choose it, Build it, Live it) with
+  their steps. Open and owned steps show progress; owned but not yet released
+  steps say "coming soon"; steps the person does not own show a lock.
+- **A step home page** (`/step/<n>`) before the first exercise, with:
+  1. **The step video** (see 6.4), with its length.
+  2. **The workbook** as a PDF download, showing "Updated on <date>". The newest
+     version is always the one served.
+  3. **Open the exercises**, or **Continue where I stopped** when started,
+     straight to the right page.
+  4. Progress per part, and the step result (e.g. My Working Direction) once
+     it has been written.
+- The **video slot per part** (§3.4) stays for shorter part videos; an empty
+  slot is simply not shown, instead of saying "being recorded".
+- **Workbook PDFs** live in a private Supabase Storage folder. A download is a
+  signed link that lasts a few minutes, made only for someone who owns the step.
+  File names follow the revision scheme (Rev.01, 01a …); the step lists only the
+  current one.
+- The "Read this first: how this app works" link stays at the top.
+
+**Done when:** from the overview, I can reach the video, the PDF and the
+exercises of any step I own in one tap each; a step I do not own cannot be
+reached by its address, its PDF link or its print page (as with Step 2 today).
+
+### 6.3a The Introduction
+**Decided 6 October.** The Introduction is part of the course, but it is not a
+set of exercises: it is **a welcome video and the Introduction workbook**. It
+comes before Step 1 and is built as a course item of the same shape as a step
+home page (§6.3), with its video and its PDF, and no exercises of its own.
+**Your First Picture stays where it is**, as 0.1 inside Step 1.
+
+On the overview it sits above the three phases, as the way in. It is free
+(§6.2), so anyone signed in can watch the welcome video and read the workbook.
+
+### 6.3b "How this app works" needs rewriting
+The guide at the top of the overview explains the exercises and nothing else.
+With workbooks to download, videos to watch, free and bought steps, a tab bar
+and a light-or-dark choice, it has to explain the app as a whole: what you get
+per step (video, workbook, exercises), **how to download a workbook**, how the
+AI partner works and what it remembers, where your results and PDFs are, how to
+ask a question, and how to change how the app looks. Mwata approves the wording
+before it goes in, as with all content.
+
+### 6.4 Video
+**Can video live inside the app?** It can be stored in the app's own storage and
+played with the browser's video player, but that is the weak choice: a phone on
+a slow connection gets the full-size file, there is no quality that adjusts to
+the connection, every view counts against the hosting allowance, and the file
+is easy to copy.
+
+**Proposed 6 October, awaiting Mwata's approval — nothing is built until then.**
+**Bunny Stream for hosting, and the app's own player (Vidstack) on top**, not
+Bunny's embedded player. Bunny is an EU company with EU storage, free encoding
+and signed HLS links, and at this size costs under €1 a month at twelve buyers
+and under €10 at two hundred — Cloudflare Stream's per-minute-delivered price
+punishes rewatching, and Mux costs more than both for analytics this project
+does not need. The player has to be the app's own because an embedded iframe
+cannot survive a change of page, which the mini-player below requires, and
+cannot report position accurately enough to resume to the second. Vidstack is
+React-first and sets Media Session metadata, which video.js does not.
+
+**The honest limit, from the review:** background audio with the screen locked is
+**not** reliable on an iPhone — a normal Safari tab does better than an app added
+to the home screen, where Apple suspends playback after about thirty seconds. So
+the app does not promise background listening. Picture-in-picture and the
+in-app mini-player do work. If listening on the go matters, the real answer is
+an **audio-only version of each video**, which has to be decided before
+recording.
+
+**Choice:** host the videos on a **video streaming service** and play them
+**inside the app**, in its own player. The person never leaves the app or sees
+another brand. Bunny Stream (EU company, EU storage, low cost at this size,
+signed links) is the starting suggestion; Mux and Cloudflare Stream are the
+alternatives.
+
+**The developer first reviews the player and the service**, and brings Mwata a
+short proposal (which service, which player, what it costs per month at 12 and
+at 200 buyers, and what was tested on a real iPhone and a real Android phone)
+before anything is built. The review must cover these points:
+
+- **It remembers where I was.** The position is saved per person per video
+  every few seconds and when the app goes to the background, **on the server**,
+  not only in the browser. Switching to another app, locking the phone, closing
+  the tab, a new release (§3.13) or picking up on another device all continue
+  at the same second. A video started before shows "Continue at 4:12" and
+  "Start again".
+- **It keeps playing while I do something else.**
+  - *Inside the app:* moving from the step page to the exercises does not stop
+    the video. It shrinks to a **mini-player** at the bottom (above the tab bar,
+    §6.9) and keeps playing, so someone can listen while writing. The player
+    lives in the app's shared layout, so changing page does not reload it.
+  - *Outside the app:* **picture-in-picture** (a small floating window on top
+    of other apps), and lock-screen and notification controls (play, pause,
+    skip 10 seconds) through the browser's media controls.
+  - *Known limit to check:* a web app on an iPhone may pause when it goes fully
+    to the background with the screen off; the YouTube app can do this because
+    it is a native app (and only with YouTube Premium). The review says plainly
+    what works on each phone, and whether an **audio-only** version of each
+    video is worth offering for listening on the go.
+- **It does not lose its place** when the phone is turned sideways, when going
+  full screen and back, or on a short loss of signal.
+- **Adjusts to the connection** (adaptive streaming), starts quickly on mobile
+  data, and offers playback speed (0.75× to 2×).
+- **Subtitles:** English on every video (most viewers speak English as a second
+  language); Dutch where available. The HeyGen scripts are the source text.
+  Subtitles stay on once someone turns them on.
+- **Accessible:** keyboard and screen-reader controls, and it works in light and
+  dark.
+- **Secure:** playback links are signed and short-lived, made only for someone
+  who owns the step (or for free videos, anyone signed in).
+- A video address is stored per step (and optionally per part) in
+  `journey.json`, not in the code.
+- The streaming service is added to the app's privacy page and the website's
+  privacy note before the first video goes live.
+
+**Done when:** Mwata has approved the proposal; a video starts within a few
+seconds on a phone on mobile data, has English subtitles, continues at the same
+second after switching apps, locking the phone or changing device, keeps playing
+in the mini-player while I move to the exercises, plays in picture-in-picture,
+and cannot be played by someone who does not own the step.
+
+### 6.5 My Blueprint per phase
+**Why.** The website promises "you finish with your own blueprint". Each step
+already has its own print page (Step 1 My Working Direction, Step 2 My Explore
+Summary). The phase deserves one document that brings them together.
+
+**What it is**
+- **My Blueprint · Phase 1 · Choose it** (`/phase/1/print`): one document with a
+  cover (the person's name and date), then in order: My Working Direction
+  (Step 1), My shortlist and what I found (Step 2), My Decision (Step 3), and
+  the open items still to check, pulled from the person's own answers.
+- The same building blocks as the step print pages, so a change in a step's
+  print page shows in the phase document too.
+- A step that is not finished shows "Not finished yet" with a link, instead of
+  an empty page.
+- Saves as PDF through the browser print window, on white, with the copyright
+  line, like the step pages.
+- Later: **My Blueprint · Portugal** for Steps 1 to 8, once those steps exist.
+
+**Done when:** after finishing Phase 1 I can save one PDF that holds my three
+step results in order, with my name, the date and the copyright line.
+
+### 6.6 Privacy additions
+- **Download my answers** in Settings: everything the person wrote, their AI
+  notes and their purchases, as a readable PDF and as a file (JSON). This
+  completes the rights the privacy note already promises.
+- **The website's privacy note** gets a section for the app: Supabase (EU),
+  Anthropic, Resend, the video service, and what the AI partner reads. The app's
+  `/privacy` and the website must say the same.
+- The app's `/privacy` names **info@maderealblueprint.com** (it still shows
+  info@belgraveconsultancy.com).
+- Refunded or deleted accounts: the entitlement record is kept as long as tax
+  law requires for the order (Lemon Squeezy holds the invoice); the answers
+  follow the person's own choice.
+
+### 6.7 Feedback on every page
+The part feedback (stars and a comment, §3.7) stays. Add a small, optional line
+at the foot of each exercise page: **"Was this clear?"** yes / not quite, with a
+box for what was missing. Admin lists it by step and page, so Mwata can see
+exactly where people get stuck. Founding members give their promised feedback
+here, without meetings.
+
+### 6.8 A partner seat
+Each purchase may invite **one partner** (the terms allow use with the people
+you plan your move with, and many exercises are for couples).
+- The buyer types their partner's email in Settings; the partner gets an email,
+  signs in with a code, and gets the same steps.
+- Each person has their **own account, answers, AI partner and notes**. Nothing
+  is shared between them unless a later version adds that on purpose.
+- The partner's access ends when the buyer's does (refund), and the buyer can
+  remove the partner and invite someone else.
+- Their AI use counts in Admin like anyone else's.
+
+### 6.9 A bottom tab bar on phones
 **Why.** The app is mostly used on a phone, and the links sit at the top, out of
 thumb reach, scrolling away as soon as someone starts reading. A fixed bar at the
 bottom is how people expect to move around a phone app.
@@ -221,8 +543,9 @@ bottom is how people expect to move around a phone app.
      start of Step 1.
   3. **My notes** — what my AI partner knows.
   4. **Settings** — including Help and Sign out, which leave the top bar.
-- **Open question for Mwata:** Help is the one people need when stuck. Is it
-  better as its own tab in place of Continue?
+- **Decided 6 October:** Help is *not* a tab. It stays in Settings, because it
+  already has a better entry point — "Ask Mwata" sits beside the AI partner on
+  every exercise page, which is where people actually get stuck.
 
 **What it must get right**
 - The page needs bottom padding equal to the bar, so the last answer box and the
@@ -240,18 +563,29 @@ bottom is how people expect to move around a phone app.
 scrolling, nothing is hidden behind the bar, the current place is obvious, and
 the computer layout is unchanged.
 
-### 6.2 Also waiting
-- **Video addresses** for the per-part slots (they say "being recorded").
-- **Founding-member support**, when the course sells without meetings: a flag per
-  person in Admin, so Help can offer the right thing to each.
-- **Step 2 Explore**: open it when its workbook is final, and align its money
-  page, which still says "count only the income you have evidence for".
+### 6.10 Also waiting
+- **Steps 2 and 3**: both workbooks are final the weekend of 10–11 October.
+  Then open Step 2 (align its money page, which still says "count only the
+  income you have evidence for", with the confirmed-plus-agreed rule) and build
+  Step 3 Decide from its workbook in the same way as Step 1. Both must be in the
+  app before it is shared with anyone, since Phase 1 buyers pay for all three.
 - **Supabase Pro** before the first paying customer: the free plan keeps no
-  backups and pauses after about a week idle.
+  backups and pauses after about a week idle. With purchases in the database,
+  this is no longer optional.
+- **Help without WhatsApp (decided 6 October).** Lemon Squeezy does not allow
+  services, and personal answers by WhatsApp about someone's own plans look like
+  coaching. Help and "Ask Mwata" stay for questions about the course, a download
+  or an order, **answered by email only**: the WhatsApp choice and the WhatsApp
+  link are removed, and the form and email link stay. Any future meetings are
+  sold and booked outside the course area (Belgrave, Stripe, TOConline), never
+  inside it.
 
 ## 7. Deliberately not in scope
-Steps 3 to 8 (until written), modules, payments inside the app (Lemon Squeezy
-handles buying), a community, mobile apps, voice, notification emails.
+Steps 4 to 8 (until written), modules, payments inside the app (Lemon Squeezy
+handles buying), booking or paid meetings inside the course area, a community,
+mobile apps, voice, notification emails (apart from the welcome email in §6.1
+and the partner invitation in §6.8). Also left for later: progress statistics
+across people, and a personal watermark on the PDFs.
 
 ## 8. Practical limits
 - Free tiers where they are enough. Anthropic is the only real running cost;
