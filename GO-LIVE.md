@@ -219,6 +219,16 @@ Development is not needed: `web/.env.local` covers your own computer.
 beginning `NEXT_PUBLIC_` is compiled into the page and the browser can read it.
 That is why it is the hostname and not the key.
 
+**Proving it works.** After turning CDN token authentication on, upload one
+short video and run:
+
+
+
+It signs an address both ways Bunny documents, tries each against the real CDN,
+and says which one your library accepts. It also checks that an address with no
+token is refused — if that one succeeds, the videos are not protected. Your key
+is never printed and never leaves your computer.
+
 **The sound-only files go in the same video library.** Bunny Stream takes MP3 and
 WAV as well as video, so an audio version is uploaded beside its video and
 carries the same signing and the same player. No Storage zone is needed.
