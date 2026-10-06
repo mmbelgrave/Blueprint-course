@@ -405,7 +405,8 @@ a slow connection gets the full-size file, there is no quality that adjusts to
 the connection, every view counts against the hosting allowance, and the file
 is easy to copy.
 
-**Proposed 6 October, awaiting Mwata's approval — nothing is built until then.**
+**Approved 6 October.** Audio-only versions were considered and turned down:
+Mwata would rather the videos were watched.
 **Bunny Stream for hosting, and the app's own player (Vidstack) on top**, not
 Bunny's embedded player. Bunny is an EU company with EU storage, free encoding
 and signed HLS links, and at this size costs under €1 a month at twelve buyers

@@ -36,33 +36,3 @@ export function Fold({
     </section>
   );
 }
-
-/** One video per part. Until the address is there, it says so plainly. */
-export function VideoSlot({ video }: { video?: { title: string; length: string | null; url: string | null } }) {
-  if (!video) return null;
-  if (!video.url) {
-    return (
-      <p className="rounded-2xl border border-dashed border-line bg-white px-5 py-3 text-stone print:hidden">
-        <span className="font-semibold text-pine">Video: {video.title}</span> — being recorded
-        {video.length ? `, about ${video.length}` : ""}. The written explanation below says the same thing.
-      </p>
-    );
-  }
-  return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-white print:hidden">
-      <div className="aspect-video w-full bg-pine">
-        <iframe
-          src={video.url}
-          title={`Video: ${video.title}`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
-          allowFullScreen
-          className="h-full w-full"
-        />
-      </div>
-      <p className="px-5 py-2 text-sm text-stone">
-        <span className="font-semibold text-pine">{video.title}</span>
-        {video.length ? ` · ${video.length}` : ""} — the written explanation says the same thing.
-      </p>
-    </div>
-  );
-}

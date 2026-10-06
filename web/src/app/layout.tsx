@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Hanken_Grotesk, Newsreader } from "next/font/google";
+import { PlayerHost } from "@/components/player";
 import { AppProvider } from "@/lib/app-state";
 import "./globals.css";
 
@@ -39,7 +40,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <PlayerHost>{children}</PlayerHost>
+        </AppProvider>
       </body>
     </html>
   );

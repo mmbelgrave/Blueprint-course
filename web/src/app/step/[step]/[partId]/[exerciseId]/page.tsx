@@ -26,7 +26,8 @@ import {
   type Part,
 } from "@/lib/content";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
-import { Fold, VideoSlot } from "@/components/fold";
+import { Fold } from "@/components/fold";
+import { VideoSlot } from "@/components/video-slot";
 import { PageChips, PartRail } from "@/components/journey";
 import { draftFields } from "@/lib/drafts";
 import { fieldExtras } from "@/lib/field-extras";

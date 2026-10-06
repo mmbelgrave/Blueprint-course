@@ -82,6 +82,17 @@ create table if not exists public.questions (
 );
 create index if not exists questions_user on public.questions (user_id, created_at desc);
 
+-- Where someone had got to in each video (spec 6.4). On the server, not in the
+-- browser, so the phone picks up where the laptop stopped.
+create table if not exists public.video_progress (
+  user_id uuid not null references auth.users (id) on delete cascade,
+  video_id text not null,
+  seconds numeric not null default 0,
+  duration numeric not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, video_id)
+);
+
 -- What a person owns (spec 6.1). Written only by the server: a webhook from
 -- Lemon Squeezy, or Mwata granting it by hand. A person may read their own.
 create table if not exists public.entitlements (
@@ -119,7 +130,7 @@ do $$
 declare t text;
 begin
   foreach t in array array['profiles','answers','exercise_status','conversations',
-                           'ai_profile','part_results','feedback','questions']
+                           'ai_profile','part_results','feedback','questions','video_progress']
   loop
     execute format('alter table public.%I enable row level security', t);
     execute format('drop policy if exists "own rows" on public.%I', t);
