@@ -214,12 +214,14 @@ a video can be perfectly set up and still refuse to play from a script, a test
 or a preview build. Put all of these in the list, not only the live address:
 
 - `app.maderealblueprint.com` — the app
-- `localhost` — working on your own computer
-- `vercel.app` — the branch previews, where the next version is tested
+- `localhost:3000` and `localhost:3001` — your own computer. **The port is part
+  of the match**, whatever the documentation says: tested on 6 October,
+  `localhost` was allowed and `localhost:3000` was refused by the same list
+- `*.vercel.app` — the branch previews. Each preview deployment gets its own
+  hostname, so the wildcard is the only entry that keeps working
 
-On the same page, **Allowed domains** is worth filling in as well:
-`app.maderealblueprint.com`, and `localhost` while testing. It is not a
-replacement for the token — a referer is easy to fake — but it costs nothing.
+The list is not a replacement for the token — a referer is easy to fake — but it
+costs nothing and it catches casual copying.
 
 **In Vercel**, add all three to **Production and Preview**. Preview is where the
 branch is tested, so leaving it out means the next version cannot play anything.
