@@ -195,7 +195,7 @@ function StepOverview({ step }: { step: StepContent }) {
                   <p className="mt-2 text-sm text-stone">
                     <span aria-hidden>▶ </span>
                     Video {part.video.length ? `· ${part.video.length}` : ""}
-                    {part.video.url ? "" : " · being recorded"}
+                    {part.video.url ? "" : " · coming soon"}
                   </p>
                 )}
                 <div className="mt-4">

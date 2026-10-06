@@ -58,9 +58,9 @@ export function stepsOfPhase(m: ModuleDef): StepSummary[] {
   });
 }
 
-/** What a closed step says: "opens soon", or that it is still being written. */
+/** What a closed step says. One wording everywhere: "coming soon". */
 export const noteForStep = (n: number) =>
-  journey.steps.find((s) => s.number === n)?.note ?? "being written";
+  journey.steps.find((s) => s.number === n)?.note ?? "coming soon";
 
 export function lessonsOf(step: number): Lesson[] {
   const parts = (getStep(step)?.parts ?? []).map((p) => ({

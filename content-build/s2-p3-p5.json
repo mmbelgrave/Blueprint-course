@@ -9,7 +9,7 @@
     "intro": [
       "Research takes patience. It also helps you spot expensive problems before you commit to a place.",
       "Build a profile for each place on your shortlist using sources you can check. Memories, forum posts and conversations can raise useful questions, but they are not enough on their own. Follow these three rules.",
-      "Write the source and the date. Prices and rules change, and a fact without a date is a rumour with good manners. Keep a record so you can see where an answer came from and check whether it is still current.",
+      "Write the source and the date. Prices and rules change, so a fact without a date may already be out of date. Keep a record so you can see where an answer came from and check whether it is still current.",
       "Mark how sure you are. Known means you have checked an official or reliable source. Estimate means your best figure or judgement, still to be confirmed. Unknown means you do not have an answer yet. Naming an unknown gives you a clear question to investigate.",
       "Separate rules from experiences. A government page tells you what is allowed. A person who lives there tells you what it is like. You need both, and they answer different questions."
     ],
@@ -74,18 +74,18 @@
               "id": "income_there",
               "type": "long_text",
               "lines": 3,
-              "hint": "Now check whether your confirmed income will continue in this place. Moving can affect remote work, clients, a pension or a job in different ways. As in Step 1, count only the income you have evidence for."
+              "hint": "Now check whether your income will continue in this place. Moving can affect remote work, clients, a pension or a job in different ways. As in Step 1, count confirmed and agreed income. Hoped income stays out."
             }
           ]
         },
         "story": {
           "status": "ready",
-          "text": "Here is what an ordinary month near the Serra da Estrela costs me in 2026. Energy is about €200 a month; with solar panels now installed, I expect that to fall by about half. Fast fibre internet is €20 and health insurance is €60. Food costs €400 to €500, including a meal out once a week. I expect that to fall as we grow more of our food. Fuel is about €150. These figures give you a sense of scale. They reflect my life, so use your own costs for your budget."
+          "text": "Here is what an ordinary month near the Serra da Estrela costs me in 2026. Energy costs about €200 a month before installing a solar system. Fast fibre internet is €20, and health insurance is €60. Food costs €400 to €500, including a meal out once a week. Fuel is about €150. These figures don't cover all my monthly costs, or what I invested in renovating the house."
         },
         "where_to_check": [
-          "Do not use \"cost of living\" websites as your only source. Look at real prices: property and rental websites for that exact area, supermarket websites, energy company price pages, and insurance quotes for your own situation. For general statistics in Portugal you can use ine.pt (the national statistics institute) and pordata.pt. Write the date next to everything."
+          "Do not use \"cost of living\" websites as your only source. Look at real prices: property and rental websites for that exact area, supermarket websites, energy company price pages, and insurance quotes for your own situation. For general statistics in Portugal, you can use INE, ine.pt (the national statistics institute), and pordata.pt. Write the date next to everything."
         ],
-        "challenge": "Compare this total with your Step 1 estimate. If they differ by more than twenty percent, go back through both sets of figures. Find out what accounts for the difference before you go further."
+        "challenge": "Compare this total with your Step 1 estimate. If they differ by more than 20%, go back through both sets of figures. Find out what accounts for the difference before you go further."
       },
       {
         "id": "s2-3.2",
@@ -130,11 +130,11 @@
             "rows": [
               [
                 "If you hold an EU, EEA, Andorran or Swiss passport",
-                "You can enter and stay without a visa. If you stay longer than three months, you ask for a registration certificate at the Câmara Municipal (town hall) of the area where you live. The official page says this must be done within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, or that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."
+                "You can enter and stay without a visa. If you stay longer than three months, request a registration certificate at the câmara municipal (town hall) in the area where you live. The official page says you must do this within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."
               ],
               [
                 "If you hold any other passport",
-                "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."
+                "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid for four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."
               ]
             ]
           }
@@ -148,7 +148,8 @@
         "number": "3.3",
         "title": "The daily life check",
         "intro": [
-          "Now look at everyday life. You can answer many of these questions from home with a map, official websites, and a few messages."
+          "Now look at everyday life. You can answer many of these questions from home with a map, official websites, and a few messages.",
+          "Look at time too. A place can give you more say over your time, but it can also bring new must-dos: land to clear, a house to maintain, paperwork, longer drives to shops and doctors. More land does not automatically mean more freedom."
         ],
         "start_here": {
           "prompt": "Answer for each place on your shortlist.",
@@ -169,9 +170,10 @@
                 "Winter: how cold, how wet, how long",
                 "Summer: how hot, how dry, fire risk",
                 "Water: where does it come from?",
-                "How much local language I will need",
+                "How much local language will I need?",
                 "What may be built or changed there (municipal plan)",
-                "Fire risk and the land clearing required"
+                "Fire risk and the land clearing required",
+                "New must-dos this place would bring (land, house, paperwork, travel)"
               ],
               "columns": [
                 {
@@ -203,14 +205,14 @@
           "text": "My own daily life check, today: 15 minutes to the local hospital, and 40 minutes to a larger one in Viseu or Guarda. Fast fibre internet at my address. Water from a well on my own land. Most of my electricity now comes from solar panels."
         },
         "where_to_check": [
-          "In Portugal, the public health service is the SNS (sns.gov.pt). Official service pages for people coming from abroad, including health, tax and social security numbers, are on gov.pt under the theme \"Estrangeiros em Portugal\" (foreigners in Portugal). Checked 20 September 2026."
+          "In Portugal, the public health service is the SNS (sns.gov.pt). Official service pages for people coming from abroad, including health, tax and social security numbers, are on gov.pt under the theme \"Estrangeiros em Portugal\" (foreigners in Portugal). Checked on 20 September 2026."
         ],
         "tips": [
-          "The planned module Portugal in detail will cover land, building rules, fire safety and water, with official sources and dates."
+          "A more detailed Portugal module is planned for later; it is not part of this course. It will cover land, building rules, fire safety and water, with official sources and dates."
         ],
         "example": {
           "who": "Dieter, 63",
-          "text": "Hospital: 35 minutes by car, and I checked it on the map for winter road conditions, not in summer. Family doctor: unknown, I will ask when I visit. Internet: the provider says 100 Mbit at that address, but a neighbour in the village told me it drops in the evening. So: estimate, not known."
+          "text": "Hospital: 35 minutes by car, and I checked the map for winter road conditions, not summer. Family doctor: unknown; I will ask when I visit. Internet: the provider says 100 Mbit at that address, but a neighbour in the village told me it drops in the evening. So: estimate, not known."
         }
       },
       {
@@ -222,7 +224,7 @@
           "A recent arrival may still be caught up in the excitement of moving. Someone who has had a bad experience may see the place through that experience. Listen to both, and talk to at least three residents, including someone who has lived there for years."
         ],
         "start_here": {
-          "prompt": "Find three people who live in the area, rather than people who have only visited. Ask the questions below, especially the last one.",
+          "prompt": "Find three people who live in the area, not just people who have visited. Ask the questions below, especially the last one.",
           "bullets": [
             "What does a normal Tuesday in February look like here?",
             "What did you underestimate before you came?",
@@ -329,7 +331,7 @@
       "Visit with your future daily life in mind.",
       "A holiday in good weather, with a central hotel and meals out, can leave you loving a place without knowing how ordinary life would feel there. Plan this visit around the questions a holiday cannot answer.",
       "Visit outside the high season if you can. February rain tells you something different from a sunny afternoon. Decide what the trip must answer before you book, and make time for ordinary things: grocery shopping, a doctor's waiting room, a school, a Sunday when shops are closed. Keep those questions in mind even when the weather and a good lunch make the place feel perfect.",
-      "I would also visit twice. You notice things the second time that you missed on the first."
+      "I would also visit twice. You notice things the second time that you missed the first time."
     ],
     "time": "A trip",
     "route_title": "Test it in real life",
@@ -453,7 +455,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "In April and May 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited twenty-five plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. The plot I eventually bought was the third: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time, and I was convinced. With a good lawyer, the purchase and registration took one to two months and went smoothly. The land was officially mine in August 2024. Having already made my financial plan from Step 1, I felt ready to commit when the opportunity came."
+          "text": "In April and May 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited 25 plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. I eventually bought the third plot: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time. I signed a promissory contract in August 2024 and the deed at the notary in November. With a good lawyer, it went smoothly, and registering the sale took only about a month after that. Having already made my financial plan from Step 1, I felt comfortable committing when the opportunity came."
         },
         "tips": [
           "I took two lessons from that trip. Visit a place twice before deciding: you notice more the second time. And compare several places. Seeing the other plots helped me understand why the third one felt right."
@@ -553,8 +555,8 @@
     "intro_title": "What this step can and cannot decide",
     "intro": [
       "Bring your research and visit notes together so you and the people close to you can see the whole picture.",
-      "Your Explore Summary identifies a place worth planning for and the questions you still need to answer. The decision to go comes in Step 3, when you test the plan, money and timing together.",
-      "Expect some gaps in the summary. A few weeks of research will not answer everything. If you have no unknowns left, check that you have kept asking the difficult questions, even as a place has become more appealing."
+      "Your Explore Summary identifies a place worth planning for and the questions you still need to answer. You make the decision itself in Step 3, where you check the plan, the money and the timing together.",
+      "Expect some gaps in the summary. A few weeks of research will not answer everything. If you have no unknowns left, ask yourself honestly whether you stopped asking difficult questions once you started to like the place."
     ],
     "time": "45 min",
     "route_title": "Bring it together",
@@ -628,7 +630,7 @@
               "id": "who_i_need",
               "type": "long_text",
               "lines": 2,
-              "label": "Who I need: people, advisers, network"
+              "label": "Who I need: people, advisers, contacts"
             },
             {
               "id": "choice",
@@ -663,7 +665,7 @@
           "Go further with this place. Step 3 turns it into a real plan, with money, timing and paperwork.",
           "Keep two places open. Take both into Step 3 and compare what it would take to make each one work.",
           "Look somewhere else. It is better to change direction now than after signing a contract. Return to Part 1 or 2 with what you have learned.",
-          "Stay and build the life you want here. Staying is a real result. It takes the same work of deciding, planning and building. See \"If you decide to stay\" below."
+          "Stay and build the life you want here. Staying is a real result. It takes the same work: deciding, planning, and building. See \"If you decide to stay\" below."
         ]
       },
       {
@@ -680,11 +682,7 @@
             }
           ]
         },
-        "expert_work": "Before you move money between countries, sell a house, or change where you pay tax, speak to a qualified adviser in both countries. This workbook helps you arrive with the right questions. It never gives the answers.",
-        "story": {
-          "status": "ready",
-          "text": "For four years, Asia was right for me. Then the life I wanted changed. I did not have a perfect plan at the start. What helped was keeping my vision in mind, checking honestly how my life was working, and taking the next step. Your picture is allowed to change. That is not failure. It is what happens when you are paying attention."
-        }
+        "expert_work": "Before you move money between countries, sell a house, or change where you pay tax, speak to a qualified adviser in both countries. This workbook helps you arrive with the right questions. It never gives the answers."
       },
       {
         "id": "s2-5.3",
@@ -692,12 +690,13 @@
         "title": "If you decide to stay",
         "optional": true,
         "intro": [
-          "You may discover that the life you want does not require another country. Staying is a real result. Your answers usually point to one of three things:"
+          "You may discover that the life you want does not require another country. If you scored where you live now in Part 1 or Part 2 and it came out best, you have checked that, not assumed it. Staying is a real result. Your answers usually point to one of four things:"
         ],
         "intro_bullets": [
           "What I want is here, but my life needs to be organised differently. Focus on time, work, home and people.",
           "What I want is somewhere else, but the time is not right. Look at what needs to change in money, family, work or health. Write down what must be in place before you go, and by when.",
-          "I wanted a change more than a different place. Use your Life Picture from Step 1 to choose one concrete change for the next three months."
+          "I wanted a change more than a different place. Use your Life Picture from Step 1 to choose one concrete change for the next three months.",
+          "What I want is in my own country, but in another region. Take your region shortlist from Part 2 into Step 3, and plan it like any other move: the money, the timing and the people involved."
         ],
         "start_here": {
           "fields": [
@@ -723,7 +722,7 @@
               "id": "before_abroad",
               "type": "long_text",
               "lines": 2,
-              "label": "What must be true before I look abroad again"
+              "label": "What must be true before I look abroad again?"
             },
             {
               "id": "review",

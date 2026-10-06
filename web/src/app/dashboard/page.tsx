@@ -84,7 +84,7 @@ function WholeRoad() {
                           <span className="min-w-0">
                             <span className="block font-semibold text-stone">{s.title}</span>
                             <span className="block text-sm text-stone">{s.question}</span>
-                            <span className="mt-1 block text-sm text-stone">{s.note ?? "being written"}</span>
+                            <span className="mt-1 block text-sm text-stone">{s.note ?? "coming soon"}</span>
                           </span>
                         </div>
                       )}

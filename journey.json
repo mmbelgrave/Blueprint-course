@@ -10,7 +10,7 @@
   "two_outcomes": "Steps 1 to 3 work for any destination, including staying where you are. If you decide to stay, you leave with a clear plan to change your life at home. If you decide to move, Steps 4 to 8 guide you through building your new life in Portugal.",
   "steps": [
     { "number": 1, "title": "Picture", "question": "What life do I really want?", "result": "My Working Direction", "in_app": true },
-    { "number": 2, "title": "Explore", "question": "Where can this life happen?", "result": "My shortlist and what I found", "in_app": false, "note": "opens soon" },
+    { "number": 2, "title": "Explore", "question": "Where can this life happen?", "result": "My shortlist and what I found", "in_app": false, "note": "coming soon" },
     { "number": 3, "title": "Decide", "question": "Am I ready for this option?", "result": "My Decision: go, not yet, or no", "in_app": false },
     { "number": 4, "title": "Prepare", "question": "What do I need to do before I go?", "result": "My Moving Plan", "in_app": false },
     { "number": 5, "title": "Arrive", "question": "How do I start well?", "result": "My Arrival Checklist", "in_app": false },
@@ -18,5 +18,5 @@
     { "number": 7, "title": "Build", "question": "How do I create my life here?", "result": "My First-Year Plan", "in_app": false },
     { "number": 8, "title": "Thrive", "question": "Is it working? What is next?", "result": "My check-ins and yearly review", "in_app": false }
   ],
-  "not_here_yet": "Step 2 opens as soon as its workbook is final. Step 3 and the steps after it are being written. You will find them here when they are ready."
+  "not_here_yet": "The steps after this one are coming soon. You will find them here when they are ready."
 }

@@ -1,6 +1,6 @@
 {
-  "version": 8,
-  "source": "The Made Real Blueprint - Step 2 Explore workbook v8.docx (September 2026)",
+  "version": 9,
+  "source": "The Made Real Blueprint - Step 2 Explore workbook - Rev.00b.docx (October 2026)",
   "step": {
     "id": "step2",
     "number": 2,
@@ -10,9 +10,10 @@
       "It is easy to fall in love with a place before checking whether your life can work there."
     ],
     "intro": [
-      "Sometimes it works out. When it does not, the cost in time, money and energy can be considerable.",
-      "Start with what you need, then look for a place that fits. Check what you can from home, using real information. Then visit and find out what living there feels like.",
+      "Sometimes it works out. When it doesn't, the cost in time, money, and energy can be considerable.",
+      "Start with what you need, then look for a place that fits. Check what you can from home, using real information. Then visit and find out what it feels like to live there.",
       "You finish with your Explore Summary: one or two places that fit your picture, what you know about them, what you still need to check, and what you want to test in real life.",
+      "Thinking of staying where you live now? This step is for you too. Use it to check whether your country and your region still fit your picture, instead of assuming they do.",
       "Every exercise starts with a short explanation, then asks you to apply it to your own life."
     ],
     "what_you_need": {
@@ -22,7 +23,7 @@
         "Your Life Picture and your must-haves and dealbreakers. They are your measuring stick in this step.",
         "Your First Money Picture, which you will compare with real costs."
       ],
-      "after": "If you have not completed Step 1, you can still use this workbook. Go back to Step 1 afterwards. Your picture of the life you want is the measuring stick for every place you consider."
+      "after": "If you have not completed Step 1, you can still work through this step. Go back to Step 1 afterwards. In this step, you compare every place with the life you described in Step 1."
     },
     "where_to_start": {
       "title": "Where do you start?",
@@ -47,19 +48,24 @@
           "I have chosen a country and a region",
           "You check that choice with real information",
           "Part 3"
+        ],
+        [
+          "I am thinking of staying where I live now.",
+          "You check whether your own country and region still fit your picture, and compare them with one or two places that crossed your mind.",
+          "Part 1 or Part 2"
         ]
       ],
-      "challenge": "Before you skip Part 1 or Part 2, check what you already know. Have you visited in the cold, wet months as well as summer? Do you know the cost of living there, beyond a holiday budget? Have you checked your legal right to live there and the local rules for your plans: building, working, keeping animals, or running a business? If any answer is no, work through that part. A few hours now can save you years in the wrong place."
+      "challenge": "Before you skip Part 1 or Part 2, check what you already know. Have you visited in the cold, wet months, not just summer? Do you know the cost of living there, beyond a holiday budget? Have you checked your legal right to live there and the local rules for your plans: building, working, keeping animals, or running a business? If any answer is no, work through that part. A few hours now can save you years in the wrong place."
     },
     "how_it_works": {
       "title": "How this step works",
       "bullets": [
-        "Parts 1 and 2 are optional. Use them if you are still choosing a country or region.",
+        "Parts 1 and 2 are optional. Use them if you are still choosing a country or region. They are also useful if you are thinking of staying: they show whether the country and region where you live now still fit your picture best.",
         "Parts 3, 4 and 5 are for everyone. They take you through research, a test visit, and your Explore Summary.",
         "You do the research. I show you what to check and where to look. You find the answers for your own situation.",
-        "This step gives you an overview of what to check and where to look. The planned module Portugal in detail will cover land and building rules, fire safety, water and local costs. Other future modules will focus on finding and choosing land, buying a house, renovating an old house, living off-grid, Your Money Plan, and starting a company.",
+        "This step gives you an overview of what to check and where to look. A more detailed Portugal module is planned for later; it is not part of this course. It will cover land and building rules, fire safety, water, and local costs. Other planned modules will focus on finding and choosing land, buying a house, renovating an old house, living off-grid, Your Money Plan, and starting a company.",
         "Three words come back again and again: known, estimate, unknown. Writing \"unknown\" is progress. It shows you what to find out next.",
-        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
         "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different."
       ]
     },
@@ -88,7 +94,11 @@
         ],
         [
           "Confirmed income",
-          "income you have evidence will continue in your new situation. Only this income counts in the Step 1 money check."
+          "income you have evidence will continue in your new situation."
+        ],
+        [
+          "Agreed income",
+          "promised, but not started yet."
         ]
       ]
     },
@@ -123,7 +133,7 @@
   },
   "sources": {
     "title": "Where the information in this workbook comes from",
-    "intro": "Rules, prices and services change. Everything in this workbook that is not my own experience comes from an official source, and I wrote down the date it was checked. Check it again for your own situation before you decide anything.",
+    "intro": "Rules, prices and services change. Everything in this workbook that isn't my own experience comes from an official source, and I noted the date I checked it. Check it again for your own situation before you decide anything.",
     "header": [
       "Subject",
       "Official source",
@@ -166,7 +176,7 @@
         "27 Sep 2026"
       ]
     ],
-    "expert_work": "Nothing in this workbook is legal, tax or financial advice. It helps you ask better questions and arrive prepared. The answers for your situation come from qualified professionals in the country itself."
+    "expert_work": "Nothing in this workbook is legal, tax or financial advice. It helps you ask better questions and arrive prepared. Qualified professionals in your country provide answers for your situation."
   },
-  "source_note": "App adaptations (Mwata, 30 Sep 2026): the five-country comparison table in 1.2 is left out of the app as too much detail; his story about that comparison stays. The paper-only line \"Use an extra sheet if you include a fifth country\" is left out; the app has four columns."
+  "source_note": "App adaptations (Mwata, 6 Oct 2026): the five-country comparison table in 1.2 is left out of the app as too much detail; his story about that comparison stays. The paper-only line \"Use an extra sheet if you include a fifth country\" is left out; the app has four columns. Where the workbook says \"this workbook\" about the reader's own working, the app says \"this step\". The workbook attributes an official source with a dash (\"studying—source: aima.gov.pt\"); the app writes it as a sentence (\"Source: aima.gov.pt, checked 20 September 2026.\")."
 }

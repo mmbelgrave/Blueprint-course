@@ -181,6 +181,8 @@ export type Part = {
   route_title?: string;
   promise: string;
   can_skip?: string;
+  /** "Thinking of staying?" — the same part, read by someone who may not move. */
+  staying?: string;
   /** The heading above the part's explanation ("Why we start with a picture"). */
   intro_title?: string;
   intro: Text;
@@ -253,7 +255,7 @@ export type Journey = {
     question: string;
     result: string;
     in_app: boolean;
-    /** What the overview says about a step that is not open ("being written"). */
+    /** What the overview says about a step that is not open ("coming soon"). */
     note?: string;
   }[];
   not_here_yet: string;

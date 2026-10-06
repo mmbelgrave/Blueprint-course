@@ -14,7 +14,7 @@ export function ClosedStep({ step }: { step: number }) {
         Step {step}
         {s ? ` · ${s.title}` : ""} is not open yet
       </h1>
-      <p>{s?.note === "opens soon" ? "It is nearly ready. You will find it here as soon as it opens." : "This step is still being written. You will find it here when it is ready."}</p>
+      <p>It is coming soon. You will find it here as soon as it opens.</p>
       <p>
         <Link href="/dashboard" className="btn btn-primary">
           Back to the overview
