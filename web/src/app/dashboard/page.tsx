@@ -3,7 +3,7 @@ import Link from "next/link";
 import { JourneyMotif } from "@/components/brand";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { journey, partItems, PRODUCT, steps } from "@/lib/content";
+import { journey, partItems, steps } from "@/lib/content";
 import { continueTarget, exerciseHref, hrefOf, stepHref, stepProgress } from "@/lib/progress";
 
 /** The whole road: three phases, eight steps. Two of them are in the app today. */
@@ -115,18 +115,9 @@ function StepNumber({ n, active = false }: { n: number; active?: boolean }) {
 }
 
 function Dashboard() {
-  const { profile } = useApp();
-
   return (
     <>
-      <h1 className="text-3xl text-pine">
-        {profile?.first_name ? `Welcome, ${profile.first_name}.` : "Welcome."}
-      </h1>
-      <p className="mt-2 text-lg text-stone">
-        {PRODUCT.name} · {PRODUCT.edition}
-      </p>
-
-      <p className="mt-4">
+      <p>
         <Link href="/how-it-works" className="btn btn-ghost text-sm">
           Read this first: how this app works
         </Link>

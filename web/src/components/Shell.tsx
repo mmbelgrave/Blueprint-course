@@ -32,7 +32,7 @@ export function Shell({
       )}
       <header className={`border-b border-line bg-sand print:hidden ${quiet ? "hidden sm:block" : ""}`}>
         <div
-          className={`mx-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 ${wide ? "max-w-7xl" : "max-w-4xl"}`}
+          className={`mx-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 py-3 sm:justify-between ${wide ? "max-w-7xl" : "max-w-4xl"}`}
         >
           <Link href={user ? "/modules" : "/"} aria-label={`${PRODUCT.name} — ${PRODUCT.edition}`}>
             <Lockup />

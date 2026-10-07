@@ -55,34 +55,42 @@ export function Lesson({
         </p>
       )}
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
-          <h2 className="text-lg text-pine">The workbook</h2>
-          {workbookHref ? (
-            <>
-              <p className="mt-1 text-sm text-stone">
-                {workbook?.name}
-                {workbook?.updated ? ` · updated ${workbook.updated}` : ""}
-              </p>
-              <p className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
-                <a className="btn btn-ghost" href={`${workbookHref}&open=1`} target="_blank" rel="noopener noreferrer">
-                  Open
-                </a>
-                <a className="btn btn-ghost" href={workbookHref}>
-                  Download
-                </a>
-              </p>
-            </>
-          ) : (
-            <p className="mt-1 text-stone">{workbook?.name ?? "The workbook"} is being prepared.</p>
-          )}
-        </section>
+      <div className={`grid gap-3 ${workbook && exerciseHref ? "sm:grid-cols-2" : ""}`}>
+        {workbook && (
+          <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
+            <h2 className="text-lg text-pine">The workbook</h2>
+            {workbookHref ? (
+              <>
+                <p className="mt-1 text-sm text-stone">
+                  {workbook.name}
+                  {workbook.updated ? ` · updated ${workbook.updated}` : ""}
+                </p>
+                <p className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
+                  <a
+                    className="btn btn-ghost"
+                    href={`${workbookHref}&open=1`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open
+                  </a>
+                  <a className="btn btn-ghost" href={workbookHref}>
+                    Download
+                  </a>
+                </p>
+              </>
+            ) : (
+              <p className="mt-1 text-stone">{workbook.name ?? "The workbook"} is being prepared.</p>
+            )}
+          </section>
+        )}
 
         {exerciseHref && (
           <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
             <h2 className="text-lg text-pine">Or answer in the app</h2>
             <p className="mt-1 text-sm text-stone">
-              The same questions, with your AI partner beside you and everything saved.
+              Now complete the exercises in the workbook, or answer in this app with your AI partner beside you and
+              everything saved.
             </p>
             <p className="mt-3 flex justify-center sm:justify-start">
               <Link className="btn btn-primary" href={exerciseHref}>

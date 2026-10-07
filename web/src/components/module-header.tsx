@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Mark } from "@/components/brand";
 
 /** How far through, as a ring. The number sits inside it. */
-export function ProgressRing({ percent, size = 56 }: { percent: number; size?: number }) {
+export function ProgressRing({ percent, size = 48 }: { percent: number; size?: number }) {
   const r = (size - 7) / 2;
   const circumference = 2 * Math.PI * r;
   const filled = Math.max(0, Math.min(100, percent)) / 100;
@@ -56,15 +56,15 @@ export function ModuleHeader({
           href={back}
           aria-label={backLabel}
           title={backLabel}
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-lg text-pine transition hover:border-pine"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line text-xl text-pine transition hover:border-pine"
         >
           <span aria-hidden>‹</span>
         </Link>
 
-        <Mark size={40} />
+        <Mark size={50} />
 
         {percent === undefined ? (
-          <span className="h-11 w-11 shrink-0" aria-hidden />
+          <span className="h-12 w-12 shrink-0" aria-hidden />
         ) : (
           <ProgressRing percent={percent} />
         )}

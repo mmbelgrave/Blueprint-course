@@ -4,10 +4,11 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Lesson } from "@/components/lesson";
+import { ModuleHeader } from "@/components/module-header";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { journey } from "@/lib/content";
-import { lessonsOf, moduleById, stateOf, watchedKey, workbookOf } from "@/lib/modules-app";
+import { lessonsOf, moduleById, stateOf, watchedKey } from "@/lib/modules-app";
 
 export default function LessonPage() {
   const { moduleId, stepId, lessonId } = useParams<{ moduleId: string; stepId: string; lessonId: string }>();
@@ -51,31 +52,22 @@ export default function LessonPage() {
     );
   }
 
-  const workbook = workbookOf(stepId);
   const following = lessons.slice(index + 1);
 
   return (
     <Shell quiet>
       <RequireUser>
         <article className="space-y-6">
-          <p className="text-sm">
-            <Link href={`/modules/${course.id}/${stepId}`} className="text-pine hover:underline">
-              ← Step {step.number} · {step.title}
-            </Link>
-          </p>
-
-          <header className="text-center sm:text-left">
-            <p className="text-sm font-semibold tracking-wide text-ochre">
-              Step {step.number} · {step.title}
-            </p>
-            <h1 className="mt-1 text-3xl text-pine">{lesson.title}</h1>
-          </header>
+          <ModuleHeader
+            back={`/modules/${course.id}/${stepId}`}
+            backLabel={`Back to Step ${step.number} · ${step.title}`}
+            title={lesson.title}
+            blurb={`Step ${step.number} · ${step.title}`}
+          />
 
           <Lesson
             video={lesson.video}
             videoKey={watchedKey(course.id, stepId, lesson.id)}
-            workbook={workbook}
-            workbookHref={workbook?.file ? `/api/workbook?step=${stepId}` : undefined}
             exerciseHref={lesson.exerciseHref}
           />
 

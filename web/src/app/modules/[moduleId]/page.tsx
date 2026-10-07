@@ -137,17 +137,20 @@ export default function ModulePage() {
                     {progress?.complete && <span className="shrink-0 text-success">✓</span>}
                   </div>
                   {progress && progress.total > 0 && (
-                    <p className="mt-3 flex items-center gap-3">
-                      <span className="h-2 flex-1 overflow-hidden rounded-full bg-sage">
-                        <span
-                          className={`block h-full rounded-full ${progress.complete ? "bg-success" : "bg-ochre"}`}
-                          style={{ width: `${progress.percent}%` }}
-                        />
-                      </span>
-                      <span className="text-sm text-stone tabular">
-                        {progress.done}/{progress.total}
-                      </span>
-                    </p>
+                    <>
+                      <p className="mt-3 flex items-center gap-3">
+                        <span className="h-2 flex-1 overflow-hidden rounded-full bg-sage">
+                          <span
+                            className={`block h-full rounded-full ${progress.complete ? "bg-success" : "bg-ochre"}`}
+                            style={{ width: `${progress.percent}%` }}
+                          />
+                        </span>
+                        <span className="text-sm font-semibold text-stone tabular">{progress.percent}%</span>
+                      </p>
+                      <p className="mt-1 text-sm text-stone">
+                        {progress.done} of {progress.total} watched
+                      </p>
+                    </>
                   )}
                 </>
               );

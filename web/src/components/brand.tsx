@@ -34,10 +34,10 @@ export function Mark({ size = 34, className = "" }: { size?: number; className?:
 }
 
 /** The mark above the name, for the header. */
-export function Lockup() {
+export function Lockup({ size = 58 }: { size?: number }) {
   return (
     <span className="flex flex-col items-center gap-1">
-      <Mark size={46} />
+      <Mark size={size} />
       <span className="display text-[1.05rem] leading-none text-pine">{PRODUCT.name}</span>
     </span>
   );
