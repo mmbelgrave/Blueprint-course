@@ -258,7 +258,6 @@ export type Journey = {
     /** What the overview says about a step that is not open ("coming soon"). */
     note?: string;
   }[];
-  not_here_yet: string;
 };
 
 /** "Read this first": what is the same in every step, so no step repeats it. */

@@ -20,7 +20,7 @@ export default function LessonPage() {
 
   if (!course || !step || !step.in_app || stateOf(course, entitlements) !== "open") {
     return (
-      <Shell quiet>
+      <Shell quiet ownHeader>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">Not open yet</h1>
@@ -39,7 +39,7 @@ export default function LessonPage() {
 
   if (!lesson) {
     return (
-      <Shell quiet>
+      <Shell quiet ownHeader>
         <RequireUser>
           <p className="text-center">
             That lesson does not exist.{" "}
@@ -55,7 +55,7 @@ export default function LessonPage() {
   const following = lessons.slice(index + 1);
 
   return (
-    <Shell quiet>
+    <Shell quiet ownHeader>
       <RequireUser>
         <article className="space-y-6">
           <ModuleHeader
@@ -75,13 +75,13 @@ export default function LessonPage() {
             <section className="space-y-3">
               <h2 className="text-xl text-pine">Following lessons</h2>
               <ol className="space-y-2">
-                {following.map((l, i) => (
+                {following.map((l) => (
                   <li key={l.id}>
                     <Link
                       href={`/modules/${course.id}/${stepId}/${l.id}`}
                       className="flex items-center gap-3 rounded-xl bg-white p-3 transition hover:ring-1 hover:ring-pine"
                     >
-                      <span className="w-6 shrink-0 font-semibold text-ochre tabular">{index + i + 2}</span>
+                      <span className="w-6 shrink-0 font-semibold text-ochre tabular">{l.number}</span>
                       <span className="min-w-0 flex-1 font-medium text-pine">{l.title}</span>
                       <span className="relative h-10 w-16 shrink-0 overflow-hidden rounded-lg bg-sage">
                         {l.video?.url && (

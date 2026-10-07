@@ -113,7 +113,7 @@ function SettingsForm({ profile }: { profile: Profile }) {
 export default function SettingsPage() {
   const { profile } = useApp();
   return (
-    <Shell>
+    <Shell quiet>
       <RequireUser>
         <div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 sm:p-8">
           <h1 className="mb-6 text-2xl font-bold text-pine">My settings</h1>
@@ -121,6 +121,17 @@ export default function SettingsPage() {
           {/* Outside the form: it takes effect as you pick it, with no Save. */}
           <div className="mt-8 border-t border-line pt-8">
             <ThemeChoice />
+          </div>
+          <div className="mt-8 border-t border-line pt-8">
+            <h2 className="text-xl font-semibold text-pine">Help</h2>
+            <p className="mt-1 text-sm text-stone">
+              A short question about a step, or something in the app that will not work? Ask me, and I answer by email.
+            </p>
+            <p className="mt-3">
+              <Link href="/help" className="btn btn-ghost">
+                Ask a question
+              </Link>
+            </p>
           </div>
         </div>
       </RequireUser>

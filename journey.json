@@ -17,6 +17,5 @@
     { "number": 6, "title": "Settle", "question": "Where will I live longer-term?", "result": "A home that fits me", "in_app": false },
     { "number": 7, "title": "Build", "question": "How do I create my life here?", "result": "My First-Year Plan", "in_app": false },
     { "number": 8, "title": "Thrive", "question": "Is it working? What is next?", "result": "My check-ins and yearly review", "in_app": false }
-  ],
-  "not_here_yet": "The steps after this one are coming soon. You will find them here when they are ready."
+  ]
 }

@@ -65,9 +65,11 @@ export const noteForStep = (n: number) =>
 export function lessonsOf(step: number): Lesson[] {
   const parts = (getStep(step)?.parts ?? []).map((p) => ({
     id: p.id,
+    number: p.number,
     label: p.label,
     title: p.title,
     video: p.video,
+    time: p.time,
     firstPage: partItems(p)[0]?.id,
   }));
   return lessonsOfStep(step, parts);

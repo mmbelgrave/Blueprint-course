@@ -19,7 +19,7 @@ export default function StepLessons() {
 
   if (!course || !step || !step.in_app || stateOf(course, entitlements) !== "open") {
     return (
-      <Shell quiet>
+      <Shell quiet ownHeader>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">Not open yet</h1>
@@ -37,7 +37,7 @@ export default function StepLessons() {
   const workbook = workbookOf(stepId);
 
   return (
-    <Shell quiet>
+    <Shell quiet ownHeader>
       <RequireUser>
         <article className="space-y-6">
           <ModuleHeader
@@ -74,7 +74,7 @@ export default function StepLessons() {
           <ListHeading title="The lessons" count={lessons.length} />
 
           <ol className="space-y-3">
-            {lessons.map((l, i) => {
+            {lessons.map((l) => {
               const watched = statuses[watchedKey(course.id, stepId, l.id)] === "done";
               return (
                 <li key={l.id}>
@@ -82,10 +82,10 @@ export default function StepLessons() {
                     href={`/modules/${course.id}/${stepId}/${l.id}`}
                     className="flex items-center gap-3 rounded-2xl border-b-2 border-ochre/35 bg-white p-3 transition hover:border-ochre"
                   >
-                    <span className="w-6 shrink-0 text-lg font-semibold text-ochre tabular">{i + 1}</span>
+                    <span className="w-6 shrink-0 text-lg font-semibold text-ochre tabular">{l.number}</span>
                     <span className="min-w-0 flex-1">
                       <span className="block font-semibold text-pine">{l.title}</span>
-                      {l.video?.length && <span className="block text-sm text-stone">{l.video.length}</span>}
+                      {l.time && <span className="block text-sm text-stone">{l.time}</span>}
                     </span>
                     {/* The picture from the video, with the play ring and the tick on it. */}
                     <span className="relative h-14 w-24 shrink-0 overflow-hidden rounded-lg bg-sage">

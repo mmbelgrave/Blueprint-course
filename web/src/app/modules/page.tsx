@@ -16,7 +16,7 @@ export default function Modules() {
   const entitlements: never[] = [];
 
   return (
-    <Shell quiet>
+    <Shell quiet ownHeader>
       <RequireUser>
         <section className="space-y-6">
           <header className="text-center">

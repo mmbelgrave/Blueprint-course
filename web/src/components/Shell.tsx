@@ -13,11 +13,14 @@ export function Shell({
   children,
   wide = false,
   quiet = false,
+  ownHeader = false,
 }: {
   children: React.ReactNode;
   wide?: boolean;
-  /** Modules is the course, not the workbook: it carries no AI footer. */
+  /** No AI footer: Modules is the course, not the workbook, and Settings is Settings. */
   quiet?: boolean;
+  /** The page draws its own head on a phone, so this one steps aside there. */
+  ownHeader?: boolean;
 }) {
   const { user, signOut } = useApp();
   const router = useRouter();
@@ -30,7 +33,7 @@ export function Shell({
           Preview mode — no account. Your answers are saved in this browser only.
         </div>
       )}
-      <header className={`border-b border-line bg-sand print:hidden ${quiet ? "hidden sm:block" : ""}`}>
+      <header className={`border-b border-line bg-sand print:hidden ${ownHeader ? "hidden sm:block" : ""}`}>
         <div
           className={`mx-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 py-3 sm:justify-between ${wide ? "max-w-7xl" : "max-w-4xl"}`}
         >

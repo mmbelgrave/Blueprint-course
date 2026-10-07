@@ -87,10 +87,9 @@ export function Lesson({
 
         {exerciseHref && (
           <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
-            <h2 className="text-lg text-pine">Or answer in the app</h2>
+            <h2 className="text-lg text-pine">Exercises</h2>
             <p className="mt-1 text-sm text-stone">
-              Now complete the exercises in the workbook, or answer in this app with your AI partner beside you and
-              everything saved.
+              Now complete the exercises in the workbook, or answer them in this app.
             </p>
             <p className="mt-3 flex justify-center sm:justify-start">
               <Link className="btn btn-primary" href={exerciseHref}>

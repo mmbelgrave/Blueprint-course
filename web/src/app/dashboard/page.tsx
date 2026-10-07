@@ -117,7 +117,7 @@ function StepNumber({ n, active = false }: { n: number; active?: boolean }) {
 function Dashboard() {
   return (
     <>
-      <p>
+      <p className="flex justify-center">
         <Link href="/how-it-works" className="btn btn-ghost text-sm">
           Read this first: how this app works
         </Link>
@@ -127,7 +127,6 @@ function Dashboard() {
         <WholeRoad />
       </div>
 
-      <p className="mt-8 text-sm text-stone">{journey.not_here_yet}</p>
     </>
   );
 }

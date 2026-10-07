@@ -54,10 +54,51 @@ export type ModuleDef = {
 export type Lesson = {
   id: string;
   title: string;
+  /** The part's own number, so the Start page is 0 and Part 1 is 1. */
+  number: number;
   video?: ModuleVideo;
+  /** The video and the exercises together, as a person would read it. */
+  time?: string;
   /** Where this lesson's exercises start. The Introduction has none. */
   exerciseHref?: string;
 };
+
+/**
+ * How long a lesson takes: the video plus the work, because that is the
+ * evening someone has to find. The two figures come from the workbook as
+ * ranges ("12–16 min", "3–5 hours"), so they are added as ranges and rounded
+ * to five minutes. A time that is not a span of minutes — Step 2's "A trip" —
+ * is never arithmetic, so it is simply named beside the video.
+ */
+const span = (text?: string | null): [number, number] | null => {
+  if (!text) return null;
+  const m = /^\s*(\d+)\s*(?:[–—-]\s*(\d+))?\s*(min|minute|hour|hr)/i.exec(text);
+  if (!m) return null;
+  const unit = m[3].toLowerCase().startsWith("h") ? 60 : 1;
+  const lo = Number(m[1]) * unit;
+  const hi = (m[2] ? Number(m[2]) : Number(m[1])) * unit;
+  return [lo, hi];
+};
+
+const clock = (minutes: number) => {
+  if (minutes < 60) return `${minutes} min`;
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m === 0 ? `${h} h` : `${h} h ${m}`;
+};
+
+export function lessonTime(video?: string | null, work?: string | null): string | undefined {
+  const a = span(video);
+  const b = span(work);
+  if (a && b) {
+    const lo = Math.round((a[0] + b[0]) / 5) * 5;
+    const hi = Math.round((a[1] + b[1]) / 5) * 5;
+    if (lo === hi) return clock(lo);
+    return hi < 60 ? `${lo}–${hi} min` : `${clock(lo)} – ${clock(hi)}`;
+  }
+  // Only one of the two is a number, or neither: say both, plainly.
+  return [video, work].filter(Boolean).join(" · ") || undefined;
+}
 
 export type Watched = Record<string, boolean>;
 
@@ -72,12 +113,22 @@ export type StepSummary = { id: string; number: number; title: string; question:
 
 export function lessonsOfStep(
   step: number,
-  parts: { id: string; label: string; title: string; video?: ModuleVideo; firstPage?: string }[],
+  parts: {
+    id: string;
+    number: number;
+    label: string;
+    title: string;
+    video?: ModuleVideo;
+    time?: string;
+    firstPage?: string;
+  }[],
 ): Lesson[] {
   return parts.map((p) => ({
     id: p.id,
+    number: p.number,
     title: `${p.label} · ${p.title}`,
     video: p.video,
+    time: lessonTime(p.video?.length, p.time),
     exerciseHref: p.firstPage ? `/step/${step}/${p.id}/${p.firstPage}` : undefined,
   }));
 }

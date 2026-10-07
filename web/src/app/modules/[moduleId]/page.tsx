@@ -22,7 +22,7 @@ export default function ModulePage() {
 
   if (!course || stateOf(course, entitlements) !== "open") {
     return (
-      <Shell quiet>
+      <Shell quiet ownHeader>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">{course?.name ?? "That module"} is not open</h1>
@@ -50,7 +50,7 @@ export default function ModulePage() {
   // The Introduction is a lesson on its own: a video and a workbook, no exercises.
   if (course.kind === "lesson") {
     return (
-      <Shell quiet>
+      <Shell quiet ownHeader>
         <RequireUser>
           <article className="space-y-6">
             {back}
@@ -70,7 +70,7 @@ export default function ModulePage() {
   if (course.kind === "free") {
     const items = course.items ?? [];
     return (
-      <Shell quiet>
+      <Shell quiet ownHeader>
         <RequireUser>
           <article className="space-y-6">
             {back}
@@ -114,7 +114,7 @@ export default function ModulePage() {
   const steps = stepsOfPhase(course);
 
   return (
-    <Shell quiet>
+    <Shell quiet ownHeader>
       <RequireUser>
         <article className="space-y-6">
           {back}
