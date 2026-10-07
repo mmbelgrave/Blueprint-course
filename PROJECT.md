@@ -562,15 +562,18 @@ you plan your move with, and many exercises are for couples).
 section: the bar is not a new way to reach the same pages, it is the shape of
 the app.
 
-**Five places along the bottom:**
+**Four places along the bottom.** The sketch had five, with Help as its own
+tab. Mwata chose four on 6 October: five labels do not fit a 375-pixel phone,
+and "Ask Mwata" already sits beside the AI partner on every exercise page,
+which is where people actually get stuck. **Help lives inside Settings**, and
+Settings carries a Help section with the question form (built 7 October).
 
 | | Holds |
 | --- | --- |
 | **Modules** | The course: videos and workbooks |
 | **Exercises** | The workbook in the app, as it is today |
-| **Made Real AI** | What my AI partner knows (later, a partner for questions that belong to no page) |
-| **Settings** | Settings and signing out |
-| **Help** | Asking Mwata a question |
+| **AI** | What my AI partner knows (later, a partner for questions that belong to no page) |
+| **Settings** | Settings, Help, and signing out |
 
 **Modules has three levels.**
 
@@ -602,8 +605,8 @@ rather than lock it**.
 - **Two doors to one course.** Modules and Exercises both lead to Step 1, by
   different routes. The names have to make the difference obvious at a glance,
   and each should link to the other so nobody feels lost between them.
-- **Five labels on a small phone.** "Made Real AI" will not fit; "AI" or
-  "Partner" will. Worth checking at 375 pixels before it is built.
+- ~~**Five labels on a small phone.**~~ Settled: four tabs, and the third is
+  called "AI". Checked at 375 pixels.
 - **Two kinds of progress.** A module's progress is videos watched; a step's is
   pages done. They will differ, and the overview has to be honest about which it
   is showing.
