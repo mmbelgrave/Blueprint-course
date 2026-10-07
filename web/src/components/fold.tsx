@@ -43,7 +43,7 @@ export function VideoSlot({ video }: { video?: { title: string; length: string |
   if (!video.url) {
     return (
       <p className="rounded-2xl border border-dashed border-line bg-white px-5 py-3 text-stone print:hidden">
-        <span className="font-semibold text-pine">Video: {video.title}</span> — being recorded
+        <span className="font-semibold text-pine">Video: {video.title}</span> — coming soon
         {video.length ? `, about ${video.length}` : ""}. The written explanation below says the same thing.
       </p>
     );

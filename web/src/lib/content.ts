@@ -181,6 +181,8 @@ export type Part = {
   route_title?: string;
   promise: string;
   can_skip?: string;
+  /** "Thinking of staying?" — the same part, read by someone who may not move. */
+  staying?: string;
   /** The heading above the part's explanation ("Why we start with a picture"). */
   intro_title?: string;
   intro: Text;

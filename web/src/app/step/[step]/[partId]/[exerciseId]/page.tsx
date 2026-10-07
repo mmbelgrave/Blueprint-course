@@ -308,6 +308,11 @@ function ExerciseBody({ located }: { located: Located }) {
                   <p>{part.can_skip}</p>
                 </Card>
               )}
+              {part.staying && (
+                <Card tone="skip" title="Thinking of staying?">
+                  <p>{part.staying}</p>
+                </Card>
+              )}
               <VideoSlot video={part.video} />
               <Fold
                 title={part.intro_title ?? `About ${part.label}`}
