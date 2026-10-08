@@ -15,9 +15,15 @@
  * which would re-render every reader of this hook on every fetch.
  */
 import { useEffect, useSyncExternalStore } from "react";
-import type { Exercise, Part } from "@/lib/content";
+import type { Exercise, Field, Part } from "@/lib/content";
 
-export type PageContent = { step: number; part: Part; exercise: Exercise };
+export type PageContent = {
+  step: number;
+  part: Part;
+  exercise: Exercise;
+  /** Fields this page offers to copy forward, keyed "5.1.life_picture". */
+  sources?: Record<string, Field>;
+};
 
 export type PageState =
   | { state: "loading" }

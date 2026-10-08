@@ -37,6 +37,28 @@ const itemsOf = (part: Part): Exercise[] =>
 
 export type FoundPage = { step: StepContent; part: Part; exercise: Exercise };
 
+/**
+ * The fields this page offers to copy forward ("your Life Picture from Step
+ * 1"). Only the handful named by copy_from, keyed "5.1.life_picture", so the
+ * suggestion can be drawn without the browser holding the other step.
+ */
+export function copyFromSources(exercise: Exercise): { key: string; step: number; field: unknown }[] {
+  const wanted = [...(exercise.start_here?.fields ?? []), ...(exercise.go_deeper?.fields ?? [])]
+    .map((f) => f.copy_from)
+    .filter((c): c is NonNullable<typeof c> => !!c);
+
+  const out: { key: string; step: number; field: unknown }[] = [];
+  for (const from of wanted) {
+    const page = findPage(from.exercise);
+    if (!page) continue;
+    const field = [...(page.exercise.start_here?.fields ?? []), ...(page.exercise.go_deeper?.fields ?? [])].find(
+      (f) => f.id === from.field,
+    );
+    if (field) out.push({ key: `${from.exercise}.${from.field}`, step: page.step.step.number, field });
+  }
+  return out;
+}
+
 /** One page, wherever it lives, so a route can hand over exactly that much. */
 export function findPage(exerciseId: string): FoundPage | undefined {
   for (const step of ALL) {

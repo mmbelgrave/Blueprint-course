@@ -246,6 +246,7 @@ export default function StepPage() {
   const { step } = useParams<{ step: string }>();
   const { entitlements } = useApp();
   // The spine says whether this step exists; the server says what it says.
+  // Asked for before the sign-in check, so the two waits become one.
   const content = getStep(Number(step));
   const page = useStepContent(content ? Number(step) : undefined);
   const verdict = stepFor(Number(step), entitlements);

@@ -66,7 +66,16 @@ function calculate(exercise: Exercise, answers: Answers) {
 }
 
 /** Returns the extras for each field of this exercise. */
-export function fieldExtras(exercise: Exercise, answers: Answers): (field: Field) => FieldExtras | undefined {
+export function fieldExtras(
+  exercise: Exercise,
+  answers: Answers,
+  /**
+   * The fields this page offers to copy forward, sent with the page by
+   * /api/content and keyed "5.1.life_picture". The browser does not hold the
+   * other step, so without these there is nothing to read the answer with.
+   */
+  sources: Record<string, Field> = {},
+): (field: Field) => FieldExtras | undefined {
   const names = optionNames(answers);
   const withName = (letter: string) => (names[letter] ? `${letter} — ${names[letter]}` : letter);
   const calc = calculate(exercise, answers);
@@ -75,9 +84,11 @@ export function fieldExtras(exercise: Exercise, answers: Answers): (field: Field
     if (field.type === "calculation") return { calc };
     if (field.copy_from) {
       const { exercise: from, field: fromField } = field.copy_from;
-      // Without the other step's fields in the browser there is nothing to
-      // copy in; an empty suggestion would be worse than none.
-      const text = fieldAnswerText(from, fromField, answers[from]);
+      const source = sources[`${from}.${fromField}`];
+      // A field on its own is enough to read one answer back, so it is wrapped
+      // in the smallest page that will hold it rather than fetching the rest.
+      const asPage = source ? ({ id: from, title: "", start_here: { fields: [source] } } as Exercise) : undefined;
+      const text = fieldAnswerText(from, fromField, answers[from], asPage);
       return text ? { suggestion: { title: "From your Step 1:", text, button: "Copy this in" } } : undefined;
     }
     if (field.type !== "table") return undefined;

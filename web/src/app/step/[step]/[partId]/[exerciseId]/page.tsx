@@ -42,16 +42,19 @@ function Fields({
   exercise,
   block,
   drafts = {},
+  sources = {},
 }: {
   storeId: string;
   exercise: Exercise;
   block: Block;
   drafts?: Drafts;
+  /** Fields from an earlier step this page offers to copy forward. */
+  sources?: Record<string, Field>;
 }) {
   const { answers, entitlements, profile, setAnswer } = useApp();
   const free = isFree(entitlements);
   const values = answers[storeId] ?? {};
-  const baseExtras = fieldExtras(exercise, answers);
+  const baseExtras = fieldExtras(exercise, answers, sources);
   // An AI partner draft is offered next to its box; the person decides.
   const extrasFor = (field: Field) =>
     drafts[field.id]
@@ -282,10 +285,15 @@ function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exercise
    * this one, and those pages' words are not this person's to have yet.
    */
   const part = { ...page.content.part, exercises: found.part.exercises, summary: found.part.summary };
-  return <ExerciseBody located={{ step: found.step, part, exercise: page.content.exercise }} />;
+  return (
+    <ExerciseBody
+      located={{ step: found.step, part, exercise: page.content.exercise }}
+      sources={page.content.sources ?? {}}
+    />
+  );
 }
 
-function ExerciseBody({ located }: { located: Located }) {
+function ExerciseBody({ located, sources }: { located: Located; sources: Record<string, Field> }) {
   const { step, part, exercise } = located;
   const stepNumber = step.step.number;
   const { user, entitlements, statuses, setStatus } = useApp();
@@ -427,7 +435,13 @@ function ExerciseBody({ located }: { located: Located }) {
               <ExampleFold key={ex.who + ex.text.slice(0, 20)} example={ex} />
             ))}
             {canDraft && <DraftHelper pageId={exercise.id} onDrafts={setDrafts} />}
-            <Fields storeId={exercise.id} exercise={exercise} block={exercise.start_here} drafts={drafts} />
+            <Fields
+              storeId={exercise.id}
+              exercise={exercise}
+              block={exercise.start_here}
+              drafts={drafts}
+              sources={sources}
+            />
             {exercise.start_here.closing && <p className="text-stone">{exercise.start_here.closing}</p>}
           </section>
         )}
@@ -462,7 +476,7 @@ function ExerciseBody({ located }: { located: Located }) {
             <Paragraphs text={exercise.go_deeper.prompt} />
             <DeeperHint exercise={exercise} />
             <div className="pt-2">
-              <Fields storeId={exercise.id} exercise={exercise} block={exercise.go_deeper} />
+              <Fields storeId={exercise.id} exercise={exercise} block={exercise.go_deeper} sources={sources} />
             </div>
             {exercise.go_deeper.story && (
               <div className="mt-4 rounded-xl bg-sage p-4">
@@ -609,6 +623,9 @@ function ExerciseBody({ located }: { located: Located }) {
 
 export default function ExercisePage() {
   const { step, exerciseId } = useParams<{ step: string; partId: string; exerciseId: string }>();
+  // Asked for here, outside RequireUser, so the words travel while the account
+  // is being checked rather than after it. The answer is read further down.
+  usePageContent(decodeURIComponent(exerciseId));
   return (
     <Shell wide>
       <RequireUser>
