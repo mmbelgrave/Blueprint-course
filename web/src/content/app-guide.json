@@ -4,6 +4,16 @@
   "intro": "A few things are the same at every step. Read this carefully once before you start.",
   "sections": [
     {
+      "id": "two_ways",
+      "title": "Two ways to use this",
+      "bullets": [
+        "Modules is the course: a video for each part, and the workbook as a PDF to download and print. Watch, download, and work on paper if that suits you.",
+        "Exercises is the same workbook inside the app: your answers are saved, your AI partner sits beside you, and you can print your result at the end.",
+        "Both lead to the same place. Use one, or both — people do it differently, and neither is the odd one out.",
+        "The navigation bar holds the four places the app is made of: Modules, Exercises, AI and Settings. Help lives in Settings."
+      ]
+    },
+    {
       "id": "exercises",
       "title": "How each exercise works",
       "shared_bullets": true,
@@ -26,14 +36,15 @@
         "Under \"What my AI partner knows\" you can read the notes it keeps, correct them, or make it forget a topic.",
         "You can delete everything you ever wrote, at any time, in one go.",
         "At the end of a step you can print your result, or save it as a PDF.",
-        "Open \"Why this exercise\" to get an explanation for each exercise."
+        "Open \"Why this exercise\" to get an explanation for each exercise.",
+        "A short question about a step, or something that will not work? Ask me from Help, in Settings. I answer by email."
       ]
     },
     {
       "id": "video",
       "title": "The videos",
       "bullets": [
-        "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions.",
+        "Each part has a short video where I explain the same ideas in my own words. You find them under Modules, with the workbook for that step. Watch first, then answer the questions.",
         "The video and the written explanation say the same thing. Use whichever suits you."
       ]
     }

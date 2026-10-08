@@ -141,6 +141,23 @@ export default function SettingsPage() {
           <div className="mt-8 border-t border-line pt-8">
             <ThemeChoice />
           </div>
+          {/* The privacy page promises a copy of what is stored about you (§6.6).
+              This hands it over without anyone having to ask for it. */}
+          <div className="mt-8 border-t border-line pt-8">
+            <h2 className="text-xl font-semibold text-pine">My answers</h2>
+            <p className="mt-1 text-sm text-stone">
+              Everything you have written, to read, to print, or to keep as a file. Your answers are your own.
+            </p>
+            <p className="mt-3 flex flex-wrap justify-center gap-2">
+              <Link href="/answers" className="btn btn-ghost">
+                Everything I wrote
+              </Link>
+              <a href="/api/account/export" className="btn btn-ghost">
+                Download the file
+              </a>
+            </p>
+          </div>
+
           <div className="mt-8 border-t border-line pt-8">
             <h2 className="text-xl font-semibold text-pine">Help</h2>
             <p className="mt-1 text-sm text-stone">

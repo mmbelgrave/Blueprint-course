@@ -99,14 +99,23 @@ export function fieldAnswerText(exerciseId: string, fieldId: string, values: Rec
   return answerText(field, values[fieldId], "\n");
 }
 
-/** All answers of one exercise as readable lines, or null if empty. */
-export function exerciseAnswersText(exerciseId: string, values: Record<string, unknown> | undefined) {
+/**
+ * One exercise, as label-and-answer pairs. Empty fields are left out, so a page
+ * someone only half filled in still reads as what they wrote, not as a form.
+ */
+export function exerciseAnswerLines(exerciseId: string, values: Record<string, unknown> | undefined) {
   const found = findExercise(exerciseId);
-  if (!found || !values) return null;
-  const lines: string[] = [];
+  if (!found || !values) return [];
+  const lines: { label: string; text: string }[] = [];
   for (const field of exerciseFields(found.exercise)) {
     const text = answerText(field, values[field.id]);
-    if (text) lines.push(`- ${field.label ?? field.hint ?? field.id}: ${text}`);
+    if (text) lines.push({ label: field.label ?? field.hint ?? field.id, text });
   }
+  return lines;
+}
+
+/** The same, as one block of text for the AI partner and for the export. */
+export function exerciseAnswersText(exerciseId: string, values: Record<string, unknown> | undefined) {
+  const lines = exerciseAnswerLines(exerciseId, values).map((l) => `- ${l.label}: ${l.text}`);
   return lines.length ? lines.join("\n") : null;
 }
