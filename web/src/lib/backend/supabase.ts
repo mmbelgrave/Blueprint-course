@@ -62,9 +62,19 @@ export const supabaseAuth: AuthProvider = {
     if (!error) return;
     throw meansNotInvited(error) ? new NotInvitedError() : error;
   },
+  /**
+   * A first sign-in and a later one are not the same token to Supabase: a new
+   * address gets a "signup" token, an address that already has an account gets
+   * an "email" one. The person typing the code cannot know which they are, so
+   * the second kind is tried when the first is refused. A refused code is not
+   * used up, so asking twice costs nothing.
+   */
   async verifyCode(email, code) {
-    const { error } = await supabaseBrowser().auth.verifyOtp({ email, token: code, type: "email" });
-    if (error) throw error;
+    const sb = supabaseBrowser();
+    const { error } = await sb.auth.verifyOtp({ email, token: code, type: "email" });
+    if (!error) return;
+    const { error: second } = await sb.auth.verifyOtp({ email, token: code, type: "signup" });
+    if (second) throw error;
   },
   async signOut() {
     await supabaseBrowser().auth.signOut();

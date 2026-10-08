@@ -141,6 +141,29 @@ How long the code is comes from Authentication → Sign In / Providers → Email
 the OTP length setting (6 to 10 digits). The app takes the code whatever its
 length, so that setting can change freely.
 
+### There are two templates, not one
+
+**Magic link or OTP** is only sent to an address that already has an account.
+A brand-new address — every real new customer, and every test of `/free` —
+gets **Confirm sign up** instead, which is a different template with its own
+body. Found on 8 October, when a sign-up produced a link email although the
+magic-link template had carried the code since 2 October.
+
+Give **Confirm sign up** the same body, so nobody is ever sent a link:
+
+```html
+<h2>Your sign-in code</h2>
+<p>Welcome. Type this code in the app to finish signing up:</p>
+<p style="font-size:28px;letter-spacing:6px"><strong>{{ .Token }}</strong></p>
+<p>The code works for one hour. If you did not ask for it, you can ignore this email.</p>
+```
+
+Subject: **Your sign-in code**.
+
+The app takes either kind of code: it asks Supabase for an "email" token first
+and a "signup" token second, because the person typing it cannot know which
+they have.
+
 The **Invite user** template still carries only a link, so do not invite people
 from the dashboard: let them sign in themselves, which uses the email above.
 
