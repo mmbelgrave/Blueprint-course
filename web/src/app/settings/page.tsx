@@ -127,7 +127,7 @@ export default function SettingsPage() {
             <p className="mt-1 text-sm text-stone">
               A short question about a step, or something in the app that will not work? Ask me, and I answer by email.
             </p>
-            <p className="mt-3">
+            <p className="mt-3 flex justify-center">
               <Link href="/help" className="btn btn-ghost">
                 Ask a question
               </Link>

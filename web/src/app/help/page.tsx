@@ -140,7 +140,7 @@ function AskForm() {
         </label>
 
         {isSupabaseConfigured ? (
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col items-center gap-3">
             <button className="btn btn-primary" disabled={state === "sending"} onClick={send}>
               {state === "sending" ? "Sending…" : "Send my question"}
             </button>
@@ -169,10 +169,7 @@ function AskForm() {
 
       <section className="space-y-3 rounded-2xl border border-line p-5">
         <h2 className="text-xl text-pine">Or write to me yourself</h2>
-        <p className="text-stone">
-          Whatever you chose above travels with the message, so you do not have to explain where you were.
-        </p>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex justify-center">
           <a
             className="btn btn-ghost"
             href={mailtoHref(mailSubject(topicLabel(TOPICS, topic), draft.page), mailBody(question))}
@@ -180,7 +177,7 @@ function AskForm() {
             Email
           </a>
         </div>
-        <p className="text-sm text-stone">{SUPPORT.email}</p>
+        <p className="text-center text-sm text-stone">{SUPPORT.email}</p>
       </section>
 
       {earlier.length > 0 && (
