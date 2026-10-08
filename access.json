@@ -11,9 +11,10 @@
     }
   },
   "free": {
-    "note": "What anyone signed in may open without buying (§6.2).",
+    "note": "What anyone signed in may open without buying (§6.2). 'lessons' are module lessons, written step-N:partId, that open although the step itself is not owned.",
     "items": ["introduction"],
     "steps": [],
-    "pages": ["1.2"]
+    "pages": ["1.2"],
+    "lessons": ["step-1:p1"]
   }
 }

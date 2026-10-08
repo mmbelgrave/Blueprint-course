@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { JourneyMotif } from "@/components/brand";
+import { stepFor } from "@/lib/access-app";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { journey, partItems, steps } from "@/lib/content";
@@ -8,7 +9,7 @@ import { continueTarget, exerciseHref, hrefOf, stepHref, stepProgress } from "@/
 
 /** The whole road: three phases, eight steps. Two of them are in the app today. */
 function WholeRoad() {
-  const { user, statuses } = useApp();
+  const { entitlements, user, statuses } = useApp();
   const doneStep = (n: number) => {
     const s = steps.find((x) => x.step.number === n);
     return s ? stepProgress(s, statuses) : null;
@@ -53,10 +54,13 @@ function WholeRoad() {
               {journey.steps
                 .filter((s) => phase.steps.includes(s.number))
                 .map((s) => {
-                  const progress = s.in_app ? doneStep(s.number) : null;
+                  // One access layer decides this, the same as everywhere else
+                  // (§6.0): written but not released, or not bought yet.
+                  const verdict = stepFor(s.number, entitlements);
+                  const progress = verdict.open ? doneStep(s.number) : null;
                   return (
                     <li key={s.number}>
-                      {s.in_app ? (
+                      {verdict.open ? (
                         <Link
                           href={stepTarget(s.number)}
                           className="flex h-full gap-3 rounded-xl border-[1.75px] border-line bg-white p-3 transition hover:border-pine"
@@ -84,7 +88,9 @@ function WholeRoad() {
                           <span className="min-w-0">
                             <span className="block font-semibold text-stone">{s.title}</span>
                             <span className="block text-sm text-stone">{s.question}</span>
-                            <span className="mt-1 block text-sm text-stone">{s.note ?? "coming soon"}</span>
+                            <span className="mt-1 block text-sm text-stone">
+                              {verdict.why === "not-bought" ? "part of the course" : (s.note ?? "coming soon")}
+                            </span>
                           </span>
                         </div>
                       )}

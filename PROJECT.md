@@ -223,7 +223,7 @@ reviewed and tried before the next one starts.
 | **1** | The access layer (§6.0), the `entitlements` table, granting and revoking by hand in Admin | Everything else gates on it, and granting by hand opens steps for testers today |
 | **2** | Steps 2 and 3 content when the workbooks arrive (10–11 Oct) | §6.10: both must be in the app before anyone buys. The real gate on selling |
 | **3** | The course area (§6.3), the Introduction (§6.3a), workbook PDFs | Gives every step a home with its video, workbook and exercises |
-| **4** | Free access (§6.2) and the `/free` page | Needs 1 and 3; the sharing link Mwata has been waiting for |
+| **4** | ~~Free access (§6.2) and the `/free` page~~ **Built 8 October**, switched off until §6.1 | Needs 1 and 3; the sharing link Mwata has been waiting for |
 | **5** | Purchases (§6.1), proved in Lemon Squeezy test mode | Needs 1; cannot be finished until the store clears identity review |
 | **6** | Video (§6.4), once Mwata approves Bunny and the own player | Biggest single piece; the videos do not exist yet either |
 | **7** | The tab bar (§6.9) | Best once the places it points at exist |
@@ -306,6 +306,14 @@ purchase with another email can be claimed; a test order does not open the live
 app.
 
 ### 6.2 Free access
+**Where it stands (8 October):** built on `next-version` and **switched off**.
+`NEXT_PUBLIC_REQUIRE_PURCHASE` is not set, so nobody is treated as free yet and
+nothing has been taken away from anyone. Before it is switched on, every
+founding member needs an entitlement in Admin, or they lose what they have.
+Two things in this section are deliberately not built: limits per network
+address (Supabase already limits codes per email, and `NEXT_PUBLIC_INVITE_ONLY`
+closes the door), and MailerLite (the tick is recorded only).
+
 **Why.** Not everyone is ready to buy. A free account lets people try the
 method, get to know the app, and buy later from inside it. It also replaces
 sending the free exercise by hand.

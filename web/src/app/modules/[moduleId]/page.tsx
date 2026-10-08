@@ -12,15 +12,18 @@ import { Lesson } from "@/components/lesson";
 import { ModuleHeader } from "@/components/module-header";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
-import { lessonKey, moduleById, phaseProgress, stateOf, stepProgress, stepsOfPhase } from "@/lib/modules-app";
+import { stepFor } from "@/lib/access-app";
+import { buyUrl, lessonKey, moduleById, phaseProgress, stateOf, stepProgress, stepsOfPhase } from "@/lib/modules-app";
 
 export default function ModulePage() {
   const { moduleId } = useParams<{ moduleId: string }>();
-  const { statuses } = useApp();
+  const { entitlements, statuses } = useApp();
   const course = moduleById(moduleId);
-  const entitlements: never[] = [];
 
-  if (!course || stateOf(course, entitlements) !== "open") {
+  const state = stateOf(course!, entitlements);
+  // "buy" still opens: a phase has to be seen before anyone buys it. "coming"
+  // does not, because there is nothing behind the door yet.
+  if (!course || state === "coming") {
     return (
       <Shell quiet ownHeader>
         <RequireUser>
@@ -122,7 +125,8 @@ export default function ModulePage() {
 
           <ol className="space-y-3">
             {steps.map((s) => {
-              const progress = s.released ? stepProgress(course.id, s.number, statuses) : null;
+              const verdict = stepFor(s.number, entitlements);
+              const progress = verdict.open ? stepProgress(course.id, s.number, statuses) : null;
               const inside = (
                 <>
                   <div className="flex items-start gap-4">
@@ -132,7 +136,11 @@ export default function ModulePage() {
                         {s.title}
                       </span>
                       <span className="block text-sm text-stone">{s.question}</span>
-                      {!s.released && <span className="mt-1 block text-sm text-stone">coming soon</span>}
+                      {!verdict.open && (
+                        <span className="mt-1 block text-sm text-stone">
+                          {verdict.why === "not-bought" ? "part of the course" : "coming soon"}
+                        </span>
+                      )}
                     </span>
                     {progress?.complete && <span className="shrink-0 text-success">✓</span>}
                   </div>
@@ -154,7 +162,7 @@ export default function ModulePage() {
                   )}
                 </>
               );
-              const card = `block rounded-2xl p-4 ${s.released ? "bg-white" : "border border-dashed border-line"}`;
+              const card = `block rounded-2xl p-4 ${verdict.open ? "bg-white" : "border border-dashed border-line"}`;
               return (
                 <li key={s.id}>
                   {s.released ? (
@@ -168,6 +176,20 @@ export default function ModulePage() {
               );
             })}
           </ol>
+
+          {state === "buy" && (
+            <section className="rounded-2xl bg-sage p-5 text-center">
+              <h2 className="text-lg text-pine">This phase is part of the course</h2>
+              <p className="mt-1 text-stone">
+                The videos, the workbooks and the exercises for every step above. One payment, yours to keep.
+              </p>
+              <p className="mt-3">
+                <a className="btn btn-primary" href={buyUrl} target="_blank" rel="noopener noreferrer">
+                  Get Phase 1
+                </a>
+              </p>
+            </section>
+          )}
         </article>
       </RequireUser>
     </Shell>

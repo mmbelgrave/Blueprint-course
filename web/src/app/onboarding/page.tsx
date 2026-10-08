@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
+import { takeSignup } from "@/lib/signup-source";
 
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
 
@@ -25,12 +26,17 @@ function ConsentForm() {
         setSaving(true);
         setError(false);
         try {
+          // Where they came from and the updates tick waited in this browser
+          // while they fetched the code from their email (§6.2).
+          const signup = takeSignup();
           await saveProfile({
             first_name: firstName.trim(),
             language: "en",
             currency,
             consent_ai: consentAi,
             consent_founder_access: founder,
+            came_from: signup.from ?? profile?.came_from ?? null,
+            wants_updates: signup.wants_updates || (profile?.wants_updates ?? false),
           });
           router.push("/dashboard");
         } catch {

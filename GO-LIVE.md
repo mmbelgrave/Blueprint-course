@@ -254,6 +254,39 @@ time, all environments, then **Deployments → the latest → Redeploy**. The th
 secrets are never written into the code or into this file. Add the same lines to
 `web/.env.local` to work on your own computer.
 
+## 7c. Free accounts, and the day you switch buying on
+
+The link to share is **app.maderealblueprint.com/free**. You can add where you
+shared it: `/free?from=instagram`, `/free?from=website`. Admin then shows it
+under each person. Anything else in that word is thrown away, so the link is
+safe to paste anywhere.
+
+A free account opens the Introduction, the Ordinary Tuesday (page 1.2) and the
+first lesson of Step 1. That list lives in `access.json` under `free`, not in
+the code, so it can be changed without touching the app.
+
+**Today none of this does anything**, because buying is not required yet:
+everyone signed in may open everything. The switch is one setting in Vercel:
+
+    NEXT_PUBLIC_REQUIRE_PURCHASE = true      (Production and Preview)
+
+**Do this first, or people lose what they have.** Anyone who is already using
+the app has bought nothing in the app, so the moment you switch this on they
+become a free account. Before you touch the switch:
+
+1. Open **Admin**, find each person who should keep the course.
+2. Under their name, press **Give: Phase 1 · Choose it** (it is marked
+   "complimentary", so you can tell it from a real order later).
+3. Check Michael first. Then switch the setting on and **Redeploy**.
+4. Open the app yourself and check that Step 1 is still there for him.
+
+To put it back, remove the setting and redeploy. Nothing anyone wrote is ever
+touched by this: closing a step hides it, it does not delete it.
+
+**What a free account costs you.** Its AI partner is limited to 15 messages a
+day (`FREE_PARTNER_DAILY_LIMIT`) instead of 80, and it cannot ask for a draft.
+Admin shows how much of the AI bill comes from free accounts.
+
 ## 8. Check it yourself
 
 Sign in on the real address and walk through:

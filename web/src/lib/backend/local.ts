@@ -14,7 +14,7 @@ function read(): LocalData {
   } catch {
     // Storage blocked or corrupt: start empty.
   }
-  return { signedIn: false, profile: null, answers: {}, statuses: {} };
+  return { signedIn: false, profile: null, answers: {}, statuses: {}, entitlements: [] };
 }
 
 /** Throws when the browser refuses to store, so the app can show "Not saved". */
@@ -70,7 +70,8 @@ export const localStore: DataStore = {
   },
   async load() {
     const { profile, answers, statuses } = read();
-    return { profile, answers, statuses };
+    // Preview mode never asks anyone to buy, so there is nothing to own.
+    return { profile, answers, statuses, entitlements: [] };
   },
   async saveProfile(_userId, profile) {
     write((d) => {

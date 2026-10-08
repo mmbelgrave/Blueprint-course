@@ -13,6 +13,9 @@ type Participant = {
   lastActivity: string | null;
   consentFounder: boolean;
   consentAi: boolean;
+  cameFrom: string;
+  wantsUpdates: boolean;
+  free: boolean;
   progress: {
     step: number;
     title: string;
@@ -134,6 +137,10 @@ function ParticipantCard({ p }: { p: Participant }) {
         </div>
         <p className="text-sm text-stone">
           Started {day(p.started)} · Last active {day(p.lastActivity)}
+          <span className="block">
+            {p.free ? "Free account" : "Has the course"} · came from {p.cameFrom}
+            {p.wantsUpdates ? " · wants updates" : ""}
+          </span>
         </p>
       </div>
 
@@ -232,6 +239,36 @@ function ParticipantCard({ p }: { p: Participant }) {
   );
 }
 
+function UpdateList({ emails }: { emails: string[] }) {
+  const [copied, setCopied] = useState(false);
+  if (emails.length === 0) return null;
+  return (
+    <div className="mt-4 rounded-2xl bg-white p-4">
+      <p className="font-semibold text-pine">
+        {emails.length} {emails.length === 1 ? "person wants" : "people want"} an occasional update
+      </p>
+      <p className="mt-1 text-sm text-stone">
+        Nothing is sent from the app. Copy the addresses when you have something to tell them.
+      </p>
+      <p className="mt-3">
+        <button
+          className="btn btn-ghost py-1.5 text-sm"
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(emails.join(", "));
+              setCopied(true);
+            } catch {
+              setCopied(false);
+            }
+          }}
+        >
+          {copied ? "✓ Copied" : "Copy the addresses"}
+        </button>
+      </p>
+    </div>
+  );
+}
+
 function AdminOverview() {
   const [data, setData] = useState<Participant[] | null>(null);
   const [emailOff, setEmailOff] = useState(false);
@@ -258,6 +295,9 @@ function AdminOverview() {
 
   const totalCost = data.reduce((t, p) => t + p.usage.costUsd, 0);
   const totalMessages = data.reduce((t, p) => t + p.usage.chatMessages, 0);
+  const freePeople = data.filter((p) => p.free);
+  const freeCost = freePeople.reduce((t, p) => t + p.usage.costUsd, 0);
+  const updateList = data.filter((p) => p.wantsUpdates).map((p) => p.email);
   const ratings = data.flatMap((p) => p.feedback.map((f) => f.rating).filter((r): r is number => r !== null));
   const avg = ratings.length ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1) : "—";
 
@@ -273,6 +313,7 @@ function AdminOverview() {
       <div className="mt-4 grid gap-3 sm:grid-cols-5">
         {[
           ["Participants", n(data.length)],
+          ["Free accounts", n(freePeople.length)],
           ["Questions", n(data.reduce((t, p) => t + p.questions.length, 0))],
           ["AI messages", n(totalMessages)],
           ["Average feedback", `${avg} / 5`],
@@ -286,8 +327,10 @@ function AdminOverview() {
       </div>
       <p className="mt-2 text-xs text-stone">
         Cost is an estimate for claude-opus-5 ($5 in, $25 out, $0.50 cache per million tokens). Saving the workbook to
-        the cache is not counted, so the real cost is a little higher. Your Anthropic Console shows the exact bill.
+        the cache is not counted, so the real cost is a little higher. Your Anthropic Console shows the exact bill. Of
+        that, {usd(freeCost)} is free accounts.
       </p>
+      <UpdateList emails={updateList} />
       {data.length === 0 && (
         <p className="mt-6 rounded-lg bg-sand p-4">No participants yet. They appear here after they sign in.</p>
       )}

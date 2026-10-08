@@ -3,22 +3,23 @@
 // way into the exercises, and the lessons that follow.
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ClosedStep } from "@/components/closed-step";
 import { Lesson } from "@/components/lesson";
 import { ModuleHeader } from "@/components/module-header";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { journey } from "@/lib/content";
+import { lessonFor, stepFor } from "@/lib/access-app";
 import { lessonsOf, moduleById, stateOf, watchedKey } from "@/lib/modules-app";
 
 export default function LessonPage() {
   const { moduleId, stepId, lessonId } = useParams<{ moduleId: string; stepId: string; lessonId: string }>();
-  const { statuses } = useApp();
+  const { entitlements, statuses } = useApp();
   const course = moduleById(moduleId);
-  const entitlements: never[] = [];
   const number = Number(String(stepId).replace("step-", ""));
   const step = journey.steps.find((s) => s.number === number);
 
-  if (!course || !step || !step.in_app || stateOf(course, entitlements) !== "open") {
+  if (!course || !step || !step.in_app || stateOf(course, entitlements) === "coming") {
     return (
       <Shell quiet ownHeader>
         <RequireUser>
@@ -52,7 +53,10 @@ export default function LessonPage() {
     );
   }
 
-  const following = lessons.slice(index + 1);
+  const following = lessons.slice(index + 1).filter((l) => lessonFor(stepId, l.id, number, entitlements).open);
+  const mineToSee = lessonFor(stepId, lesson.id, number, entitlements).open;
+  // The exercises belong to the step, not to the one free lesson in it.
+  const exerciseHref = stepFor(number, entitlements).open ? lesson.exerciseHref : undefined;
 
   return (
     <Shell quiet ownHeader>
@@ -65,11 +69,15 @@ export default function LessonPage() {
             blurb={`Step ${step.number} · ${step.title}`}
           />
 
-          <Lesson
-            video={lesson.video}
-            videoKey={watchedKey(course.id, stepId, lesson.id)}
-            exerciseHref={lesson.exerciseHref}
-          />
+          {mineToSee ? (
+            <Lesson
+              video={lesson.video}
+              videoKey={watchedKey(course.id, stepId, lesson.id)}
+              exerciseHref={exerciseHref}
+            />
+          ) : (
+            <ClosedStep step={number} why="not-bought" />
+          )}
 
           {following.length > 0 && (
             <section className="space-y-3">

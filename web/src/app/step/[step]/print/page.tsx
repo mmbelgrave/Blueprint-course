@@ -7,13 +7,13 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { pictureLinks, picturesAvailable } from "@/lib/backend/pictures";
 import { ClosedStep } from "@/components/closed-step";
+import { stepFor } from "@/lib/access-app";
 import { RequireUser, Shell } from "@/components/Shell";
 import { fieldAnswerText } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
 import {
   exerciseFields,
   getStep,
-  stepIsOpen,
   tableRows,
   PRODUCT,
   type Exercise,
@@ -259,12 +259,14 @@ function PrintPage({ step }: { step: StepContent }) {
 
 export default function Print() {
   const { step } = useParams<{ step: string }>();
+  const { entitlements } = useApp();
   const content = getStep(Number(step));
+  const verdict = stepFor(Number(step), entitlements);
   return (
     <Shell>
       <RequireUser>
-        {content && !stepIsOpen(Number(step)) ? (
-          <ClosedStep step={Number(step)} />
+        {content && !verdict.open ? (
+          <ClosedStep step={Number(step)} why={verdict.why} />
         ) : content ? (
           <PrintPage step={content} />
         ) : (

@@ -1,6 +1,7 @@
 // Supabase implementation. Runs in the browser with the public (anon) key;
 // row-level security in the database makes sure people only see their own rows.
 import { createBrowserClient } from "@supabase/ssr";
+import type { Entitlement } from "@/lib/access";
 import type {
   AuthProvider,
   ChatMessage,
@@ -129,14 +130,22 @@ export const supabaseStore: DataStore = {
   },
   async load(userId) {
     const sb = supabaseBrowser();
-    const [profile, answers, statuses] = await Promise.all([
+    const [profile, answers, statuses, entitlements] = await Promise.all([
       sb.from("profiles").select("*").eq("user_id", userId).maybeSingle(),
       sb.from("answers").select("exercise_id, field_id, value"),
       sb.from("exercise_status").select("exercise_id, status"),
+      // Row-level security keeps this to the person's own rows; the server
+      // checks again before it hands anything over.
+      sb.from("entitlements").select("product, status"),
     ]);
-    for (const r of [profile, answers, statuses]) if (r.error) throw r.error;
+    for (const r of [profile, answers, statuses, entitlements]) if (r.error) throw r.error;
 
-    const data: UserData = { profile: null, answers: {}, statuses: {} };
+    const data: UserData = {
+      profile: null,
+      answers: {},
+      statuses: {},
+      entitlements: (entitlements.data ?? []) as Entitlement[],
+    };
     if (profile.data) {
       const p = profile.data;
       data.profile = {
@@ -145,6 +154,8 @@ export const supabaseStore: DataStore = {
         currency: p.currency,
         consent_ai: p.consent_ai,
         consent_founder_access: p.consent_founder_access,
+        came_from: p.came_from ?? null,
+        wants_updates: p.wants_updates ?? false,
       };
     }
     for (const a of answers.data ?? []) {

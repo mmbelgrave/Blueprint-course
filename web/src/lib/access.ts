@@ -18,7 +18,7 @@
 
 export type AccessConfig = {
   products: Record<string, { name: string; steps: number[] }>;
-  free: { items: string[]; steps: number[]; pages: string[] };
+  free: { items: string[]; steps: number[]; pages: string[]; lessons: string[] };
 };
 
 /** What a person holds. Only "active" counts; a refund or a revoke ends it. */
@@ -65,6 +65,19 @@ export function stepAccess(step: number, ask: Ask): Verdict {
 export function pageAccess(pageId: string, step: number, ask: Ask): Verdict {
   if (!ask.released) return { open: false, why: "not-released" };
   if (ask.requirePurchase && ask.config.free.pages.includes(pageId)) return { open: true, because: "free" };
+  return stepAccess(step, ask);
+}
+
+/**
+ * One lesson of a step, in Modules. A free lesson — the Step 1 video, so people
+ * meet Mwata before they buy — opens although the step is not owned. The key is
+ * the step and the part: "step-1:p1".
+ */
+export function lessonAccess(stepId: string, lessonId: string, step: number, ask: Ask): Verdict {
+  if (!ask.released) return { open: false, why: "not-released" };
+  if (ask.requirePurchase && ask.config.free.lessons.includes(`${stepId}:${lessonId}`)) {
+    return { open: true, because: "free" };
+  }
   return stepAccess(step, ask);
 }
 

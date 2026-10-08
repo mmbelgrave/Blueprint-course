@@ -161,6 +161,6 @@ export function moduleState(
 ): ModuleState {
   if (m.kind !== "phase") return "open";
   const steps = m.steps ?? [];
-  if (!steps.some(opts.owns)) return "buy";
-  return steps.some(opts.released) ? "open" : "coming";
+  if (!steps.some(opts.released)) return "coming";
+  return steps.some(opts.owns) ? "open" : "buy";
 }

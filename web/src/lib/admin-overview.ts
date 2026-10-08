@@ -6,6 +6,7 @@ import { estimateCostUsd } from "@/lib/admin-server";
 import type { ExerciseStatus } from "@/lib/backend";
 import { steps } from "@/lib/content";
 import { partProgress } from "@/lib/progress";
+import { sourceLabel } from "@/lib/signup-source";
 import { supportTopics, topicLabel } from "@/lib/support";
 
 type Row = Record<string, unknown>;
@@ -14,7 +15,9 @@ const latest = (a: string | null, b: string | null | undefined) => (!b ? a : !a 
 export async function buildOverview(admin: SupabaseClient) {
   const [users, profiles, statuses, answers, chats, feedback, entitlements, questions, usage] = await Promise.all([
     admin.auth.admin.listUsers({ perPage: 1000 }),
-    admin.from("profiles").select("user_id, first_name, consent_ai, consent_founder_access, created_at"),
+    admin
+      .from("profiles")
+      .select("user_id, first_name, consent_ai, consent_founder_access, came_from, wants_updates, created_at"),
     admin.from("exercise_status").select("user_id, exercise_id, status, updated_at"),
     admin.from("answers").select("user_id, updated_at"),
     admin.from("conversations").select("user_id, created_at"),
@@ -92,6 +95,11 @@ export async function buildOverview(admin: SupabaseClient) {
       lastActivity: last,
       consentFounder: !!profile?.consent_founder_access,
       consentAi: !!profile?.consent_ai,
+      // Where the sign-up link was shared, and whether they asked to hear
+      // about new things (§6.2). Nothing is sent yet; this is the list.
+      cameFrom: sourceLabel(profile?.came_from as string | null),
+      wantsUpdates: !!profile?.wants_updates,
+      free: (entitlementBy.get(u.id) ?? []).every((e) => e.status !== "active"),
       progress,
       feedback: (feedbackBy.get(u.id) ?? []).map((f) => ({
         part: partName.get(f.part_id as string) ?? (f.part_id as string),

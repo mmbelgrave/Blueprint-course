@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/cards";
 import { ClosedStep } from "@/components/closed-step";
+import { pageFor } from "@/lib/access-app";
 import { FieldInput, formatMoney, tableFieldTotal } from "@/components/fields";
 import { PartnerPanel } from "@/components/PartnerPanel";
 import { RequireUser, Shell } from "@/components/Shell";
@@ -18,7 +19,6 @@ import {
   partItems,
   setupKey,
   stepExercises,
-  stepIsOpen,
   type Block,
   type Exercise,
   type Field,
@@ -239,7 +239,9 @@ function Step1MoneyHint({ exercise }: { exercise: Exercise }) {
 }
 
 function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exerciseId: string }) {
-  if (!stepIsOpen(stepNumber)) return <ClosedStep step={stepNumber} />;
+  const { entitlements } = useApp();
+  const verdict = pageFor(exerciseId, stepNumber, entitlements);
+  if (!verdict.open) return <ClosedStep step={stepNumber} why={verdict.why} />;
   const found = findExercise(exerciseId);
   if (!found || found.step.step.number !== stepNumber) {
     return (

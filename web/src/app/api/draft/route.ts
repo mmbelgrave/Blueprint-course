@@ -2,6 +2,7 @@
 // own answers. The draft is stored (part_results.ai_draft) and shown next to the
 // boxes; the person decides what goes in.
 import Anthropic from "@anthropic-ai/sdk";
+import { isFreeAccount, myEntitlements } from "@/lib/access-server";
 import type { Answers } from "@/lib/backend";
 import { findExercise } from "@/lib/content";
 import { draftFields } from "@/lib/drafts";
@@ -43,6 +44,12 @@ export async function POST(request: Request) {
     .eq("user_id", user.id)
     .maybeSingle();
   if (!profileRow?.consent_ai) return fail(403, "Your AI partner is switched off. You can switch it on in My settings.");
+
+  // A free account may talk to its partner, but not have a summary written for
+  // it: that belongs to the course (§6.2).
+  if (isFreeAccount(await myEntitlements(supabase))) {
+    return fail(403, "Drafting a summary is part of the course. Your AI partner is still here to think with you.");
+  }
 
   // Drafts have their own daily limit, counted in the usage log (people may read their own rows).
   const since = new Date();

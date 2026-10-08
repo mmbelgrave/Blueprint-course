@@ -248,6 +248,48 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## Free access (8 October 2026)
+
+Spec §6.2, build order slice 4. Built on `next-version`, **switched off**.
+
+**What is there**
+- `/free` — the link to share. Three lines on what a free account opens, then
+  the same sign-in form as `/signin` (one piece of code, in
+  `components/sign-in-form.tsx`, because the one-token-per-email rule is too
+  easy to break twice). `/free?from=instagram` is remembered, cleaned to a
+  short plain word, and written to the profile at the consent page, together
+  with the "send me an occasional update" tick.
+- **What free opens** is `access.json` and nothing else: the Introduction, page
+  1.2 (the Ordinary Tuesday) and one lesson, `step-1:p1`, so people meet Mwata
+  before they buy. Changing it is one line of content.
+- **Every door asks the access layer** now — the step overview, a page inside a
+  step, the print page, the Modules screens and the Exercises overview. What is
+  not yours says "part of the course" and offers Phase 1; what is not written
+  says "coming soon". The two are never muddled.
+- A phase you have not bought **opens** so you can see the steps and watch the
+  free lesson. Its workbook, its other lessons and its exercises do not.
+- **The AI partner** works on a free account with `FREE_PARTNER_DAILY_LIMIT`
+  (15 a day) instead of 80, and will not draft a summary.
+- **Admin** shows free or paying, where each person came from, who wants
+  updates (with a copy button for the addresses), and how much of the AI cost
+  is free accounts.
+- Two new profile columns: `came_from`, `wants_updates`.
+
+**Fixed on the way:** a phase with nothing written in it was offered for sale
+when you did not own it. Released is now asked before bought, everywhere.
+
+**Not built, on purpose**
+- Sign-up limits per network address. Supabase already limits codes per email
+  and per hour, and `NEXT_PUBLIC_INVITE_ONLY` still closes the door entirely.
+  Worth revisiting if the free link is ever abused.
+- MailerLite. The tick is recorded; nothing is sent (decided 6 October).
+- "Bought but no access?" and the welcome email belong to §6.1 (purchases),
+  which waits for the Lemon Squeezy identity review.
+
+**Before switching it on** (`NEXT_PUBLIC_REQUIRE_PURCHASE=true` in Vercel):
+every founding member must have an entitlement first, or they lose what they
+have. Admin → the person → **Give: Phase 1**. Check Michael before anyone else.
+
 ## A dark ground, and a switch (6 October 2026)
 
 Mwata wanted the app on black, like an app he had seen, without leaving the

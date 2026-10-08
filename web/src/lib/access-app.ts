@@ -8,7 +8,15 @@
  * counts.
  */
 import accessRaw from "@/content/access.json";
-import { stepAccess, itemAccess, pageAccess, type AccessConfig, type Entitlement, type Verdict } from "@/lib/access";
+import {
+  itemAccess,
+  lessonAccess,
+  pageAccess,
+  stepAccess,
+  type AccessConfig,
+  type Entitlement,
+  type Verdict,
+} from "@/lib/access";
 import { stepIsOpen } from "@/lib/content";
 
 export const accessConfig = accessRaw as unknown as AccessConfig;
@@ -34,6 +42,13 @@ export const stepFor = (step: number, entitlements: Entitlement[]): Verdict => s
 
 export const pageFor = (pageId: string, step: number, entitlements: Entitlement[]): Verdict =>
   pageAccess(pageId, step, ask(step, entitlements));
+
+export const lessonFor = (
+  stepId: string,
+  lessonId: string,
+  step: number,
+  entitlements: Entitlement[],
+): Verdict => lessonAccess(stepId, lessonId, step, ask(step, entitlements));
 
 export const itemFor = (itemId: string, entitlements: Entitlement[]): Verdict =>
   itemAccess(itemId, { entitlements, requirePurchase, config: accessConfig });

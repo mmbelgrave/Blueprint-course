@@ -19,6 +19,7 @@ import {
   type Profile,
   type UserData,
 } from "@/lib/backend";
+import type { Entitlement } from "@/lib/access";
 import { AnswerSaver, type SaveState } from "@/lib/answer-saver";
 
 type AppState = {
@@ -29,6 +30,8 @@ type AppState = {
   profile: Profile | null;
   answers: Answers;
   statuses: Record<string, ExerciseStatus>;
+  /** What this person owns. Empty is a free account, not a broken one. */
+  entitlements: Entitlement[];
   saveState: SaveState;
   setAnswer: (exerciseId: string, fieldId: string, value: unknown) => void;
   /** Returns false when the change could not be saved (and was undone). */
@@ -58,6 +61,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [answers, setAnswers] = useState<Answers>({});
   const [statuses, setStatuses] = useState<Record<string, ExerciseStatus>>({});
+  const [entitlements, setEntitlements] = useState<Entitlement[]>([]);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [saver] = useState(
     () =>
@@ -77,6 +81,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         setProfile(result.data.profile);
         setAnswers(result.data.answers);
         setStatuses(result.data.statuses);
+        setEntitlements(result.data.entitlements);
       }
     }
     setLoading(false);
@@ -160,6 +165,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setProfile(null);
     setAnswers({});
     setStatuses({});
+    setEntitlements([]);
   }, []);
 
   return (
@@ -171,6 +177,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         profile,
         answers,
         statuses,
+        entitlements,
         saveState,
         setAnswer,
         setStatus,

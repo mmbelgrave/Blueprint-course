@@ -1,6 +1,7 @@
 // The AI partner: one streamed reply per request. Server-only — the Anthropic
 // API key never reaches the browser. Answer texts are never written to logs.
 import Anthropic from "@anthropic-ai/sdk";
+import { isFreeAccount, myEntitlements } from "@/lib/access-server";
 import type { Answers, Profile } from "@/lib/backend";
 import { findExercise } from "@/lib/content";
 import { anthropicClient } from "@/lib/partner/client";
@@ -12,6 +13,7 @@ import { supabaseServer } from "@/lib/supabase-server";
 export const runtime = "nodejs";
 
 const DAILY_LIMIT = Number(process.env.PARTNER_DAILY_LIMIT ?? 80);
+const FREE_DAILY_LIMIT = Number(process.env.FREE_PARTNER_DAILY_LIMIT ?? 15);
 const MAX_MESSAGE_CHARS = 4000;
 const HISTORY_MESSAGES = 30;
 const MAX_PAGE_ANSWERS_CHARS = 50_000;
@@ -57,6 +59,9 @@ export async function POST(request: Request) {
   // Daily limit since midnight UTC. Counted in the usage log, which people cannot
   // change (they can delete their own chats) — review R2 concern 2. Without the
   // service key the usage log is not written, so the chats are counted instead.
+  const free = isFreeAccount(await myEntitlements(supabase));
+  const dailyLimit = free ? FREE_DAILY_LIMIT : DAILY_LIMIT;
+
   const since = new Date();
   since.setUTCHours(0, 0, 0, 0);
   const { count } = supabaseAdmin()
@@ -70,8 +75,13 @@ export async function POST(request: Request) {
         .select("id", { count: "exact", head: true })
         .eq("role", "user")
         .gte("created_at", since.toISOString());
-  if ((count ?? 0) >= DAILY_LIMIT) {
-    return fail(429, "You talked a lot with your AI partner today. Please come back tomorrow.");
+  if ((count ?? 0) >= dailyLimit) {
+    return fail(
+      429,
+      free
+        ? "That is all the free account can ask today. Your partner is back tomorrow, and there is no limit like this once you have the course."
+        : "You talked a lot with your AI partner today. Please come back tomorrow.",
+    );
   }
 
   // Everything the partner needs: answers, what it knows, and this page's chat.

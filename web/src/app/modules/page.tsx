@@ -10,10 +10,7 @@ import { PRODUCT } from "@/lib/content";
 import { buyUrl, lessonKey, modules, phaseProgress, stateOf } from "@/lib/modules-app";
 
 export default function Modules() {
-  const { profile, statuses } = useApp();
-  // Entitlements arrive with purchases (§6.1); until then the access layer
-  // already knows nothing is withheld, so this asks it rather than guessing.
-  const entitlements: never[] = [];
+  const { entitlements, profile, statuses } = useApp();
 
   return (
     <Shell quiet ownHeader>
@@ -72,23 +69,34 @@ export default function Modules() {
                     </>
                   )}
 
-                  {state === "buy" && (
-                    <p className="mt-3 flex justify-center sm:justify-start">
-                      <a className="btn btn-primary" href={buyUrl} target="_blank" rel="noopener noreferrer">
-                        Get this phase
-                      </a>
-                    </p>
-                  )}
                 </>
               );
 
-              const card = `rounded-2xl p-5 ${state === "open" ? "bg-white" : "border border-dashed border-line"}`;
+              const card = `rounded-2xl p-5 ${state === "coming" ? "border border-dashed border-line" : "bg-white"}`;
               return (
                 <li key={m.id}>
                   {state === "open" ? (
                     <Link href={`/modules/${m.id}`} className={`block ${card}`}>
                       {inside}
                     </Link>
+                  ) : state === "buy" ? (
+                    /* Not bought yet: you may still look inside, because the
+                       free lesson lives in there and nobody buys what they
+                       cannot see. The offer sits beside it, not inside the
+                       link — one box, two different things to press. */
+                    <div className={card}>
+                      <Link href={`/modules/${m.id}`} className="block">
+                        {inside}
+                      </Link>
+                      <p className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
+                        <Link className="btn btn-ghost" href={`/modules/${m.id}`}>
+                          See what is inside
+                        </Link>
+                        <a className="btn btn-primary" href={buyUrl} target="_blank" rel="noopener noreferrer">
+                          Get this phase
+                        </a>
+                      </p>
+                    </div>
                   ) : (
                     <div className={card}>{inside}</div>
                   )}

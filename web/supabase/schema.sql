@@ -16,6 +16,11 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Where someone came from, and whether they want to hear about new things
+-- (spec 6.2). Added 8 October; existing accounts simply have no answer.
+alter table public.profiles add column if not exists came_from text;
+alter table public.profiles add column if not exists wants_updates boolean not null default false;
+
 create table if not exists public.answers (
   user_id uuid not null references auth.users (id) on delete cascade,
   exercise_id text not null,

@@ -68,17 +68,23 @@ test("a phase adds up its steps", () => {
   assert.equal(progressOfPhase([{ done: 3, total: 3 }]).complete, true);
 });
 
-// What someone sees on a phase they have not bought is an offer, not a shrug.
+// What someone sees on a phase they have not bought is an offer, not a shrug —
+// but never an offer to buy something that has not been written.
 test("a phase is open, for sale, or on its way", () => {
   const ownsPhase1 = (s: number) => s <= 3;
   const released = (s: number) => s === 1;
 
   assert.equal(moduleState(phase1, { owns: ownsPhase1, released }), "open");
-  assert.equal(moduleState(phase2, { owns: ownsPhase1, released }), "buy", "not bought: offer it");
+  assert.equal(moduleState(phase1, { owns: () => false, released }), "buy", "not bought: offer it");
   assert.equal(
     moduleState(phase2, { owns: () => true, released }),
     "coming",
     "bought but nothing written yet",
+  );
+  assert.equal(
+    moduleState(phase2, { owns: () => false, released }),
+    "coming",
+    "nothing written yet is never for sale, however little you own",
   );
 });
 

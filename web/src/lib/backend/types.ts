@@ -1,3 +1,5 @@
+import type { Entitlement } from "@/lib/access";
+
 export type ExerciseStatus = "not_started" | "in_progress" | "done";
 
 export type AppUser = { id: string; email: string | null };
@@ -8,6 +10,10 @@ export type Profile = {
   currency: string;
   consent_ai: boolean;
   consent_founder_access: boolean;
+  /** Where the sign-up link was shared (§6.2). Null when we do not know. */
+  came_from?: string | null;
+  /** "Send me an occasional update." Recorded only; nothing is sent yet. */
+  wants_updates?: boolean;
 };
 
 /** answers[exerciseId][fieldId] = value */
@@ -17,6 +23,8 @@ export type UserData = {
   profile: Profile | null;
   answers: Answers;
   statuses: Record<string, ExerciseStatus>;
+  /** What this person has bought or been given (§6.1). Empty means free access. */
+  entitlements: Entitlement[];
 };
 
 /**
