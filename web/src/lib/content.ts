@@ -3,7 +3,6 @@
 // folder by scripts/sync-content.mjs — never edit the copies.
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
-import step3Raw from "@/content/step3-content.json";
 import journeyRaw from "@/content/journey.json";
 import appGuideRaw from "@/content/app-guide.json";
 
@@ -285,7 +284,19 @@ export const stepOnlyBullets = (bullets: string[]) => bullets.filter((b) => !SHA
  */
 export const stepIsOpen = (n: number) => journey.steps.some((s) => s.number === n && s.in_app);
 
-export const steps: StepContent[] = [step1Raw, step2Raw, step3Raw] as unknown as StepContent[];
+/*
+ * Only released steps are imported here, because whatever this file imports is
+ * compiled into JavaScript that anyone can fetch without signing in — no
+ * account, no cookie. Step 3 is written but not released, so it is not in this
+ * list and its text is nowhere in the browser.
+ *
+ * To release a step: add its import above and its name here, and set in_app in
+ * journey.json. Both, or it will not appear.
+ *
+ * This is a stopgap. The real fix is to stop sending the words to the browser
+ * at all until the access layer says they may be sent — see lib/content-server.
+ */
+export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];
 
 export function getStep(number: number): StepContent | undefined {
   return steps.find((s) => s.step.number === number);

@@ -235,6 +235,38 @@ what is live: it can be taken to `main` on its own, the day Mwata says so.
 **Not started until approved:** video (§6.4, the proposal above), and anything
 that spends money.
 
+### 6.0a The words are the product (review round 4, 8 October)
+
+**The hole.** Every page of every workbook was compiled into JavaScript a
+stranger could fetch with no account and no cookie, including Step 3, which is
+not released. The access layer decided what was **drawn**; the text had already
+arrived. The PDFs were shut; the same words inside the app were not.
+
+**Done**
+- Step 3 is no longer imported by the browser, so its text is nowhere in the
+  bundle. Releasing a step is now two lines: the import in `lib/content.ts`
+  and `in_app` in journey.json. Proved by a build with no Step 3 prose in it.
+- `lib/content-server.ts` holds the full content and is marked `server-only`,
+  so importing it from a client component **fails the build**. The rule is kept
+  by the compiler, not by anyone remembering it.
+- `/api/content` hands over one page, or a step's chrome, after asking the same
+  access layer the workbook PDFs ask. A free page opens inside a step nobody
+  has bought; everything else needs the step.
+
+**Still to do**
+- Generate a **spine** for the browser: ids, numbers, titles, field types,
+  which pages exist. Navigation, progress and the Blueprint's rules need it,
+  and none of it is the product. Then take the prose out of `lib/content.ts`.
+- Move the exercise page, the step overview, the print pages and the Blueprint
+  onto `/api/content`, one at a time, each proved by a build that no longer
+  contains that text.
+- The AI partner already runs on the server and can read `content-server`
+  directly.
+
+**The line.** Nothing stops a paying member copying what they paid for. The
+goal is that the words are not public to strangers, that unreleased work never
+ships, and that the text costs what the course costs.
+
 ### 6.0 One access layer
 Three different questions decide whether a person may open something, and they
 must be answered in one place or they will disagree with each other:
