@@ -306,6 +306,28 @@ become a free account. Before you touch the switch:
 To put it back, remove the setting and redeploy. Nothing anyone wrote is ever
 touched by this: closing a step hides it, it does not delete it.
 
+**Two ways to think it is on when it is not** (both happened on 8 October 2026):
+
+- *Set for Preview only.* Vercel asks which environments a setting belongs to,
+  and it is easy to tick Preview and not Production. The branch preview then
+  behaves perfectly while the live app lets everyone into everything. Tick
+  **Production** as well, every time.
+- *Set, but not redeployed.* This setting is read while the app is being built,
+  not while it runs, so saving it changes nothing until the next deploy. Press
+  **Redeploy**.
+
+**How to tell, in ten seconds.** Sign in to the live app with an account that
+owns nothing, open any page that is not 1.2, and watch the address bar:
+
+    app.maderealblueprint.com/step/1/p2/2.1
+
+Buying required: "This step is part of the course." Buying not required: the
+page opens. There is nothing on screen that says which, so this is the check.
+
+Nobody is ever locked out by the *gate* being wrong — only by the grants being
+missing. The gate is covered by `tests/access.test.ts`; the grants are a thing
+somebody has to remember.
+
 **What a free account sees.** Two places along the bottom, Modules and
 Settings. Inside Modules: the free material, the Introduction, and Phase 1 with
 the free lesson and the free exercise in it. No steps, no progress bars, no AI
