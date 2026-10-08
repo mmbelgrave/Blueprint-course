@@ -1,6 +1,6 @@
 // Turns saved answers into plain, readable text using the labels from the
 // content. Used by the AI partner (context) and by "Copy from Step 1".
-import { exerciseFields, findExercise, tableRows, type CalcRow, type Field } from "@/lib/content";
+import { exerciseFields, findExercise, tableRows, type CalcRow, type Exercise, type Field } from "@/lib/content";
 
 const MAX_ANSWER_CHARS = 2000;
 
@@ -78,9 +78,15 @@ export function answerText(field: Field, value: unknown, separator = "; "): stri
 }
 
 /** One field of another exercise as text (for "Copy from Step 1"). */
-export function fieldAnswerText(exerciseId: string, fieldId: string, values: Record<string, unknown> | undefined) {
-  const found = findExercise(exerciseId);
-  const field = found && exerciseFields(found.exercise).find((f) => f.id === fieldId);
+export function fieldAnswerText(
+  exerciseId: string,
+  fieldId: string,
+  values: Record<string, unknown> | undefined,
+  /** The page itself, when the caller has it — the browser no longer holds it. */
+  exercise?: Exercise,
+) {
+  const page = exercise ?? findExercise(exerciseId)?.exercise;
+  const field = page && exerciseFields(page).find((f) => f.id === fieldId);
   if (!field || !values) return null;
   // Tables and lists become one line per row, which reads well in a text box.
   if (field.type === "table") {
@@ -103,11 +109,16 @@ export function fieldAnswerText(exerciseId: string, fieldId: string, values: Rec
  * One exercise, as label-and-answer pairs. Empty fields are left out, so a page
  * someone only half filled in still reads as what they wrote, not as a form.
  */
-export function exerciseAnswerLines(exerciseId: string, values: Record<string, unknown> | undefined) {
-  const found = findExercise(exerciseId);
-  if (!found || !values) return [];
+export function exerciseAnswerLines(
+  exerciseId: string,
+  values: Record<string, unknown> | undefined,
+  /** The page itself, when the caller has it. Without it there is nothing to read. */
+  exercise?: Exercise,
+) {
+  const page = exercise ?? findExercise(exerciseId)?.exercise;
+  if (!page || !values) return [];
   const lines: { label: string; text: string }[] = [];
-  for (const field of exerciseFields(found.exercise)) {
+  for (const field of exerciseFields(page)) {
     const text = answerText(field, values[field.id]);
     if (text) lines.push({ label: field.label ?? field.hint ?? field.id, text });
   }

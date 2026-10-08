@@ -32,6 +32,7 @@ import {
 } from "@/lib/blueprint";
 import { useApp } from "@/lib/app-state";
 import { getStep, partItems, PRODUCT } from "@/lib/content";
+import { useStepsContent } from "@/lib/use-step-content";
 
 const PHASES: Record<string, { name: string; steps: number[] }> = {
   "1": { name: "Phase 1 · Choose it", steps: [1, 2, 3] },
@@ -63,6 +64,9 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
   // A step nobody owns is not printed here either: the document gathers the
   // step results, so it has to ask the same question the step pages ask.
   const mine = phase.steps.filter((n) => stepFor(n, entitlements).open);
+  // The results are the person's own answers, read back with the questions
+  // that produced them — and the questions come from the server.
+  const words = useStepsContent(mine);
   const done = stepsFinished(a);
   const head = headline(a);
   const m = moneyThread(a);
@@ -95,7 +99,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
       <Sheet dark>
         <div className="flex min-h-[240mm] flex-col justify-between p-10 print:min-h-[257mm]">
           <div>
-            <Mark size={66} />
+            <Mark size={66} onDark />
             <p className="mt-6 text-sm font-semibold uppercase tracking-[0.16em] text-ochre-light">
               {PRODUCT.name} · {PRODUCT.edition}
             </p>
@@ -335,9 +339,10 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
         const step = getStep(n);
         const finished = done.find((d) => d.step === n)?.finished;
         if (!step) return null;
-        const result = step.parts.at(-1)!;
-        const pages = partItems(result)
-          .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id]) }))
+        const full = words.ready.get(n);
+        const result = full?.parts.at(-1) ?? step.parts.at(-1)!;
+        const pages = (full ? partItems(result) : [])
+          .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id], page) }))
           .filter((p) => p.lines.length > 0);
 
         return (
@@ -350,7 +355,9 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
               {who && <p className="mt-2 text-sand/85">{who}</p>}
             </header>
             <div className="space-y-5 p-10">
-              {!finished || pages.length === 0 ? (
+              {words.loading && !full ? (
+                <p className="text-stone">One moment…</p>
+              ) : !finished || pages.length === 0 ? (
                 <p className="rounded-xl border border-dashed border-line p-5 text-stone">
                   Not finished yet.{" "}
                   <Link href={`/step/${n}`} className="underline print:hidden">

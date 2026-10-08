@@ -1,0 +1,973 @@
+{
+  "note": "The shape of this step, for the browser. The words live on the server; see lib/content-server.",
+  "step": {
+    "id": "step1",
+    "number": 1,
+    "title": "Picture",
+    "question": "What life do I really want?"
+  },
+  "parts": [
+    {
+      "id": "p0",
+      "number": 0,
+      "label": "Start",
+      "title": "Your First Picture",
+      "optional": true,
+      "time": "20–30 min",
+      "finish": {
+        "id": "first_picture",
+        "title": "My First Picture",
+        "description": "A first picture of what you want."
+      },
+      "exercises": [
+        {
+          "id": "0.1",
+          "title": "Four questions",
+          "fields": [
+            {
+              "id": "moment",
+              "type": "long_text"
+            },
+            {
+              "id": "normal_day",
+              "type": "long_text"
+            },
+            {
+              "id": "keep",
+              "type": "long_text"
+            },
+            {
+              "id": "big_question",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "first_picture",
+        "title": "My First Picture",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "p1",
+      "number": 1,
+      "label": "Part 1",
+      "title": "Picture your new life",
+      "time": "75–100 min",
+      "video": {
+        "title": "Part 1 · Picture your new life",
+        "length": "12–16 min",
+        "url": null
+      },
+      "finish": {
+        "id": "life_picture",
+        "title": "My Life Picture",
+        "description": "What you want more of, what you keep, what is essential, and what is still open."
+      },
+      "exercises": [
+        {
+          "id": "1.0",
+          "title": "From \"no\" to \"yes\"",
+          "fields": [
+            {
+              "id": "no_to_yes",
+              "type": "table",
+              "rows": 5,
+              "columns": [
+                {
+                  "id": "no",
+                  "kind": "text"
+                },
+                {
+                  "id": "yes",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1.1",
+          "title": "Moments that felt good",
+          "fields": [
+            {
+              "id": "moments",
+              "type": "list",
+              "count": 3
+            },
+            {
+              "id": "common",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "title": "A normal day in your new life",
+          "fields": [
+            {
+              "id": "day",
+              "type": "long_text"
+            },
+            {
+              "id": "needs",
+              "type": "long_text"
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            },
+            {
+              "id": "board",
+              "type": "image_board"
+            }
+          ]
+        },
+        {
+          "id": "1.3",
+          "title": "If money were no worry",
+          "fields": [
+            {
+              "id": "dream_list",
+              "type": "long_text"
+            },
+            {
+              "id": "top3",
+              "type": "list",
+              "count": 3
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "1.4",
+          "title": "What matters most",
+          "fields": [
+            {
+              "id": "values",
+              "type": "checkbox_pick"
+            },
+            {
+              "id": "top_two",
+              "type": "table",
+              "rows": 2,
+              "columns": [
+                {
+                  "id": "word",
+                  "kind": "text"
+                },
+                {
+                  "id": "week",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "must_haves",
+              "type": "table",
+              "rows": 5,
+              "columns": [
+                {
+                  "id": "must_have",
+                  "kind": "text"
+                },
+                {
+                  "id": "importance",
+                  "kind": "choice"
+                }
+              ]
+            },
+            {
+              "id": "dealbreakers",
+              "type": "long_text"
+            },
+            {
+              "id": "keep",
+              "type": "long_text"
+            },
+            {
+              "id": "let_go",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "1.5",
+          "title": "Whose picture is this?",
+          "fields": [
+            {
+              "id": "checks",
+              "type": "yes_no"
+            },
+            {
+              "id": "voices",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "life_picture",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "p2",
+      "number": 2,
+      "label": "Part 2",
+      "title": "Look honestly at today",
+      "time": "60–75 min",
+      "video": {
+        "title": "Part 2 · Look honestly at today",
+        "length": "10–14 min",
+        "url": null
+      },
+      "finish": {
+        "id": "starting_point",
+        "title": "My Starting Point",
+        "description": "Where you stand, what you can build on, and what you will check."
+      },
+      "exercises": [
+        {
+          "id": "2.1",
+          "title": "Your life today, and in one year",
+          "fields": [
+            {
+              "id": "wheel",
+              "type": "table",
+              "row_count": 8,
+              "columns": [
+                {
+                  "id": "today",
+                  "kind": "number"
+                },
+                {
+                  "id": "year",
+                  "kind": "number"
+                },
+                {
+                  "id": "week",
+                  "kind": "text"
+                },
+                {
+                  "id": "better",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "time",
+              "type": "table",
+              "row_count": 6,
+              "columns": [
+                {
+                  "id": "now",
+                  "kind": "number"
+                },
+                {
+                  "id": "want",
+                  "kind": "number"
+                }
+              ]
+            },
+            {
+              "id": "most_time_back",
+              "type": "long_text"
+            },
+            {
+              "id": "decides_intro",
+              "type": "heading"
+            },
+            {
+              "id": "decides",
+              "type": "table",
+              "row_count": 3,
+              "columns": [
+                {
+                  "id": "now",
+                  "kind": "number"
+                },
+                {
+                  "id": "want",
+                  "kind": "number"
+                }
+              ]
+            },
+            {
+              "id": "share",
+              "type": "calculation",
+              "rows": [
+                {
+                  "id": "choice_now",
+                  "label": "My choice, hours now",
+                  "example": "37",
+                  "hidden": true,
+                  "from": {
+                    "exercise": "2.1",
+                    "field": "decides",
+                    "column": "now",
+                    "row": "My choice"
+                  }
+                },
+                {
+                  "id": "choice_want",
+                  "label": "My choice, hours I want",
+                  "example": "50",
+                  "hidden": true,
+                  "from": {
+                    "exercise": "2.1",
+                    "field": "decides",
+                    "column": "want",
+                    "row": "My choice"
+                  }
+                },
+                {
+                  "id": "share_now",
+                  "label": "Share I decide myself (my choice ÷ 112)",
+                  "example": "33%",
+                  "formula": "choice_now * 100 / 112",
+                  "format": "percent"
+                },
+                {
+                  "id": "share_want",
+                  "label": "Share I want",
+                  "example": "45%",
+                  "formula": "choice_want * 100 / 112",
+                  "format": "percent"
+                }
+              ]
+            },
+            {
+              "id": "drop",
+              "type": "long_text"
+            },
+            {
+              "id": "fixed_block",
+              "type": "long_text"
+            },
+            {
+              "id": "take_back",
+              "type": "long_text"
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "2.2",
+          "title": "What you have already done",
+          "fields": [
+            {
+              "id": "successes",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                {
+                  "id": "achieved",
+                  "kind": "text"
+                },
+                {
+                  "id": "how",
+                  "kind": "text"
+                },
+                {
+                  "id": "reuse",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "dots",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                {
+                  "id": "turning_point",
+                  "kind": "text"
+                },
+                {
+                  "id": "started",
+                  "kind": "text"
+                },
+                {
+                  "id": "about_me",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "2.3",
+          "title": "What stopped you before?",
+          "fields": [
+            {
+              "id": "causes",
+              "type": "checkbox_pick"
+            },
+            {
+              "id": "before",
+              "type": "long_text"
+            },
+            {
+              "id": "differently",
+              "type": "long_text"
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "2.4",
+          "title": "Beliefs I never checked",
+          "fields": [
+            {
+              "id": "beliefs",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                {
+                  "id": "belief",
+                  "kind": "text"
+                },
+                {
+                  "id": "kind",
+                  "kind": "choice"
+                },
+                {
+                  "id": "check",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "2.5",
+          "title": "Ask people who know you",
+          "optional": true,
+          "fields": [
+            {
+              "id": "surprised",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "starting_point",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "p3",
+      "number": 3,
+      "label": "Part 3",
+      "title": "Your first money picture",
+      "time": "60 min",
+      "video": {
+        "title": "Part 3 · Your first money picture",
+        "length": "12–15 min",
+        "url": null
+      },
+      "finish": {
+        "id": "money_picture",
+        "title": "My First Money Picture",
+        "description": "Your first numbers, how sure they are, and what to check next."
+      },
+      "setup": {
+        "fields": [
+          {
+            "id": "version",
+            "type": "short_text"
+          },
+          {
+            "id": "currency",
+            "type": "short_text"
+          },
+          {
+            "id": "household",
+            "type": "number"
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "id": "3.1",
+          "title": "What does money mean to you?",
+          "optional": true,
+          "fields": [
+            {
+              "id": "words",
+              "type": "list",
+              "count": 3
+            },
+            {
+              "id": "what_helps",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "3.2",
+          "title": "What does your life cost per month, now and in your new life?",
+          "fields": [
+            {
+              "id": "costs",
+              "type": "table",
+              "row_count": 12,
+              "columns": [
+                {
+                  "id": "today",
+                  "kind": "money"
+                },
+                {
+                  "id": "new_life",
+                  "kind": "money"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.3",
+          "title": "What does the change itself cost, one time?",
+          "fields": [
+            {
+              "id": "one_time",
+              "type": "table",
+              "row_count": 5,
+              "columns": [
+                {
+                  "id": "amount",
+                  "kind": "money"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.4",
+          "title": "What comes in per month?",
+          "fields": [
+            {
+              "id": "income",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                {
+                  "id": "source",
+                  "kind": "text"
+                },
+                {
+                  "id": "now",
+                  "kind": "money"
+                },
+                {
+                  "id": "new_life",
+                  "kind": "money"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                },
+                {
+                  "id": "starts",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3.5",
+          "title": "A first money check",
+          "fields": [
+            {
+              "id": "monthly",
+              "type": "calculation",
+              "rows": [
+                {
+                  "id": "income",
+                  "label": "1. My income per month in my new life (from 3.4)",
+                  "example": "€1,600",
+                  "from": {
+                    "exercise": "3.4",
+                    "field": "income",
+                    "column": "new_life"
+                  }
+                },
+                {
+                  "id": "costs",
+                  "label": "2. My costs per month in my new life (from 3.2)",
+                  "example": "€2,000",
+                  "from": {
+                    "exercise": "3.2",
+                    "field": "costs",
+                    "column": "new_life"
+                  }
+                },
+                {
+                  "id": "balance",
+                  "label": "3. Left over or short each month (1 minus 2)",
+                  "example": "€400 short",
+                  "formula": "income - costs",
+                  "format": "left_or_short"
+                }
+              ]
+            },
+            {
+              "id": "savings",
+              "type": "calculation",
+              "rows": [
+                {
+                  "id": "savings",
+                  "label": "4. Savings I can use within a month",
+                  "example": "€30,000",
+                  "input": "money"
+                },
+                {
+                  "id": "one_time",
+                  "label": "5. Minus: the one-time cost of the change (from 3.3)",
+                  "example": "− €6,000",
+                  "from": {
+                    "exercise": "3.3",
+                    "field": "one_time",
+                    "column": "amount"
+                  }
+                },
+                {
+                  "id": "deposits",
+                  "label": "6. Minus: deposits, money I pay now and may only get back much later",
+                  "example": "− €1,650",
+                  "input": "money"
+                },
+                {
+                  "id": "reserve",
+                  "label": "7. Minus: my reserve, money I keep for emergencies and not to live on",
+                  "example": "− €6,000",
+                  "input": "money"
+                },
+                {
+                  "id": "available",
+                  "label": "8. Savings left to live on (4 minus 5, 6 and 7)",
+                  "example": "€16,350",
+                  "formula": "savings - one_time - deposits - reserve"
+                }
+              ]
+            },
+            {
+              "id": "months",
+              "type": "calculation",
+              "rows": [
+                {
+                  "id": "months",
+                  "label": "9. Months my savings can cover: line 8 divided by the amount I am short (line 3)",
+                  "example": "€16,350 ÷ €400 = about 40 months",
+                  "formula": "available / -balance",
+                  "condition": "balance < 0",
+                  "format": "months"
+                }
+              ]
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            },
+            {
+              "id": "money_time",
+              "type": "heading"
+            },
+            {
+              "id": "hours_for_fixed",
+              "type": "long_text"
+            },
+            {
+              "id": "income_fixed_place",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "money_picture",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "p4",
+      "number": 4,
+      "label": "Part 4",
+      "title": "Compare your options",
+      "time": "30–45 min",
+      "video": {
+        "title": "Part 4 · Compare your options",
+        "length": "8–12 min",
+        "url": null
+      },
+      "finish": {
+        "id": "options",
+        "title": "My Options",
+        "description": "The options worth investigating, and what you need to learn about them."
+      },
+      "exercises": [
+        {
+          "id": "4.1",
+          "title": "Your options",
+          "fields": [
+            {
+              "id": "options",
+              "type": "table",
+              "row_count": 4,
+              "columns": [
+                {
+                  "id": "option",
+                  "kind": "text"
+                },
+                {
+                  "id": "not_sure",
+                  "kind": "text"
+                },
+                {
+                  "id": "test",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4.2",
+          "title": "Check your options against your must-haves",
+          "fields": [
+            {
+              "id": "must_have_check",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                {
+                  "id": "a",
+                  "kind": "choice"
+                },
+                {
+                  "id": "b",
+                  "kind": "choice"
+                },
+                {
+                  "id": "c",
+                  "kind": "choice"
+                },
+                {
+                  "id": "d",
+                  "kind": "choice"
+                }
+              ]
+            },
+            {
+              "id": "overview",
+              "type": "table",
+              "row_count": 4,
+              "columns": [
+                {
+                  "id": "dealbreaker",
+                  "kind": "text"
+                },
+                {
+                  "id": "essentials",
+                  "kind": "text"
+                },
+                {
+                  "id": "feeling",
+                  "kind": "number"
+                },
+                {
+                  "id": "cost",
+                  "kind": "money"
+                },
+                {
+                  "id": "risk",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "staying",
+              "type": "table",
+              "rows": 1,
+              "columns": [
+                {
+                  "id": "protects",
+                  "kind": "long_text"
+                },
+                {
+                  "id": "costs",
+                  "kind": "long_text"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "options",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "p5",
+      "number": 5,
+      "label": "Part 5",
+      "title": "Choose your working direction",
+      "time": "30 min",
+      "video": {
+        "title": "Part 5 · Choose your working direction",
+        "length": "8–10 min",
+        "url": null
+      },
+      "finish": {
+        "id": "working_direction",
+        "title": "My Working Direction",
+        "description": "What you want to explore, what you take with you, and your next step."
+      },
+      "exercises": [
+        {
+          "id": "5.1",
+          "title": "My Working Direction",
+          "fields": [
+            {
+              "id": "life_picture",
+              "type": "long_text"
+            },
+            {
+              "id": "choice",
+              "type": "single_choice"
+            },
+            {
+              "id": "directions",
+              "type": "long_text"
+            },
+            {
+              "id": "why",
+              "type": "long_text"
+            },
+            {
+              "id": "essentials",
+              "type": "long_text"
+            },
+            {
+              "id": "assumptions",
+              "type": "long_text"
+            },
+            {
+              "id": "learn_next",
+              "type": "long_text"
+            },
+            {
+              "id": "willing_to_give",
+              "type": "long_text"
+            },
+            {
+              "id": "helpers",
+              "type": "short_text"
+            },
+            {
+              "id": "first_question",
+              "type": "long_text"
+            },
+            {
+              "id": "next_step",
+              "type": "short_text"
+            },
+            {
+              "id": "step_learning",
+              "type": "short_text"
+            },
+            {
+              "id": "date",
+              "type": "short_text"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text"
+            },
+            {
+              "id": "continue_or_stop",
+              "type": "long_text"
+            },
+            {
+              "id": "two_years",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "5.2",
+          "title": "The people involved",
+          "optional": true,
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 2,
+              "columns": [
+                {
+                  "id": "person",
+                  "kind": "text"
+                },
+                {
+                  "id": "shared",
+                  "kind": "text"
+                },
+                {
+                  "id": "differ",
+                  "kind": "text"
+                },
+                {
+                  "id": "concerns",
+                  "kind": "text"
+                },
+                {
+                  "id": "agreed",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

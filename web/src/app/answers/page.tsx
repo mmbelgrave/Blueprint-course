@@ -11,24 +11,38 @@ import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { exerciseAnswerLines } from "@/lib/answer-text";
 import { displayTitle, partItems, PRODUCT, steps } from "@/lib/content";
+import { useStepsContent } from "@/lib/use-step-content";
 
 export default function MyAnswers() {
   const { answers, profile, statuses } = useApp();
+  /*
+   * The questions live on the server now, so they are asked for. A free account
+   * gets back only the pages that are free, which is exactly the set they can
+   * have written anything on.
+   */
+  const words = useStepsContent(steps.map((s) => s.step.number));
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 
   // Only the steps this person actually wrote in: an empty step is noise.
   const written = steps
-    .map((step) => ({
-      step,
-      parts: step.parts
-        .map((part) => ({
-          part,
-          pages: partItems(part)
-            .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id]) }))
-            .filter((p) => p.lines.length > 0),
-        }))
-        .filter((p) => p.pages.length > 0),
-    }))
+    .map((step) => {
+      const full = words.ready.get(step.step.number);
+      const pagesOf = (partId: string) => {
+        const part = full?.parts.find((p) => p.id === partId);
+        return part ? partItems(part) : [];
+      };
+      return {
+        step,
+        parts: step.parts
+          .map((part) => ({
+            part,
+            pages: pagesOf(part.id)
+              .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id], page) }))
+              .filter((p) => p.lines.length > 0),
+          }))
+          .filter((p) => p.pages.length > 0),
+      };
+    })
     .filter((s) => s.parts.length > 0);
 
   const pagesDone = Object.values(statuses).filter((s) => s === "done").length;
@@ -62,7 +76,9 @@ export default function MyAnswers() {
             </p>
           </header>
 
-          {written.length === 0 ? (
+          {words.loading ? (
+            <p className="py-10 text-center text-stone">One moment…</p>
+          ) : written.length === 0 ? (
             <p className="mt-6 text-stone">
               You have not written anything yet. Once you do, it all appears here.{" "}
               <Link href="/dashboard" className="underline">

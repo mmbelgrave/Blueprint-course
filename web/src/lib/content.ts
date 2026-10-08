@@ -1,8 +1,8 @@
 // Typed access to the workbook content: Step 1 (Picture, workbook v19) and
 // Step 2 (Explore, workbook v8). The JSON files are copied from the project
 // folder by scripts/sync-content.mjs — never edit the copies.
-import step1Raw from "@/content/step1-content.json";
-import step2Raw from "@/content/step2-content.json";
+import step1Spine from "@/content/spine/step1.json";
+import step2Spine from "@/content/spine/step2.json";
 import journeyRaw from "@/content/journey.json";
 import appGuideRaw from "@/content/app-guide.json";
 
@@ -285,18 +285,22 @@ export const stepOnlyBullets = (bullets: string[]) => bullets.filter((b) => !SHA
 export const stepIsOpen = (n: number) => journey.steps.some((s) => s.number === n && s.in_app);
 
 /*
- * Only released steps are imported here, because whatever this file imports is
- * compiled into JavaScript that anyone can fetch without signing in — no
- * account, no cookie. Step 3 is written but not released, so it is not in this
- * list and its text is nowhere in the browser.
+ * The browser gets the SHAPE of the workbook, never the words (review round 4,
+ * finding 1). Whatever this file imports is compiled into JavaScript anyone can
+ * fetch with no account and no cookie, so the prose is not here: a screen that
+ * shows text asks /api/content for the one page it is showing, and the access
+ * layer decides whether it may have it.
  *
- * To release a step: add its import above and its name here, and set in_app in
+ * What is here is what navigation, the page counter and the progress bars need:
+ * which steps, parts and pages exist, in what order, and what kind of field
+ * sits where. Page titles are included — they are on the sales page already,
+ * and a list of bare numbers would be unusable to the person who paid.
+ *
+ * Only released steps, so an unreleased one is not even shaped here.
+ * To release a step: add its spine above and its name here, and set in_app in
  * journey.json. Both, or it will not appear.
- *
- * This is a stopgap. The real fix is to stop sending the words to the browser
- * at all until the access layer says they may be sent — see lib/content-server.
  */
-export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];
+export const steps: StepContent[] = [step1Spine, step2Spine] as unknown as StepContent[];
 
 export function getStep(number: number): StepContent | undefined {
   return steps.find((s) => s.step.number === number);
@@ -317,7 +321,7 @@ function summaryNumber(part: Part): string {
 }
 
 /** A part summary as a page, so it behaves like any other exercise. */
-function summaryAsExercise(part: Part, s: Summary): Exercise {
+export function summaryAsExercise(part: Part, s: Summary): Exercise {
   return {
     id: s.id,
     kind: "summary",

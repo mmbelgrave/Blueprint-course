@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/cards";
 import { ClosedStep } from "@/components/closed-step";
 import { isFree, pageFor } from "@/lib/access-app";
+import { usePageContent } from "@/lib/use-page-content";
 import { FieldInput, formatMoney, tableFieldTotal } from "@/components/fields";
 import { PartnerPanel } from "@/components/PartnerPanel";
 import { RequireUser, Shell } from "@/components/Shell";
@@ -14,7 +15,6 @@ import {
   asList,
   displayNumber,
   displayTitle,
-  exerciseFields,
   findExercise,
   partItems,
   setupKey,
@@ -41,16 +41,19 @@ function Fields({
   exercise,
   block,
   drafts = {},
+  sources = {},
 }: {
   storeId: string;
   exercise: Exercise;
   block: Block;
   drafts?: Drafts;
+  /** Fields from an earlier step this page offers to copy forward. */
+  sources?: Record<string, Field>;
 }) {
   const { answers, entitlements, profile, setAnswer } = useApp();
   const free = isFree(entitlements);
   const values = answers[storeId] ?? {};
-  const baseExtras = fieldExtras(exercise, answers);
+  const baseExtras = fieldExtras(exercise, answers, sources);
   // An AI partner draft is offered next to its box; the person decides.
   const extrasFor = (field: Field) =>
     drafts[field.id]
@@ -207,11 +210,11 @@ function SaveIndicator() {
 }
 
 /** Step 1 3.5 Go deeper: new-life costs from 3.2 plus 30%. */
-function DeeperHint({ exercise }: { exercise: Exercise }) {
+function DeeperHint({ exercise, sources }: { exercise: Exercise; sources: Record<string, Field> }) {
   const { answers, profile } = useApp();
   if (exercise.id !== "3.5" || !exercise.go_deeper?.auto_hint) return null;
-  const source = findExercise("3.2");
-  const field = source && exerciseFields(source.exercise).find((f) => f.id === "costs");
+  // 3.2 itself is not in the browser; the server sends the one field this adds up.
+  const field = sources["3.2.costs"];
   if (!field) return null;
   const t = tableFieldTotal(field, answers["3.2"]?.costs, "new_life");
   if (!t.filled) return null;
@@ -225,11 +228,10 @@ function DeeperHint({ exercise }: { exercise: Exercise }) {
 }
 
 /** Step 2 3.1: the Step 1 new-life total next to the money check (for the 20% check). */
-function Step1MoneyHint({ exercise }: { exercise: Exercise }) {
+function Step1MoneyHint({ exercise, sources }: { exercise: Exercise; sources: Record<string, Field> }) {
   const { answers, profile } = useApp();
   if (exercise.id !== "s2-3.1") return null;
-  const source = findExercise("3.2");
-  const field = source && exerciseFields(source.exercise).find((f) => f.id === "costs");
+  const field = sources["3.2.costs"];
   if (!field) return null;
   const t = tableFieldTotal(field, answers["3.2"]?.costs, "new_life");
   if (!t.filled) return null;
@@ -244,8 +246,16 @@ function Step1MoneyHint({ exercise }: { exercise: Exercise }) {
 
 function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exerciseId: string }) {
   const { entitlements } = useApp();
+  /*
+   * The browser knows the shape of this page but not a word of it (round 4,
+   * finding 1). The words come from /api/content, which asks the access layer
+   * the same question this screen asks, so a refusal here and a refusal there
+   * can never disagree.
+   */
+  const page = usePageContent(exerciseId);
   const verdict = pageFor(exerciseId, stepNumber, entitlements);
   if (!verdict.open) return <ClosedStep step={stepNumber} why={verdict.why} />;
+
   const found = findExercise(exerciseId);
   if (!found || found.step.step.number !== stepNumber) {
     return (
@@ -254,10 +264,34 @@ function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exercise
       </p>
     );
   }
-  return <ExerciseBody located={found} />;
+
+  if (page.state === "refused") {
+    return (
+      <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
+        <p>{page.because}</p>
+        <Link href="/dashboard" className="btn btn-primary">
+          Back to the overview
+        </Link>
+      </div>
+    );
+  }
+  if (page.state === "loading") return <p className="py-16 text-center text-stone">One moment…</p>;
+
+  /*
+   * The shape came from the spine, the words from the server. The part keeps
+   * its page list from the spine — navigation needs to know which pages follow
+   * this one, and those pages' words are not this person's to have yet.
+   */
+  const part = { ...page.content.part, exercises: found.part.exercises, summary: found.part.summary };
+  return (
+    <ExerciseBody
+      located={{ step: found.step, part, exercise: page.content.exercise }}
+      sources={page.content.sources ?? {}}
+    />
+  );
 }
 
-function ExerciseBody({ located }: { located: Located }) {
+function ExerciseBody({ located, sources }: { located: Located; sources: Record<string, Field> }) {
   const { step, part, exercise } = located;
   const stepNumber = step.step.number;
   const { user, entitlements, statuses, setStatus } = useApp();
@@ -394,12 +428,18 @@ function ExerciseBody({ located }: { located: Located }) {
               <Paragraphs text={exercise.start_here.prompt} />
             </div>
             <Bullets items={exercise.start_here.bullets} className="text-stone" />
-            <Step1MoneyHint exercise={exercise} />
+            <Step1MoneyHint exercise={exercise} sources={sources} />
             {asList(exercise.example).map((ex) => (
               <ExampleFold key={ex.who + ex.text.slice(0, 20)} example={ex} />
             ))}
             {canDraft && <DraftHelper pageId={exercise.id} onDrafts={setDrafts} />}
-            <Fields storeId={exercise.id} exercise={exercise} block={exercise.start_here} drafts={drafts} />
+            <Fields
+              storeId={exercise.id}
+              exercise={exercise}
+              block={exercise.start_here}
+              drafts={drafts}
+              sources={sources}
+            />
             {exercise.start_here.closing && <p className="text-stone">{exercise.start_here.closing}</p>}
           </section>
         )}
@@ -432,9 +472,9 @@ function ExerciseBody({ located }: { located: Located }) {
             title={`Go deeper (optional)${exercise.go_deeper.title ? ` · ${exercise.go_deeper.title}` : ""}`}
           >
             <Paragraphs text={exercise.go_deeper.prompt} />
-            <DeeperHint exercise={exercise} />
+            <DeeperHint exercise={exercise} sources={sources} />
             <div className="pt-2">
-              <Fields storeId={exercise.id} exercise={exercise} block={exercise.go_deeper} />
+              <Fields storeId={exercise.id} exercise={exercise} block={exercise.go_deeper} sources={sources} />
             </div>
             {exercise.go_deeper.story && (
               <div className="mt-4 rounded-xl bg-sage p-4">
@@ -581,6 +621,9 @@ function ExerciseBody({ located }: { located: Located }) {
 
 export default function ExercisePage() {
   const { step, exerciseId } = useParams<{ step: string; partId: string; exerciseId: string }>();
+  // Asked for here, outside RequireUser, so the words travel while the account
+  // is being checked rather than after it. The answer is read further down.
+  usePageContent(decodeURIComponent(exerciseId));
   return (
     <Shell wide>
       <RequireUser>
