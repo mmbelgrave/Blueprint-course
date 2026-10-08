@@ -3,6 +3,7 @@
 // folder by scripts/sync-content.mjs — never edit the copies.
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
+import step3Raw from "@/content/step3-content.json";
 import journeyRaw from "@/content/journey.json";
 import appGuideRaw from "@/content/app-guide.json";
 
@@ -284,7 +285,7 @@ export const stepOnlyBullets = (bullets: string[]) => bullets.filter((b) => !SHA
  */
 export const stepIsOpen = (n: number) => journey.steps.some((s) => s.number === n && s.in_app);
 
-export const steps: StepContent[] = [step1Raw, step2Raw] as unknown as StepContent[];
+export const steps: StepContent[] = [step1Raw, step2Raw, step3Raw] as unknown as StepContent[];
 
 export function getStep(number: number): StepContent | undefined {
   return steps.find((s) => s.step.number === number);

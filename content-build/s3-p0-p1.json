@@ -1,0 +1,509 @@
+[
+  {
+    "id": "s3-p0",
+    "number": 0,
+    "label": "Start",
+    "title": "The decision on the table",
+    "promise": "A clear decision starts with a clear question.",
+    "intro_title": "Why the question matters",
+    "intro": [
+      "\"Should I move to Portugal?\" sounds like one question. It is usually several. Move for good, or for a trial year? Rent first, or buy? This year, or in two years? On your own, or with your family? If the question is vague, the answer will be vague too.",
+      "Write the decision down as precisely as you can. Include what \"go\" would mean, and when you want to decide. Then you know exactly what you are testing in the rest of this step."
+    ],
+    "time": "30–40 min",
+    "route_title": "Bring your work together and name the decision",
+    "finish": {
+      "id": "decision_question",
+      "title": "My Decision Question",
+      "description": "The exact decision you are testing in this step."
+    },
+    "exercises": [
+      {
+        "id": "s3-0.1",
+        "number": "0.1",
+        "title": "The decision on the table",
+        "start_here": {
+          "fields": [
+            {
+              "id": "a_heading",
+              "type": "heading",
+              "marker": "A",
+              "label": "Bring your work with you",
+              "hint": "Copy the most important lines from Steps 1 and 2. You will use them in every part of this step, and this step then holds your whole decision in one place."
+            },
+            {
+              "id": "life_picture",
+              "type": "long_text",
+              "lines": 3,
+              "label": "My life picture in three sentences (Step 1)",
+              "copy_from": { "step": 1, "exercise": "5.1", "field": "life_picture" }
+            },
+            {
+              "id": "must_haves",
+              "type": "long_text",
+              "lines": 2,
+              "label": "My must-haves (Step 1)",
+              "copy_from": { "step": 1, "exercise": "1.4", "field": "must_haves" }
+            },
+            {
+              "id": "dealbreakers",
+              "type": "long_text",
+              "lines": 2,
+              "label": "My dealbreakers (Step 1)",
+              "copy_from": { "step": 1, "exercise": "1.4", "field": "dealbreakers" }
+            },
+            {
+              "id": "the_place",
+              "type": "long_text",
+              "lines": 2,
+              "label": "The place I want to go further with (Step 2)",
+              "copy_from": { "step": 2, "exercise": "5.1", "field": "place" }
+            },
+            {
+              "id": "still_unknown",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What is still unknown about it (Step 2)",
+              "copy_from": { "step": 2, "exercise": "5.1", "field": "unknowns" }
+            },
+            {
+              "id": "monthly_costs",
+              "type": "long_text",
+              "lines": 2,
+              "label": "My monthly costs there, and how sure I am (known / estimate / unknown)"
+            },
+            {
+              "id": "confirmed_income",
+              "type": "short_text",
+              "label": "My confirmed income there, per month"
+            },
+            {
+              "id": "savings_reachable",
+              "type": "short_text",
+              "label": "Savings I can use within a month"
+            },
+            {
+              "id": "b_heading",
+              "type": "heading",
+              "marker": "B",
+              "label": "What exactly am I deciding?"
+            },
+            {
+              "id": "the_option",
+              "type": "long_text",
+              "lines": 2,
+              "label": "The option I am deciding on (from Step 2)"
+            },
+            {
+              "id": "what_go_means",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What \"go\" would mean: move for good, trial period, rent or buy"
+            },
+            { "id": "when_roughly", "type": "short_text", "label": "When I would go, roughly" },
+            { "id": "who_decides", "type": "short_text", "label": "Who decides with me" },
+            { "id": "decide_by", "type": "short_text", "label": "The date I want to decide by" },
+            {
+              "id": "if_not_yet",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I will do if I decide \"not yet\" or \"no\""
+            }
+          ]
+        },
+        "tables": [
+          {
+            "place": "before",
+            "rows": [
+              [
+                "Two places from Step 2?",
+                "Keep them side by side. Fill in this page, the five green lights and both money checks once for each place. Then decide per place: go, not yet or no. The stress test in Part 2 and the final check in Part 4 help you choose between them."
+              ]
+            ]
+          }
+        ],
+        "example": {
+          "who": "Lotte and Ben, 44 and 47",
+          "text": "Option: move to the Silver Coast with our two children. \"Go\" means renting for one year first, then deciding whether to buy. When: next summer, at the start of the school year. We decide together; the children get a say, but not a vote. Decide by: 31 March. If \"not yet\" or \"no\": we both try a four-day week and spend a long summer in Portugal each year."
+        },
+        "tips": [
+          "A trial year is a real option. Renting for a year, keeping your home and keeping your work options open lets you test the life before you commit to it. It costs more in the short term, and it can save you a great deal later."
+        ]
+      }
+    ],
+    "result": "My Decision Question — the exact decision you are testing in this step."
+  },
+  {
+    "id": "s3-p1",
+    "number": 1,
+    "label": "Part 1",
+    "title": "Five green lights",
+    "promise": "Five checks. Each one green, amber or red.",
+    "intro_title": "Why five lights, and not one feeling",
+    "intro": [
+      "It is easy to feel ready before checking the practical details. Feelings matter, and you tested yours in Step 2. But a feeling cannot tell you whether your savings will last, whether your papers are in order, or whether your partner is really on board.",
+      "The five green lights split the decision into parts you can check: money, papers, people, place and your Plan B. You do not need five greens to start preparing. You need to know which lights are amber, and what will turn them green."
+    ],
+    "time": "3–5 hours",
+    "route_title": "Check your five green lights",
+    "finish": {
+      "id": "green_lights",
+      "title": "My Green Lights",
+      "description": "Five checks, each with a colour, a next action and a date."
+    },
+    "exercises": [
+      {
+        "id": "s3-1.1",
+        "number": "1.1",
+        "title": "Money",
+        "kicker": "Can you afford the change, and the life after it?",
+        "intro": [
+          "In Step 1 you made a first money picture. In Step 2 you replaced guesses with real costs. Now you turn those numbers into a decision: does the money carry this plan, and for how long?",
+          "Look at three things. The one-time cost of the move. The monthly cost of your new life, compared with the income you can count on. And your reserve: money you keep aside, so one bad month or a delay does not end the plan.",
+          "Only confirmed income counts: income you have evidence will continue in your new situation. Agreed income gets its own line, with the month it starts, but it does not go into the check yet. Hoped-for income stays out, as in Step 1."
+        ],
+        "start_here": {
+          "prompt": "Check one: can your savings carry the change itself? Include the cost of deciding: viewing trips, advisers, translations, a second visit, and paying rent in two places for a while. People budget the move and forget the deciding.",
+          "fields": [
+            {
+              "id": "check_one",
+              "type": "table",
+              "row_header": "Check one",
+              "row_labels": [
+                "Savings I can use within a month",
+                "Minus: the cost of deciding",
+                "Minus: the one-time cost of the move",
+                "Minus: deposits, money I pay now and may only get back much later",
+                "Minus: my reserve",
+                "Minus: my return fund (from Plan B, kept apart)",
+                "Savings left to live on"
+              ],
+              "columns": [{ "id": "amount", "label": "Amount", "kind": "money" }]
+            },
+            {
+              "id": "check_two",
+              "type": "table",
+              "row_header": "Check two",
+              "hint": "Check two: does your confirmed income cover the month? Mark every cost known, estimate or unknown. An unknown means the check is not finished yet.",
+              "row_labels": [
+                "My confirmed income per month in the new place",
+                "Agreed income, and the month it starts (not counted yet)",
+                "My costs per month in the new place (known / estimate / unknown)",
+                "Left over or short each month",
+                "If short: how many months my savings left to live on can cover (my runway)",
+                "The runway I want, in months (my choice)",
+                "If everything costs 30% more: what changes?"
+              ],
+              "columns": [{ "id": "answer", "label": "My answer", "kind": "text" }]
+            },
+            {
+              "id": "adviser_questions",
+              "type": "long_text",
+              "lines": 4,
+              "hint": "Some money questions are expert work. Write down what you want to ask a tax adviser, ideally one who knows both countries."
+            },
+            {
+              "id": "money_light",
+              "type": "single_choice",
+              "label": "My money light",
+              "options": ["Green", "Amber", "Red"]
+            },
+            {
+              "id": "money_green_by",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would turn it green, and by when"
+            }
+          ],
+          "bullets": [
+            "Where will I be tax resident, and from when?",
+            "What happens to my income, pension or company when I move?",
+            "What happens to tax when I sell my home, or to my savings and investments?",
+            "Are there special tax rules for newcomers, and do they apply to me? These rules change often."
+          ]
+        },
+        "intro_after": "If your confirmed income already covers your monthly costs, write \"covered\" as your runway. Check one still applies: your savings must still carry the move, your reserve and your return fund.",
+        "closing": "Green means: check one is above zero, including the cost of deciding and your reserve, and your runway, counting confirmed income only, is at least the number of months you chose, or your confirmed income covers the month.",
+        "tips": [
+          "Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. The amounts in the examples are made up to show how the check works."
+        ],
+        "example": {
+          "who": "Lotte and Ben, 44 and 47",
+          "text": "Check one: savings €56,000, minus €3,000 for deciding (two trips, a lawyer, translations), €8,000 for the move, €3,000 in deposits and a €12,000 reserve (about four months of costs) and a €7,000 return fund, kept apart for Plan B. Left to live on: €23,000. Check two: confirmed income €2,400 from Ben's remote contract. Agreed: €900 a month for Lotte from October, not counted yet. Costs: €2,900 a month, rent known, school costs an estimate. Short: €500 a month, so the runway is 46 months. The runway we want: 12 months. If everything costs 30% more, we are €1,370 short and the runway drops to about 17 months, still above what we want. Our light: amber, until Lotte's income is confirmed."
+        },
+        "story": {
+          "status": "ready",
+          "text": "Before I moved, I made sure I had twelve months of living costs saved. I explained why in Step 1. What I learned here is that structure matters as much as savings. In my first year in Portugal, with the help of an accountant, I set up a Portuguese company. I use it for my consultancy work, and later for the farm and rural tourism I have in mind. It also made sense for the costs of the land and the renovation. That was the right choice for me, after advice. Your situation may be completely different, which is exactly why this is a question for an adviser, not for a forum."
+        },
+        "expert_work": "Tax rules for newcomers change often, and the right answer depends on your income, your assets and both countries involved. Talk to a qualified tax adviser before you move money, sell property, set up a company or change where you pay tax."
+      },
+      {
+        "id": "s3-1.2",
+        "number": "1.2",
+        "title": "Papers",
+        "kicker": "Can you legally live there, and do you have the basics in place?",
+        "intro": [
+          "Paperwork takes time, and some steps depend on others. Many of them can start before you move.",
+          "In Step 2 you checked whether you are allowed to live in the country. Here you list everything you will need, in which order, and how long each step takes."
+        ],
+        "start_here": {
+          "prompt": "Tick what applies to you. For each item, write whether it is done, in progress or not started, and how long it takes.",
+          "fields": [
+            {
+              "id": "papers",
+              "type": "table",
+              "row_header": "What I need",
+              "row_labels": [
+                "Tax number (in Portugal: NIF)",
+                "A bank account that works for payments there",
+                "Right to live there: visa, residence permit or EU registration",
+                "Proof of address",
+                "Health cover: public registration and private insurance",
+                "Social security (if you work or run a business)",
+                "Driving licence: still valid, or to exchange",
+                "School places for children",
+                "Travel papers for pets",
+                "Deregistering at home: tax, health, address"
+              ],
+              "columns": [
+                { "id": "applies", "label": "Applies to me?", "kind": "choice", "options": ["Yes", "No"] },
+                {
+                  "id": "state",
+                  "label": "Done, in progress or not started",
+                  "kind": "choice",
+                  "options": ["Done", "In progress", "Not started"]
+                },
+                { "id": "how_long", "label": "How long it takes", "kind": "text" }
+              ]
+            },
+            {
+              "id": "papers_light",
+              "type": "single_choice",
+              "label": "My papers light",
+              "options": ["Green", "Amber", "Red"]
+            },
+            {
+              "id": "papers_green_by",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would turn it green, and by when"
+            }
+          ]
+        },
+        "closing": "Green means: you have confirmed your own route on the official page and written down the date you checked it, you have the full list of documents, and you know the order and how long each step takes.",
+        "where_to_check": [
+          "For Portugal, two different routes exist, and people mix them up. With an EU, EEA, Andorran or Swiss passport, you can live there and register at the câmara municipal for a registration certificate (see aima.gov.pt). With any other passport, you normally need a visa before you travel (vistos.mne.gov.pt), and then apply for a residence permit with AIMA. For everyone: you can request a tax number (NIF) through the Portal das Finanças or gov.pt, also from abroad; your health service user number (número de utente) comes through your local health centre (gov.pt, sns.gov.pt); for driving licences, see imt-ip.pt. Checked 28 September 2026."
+        ],
+        "tips": [
+          "Do things in the right order. Some steps depend on others. In Portugal, a tax number usually comes first, because you need it for a bank account, a rental contract or a purchase."
+        ],
+        "story": {
+          "status": "ready",
+          "text": "I started before I moved. I arranged my Portuguese tax number through an online service, and I made sure I had a bank account that worked for international payments. You need both to buy land. With the help of an agent, who checked the essential land papers, and a lawyer, I signed the promissory contract about two months after my trip, during my first long stay, and the deed at the notary about three months later. Registering the sale then took only about a month. That winter, the parish council (junta de freguesia) confirmed my address, and with that letter the câmara municipal issued my EU registration certificate. My tax number was first registered with my Bali address, so I changed that too. Early the next year, I set up my company with an accountant, which also brought my social security numbers and Portuguese bank accounts. My health insurance followed a few months later, and after that my number for the public health service. Once I started, the paperwork for living here took about four months."
+        }
+      },
+      {
+        "id": "s3-1.3",
+        "number": "1.3",
+        "title": "People",
+        "kicker": "Who comes with you, who stays behind, and who will be there?",
+        "intro": [
+          "A move changes more lives than your own. A partner who agrees at the kitchen table can feel very different in the first wet winter. Children, parents and close friends are part of the decision, even when they are not part of the move.",
+          "There is a second side to this light: the people you will have there. In a new place, you start without the network you built over the years. Who will you call when the car breaks down, when you need a doctor, or when you get bad news?",
+          "Each person who moves with you fills in their own page first, before you talk together, as in Steps 1 and 2. Involve children in a way that fits their age: young children need to hear what will stay the same, and teenagers need a real voice in the choice of place and school. They get a say, even when they do not get a vote."
+        ],
+        "start_here": {
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                { "id": "who", "label": "Person or group", "kind": "text" },
+                { "id": "means", "label": "What this move means for them", "kind": "text" },
+                { "id": "needs", "label": "What they need in order to say yes", "kind": "text" },
+                { "id": "stand", "label": "Where we stand", "kind": "text" }
+              ]
+            },
+            {
+              "id": "who_will_be_there",
+              "type": "long_text",
+              "lines": 4,
+              "hint": "Now the second question: who will be there for you in the first year? Write down the people or groups you already know there, and how you will meet more."
+            },
+            {
+              "id": "people_light",
+              "type": "single_choice",
+              "label": "My people light",
+              "options": ["Green", "Amber", "Red"]
+            },
+            {
+              "id": "people_green_by",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would turn it green, and by when"
+            }
+          ]
+        },
+        "closing": "Green means: everyone the move affects has done their own thinking, you have talked it through together, and what each person needs in order to say yes is in place or planned.",
+        "talk": "Ask your partner, or the person closest to you, three questions. What are you most looking forward to? What worries you most? What would make you want to go back? Listen first, and write their answers down in their own words.",
+        "story": {
+          "status": "ready",
+          "text": "I went through the whole process on my own, and that is one reason this Blueprint exists. But I was not alone for long. The owners who sold me the land and I clicked from the first day, and they have helped me with many things. The English couple whose Airbnb I stayed in had made the same move years before; he gave me the contact of my accountant. In my first months in Portugal, I lost my mother. When she was ill, the life I had built gave me the freedom to fly back and spend real time with her. When I lost her, these new friends, together with my closest friend, carried me through. Today they are family."
+        }
+      },
+      {
+        "id": "s3-1.4",
+        "number": "1.4",
+        "title": "Place",
+        "kicker": "Does the place still fit, now that you know it better?",
+        "intro": [
+          "In Step 2 you researched your place and tested it with your own eyes. This light asks a harder question: are you sure enough to commit, and to what? A place you visited for two weeks is not yet a place you know.",
+          "The bigger the commitment, the more certain you need to be. Renting for a year asks for less certainty than buying. Buying land to build on asks for more certainty than buying a finished house. Match the step to what you know."
+        ],
+        "start_here": {
+          "fields": [
+            { "id": "place", "type": "long_text", "lines": 1, "label": "The place I am deciding on" },
+            { "id": "known", "type": "long_text", "lines": 2, "label": "What is known about it" },
+            {
+              "id": "estimate_unknown",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What is still an estimate or unknown"
+            },
+            {
+              "id": "off_season",
+              "type": "long_text",
+              "lines": 2,
+              "label": "Have I seen it outside the high season? When?"
+            },
+            { "id": "rent_or_buy", "type": "long_text", "lines": 2, "label": "Rent first or buy, and why" },
+            {
+              "id": "change_my_mind",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would make me change my mind about this place"
+            },
+            {
+              "id": "place_light",
+              "type": "single_choice",
+              "label": "My place light",
+              "options": ["Green", "Amber", "Red"]
+            },
+            {
+              "id": "place_green_by",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would turn it green, and by when"
+            }
+          ]
+        },
+        "closing": "Green means: the place still meets your must-haves after your test visit, you have seen it outside the high season, and what you commit to, renting or buying, matches what you know.",
+        "tips": [
+          "Rent first if you can. A year in a rented home shows you the winters, the neighbours and the drive to the hospital before you own anything. If you want to buy, you can look for the right property while you live there.",
+          "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next one is strict. Before you buy, try to meet the engineer who will handle your plans, tell them your ideas, and listen. At the very least, find out how that câmara usually works. It can make the difference between a smooth process and many rounds of changes."
+        ],
+        "story": {
+          "status": "ready",
+          "text": "I did it the other way round. I bought before I moved, so renting to test the area was not part of my route. I would still recommend it to most people. What gave me confidence was that the plot came with a renovation project for the ruin that the previous owners had already had approved. In Portugal, getting a project approved can easily take two years. It was one of the main reasons I chose this plot. Once the project was transferred to my name and I had chosen a contractor, I received the building permit. My design differed from theirs in places, but after a conversation with the câmara, we could start. One thing I would do differently: I only checked my other plans later. About half a year after I moved, I submitted a request for prior information (pedido de informação prévia, PIP) for storage, a garage and a few cabins for rural tourism. New-build cabins turned out not to be possible, because of the rules of the Serra da Estrela nature park. My plans had changed by then, so it did not hurt much. But if you have specific plans for a property, ask for a PIP before the deed, if the owner agrees, and make the promissory contract say you can step out if the answer is no."
+        }
+      },
+      {
+        "id": "s3-1.5",
+        "number": "1.5",
+        "title": "Plan B",
+        "kicker": "What will you do if it does not work out?",
+        "intro": [
+          "Nobody moves planning to fail. That is exactly why your Plan B needs to be written down now, while you are calm, and not later, when you are tired, disappointed or short of money.",
+          "A good Plan B has three parts. What you keep, so going back or moving on stays possible: savings, a reserve, a way to earn. What would tell you it is not working: a warning sign, a number or a date. And what you would do then: go back, try another region, rent instead of own, or move on."
+        ],
+        "start_here": {
+          "fields": [
+            { "id": "keep", "type": "long_text", "lines": 2, "label": "What I keep, so I can change course" },
+            {
+              "id": "return_fund",
+              "type": "long_text",
+              "lines": 2,
+              "label": "My return fund: money to come back or move on, a first month somewhere, and where I would stay"
+            },
+            {
+              "id": "warning_sign",
+              "type": "long_text",
+              "lines": 2,
+              "label": "The warning sign that tells me it is not working"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text",
+              "label": "The date or number when I look at it seriously"
+            },
+            { "id": "what_then", "type": "long_text", "lines": 2, "label": "What I would do then" },
+            { "id": "who_helps", "type": "long_text", "lines": 2, "label": "Who would help me" },
+            {
+              "id": "planb_light",
+              "type": "single_choice",
+              "label": "My Plan B light",
+              "options": ["Green", "Amber", "Red"]
+            },
+            {
+              "id": "planb_green_by",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would turn it green, and by when"
+            }
+          ]
+        },
+        "closing": "Green means: your Plan B is written down, with a named return fund, a warning sign, a review date and the first thing you would do.",
+        "example": {
+          "who": "Lotte and Ben, 44 and 47",
+          "text": "Keep: we rent out our house for the first year instead of selling it. Return fund: €7,000, on top of our reserve and already deducted in our money check, for the move back, a first month in a holiday rental and storage; we could stay with my sister. Warning sign: the children are still unhappy at school after two terms, or we have used more than half of our reserve. Review date: 1 April next year. What then: back to our own house, or a different area in Portugal, closer to an international school. Help: my sister, and the parents we meet through the school."
+        },
+        "story": {
+          "status": "ready",
+          "text": "I did not write down a detailed Plan B, but I did keep a way back. Part of it was financial: enough money set aside that, if it did not work out, I could decide in that moment what to do next, whether that meant renting, travelling or moving to another country. And I kept Bali open. My company and bank accounts there stayed in place, I could apply for a new residence permit through the company, and I kept my international health insurance. I also kept running my inspection business there from Portugal, with people I trust doing the inspections on site. And I had experience. When I came back to the Netherlands from Thailand, I had nothing. I slept at my aunt's for the first months, until I found an apartment and a job. Then I built a life in Bali, and then in Portugal. I knew I could always build my life up again. I also trusted the signs on my path, and that has always worked out for me. But I would not advise you to rely on that alone. Write your Plan B down. You may never need it, and that is the best outcome."
+        }
+      }
+    ],
+    "tables": [
+      {
+        "place": "before",
+        "rows": [
+          ["Green", "Ready. It is known, not an estimate, and you have evidence."],
+          ["Amber", "Not ready yet, but you know what is missing. Write down the next action and a date."],
+          ["Red", "This blocks the option as it stands. Change the option or the timing, or let it go."]
+        ]
+      }
+    ],
+    "summary": {
+      "id": "green_lights",
+      "title": "What does this tell me?",
+      "intro": "Read through your answers, then use these questions to complete the summary below:",
+      "questions": [
+        "Which lights are green, and what is my evidence?",
+        "Which amber light matters most, and what will turn it green?",
+        "Is anything red? Can I change the option or the timing to fix it?"
+      ],
+      "prompt": "Now bring it together in My Green Lights. Short sentences are enough.",
+      "fields": [
+        {
+          "id": "lights",
+          "type": "table",
+          "row_header": "Light",
+          "row_labels": ["Money", "Papers", "People", "Place", "Plan B"],
+          "columns": [
+            {
+              "id": "colour",
+              "label": "Green, amber or red",
+              "kind": "choice",
+              "options": ["Green", "Amber", "Red"]
+            },
+            { "id": "turns_green", "label": "What would turn it green", "kind": "text" },
+            { "id": "by_when", "label": "By when", "kind": "text" }
+          ]
+        }
+      ],
+      "result": "My Green Lights — five checks, each with a colour, a next action and a date."
+    },
+    "video": { "title": "Part 1 · Five green lights", "length": "14–18 min", "url": null }
+  }
+]

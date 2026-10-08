@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My Blueprint · Phase 1 — proposal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pine: #2c3b2f;
+        --sand: #f3ece0;
+        --sage: #e3e1d0;
+        --line: #ddd7c6;
+        --ochre: #8f5410;
+        --ochre-light: #d9a55a;
+        --moss: #5e7a50;
+        --granite: #1c1e1b;
+        --stone: #66625a;
+        --display: "Newsreader", Georgia, serif;
+        --body: "Hanken Grotesk", "Segoe UI", Arial, sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: #cfc8bb;
+        color: var(--granite);
+        font-family: var(--body);
+        font-size: 11pt;
+        line-height: 1.5;
+      }
+
+      .display { font-family: var(--display); font-weight: 400; }
+
+      /* Each sheet is one A4 page, so this file prints exactly as it reads. */
+      .sheet {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 10mm auto;
+        background: #fff;
+        box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .pad { padding: 16mm 18mm; }
+
+      /* ── The cover ───────────────────────────────────────────────── */
+      .cover { background: var(--pine); color: var(--sand); flex: 1; justify-content: space-between; }
+      .cover .kicker {
+        font-size: 9pt;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ochre-light);
+      }
+      .cover h1 { font-family: var(--display); font-size: 44pt; line-height: 1.05; margin: 6mm 0 0; font-weight: 400; }
+      .cover .phase { font-family: var(--display); font-size: 20pt; color: var(--ochre-light); margin-top: 3mm; }
+      .cover .who { margin-top: 10mm; font-size: 11pt; color: rgba(243, 236, 224, 0.85); }
+      .cover .holds { border-top: 1px solid rgba(243, 236, 224, 0.25); margin-top: 12mm; padding-top: 6mm; }
+      .cover .holds li { margin: 2.5mm 0; color: rgba(243, 236, 224, 0.9); }
+      .cover ol { padding-left: 5mm; }
+
+      /* The mark: three terraces stepping up, one ochre dot. */
+      .mark { display: block; }
+
+      /* ── Contents ────────────────────────────────────────────────── */
+      h2.section {
+        font-family: var(--display);
+        font-size: 19pt;
+        color: var(--pine);
+        margin: 0 0 4mm;
+        font-weight: 400;
+      }
+      .lead { color: var(--stone); margin: 0 0 8mm; }
+
+      .contents { border-top: 1px solid var(--line); }
+      .contents .row {
+        display: flex;
+        align-items: baseline;
+        gap: 5mm;
+        padding: 4.5mm 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .contents .num {
+        font-family: var(--display);
+        font-size: 15pt;
+        color: var(--ochre);
+        width: 10mm;
+        flex: none;
+      }
+      .contents .what { flex: 1; }
+      .contents .what strong { font-weight: 600; color: var(--pine); }
+      .contents .what span { display: block; color: var(--stone); font-size: 10pt; }
+      .contents .when { color: var(--stone); font-size: 10pt; white-space: nowrap; }
+
+      .open { background: var(--sage); padding: 7mm 8mm; margin-top: 10mm; }
+      .open h3 { margin: 0 0 3mm; font-size: 11pt; color: var(--pine); }
+      .open ul { margin: 0; padding-left: 5mm; }
+      .open li { margin: 2mm 0; }
+
+      /* ── A step result, the same shape the app already prints ────── */
+      .result-head { background: var(--pine); color: var(--sand); padding: 12mm 18mm 10mm; }
+      .result-head .kicker {
+        font-size: 8.5pt;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ochre-light);
+      }
+      .result-head h2 { font-family: var(--display); font-size: 28pt; margin: 3mm 0 0; font-weight: 400; }
+      .result-head p { margin: 2.5mm 0 0; font-size: 10.5pt; color: rgba(243, 236, 224, 0.85); }
+
+      .pull { border-left: 4px solid var(--ochre); background: rgba(227, 225, 208, 0.5); padding: 5mm 6mm; margin: 0 0 7mm; }
+      .pull .label { font-size: 9.5pt; font-weight: 600; color: var(--pine); }
+      .pull .text { font-family: var(--display); font-size: 14pt; line-height: 1.35; margin-top: 1.5mm; white-space: pre-line; }
+
+      .answer { margin-bottom: 5mm; }
+      .answer .label { font-size: 9.5pt; font-weight: 600; color: var(--ochre); }
+      .answer .text { margin-top: 0.5mm; white-space: pre-line; }
+
+      table { width: 100%; border-collapse: collapse; margin-top: 2mm; font-size: 9.5pt; }
+      th {
+        background: var(--pine);
+        color: var(--sand);
+        text-align: left;
+        font-size: 8.5pt;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 2.5mm 3mm;
+        font-weight: 600;
+      }
+      td { border-bottom: 1px solid var(--line); padding: 2.5mm 3mm; vertical-align: top; }
+
+      /* The five lights of Step 3, as colour rather than as words alone. */
+      .lights { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3mm; margin: 3mm 0 7mm; }
+      .light { border: 1px solid var(--line); padding: 3mm; text-align: center; }
+      .light .dot { width: 7mm; height: 7mm; border-radius: 50%; margin: 0 auto 2mm; }
+      .light .name { font-size: 9.5pt; font-weight: 600; color: var(--pine); }
+      .light .state { font-size: 8.5pt; color: var(--stone); }
+      .green { background: var(--moss); }
+      .amber { background: var(--ochre-light); }
+      .red { background: #a23b30; }
+
+      .foot {
+        margin-top: auto;
+        padding-top: 8mm;
+        border-top: 1px solid var(--line);
+        font-size: 8pt;
+        color: var(--stone);
+      }
+
+      .closing { font-family: var(--display); font-size: 13pt; color: var(--pine); line-height: 1.4; }
+
+      /* Notes to Mwata, which never print. */
+      .note {
+        max-width: 210mm;
+        margin: 0 auto 10mm;
+        background: #2c3b2f;
+        color: #f3ece0;
+        padding: 6mm 8mm;
+        font-size: 10pt;
+        line-height: 1.55;
+      }
+      .note b { color: var(--ochre-light); }
+      .note ul { margin: 3mm 0 0; padding-left: 5mm; }
+      .note li { margin: 1.5mm 0; }
+
+      @media print {
+        body { background: #fff; }
+        .sheet { margin: 0; box-shadow: none; width: auto; min-height: auto; page-break-after: always; }
+        .note { display: none; }
+        @page { size: A4; margin: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="note">
+      <b>A proposal, not the finished thing.</b> This is what “My Blueprint · Phase 1 · Choose it” would look like when
+      someone presses <b>Save as PDF</b> after Step 3. Five sheets: a cover, a contents page that doubles as the honest
+      list of what is still open, then the three step results in order, then the closing page. The answers below are
+      made up. The dark boxes like this one never print.
+      <ul>
+        <li>Each result page is built from the same blocks as today’s step print pages, so changing one changes both.</li>
+        <li>A step that is not finished shows “Not finished yet” with a link, rather than an empty page.</li>
+        <li>The five lights from Step 3 carry their colour, because that is how the workbook teaches them.</li>
+      </ul>
+    </div>
+
+    <!-- ───────────────────────────── 1. Cover ───────────────────────────── -->
+    <section class="sheet cover pad">
+      <div>
+        <svg class="mark" width="78" height="58" viewBox="-10 0 100 74" aria-hidden="true">
+          <path d="M6 58 H74" stroke="#f3ece0" stroke-width="5" stroke-linecap="round" />
+          <path d="M17 45 H63" stroke="#f3ece0" stroke-width="5" stroke-linecap="round" />
+          <path d="M28 32 H52" stroke="#5e7a50" stroke-width="5" stroke-linecap="round" />
+          <circle cx="40" cy="18" r="5.5" fill="#d9a55a" />
+        </svg>
+        <p class="kicker" style="margin-top: 8mm">The Made Real Blueprint · Portugal Edition</p>
+        <h1>My Blueprint</h1>
+        <p class="phase">Phase 1 · Choose it</p>
+        <p class="who">Lotte Jansen · 14 November 2026</p>
+      </div>
+
+      <div class="holds">
+        <p class="kicker">What this document holds</p>
+        <ol>
+          <li>My Working Direction — what I want, and what I take with me</li>
+          <li>My Explore Summary — the place that fits, and what I still do not know</li>
+          <li>My Decision — go, not yet, or no, with the conditions and the dates</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ──────────────────── 2. Contents and what is open ─────────────────── -->
+    <section class="sheet pad">
+      <h2 class="section">Where you are</h2>
+      <p class="lead">
+        Three steps, one decision. This is your own work, in the order you did it — nothing here was written by anyone
+        else.
+      </p>
+
+      <div class="contents">
+        <div class="row">
+          <span class="num">1</span>
+          <span class="what"><strong>My Working Direction</strong><span>Picture · what I want, and what I take with me</span></span>
+          <span class="when">finished 2 October</span>
+        </div>
+        <div class="row">
+          <span class="num">2</span>
+          <span class="what"><strong>My Explore Summary</strong><span>Explore · the place that fits, and what is still unknown</span></span>
+          <span class="when">finished 28 October</span>
+        </div>
+        <div class="row">
+          <span class="num">3</span>
+          <span class="what"><strong>My Decision</strong><span>Decide · go, not yet or no, with conditions and dates</span></span>
+          <span class="when">finished 14 November</span>
+        </div>
+      </div>
+
+      <div class="open">
+        <h3>What is still open</h3>
+        <ul>
+          <li>Lotte’s income confirmed in writing — before 1 March</li>
+          <li>Care for Ben’s mother arranged — first meeting before 15 March</li>
+          <li>A tenant signed for the house — before May</li>
+          <li>School places confirmed — before May</li>
+        </ul>
+        <p style="margin: 4mm 0 0; font-size: 10pt; color: var(--stone)">
+          Taken from your own answers. Nothing hard to undo until these are true. Review on 1 April.
+        </p>
+      </div>
+
+      <p class="foot">
+        © 2026 Mwata Belgrave · The Made Real Blueprint — Portugal Edition · The Life You Choose. Your answers are your
+        own.
+      </p>
+    </section>
+
+    <!-- ─────────────────────── 3. Step 1 result ─────────────────────── -->
+    <section class="sheet">
+      <header class="result-head">
+        <p class="kicker">Step 1 · Picture</p>
+        <h2>My Working Direction</h2>
+        <p>Lotte Jansen · finished 2 October 2026</p>
+      </header>
+      <div class="pad" style="padding-top: 10mm">
+        <div class="pull">
+          <p class="label">My life picture in three sentences</p>
+          <p class="text">A slower week by the sea, with the children outdoors after school.
+Work that pays enough and ends at six.
+A house we can afford without both of us working weekends.</p>
+        </div>
+
+        <div class="answer">
+          <p class="label">The direction I want to explore</p>
+          <p class="text">The Silver Coast, renting for a trial year, both of us working remotely.</p>
+        </div>
+        <div class="answer">
+          <p class="label">Why: two or three reasons</p>
+          <p class="text">Our ordinary days there look like the life we described.
+The money lasts long enough to be wrong once.
+The children are curious rather than against it.</p>
+        </div>
+        <div class="answer">
+          <p class="label">My must-haves</p>
+          <p class="text">A school the children can walk to. Fast internet. A hospital within 30 minutes.</p>
+        </div>
+        <div class="answer">
+          <p class="label">My dealbreakers</p>
+          <p class="text">Being further than four hours from my parents. Giving up my own income.</p>
+        </div>
+
+        <h2 class="section" style="margin-top: 9mm; font-size: 15pt">The people involved</h2>
+        <table>
+          <thead>
+            <tr><th>Person</th><th>Shared wishes</th><th>Where we differ</th><th>What we agreed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ben</td><td>More time outdoors</td><td>He would buy, I would rent first</td><td>Rent for a year, then decide</td></tr>
+            <tr><td>The children</td><td>A garden, a dog</td><td>They miss their friends</td><td>No move during the school year</td></tr>
+          </tbody>
+        </table>
+
+        <p class="foot">Step 1 of 3 · My Blueprint · Phase 1 · Choose it</p>
+      </div>
+    </section>
+
+    <!-- ─────────────────────── 4. Step 2 result ─────────────────────── -->
+    <section class="sheet">
+      <header class="result-head">
+        <p class="kicker">Step 2 · Explore</p>
+        <h2>My Explore Summary</h2>
+        <p>Lotte Jansen · finished 28 October 2026</p>
+      </header>
+      <div class="pad" style="padding-top: 10mm">
+        <div class="pull">
+          <p class="label">The place I want to explore further</p>
+          <p class="text">São Martinho do Porto, Leiria district — the small town, not the village.</p>
+        </div>
+
+        <div class="answer">
+          <p class="label">Three reasons it fits my picture</p>
+          <p class="text">A school within walking distance. Fibre at the address we looked at.
+The hospital in Caldas da Rainha is 20 minutes away.</p>
+        </div>
+        <div class="answer">
+          <p class="label">What a normal month costs there</p>
+          <p class="text">€2,450, checked against rentals, the energy tariff and a real supermarket list. October 2026.</p>
+        </div>
+        <div class="answer">
+          <p class="label">What it does not give me, and how I deal with that</p>
+          <p class="text">It is quiet out of season. We will visit in February before we sign anything.</p>
+        </div>
+        <div class="answer">
+          <p class="label">What is still unknown</p>
+          <p class="text">Whether the school has places for both children.
+What the winter damp is like in a house of that age.</p>
+        </div>
+
+        <p class="foot">Step 2 of 3 · My Blueprint · Phase 1 · Choose it</p>
+      </div>
+    </section>
+
+    <!-- ─────────────────────── 5. Step 3 result ─────────────────────── -->
+    <section class="sheet">
+      <header class="result-head">
+        <p class="kicker">Step 3 · Decide</p>
+        <h2>My Decision</h2>
+        <p>Lotte Jansen · finished 14 November 2026</p>
+      </header>
+      <div class="pad" style="padding-top: 10mm">
+        <div class="pull">
+          <p class="label">My decision</p>
+          <p class="text">Go, as a trial year, with conditions. We start preparing now, and we sign nothing hard to undo until the conditions below are true.</p>
+        </div>
+
+        <p class="label" style="font-size: 9.5pt; font-weight: 600; color: var(--ochre)">My five green lights</p>
+        <div class="lights">
+          <div class="light"><div class="dot amber"></div><p class="name">Money</p><p class="state">Amber</p></div>
+          <div class="light"><div class="dot green"></div><p class="name">Papers</p><p class="state">Green</p></div>
+          <div class="light"><div class="dot amber"></div><p class="name">People</p><p class="state">Amber</p></div>
+          <div class="light"><div class="dot green"></div><p class="name">Place</p><p class="state">Green</p></div>
+          <div class="light"><div class="dot amber"></div><p class="name">Plan B</p><p class="state">Amber</p></div>
+        </div>
+
+        <div class="answer">
+          <p class="label">Why: my three main reasons</p>
+          <p class="text">Our ordinary days there look like our Life Picture.
+The money lasts about 17 months even if everything costs 30% more.
+The children are curious rather than against it.</p>
+        </div>
+        <div class="answer">
+          <p class="label">Conditions that must be true before the big steps</p>
+          <p class="text">Lotte’s income confirmed. Care for Ben’s mother arranged. A tenant signed. School places confirmed.</p>
+        </div>
+        <div class="answer">
+          <p class="label">My first step, and when</p>
+          <p class="text">Meet two care providers for Ben’s mother — before 15 March.</p>
+        </div>
+        <div class="answer">
+          <p class="label">What would make me change it</p>
+          <p class="text">No school places by May, or the income not confirmed by June: then the trial year moves back a year.</p>
+        </div>
+
+        <p class="closing" style="margin-top: 10mm">
+          You will never be completely sure.<br />But you can be ready enough, and know what to do next.
+        </p>
+
+        <p class="foot">
+          © 2026 Mwata Belgrave · The Made Real Blueprint — Portugal Edition · The Life You Choose. Your answers are your
+          own. This document is for your personal use; the workbook text and layout may not be copied or shared.
+        </p>
+      </div>
+    </section>
+  </body>
+</html>

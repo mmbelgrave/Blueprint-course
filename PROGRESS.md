@@ -248,6 +248,34 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## Step 3 Decide, built and closed (8 October 2026)
+
+From "The Made Real Blueprint - Step 3 Decide workbook - Rev.00a.docx". Twelve
+pages: the Start (the decision question), five green lights (money, papers,
+people, place, Plan B), two futures and the risks, the first timeline, and
+My Decision with go / not yet / no, plus the optional "not yet or no" page.
+
+Same pipeline as Steps 1 and 2: content-build/s3-*.json -> assemble-step3.mjs
+-> step3-content.json -> sync-content.mjs. The two-way check against the Word
+text leaves 12 workbook lines and 8 app lines, all of them headings, box
+labels, the "workbook -> step" wording, or the made-up example's name --
+nothing of substance missing either way.
+
+**It stays closed.** journey.json keeps in_app false while Mwata does his final
+quality check, and there is no Step 3 workbook PDF yet. Nothing is visible to
+anyone.
+
+## The Blueprint proposal (8 October 2026)
+
+design/phase-blueprint-proposal.html and -v2.html: the five, then eight, A4
+sheets of "My Blueprint - Phase 1 - Choose it". Decided with Mwata: the added
+value comes from **rules over the person's own answers**, never from AI prose,
+because this is the one artifact that leaves the app with his name on it and
+gets shown to partners and advisers. Three pages carry it: the decision in one
+page, the money thread (what you guessed in Step 1, found in Step 2, declared
+in Step 3, and what that means in months), and what does not line up yet --
+each line a comparison between two things the person wrote themselves.
+
 ## Released to production (8 October 2026)
 
 `next-version` merged into `main` after 33 commits: **Modules** (free material,
