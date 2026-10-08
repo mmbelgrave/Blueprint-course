@@ -298,6 +298,13 @@ with padlocks on it: the screens show what is true for the person reading them.
   the way to delete everything — and drops the currency and the two permissions.
 - **What they write is saved.** It is theirs, it is still there when they come
   back, and it is still there when they buy. That is the pull.
+- **The Introduction gives the video, not the workbook.** The workbook comes
+  with the course, and the server says so too, so the address is no use either.
+- **No arrows under the free exercise**: there is no page before or after it.
+- **No privacy notes.** The footer describes an AI partner a free account does
+  not have, and the consent page already says what is stored. One plain
+  **Privacy** link stays in Settings, so the notice is still reachable by the
+  people it covers.
 
 **Fixed on the way:** a phase with nothing written in it was offered for sale
 when you did not own it. Released is now asked before bought, everywhere.

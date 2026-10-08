@@ -506,7 +506,7 @@ function ExerciseBody({ located }: { located: Located }) {
         {/* One row: a step back, what this page is for, a step on. */}
         <div className="border-t border-line pt-6">
           <div className="flex items-center justify-center gap-3">
-            <PageArrow direction="back" target={prevHere} step={stepNumber} />
+            {!free && <PageArrow direction="back" target={prevHere} step={stepNumber} />}
             {done ? (
               <span className="flex flex-col items-center gap-0.5">
                 <span className="inline-flex items-center gap-2 font-semibold text-success">
@@ -522,7 +522,7 @@ function ExerciseBody({ located }: { located: Located }) {
                 Mark as done
               </button>
             )}
-            <PageArrow direction="on" target={nextHere} step={stepNumber} />
+            {!free && <PageArrow direction="on" target={nextHere} step={stepNumber} />}
           </div>
           <p className="mt-3 text-center">
             <SaveIndicator />

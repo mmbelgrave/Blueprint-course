@@ -13,6 +13,7 @@
 import type { Entitlement } from "@/lib/access";
 import { ownedSteps } from "@/lib/access";
 import { accessConfig, requirePurchase } from "@/lib/access-app";
+import { isFreeAccount, myEntitlements } from "@/lib/access-server";
 import { freeItemById, moduleById, workbookOf } from "@/lib/modules-app";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -35,9 +36,9 @@ export async function GET(request: Request) {
   const asDownload = params.get("open") !== "1";
 
   // A free exercise is a PDF like any other, and belongs to nobody in particular.
-  const free = freeId ? freeItemById(freeId) : undefined;
-  const workbook = free
-    ? { name: free.title, file: free.pdf ?? null, updated: null }
+  const freeItem = freeId ? freeItemById(freeId) : undefined;
+  const workbook = freeItem
+    ? { name: freeItem.title, file: freeItem.pdf ?? null, updated: null }
     : stepId
       ? workbookOf(stepId)
       : moduleId
@@ -46,7 +47,13 @@ export async function GET(request: Request) {
   if (!workbook) return fail(404, "There is no such workbook.");
   if (!workbook.file) return fail(404, "That workbook is not ready yet.");
 
-  // A step's workbook belongs to the step; a module's own (the Introduction) is free.
+  // A module's own workbook (the Introduction) comes with the course: a free
+  // account is welcome to the video, and to the free exercises as PDFs.
+  if (moduleId && isFreeAccount(await myEntitlements(supabase))) {
+    return fail(403, "The workbook comes with the course.");
+  }
+
+  // A step's workbook belongs to the step.
   if (stepId && requirePurchase) {
     const number = Number(stepId.replace("step-", ""));
     const { data: rows } = await supabase.from("entitlements").select("product, status");

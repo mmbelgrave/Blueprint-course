@@ -84,7 +84,7 @@ export function Shell({
         {children}
       </main>
       {user && <Tabs free={free} />}
-      {!quiet && (
+      {!quiet && !free && (
         <footer
           className={`border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
         >

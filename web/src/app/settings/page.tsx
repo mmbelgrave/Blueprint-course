@@ -129,7 +129,8 @@ function SettingsForm({ profile }: { profile: Profile }) {
 }
 
 export default function SettingsPage() {
-  const { profile } = useApp();
+  const { entitlements, profile } = useApp();
+  const free = isFree(entitlements);
   return (
     <Shell quiet>
       <RequireUser>
@@ -140,6 +141,13 @@ export default function SettingsPage() {
           <div className="mt-8 border-t border-line pt-8">
             <ThemeChoice />
           </div>
+          {free && (
+            <p className="mt-8 border-t border-line pt-8 text-sm text-stone">
+              <Link href="/privacy" className="underline">
+                Privacy
+              </Link>
+            </p>
+          )}
           <div className="mt-8 border-t border-line pt-8">
             <h2 className="text-xl font-semibold text-pine">Help</h2>
             <p className="mt-1 text-sm text-stone">

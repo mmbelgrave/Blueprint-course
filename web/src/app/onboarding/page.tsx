@@ -72,9 +72,11 @@ function ConsentForm() {
             <li>You can delete everything at any time.</li>
           </ul>
         )}
-        <p className="text-sm text-stone">
-          Read more on the <Link href="/privacy" className="underline">privacy page</Link>.
-        </p>
+        {!free && (
+          <p className="text-sm text-stone">
+            Read more on the <Link href="/privacy" className="underline">privacy page</Link>.
+          </p>
+        )}
       </section>
 
       <section className="space-y-4">

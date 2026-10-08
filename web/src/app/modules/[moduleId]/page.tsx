@@ -72,8 +72,10 @@ export default function ModulePage() {
             <Lesson
               video={course.video}
               videoKey={lessonKey(course.id)}
-              workbook={course.workbook}
-              workbookHref={course.workbook?.file ? `/api/workbook?module=${course.id}` : undefined}
+              workbook={free ? undefined : course.workbook}
+              workbookHref={
+                !free && course.workbook?.file ? `/api/workbook?module=${course.id}` : undefined
+              }
             />
           </article>
         </RequireUser>

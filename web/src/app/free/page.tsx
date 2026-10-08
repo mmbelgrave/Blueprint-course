@@ -21,7 +21,7 @@ import { cleanSource, rememberSignup } from "@/lib/signup-source";
 
 /** What a free account opens, in the person's words rather than in page ids. */
 const WHAT_YOU_GET = [
-  "The Introduction: the welcome video and its workbook.",
+  "The Introduction: the welcome video, so you know what you are walking into.",
   "The Ordinary Tuesday — the exercise most people say told them the most.",
   "The first video of Step 1, so you know who you would be working with.",
 ];
