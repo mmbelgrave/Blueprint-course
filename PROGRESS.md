@@ -312,6 +312,29 @@ and laptop width, filled with one invented person's answers
 Blueprint. Not yet shot, because they do not exist yet: a lesson page with a
 real video, and the AI partner, which needs a signed-in account.
 
+### Buying switched on, and the split released (8 October 2026)
+
+`NEXT_PUBLIC_REQUIRE_PURCHASE` had been set for Preview only, so the branch
+behaved and the live app let every signed-in person into everything. Phase 1
+was granted to Mwata and to Michael first, then the setting went on for
+Production and the app was redeployed. The split went to main in the same hour,
+because a locked front door with the text on the doorstep is worse than
+neither.
+
+Checked on the live app, signed in as an account that owns nothing: 1.2 opens
+and draws its words over the network, 1.1, 2.1, 3.5, 5.1 and s2-0.1 are all
+refused, both workbooks are refused, `?step=abc` is a 400, and `?step=1&full=1`
+answers 14 KB holding one page instead of 78 KB holding twenty-three. Every
+sentence probe that used to come back out of the public JavaScript now comes
+back empty; the page titles stay, as make-spine says they should. Mwata
+confirmed Step 1 is still his.
+
+What a free account can still read, deliberately: the step's own framing
+(tagline, intro, how it works, word help) and Part 1's promise and tips, plus
+the credits. That is the "see what is inside" material, and only to someone
+signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
+it ever matters.
+
 ## My Blueprint, built (8 October 2026)
 
 Spec 6.5, at /phase/1/print, linked from the phase page. Eight sheets: the
