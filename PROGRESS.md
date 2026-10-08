@@ -248,6 +248,28 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## Released to production (8 October 2026)
+
+`next-version` merged into `main` after 33 commits: **Modules** (free material,
+the Introduction, three phases, steps, lessons), the **bottom tab bar**, the
+**video player** (Video.js on Bunny, signed playback), **dark mode**, the
+**workbook PDFs**, **Step 2 open from the issued workbook**, **Help by email**,
+and **free access** — switched off.
+
+**Checked before pushing:** every table the new build reads exists in the live
+database (entitlements, video_progress, the two new profile columns) and both
+storage buckets are there; production build, typecheck, lint and 93 tests;
+`NEXT_PUBLIC_REQUIRE_PURCHASE` is set for **Preview only**, so nothing is
+locked for anyone.
+
+**Checked after:** every route answers, the privacy page gives
+info@maderealblueprint.com, `/free` is live, and production still computes
+`requirePurchase` from an undefined variable — buying is off, as intended.
+
+**Michael had written nothing yet** (0 answers, 0 pages, two AI messages, last
+seen 5 October), so the release could not disturb anyone. He is taking notes on
+his phone and starts at the weekend.
+
 ## Free access (8 October 2026)
 
 Spec §6.2, build order slice 4. Built on `next-version`, **switched off**.
