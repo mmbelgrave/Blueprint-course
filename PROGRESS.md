@@ -248,6 +248,70 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## The words move to the server (8 October 2026)
+
+Review round 4, finding 1: the whole workbook was compiled into the browser
+bundle, so anyone could fetch the JavaScript without an account and read Step 1
+and Step 2 end to end. The words are the product, so this was the serious one.
+
+**What the browser keeps now** is the spine: which steps, parts and pages exist,
+in what order, their titles, and the shape of each field. Built by
+`content-build/make-spine.mjs` into `web/src/content/spine/`. Step 1 drops from
+78 KB to 10 KB, Step 2 from 53 to 7, Step 3 from 48 to 6. Navigation, the page
+counter, Modules and the progress bars all run on that, and none of it is worth
+anything to someone who has not bought the course.
+
+**The words come from `/api/content`**, which asks the same access layer the
+screen asks, so a refusal on the server and a refusal on the screen can never
+disagree. `lib/content-server.ts` imports `server-only`: a client component that
+imports it fails the build, so the rule is kept by the compiler rather than by
+anyone remembering it.
+
+**Checked as a stranger** on the branch preview: `?page=1.1`, `?page=1.2`,
+`?step=1&full=1` and `?step=3&full=1` all answer 401, and all thirteen public
+chunks grep clean for sentences out of both workbooks.
+
+**Nothing visible changed** — no layout, no wording, no saved answer. Page ids
+are untouched, so every answer already written reads back where it was. The one
+honest cost: on a poor connection a page can show "One moment…" while its words
+arrive.
+
+### What the screenshots found
+
+Taking the landing-page screenshots walked the app with a full set of answers
+for the first time since the split, and turned up three things the compiler
+could not see:
+
+- **The money check printed a dash on every line.** The pages a sum adds up were
+  being looked up in the browser's own copy, which is now the spine: a table
+  there has no row labels and no record of which column the "known / estimate /
+  unknown" mark belongs to. So 3.5, the 2.1 share of the week, the option names
+  in 4.2 and both written cost hints silently stopped working. Nothing threw;
+  the page just stopped telling anyone the truth. `/api/content` now sends the
+  handful of fields a page reads (`sourceFieldsFor`), gated per step, and
+  `field-extras.ts` may not look anywhere else — pinned by
+  `tests/content-refs.test.ts`, including a test that fails if that import ever
+  comes back.
+- **The Blueprint's timeline was not in order**, although the page says "your own
+  dates, in order". `whenKey` reads a date somebody typed themselves ("4 May
+  2027", "Done, 4 March 2027", "Mid-December 2027") and sorts on it; anything
+  unreadable keeps its place at the end rather than being guessed at.
+- **The mark on the Blueprint cover was invisible** — Pine lines on the Pine
+  cover, because the theme tokens only flip for the dark *theme*, not for a dark
+  panel inside a light page. `Mark` takes `onDark`, following the brand guide:
+  Sand lines, Ochre Light dot.
+
+Also: "34.7 months" of runway now reads "about 34 months". The workbook rounds
+down and says "about", and a tenth of a month was never a real figure.
+
+### Screenshots for the landing page
+
+`design/screenshots/`, with a README. Eighteen shots of the real app at phone
+and laptop width, filled with one invented person's answers
+(`example-answers.mjs`) whose figures add up all the way through to the
+Blueprint. Not yet shot, because they do not exist yet: a lesson page with a
+real video, and the AI partner, which needs a signed-in account.
+
 ## My Blueprint, built (8 October 2026)
 
 Spec 6.5, at /phase/1/print, linked from the phase page. Eight sheets: the

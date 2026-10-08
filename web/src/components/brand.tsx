@@ -14,8 +14,26 @@ const MOSS = "var(--color-moss)";
 const OCHRE = "var(--color-ochre)";
 const SAGE = "var(--color-sage)";
 
-/** The mark on its own: three stacked terraces and the dot. */
-export function Mark({ size = 34, className = "" }: { size?: number; className?: string }) {
+/**
+ * The mark on its own: three stacked terraces and the dot.
+ *
+ * `onDark` is for a Pine panel sitting inside a light page, such as the
+ * Blueprint cover. The theme tokens cannot help there — the page is still the
+ * light one, so Pine lines on a Pine ground simply disappear.
+ */
+export function Mark({
+  size = 34,
+  className = "",
+  onDark = false,
+}: {
+  size?: number;
+  className?: string;
+  onDark?: boolean;
+}) {
+  // The brand guide: "On dark grounds: Sand lines, Ochre Light dot."
+  const line = onDark ? "var(--color-sand)" : PINE;
+  const top = onDark ? "var(--color-sand)" : MOSS;
+  const dot = onDark ? "var(--color-ochre-light)" : OCHRE;
   return (
     <svg
       width={size}
@@ -25,10 +43,10 @@ export function Mark({ size = 34, className = "" }: { size?: number; className?:
       role="img"
       aria-label={`${PRODUCT.brand} mark`}
     >
-      <path d="M6 58 H74" stroke={PINE} strokeWidth="5" strokeLinecap="round" />
-      <path d="M17 45 H63" stroke={PINE} strokeWidth="5" strokeLinecap="round" />
-      <path d="M28 32 H52" stroke={MOSS} strokeWidth="5" strokeLinecap="round" />
-      <circle cx="40" cy="18" r="5.5" fill={OCHRE} />
+      <path d="M6 58 H74" stroke={line} strokeWidth="5" strokeLinecap="round" />
+      <path d="M17 45 H63" stroke={line} strokeWidth="5" strokeLinecap="round" />
+      <path d="M28 32 H52" stroke={top} strokeWidth="5" strokeLinecap="round" />
+      <circle cx="40" cy="18" r="5.5" fill={dot} />
     </svg>
   );
 }

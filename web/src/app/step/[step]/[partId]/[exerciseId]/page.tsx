@@ -15,7 +15,6 @@ import {
   asList,
   displayNumber,
   displayTitle,
-  exerciseFields,
   findExercise,
   partItems,
   setupKey,
@@ -211,11 +210,11 @@ function SaveIndicator() {
 }
 
 /** Step 1 3.5 Go deeper: new-life costs from 3.2 plus 30%. */
-function DeeperHint({ exercise }: { exercise: Exercise }) {
+function DeeperHint({ exercise, sources }: { exercise: Exercise; sources: Record<string, Field> }) {
   const { answers, profile } = useApp();
   if (exercise.id !== "3.5" || !exercise.go_deeper?.auto_hint) return null;
-  const source = findExercise("3.2");
-  const field = source && exerciseFields(source.exercise).find((f) => f.id === "costs");
+  // 3.2 itself is not in the browser; the server sends the one field this adds up.
+  const field = sources["3.2.costs"];
   if (!field) return null;
   const t = tableFieldTotal(field, answers["3.2"]?.costs, "new_life");
   if (!t.filled) return null;
@@ -229,11 +228,10 @@ function DeeperHint({ exercise }: { exercise: Exercise }) {
 }
 
 /** Step 2 3.1: the Step 1 new-life total next to the money check (for the 20% check). */
-function Step1MoneyHint({ exercise }: { exercise: Exercise }) {
+function Step1MoneyHint({ exercise, sources }: { exercise: Exercise; sources: Record<string, Field> }) {
   const { answers, profile } = useApp();
   if (exercise.id !== "s2-3.1") return null;
-  const source = findExercise("3.2");
-  const field = source && exerciseFields(source.exercise).find((f) => f.id === "costs");
+  const field = sources["3.2.costs"];
   if (!field) return null;
   const t = tableFieldTotal(field, answers["3.2"]?.costs, "new_life");
   if (!t.filled) return null;
@@ -430,7 +428,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
               <Paragraphs text={exercise.start_here.prompt} />
             </div>
             <Bullets items={exercise.start_here.bullets} className="text-stone" />
-            <Step1MoneyHint exercise={exercise} />
+            <Step1MoneyHint exercise={exercise} sources={sources} />
             {asList(exercise.example).map((ex) => (
               <ExampleFold key={ex.who + ex.text.slice(0, 20)} example={ex} />
             ))}
@@ -474,7 +472,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             title={`Go deeper (optional)${exercise.go_deeper.title ? ` · ${exercise.go_deeper.title}` : ""}`}
           >
             <Paragraphs text={exercise.go_deeper.prompt} />
-            <DeeperHint exercise={exercise} />
+            <DeeperHint exercise={exercise} sources={sources} />
             <div className="pt-2">
               <Fields storeId={exercise.id} exercise={exercise} block={exercise.go_deeper} sources={sources} />
             </div>

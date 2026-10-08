@@ -8,6 +8,7 @@ import {
   whatChanged,
   whatDoesNotLineUp,
   whatHappensNext,
+  whenKey,
   type Answers,
 } from "../src/lib/blueprint.ts";
 
@@ -179,11 +180,19 @@ test("an empty blueprint flags nothing at all", () => {
 
 test("what happens next gathers their own dates, and only dated things", () => {
   const next = whatHappensNext(full);
-  assert.deepEqual(next[0], {
-    when: "Before 15 March",
-    what: "Meet two care providers",
-    where: "your first step · Step 3 · 4.2",
-  });
+  // "Before 15 March" names no year, so it cannot be placed on the timeline.
+  // It is still shown, after everything that could be dated, rather than being
+  // guessed at or dropped.
+  assert.ok(
+    next.some((n) => n.when === "Before 15 March" && n.what === "Meet two care providers"),
+    "an undated step is still on the list",
+  );
+  const dated = next.map((n) => whenKey(n.when) !== null);
+  assert.deepEqual(
+    dated,
+    [...dated].sort((a, b) => Number(b) - Number(a)),
+    "everything with a date comes before everything without one",
+  );
   assert.ok(next.some((n) => n.what === "Look at this decision again, whatever has happened"));
   assert.ok(
     !next.some((n) => n.what === "A tenant signed for our house"),
@@ -209,4 +218,38 @@ test("what changed is three of their own sentences, in order", () => {
     ["In Step 1 you wanted", "In Step 2 you chose", "In Step 3 you decided"],
   );
   assert.deepEqual(whatChanged({}), []);
+});
+
+/* ── the timeline really is in order ── */
+
+test("a date somebody typed themselves can be put in order", () => {
+  assert.equal(whenKey("4 May 2027"), 20270504);
+  assert.equal(whenKey("March 2027"), 20270301);
+  assert.equal(whenKey("Done, 4 March 2027"), 20270304);
+  assert.equal(whenKey("1 December 2027, after the first winter"), 20271201);
+  assert.equal(whenKey("Mid-December 2027"), 20271201);
+  assert.equal(whenKey("Done"), null);
+  assert.equal(whenKey("after the summer"), null);
+});
+
+test("what happens next is earliest first, and what has no date stays at the end", () => {
+  const answers = {
+    "s3-4.2": {
+      first_step_date: "4 May 2027",
+      first_step: "Sign the rental",
+      review_when: "1 December 2027",
+    },
+    green_lights: {
+      lights: {
+        r0: { colour: "Amber", turns_green: "Two clients signed", by_when: "30 June 2027" },
+        r1: { colour: "Green", turns_green: "Papers ready", by_when: "Done, 4 March 2027" },
+        r2: { colour: "Green", turns_green: "The flat is let", by_when: "Done" },
+      },
+    },
+    "s3-3.1": {
+      steps: { r0: { step: "Move the work online", when: "March 2027" } },
+    },
+  };
+  const order = whatHappensNext(answers as never).map((n) => n.when);
+  assert.deepEqual(order, ["March 2027", "Done, 4 March 2027", "4 May 2027", "30 June 2027", "1 December 2027", "Done"]);
 });

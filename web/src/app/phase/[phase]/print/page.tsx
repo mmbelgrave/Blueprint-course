@@ -99,7 +99,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
       <Sheet dark>
         <div className="flex min-h-[240mm] flex-col justify-between p-10 print:min-h-[257mm]">
           <div>
-            <Mark size={66} />
+            <Mark size={66} onDark />
             <p className="mt-6 text-sm font-semibold uppercase tracking-[0.16em] text-ochre-light">
               {PRODUCT.name} · {PRODUCT.edition}
             </p>

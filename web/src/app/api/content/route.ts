@@ -14,7 +14,7 @@
 import type { Entitlement } from "@/lib/access";
 import { pageFor, stepFor } from "@/lib/access-app";
 import { myEntitlements } from "@/lib/access-server";
-import { copyFromSources, freePagesOf, fullStep, findPage, stepChrome } from "@/lib/content-server";
+import { freePagesOf, fullStep, findPage, sourceFieldsFor, stepChrome } from "@/lib/content-server";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -55,10 +55,11 @@ export async function GET(request: Request) {
     void exercises;
     void summary;
 
-    // The fields this page offers to copy forward, but only from steps this
-    // person may read. Someone on Step 3 owns Step 1; a free account does not.
+    // The fields elsewhere this page reads an answer out of, but only from the
+    // steps this person may read: someone on Step 3 owns Step 1, a free
+    // account owns neither.
     const sources: Record<string, unknown> = {};
-    for (const s of copyFromSources(found.exercise)) {
+    for (const s of sourceFieldsFor(found.exercise)) {
       if (open || stepFor(s.step, entitlements).open) sources[s.key] = s.field;
     }
 

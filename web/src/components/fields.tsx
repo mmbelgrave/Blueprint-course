@@ -497,7 +497,10 @@ function formatCalc(row: CalcRow, r: CalcResult, currency: string) {
   if (r.value === null) return "—";
   let text: string;
   if (row.format === "percent") text = `${Math.round(r.value)}%`;
-  else if (row.format === "months") text = `${Math.floor(r.value * 10) / 10} months`;
+  // The workbook says "about 40 months", and rounds down: nobody should plan
+  // on the last part of a month. "34.7 months" is a false precision anyway.
+  else if (row.format === "months")
+    text = r.value < 1 ? "less than a month" : `about ${Math.floor(r.value)} months`;
   else if (row.format === "left_or_short")
     text = r.value < 0 ? `${formatMoney(-r.value, currency)} short` : `${formatMoney(r.value, currency)} left over`;
   else text = formatMoney(r.value, currency);

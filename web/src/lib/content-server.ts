@@ -10,8 +10,8 @@
  * fails the build. That is the whole point — the rule is enforced by the
  * compiler rather than by anyone remembering it.
  *
- * lib/content.ts stays the browser's copy. Today it still carries the released
- * steps in full; emptying it of prose is the rest of this piece of work.
+ * lib/content.ts stays the browser's copy, and now carries only the spine: the
+ * shape of each step with none of its words in it.
  */
 import "server-only";
 
@@ -20,6 +20,7 @@ import step2Raw from "@/content/step2-content.json";
 import step3Raw from "@/content/step3-content.json";
 import { accessConfig } from "@/lib/access-app";
 import { summaryAsExercise, type Exercise, type Part, type StepContent } from "@/lib/content";
+import { referencedFields, splitRef } from "@/lib/content-refs";
 
 /** Every step that exists, released or not. Only this file may hold them all. */
 const ALL = [step1Raw, step2Raw, step3Raw] as unknown as StepContent[];
@@ -38,23 +39,23 @@ const itemsOf = (part: Part): Exercise[] =>
 export type FoundPage = { step: StepContent; part: Part; exercise: Exercise };
 
 /**
- * The fields this page offers to copy forward ("your Life Picture from Step
- * 1"). Only the handful named by copy_from, keyed "5.1.life_picture", so the
- * suggestion can be drawn without the browser holding the other step.
+ * Every field elsewhere that this page reads an answer out of: the ones it
+ * offers to copy forward, the ones its sums add up, and the ones it takes its
+ * row labels from. Keyed "3.2.costs", because the browser holds the shape of
+ * those pages but not a word of them — not their row labels, not which column
+ * the "known / estimate / unknown" mark belongs to. Sent with the page, so a
+ * total is drawn from the real field or not drawn at all.
  */
-export function copyFromSources(exercise: Exercise): { key: string; step: number; field: unknown }[] {
-  const wanted = [...(exercise.start_here?.fields ?? []), ...(exercise.go_deeper?.fields ?? [])]
-    .map((f) => f.copy_from)
-    .filter((c): c is NonNullable<typeof c> => !!c);
-
+export function sourceFieldsFor(exercise: Exercise): { key: string; step: number; field: unknown }[] {
   const out: { key: string; step: number; field: unknown }[] = [];
-  for (const from of wanted) {
-    const page = findPage(from.exercise);
+  for (const key of referencedFields(exercise)) {
+    const [fromPage, fromField] = splitRef(key);
+    const page = findPage(fromPage);
     if (!page) continue;
     const field = [...(page.exercise.start_here?.fields ?? []), ...(page.exercise.go_deeper?.fields ?? [])].find(
-      (f) => f.id === from.field,
+      (f) => f.id === fromField,
     );
-    if (field) out.push({ key: `${from.exercise}.${from.field}`, step: page.step.step.number, field });
+    if (field) out.push({ key, step: page.step.step.number, field });
   }
   return out;
 }

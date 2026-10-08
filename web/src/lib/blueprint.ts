@@ -286,7 +286,45 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
 
 export type Next = { when: string; what: string; where: string };
 
-/** Their own dates, gathered from wherever they wrote them. */
+const MONTHS = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
+/**
+ * A sortable key for a date somebody typed themselves: "4 May 2027", "March
+ * 2027", "Done, 4 March 2027", "1 December 2027, after the first winter". A
+ * year is the least it needs; the month and the day are taken when they are
+ * there. Anything unreadable ("Done", "after the summer") returns null and
+ * keeps its place at the end, because guessing at it would be worse than
+ * leaving it where the person put it.
+ */
+export function whenKey(when: string): number | null {
+  const s = when.toLowerCase();
+  const year = s.match(/\b(20\d{2})\b/);
+  if (!year) return null;
+
+  // The first month named anywhere in the line, by its first three letters.
+  const found = s.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/);
+  const month = found ? MONTHS.findIndex((m) => m.startsWith(found[1])) + 1 : 1;
+
+  // A day only counts when it is written just before the month, so that the
+  // "12" in "12 listings" or a stray year cannot become one.
+  const day = found ? Number(s.slice(0, found.index).match(/(\d{1,2})\s*\S{0,2}\s*$/)?.[1] ?? 1) : 1;
+  return Number(year[1]) * 10000 + month * 100 + (day >= 1 && day <= 31 ? day : 1);
+}
+
+/** Their own dates, gathered from wherever they wrote them, earliest first. */
 export function whatHappensNext(answers: Answers): Next[] {
   const out: Next[] = [];
   const add = (when: string, what: string, where: string) => {
@@ -319,7 +357,17 @@ export function whatHappensNext(answers: Answers): Next[] {
     "your review date · Step 3 · 4.2",
   );
 
-  return out;
+  // The page promises these in order, so they are put in order: the ones with
+  // a readable date first, earliest to latest, and the rest left as written.
+  return out
+    .map((item, index) => ({ item, index, key: whenKey(item.when) }))
+    .sort((a, b) => {
+      if (a.key === null && b.key === null) return a.index - b.index;
+      if (a.key === null) return 1;
+      if (b.key === null) return -1;
+      return a.key - b.key || a.index - b.index;
+    })
+    .map((x) => x.item);
 }
 
 /* ───────────────────────────── what changed along the way ─────────────── */
