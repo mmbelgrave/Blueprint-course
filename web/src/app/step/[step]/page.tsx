@@ -10,6 +10,7 @@ import { Bullets, InfoTable } from "@/components/text";
 import { useApp } from "@/lib/app-state";
 import { ClosedStep } from "@/components/closed-step";
 import { stepFor } from "@/lib/access-app";
+import { useStepContent } from "@/lib/use-step-content";
 import { displayTitle, getStep, partItems, stepOnlyBullets, type StepContent } from "@/lib/content";
 import { continueTarget, exerciseHref, hrefOf, partProgress } from "@/lib/progress";
 
@@ -244,19 +245,25 @@ const partItemsOf = (step: StepContent) => step.parts.flatMap((p) => partItems(p
 export default function StepPage() {
   const { step } = useParams<{ step: string }>();
   const { entitlements } = useApp();
+  // The spine says whether this step exists; the server says what it says.
   const content = getStep(Number(step));
+  const page = useStepContent(content ? Number(step) : undefined);
   const verdict = stepFor(Number(step), entitlements);
   return (
     <Shell>
       <RequireUser>
         {content && !verdict.open ? (
           <ClosedStep step={Number(step)} why={verdict.why} />
-        ) : content ? (
-          <StepOverview step={content} />
-        ) : (
+        ) : !content ? (
           <p>
             This step does not exist. <Link href="/dashboard" className="underline">Back to the overview</Link>
           </p>
+        ) : page.state === "ready" ? (
+          <StepOverview step={page.content} />
+        ) : page.state === "refused" ? (
+          <p className="text-center">{page.because}</p>
+        ) : (
+          <p className="py-16 text-center text-stone">One moment…</p>
         )}
       </RequireUser>
     </Shell>

@@ -75,6 +75,8 @@ export function fieldExtras(exercise: Exercise, answers: Answers): (field: Field
     if (field.type === "calculation") return { calc };
     if (field.copy_from) {
       const { exercise: from, field: fromField } = field.copy_from;
+      // Without the other step's fields in the browser there is nothing to
+      // copy in; an empty suggestion would be worse than none.
       const text = fieldAnswerText(from, fromField, answers[from]);
       return text ? { suggestion: { title: "From your Step 1:", text, button: "Copy this in" } } : undefined;
     }

@@ -18,6 +18,7 @@ import "server-only";
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
 import step3Raw from "@/content/step3-content.json";
+import { accessConfig } from "@/lib/access-app";
 import { summaryAsExercise, type Exercise, type Part, type StepContent } from "@/lib/content";
 
 /** Every step that exists, released or not. Only this file may hold them all. */
@@ -56,4 +57,19 @@ export function stepChrome(number: number) {
   if (!found) return undefined;
   const { parts, ...rest } = found;
   return { ...rest, parts: parts.map((p) => ({ id: p.id, label: p.label, title: p.title })) };
+}
+
+/**
+ * The free pages of a step, shaped like a step so the screens do not need a
+ * second shape. Somebody with a free account wrote an answer on 1.2; this is
+ * what lets them read it back with the question attached, and nothing more.
+ */
+export function freePagesOf(number: number) {
+  const step = fullStep(number);
+  if (!step) return { step: { id: "", number, title: "", question: "" }, parts: [] } as unknown as StepContent;
+  const free = new Set(accessConfig.free.pages);
+  const parts = step.parts
+    .map((part) => ({ ...part, exercises: part.exercises.filter((e) => free.has(e.id)), summary: undefined }))
+    .filter((part) => part.exercises.length > 0);
+  return { ...step, parts } as StepContent;
 }

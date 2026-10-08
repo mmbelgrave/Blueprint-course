@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { pictureLinks, picturesAvailable } from "@/lib/backend/pictures";
 import { ClosedStep } from "@/components/closed-step";
 import { stepFor } from "@/lib/access-app";
+import { useStepContent } from "@/lib/use-step-content";
 import { RequireUser, Shell } from "@/components/Shell";
 import { fieldAnswerText } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
@@ -108,7 +109,7 @@ function AnswerBlock({ exercise, field, currency }: { exercise: Exercise; field:
     );
   }
 
-  const text = fieldAnswerText(exercise.id, field.id, values);
+  const text = fieldAnswerText(exercise.id, field.id, values, exercise);
   if (!text) return null;
   return (
     <div className="break-inside-avoid">
@@ -121,7 +122,7 @@ function AnswerBlock({ exercise, field, currency }: { exercise: Exercise; field:
 function hasAnswers(exercise: Exercise, answers: Record<string, Record<string, unknown>>) {
   const values = answers[exercise.id];
   return exerciseFields(exercise).some((f) =>
-    f.type === "table" ? tableHasData(values?.[f.id]) : Boolean(fieldAnswerText(exercise.id, f.id, values)),
+    f.type === "table" ? tableHasData(values?.[f.id]) : Boolean(fieldAnswerText(exercise.id, f.id, values, exercise)),
   );
 }
 
@@ -170,7 +171,7 @@ function PrintPage({ step }: { step: StepContent }) {
   const currency = profile?.currency ?? "EUR";
   const mainFields = exerciseFields(main);
   const [lead, ...restOfMain] = mainFields;
-  const leadText = lead && lead.type !== "table" ? fieldAnswerText(main.id, lead.id, answers[main.id]) : null;
+  const leadText = lead && lead.type !== "table" ? fieldAnswerText(main.id, lead.id, answers[main.id], main) : null;
   const mainFilled = hasAnswers(main, answers);
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 
@@ -261,16 +262,21 @@ export default function Print() {
   const { step } = useParams<{ step: string }>();
   const { entitlements } = useApp();
   const content = getStep(Number(step));
+  const page = useStepContent(content ? Number(step) : undefined);
   const verdict = stepFor(Number(step), entitlements);
   return (
     <Shell>
       <RequireUser>
         {content && !verdict.open ? (
           <ClosedStep step={Number(step)} why={verdict.why} />
-        ) : content ? (
-          <PrintPage step={content} />
-        ) : (
+        ) : !content ? (
           <p>This step does not exist.</p>
+        ) : page.state === "ready" ? (
+          <PrintPage step={page.content} />
+        ) : page.state === "refused" ? (
+          <p className="text-center">{page.because}</p>
+        ) : (
+          <p className="py-16 text-center text-stone">One moment…</p>
         )}
       </RequireUser>
     </Shell>

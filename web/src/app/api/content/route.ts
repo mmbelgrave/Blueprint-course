@@ -14,7 +14,7 @@
 import type { Entitlement } from "@/lib/access";
 import { pageFor, stepFor } from "@/lib/access-app";
 import { myEntitlements } from "@/lib/access-server";
-import { findPage, stepChrome } from "@/lib/content-server";
+import { freePagesOf, fullStep, findPage, stepChrome } from "@/lib/content-server";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -63,7 +63,28 @@ export async function GET(request: Request) {
   const number = Number(stepParam);
   if (!Number.isInteger(number) || number < 1) return fail(400, "That is not a step.");
   const verdict = stepFor(number, entitlements);
-  if (!open && !verdict.open) {
+  const mine = open || verdict.open;
+
+  /*
+   * The whole step, for the screens that show more than one page at once: the
+   * overview, the printed result, the Blueprint and "Everything I wrote".
+   *
+   * Somebody who does not own the step still gets the pages that are free, so
+   * their own answers read back to them with the questions attached. They get
+   * nothing else — not the other pages, not the step's own welcome.
+   */
+  if (params.get("full") === "1") {
+    const full = fullStep(number);
+    if (!full) return fail(404, "There is no such step.");
+    if (mine) return Response.json(full, { headers: { "cache-control": "no-store" } });
+    if (verdict.why === "not-released") return fail(403, "This step is not open yet.");
+
+    const freeOnly = freePagesOf(number);
+    if (freeOnly.parts.length === 0) return fail(403, "This step is part of the course.");
+    return Response.json(freeOnly, { headers: { "cache-control": "no-store" } });
+  }
+
+  if (!mine) {
     return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This step is part of the course.");
   }
   const chrome = stepChrome(number);
