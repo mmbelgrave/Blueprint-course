@@ -306,9 +306,12 @@ become a free account. Before you touch the switch:
 To put it back, remove the setting and redeploy. Nothing anyone wrote is ever
 touched by this: closing a step hides it, it does not delete it.
 
-**What a free account costs you.** Its AI partner is limited to 15 messages a
-day (`FREE_PARTNER_DAILY_LIMIT`) instead of 80, and it cannot ask for a draft.
-Admin shows how much of the AI bill comes from free accounts.
+**What a free account sees.** Two places along the bottom, Modules and
+Settings. Inside Modules: the free material, the Introduction, and Phase 1 with
+the free lesson and the free exercise in it. No steps, no progress bars, no AI
+partner and no picture board — so it costs you nothing in AI, and nobody is
+asked to agree to things that do not happen to them. Admin still shows which
+accounts are free and where they came from.
 
 ## 8. Check it yourself
 

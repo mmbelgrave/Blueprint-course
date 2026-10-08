@@ -275,6 +275,30 @@ Spec §6.2, build order slice 4. Built on `next-version`, **switched off**.
   is free accounts.
 - Two new profile columns: `came_from`, `wants_updates`.
 
+**A free account is a lean app (8 October, Mwata's call).** Not the whole app
+with padlocks on it: the screens show what is true for the person reading them.
+
+- **Two places, not four.** Modules and Settings. The Exercises overview is the
+  whole eight-step road — the structure a free account should not be shown —
+  and the AI partner comes with the course.
+- **Modules** shows Free material, the Introduction and Phase 1, with no
+  progress bars. Inside Phase 1: the free lesson and the free exercise as two
+  rows, no steps around them, and the offer underneath.
+- **The free exercise** stands on its own: no part rail, no page counters, no
+  chips to its locked sisters. Just the exercise and the way back.
+- **No AI and no pictures.** The partner panel is gone, the `image_board` field
+  is not drawn, and the server answers "Your AI partner comes with the course."
+  The 15-a-day limit is gone with it; a thing you do not have needs no ration.
+- **The consent page asks only what is true.** A free account was being asked to
+  agree to picture storage, AI reading and chat history that do not exist for
+  it. It now agrees to one thing: what I write is stored in my own account, and
+  I can delete it whenever I like. The full page is asked for when the course is
+  bought (§6.1).
+- **Settings keeps what a free account needs** — name, light or dark, Help, and
+  the way to delete everything — and drops the currency and the two permissions.
+- **What they write is saved.** It is theirs, it is still there when they come
+  back, and it is still there when they buy. That is the pull.
+
 **Fixed on the way:** a phase with nothing written in it was offered for sale
 when you did not own it. Released is now asked before bought, everywhere.
 

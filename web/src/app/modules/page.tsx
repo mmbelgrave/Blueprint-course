@@ -7,10 +7,11 @@ import { Mark } from "@/components/brand";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { PRODUCT } from "@/lib/content";
-import { buyUrl, lessonKey, modules, phaseProgress, stateOf } from "@/lib/modules-app";
+import { buyUrl, isFree, lessonKey, modules, phaseProgress, stateOf } from "@/lib/modules-app";
 
 export default function Modules() {
   const { entitlements, profile, statuses } = useApp();
+  const free = isFree(entitlements);
 
   return (
     <Shell quiet ownHeader>
@@ -32,8 +33,10 @@ export default function Modules() {
               const watched = m.kind === "lesson" && statuses[lessonKey(m.id)] === "done";
               // A phase counts its lessons; the Introduction is one lesson, so
               // it gets the same bar rather than a tick on its own.
-              const progress =
-                m.kind === "phase"
+              // A free account is not measured against a course it does not have.
+              const progress = free
+                ? null
+                : m.kind === "phase"
                   ? phaseProgress(m, statuses)
                   : m.kind === "lesson"
                     ? { done: watched ? 1 : 0, total: 1, percent: watched ? 100 : 0, complete: watched }

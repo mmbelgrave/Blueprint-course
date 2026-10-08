@@ -75,8 +75,12 @@ const TABS: Tab[] = [
   },
 ];
 
-export function Tabs() {
+export function Tabs({ free = false }: { free?: boolean }) {
   const path = usePathname();
+  // A free account keeps Modules and Settings. The Exercises overview is the
+  // whole eight-step road — the structure a free account should not be shown —
+  // and the AI partner comes with the course.
+  const tabs = free ? TABS.filter((t) => t.href === "/modules" || t.href === "/settings") : TABS;
   return (
     <nav
       aria-label="The app"
@@ -84,7 +88,7 @@ export function Tabs() {
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto flex max-w-lg">
-        {TABS.map((t) => {
+        {tabs.map((t) => {
           const here = t.match(path);
           return (
             <li key={t.href} className="flex-1">

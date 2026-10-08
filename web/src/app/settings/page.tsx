@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
+import { isFree } from "@/lib/access-app";
 import { ThemeChoice } from "@/components/theme-choice";
 import { useApp } from "@/lib/app-state";
 import type { Profile } from "@/lib/backend";
@@ -11,7 +12,10 @@ import type { Profile } from "@/lib/backend";
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
 
 function SettingsForm({ profile }: { profile: Profile }) {
-  const { saveProfile } = useApp();
+  const { entitlements, saveProfile } = useApp();
+  // Nothing here that a free account does not have: no money questions, no AI
+  // to give permission to, nobody reading along.
+  const free = isFree(entitlements);
   const [draft, setDraft] = useState<Profile>(profile);
   const [state, setState] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const set = (patch: Partial<Profile>) => {
@@ -43,21 +47,23 @@ function SettingsForm({ profile }: { profile: Profile }) {
             onChange={(e) => set({ first_name: e.target.value })}
           />
         </label>
-        <label className="block">
-          <span className="mb-1 block font-medium">Your currency for the money questions</span>
-          <select
-            className="field-input max-w-[10rem]"
-            value={draft.currency}
-            onChange={(e) => set({ currency: e.target.value })}
-          >
-            {CURRENCIES.map((c) => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
-        </label>
+        {!free && (
+          <label className="block">
+            <span className="mb-1 block font-medium">Your currency for the money questions</span>
+            <select
+              className="field-input max-w-[10rem]"
+              value={draft.currency}
+              onChange={(e) => set({ currency: e.target.value })}
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </label>
+        )}
       </section>
 
-      <section className="space-y-4">
+      <section className={free ? "hidden" : "space-y-4"}>
         <h2 className="text-xl font-semibold text-pine">Who may read your answers</h2>
         <label className="flex gap-3">
           <input
@@ -100,11 +106,23 @@ function SettingsForm({ profile }: { profile: Profile }) {
       </div>
 
       <p className="text-sm text-stone">
-        Want to see or delete what your AI partner knows, or delete everything?{" "}
-        <Link href="/me" className="underline">
-          What my AI partner knows
-        </Link>
-        .
+        {free ? (
+          <>
+            Want to delete everything you have written here?{" "}
+            <Link href="/me" className="underline">
+              Delete my account
+            </Link>
+            .
+          </>
+        ) : (
+          <>
+            Want to see or delete what your AI partner knows, or delete everything?{" "}
+            <Link href="/me" className="underline">
+              What my AI partner knows
+            </Link>
+            .
+          </>
+        )}
       </p>
     </form>
   );

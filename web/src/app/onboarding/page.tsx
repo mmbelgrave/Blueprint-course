@@ -3,13 +3,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
+import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
 import { takeSignup } from "@/lib/signup-source";
 
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
 
 function ConsentForm() {
-  const { profile, saveProfile } = useApp();
+  const { entitlements, profile, saveProfile } = useApp();
+  // A free account has no AI partner and no picture board, so it is not asked
+  // to agree to either. The full page is asked for when the course is bought.
+  const free = isFree(entitlements);
   const router = useRouter();
   const [firstName, setFirstName] = useState(profile?.first_name ?? "");
   const [currency, setCurrency] = useState(profile?.currency ?? "EUR");
@@ -48,16 +52,26 @@ function ConsentForm() {
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-pine">Before you start</h2>
         <p>You will share personal things here. So you should know what happens with them.</p>
-        <ul className="list-disc space-y-2 pl-6">
-          <li>
-            We store your answers, the pictures you add to your board, your chats with your AI partner, and a short
-            summary of what you wrote.
-          </li>
-          <li>Your pictures stay in your own account. Your AI partner reads only the line you write under a picture.</li>
-          <li>An AI model reads your answers to help you think. It does not decide anything for you.</li>
-          <li>You can see what your AI partner remembers about you, and change it.</li>
-          <li>You can delete everything at any time.</li>
-        </ul>
+        {free ? (
+          <ul className="list-disc space-y-2 pl-6">
+            <li>We store what you type, so it is still there when you come back.</li>
+            <li>Nobody else reads it. There is no AI partner on a free account.</li>
+            <li>You can delete everything at any time.</li>
+          </ul>
+        ) : (
+          <ul className="list-disc space-y-2 pl-6">
+            <li>
+              We store your answers, the pictures you add to your board, your chats with your AI partner, and a short
+              summary of what you wrote.
+            </li>
+            <li>
+              Your pictures stay in your own account. Your AI partner reads only the line you write under a picture.
+            </li>
+            <li>An AI model reads your answers to help you think. It does not decide anything for you.</li>
+            <li>You can see what your AI partner remembers about you, and change it.</li>
+            <li>You can delete everything at any time.</li>
+          </ul>
+        )}
         <p className="text-sm text-stone">
           Read more on the <Link href="/privacy" className="underline">privacy page</Link>.
         </p>
@@ -73,18 +87,20 @@ function ConsentForm() {
             onChange={(e) => setFirstName(e.target.value)}
           />
         </label>
-        <label className="block">
-          <span className="mb-1 block font-medium">Your currency for the money questions</span>
-          <select
-            className="field-input max-w-[10rem]"
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-          >
-            {CURRENCIES.map((c) => (
-              <option key={c}>{c}</option>
-            ))}
-          </select>
-        </label>
+        {!free && (
+          <label className="block">
+            <span className="mb-1 block font-medium">Your currency for the money questions</span>
+            <select
+              className="field-input max-w-[10rem]"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+            >
+              {CURRENCIES.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </label>
+        )}
         <p className="text-sm text-stone">
           The app is in English. You may write your answers in your own language.
         </p>
@@ -96,26 +112,37 @@ function ConsentForm() {
             type="checkbox"
             required
             className="mt-1.5 h-5 w-5 accent-pine"
-            checked={consentAi}
-            onChange={(e) => setConsentAi(e.target.checked)}
+            checked={free ? true : consentAi}
+            onChange={(e) => setConsentAi(free ? false : e.target.checked)}
           />
           <span>
-            I understand that an AI model reads my answers to help me, and that I can delete
-            everything at any time. <span className="text-stone">(needed to use the app)</span>
+            {free ? (
+              <>
+                I understand that what I write is stored in my own account, and that I can delete everything at any
+                time. <span className="text-stone">(needed to use the app)</span>
+              </>
+            ) : (
+              <>
+                I understand that an AI model reads my answers to help me, and that I can delete everything at any
+                time. <span className="text-stone">(needed to use the app)</span>
+              </>
+            )}
           </span>
         </label>
-        <label className="flex gap-3">
-          <input
-            type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-pine"
-            checked={founder}
-            onChange={(e) => setFounder(e.target.checked)}
-          />
-          <span>
-            Mwata may read my answers and my AI summary to guide me.{" "}
-            <span className="text-stone">(optional — you can change this later)</span>
-          </span>
-        </label>
+        {!free && (
+          <label className="flex gap-3">
+            <input
+              type="checkbox"
+              className="mt-1.5 h-5 w-5 accent-pine"
+              checked={founder}
+              onChange={(e) => setFounder(e.target.checked)}
+            />
+            <span>
+              Mwata may read my answers and my AI summary to guide me.{" "}
+              <span className="text-stone">(optional — you can change this later)</span>
+            </span>
+          </label>
+        )}
       </section>
 
       <button className="btn btn-primary" disabled={saving}>

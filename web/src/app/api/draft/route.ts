@@ -45,10 +45,9 @@ export async function POST(request: Request) {
     .maybeSingle();
   if (!profileRow?.consent_ai) return fail(403, "Your AI partner is switched off. You can switch it on in My settings.");
 
-  // A free account may talk to its partner, but not have a summary written for
-  // it: that belongs to the course (§6.2).
+  // The AI partner, drafts and all, comes with the course (§6.2).
   if (isFreeAccount(await myEntitlements(supabase))) {
-    return fail(403, "Drafting a summary is part of the course. Your AI partner is still here to think with you.");
+    return fail(403, "Your AI partner comes with the course.");
   }
 
   // Drafts have their own daily limit, counted in the usage log (people may read their own rows).

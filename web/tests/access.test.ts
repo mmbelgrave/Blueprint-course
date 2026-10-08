@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   closedBecause,
+  isFreeAccount,
   itemAccess,
   lessonAccess,
   ownedSteps,
@@ -109,4 +110,20 @@ test("buying the phase opens the free things too, without saying free", () => {
   const ask = askFor(bought("phase1"), true);
   assert.deepEqual(lessonAccess("step-1", "p2", 1, ask), { open: true, because: "owned" });
   assert.deepEqual(pageAccess("1.3", 1, ask), { open: true, because: "owned" });
+});
+
+// Which screens thin themselves out hangs on this one answer, so it is worth
+// being sure it can never be true by accident.
+test("a free account is someone signed in who has bought nothing", () => {
+  assert.equal(isFreeAccount({ entitlements: none, requirePurchase: true, config }), true);
+  assert.equal(isFreeAccount({ entitlements: bought("phase1"), requirePurchase: true, config }), false);
+});
+
+test("nobody is free while buying is switched off", () => {
+  // Otherwise the app would thin itself out for everyone who has ever used it.
+  assert.equal(isFreeAccount({ entitlements: none, requirePurchase: false, config }), false);
+});
+
+test("a refunded purchase makes a free account again", () => {
+  assert.equal(isFreeAccount({ entitlements: bought("phase1", "refunded"), requirePurchase: true, config }), true);
 });

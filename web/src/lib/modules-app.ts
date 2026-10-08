@@ -7,6 +7,7 @@ import modulesRaw from "@/content/modules.json";
 import type { Entitlement } from "@/lib/access";
 import { ownedSteps } from "@/lib/access";
 import { accessConfig, requirePurchase } from "@/lib/access-app";
+export { isFree } from "@/lib/access-app";
 import { getStep, journey, partItems, stepIsOpen } from "@/lib/content";
 import {
   lessonsOfStep,
@@ -88,6 +89,36 @@ export function stepProgress(moduleId: string, step: number, statuses: Record<st
 
 export function phaseProgress(m: ModuleDef, statuses: Record<string, string>) {
   return progressOfPhase((m.steps ?? []).filter(stepIsOpen).map((n) => stepProgress(m.id, n, statuses)));
+}
+
+/**
+ * What a free account may open inside a phase: the lessons and the exercise
+ * pages access.json calls free. Shown as a short list instead of the steps,
+ * because there is no journey to show someone who owns none of it.
+ */
+export function freeThingsIn(m: ModuleDef): { kind: "lesson" | "page"; href: string; title: string; note: string }[] {
+  const out: { kind: "lesson" | "page"; href: string; title: string; note: string }[] = [];
+  for (const n of (m.steps ?? []).filter(stepIsOpen)) {
+    const stepId = stepIdOf(n);
+    for (const l of lessonsOf(n)) {
+      if (accessConfig.free.lessons.includes(`${stepId}:${l.id}`)) {
+        out.push({ kind: "lesson", href: `/modules/${m.id}/${stepId}/${l.id}`, title: l.title, note: "Video" });
+      }
+    }
+    for (const p of getStep(n)?.parts ?? []) {
+      for (const item of partItems(p)) {
+        if (accessConfig.free.pages.includes(item.id)) {
+          out.push({
+            kind: "page",
+            href: `/step/${n}/${p.id}/${item.id}`,
+            title: `${item.number ?? item.id} ${item.title}`.trim(),
+            note: "Exercise",
+          });
+        }
+      }
+    }
+  }
+  return out;
 }
 
 /** A free exercise, which is a PDF rather than a page. */

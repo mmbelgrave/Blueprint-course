@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Lockup } from "@/components/brand";
+import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { PRODUCT } from "@/lib/content";
@@ -22,7 +23,8 @@ export function Shell({
   /** The page draws its own head on a phone, so this one steps aside there. */
   ownHeader?: boolean;
 }) {
-  const { user, signOut } = useApp();
+  const { user, entitlements, signOut } = useApp();
+  const free = isFree(entitlements);
   const router = useRouter();
   const isAdmin = useIsAdmin(!!user);
 
@@ -42,13 +44,17 @@ export function Shell({
           </Link>
           {user && (
             <nav className="hidden flex-wrap items-center gap-x-4 gap-y-1 text-sm sm:flex">
-              <Link href="/dashboard" className="text-pine hover:underline">
-                Overview
-              </Link>
-              <Link href="/me" className="text-pine hover:underline">
-                <span className="hidden sm:inline">What my AI partner knows</span>
-                <span className="sm:hidden">My notes</span>
-              </Link>
+              {!free && (
+                <Link href="/dashboard" className="text-pine hover:underline">
+                  Overview
+                </Link>
+              )}
+              {!free && (
+                <Link href="/me" className="text-pine hover:underline">
+                  <span className="hidden sm:inline">What my AI partner knows</span>
+                  <span className="sm:hidden">My notes</span>
+                </Link>
+              )}
               <Link href="/settings" className="text-pine hover:underline">
                 Settings
               </Link>
@@ -77,7 +83,7 @@ export function Shell({
       <main className={`mx-auto w-full flex-1 px-4 py-8 ${wide ? "max-w-7xl" : "max-w-4xl"} ${user ? TABS_ROOM : ""}`}>
         {children}
       </main>
-      {user && <Tabs />}
+      {user && <Tabs free={free} />}
       {!quiet && (
         <footer
           className={`border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}

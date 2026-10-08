@@ -3,6 +3,7 @@
 // AI partner remembers — and delete everything.
 import { useEffect, useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
+import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
 import { deleteAllPictures, picturesAvailable } from "@/lib/backend/pictures";
 import { isSupabaseConfigured, store } from "@/lib/backend";
@@ -147,7 +148,10 @@ function ProfileItem({
 }
 
 function DeleteEverything() {
-  const { signOut, user } = useApp();
+  const { entitlements, signOut, user } = useApp();
+  // A free account has no pictures and no AI partner, so it is not told that
+  // things it never had are about to be deleted.
+  const free = isFree(entitlements);
   const [sure, setSure] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -156,8 +160,9 @@ function DeleteEverything() {
     <section className="mt-10 space-y-3 rounded-2xl border-2 border-ochre p-5">
       <h2 className="text-xl font-semibold text-pine">Delete everything</h2>
       <p>
-        This deletes your workbook answers, your pictures, your chats with your AI partner, what your AI partner knows
-        about you, your results and your feedback. It cannot be undone.
+        {free
+          ? "This deletes everything you have written here, and the account itself. It cannot be undone."
+          : "This deletes your workbook answers, your pictures, your chats with your AI partner, what your AI partner knows about you, your results and your feedback. It cannot be undone."}
       </p>
       <label className="flex gap-3">
         <input
@@ -320,12 +325,25 @@ function PartnerKnows() {
   );
 }
 
+function DeleteOnly() {
+  return (
+    <>
+      <h1 className="text-3xl font-bold text-pine">Your account</h1>
+      <p className="mt-2 text-stone">
+        A free account has no AI partner, so there is nothing it remembers about you. What you typed is stored in your
+        own account and nowhere else.
+      </p>
+      <DeleteEverything />
+    </>
+  );
+}
+
 export default function MePage() {
+  const { entitlements } = useApp();
+  const free = isFree(entitlements);
   return (
     <Shell>
-      <RequireUser>
-        <PartnerKnows />
-      </RequireUser>
+      <RequireUser>{free ? <DeleteOnly /> : <PartnerKnows />}</RequireUser>
     </Shell>
   );
 }

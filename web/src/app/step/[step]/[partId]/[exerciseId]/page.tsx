@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/cards";
 import { ClosedStep } from "@/components/closed-step";
-import { pageFor } from "@/lib/access-app";
+import { isFree, pageFor } from "@/lib/access-app";
 import { FieldInput, formatMoney, tableFieldTotal } from "@/components/fields";
 import { PartnerPanel } from "@/components/PartnerPanel";
 import { RequireUser, Shell } from "@/components/Shell";
@@ -47,7 +47,8 @@ function Fields({
   block: Block;
   drafts?: Drafts;
 }) {
-  const { answers, profile, setAnswer } = useApp();
+  const { answers, entitlements, profile, setAnswer } = useApp();
+  const free = isFree(entitlements);
   const values = answers[storeId] ?? {};
   const baseExtras = fieldExtras(exercise, answers);
   // An AI partner draft is offered next to its box; the person decides.
@@ -70,6 +71,9 @@ function Fields({
         if (field.show_if && !Object.entries(field.show_if).every(([k, v]) => values[k] === v)) {
           return null;
         }
+        // A free account is not offered a picture board: nothing of theirs is
+        // stored in the picture store, so nothing is promised about it.
+        if (field.type === "image_board" && free) return null;
         return (
           <FieldInput
             key={field.id}
@@ -256,7 +260,8 @@ function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exercise
 function ExerciseBody({ located }: { located: Located }) {
   const { step, part, exercise } = located;
   const stepNumber = step.step.number;
-  const { user, statuses, setStatus } = useApp();
+  const { user, entitlements, statuses, setStatus } = useApp();
+  const free = isFree(entitlements);
   const [statusError, setStatusError] = useState(false);
   const [drafts, setDrafts] = useState<Drafts>({});
   const canDraft = draftFields(exercise).length > 0;
@@ -293,16 +298,26 @@ function ExerciseBody({ located }: { located: Located }) {
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
       <article className="min-w-0 space-y-6">
         <header>
-          <div className="rounded-2xl bg-white p-4 sm:p-5">
-            <PartRail content={step} statuses={statuses} currentPartId={part.id} />
-          </div>
-          <p className="mt-3 text-sm text-stone">
-            <Link href={stepHref(stepNumber)} className="hover:underline">
-              Step {stepNumber} · {step.step.title}
-            </Link>
-            {" · "}
-            {part.label} · {part.title} · {progress.done} of {progress.total} done
-          </p>
+          {free ? (
+            <p className="text-sm">
+              <Link href="/modules" className="text-pine hover:underline">
+                ← Back to the modules
+              </Link>
+            </p>
+          ) : (
+            <>
+              <div className="rounded-2xl bg-white p-4 sm:p-5">
+                <PartRail content={step} statuses={statuses} currentPartId={part.id} />
+              </div>
+              <p className="mt-3 text-sm text-stone">
+                <Link href={stepHref(stepNumber)} className="hover:underline">
+                  Step {stepNumber} · {step.step.title}
+                </Link>
+                {" · "}
+                {part.label} · {part.title} · {progress.done} of {progress.total} done
+              </p>
+            </>
+          )}
           {isFirstOfPart && (
             <div className="mt-4 space-y-3">
               <p className="display text-lg text-pine">{part.promise}</p>
@@ -534,7 +549,7 @@ function ExerciseBody({ located }: { located: Located }) {
         )}
 
         {/* The pages of this part, and the way back out, in one line. */}
-        <nav aria-label="The pages of this part" className="print:hidden">
+        <nav aria-label="The pages of this part" className={free ? "hidden" : "print:hidden"}>
           <PageChips
             step={stepNumber}
             part={part}
@@ -542,13 +557,15 @@ function ExerciseBody({ located }: { located: Located }) {
             currentId={exercise.id}
             lead={`${part.label}:`}
             nextPart={step.parts[step.parts.indexOf(part) + 1]}
-            trailing={{ href: "/dashboard", label: "Back to overview" }}
+            trailing={
+              free ? { href: "/modules", label: "Back to the modules" } : { href: "/dashboard", label: "Back to overview" }
+            }
           />
         </nav>
       </article>
 
       <aside className="lg:sticky lg:top-6 lg:self-start">
-        <PartnerPanel exerciseId={exercise.id} />
+        {!free && <PartnerPanel exerciseId={exercise.id} />}
         {/* The question your AI partner cannot answer goes to Mwata, with this
             page already named so nobody has to explain where they were. */}
         <p className="mt-3 text-center text-sm text-stone print:hidden">

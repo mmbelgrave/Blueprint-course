@@ -88,6 +88,21 @@ export function itemAccess(itemId: string, ask: Omit<Ask, "released">): Verdict 
   return { open: false, why: "not-bought" };
 }
 
+/**
+ * A free account: signed in, nothing bought (§6.2). Only ever true once buying
+ * is required — until then nobody is treated as free, which is why switching
+ * `requirePurchase` on is the one thing that can change what people have.
+ *
+ * What this hides is not punishment. A free account has no AI partner, so it
+ * is not asked to consent to one; it has no picture board, so it is not
+ * promised picture storage. The screens show what is true for the person
+ * in front of them.
+ */
+export function isFreeAccount(ask: Pick<Ask, "entitlements" | "requirePurchase" | "config">): boolean {
+  if (!ask.requirePurchase) return false;
+  return ownedSteps(ask.entitlements, ask.config).length === 0;
+}
+
 /** What to say on a closed door, so every one of them says the same thing. */
 export const closedBecause = (why: "not-released" | "not-bought") =>
   why === "not-released"

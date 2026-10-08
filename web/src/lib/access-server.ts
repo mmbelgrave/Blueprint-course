@@ -4,8 +4,8 @@
  * The browser decides what to draw; this decides what may be read, spent or
  * sent. Every API route that hands something over asks here.
  */
-import { ownedSteps, type Entitlement } from "@/lib/access";
-import { accessConfig, requirePurchase } from "@/lib/access-app";
+import type { Entitlement } from "@/lib/access";
+import { isFree } from "@/lib/access-app";
 
 type Queryable = {
   from: (table: string) => { select: (columns: string) => PromiseLike<{ data: unknown }> };
@@ -17,12 +17,5 @@ export async function myEntitlements(supabase: Queryable): Promise<Entitlement[]
   return (data ?? []) as Entitlement[];
 }
 
-/**
- * A free account: signed in, nothing bought (§6.2). Only ever true once buying
- * is required — until then nobody is treated as free, which is why switching
- * `requirePurchase` on is the one thing that can change what people have.
- */
-export function isFreeAccount(entitlements: Entitlement[]): boolean {
-  if (!requirePurchase) return false;
-  return ownedSteps(entitlements, accessConfig).length === 0;
-}
+/** A free account (§6.2). The same rule the screens use, asked on the server. */
+export const isFreeAccount = (entitlements: Entitlement[]): boolean => isFree(entitlements);

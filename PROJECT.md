@@ -306,6 +306,14 @@ purchase with another email can be claimed; a test order does not open the live
 app.
 
 ### 6.2 Free access
+**What a free account is (decided 8 October).** A lean app, not the whole app
+with padlocks on it. Two places along the bottom — Modules and Settings — and
+inside Modules: Free material, the Introduction, and Phase 1 holding the free
+lesson and the free exercise with no steps or progress bars around them. No AI
+partner, no picture board, and a consent page that asks only about what is
+actually stored. What they write is saved, because it is theirs and because it
+is still there when they buy.
+
 **Where it stands (8 October):** built on `next-version` and **switched off**.
 `NEXT_PUBLIC_REQUIRE_PURCHASE` is not set, so nobody is treated as free yet and
 nothing has been taken away from anyone. Before it is switched on, every

@@ -9,6 +9,7 @@
  */
 import accessRaw from "@/content/access.json";
 import {
+  isFreeAccount,
   itemAccess,
   lessonAccess,
   pageAccess,
@@ -52,6 +53,10 @@ export const lessonFor = (
 
 export const itemFor = (itemId: string, entitlements: Entitlement[]): Verdict =>
   itemAccess(itemId, { entitlements, requirePurchase, config: accessConfig });
+
+/** Is this person on a free account? Every screen that thins itself asks this. */
+export const isFree = (entitlements: Entitlement[]): boolean =>
+  isFreeAccount({ entitlements, requirePurchase, config: accessConfig });
 
 /** The products a person could be given, for the Admin grant list. */
 export const products = Object.entries(accessConfig.products).map(([id, p]) => ({ id, ...p }));

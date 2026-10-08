@@ -13,13 +13,24 @@ import { ModuleHeader } from "@/components/module-header";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { stepFor } from "@/lib/access-app";
-import { buyUrl, lessonKey, moduleById, phaseProgress, stateOf, stepProgress, stepsOfPhase } from "@/lib/modules-app";
+import {
+  buyUrl,
+  freeThingsIn,
+  isFree,
+  lessonKey,
+  moduleById,
+  phaseProgress,
+  stateOf,
+  stepProgress,
+  stepsOfPhase,
+} from "@/lib/modules-app";
 
 export default function ModulePage() {
   const { moduleId } = useParams<{ moduleId: string }>();
   const { entitlements, statuses } = useApp();
   const course = moduleById(moduleId);
 
+  const free = isFree(entitlements);
   const state = stateOf(course!, entitlements);
   // "buy" still opens: a phase has to be seen before anyone buys it. "coming"
   // does not, because there is nothing behind the door yet.
@@ -46,7 +57,7 @@ export default function ModulePage() {
       backLabel="Back to the modules"
       title={course.name}
       blurb={course.edition ? `${course.edition} · ${course.blurb ?? ""}`.replace(/ · $/, "") : course.blurb}
-      percent={course.kind === "phase" ? phaseProgress(course, statuses).percent : undefined}
+      percent={course.kind === "phase" && !free ? phaseProgress(course, statuses).percent : undefined}
     />
   );
 
@@ -108,6 +119,55 @@ export default function ModulePage() {
                 ))}
               </ul>
             )}
+          </article>
+        </RequireUser>
+      </Shell>
+    );
+  }
+
+  // A free account sees the one or two things that are open to it, with no
+  // steps around them: there is no journey to show someone who owns none of it.
+  if (free) {
+    const open = freeThingsIn(course);
+    return (
+      <Shell quiet ownHeader>
+        <RequireUser>
+          <article className="space-y-6">
+            {header}
+
+            {open.length > 0 && (
+              <ul className="space-y-3">
+                {open.map((o) => (
+                  <li key={o.href}>
+                    <Link
+                      href={o.href}
+                      className="flex items-center gap-3 rounded-2xl border-b-2 border-ochre/35 bg-white p-4 transition hover:border-ochre"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-semibold text-pine">{o.title}</span>
+                        <span className="block text-sm text-stone">{o.note} · free</span>
+                      </span>
+                      <span aria-hidden className="shrink-0 text-ochre">
+                        →
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <section className="rounded-2xl bg-sage p-5 text-center">
+              <h2 className="text-lg text-pine">The rest of this phase is the course</h2>
+              <p className="mt-1 text-stone">
+                Every step with its video, its workbook as a PDF, the exercises in the app, and your AI partner beside
+                you while you write.
+              </p>
+              <p className="mt-3">
+                <a className="btn btn-primary" href={buyUrl} target="_blank" rel="noopener noreferrer">
+                  Get Phase 1
+                </a>
+              </p>
+            </section>
           </article>
         </RequireUser>
       </Shell>
