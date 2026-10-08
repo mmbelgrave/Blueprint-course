@@ -141,13 +141,6 @@ export default function SettingsPage() {
           <div className="mt-8 border-t border-line pt-8">
             <ThemeChoice />
           </div>
-          {free && (
-            <p className="mt-8 border-t border-line pt-8 text-sm text-stone">
-              <Link href="/privacy" className="underline">
-                Privacy
-              </Link>
-            </p>
-          )}
           <div className="mt-8 border-t border-line pt-8">
             <h2 className="text-xl font-semibold text-pine">Help</h2>
             <p className="mt-1 text-sm text-stone">
@@ -159,6 +152,15 @@ export default function SettingsPage() {
               </Link>
             </p>
           </div>
+          {/* A free account has no footer, so the notice that covers it lives
+              here: the last line on the page, quietly. */}
+          {free && (
+            <p className="mt-8 text-center text-sm text-stone">
+              <Link href="/privacy" className="underline">
+                Privacy
+              </Link>
+            </p>
+          )}
         </div>
       </RequireUser>
     </Shell>
