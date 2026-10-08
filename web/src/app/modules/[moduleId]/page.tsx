@@ -239,6 +239,23 @@ export default function ModulePage() {
             })}
           </ol>
 
+          {/* The document the website promises: "you finish with your own
+              blueprint". It fills itself in as the steps are finished. */}
+          {course.kind === "phase" && state === "open" && (
+            <section className="rounded-2xl bg-sage p-5 text-center">
+              <h2 className="text-lg text-pine">My Blueprint · {course.name}</h2>
+              <p className="mt-1 text-stone">
+                Your step results in one document, with your money from first guess to checked figure, what does not
+                line up yet, and your own dates. Save it as a PDF.
+              </p>
+              <p className="mt-3">
+                <Link className="btn btn-primary" href={`/phase/${course.id.replace("phase-", "")}/print`}>
+                  Open my blueprint
+                </Link>
+              </p>
+            </section>
+          )}
+
           {state === "buy" && (
             <section className="rounded-2xl bg-sage p-5 text-center">
               <h2 className="text-lg text-pine">This phase is part of the course</h2>

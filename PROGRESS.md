@@ -248,6 +248,41 @@ Setting in_app back to true opens it again, nothing else.
 two tables in 2.1, the two questions in 3.5 and the Part 2 summary. "Your life
 today and in one year" is now the wheel alone.
 
+## My Blueprint, built (8 October 2026)
+
+Spec 6.5, at /phase/1/print, linked from the phase page. Eight sheets: the
+cover, the decision in one page, the money thread, what does not line up yet
+and what happens next, the three step results, and the closing line. Saved as
+a PDF through the browser's print window, like the step results.
+
+**The rules live in lib/blueprint.ts, with nothing imported but the money
+arithmetic, so they are tested on their own** (13 tests). Every line of the
+document is the person's own words, their own numbers, or a comparison between
+two answers they wrote weeks apart. Nothing is written by an AI and nothing is
+advice -- this document leaves the app and gets shown to partners and
+advisers, so it may never say anything that could be wrong.
+
+What the rules notice:
+
+- the money thread: what Step 1 guessed, what Step 2 found, the difference as
+  a percentage, income against the checked figure, and the runway in months;
+- over 20% apart, which is the workbook's own threshold for going back through
+  both sets of figures;
+- a red light, and an amber light with no date when the others have one;
+- a must-have or dealbreaker the last check says this option does not meet --
+  and, when none is broken, that fact as the good news it is;
+- an unknown carried through from Step 2;
+- a "go" with no conditions written down;
+- what happens next: their own dates, gathered from the first step, the
+  lights, the timeline, the Step 2 next step and the review date.
+
+**It degrades.** A step that is not finished shows "Not finished yet" with a
+link rather than an empty page, an empty blueprint flags nothing at all, and
+no figure is shown that cannot be worked out from what they wrote.
+
+The proposal it was built from is design/phase-blueprint-proposal-v2.html, and
+design/My-Blueprint-Phase-1-example.pdf is the printed worked example.
+
 ## Step 3 Decide, built and closed (8 October 2026)
 
 From "The Made Real Blueprint - Step 3 Decide workbook - Rev.00a.docx". Twelve
