@@ -24,7 +24,8 @@
 import { HlsJsVideo } from "@videojs/react/media/hlsjs-video";
 import { VideoPlayer, VideoSkin } from "@videojs/react/video";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { SAVE_EVERY_MS, startAt, worthSaving, type Progress } from "@/lib/video";
+import { useApp } from "@/lib/app-state";
+import { isWatched, SAVE_EVERY_MS, startAt, worthSaving, type Progress } from "@/lib/video";
 import "@videojs/react/video/skin.css";
 
 export type Video = {
@@ -61,6 +62,7 @@ const Ctx = createContext<VideoState | null>(null);
 export const useVideo = () => useContext(Ctx);
 
 export function PlayerHost({ children }: { children: React.ReactNode }) {
+  const { setStatus, statuses } = useApp();
   const [now, setNow] = useState<Video | null>(null);
   const [listening, setListening] = useState(false);
   /** The corner player, only ever because the person asked for it. */
@@ -71,6 +73,26 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
   const lastSaved = useRef<number | null>(null);
   const lastSentAt = useRef(0);
   const keepPlace = useRef(0);
+  /** Lessons this visit has already ticked, so it is asked for once. */
+  const marked = useRef<Set<string>>(new Set());
+
+  /*
+   * A video watched to the end is a lesson finished: the app knows, so it
+   * should not ask. The id a slot plays under is the same key the tick uses
+   * (watchedKey), which is what makes this one line rather than a lookup.
+   *
+   * "The end" is the rule in lib/video.ts, a few seconds short of the last
+   * frame, so stopping during the closing titles still counts. The tick stays
+   * on the page for people who read instead of watch, and for undoing this.
+   */
+  const markWatched = useCallback(
+    (id: string) => {
+      if (marked.current.has(id) || statuses[id] === "done") return;
+      marked.current.add(id);
+      void setStatus(id, "done");
+    },
+    [setStatus, statuses],
+  );
 
   const play = useCallback((video: Video, asAudio = false) => {
     lastSaved.current = null;
@@ -133,6 +155,7 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
     };
 
     const onTime = () => {
+      if (isWatched({ seconds: el.currentTime, duration: el.duration })) markWatched(now.id);
       const at = Date.now();
       if (at - lastSentAt.current < SAVE_EVERY_MS) return;
       if (!worthSaving(lastSaved.current, el.currentTime)) return;
@@ -140,7 +163,10 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
       save(now, el.currentTime, el.duration);
     };
 
-    const onEnded = () => save(now, el.duration, el.duration);
+    const onEnded = () => {
+      save(now, el.duration, el.duration);
+      markWatched(now.id);
+    };
     const keep = () => save(now, el.currentTime, el.duration, true);
     const onHide = () => document.visibilityState === "hidden" && keep();
 
@@ -158,7 +184,7 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
       window.removeEventListener("pagehide", keep);
       document.removeEventListener("visibilitychange", onHide);
     };
-  }, [now, listening, save, progress]);
+  }, [now, listening, save, progress, markWatched]);
 
   /*
    * Walking away from a video stops it, with the place kept, so it is waiting

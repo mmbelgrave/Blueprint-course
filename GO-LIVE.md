@@ -313,6 +313,24 @@ partner and no picture board — so it costs you nothing in AI, and nobody is
 asked to agree to things that do not happen to them. Admin still shows which
 accounts are free and where they came from.
 
+## 7d. The workbook PDFs
+
+They live in a private Supabase store called **workbooks**, uploaded through
+Storage in the dashboard, with the exact names `modules.json` gives:
+`introduction.pdf`, `step-1.pdf`, `step-2.pdf`, `free-ordinary-tuesday.pdf`.
+
+**That store has no access rules at all, on purpose.** Unlike the picture store,
+nobody can read it with their own account - not even a paying member. Every
+link is signed by the server in `/api/workbook`, and only after that route has
+decided this person may have this file. A storage rule would have to let every
+signed-in person read every workbook, which is the opposite of what the access
+layer is for. The server needs `SUPABASE_SERVICE_ROLE_KEY` for this, which it
+already has.
+
+If a download ever fails, look in the Vercel logs for `workbook: could not
+sign a link`. The two likely causes are a name in `modules.json` that does not
+match the file in the store, and a missing service-role key.
+
 ## 8. Check it yourself
 
 Sign in on the real address and walk through:

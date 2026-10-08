@@ -15,6 +15,7 @@ import { ownedSteps } from "@/lib/access";
 import { accessConfig, requirePurchase } from "@/lib/access-app";
 import { isFreeAccount, myEntitlements } from "@/lib/access-server";
 import { freeItemById, moduleById, workbookOf } from "@/lib/modules-app";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -61,10 +62,22 @@ export async function GET(request: Request) {
     if (!mine.includes(number)) return fail(403, "This workbook is part of the course.");
   }
 
-  const { data, error } = await supabase.storage
+  /*
+   * The link is minted by the server, not by the reader's own session. The
+   * bucket is shut to everybody, and this route -- which has just decided who
+   * may have this file -- is the only way in. The alternative, a storage
+   * policy, would have to let every signed-in person read every workbook,
+   * which is exactly what we are not doing. Without the service key (preview,
+   * local) their own session is tried instead, so nothing breaks there.
+   */
+  const signer = supabaseAdmin() ?? supabase;
+  const { data, error } = await signer.storage
     .from(BUCKET)
     .createSignedUrl(workbook.file, 300, asDownload ? { download: `${workbook.name}.pdf` } : {});
-  if (error || !data) return fail(502, "We could not fetch that workbook. Please try again.");
+  if (error || !data) {
+    console.error("workbook: could not sign a link —", error?.message);
+    return fail(502, "We could not fetch that workbook. Please try again.");
+  }
 
   return Response.redirect(data.signedUrl, 302);
 }
