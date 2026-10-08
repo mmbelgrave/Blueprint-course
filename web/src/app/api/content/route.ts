@@ -22,27 +22,33 @@ export const runtime = "nodejs";
 const fail = (status: number, error: string) => Response.json({ error }, { status });
 
 export async function GET(request: Request) {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    return fail(503, "Preview mode reads the workbook from this browser.");
-  }
-
-  const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
-  if (!auth.user) return fail(401, "Please sign in again.");
-
   const params = new URL(request.url).searchParams;
   const pageId = params.get("page");
   const stepParam = params.get("step");
 
-  // Read with the person's own session, so row-level security still decides.
-  const entitlements: Entitlement[] = await myEntitlements(supabase);
+  /*
+   * Preview mode is a sandbox someone runs on their own machine: no accounts,
+   * no database, nothing of anyone's to protect. It is also the only way to
+   * show the app without signing in, so it answers in full. Every deployed
+   * build has Supabase configured and takes the path below.
+   */
+  const open = !process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  let entitlements: Entitlement[] = [];
+  if (!open) {
+    const supabase = await supabaseServer();
+    const { data: auth } = await supabase.auth.getUser();
+    if (!auth.user) return fail(401, "Please sign in again.");
+    // Read with the person's own session, so row-level security still decides.
+    entitlements = await myEntitlements(supabase);
+  }
 
   if (pageId) {
     const found = findPage(pageId);
     if (!found) return fail(404, "There is no such page.");
     const step = found.step.step.number;
     const verdict = pageFor(pageId, step, entitlements);
-    if (!verdict.open) {
+    if (!open && !verdict.open) {
       return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This page is part of the course.");
     }
     return Response.json(
@@ -54,7 +60,7 @@ export async function GET(request: Request) {
   const number = Number(stepParam);
   if (!Number.isInteger(number) || number < 1) return fail(400, "That is not a step.");
   const verdict = stepFor(number, entitlements);
-  if (!verdict.open) {
+  if (!open && !verdict.open) {
     return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This step is part of the course.");
   }
   const chrome = stepChrome(number);

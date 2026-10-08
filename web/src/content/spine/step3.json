@@ -1,0 +1,600 @@
+{
+  "note": "The shape of this step, for the browser. The words live on the server; see lib/content-server.",
+  "step": {
+    "id": "step3",
+    "number": 3,
+    "title": "Decide",
+    "question": "Am I ready for this option?"
+  },
+  "parts": [
+    {
+      "id": "s3-p0",
+      "number": 0,
+      "label": "Start",
+      "title": "The decision on the table",
+      "time": "30–40 min",
+      "finish": {
+        "id": "decision_question",
+        "title": "My Decision Question",
+        "description": "The exact decision you are testing in this step."
+      },
+      "exercises": [
+        {
+          "id": "s3-0.1",
+          "number": "0.1",
+          "title": "The decision on the table",
+          "fields": [
+            {
+              "id": "a_heading",
+              "type": "heading"
+            },
+            {
+              "id": "life_picture",
+              "type": "long_text"
+            },
+            {
+              "id": "must_haves",
+              "type": "long_text"
+            },
+            {
+              "id": "dealbreakers",
+              "type": "long_text"
+            },
+            {
+              "id": "the_place",
+              "type": "long_text"
+            },
+            {
+              "id": "still_unknown",
+              "type": "long_text"
+            },
+            {
+              "id": "monthly_costs",
+              "type": "long_text"
+            },
+            {
+              "id": "confirmed_income",
+              "type": "short_text"
+            },
+            {
+              "id": "savings_reachable",
+              "type": "short_text"
+            },
+            {
+              "id": "b_heading",
+              "type": "heading"
+            },
+            {
+              "id": "the_option",
+              "type": "long_text"
+            },
+            {
+              "id": "what_go_means",
+              "type": "long_text"
+            },
+            {
+              "id": "when_roughly",
+              "type": "short_text"
+            },
+            {
+              "id": "who_decides",
+              "type": "short_text"
+            },
+            {
+              "id": "decide_by",
+              "type": "short_text"
+            },
+            {
+              "id": "if_not_yet",
+              "type": "long_text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s3-p1",
+      "number": 1,
+      "label": "Part 1",
+      "title": "Five green lights",
+      "time": "3–5 hours",
+      "video": {
+        "title": "Part 1 · Five green lights",
+        "length": "14–18 min",
+        "url": null
+      },
+      "finish": {
+        "id": "green_lights",
+        "title": "My Green Lights",
+        "description": "Five checks, each with a colour, a next action and a date."
+      },
+      "exercises": [
+        {
+          "id": "s3-1.1",
+          "number": "1.1",
+          "title": "Money",
+          "fields": [
+            {
+              "id": "check_one",
+              "type": "table",
+              "row_count": 7,
+              "columns": [
+                {
+                  "id": "amount",
+                  "kind": "money"
+                }
+              ]
+            },
+            {
+              "id": "check_two",
+              "type": "table",
+              "row_count": 7,
+              "columns": [
+                {
+                  "id": "answer",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "adviser_questions",
+              "type": "long_text"
+            },
+            {
+              "id": "money_light",
+              "type": "single_choice"
+            },
+            {
+              "id": "money_green_by",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-1.2",
+          "number": "1.2",
+          "title": "Papers",
+          "fields": [
+            {
+              "id": "papers",
+              "type": "table",
+              "row_count": 10,
+              "columns": [
+                {
+                  "id": "applies",
+                  "kind": "choice"
+                },
+                {
+                  "id": "state",
+                  "kind": "choice"
+                },
+                {
+                  "id": "how_long",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "papers_light",
+              "type": "single_choice"
+            },
+            {
+              "id": "papers_green_by",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-1.3",
+          "number": "1.3",
+          "title": "People",
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                {
+                  "id": "who",
+                  "kind": "text"
+                },
+                {
+                  "id": "means",
+                  "kind": "text"
+                },
+                {
+                  "id": "needs",
+                  "kind": "text"
+                },
+                {
+                  "id": "stand",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "who_will_be_there",
+              "type": "long_text"
+            },
+            {
+              "id": "people_light",
+              "type": "single_choice"
+            },
+            {
+              "id": "people_green_by",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-1.4",
+          "number": "1.4",
+          "title": "Place",
+          "fields": [
+            {
+              "id": "place",
+              "type": "long_text"
+            },
+            {
+              "id": "known",
+              "type": "long_text"
+            },
+            {
+              "id": "estimate_unknown",
+              "type": "long_text"
+            },
+            {
+              "id": "off_season",
+              "type": "long_text"
+            },
+            {
+              "id": "rent_or_buy",
+              "type": "long_text"
+            },
+            {
+              "id": "change_my_mind",
+              "type": "long_text"
+            },
+            {
+              "id": "place_light",
+              "type": "single_choice"
+            },
+            {
+              "id": "place_green_by",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-1.5",
+          "number": "1.5",
+          "title": "Plan B",
+          "fields": [
+            {
+              "id": "keep",
+              "type": "long_text"
+            },
+            {
+              "id": "return_fund",
+              "type": "long_text"
+            },
+            {
+              "id": "warning_sign",
+              "type": "long_text"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text"
+            },
+            {
+              "id": "what_then",
+              "type": "long_text"
+            },
+            {
+              "id": "who_helps",
+              "type": "long_text"
+            },
+            {
+              "id": "planb_light",
+              "type": "single_choice"
+            },
+            {
+              "id": "planb_green_by",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "green_lights",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s3-p2",
+      "number": 2,
+      "label": "Part 2",
+      "title": "Stress-test your plan",
+      "time": "60 min",
+      "video": {
+        "title": "Part 2 · Stress-test your plan",
+        "length": "8–12 min",
+        "url": null
+      },
+      "finish": {
+        "id": "risks",
+        "title": "My Risks",
+        "description": "Your biggest risks, the signs to watch, and what you will do."
+      },
+      "exercises": [
+        {
+          "id": "s3-2.1",
+          "number": "2.1",
+          "title": "Two futures",
+          "fields": [
+            {
+              "id": "o1_good",
+              "type": "long_text"
+            },
+            {
+              "id": "o1_hard",
+              "type": "long_text"
+            },
+            {
+              "id": "o2_good",
+              "type": "long_text"
+            },
+            {
+              "id": "o2_hard",
+              "type": "long_text"
+            },
+            {
+              "id": "still_difficult",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-2.2",
+          "number": "2.2",
+          "title": "What could go wrong?",
+          "fields": [
+            {
+              "id": "risks",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                {
+                  "id": "option",
+                  "kind": "text"
+                },
+                {
+                  "id": "fear",
+                  "kind": "text"
+                },
+                {
+                  "id": "likely",
+                  "kind": "choice"
+                },
+                {
+                  "id": "impact",
+                  "kind": "text"
+                },
+                {
+                  "id": "sign",
+                  "kind": "text"
+                },
+                {
+                  "id": "do",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "biggest_fear",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "risks",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s3-p3",
+      "number": 3,
+      "label": "Part 3",
+      "title": "Put things in the right order",
+      "time": "45–60 min",
+      "video": {
+        "title": "Part 3 · Put things in the right order",
+        "length": "8–10 min",
+        "url": null
+      },
+      "finish": {
+        "id": "first_timeline",
+        "title": "My First Timeline",
+        "description": "The right steps, in the right order."
+      },
+      "exercises": [
+        {
+          "id": "s3-3.1",
+          "number": "3.1",
+          "title": "The right steps, in the right order",
+          "fields": [
+            {
+              "id": "fixed_dates",
+              "type": "table",
+              "row_count": 6,
+              "columns": [
+                {
+                  "id": "when",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "steps",
+              "type": "table",
+              "rows": 7,
+              "columns": [
+                {
+                  "id": "step",
+                  "kind": "text"
+                },
+                {
+                  "id": "undo",
+                  "kind": "choice"
+                },
+                {
+                  "id": "first",
+                  "kind": "text"
+                },
+                {
+                  "id": "when",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "first_timeline",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s3-p4",
+      "number": 4,
+      "label": "Part 4",
+      "title": "Make your decision",
+      "time": "30–45 min",
+      "video": {
+        "title": "Part 4 · Make your decision",
+        "length": "10–12 min",
+        "url": null
+      },
+      "finish": {
+        "id": "decision",
+        "title": "My Decision",
+        "description": "Go, not yet, or no, with your reasons, conditions and dates."
+      },
+      "exercises": [
+        {
+          "id": "s3-4.1",
+          "number": "4.1",
+          "title": "One last check: must-haves and dealbreakers",
+          "fields": [
+            {
+              "id": "check",
+              "type": "table",
+              "rows": 6,
+              "columns": [
+                {
+                  "id": "item",
+                  "kind": "text"
+                },
+                {
+                  "id": "meets",
+                  "kind": "choice"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s3-4.2",
+          "number": "4.2",
+          "title": "My Decision",
+          "fields": [
+            {
+              "id": "question",
+              "type": "long_text"
+            },
+            {
+              "id": "decision",
+              "type": "single_choice"
+            },
+            {
+              "id": "must_haves_met",
+              "type": "long_text"
+            },
+            {
+              "id": "reasons",
+              "type": "long_text"
+            },
+            {
+              "id": "lights",
+              "type": "long_text"
+            },
+            {
+              "id": "conditions",
+              "type": "long_text"
+            },
+            {
+              "id": "who_decided",
+              "type": "long_text"
+            },
+            {
+              "id": "first_step",
+              "type": "long_text"
+            },
+            {
+              "id": "first_step_date",
+              "type": "short_text"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text"
+            },
+            {
+              "id": "would_change",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-4.3",
+          "number": "4.3",
+          "title": "If your answer is \"not yet\" or \"no\"",
+          "optional": true,
+          "fields": [
+            {
+              "id": "really_want",
+              "type": "long_text"
+            },
+            {
+              "id": "missing",
+              "type": "long_text"
+            },
+            {
+              "id": "before_again",
+              "type": "long_text"
+            },
+            {
+              "id": "meanwhile",
+              "type": "long_text"
+            },
+            {
+              "id": "review",
+              "type": "short_text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

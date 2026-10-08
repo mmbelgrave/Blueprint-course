@@ -1,0 +1,606 @@
+{
+  "note": "The shape of this step, for the browser. The words live on the server; see lib/content-server.",
+  "step": {
+    "id": "step2",
+    "number": 2,
+    "title": "Explore",
+    "question": "Where could this life really work?"
+  },
+  "parts": [
+    {
+      "id": "s2-p0",
+      "number": 0,
+      "label": "Start",
+      "title": "What I am looking for",
+      "time": "20–30 min",
+      "finish": {
+        "id": "looking_for",
+        "title": "What I Am Looking For",
+        "description": "The measuring stick you use for every place in this step."
+      },
+      "exercises": [
+        {
+          "id": "s2-0.1",
+          "number": "0.1",
+          "title": "What I am looking for",
+          "fields": [
+            {
+              "id": "a_heading",
+              "type": "heading"
+            },
+            {
+              "id": "life_picture",
+              "type": "long_text"
+            },
+            {
+              "id": "directions",
+              "type": "long_text"
+            },
+            {
+              "id": "must_haves",
+              "type": "long_text"
+            },
+            {
+              "id": "dealbreakers",
+              "type": "long_text"
+            },
+            {
+              "id": "willing_to_invest",
+              "type": "long_text"
+            },
+            {
+              "id": "b_heading",
+              "type": "heading"
+            },
+            {
+              "id": "place_kind",
+              "type": "checkbox_pick"
+            },
+            {
+              "id": "top_three",
+              "type": "long_text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "s2-p1",
+      "number": 1,
+      "label": "Part 1",
+      "title": "Which country?",
+      "optional": true,
+      "time": "60–90 min",
+      "video": {
+        "title": "Part 1 · Which country?",
+        "length": "12–16 min",
+        "url": null
+      },
+      "finish": {
+        "id": "country_choice",
+        "title": "My Country Choice",
+        "description": "One country to explore, with your reasons and your open questions."
+      },
+      "exercises": [
+        {
+          "id": "s2-1.1",
+          "number": "1.1",
+          "title": "The ten factors",
+          "fields": []
+        },
+        {
+          "id": "s2-1.2",
+          "number": "1.2",
+          "title": "Score your countries",
+          "fields": [
+            {
+              "id": "countries",
+              "type": "list",
+              "count": 4
+            },
+            {
+              "id": "scores",
+              "type": "table",
+              "row_count": 10,
+              "columns": [
+                {
+                  "id": "c1",
+                  "kind": "score"
+                },
+                {
+                  "id": "c2",
+                  "kind": "score"
+                },
+                {
+                  "id": "c3",
+                  "kind": "score"
+                },
+                {
+                  "id": "c4",
+                  "kind": "score"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-1.3",
+          "number": "1.3",
+          "title": "The two questions that end most plans",
+          "fields": [
+            {
+              "id": "allowed",
+              "type": "long_text"
+            },
+            {
+              "id": "prove",
+              "type": "long_text"
+            },
+            {
+              "id": "afford",
+              "type": "long_text"
+            },
+            {
+              "id": "find_out",
+              "type": "long_text"
+            },
+            {
+              "id": "deeper",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "country_choice",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s2-p2",
+      "number": 2,
+      "label": "Part 2",
+      "title": "Which region?",
+      "optional": true,
+      "time": "60–90 min",
+      "video": {
+        "title": "Part 2 · Which region?",
+        "length": "10–14 min",
+        "url": null
+      },
+      "finish": {
+        "id": "region_shortlist",
+        "title": "My Region Shortlist",
+        "description": "Two or three regions, with what you like and what worries you."
+      },
+      "exercises": [
+        {
+          "id": "s2-2.1",
+          "number": "2.1",
+          "title": "The ten region questions",
+          "fields": []
+        },
+        {
+          "id": "s2-2.2",
+          "number": "2.2",
+          "title": "Portugal: the map in simple words",
+          "fields": []
+        },
+        {
+          "id": "s2-2.3",
+          "number": "2.3",
+          "title": "Your region shortlist",
+          "fields": [
+            {
+              "id": "regions",
+              "type": "list",
+              "count": 4
+            },
+            {
+              "id": "scores",
+              "type": "table",
+              "row_count": 10,
+              "columns": [
+                {
+                  "id": "r1",
+                  "kind": "score"
+                },
+                {
+                  "id": "r2",
+                  "kind": "score"
+                },
+                {
+                  "id": "r3",
+                  "kind": "score"
+                },
+                {
+                  "id": "r4",
+                  "kind": "score"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "region_shortlist",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s2-p3",
+      "number": 3,
+      "label": "Part 3",
+      "title": "Check it from home",
+      "time": "3–5 hours",
+      "video": {
+        "title": "Part 3 · Check it from home",
+        "length": "12–15 min",
+        "url": null
+      },
+      "finish": {
+        "id": "place_profiles",
+        "title": "My Place Profiles",
+        "description": "Real information for each place, with your unknowns written down honestly."
+      },
+      "exercises": [
+        {
+          "id": "s2-3.1",
+          "number": "3.1",
+          "title": "The money check",
+          "fields": [
+            {
+              "id": "costs",
+              "type": "table",
+              "row_count": 8,
+              "columns": [
+                {
+                  "id": "guess",
+                  "kind": "money"
+                },
+                {
+                  "id": "found",
+                  "kind": "money"
+                },
+                {
+                  "id": "source",
+                  "kind": "text"
+                },
+                {
+                  "id": "date",
+                  "kind": "text"
+                }
+              ]
+            },
+            {
+              "id": "income_there",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s2-3.2",
+          "number": "3.2",
+          "title": "The legal check",
+          "fields": [
+            {
+              "id": "legal",
+              "type": "table",
+              "row_count": 6,
+              "columns": [
+                {
+                  "id": "found",
+                  "kind": "long_text"
+                },
+                {
+                  "id": "date",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-3.3",
+          "number": "3.3",
+          "title": "The daily life check",
+          "fields": [
+            {
+              "id": "daily",
+              "type": "table",
+              "row_count": 15,
+              "columns": [
+                {
+                  "id": "p1",
+                  "kind": "text"
+                },
+                {
+                  "id": "p2",
+                  "kind": "text"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-3.4",
+          "number": "3.4",
+          "title": "Talk to people who live there",
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 3,
+              "columns": [
+                {
+                  "id": "who",
+                  "kind": "text"
+                },
+                {
+                  "id": "surprised",
+                  "kind": "text"
+                },
+                {
+                  "id": "confirmed",
+                  "kind": "text"
+                },
+                {
+                  "id": "check",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "place_profiles",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s2-p4",
+      "number": 4,
+      "label": "Part 4",
+      "title": "Test it in real life",
+      "time": "A trip",
+      "video": {
+        "title": "Part 4 · Test it in real life",
+        "length": "8–12 min",
+        "url": null
+      },
+      "finish": {
+        "id": "test_visit",
+        "title": "My Test Visit Report",
+        "description": "What you learned in person, written down while it is fresh."
+      },
+      "exercises": [
+        {
+          "id": "s2-4.1",
+          "number": "4.1",
+          "title": "Plan the visit before you book it",
+          "fields": [
+            {
+              "id": "when",
+              "type": "long_text"
+            },
+            {
+              "id": "how_long",
+              "type": "short_text"
+            },
+            {
+              "id": "places",
+              "type": "long_text"
+            },
+            {
+              "id": "travel",
+              "type": "long_text"
+            },
+            {
+              "id": "stay",
+              "type": "long_text"
+            },
+            {
+              "id": "budget",
+              "type": "short_text"
+            },
+            {
+              "id": "three_questions",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s2-4.2",
+          "number": "4.2",
+          "title": "The real-life checklist",
+          "fields": [
+            {
+              "id": "did",
+              "type": "checkbox_pick"
+            },
+            {
+              "id": "notes",
+              "type": "table",
+              "rows": 4,
+              "columns": [
+                {
+                  "id": "place",
+                  "kind": "text"
+                },
+                {
+                  "id": "felt",
+                  "kind": "text"
+                },
+                {
+                  "id": "measured",
+                  "kind": "text"
+                },
+                {
+                  "id": "score",
+                  "kind": "number"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-4.3",
+          "number": "4.3",
+          "title": "The honest evening question",
+          "fields": [
+            {
+              "id": "ordinary_week",
+              "type": "long_text"
+            },
+            {
+              "id": "rather_overlooked",
+              "type": "long_text"
+            },
+            {
+              "id": "good_surprise",
+              "type": "long_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "test_visit",
+        "title": "What does this tell me?",
+        "kind": "summary",
+        "fields": []
+      }
+    },
+    {
+      "id": "s2-p5",
+      "number": 5,
+      "label": "Part 5",
+      "title": "Bring it together",
+      "time": "45 min",
+      "video": {
+        "title": "Part 5 · Bring it together",
+        "length": "8–10 min",
+        "url": null
+      },
+      "finish": {
+        "id": "explore_summary",
+        "title": "My Explore Summary",
+        "description": "One place, one honest picture, and your decision about what comes next."
+      },
+      "exercises": [
+        {
+          "id": "s2-5.1",
+          "number": "5.1",
+          "title": "My Explore Summary",
+          "fields": [
+            {
+              "id": "place",
+              "type": "long_text"
+            },
+            {
+              "id": "where",
+              "type": "short_text"
+            },
+            {
+              "id": "reasons",
+              "type": "long_text"
+            },
+            {
+              "id": "not_give",
+              "type": "long_text"
+            },
+            {
+              "id": "monthly_cost",
+              "type": "long_text"
+            },
+            {
+              "id": "income",
+              "type": "long_text"
+            },
+            {
+              "id": "legal",
+              "type": "long_text"
+            },
+            {
+              "id": "healthcare",
+              "type": "long_text"
+            },
+            {
+              "id": "unknowns",
+              "type": "long_text"
+            },
+            {
+              "id": "who_i_need",
+              "type": "long_text"
+            },
+            {
+              "id": "choice",
+              "type": "single_choice"
+            },
+            {
+              "id": "next_step",
+              "type": "short_text"
+            },
+            {
+              "id": "date",
+              "type": "short_text"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text"
+            }
+          ]
+        },
+        {
+          "id": "s2-5.2",
+          "number": "5.2",
+          "title": "Update your money picture",
+          "fields": [
+            {
+              "id": "update",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s2-5.3",
+          "number": "5.3",
+          "title": "If you decide to stay",
+          "optional": true,
+          "fields": [
+            {
+              "id": "really_want",
+              "type": "long_text"
+            },
+            {
+              "id": "change",
+              "type": "long_text"
+            },
+            {
+              "id": "protects_costs",
+              "type": "long_text"
+            },
+            {
+              "id": "before_abroad",
+              "type": "long_text"
+            },
+            {
+              "id": "review",
+              "type": "short_text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
