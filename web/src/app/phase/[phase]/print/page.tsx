@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Mark } from "@/components/brand";
 import { RequireUser, Shell } from "@/components/Shell";
+import { stepFor } from "@/lib/access-app";
 import { exerciseAnswerLines } from "@/lib/answer-text";
 import {
   headline,
@@ -53,12 +54,15 @@ function Sheet({ children, dark = false }: { children: React.ReactNode; dark?: b
 }
 
 function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
-  const { answers, profile } = useApp();
+  const { answers, entitlements, profile } = useApp();
   const a = answers as BlueprintAnswers;
   const currency = profile?.currency ?? "EUR";
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
   const who = profile?.first_name ?? "";
 
+  // A step nobody owns is not printed here either: the document gathers the
+  // step results, so it has to ask the same question the step pages ask.
+  const mine = phase.steps.filter((n) => stepFor(n, entitlements).open);
   const done = stepsFinished(a);
   const head = headline(a);
   const m = moneyThread(a);
@@ -111,7 +115,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
               <li>The money, from first guess to checked figure</li>
               <li>What does not line up yet, and what happens next</li>
               <li>
-                {phase.steps
+                {mine
                   .map((n) => getStep(n)?.parts.at(-1)?.finish.title)
                   .filter(Boolean)
                   .join(", ")}{" "}
@@ -327,7 +331,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
       </Sheet>
 
       {/* ── The three results, in order ── */}
-      {phase.steps.map((n) => {
+      {mine.map((n) => {
         const step = getStep(n);
         const finished = done.find((d) => d.step === n)?.finished;
         if (!step) return null;

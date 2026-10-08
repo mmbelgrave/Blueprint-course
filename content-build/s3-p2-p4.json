@@ -302,7 +302,7 @@
               "type": "long_text",
               "lines": 2,
               "label": "My decision question (from the Start)",
-              "copy_from": { "step": 3, "exercise": "0.1", "field": "the_option" }
+              "copy_from": { "step": 3, "exercise": "s3-0.1", "field": "the_option" }
             },
             {
               "id": "decision",

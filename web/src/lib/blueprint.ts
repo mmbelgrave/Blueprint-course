@@ -34,10 +34,38 @@ const amount = (raw: unknown): number | null => {
   return a.kind === "number" ? a.value : null;
 };
 
-const total = (answers: Answers, page: string, field: string, column: string): number | null => {
-  const t = tableTotal(answers[page]?.[field], column);
-  return t.filled > 0 ? t.value : null;
+/**
+ * A total, counted exactly as the app's own screen counts it.
+ *
+ * Two rules, both of them the workbook's, and both of them easy to lose here
+ * because this file never sees the content:
+ *
+ *   - an "unknown" row makes the total **incomplete**. The screen says
+ *     "EUR 900 + unknown — not complete yet", so this document may not say
+ *     "EUR 900" as though it were the whole answer.
+ *   - income counts **confirmed and agreed** only (3.4's own total_filter).
+ *     Hoped income is not income. Counting it flips the sign of the month.
+ *
+ * These mirror `total_filter` and the certainty column in step1-content.json.
+ * If those change, change these — the test below is what will tell you.
+ */
+type Sum = { value: number | null; complete: boolean };
+
+const EMPTY: Sum = { value: null, complete: true };
+
+const total = (
+  answers: Answers,
+  page: string,
+  field: string,
+  column: string,
+  options: { certaintyColumn?: string; filter?: { column: string; values: string[] } } = {},
+): Sum => {
+  const t = tableTotal(answers[page]?.[field], column, options);
+  return t.filled > 0 ? { value: t.value, complete: t.complete } : EMPTY;
 };
+
+/** Only income you have evidence for, as the workbook says in every step. */
+const INCOME_ONLY_CONFIRMED = { column: "certainty", values: ["Confirmed", "Agreed"] };
 
 /* ─────────────────────────── which steps are finished ─────────────────── */
 
@@ -103,6 +131,11 @@ export type MoneyThread = {
   guessed: number | null;
   /** What Step 2 found, against real prices. */
   found: number | null;
+  /**
+   * False when any figure behind these numbers is still "unknown". The
+   * document then says so, instead of printing a part-total as a fact.
+   */
+  complete: boolean;
   /** How far apart they are, as a whole percentage of the guess. */
   differencePercent: number | null;
   /** Over the workbook's own threshold, which asks you to go back through both. */
@@ -118,28 +151,36 @@ export type MoneyThread = {
 };
 
 export function moneyThread(answers: Answers): MoneyThread {
-  const guessed = total(answers, "3.2", "costs", "new_life");
+  const guessed = total(answers, "3.2", "costs", "new_life", { certaintyColumn: "certainty" });
   const found = total(answers, "s2-3.1", "costs", "found");
-  const income = total(answers, "3.4", "income", "new_life");
+  const income = total(answers, "3.4", "income", "new_life", { filter: INCOME_ONLY_CONFIRMED });
   const savings = amount(answers["s3-0.1"]?.savings_reachable);
 
+  const complete = guessed.complete && found.complete && income.complete;
+
   const differencePercent =
-    guessed !== null && found !== null && guessed > 0 ? Math.round(((found - guessed) / guessed) * 100) : null;
+    guessed.value !== null && found.value !== null && guessed.value > 0
+      ? Math.round(((found.value - guessed.value) / guessed.value) * 100)
+      : null;
 
   // The month is measured against the checked figure where there is one: the
   // later number is the better one, and that is the whole point of Step 2.
-  const monthly = found ?? guessed;
-  const balance = income !== null && monthly !== null ? income - monthly : null;
+  const monthly = found.value ?? guessed.value;
+  const balance = income.value !== null && monthly !== null ? income.value - monthly : null;
+
+  // A runway worked out from half a total is worse than no runway at all, so
+  // it is only stated when every figure behind it is known.
   const runwayMonths =
-    savings !== null && balance !== null && balance < 0 ? Math.floor(savings / -balance) : null;
+    complete && savings !== null && balance !== null && balance < 0 ? Math.floor(savings / -balance) : null;
 
   return {
-    guessed,
-    found,
-    differencePercent,
-    overTwentyPercent: differencePercent !== null && Math.abs(differencePercent) > 20,
-    income,
-    balance,
+    guessed: guessed.value,
+    found: found.value,
+    complete,
+    differencePercent: complete ? differencePercent : null,
+    overTwentyPercent: complete && differencePercent !== null && Math.abs(differencePercent) > 20,
+    income: income.value,
+    balance: complete ? balance : null,
     savings,
     runwayMonths,
   };
@@ -207,11 +248,12 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       where: "Step 3 · 4.1 — a broken dealbreaker ends this option, whatever the other lights say",
     });
   }
-  if (Object.values(check).some((r) => (r?.item ?? "").trim()) && broken.length === 0) {
+  const checked = Object.values(check).filter((r) => (r?.item ?? "").trim() && (r?.meets ?? "").trim());
+  if (checked.length > 0 && broken.length === 0) {
     out.push({
       tone: "green",
       title: "Nothing on your list is broken",
-      quote: "Every must-have and dealbreaker you checked is met, or partly met.",
+      quote: `All ${checked.length} you checked are met, or partly met.`,
       where: "Step 3 · 4.1 — checked against the list you wrote in Step 1",
     });
   }

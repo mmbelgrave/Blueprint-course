@@ -630,3 +630,190 @@ and the production build all pass.
 2. `/admin` as the admin address, on a participant who has **not** ticked the
    consent box: progress and feedback show, answers do not.
 3. The copyright holder's name on the printed result.
+
+---
+
+# Review round 4 — LLM2 (Reviewer), 2026-10-08
+
+Commit `83f4725` (branch main, working tree clean). Mwata named five areas;
+this round is those five and nothing else.
+
+## Checks that ran
+`tsc --noEmit`, `eslint`, `npm test` (106/106) and the production build: all
+pass. All seven content files in `web/src/content` match the project copies.
+One script checked every cross-reference in all three steps (63 pages, 258
+fields) — three are broken, see R4-8. A second put crafted answers through the
+Blueprint rules. A third asked the live database, as a stranger, for every
+table. Live probes were made against app.maderealblueprint.com.
+
+## Findings
+
+### R4-1. The whole workbook text is public, to anyone, signed in or not (HIGH)
+- **Where:** `src/lib/content.ts` imports all three step JSON files, and client
+  components import it, so the content lands in a public browser chunk.
+- **Proved on the live site:** with no account and no cookie I fetched the
+  sign-in page, followed the scripts it loads, and found Step 3 prose in
+  `https://app.maderealblueprint.com/_next/static/immutable/chunks/1u_x0y7t9fqoc.js`
+  — Step 3 being the step that is not released at all. Steps 1 and 2 travel the
+  same way.
+- **Why it matters:** the access layer decides what is *drawn*. The text is the
+  product, and it is already in the reader's browser before any door is asked.
+  The PDFs are properly shut; the same words inside the app are not.
+- **Fix idea:** serve a step's content from the server after the access check (a
+  server component, or a checked route like the workbook one), so a browser is
+  given only what that person may read. No chunk may carry a step nobody owns.
+- **How to check:** repeat the fetch; the paid sentence must not appear in any
+  script a signed-out visitor can load.
+
+### R4-2. A video address can be had by writing nonsense in the step (HIGH, before videos go up)
+- **Where:** `src/app/api/video/url/route.ts:37` — `if (Number.isFinite(step))`.
+- **What happens:** `step` comes from the query. `Number("abc")` is `NaN`,
+  `Number.isFinite(NaN)` is false, so the ownership check is skipped entirely
+  and the route signs an address for any signed-in person:
+  `/api/video/url?video=<id>&step=abc`. A missing step is `Number(null)` = 0,
+  which is refused — the hole is specifically a non-numeric step.
+- **And:** nothing in the app calls this route. `components/video-slot.tsx`
+  plays `video.url` straight from the content, so once real addresses are
+  pasted in they ship to every browser (R4-1) and the signing path is unused.
+- **Fix idea:** refuse when the step is missing or not a whole number, and have
+  the player ask this route for its address instead of reading one from content.
+
+### R4-3. My Blueprint can print a money figure that is wrong (HIGH)
+The file says of itself that it "may never say anything that could be wrong".
+Two rules break that, both through `total()` (`src/lib/blueprint.ts:37-40`),
+which calls `tableTotal` with no options and keeps the value whenever
+`filled > 0`.
+
+**(a) An "unknown" is dropped and the rest is printed as fact.** With Step 1
+costs of 900 known and two rows marked Unknown, the app's own screen says
+*"EUR 900 + unknown — not complete yet"*. The Blueprint prints `Step 1 — EUR
+900 — what you thought a month would cost`, then flags *"Your checked costs are
+100% higher than your first guess"* against Step 2's 1,800. That 100% is an
+artefact of the missing rows.
+
+**(b) Money marked "Hoped" is counted as income they can count on.**
+`moneyThread` totals 3.4 without the certainty filter the workbook and the app
+both apply. With 1,000 Confirmed and 900 Hoped:
+
+| | the app (3.4 / 3.5) | My Blueprint |
+|---|---|---|
+| income | EUR 1,000 | EUR 1,900 |
+| against checked costs of 1,500 | **500 short each month** | **400 left over** |
+| runway on 6,000 savings | 12 months | none reported |
+
+The printed line reads *"Your income covers the month, with EUR 400 left over"*
+(`phase/[phase]/print/page.tsx:241-243`), under a column headed *"what you can
+count on each month"* (line 214). An adviser reading that page is told the
+opposite of the truth.
+- **Fix idea:** `total()` should take the options the field carries
+  (`total_filter`, certainty column) and return completeness as well, so the
+  document can say "EUR 900, three rows still unknown" rather than a bare
+  figure — and never build a percentage, a balance or a runway on an incomplete
+  side without saying so.
+- **How to check:** the current tests pass because every fixture is clean. Add
+  one with an Unknown row and one with a Hoped income row.
+
+### R4-4. "Nothing on your list is broken" is printed when nothing was checked (MEDIUM)
+- **Where:** `blueprint.ts:210-217`.
+- **Reproduced:** two rows in `s3-4.1.check` with an item written and the
+  `meets` column left blank produce the green line *"Every must-have and
+  dealbreaker you checked is met, or partly met."* Nothing was checked.
+- **Fix idea:** say it only when every row with an item also has an answer, and
+  name the unanswered ones otherwise.
+
+### R4-5. The Blueprint page asks nothing of the access layer (MEDIUM)
+- **Where:** `src/app/phase/[phase]/print/page.tsx` — `RequireUser` and nothing
+  else. Every other door asks: the step page, a page inside a step, the step
+  print page, the modules pages, and the workbook, video and AI routes.
+- The document the website promises buyers opens for any signed-in person,
+  including a free account. The data in it is their own, so this is a gate that
+  is missing, not a leak.
+
+### R4-6. `video_progress` does not exist in the live database (MEDIUM)
+- Asked with the service key: `PGRST205 Could not find the table
+  'public.video_progress' in the schema cache`, while `entitlements` and
+  `questions` from the same file answer normally.
+- So every save from the player returns 500 and "Continue at …" can never work.
+  Nobody has noticed because no video has an address yet.
+- **Fix idea:** run `supabase/schema.sql` again (it is `create table if not
+  exists`) and reload the API schema cache, then save one position to check.
+
+### R4-7. Switching buying on today would shut everyone out, the admin included (MEDIUM)
+The `entitlements` table is empty and all four accounts hold nothing.
+`NEXT_PUBLIC_REQUIRE_PURCHASE=true` is by design the one switch that takes
+access away, so the day it is flipped every existing account becomes a free
+account: no workbook, no AI partner, no steps. Grant the entitlements first
+(the admin page does it), flip second, and check one account before telling
+anyone.
+
+### R4-8. Three copy-from links in Step 3 point at fields that do not exist (MEDIUM)
+| On | copies from | where the field actually lives |
+|---|---|---|
+| `s3-0.1.the_place` | `5.1.place` | `s2-5.1.place` |
+| `s3-0.1.still_unknown` | `5.1.unknowns` | `s2-5.1.unknowns` |
+| `s3-4.2.question` | `0.1.the_option` | `s3-0.1.the_option` |
+
+They fail silently (`field-extras.ts:76-80` returns nothing when the source is
+missing), so "Copy this in" never appears and the person retypes what they
+already wrote. Nothing else in the three steps is broken: no duplicate page
+ids, no field type the app cannot draw, every other reference valid. Also the
+button always says "From your Step 1:", even when the source is Step 2.
+
+### R4-9. The five lights are read from one table only (LOW)
+`lights()` reads `green_lights.lights`. Someone who set the light on each of
+1.1–1.5 but did not carry them into the summary table gets a Blueprint with
+five dashes and no red-light flag, although the answers are one page back. A
+fallback to the per-page `*_light` fields would make the document match what
+they wrote.
+
+### R4-10. The `free=` branch of the workbook route skips both checks (LOW)
+It is taken before either check runs. Safe only because the one item in
+`modules.json` is the free exercise; an item added under a paid module would be
+handed to anyone signed in. One line fixes it: confirm the id belongs to the
+free module before signing. File names are fixed strings, so there is no way
+out of the bucket through a name today.
+
+## Concerns (not findings yet)
+1. `/api/partner` and `/api/draft` ask "free or paid", not "which step". Today
+   every released step sits in Phase 1, so it makes no difference; the day
+   Phase 2 opens, a Phase 1 buyer could spend AI on a step they do not own.
+   Passing the page's step through `stepFor` is the whole fix.
+2. `access.json → free.items` is consulted only by `itemFor`, which no page
+   uses for the free module. Harmless, but it reads as if it gates something.
+
+## Verified clean
+- **The export route (area 2).** It reads with the person's own session and
+  never takes an id from the request, so row-level security decides what comes
+  out. Live, as a stranger: every table returned nothing, and writes to
+  `entitlements` and `questions` were refused (42501). Every table named in the
+  export has an owner-only policy in `schema.sql`, including the new ones.
+- **The workbook signing (area 3).** The access check runs before the service
+  key is used; file names come from `modules.json`, never from the request; an
+  unknown module id or a workbook with no file gives 404. Combinations checked:
+  `?step=` together with `?module=`, unknown ids, a step whose file is null.
+- No secrets, admin email or AI instructions in the browser files (93 scanned).
+- Admin APIs refuse a signed-out caller (403) on the live site.
+- Step 3 content: 21 pages, no duplicates, nothing the app cannot render.
+
+## Not done this round
+- The two-way check of Step 3 against the Word file. `content-build/
+  check-content.mjs` exists, but the workbook text is not in this workspace.
+  Engineer: run it and paste the result, or say where the text file lives.
+- A signed-in probe with `NEXT_PUBLIC_REQUIRE_PURCHASE=true`. No account holds
+  an entitlement, so there is no buyer's side to exercise; the rules were run
+  directly instead and behave correctly — a free account gets page 1.2, lesson
+  `step-1:p1` and the Introduction, and nothing else.
+
+## The fix list, in order
+| # | What | Severity |
+|---|---|---|
+| R4-1 | The workbook text is public in a browser chunk | High |
+| R4-3 | My Blueprint prints incomplete and unconfirmed money as fact | High |
+| R4-2 | Video addresses: a non-numeric step skips the check; the route is unused | High, before videos |
+| R4-7 | Grant entitlements before switching buying on | Medium, before go-live |
+| R4-6 | `video_progress` missing from the database | Medium |
+| R4-5 | The Blueprint page asks nothing of the access layer | Medium |
+| R4-4 | A green "nothing is broken" on unanswered rows | Medium |
+| R4-8 | Three broken copy-from links in Step 3 | Medium |
+| R4-9 | Lights read from one table only | Low |
+| R4-10 | The `free=` branch of the workbook route | Low |

@@ -33,13 +33,17 @@ export async function GET(request: Request) {
   // A video id goes into a web address, so it is checked rather than trusted.
   if (!looksLikeVideoId(videoId)) return fail(400, "That is not a video.");
 
-  // A video belongs to a step, and the step decides who may watch it.
-  if (Number.isFinite(step)) {
-    const { data } = await supabase.from("entitlements").select("product, status");
-    const verdict = stepFor(step, (data ?? []) as Entitlement[]);
-    if (!verdict.open) {
-      return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This video is part of the course.");
-    }
+  /*
+   * A video belongs to a step, and the step decides who may watch it. The
+   * check used to be skipped when the step was not a number — and "abc" is not
+   * a number, so ?step=abc walked straight past it. A step that cannot be read
+   * is now refused, not waved through.
+   */
+  if (!Number.isInteger(step) || step < 1) return fail(400, "That is not a step.");
+  const { data } = await supabase.from("entitlements").select("product, status");
+  const verdict = stepFor(step, (data ?? []) as Entitlement[]);
+  if (!verdict.open) {
+    return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This video is part of the course.");
   }
 
   const playback = playbackUrl({ cdn, videoId, key, file });

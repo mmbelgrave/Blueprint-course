@@ -201,7 +201,7 @@
                 "label": "The place I want to go further with (Step 2)",
                 "copy_from": {
                   "step": 2,
-                  "exercise": "5.1",
+                  "exercise": "s2-5.1",
                   "field": "place"
                 }
               },
@@ -212,7 +212,7 @@
                 "label": "What is still unknown about it (Step 2)",
                 "copy_from": {
                   "step": 2,
-                  "exercise": "5.1",
+                  "exercise": "s2-5.1",
                   "field": "unknowns"
                 }
               },
@@ -1222,7 +1222,7 @@
                 "label": "My decision question (from the Start)",
                 "copy_from": {
                   "step": 3,
-                  "exercise": "0.1",
+                  "exercise": "s3-0.1",
                   "field": "the_option"
                 }
               },

@@ -57,14 +57,14 @@
               "type": "long_text",
               "lines": 2,
               "label": "The place I want to go further with (Step 2)",
-              "copy_from": { "step": 2, "exercise": "5.1", "field": "place" }
+              "copy_from": { "step": 2, "exercise": "s2-5.1", "field": "place" }
             },
             {
               "id": "still_unknown",
               "type": "long_text",
               "lines": 2,
               "label": "What is still unknown about it (Step 2)",
-              "copy_from": { "step": 2, "exercise": "5.1", "field": "unknowns" }
+              "copy_from": { "step": 2, "exercise": "s2-5.1", "field": "unknowns" }
             },
             {
               "id": "monthly_costs",

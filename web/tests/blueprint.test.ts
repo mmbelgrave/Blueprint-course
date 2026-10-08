@@ -15,7 +15,7 @@ import {
 const full: Answers = {
   "5.1": { life_picture: "A slower week by the sea.", directions: "The Silver Coast, renting first." },
   "3.2": { costs: { r0: { new_life: "1200" }, r1: { new_life: "800" } } },
-  "3.4": { income: { r0: { new_life: "1600" } } },
+  "3.4": { income: { r0: { new_life: "1600", certainty: "Confirmed" } } },
   "s2-3.1": { costs: { r0: { guess: "2000", found: "1450" }, r1: { found: "1000" } } },
   "s2-5.1": {
     place: "São Martinho do Porto",
@@ -67,6 +67,7 @@ test("the money thread puts three figures written weeks apart side by side", () 
   const m = moneyThread(full);
   assert.equal(m.guessed, 2000, "Step 1 added up to 2000 a month");
   assert.equal(m.found, 2450, "Step 2 found 2450");
+  assert.equal(m.complete, true);
   assert.equal(m.differencePercent, 23);
   assert.equal(m.overTwentyPercent, true, "the workbook's own threshold");
   assert.equal(m.income, 1600);
@@ -79,6 +80,7 @@ test("the money thread says nothing it cannot know", () => {
   assert.deepEqual(moneyThread({}), {
     guessed: null,
     found: null,
+    complete: true,
     differencePercent: null,
     overTwentyPercent: false,
     income: null,
@@ -89,10 +91,47 @@ test("the money thread says nothing it cannot know", () => {
 });
 
 test("money left over leaves no runway to report", () => {
-  const rich = { ...full, "3.4": { income: { r0: { new_life: "4000" } } } };
+  const rich = { ...full, "3.4": { income: { r0: { new_life: "4000", certainty: "Confirmed" } } } };
   const m = moneyThread(rich);
-  assert.equal(m.balance, 1550);
+  assert.equal(m.balance, 2400 - 850 - 1550 + 1550, "income 4000 against costs 2450");
   assert.equal(m.runwayMonths, null, "a runway only means something when you are short");
+});
+
+/*
+ * Round 4, finding 3. The Blueprint printed money that was wrong in two ways,
+ * and this document goes to advisers with Mwata's name on it. Both rules are
+ * the workbook's own, and both are easy to lose in a file that never sees the
+ * content, so they are pinned here.
+ */
+test("hoped income is not income, so it cannot flip the month", () => {
+  const hopeful: Answers = {
+    ...full,
+    "3.2": { costs: { r0: { new_life: "1400" } } },
+    "3.4": {
+      income: {
+        r0: { new_life: "1000", certainty: "Confirmed" },
+        r1: { new_life: "900", certainty: "Hoped" },
+      },
+    },
+    "s2-3.1": { costs: { r0: { found: "1500" } } },
+  };
+  const m = moneyThread(hopeful);
+  assert.equal(m.income, 1000, "the 900 they hope for is not counted");
+  assert.equal(m.balance, -500, "short, not 400 left over");
+  assert.ok((m.runwayMonths ?? 0) > 0, "and there is a runway to report");
+});
+
+test("an unknown in the costs means no figure is printed as a fact", () => {
+  const unsure: Answers = {
+    ...full,
+    "3.2": { costs: { r0: { new_life: "900" }, r1: { new_life: "unknown" } } },
+  };
+  const m = moneyThread(unsure);
+  assert.equal(m.complete, false, "the screen says 'not complete yet'; so must the document");
+  assert.equal(m.differencePercent, null, "no percentage off a part-total");
+  assert.equal(m.overTwentyPercent, false, "and no 'go back through both sets of figures'");
+  assert.equal(m.balance, null);
+  assert.equal(m.runwayMonths, null, "a runway from half a total is worse than none");
 });
 
 // Every flag must be a comparison between two things the person wrote, because
@@ -119,6 +158,13 @@ test("a list with nothing broken is reported as the good news it is", () => {
   const flags = whatDoesNotLineUp(full);
   const green = flags.find((f) => f.tone === "green");
   assert.equal(green?.title, "Nothing on your list is broken");
+});
+
+test("an unchecked list is not good news, it is an unchecked list", () => {
+  // Round 4: the green line printed when the "does this option meet it?"
+  // column had never been filled in. Written down is not the same as checked.
+  const unchecked: Answers = { ...full, "s3-4.1": { check: { r0: { item: "A school nearby", meets: "" } } } };
+  assert.ok(!whatDoesNotLineUp(unchecked).some((f) => f.tone === "green"));
 });
 
 test("a go with no conditions is worth saying out loud", () => {
