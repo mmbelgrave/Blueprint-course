@@ -189,7 +189,7 @@ export function SignInForm({
       {notInvited && (
         <p className="rounded-lg bg-ochre-soft p-3">
           This address cannot start an account right now. Used a different address before? Try that one. Otherwise
-          write to info@belgraveconsultancy.com and we will sort it out.
+          write to info@maderealblueprint.com and we will sort it out.
         </p>
       )}
     </form>

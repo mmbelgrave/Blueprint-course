@@ -20,8 +20,8 @@ export default function Privacy() {
         <p>
           The Life You Choose is a brand of <strong>Belgrave Management, Unipessoal Lda</strong>, a company registered
           in Portugal. Mwata runs it. Questions about your data:{" "}
-          <a href="mailto:info@belgraveconsultancy.com" className="text-pine underline">
-            info@belgraveconsultancy.com
+          <a href="mailto:info@maderealblueprint.com" className="text-pine underline">
+            info@maderealblueprint.com
           </a>
           .
         </p>
@@ -77,8 +77,8 @@ export default function Privacy() {
         <p>
           You may ask what is stored about you, ask for a copy, ask for a correction, or ask for all of it to be
           deleted. Write to{" "}
-          <a href="mailto:info@belgraveconsultancy.com" className="text-pine underline">
-            info@belgraveconsultancy.com
+          <a href="mailto:info@maderealblueprint.com" className="text-pine underline">
+            info@maderealblueprint.com
           </a>
           .
         </p>
