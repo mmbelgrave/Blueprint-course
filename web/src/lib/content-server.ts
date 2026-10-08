@@ -18,7 +18,7 @@ import "server-only";
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
 import step3Raw from "@/content/step3-content.json";
-import type { Exercise, Part, StepContent } from "@/lib/content";
+import { summaryAsExercise, type Exercise, type Part, type StepContent } from "@/lib/content";
 
 /** Every step that exists, released or not. Only this file may hold them all. */
 const ALL = [step1Raw, step2Raw, step3Raw] as unknown as StepContent[];
@@ -26,11 +26,13 @@ const ALL = [step1Raw, step2Raw, step3Raw] as unknown as StepContent[];
 export const fullStep = (number: number): StepContent | undefined =>
   ALL.find((s) => s.step.number === number);
 
-/** The pages of a part, in the order someone works through them. */
-const itemsOf = (part: Part): Exercise[] => [
-  ...part.exercises,
-  ...(part.summary ? [{ ...part.summary, kind: "summary" } as unknown as Exercise] : []),
-];
+/**
+ * The pages of a part, in the order someone works through them — built by the
+ * same function the screens use, so a summary arrives in the shape they expect
+ * rather than in the shape it is stored in.
+ */
+const itemsOf = (part: Part): Exercise[] =>
+  part.summary ? [...part.exercises, summaryAsExercise(part, part.summary)] : part.exercises;
 
 export type FoundPage = { step: StepContent; part: Part; exercise: Exercise };
 

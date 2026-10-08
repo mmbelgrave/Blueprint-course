@@ -51,8 +51,11 @@ export async function GET(request: Request) {
     if (!open && !verdict.open) {
       return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This page is part of the course.");
     }
+    const { exercises, summary, ...partWithoutItsPages } = found.part;
+    void exercises;
+    void summary;
     return Response.json(
-      { step, part: { ...found.part, exercises: undefined, summary: undefined }, exercise: found.exercise },
+      { step, part: partWithoutItsPages, exercise: found.exercise },
       { headers: { "cache-control": "no-store" } },
     );
   }

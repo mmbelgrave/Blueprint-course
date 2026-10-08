@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Card } from "@/components/cards";
 import { ClosedStep } from "@/components/closed-step";
 import { isFree, pageFor } from "@/lib/access-app";
+import { usePageContent } from "@/lib/use-page-content";
 import { FieldInput, formatMoney, tableFieldTotal } from "@/components/fields";
 import { PartnerPanel } from "@/components/PartnerPanel";
 import { RequireUser, Shell } from "@/components/Shell";
@@ -244,8 +245,16 @@ function Step1MoneyHint({ exercise }: { exercise: Exercise }) {
 
 function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exerciseId: string }) {
   const { entitlements } = useApp();
+  /*
+   * The browser knows the shape of this page but not a word of it (round 4,
+   * finding 1). The words come from /api/content, which asks the access layer
+   * the same question this screen asks, so a refusal here and a refusal there
+   * can never disagree.
+   */
+  const page = usePageContent(exerciseId);
   const verdict = pageFor(exerciseId, stepNumber, entitlements);
   if (!verdict.open) return <ClosedStep step={stepNumber} why={verdict.why} />;
+
   const found = findExercise(exerciseId);
   if (!found || found.step.step.number !== stepNumber) {
     return (
@@ -254,7 +263,26 @@ function ExerciseView({ stepNumber, exerciseId }: { stepNumber: number; exercise
       </p>
     );
   }
-  return <ExerciseBody located={found} />;
+
+  if (page.state === "refused") {
+    return (
+      <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
+        <p>{page.because}</p>
+        <Link href="/dashboard" className="btn btn-primary">
+          Back to the overview
+        </Link>
+      </div>
+    );
+  }
+  if (page.state === "loading") return <p className="py-16 text-center text-stone">One moment…</p>;
+
+  /*
+   * The shape came from the spine, the words from the server. The part keeps
+   * its page list from the spine — navigation needs to know which pages follow
+   * this one, and those pages' words are not this person's to have yet.
+   */
+  const part = { ...page.content.part, exercises: found.part.exercises, summary: found.part.summary };
+  return <ExerciseBody located={{ step: found.step, part, exercise: page.content.exercise }} />;
 }
 
 function ExerciseBody({ located }: { located: Located }) {
