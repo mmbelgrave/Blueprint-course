@@ -34,9 +34,11 @@ function ClaimForm() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const body = await r.json();
+      // A crash somewhere else can answer with something that is not JSON;
+      // the person should still get a sentence rather than a blank screen.
+      const body = await r.json().catch(() => ({}) as { error?: string });
       if (!r.ok) {
-        setProblem(body.error ?? "Something went wrong. Please try again.");
+        setProblem(body.error ?? "Something went wrong. Please try again, or ask Mwata.");
         return null;
       }
       return body as { message?: string; moved?: number };

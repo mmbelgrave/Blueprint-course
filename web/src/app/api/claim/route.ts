@@ -34,6 +34,11 @@ const SENT = "If there is a purchase on that address, a code is on its way to it
 const fail = (status: number, error: string) => Response.json({ error }, { status });
 
 export async function POST(request: Request) {
+  // Preview mode has no accounts and nothing was ever bought, so there is
+  // nothing to move; say so rather than failing on a missing Supabase.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return fail(503, "Preview mode has no accounts, so there is nothing to move here.");
+  }
   const supabase = await supabaseServer();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return fail(401, "Please sign in first, then come back here.");
