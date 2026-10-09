@@ -166,7 +166,12 @@ function BoardSection() {
 function PrintPage({ step }: { step: StepContent }) {
   const { profile, answers } = useApp();
   // The step's result is its last part: the main page first, then the others.
-  const result = step.parts.at(-1)!;
+  /*
+   * The step's result is its last part, but never an optional one. Step 3
+   * ends with the staying route, which only some people do; taking that as
+   * the result would print an empty page instead of My Decision.
+   */
+  const result = step.parts.filter((p) => !p.optional).at(-1) ?? step.parts.at(-1)!;
   const [main, ...others] = result.exercises;
   const currency = profile?.currency ?? "EUR";
   const mainFields = exerciseFields(main);
