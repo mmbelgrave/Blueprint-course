@@ -83,5 +83,6 @@
       "updated": null
     }
   },
-  "buy_url": "https://www.maderealblueprint.com/#options"
+  "buy_url": "https://www.maderealblueprint.com/#options",
+  "notify_url": "https://www.maderealblueprint.com/#notify"
 }

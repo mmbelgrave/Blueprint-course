@@ -7,7 +7,7 @@ import { Mark } from "@/components/brand";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { PRODUCT } from "@/lib/content";
-import { buyUrl, isFree, lessonKey, modules, phaseProgress, stateOf } from "@/lib/modules-app";
+import { buyUrl, isFree, lessonKey, modules, notifyUrl, phaseProgress, stateOf } from "@/lib/modules-app";
 
 export default function Modules() {
   const { entitlements, profile, statuses } = useApp();
@@ -101,7 +101,29 @@ export default function Modules() {
                       </p>
                     </div>
                   ) : (
-                    <div className={card}>{inside}</div>
+                    /* Not written yet. It is not locked and it is not for
+                       sale: there is nothing behind it to sell. What there is
+                       is a way to say "I want this", which is the same pop-up
+                       the website uses, and the promise that Phase 1 counts
+                       towards it. */
+                    <div className={card}>
+                      {inside}
+                      {m.kind === "phase" && (
+                        <p className="mt-3 text-sm">
+                          <a
+                            className="text-pine underline"
+                            href={notifyUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Tell me when this opens
+                          </a>
+                          <span className="block text-stone">
+                            What you paid for Phase 1 comes off the price, so you never pay twice.
+                          </span>
+                        </p>
+                      )}
+                    </div>
                   )}
                 </li>
               );

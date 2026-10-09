@@ -25,11 +25,14 @@ const raw = modulesRaw as unknown as {
   modules: ModuleDef[];
   workbooks: Record<string, Workbook>;
   buy_url: string;
+  notify_url: string;
 };
 
 export const modules = raw.modules;
 export const workbooks = raw.workbooks;
 export const buyUrl = raw.buy_url;
+/** The "tell me when it opens" pop-up on the website, for a phase not written yet. */
+export const notifyUrl = raw.notify_url;
 
 export const moduleById = (id: string) => modules.find((m) => m.id === id);
 export const stepIdOf = (step: number) => `step-${step}`;
