@@ -353,6 +353,87 @@ If a download ever fails, look in the Vercel logs for `workbook: could not
 sign a link`. The two likely causes are a name in `modules.json` that does not
 match the file in the store, and a missing service-role key.
 
+## 7e. Lemon Squeezy: the order reaching the app
+
+Buying happens on Lemon Squeezy. They take the money and send the invoice; the
+app only has to hear about it. That message is the **webhook**, and until it is
+wired up a purchase does nothing at all: no account, no email, no access.
+
+### In Lemon Squeezy, once
+
+1. **Settings → Webhooks → +**
+   - URL: `https://app.maderealblueprint.com/api/lemonsqueezy/webhook`
+   - Events: **order_created** and **order_refunded**. Nothing else.
+   - It gives you a **signing secret**. Copy it now — it is shown once.
+2. Do the same a second time in **test mode**, which has its own webhooks and
+   its own secret.
+3. **The variant number.** Open the product, then the variant, and take the
+   number out of the address bar. It is *not* the long code in the checkout
+   link: that one is for the browser, and webhooks never mention it.
+4. **The confirmation people see after paying.** Set it to say, in these words
+   or close to them:
+
+   > Your course is open. Go to app.maderealblueprint.com and sign in with the
+   > email address you just paid with. No password — you ask for a code and it
+   > arrives in your inbox.
+
+   That sentence does real work: the account is found by the paying address,
+   so somebody who signs in with a different one has to go the long way round.
+
+### In Vercel
+
+    LS_WEBHOOK_SECRET_LIVE = the live secret
+    LS_WEBHOOK_SECRET_TEST = the test secret
+    LS_VARIANT_PHASE1      = the variant number
+    RESEND_API_KEY         = from resend.com, or no welcome email is sent
+
+Production **and** Preview, then **Redeploy**.
+
+### Try it before you trust it
+
+In Lemon Squeezy test mode, set `ALLOW_TEST_ORDERS=true` in Vercel, redeploy,
+and buy your own course with a test card and an address you have never used.
+Then look at **Admin → Orders from Lemon Squeezy**. You should see one line
+saying *opened*, and the address should now have an account with Phase 1.
+
+**Take `ALLOW_TEST_ORDERS` out again afterwards.** While it is on, anybody who
+gets hold of the test secret can open the real course for nothing.
+
+### What happens, in order
+
+1. The signature is checked against the raw body. Wrong or missing: refused,
+   and nothing is written.
+2. The order is read. A live order signed with the test secret, or the other
+   way round, is refused — the modes have to agree.
+3. The account is found by the paying email, or made (already confirmed,
+   because they proved the address by paying from it). Somebody who already
+   had a free account keeps everything they wrote.
+4. The entitlement is written, with the order number and what they paid. The
+   same order can never count twice: the order id is unique in the database,
+   so a repeat changes nothing.
+5. The welcome email goes out. It carries no code and no sign-in link (§6).
+6. Every one of these, including the ones that did nothing, is written to
+   **Admin → Orders from Lemon Squeezy**.
+
+A refund closes the steps again. Nothing the person wrote is touched.
+
+### When it goes wrong
+
+**Admin shows "Failed".** Give them access by hand (the grant button), then
+look at the detail on the line. Lemon Squeezy retries a failure for a while,
+so a fixed setting often repairs itself.
+
+**Nothing in Admin at all, but money arrived.** The webhook is not reaching the
+app. Check the URL in Lemon Squeezy, and that the secret in Vercel matches the
+one that webhook shows. Lemon Squeezy keeps its own delivery log.
+
+**"I paid but cannot get in."** They paid with one address and signed in with
+another. They can fix it themselves at **app.maderealblueprint.com/claim** —
+linked from Help and from the locked overview. They type the address they paid
+with, a code goes to it, and the course **moves** to the account they are
+signed in with. It moves rather than copies: one purchase opens one account,
+and the paying address is left with nothing.
+
 ## 8. Check it yourself
 
 Sign in on the real address and walk through:

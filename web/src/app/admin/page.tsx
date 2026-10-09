@@ -269,9 +269,80 @@ function UpdateList({ emails }: { emails: string[] }) {
   );
 }
 
+/** One message from Lemon Squeezy, and what the app did with it (§6.1). */
+type WebhookEvent = {
+  event: string;
+  order_id: string | null;
+  email: string | null;
+  test_mode: boolean;
+  outcome: "opened" | "closed" | "ignored" | "failed";
+  detail: string | null;
+  created_at: string;
+};
+
+function Webhooks({ events }: { events: WebhookEvent[] }) {
+  const trouble = events.filter((e) => e.outcome === "failed");
+  return (
+    <section className="mt-8">
+      <h2 className="text-xl font-semibold text-pine">Orders from Lemon Squeezy</h2>
+      {events.length === 0 ? (
+        <p className="mt-2 text-sm text-stone">
+          Nothing has arrived yet. Until the first one does, this is the only sign of whether the webhook is wired up:
+          an order that never reaches the app opens nothing, and nobody is told.
+        </p>
+      ) : (
+        <>
+          {trouble.length > 0 && (
+            <p className="mt-2 rounded-lg bg-ochre-soft p-3 text-sm">
+              <strong>{trouble.length === 1 ? "One order" : `${trouble.length} orders`} did not go through.</strong> Give
+              the person access by hand below, then look at why.
+            </p>
+          )}
+          <table className="mt-3 w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-line text-stone">
+                <th className="py-1 pr-3 font-medium">When</th>
+                <th className="py-1 pr-3 font-medium">Who</th>
+                <th className="py-1 pr-3 font-medium">What happened</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((e, i) => (
+                <tr key={i} className="border-b border-line/60 align-top">
+                  <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(e.created_at)}</td>
+                  <td className="py-1 pr-3">
+                    {e.email ?? "—"}
+                    {e.test_mode && <span className="ml-1 text-xs text-stone">(test)</span>}
+                  </td>
+                  <td className="py-1 pr-3">
+                    <span
+                      className={
+                        e.outcome === "failed"
+                          ? "font-semibold text-error"
+                          : e.outcome === "opened"
+                            ? "font-semibold text-success"
+                            : "text-stone"
+                      }
+                    >
+                      {{ opened: "Opened", closed: "Refunded", ignored: "Nothing to do", failed: "Failed" }[e.outcome]}
+                    </span>
+                    {e.detail && <span className="text-stone"> — {e.detail}</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+    </section>
+  );
+}
+
 function AdminOverview() {
   const [data, setData] = useState<Participant[] | null>(null);
   const [emailOff, setEmailOff] = useState(false);
+  const [webhooks, setWebhooks] = useState<WebhookEvent[]>([]);
+  const [buyingRequired, setBuyingRequired] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -283,6 +354,8 @@ function AdminOverview() {
         if (cancelled) return;
         setData(body.participants);
         setEmailOff(body.emailNotifications === false);
+        setWebhooks(body.webhooks ?? []);
+        setBuyingRequired(body.buyingRequired !== false);
       })
       .catch((e) => !cancelled && setError((e as Error).message || "Could not load the overview."));
     return () => {
@@ -307,7 +380,14 @@ function AdminOverview() {
       {emailOff && (
         <p className="mt-3 rounded-lg bg-ochre-soft p-3 text-sm">
           Questions are saved and shown here, but no email is sent: RESEND_API_KEY is missing. Add it in Vercel to get
-          every question in your inbox.
+          every question in your inbox — and so a new buyer gets their welcome email.
+        </p>
+      )}
+      {!buyingRequired && (
+        <p className="mt-3 rounded-lg bg-ochre-soft p-3 text-sm">
+          <strong>Buying is not required.</strong> Everyone signed in can open every released step, whatever they own.
+          Switch NEXT_PUBLIC_REQUIRE_PURCHASE on in Vercel and redeploy — after giving the people below what they
+          should keep.
         </p>
       )}
       <div className="mt-4 grid gap-3 sm:grid-cols-5">
@@ -330,6 +410,7 @@ function AdminOverview() {
         the cache is not counted, so the real cost is a little higher. Your Anthropic Console shows the exact bill. Of
         that, {usd(freeCost)} is free accounts.
       </p>
+      <Webhooks events={webhooks} />
       <UpdateList emails={updateList} />
       {data.length === 0 && (
         <p className="mt-6 rounded-lg bg-sand p-4">No participants yet. They appear here after they sign in.</p>

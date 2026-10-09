@@ -180,6 +180,19 @@ function AskForm() {
         <p className="text-center text-sm text-stone">{SUPPORT.email}</p>
       </section>
 
+      <section className="space-y-3 rounded-2xl border border-line p-5">
+        <h2 className="text-xl text-pine">Bought it, but cannot get in?</h2>
+        <p className="text-center text-sm text-stone">
+          If you paid with a different email address than the one you signed in with, you can open your course
+          yourself.
+        </p>
+        <div className="flex justify-center">
+          <Link className="btn btn-ghost" href="/claim">
+            Open it with the email I paid with
+          </Link>
+        </div>
+      </section>
+
       {earlier.length > 0 && (
         <section className="space-y-3 rounded-2xl border border-line p-5">
           <h2 className="text-xl text-pine">What you asked before</h2>

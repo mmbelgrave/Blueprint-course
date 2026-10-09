@@ -107,6 +107,17 @@ export default function Modules() {
               );
             })}
           </ul>
+          {free && (
+            // For the person who paid with one address and signed in with
+            // another. Quiet, below everything: most people never need it.
+            <p className="mt-8 text-center text-sm text-stone">
+              Bought it already and it is not here?{" "}
+              <Link href="/claim" className="text-pine underline">
+                Open it with the email you paid with
+              </Link>
+              .
+            </p>
+          )}
         </section>
       </RequireUser>
     </Shell>
