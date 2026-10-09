@@ -367,9 +367,12 @@ wired up a purchase does nothing at all: no account, no email, no access.
    - It gives you a **signing secret**. Copy it now — it is shown once.
 2. Do the same a second time in **test mode**, which has its own webhooks and
    its own secret.
-3. **The variant number.** Open the product, then the variant, and take the
-   number out of the address bar. It is *not* the long code in the checkout
-   link: that one is for the browser, and webhooks never mention it.
+3. **The product numbers.** Open each product and take the number out of the
+   address bar: app.lemonsqueezy.com/products/**1425209**. Do it twice, once
+   live and once with Test mode on, because the same product has a different
+   number in each shop. Both go in one setting, separated by a comma. It is
+   *not* the long code in the checkout link: that one is for the browser, and
+   webhooks never mention it.
 4. **The confirmation people see after paying.** Set it to say, in these words
    or close to them:
 
@@ -384,7 +387,7 @@ wired up a purchase does nothing at all: no account, no email, no access.
 
     LS_WEBHOOK_SECRET_LIVE = the live secret
     LS_WEBHOOK_SECRET_TEST = the test secret
-    LS_VARIANT_PHASE1      = the variant number
+    LS_PHASE1_IDS          = the live product number, a comma, the test one
     RESEND_API_KEY         = from resend.com, or no welcome email is sent
 
 Production **and** Preview, then **Redeploy**.

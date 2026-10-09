@@ -59,6 +59,8 @@ export type Order = {
   email: string;
   name: string;
   variantId: string;
+  /** The product the variant belongs to. Visible in the dashboard address. */
+  productId: string;
   productName: string;
   totalCents: number | null;
   currency: string | null;
@@ -102,6 +104,7 @@ export function readOrder(body: unknown): { order: Order } | { error: string } {
       email,
       name: str(a.user_name).trim(),
       variantId,
+      productId: str(item.product_id),
       productName: str(item.product_name) || str(item.variant_name),
       totalCents: typeof a.total === "number" ? a.total : null,
       currency: a.currency ? str(a.currency) : null,
@@ -115,13 +118,31 @@ export function readOrder(body: unknown): { order: Order } | { error: string } {
 
 /* ─────────────────────────── what it entitles ─────────────────────────── */
 
-/** Which variant id means which of our products. Set in configuration. */
+/**
+ * Which Lemon Squeezy ids mean which of our products.
+ *
+ * One setting per product, holding a comma-separated list, because the same
+ * product exists twice over there: once in the live shop and once in the test
+ * shop, with different numbers. "1425209,1407083" covers both.
+ *
+ * A product id is as good as a variant id here. The dashboard shows the
+ * product id in its own address and never shows the variant id at all, so
+ * insisting on the variant would mean asking somebody to go and find a number
+ * the website will not tell them.
+ */
 export type Variants = Record<string, string | undefined>;
 
-/** "76543" -> "phase1". Unknown variants are not guessed at. */
-export function productFor(variantId: string, variants: Variants): string | undefined {
-  for (const [product, id] of Object.entries(variants)) {
-    if (id && String(id) === variantId) return product;
+export function productFor(
+  ids: { variantId: string; productId: string },
+  variants: Variants,
+): string | undefined {
+  for (const [product, configured] of Object.entries(variants)) {
+    if (!configured) continue;
+    const list = String(configured)
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (list.includes(ids.variantId) || (ids.productId && list.includes(ids.productId))) return product;
   }
   return undefined;
 }
@@ -158,9 +179,14 @@ export function decideAccess(
     return { act: "ignore", because: "A test order, and test orders do not open the live app." };
   }
 
-  const product = productFor(order.variantId, config.variants);
+  const product = productFor(order, config.variants);
   if (!product) {
-    return { act: "ignore", because: `No product is configured for variant ${order.variantId}.` };
+    // The numbers are in the note on purpose: this is how somebody finds out
+    // what to configure, without going near the Lemon Squeezy API.
+    return {
+      act: "ignore",
+      because: `Nothing is configured for product ${order.productId} (variant ${order.variantId}).`,
+    };
   }
   return { act: "open", product };
 }

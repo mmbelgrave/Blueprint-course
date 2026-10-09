@@ -32,13 +32,13 @@ const payload = (over: Record<string, unknown> = {}, attrs: Record<string, unkno
         total: 9900,
         test_mode: false,
         refunded: false,
-        first_order_item: { variant_id: 776001, product_name: "Phase 1 · Choose it" },
+        first_order_item: { variant_id: 776001, product_id: 1425209, product_name: "Phase 1 · Choose it" },
         ...attrs,
       },
     },
   });
 
-const config = { variants: { phase1: "776001", full: "776002" }, allowTestOrders: false };
+const config = { variants: { phase1: "1425209,1407083", full: "776002" }, allowTestOrders: false };
 const orderOf = (raw: string): Order => {
   const r = readOrder(JSON.parse(raw));
   assert.ok(!("error" in r), "error" in r ? r.error : "");
@@ -105,11 +105,25 @@ test("test mode is believed from either place it is written", () => {
 
 /* ─────────────────────────────── what it means ────────────────────────── */
 
-test("a variant opens the product it was configured for, and nothing else", () => {
-  assert.equal(productFor("776001", config.variants), "phase1");
-  assert.equal(productFor("776002", config.variants), "full");
-  assert.equal(productFor("999999", config.variants), undefined, "an unknown variant is not guessed at");
-  assert.equal(productFor("776001", {}), undefined, "nothing configured opens nothing");
+test("the shop's own numbers open the product they were configured for", () => {
+  const ids = (variantId: string, productId = "") => ({ variantId, productId });
+  // The live shop and the test shop hold the same product under different
+  // numbers, so one setting lists both.
+  assert.equal(productFor(ids("776001", "1425209"), config.variants), "phase1", "the live product id");
+  assert.equal(productFor(ids("991234", "1407083"), config.variants), "phase1", "the test product id");
+  assert.equal(productFor(ids("776002"), config.variants), "full", "a variant id works too");
+  assert.equal(productFor(ids("999999", "999999"), config.variants), undefined, "an unknown number is not guessed at");
+  assert.equal(productFor(ids("776001", "1425209"), {}), undefined, "nothing configured opens nothing");
+  assert.equal(
+    productFor(ids("", ""), { phase1: "1425209" }),
+    undefined,
+    "an order with no numbers at all matches nothing",
+  );
+  assert.equal(
+    productFor(ids("x", "1407083"), { phase1: " 1425209 , 1407083 " }),
+    "phase1",
+    "spaces around the numbers are forgiven",
+  );
 });
 
 test("a paid order opens the phase", () => {
@@ -137,11 +151,15 @@ test("the two modes must agree with each other", () => {
   assert.equal(decideAccess(testOrder, "live", config).act, "ignore", "a test order signed with the live secret");
 });
 
-test("an unknown variant opens nothing, and says so", () => {
-  const raw = payload({}, { first_order_item: { variant_id: 123456 } });
+test("a product we do not know opens nothing, and says which one", () => {
+  const raw = payload({}, { first_order_item: { variant_id: 123456, product_id: 987654 } });
   const d = decideAccess(orderOf(raw), "live", config);
   assert.equal(d.act, "ignore");
-  assert.match(d.act === "ignore" ? d.because : "", /123456/, "the number is in the note, so Admin can act on it");
+  const because = d.act === "ignore" ? d.because : "";
+  // Both numbers are in the note on purpose: that note is how somebody finds
+  // out what to put in the setting, without going near the API.
+  assert.match(because, /987654/, "the product id");
+  assert.match(because, /123456/, "and the variant id");
 });
 
 test("an event we do not handle is left alone", () => {

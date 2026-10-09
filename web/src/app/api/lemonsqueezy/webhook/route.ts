@@ -84,7 +84,7 @@ export async function POST(request: Request) {
   const order = read.order;
 
   const decision = decideAccess(order, signedWith as Mode, {
-    variants: { phase1: process.env.LS_VARIANT_PHASE1, full: process.env.LS_VARIANT_FULL },
+    variants: { phase1: process.env.LS_PHASE1_IDS, full: process.env.LS_FULL_IDS },
     allowTestOrders: process.env.ALLOW_TEST_ORDERS === "true",
   });
 
