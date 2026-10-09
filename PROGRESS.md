@@ -335,6 +335,46 @@ the credits. That is the "see what is inside" material, and only to someone
 signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
 it ever matters.
 
+## Mwata's review of 9 October (9 October 2026)
+
+Sixteen notes with screenshots, in `design/review-09-oct/`. What changed:
+
+- **The app opens on Modules.** Sign-in, the magic link, the end of
+  onboarding and "Continue" on the front page all landed on the exercises
+  overview, which is the whole eight-step road rather than the course.
+- **A step's result has a home.** Until now the only way to reach My Working
+  Direction was a link on the last page of the last part. There is now a card
+  under the workbook on the step page, with Open and Download, and the same
+  for My Blueprint on the phase page. Both wait: a document made of answers
+  nobody has written is an empty page with a proud heading on it. The test is
+  the one the Blueprint already used — the result page has been written in —
+  not pages ticked as done.
+- **Download hands over a .txt** (`lib/written-text.ts`), for the result, the
+  Blueprint and Everything I wrote. The JSON export stays in Settings: that
+  one is the machine-readable copy the privacy page promises, this one is for
+  reading. A table now takes one line per row instead of running on with "|".
+- **The five feedback stars had no colour.** `stroke-muted` is not a colour
+  this app has, so Tailwind wrote nothing and an unfilled star had no stroke:
+  five invisible buttons. Mwata read it as "a lot of space between the two
+  sentences", which is exactly what it looked like.
+- **The privacy line is on every page** (the `quiet` prop is gone), with room
+  above it. A free account still has none, and one quiet link in Settings.
+- **The menu stops where the writing stops** on a wide page, instead of
+  running to the window edge past the column anybody is reading.
+- **Help** lost the second email box (the form already has a general topic)
+  and the Meetings topic (meetings are sold outside the course area), and its
+  first line now says what to do rather than what the AI partner does.
+- Smaller: the free Ordinary Tuesday opens or downloads like every other
+  workbook; "Mark as completed" is hidden until there is a video to have
+  watched; the pages of a part are centred; every button row is centred on a
+  computer too; the way back out sits under the page, not above it.
+
+Not changed: the "Bought it, but cannot get in?" card. Signing in is by
+email code and has nothing to do with the shop, so somebody can perfectly
+well pay with one address and sign in with another — that card is how they
+move the purchase across, and it is the only self-service route that does not
+mean writing to Mwata.
+
 ## My Blueprint, built (8 October 2026)
 
 Spec 6.5, at /phase/1/print, linked from the phase page. Eight sheets: the

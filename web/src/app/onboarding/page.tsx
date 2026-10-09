@@ -42,7 +42,7 @@ function ConsentForm() {
             came_from: signup.from ?? profile?.came_from ?? null,
             wants_updates: signup.wants_updates || (profile?.wants_updates ?? false),
           });
-          router.push("/dashboard");
+          router.push("/modules");
         } catch {
           setError(true);
           setSaving(false);

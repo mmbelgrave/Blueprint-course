@@ -1,9 +1,9 @@
 "use client";
 /*
  * Ask a question. By email only: answering someone's own plans on WhatsApp
- * reads as a service, and the shop does not allow services (spec 6.10). The
- * form is there for everyone whose computer does not open a mail app when you
- * click an address.
+ * reads as a service, and the shop does not allow services (spec 6.10). One
+ * form, with a general topic in it, rather than a form and a mail link saying
+ * the same thing twice.
  *
  * Coming from an exercise page, the step and the page are already filled in.
  * This is app text, not workbook text, so it lives here and not in a content
@@ -16,17 +16,7 @@ import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { steps } from "@/lib/content";
-import {
-  checkQuestion,
-  mailBody,
-  mailSubject,
-  mailtoHref,
-  MAX_QUESTION,
-  SUPPORT,
-  supportTopics,
-  topicHasPage,
-  topicLabel,
-} from "@/lib/support";
+import { checkQuestion, MAX_QUESTION, SUPPORT, supportTopics, topicHasPage } from "@/lib/support";
 
 const TOPICS = supportTopics(steps.map((s) => s.step));
 
@@ -152,7 +142,7 @@ function AskForm() {
           </div>
         ) : (
           <p className="rounded-lg bg-sand p-3 text-stone">
-            Preview mode has no account, so the form cannot send. The email link below works.
+            Preview mode has no account, so the form cannot send. Write to {SUPPORT.email} instead.
           </p>
         )}
 
@@ -165,19 +155,6 @@ function AskForm() {
         <p className="text-stone">
           I read every question myself and reply by email as soon as I can, in English or Dutch.
         </p>
-      </section>
-
-      <section className="space-y-3 rounded-2xl border border-line p-5">
-        <h2 className="text-xl text-pine">Or write to me yourself</h2>
-        <div className="flex justify-center">
-          <a
-            className="btn btn-ghost"
-            href={mailtoHref(mailSubject(topicLabel(TOPICS, topic), draft.page), mailBody(question))}
-          >
-            Email
-          </a>
-        </div>
-        <p className="text-center text-sm text-stone">{SUPPORT.email}</p>
       </section>
 
       <section className="space-y-3 rounded-2xl border border-line p-5">
@@ -222,8 +199,8 @@ export default function Help() {
           <header>
             <h1 className="text-3xl text-pine">Help</h1>
             <p className="mt-2 text-lg">
-              Your AI partner answers most questions right away, on the page you are working on. Use this for the ones
-              only I can answer.
+              On the page you are working on you can use your AI partner to answer most of your questions. Use below
+              for the ones only I can answer.
             </p>
             <p className="mt-2 text-stone">
               I share my own experience. For legal, tax and money questions I help you find the right professional.
@@ -235,8 +212,8 @@ export default function Help() {
           </Suspense>
 
           <p className="text-center">
-            <Link href="/dashboard" className="btn btn-ghost">
-              Back to the overview
+            <Link href="/dashboard" className="text-pine hover:underline">
+              ← Back to the overview
             </Link>
           </p>
         </article>

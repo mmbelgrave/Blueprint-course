@@ -132,7 +132,7 @@ export default function SettingsPage() {
   const { entitlements, profile } = useApp();
   const free = isFree(entitlements);
   return (
-    <Shell quiet>
+    <Shell>
       <RequireUser>
         <div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 sm:p-8">
           <h1 className="mb-6 text-2xl font-bold text-pine">My settings</h1>

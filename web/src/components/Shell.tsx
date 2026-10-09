@@ -13,13 +13,10 @@ import { resetIsAdmin, useIsAdmin } from "@/lib/use-is-admin";
 export function Shell({
   children,
   wide = false,
-  quiet = false,
   ownHeader = false,
 }: {
   children: React.ReactNode;
   wide?: boolean;
-  /** No AI footer: Modules is the course, not the workbook, and Settings is Settings. */
-  quiet?: boolean;
   /** The page draws its own head on a phone, so this one steps aside there. */
   ownHeader?: boolean;
 }) {
@@ -38,7 +35,9 @@ export function Shell({
       )}
       <header className={`border-b border-line bg-sand print:hidden ${ownHeader ? "hidden sm:block" : ""}`}>
         <div
-          className={`mx-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 py-3 sm:justify-between ${wide ? "max-w-7xl" : "max-w-4xl"}`}
+          className={`mx-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 py-3 sm:justify-between ${
+            wide ? "max-w-7xl lg:pr-[25rem]" : "max-w-4xl"
+          }`}
         >
           <Link href={user ? "/modules" : "/"} aria-label={`${PRODUCT.name} — ${PRODUCT.edition}`}>
             <Lockup />
@@ -86,9 +85,9 @@ export function Shell({
         {children}
       </main>
       {user && <Tabs free={free} />}
-      {!quiet && !free && (
+      {!free && (
         <footer
-          className={`border-t border-line px-4 py-4 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
+          className={`mt-12 border-t border-line px-4 py-6 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
         >
           <Link href="/privacy" className="hover:underline">
             Privacy

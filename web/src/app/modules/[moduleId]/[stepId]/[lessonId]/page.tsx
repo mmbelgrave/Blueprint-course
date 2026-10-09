@@ -21,7 +21,7 @@ export default function LessonPage() {
 
   if (!course || !step || !step.in_app || stateOf(course, entitlements) === "coming") {
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">Not open yet</h1>
@@ -40,7 +40,7 @@ export default function LessonPage() {
 
   if (!lesson) {
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <p className="text-center">
             That lesson does not exist.{" "}
@@ -59,7 +59,7 @@ export default function LessonPage() {
   const exerciseHref = stepFor(number, entitlements).open ? lesson.exerciseHref : undefined;
 
   return (
-    <Shell quiet ownHeader>
+    <Shell ownHeader>
       <RequireUser>
         <article className="space-y-6">
           <ModuleHeader

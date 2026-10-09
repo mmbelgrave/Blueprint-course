@@ -114,13 +114,20 @@ export function exerciseAnswerLines(
   values: Record<string, unknown> | undefined,
   /** The page itself, when the caller has it. Without it there is nothing to read. */
   exercise?: Exercise,
+  /**
+   * What joins the rows of a table or the items of a list. On a screen they
+   * run on with "; " and " | "; in a text file each row wants its own line.
+   */
+  separator = "; ",
 ) {
   const page = exercise ?? findExercise(exerciseId)?.exercise;
   if (!page || !values) return [];
   const lines: { label: string; text: string }[] = [];
   for (const field of exerciseFields(page)) {
-    const text = answerText(field, values[field.id]);
-    if (text) lines.push({ label: field.label ?? field.hint ?? field.id, text });
+    const text = answerText(field, values[field.id], separator);
+    // A field with no label of its own is the page: showing "people" — the
+    // name in the content file — tells the reader nothing.
+    if (text) lines.push({ label: field.label ?? field.hint ?? page.title, text });
   }
   return lines;
 }

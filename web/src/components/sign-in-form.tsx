@@ -16,7 +16,7 @@ import { cleanCode, friendlySignInError, MAX_CODE, MIN_CODE } from "@/lib/auth-e
 import { auth, isSupabaseConfigured, NotInvitedError } from "@/lib/backend";
 
 export function SignInForm({
-  goTo = "/dashboard",
+  goTo = "/modules",
   beforeButton,
   sendLabel = "Send me a code",
 }: {

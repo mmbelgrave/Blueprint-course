@@ -3,15 +3,16 @@
 // Step 2 "My Explore Summary". One document layout serves every step.
 // "Save as PDF" uses the browser's print window.
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { pictureLinks, picturesAvailable } from "@/lib/backend/pictures";
 import { ClosedStep } from "@/components/closed-step";
 import { stepFor } from "@/lib/access-app";
 import { useStepContent } from "@/lib/use-step-content";
 import { RequireUser, Shell } from "@/components/Shell";
-import { fieldAnswerText } from "@/lib/answer-text";
+import { exerciseAnswerLines, fieldAnswerText } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
+import { downloadText, fileName, writtenText } from "@/lib/written-text";
 import {
   exerciseFields,
   getStep,
@@ -22,6 +23,7 @@ import {
   type StepContent,
   type TableColumn,
 } from "@/lib/content";
+import { partItems } from "@/lib/content";
 import { stepHref } from "@/lib/progress";
 
 type TableValue = Record<string, Record<string, string>>;
@@ -180,16 +182,56 @@ function PrintPage({ step }: { step: StepContent }) {
   const mainFilled = hasAnswers(main, answers);
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 
+  /* The same result, as a plain text file: the page without the paper. */
+  const asText = () =>
+    writtenText({
+      title: `${PRODUCT.name} — ${result.finish.title}`,
+      who: profile?.first_name ?? undefined,
+      when: `Step ${step.step.number} · ${step.step.title} · ${today}`,
+      note: result.finish.description ?? undefined,
+      sections: [
+        {
+          // The part, not the result: the document is already called that.
+          title: `${result.label} · ${result.title}`,
+          pages: partItems(result).map((page) => ({
+            title: page.title,
+            lines: exerciseAnswerLines(page.id, answers[page.id], page, "\n"),
+          })),
+        },
+      ],
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. Your answers are your own. This page is for your personal use; the workbook text and layout may not be copied or shared.`,
+    });
+
+  /*
+   * "Download" on the step page is a link to this page asking for the file.
+   * The words have to be here before there is anything to hand over, so the
+   * file is made once the page itself is ready, and only once.
+   */
+  const asked = useSearchParams().get("download") === "1";
+  const handed = useRef(false);
+  useEffect(() => {
+    if (!asked || handed.current) return;
+    handed.current = true;
+    downloadText(fileName(result.finish.title), asText());
+    // asText reads what is already on the screen; it is deliberately not a
+    // dependency, or every keystroke elsewhere would hand over another file.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asked]);
+
   return (
     <>
-      <div className="mb-6 flex flex-wrap items-center gap-3 print:hidden">
-        <button className="btn btn-primary" onClick={() => window.print()}>
-          Save as PDF
-        </button>
-        <span className="text-sm text-stone">In the window that opens, choose &ldquo;Save as PDF&rdquo;.</span>
-        <Link href={stepHref(step.step.number)} className="ml-auto text-sm text-pine underline">
-          Back to Step {step.step.number}
-        </Link>
+      <div className="mb-6 print:hidden">
+        <p className="flex flex-wrap justify-center gap-3">
+          <button className="btn btn-primary" onClick={() => window.print()}>
+            Print or save as PDF
+          </button>
+          <button className="btn btn-ghost" onClick={() => downloadText(fileName(result.finish.title), asText())}>
+            Download the file
+          </button>
+        </p>
+        <p className="mt-2 text-center text-sm text-stone">
+          In the window that opens, choose &ldquo;Save as PDF&rdquo;.
+        </p>
       </div>
 
       <article className="mx-auto max-w-[210mm] overflow-hidden rounded-2xl bg-white shadow-sm print:max-w-none print:rounded-none print:shadow-none">
@@ -259,6 +301,12 @@ function PrintPage({ step }: { step: StepContent }) {
           </footer>
         </div>
       </article>
+
+      <p className="mt-8 text-center print:hidden">
+        <Link href={stepHref(step.step.number)} className="text-pine hover:underline">
+          ← Back to Step {step.step.number}
+        </Link>
+      </p>
     </>
   );
 }
@@ -277,7 +325,9 @@ export default function Print() {
         ) : !content ? (
           <p>This step does not exist.</p>
         ) : page.state === "ready" ? (
-          <PrintPage step={page.content} />
+          <Suspense fallback={<p className="py-16 text-center text-stone">One moment…</p>}>
+            <PrintPage step={page.content} />
+          </Suspense>
         ) : page.state === "refused" ? (
           <p className="text-center">{page.because}</p>
         ) : (

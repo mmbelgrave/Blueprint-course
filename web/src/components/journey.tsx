@@ -51,7 +51,7 @@ export function PageChips({
   const items = partItems(part);
   const onLastPage = currentId === items.at(-1)?.id;
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
+    <div className="flex flex-wrap items-center justify-center gap-1.5">
       {lead && <span className="mr-0.5 text-sm text-stone">{lead}</span>}
       {items.map((e) => {
         const state = stateOf(e.id, statuses, e.id === currentId);

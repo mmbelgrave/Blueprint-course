@@ -11,7 +11,8 @@
 /**
  * Where a question goes. Email only, on purpose: answering someone's own plans
  * on WhatsApp reads as a service, and the shop does not allow services. Any
- * meetings are sold and booked outside the course area.
+ * meetings are sold and booked outside the course area, and are not a topic
+ * anyone can pick here.
  */
 export const SUPPORT = {
   email: "info@maderealblueprint.com",
@@ -25,7 +26,6 @@ export function supportTopics(steps: { number: number; title: string }[]): Topic
     { id: "general", label: "Something general" },
     ...steps.map((s) => ({ id: `step-${s.number}`, label: `Step ${s.number} ${s.title}` })),
     { id: "app", label: "The app itself (something is not working)" },
-    { id: "meetings", label: "Meetings and booking" },
     { id: "payment", label: "Payment" },
   ];
 }

@@ -19,7 +19,7 @@ const TOPICS = supportTopics([
 
 test("the steps in the app each get their own topic", () => {
   const ids = TOPICS.map((t) => t.id);
-  assert.deepEqual(ids, ["general", "step-1", "step-2", "app", "meetings", "payment"]);
+  assert.deepEqual(ids, ["general", "step-1", "step-2", "app", "payment"]);
   assert.equal(topicLabel(TOPICS, "step-2"), "Step 2 Explore");
   // A step that is not in the app yet must not appear.
   assert.equal(ids.includes("step-3"), false);

@@ -14,7 +14,7 @@ export default function Modules() {
   const free = isFree(entitlements);
 
   return (
-    <Shell quiet ownHeader>
+    <Shell ownHeader>
       <RequireUser>
         <section className="space-y-6">
           <header className="text-center">
@@ -91,7 +91,7 @@ export default function Modules() {
                       <Link href={`/modules/${m.id}`} className="block">
                         {inside}
                       </Link>
-                      <p className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
+                      <p className="mt-3 flex flex-wrap justify-center gap-2">
                         <Link className="btn btn-ghost" href={`/modules/${m.id}`}>
                           See what is inside
                         </Link>

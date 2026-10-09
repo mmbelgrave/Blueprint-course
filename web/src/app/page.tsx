@@ -40,7 +40,7 @@ export default function Welcome() {
         </div>
 
         <div className="mt-8">
-          <Link href={user ? "/dashboard" : "/signin"} className="btn btn-primary text-lg">
+          <Link href={user ? "/modules" : "/signin"} className="btn btn-primary text-lg">
             {user ? "Continue" : "Sign in"}
           </Link>
           {!user && (

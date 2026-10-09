@@ -15,7 +15,8 @@
  * Saved as a PDF through the browser's print window, like the step results.
  */
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef } from "react";
 import { Mark } from "@/components/brand";
 import { RequireUser, Shell } from "@/components/Shell";
 import { stepFor } from "@/lib/access-app";
@@ -33,6 +34,7 @@ import {
 import { useApp } from "@/lib/app-state";
 import { getStep, partItems, PRODUCT } from "@/lib/content";
 import { useStepsContent } from "@/lib/use-step-content";
+import { downloadText, fileName, writtenText } from "@/lib/written-text";
 
 const PHASES: Record<string, { name: string; steps: number[] }> = {
   "1": { name: "Phase 1 · Choose it", steps: [1, 2, 3] },
@@ -75,6 +77,48 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
   const changed = whatChanged(a);
   const five = lights(a);
 
+  /*
+   * The step results are the part of this document that is the person's own
+   * writing, so they are what the text file carries. The worked-out pages —
+   * the money thread, what does not line up — are comparisons drawn on paper
+   * and read as a table; flattened into a text file they would mislead more
+   * than they help, so the file says where to find them.
+   */
+  const lastRealPart = <T extends { optional?: boolean }>(ps: T[]): T | undefined =>
+    ps.filter((p) => !p.optional).at(-1) ?? ps.at(-1);
+  const asText = () =>
+    writtenText({
+      title: `${PRODUCT.name} — My Blueprint · ${phase.name}`,
+      who,
+      when: today,
+      note: "Your step results, in your own words. The money thread, the five lights and what does not line up are on the printed Blueprint.",
+      sections: mine.flatMap((n) => {
+        const full = words.ready.get(n);
+        const result = full ? lastRealPart(full.parts) : undefined;
+        if (!full || !result) return [];
+        return [
+          {
+            title: `Step ${n} · ${full.step.title} — ${result.finish.title}`,
+            pages: partItems(result).map((page) => ({
+              title: page.title,
+              lines: exerciseAnswerLines(page.id, answers[page.id], page, "\n"),
+            })),
+          },
+        ];
+      }),
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. Your answers are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.`,
+    });
+
+  // "Download" on the Phase page is a link to this page asking for the file.
+  const asked = useSearchParams().get("download") === "1";
+  const handed = useRef(false);
+  useEffect(() => {
+    if (!asked || handed.current || words.loading) return;
+    handed.current = true;
+    downloadText(fileName(`my blueprint ${phase.name}`), asText());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [asked, words.loading]);
+
   const dotFor = (colour: string) =>
     colour.toLowerCase() === "green"
       ? "bg-moss"
@@ -86,12 +130,12 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
 
   return (
     <>
-      <p className="mx-auto mb-5 flex max-w-[210mm] flex-wrap items-center gap-3 print:hidden">
-        <Link href="/modules/phase-1" className="text-pine hover:underline">
-          ← Back to Phase 1
-        </Link>
+      <p className="mx-auto mb-6 flex max-w-[210mm] flex-wrap justify-center gap-3 print:hidden">
         <button className="btn btn-primary" onClick={() => window.print()}>
           Print or save as PDF
+        </button>
+        <button className="btn btn-ghost" onClick={() => downloadText(fileName(`my blueprint ${phase.name}`), asText())}>
+          Download the file
         </button>
       </p>
 
@@ -415,6 +459,12 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
           </p>
         </div>
       </Sheet>
+
+      <p className="mt-8 text-center print:hidden">
+        <Link href="/modules/phase-1" className="text-pine hover:underline">
+          ← Back to Phase 1
+        </Link>
+      </p>
     </>
   );
 }
@@ -426,7 +476,9 @@ export default function PhaseBlueprint() {
     <Shell wide>
       <RequireUser>
         {found ? (
-          <Blueprint phase={found} />
+          <Suspense fallback={<p className="py-16 text-center text-stone">One moment…</p>}>
+            <Blueprint phase={found} />
+          </Suspense>
         ) : (
           <p className="text-center">
             That phase does not have a blueprint yet.{" "}

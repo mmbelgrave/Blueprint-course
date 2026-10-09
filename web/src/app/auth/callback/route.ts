@@ -18,5 +18,5 @@ export async function GET(request: NextRequest) {
   } else if (code) {
     ok = !(await supabase.auth.exchangeCodeForSession(code)).error;
   }
-  return NextResponse.redirect(`${origin}${ok ? "/dashboard" : "/signin?error=link"}`);
+  return NextResponse.redirect(`${origin}${ok ? "/modules" : "/signin?error=link"}`);
 }

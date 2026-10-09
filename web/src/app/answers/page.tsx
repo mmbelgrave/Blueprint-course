@@ -12,6 +12,7 @@ import { useApp } from "@/lib/app-state";
 import { exerciseAnswerLines } from "@/lib/answer-text";
 import { displayTitle, partItems, PRODUCT, steps } from "@/lib/content";
 import { useStepsContent } from "@/lib/use-step-content";
+import { downloadText, fileName, writtenText } from "@/lib/written-text";
 
 export default function MyAnswers() {
   const { answers, profile, statuses } = useApp();
@@ -37,7 +38,7 @@ export default function MyAnswers() {
           .map((part) => ({
             part,
             pages: pagesOf(part.id)
-              .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id], page) }))
+              .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id], page, "\n") }))
               .filter((p) => p.lines.length > 0),
           }))
           .filter((p) => p.pages.length > 0),
@@ -47,20 +48,32 @@ export default function MyAnswers() {
 
   const pagesDone = Object.values(statuses).filter((s) => s === "done").length;
 
+  const asText = () =>
+    writtenText({
+      title: `${PRODUCT.name} — Everything I wrote`,
+      who: profile?.first_name ?? undefined,
+      when: today,
+      note: `${pagesDone} ${pagesDone === 1 ? "page" : "pages"} marked done.`,
+      sections: written.flatMap(({ step, parts }) =>
+        parts.map(({ part, pages }) => ({
+          title: `Step ${step.step.number} · ${step.step.title} — ${part.label} · ${part.title}`,
+          pages: pages.map(({ page, lines }) => ({ title: displayTitle(page), lines })),
+        })),
+      ),
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. Your answers are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.`,
+    });
+
   return (
     <Shell>
       <RequireUser>
         <div className="print:hidden">
-          <p className="mb-4 flex flex-wrap items-center gap-3">
-            <Link href="/settings" className="text-pine hover:underline">
-              ← Back to settings
-            </Link>
+          <p className="mb-6 flex flex-wrap justify-center gap-3">
             <button className="btn btn-primary" onClick={() => window.print()}>
               Print or save as PDF
             </button>
-            <a className="btn btn-ghost" href="/api/account/export">
+            <button className="btn btn-ghost" onClick={() => downloadText(fileName("everything I wrote"), asText())}>
               Download the file
-            </a>
+            </button>
           </p>
         </div>
 
@@ -119,6 +132,12 @@ export default function MyAnswers() {
             are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.
           </footer>
         </article>
+
+        <p className="mt-8 text-center print:hidden">
+          <Link href="/settings" className="text-pine hover:underline">
+            ← Back to settings
+          </Link>
+        </p>
       </RequireUser>
     </Shell>
   );

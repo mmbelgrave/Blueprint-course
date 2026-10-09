@@ -5,21 +5,23 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ListHeading, ModuleHeader } from "@/components/module-header";
 import { RequireUser, Shell } from "@/components/Shell";
+import { ResultCard } from "@/components/result-card";
 import { useApp } from "@/lib/app-state";
+import { stepsFinished, type Answers as BlueprintAnswers } from "@/lib/blueprint";
 import { journey } from "@/lib/content";
 import { lessonFor, stepFor } from "@/lib/access-app";
 import { buyUrl, lessonsOf, moduleById, stateOf, stepProgress, watchedKey, workbookOf } from "@/lib/modules-app";
 
 export default function StepLessons() {
   const { moduleId, stepId } = useParams<{ moduleId: string; stepId: string }>();
-  const { entitlements, statuses } = useApp();
+  const { answers, entitlements, statuses } = useApp();
   const course = moduleById(moduleId);
   const number = Number(String(stepId).replace("step-", ""));
   const step = journey.steps.find((s) => s.number === number);
 
   if (!course || !step || !step.in_app || stateOf(course, entitlements) === "coming") {
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">Not open yet</h1>
@@ -36,9 +38,16 @@ export default function StepLessons() {
   const progress = stepProgress(course.id, number, statuses);
   const mine = stepFor(number, entitlements).open;
   const workbook = mine ? workbookOf(stepId) : undefined;
+  /*
+   * The same test the Blueprint uses: a step is finished once its result page
+   * has been written in. Pages "marked done" are not the test — somebody can
+   * tick their way to the end without writing the one page the document is
+   * made of.
+   */
+  const finished = stepsFinished(answers as BlueprintAnswers).find((s) => s.step === number)?.finished ?? false;
 
   return (
-    <Shell quiet ownHeader>
+    <Shell ownHeader>
       <RequireUser>
         <article className="space-y-6">
           <ModuleHeader
@@ -50,13 +59,13 @@ export default function StepLessons() {
           />
 
           {workbook?.file && (
-            <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
+            <section className="rounded-2xl bg-white p-5 text-center">
               <h2 className="text-lg text-pine">The workbook</h2>
               <p className="mt-1 text-sm text-stone">
                 {workbook.name}
                 {workbook.updated ? ` · updated ${workbook.updated}` : ""}
               </p>
-              <p className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
+              <p className="mt-3 flex flex-wrap justify-center gap-2">
                 <a
                   className="btn btn-ghost"
                   href={`/api/workbook?step=${stepId}&open=1`}
@@ -70,6 +79,16 @@ export default function StepLessons() {
                 </a>
               </p>
             </section>
+          )}
+
+          {mine && (
+            <ResultCard
+              title={`Your result · Step ${step.number}`}
+              blurb="Everything you wrote in this step, on one page, in your own words. Save it as a PDF or keep the text."
+              href={`/step/${number}/print`}
+              ready={finished}
+              waiting="It appears here once you have written the last page of this step."
+            />
           )}
 
           <ListHeading title="The lessons" count={lessons.length} />

@@ -32,23 +32,28 @@ export function Lesson({
   const { statuses, setStatus } = useApp();
   const [problem, setProblem] = useState(false);
   const done = statuses[videoKey] === "done";
+  // Until the video is recorded there is nothing to have watched, so the
+  // button that says "I watched it" would be asking about nothing.
+  const watchable = Boolean(video?.url);
 
   return (
     <div className="space-y-6">
       <VideoSlot video={video} id={videoKey} plain />
 
       {/* The one thing to press when the video is finished. */}
-      <p className="flex justify-center">
-        <button
-          className={done ? "btn btn-ghost" : "btn btn-primary"}
-          onClick={async () => {
-            const ok = await setStatus(videoKey, done ? "not_started" : "done");
-            setProblem(!ok);
-          }}
-        >
-          {done ? "✓ Completed — undo" : "Mark as completed"}
-        </button>
-      </p>
+      {watchable && (
+        <p className="flex justify-center">
+          <button
+            className={done ? "btn btn-ghost" : "btn btn-primary"}
+            onClick={async () => {
+              const ok = await setStatus(videoKey, done ? "not_started" : "done");
+              setProblem(!ok);
+            }}
+          >
+            {done ? "✓ Completed — undo" : "Mark as completed"}
+          </button>
+        </p>
+      )}
       {problem && (
         <p role="alert" className="text-center text-sm text-ochre">
           That was not saved. Please check your internet and try again.
@@ -57,7 +62,7 @@ export function Lesson({
 
       <div className={`grid gap-3 ${workbook && exerciseHref ? "sm:grid-cols-2" : ""}`}>
         {workbook && (
-          <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
+          <section className="rounded-2xl bg-white p-5 text-center">
             <h2 className="text-lg text-pine">The workbook</h2>
             {workbookHref ? (
               <>
@@ -65,7 +70,7 @@ export function Lesson({
                   {workbook.name}
                   {workbook.updated ? ` · updated ${workbook.updated}` : ""}
                 </p>
-                <p className="mt-3 flex flex-wrap justify-center gap-2 sm:justify-start">
+                <p className="mt-3 flex flex-wrap justify-center gap-2">
                   <a
                     className="btn btn-ghost"
                     href={`${workbookHref}&open=1`}
@@ -86,12 +91,12 @@ export function Lesson({
         )}
 
         {exerciseHref && (
-          <section className="rounded-2xl bg-white p-5 text-center sm:text-left">
+          <section className="rounded-2xl bg-white p-5 text-center">
             <h2 className="text-lg text-pine">Exercises</h2>
             <p className="mt-1 text-sm text-stone">
               Now complete the exercises in the workbook, or answer them in this app.
             </p>
-            <p className="mt-3 flex justify-center sm:justify-start">
+            <p className="mt-3 flex justify-center">
               <Link className="btn btn-primary" href={exerciseHref}>
                 To the exercises
               </Link>

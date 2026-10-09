@@ -10,9 +10,11 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Lesson } from "@/components/lesson";
 import { ModuleHeader } from "@/components/module-header";
+import { ResultCard } from "@/components/result-card";
 import { RequireUser, Shell } from "@/components/Shell";
 import { useApp } from "@/lib/app-state";
 import { stepFor } from "@/lib/access-app";
+import { stepsFinished, type Answers as BlueprintAnswers } from "@/lib/blueprint";
 import {
   buyUrl,
   freeThingsIn,
@@ -27,7 +29,7 @@ import {
 
 export default function ModulePage() {
   const { moduleId } = useParams<{ moduleId: string }>();
-  const { entitlements, statuses } = useApp();
+  const { answers, entitlements, statuses } = useApp();
   const course = moduleById(moduleId);
 
   const free = isFree(entitlements);
@@ -36,7 +38,7 @@ export default function ModulePage() {
   // does not, because there is nothing behind the door yet.
   if (!course || state === "coming") {
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <div className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 text-center">
             <h1 className="text-2xl text-pine">{course?.name ?? "That module"} is not open</h1>
@@ -64,7 +66,7 @@ export default function ModulePage() {
   // The Introduction is a lesson on its own: a video and a workbook, no exercises.
   if (course.kind === "lesson") {
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <article className="space-y-6">
             {back}
@@ -86,7 +88,7 @@ export default function ModulePage() {
   if (course.kind === "free") {
     const items = course.items ?? [];
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <article className="space-y-6">
             {back}
@@ -98,19 +100,24 @@ export default function ModulePage() {
             ) : (
               <ul className="space-y-4">
                 {items.map((i) => (
-                  <li key={i.id} className="rounded-2xl bg-white p-5 text-center sm:text-left">
+                  <li key={i.id} className="rounded-2xl bg-white p-5 text-center">
                     <h2 className="text-xl text-pine">{i.title}</h2>
                     {i.blurb && <p className="mt-1 text-stone">{i.blurb}</p>}
-                    <p className="mt-4 flex justify-center sm:justify-start">
+                    <p className="mt-4 flex flex-wrap justify-center gap-2">
                       {i.pdf ? (
-                        <a
-                          className="btn btn-primary"
-                          href={`/api/workbook?free=${i.id}&open=1`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Do the exercise
-                        </a>
+                        <>
+                          <a
+                            className="btn btn-primary"
+                            href={`/api/workbook?free=${i.id}&open=1`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Open
+                          </a>
+                          <a className="btn btn-ghost" href={`/api/workbook?free=${i.id}`}>
+                            Download
+                          </a>
+                        </>
                       ) : (
                         <Link className="btn btn-primary" href={i.href ?? "#"}>
                           Do the exercise
@@ -132,7 +139,7 @@ export default function ModulePage() {
   if (free) {
     const open = freeThingsIn(course);
     return (
-      <Shell quiet ownHeader>
+      <Shell ownHeader>
         <RequireUser>
           <article className="space-y-6">
             {header}
@@ -177,9 +184,18 @@ export default function ModulePage() {
   }
 
   const steps = stepsOfPhase(course);
+  /*
+   * The Blueprint is made of the step results, so it waits for them. Only the
+   * steps this person owns and can open count: somebody who bought Phase 1
+   * while Step 3 was still being written is not kept waiting for a step that
+   * does not exist yet.
+   */
+  const finished = stepsFinished(answers as BlueprintAnswers);
+  const wanted = steps.filter((s) => s.released && stepFor(s.number, entitlements).open);
+  const missing = wanted.filter((s) => !finished.find((f) => f.step === s.number)?.finished);
 
   return (
-    <Shell quiet ownHeader>
+    <Shell ownHeader>
       <RequireUser>
         <article className="space-y-6">
           {back}
@@ -240,20 +256,23 @@ export default function ModulePage() {
           </ol>
 
           {/* The document the website promises: "you finish with your own
-              blueprint". It fills itself in as the steps are finished. */}
+              blueprint". It waits for the step results it is made of. */}
           {course.kind === "phase" && state === "open" && (
-            <section className="rounded-2xl bg-sage p-5 text-center">
-              <h2 className="text-lg text-pine">My Blueprint · {course.name}</h2>
-              <p className="mt-1 text-stone">
-                Your step results in one document, with your money from first guess to checked figure, what does not
-                line up yet, and your own dates. Save it as a PDF.
-              </p>
-              <p className="mt-3">
-                <Link className="btn btn-primary" href={`/phase/${course.id.replace("phase-", "")}/print`}>
-                  Open my blueprint
-                </Link>
-              </p>
-            </section>
+            <ResultCard
+              title={`My Blueprint · ${course.name}`}
+              blurb="Your step results in one document: your decision, your money from first guess to checked figure, what does not line up yet, and the dates you set yourself."
+              href={`/phase/${course.id.replace("phase-", "")}/print`}
+              ready={wanted.length > 0 && missing.length === 0}
+              waiting={
+                wanted.length === 0
+                  ? "It appears here once the steps of this phase are open to you."
+                  : `It appears here once you have finished ${
+                      missing.length === 1
+                        ? `Step ${missing[0].number}`
+                        : `Steps ${missing.map((s) => s.number).join(", ").replace(/, (d+)$/, " and $1")}`
+                    }.`
+              }
+            />
           )}
 
           {state === "buy" && (
