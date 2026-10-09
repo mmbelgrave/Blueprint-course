@@ -226,6 +226,9 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
                 ["Step 2", money(m.found, currency), "what you found, against real prices"],
                 ["Income", money(m.income, currency), "what you can count on each month"],
                 ["Put aside", money(m.savings, currency), "savings you can reach within a month"],
+                // The line the runway is actually worked out from, so the
+                // division below can be checked against the figures above it.
+                ["Left to live on", money(m.leftToLiveOn, currency), "after the move, your reserve and your return fund"],
               ].map(([label, figure, says]) => (
                 <tr key={label} className="border-b border-line">
                   <td className="py-3 pr-4 text-sm text-stone">{label}</td>
@@ -247,8 +250,12 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
               )}
               {m.balance !== null && m.balance < 0 && m.runwayMonths !== null && (
                 <p className={m.overTwentyPercent ? "mt-3" : ""}>
-                  You are <strong>{money(-m.balance, currency)} short each month</strong>, which your savings cover for
-                  about <strong>{m.runwayMonths} months</strong>. That is your runway if nothing changes.
+                  You are <strong>{money(-m.balance, currency)} short each month</strong>. What you have left to live
+                  on, after the move is paid for, covers that for about <strong>{m.runwayMonths} months</strong> — your
+                  runway if nothing changes.
+                  {m.runwayWanted !== null && (
+                    <> You said you wanted {m.runwayWanted} months.</>
+                  )}
                 </p>
               )}
               {m.balance !== null && m.balance >= 0 && (

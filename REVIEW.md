@@ -817,3 +817,171 @@ out of the bucket through a name today.
 | R4-8 | Three broken copy-from links in Step 3 | Medium |
 | R4-9 | Lights read from one table only | Low |
 | R4-10 | The `free=` branch of the workbook route | Low |
+
+---
+
+# Review round 5 — LLM2 (Reviewer), 2026-10-09
+
+Commit `a707148` plus one uncommitted change (the workbook dates, and Step 3's
+PDF given a file). A full review this time, with two additions: the four issued
+workbook PDFs checked against the app's content, and the Lemon Squeezy wiring
+now that the test store is connected.
+
+## Checks that ran
+`tsc`, `eslint`, `npm test` (142/142) and the production build: all pass. A
+script checked every cross-reference across the three steps (70 pages, 291
+fields): **no problems** — round 4's three broken links are gone. The four PDFs
+were extracted to text and compared with the app content both ways, with the
+page furniture filtered out and the near-matches listed separately so a rewrite
+shows up as a rewrite. Live probes against app.maderealblueprint.com and the
+live database.
+
+## Round 4 — what is fixed
+| # | Result |
+|---|---|
+| R4-1 workbook text public | **Fixed.** The words now live in `content-server.ts` behind `server-only` and are handed out page by page by `/api/content` after the access layer answers. I fetched the signed-out site again: the Step 3 sentence is in none of the scripts it loads. One leftover — see R5-5. |
+| R4-2 video address | **Fixed** for the hole: a step that is not a whole number is now refused. Still open: nothing calls `/api/video/url`; `video-slot.tsx` plays `video.url` from the content. Lower risk now that content is gated, but the address itself is unsigned, so it can be passed on. |
+| R4-3 money printed as fact | **Fixed,** and correctly. `total()` takes the certainty column and the filter, and a percentage, a balance and a runway are all withheld while anything is incomplete. The content's filter (Confirmed + Agreed) matches the issued Step 1 workbook: *"Confirmed and agreed income goes into the check in 3.5. Hoped income stays out of it."* |
+| R4-4 false "nothing is broken" | **Fixed.** A blank `meets` no longer produces the green line. |
+| R4-5 Blueprint page ungated | **Fixed.** It now prints only the steps `stepFor` opens. |
+| R4-6 `video_progress` missing | **Fixed.** The table exists. |
+| R4-7 entitlements before the switch | **Done.** Two accounts hold `phase1`. |
+| R4-8 broken copy-from links | **Fixed.** Zero broken references, and the label now names the right step. |
+| R4-9 lights from one table | **Open.** Still read only from `green_lights.lights`. |
+| R4-10 `free=` branch | **Open.** Unchanged. |
+
+## New findings
+
+### R5-1. The Blueprint's runway is too long, by the cost of the move (HIGH)
+- **Where:** `src/lib/blueprint.ts:157` — `savings` comes from
+  `s3-0.1.savings_reachable`, whose label is *"Savings I can use within a
+  month"*.
+- **What the workbook says:** Step 3's money check runs down a column —
+  savings, minus the cost of deciding, minus the one-time cost of the move,
+  minus deposits, minus the reserve, minus the return fund — ending at *"Savings
+  left to live on"* (`s3-1.1.check_one`, row 7). The runway is that last figure
+  divided by the monthly shortfall: *"If short: how many months my savings left
+  to live on can cover (my runway)"*.
+- **What the app does:** divides the **first** figure by the shortfall, and
+  prints *"which your savings cover for about N months. That is your runway if
+  nothing changes"*, with the same number as the headline tile.
+- **The size of it:** savings 20,000, move and reserve 13,000, short 500 a
+  month → the workbook's runway is 14 months, the Blueprint prints 40.
+- **Fix idea:** read `check_one` row 7 when it is filled — it is a money column,
+  so it is already a number — and fall back to the Start figure only with
+  wording that says it is before the costs of the move. Step 3 also asks for
+  *"The runway I want, in months (my choice)"* (`check_two`, row 6) and defines
+  the money light as the runway reaching it, *counting confirmed income only*.
+  That is the one comparison the workbook spells out, and the document does not
+  make it; both lines side by side would.
+
+### R5-2. The app promises videos the workbooks say are not part of the course (HIGH)
+- **The app**, Step 1 overview: *"Three ways to use this step … With the videos
+  — Each part has a short video where I explain the same ideas in my own words.
+  Watch first, then answer the questions."*
+- **The issued Step 1 workbook:** *"Two ways to use this step … Videos are
+  planned; they are not part of this course yet."*
+- **The issued Introduction:** *"Videos (planned). I am preparing videos that
+  talk through the same ideas. They are not part of this course yet; everything
+  you need is in the workbooks."*
+- No video has an address anywhere in the content, and Phase 1 is on sale now.
+  A buyer reads the app, expects a video on every part, and finds none — while
+  the workbook they also received says the opposite.
+- **Fix idea:** put the app's `ways_to_use` back to the workbook's two ways
+  until a video exists, and check the Modules wording says "being recorded"
+  rather than promising one per part.
+
+### R5-3. A test order is still opening the live course (MEDIUM — today)
+`webhook_events` row 1: `order_created`, `test_mode: true`, outcome **opened**,
+`phase1` for info@belgraveconsultancy.com, 9 October 13:29. So
+`ALLOW_TEST_ORDERS` is still set in production. GO-LIVE §"Try it before you
+trust it" already says to take it out again, and this is the reminder: while it
+is on, anyone who gets a test checkout link can open the real course with a
+published test card number.
+
+### R5-4. The buyer lookup stops at 200 accounts (MEDIUM — later, but silent)
+- **Where:** `api/lemonsqueezy/webhook/route.ts:187` — `listUsers({ page: 1,
+  perPage: 200 })`.
+- Past 200 accounts an existing buyer is not found, so the webhook tries to
+  create their account, Supabase refuses the address, the second lookup fails
+  the same way, and the handler throws. Lemon Squeezy then retries a 500
+  forever and that person never gets in — with the money taken.
+- **Fix idea:** page through the list, or look the address up in `profiles`,
+  which is indexed and cheap.
+
+### R5-5. Round 4's public copy of the workbook is still being served (MEDIUM)
+The fix changed what new builds ship, but Vercel keeps the files of earlier
+deployments. The exact address from round 4 still answers 200 today and still
+contains Step 1 and Step 3 prose:
+`/_next/static/immutable/chunks/1u_x0y7t9fqoc.js` (195 KB). Deleting the old
+deployments in Vercel is what actually removes it.
+
+### R5-6. Two small things in the claim flow (LOW)
+- When there **is** a purchase on the address but the email fails to send, the
+  answer is a different message (502) from the usual one. That tells the caller
+  the address has bought the course — the one thing the two identical answers
+  are there to hide.
+- Nothing limits how often a code can be asked for. Somebody signed in can send
+  repeated code emails to an address that has a purchase. A short cooldown per
+  address would close both.
+
+### R5-7. Two wording slips against the issued workbooks (LOW)
+- Step 3 overview: the app says *"the real costs you **created** in Step 2"*;
+  the workbook says *"the real costs you **found** in Step 2"*. Found is the
+  true one — you do not create a real cost.
+- Step 3: *"complete a short summary"* became *"complete a summary"*.
+
+## The workbooks against the app
+Method: each PDF to text, then compared with its content file both ways —
+prose sentences only, page headers and copyright lines dropped, and anything
+that merely looked different compared again as a near-match so rewrites would
+stand out from reformatting.
+
+**Verdict: the app carries the workbooks faithfully.** Nearly every difference
+is structure rather than substance — tables flattened into lines, "Word help:
+must-have:" losing its colons, "Made-up example (Sofia, 51):" becoming
+"Sofia, 51", and the deliberate adaptations the content files already record
+("this workbook" → "this step"). Out of roughly 170 near-matches across the
+three steps, exactly three carry a difference in meaning, and they are R5-2 and
+the two slips in R5-7. Nothing in the app is invented: every exercise,
+question, example and rule I checked traces back to the issued PDF. The five
+PDFs in the private store match the files sent today, by size and date —
+step-1 1.03 MB, step-2 0.57 MB, step-3 0.49 MB, introduction 1.08 MB, plus the
+free exercise.
+
+## Lemon Squeezy — reviewed, and sound
+- The signature is checked against the raw bytes before anything is read, with
+  a length check and a timing-safe comparison, and each configured secret is
+  tried so the mode is learned from the one that matches.
+- A live order signed with the test secret, or the other way round, is refused.
+- The same order cannot count twice: the unique index on `order_id` is what
+  enforces it, and `23505` is read as "seen before" rather than as a failure.
+- Every message is written to `webhook_events`, including the ignored ones.
+- A refund sets the entitlement to `refunded` and ends it.
+- The claim flow is careful: the code is hashed with the address mixed in, five
+  attempts, an expiry, one use, and the move is a move — the paying account is
+  left with nothing. Step 1 answers the same sentence whether or not there is
+  a purchase (apart from R5-6).
+- A strangers' probe of the live database still returns nothing from any table,
+  and writes to `entitlements`, `questions` and `webhook_events` are refused.
+
+## Not done this round
+- A signed-in walk-through with buying switched on. The flag is in Vercel, not
+  in the local file, and both accounts now own Phase 1, so there is no
+  unentitled buyer's view to exercise from here. The rules themselves were run
+  directly in round 4 and are unchanged.
+- The admin view with real data, and the "only with consent" branch. Still only
+  Mwata can do that one.
+
+## The fix list, in order
+| # | What | Severity |
+|---|---|---|
+| R5-2 | The app promises videos the workbooks say are not included | High — people are buying now |
+| R5-1 | The Blueprint's runway ignores the cost of the move | High — the document goes to advisers |
+| R5-3 | `ALLOW_TEST_ORDERS` is still on in production | Medium — today |
+| R5-5 | Round 4's public chunk is still served from an old deployment | Medium |
+| R5-4 | The buyer lookup stops at 200 accounts | Medium — before 200 people |
+| R5-6 | The claim flow leaks "this address bought" when email fails; no cooldown | Low |
+| R5-7 | Two wording slips against the issued workbooks | Low |
+| R4-9 | Lights still read from one table only | Low |
+| R4-10 | The `free=` branch still skips both checks | Low |

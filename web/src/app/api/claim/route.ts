@@ -14,6 +14,7 @@
  * makes it safe to offer at all.
  */
 import {
+  COOLDOWN_SECONDS,
   claimMail,
   claimUsable,
   codeMatches,
@@ -21,6 +22,7 @@ import {
   hashCode,
   newCode,
 } from "@/lib/claim";
+import { findAccountByEmail } from "@/lib/find-account";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -72,7 +74,23 @@ async function send(
     return fail(400, "That is the address you are signed in with. If the course is not open, write to Mwata and he will sort it out.");
   }
 
-  const owner = await accountFor(admin, email);
+  /*
+   * One code a minute, counted before anything is looked up, so the wait is
+   * the same whether or not that address ever bought anything. Without it,
+   * somebody could sit here working through a list of addresses.
+   */
+  const since = new Date(Date.now() - COOLDOWN_SECONDS * 1000).toISOString();
+  const { data: recent } = await admin
+    .from("purchase_claims")
+    .select("id")
+    .eq("user_id", userId)
+    .gt("created_at", since)
+    .limit(1);
+  if (recent?.length) {
+    return fail(429, "A code was sent a moment ago. Give it a minute, then look in your inbox or ask for a new one.");
+  }
+
+  const owner = await findAccountByEmail(admin, email);
   const moveable = owner ? await activeEntitlements(admin, owner) : [];
 
   // Only when there is really something to move is an email sent — but the
@@ -90,11 +108,20 @@ async function send(
 
     const sent = await sendMail(email, claimMail({ code, signedInAs }));
     if (!sent) {
+      /*
+       * The answer stays the same sentence. Saying "we could not email you"
+       * would confirm that this address has a purchase, which is exactly what
+       * the single answer above exists to hide. It goes in the log instead,
+       * where Mwata sees it on the Admin page and can open the course by hand.
+       */
       console.error("claim: the code could not be emailed to", email);
-      return fail(
-        502,
-        "We could not send the email just now. Please write to info@maderealblueprint.com and Mwata will open it by hand.",
-      );
+      await admin.from("webhook_events").insert({
+        source: "claim",
+        event: "claim_code_not_sent",
+        email,
+        outcome: "failed",
+        detail: "Somebody asked to move their purchase here, but the code could not be emailed. Open it by hand.",
+      });
     }
   }
 
@@ -130,7 +157,7 @@ async function move(
     return fail(400, "That code is not right. Please check it and try again.");
   }
 
-  const owner = await accountFor(admin, email);
+  const owner = await findAccountByEmail(admin, email);
   const moveable = owner ? await activeEntitlements(admin, owner) : [];
   if (!owner || moveable.length === 0) {
     // It was there when the code was asked for and is not now: a refund, or
@@ -160,15 +187,6 @@ async function move(
 
 /* ──────────────────────────────── helpers ─────────────────────────────── */
 
-/** The account that paid, if there is one. */
-async function accountFor(
-  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
-  email: string,
-): Promise<string | null> {
-  const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
-  if (error) return null;
-  return data.users.find((u) => (u.email ?? "").toLowerCase() === email)?.id ?? null;
-}
 
 /** The ids of what that account still holds. A refund is not moveable. */
 async function activeEntitlements(

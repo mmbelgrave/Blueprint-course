@@ -26,6 +26,7 @@ import {
   type Mode,
   type Order,
 } from "@/lib/lemonsqueezy";
+import { findAccountByEmail } from "@/lib/find-account";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
@@ -159,7 +160,7 @@ async function findOrCreateAccount(
   admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
   order: Order,
 ): Promise<{ userId: string; isNew: boolean }> {
-  const existing = await findUserByEmail(admin, order.email);
+  const existing = await findAccountByEmail(admin, order.email);
   if (existing) return { userId: existing, isNew: false };
 
   const { data, error } = await admin.auth.admin.createUser({
@@ -171,7 +172,7 @@ async function findOrCreateAccount(
   // Two webhooks for the same new buyer can race each other; the loser is told
   // the address is taken, and simply looks it up again.
   if (error) {
-    const again = await findUserByEmail(admin, order.email);
+    const again = await findAccountByEmail(admin, order.email);
     if (again) return { userId: again, isNew: false };
     throw new Error(`Could not make an account for ${order.email}: ${error.message}`);
   }
@@ -179,16 +180,6 @@ async function findOrCreateAccount(
   return { userId: data.user.id, isNew: true };
 }
 
-/** Supabase has no "get user by email", so the list is asked to filter. */
-async function findUserByEmail(
-  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
-  email: string,
-): Promise<string | null> {
-  const { data, error } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
-  if (error) throw new Error(`Could not look up ${email}: ${error.message}`);
-  const found = data.users.find((u) => (u.email ?? "").toLowerCase() === email);
-  return found?.id ?? null;
-}
 
 /** Returns false when there is no key or Resend refuses; the order stands. */
 async function sendWelcome(order: Order, product: string): Promise<boolean> {

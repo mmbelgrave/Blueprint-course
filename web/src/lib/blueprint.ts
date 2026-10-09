@@ -144,17 +144,39 @@ export type MoneyThread = {
   income: number | null;
   /** Left over (positive) or short (negative) each month, against the checked costs. */
   balance: number | null;
-  /** What Step 3 says they can reach within a month. */
+  /** What Step 3 says they can reach within a month, before anything is taken off. */
   savings: number | null;
-  /** How long the savings cover the shortfall, in whole months. */
+  /** The bottom of Step 3's first money check: what is left after the move is paid for. */
+  leftToLiveOn: number | null;
+  /** How long that covers the shortfall, in whole months. */
   runwayMonths: number | null;
+  /** The runway they said they wanted, in months, if they named one. */
+  runwayWanted: number | null;
 };
+
+/*
+ * Step 3, 1.1, "Check one" walks down a column: savings, minus the cost of
+ * deciding, minus the move, minus deposits, minus the reserve, minus the
+ * return fund, and the last line is what is left to live on. The runway
+ * divides THAT, not the first line.
+ *
+ * Rows are stored under r0, r1 … in the order of the labels, so these are the
+ * positions of the two lines we need. tests/blueprint.test.ts pins them to
+ * the labels in step3-content.json, so moving a row breaks a test rather than
+ * quietly changing somebody's runway.
+ */
+const LEFT_TO_LIVE_ON_ROW = "r6";
+const RUNWAY_WANTED_ROW = "r5";
 
 export function moneyThread(answers: Answers): MoneyThread {
   const guessed = total(answers, "3.2", "costs", "new_life", { certaintyColumn: "certainty" });
   const found = total(answers, "s2-3.1", "costs", "found");
   const income = total(answers, "3.4", "income", "new_life", { filter: INCOME_ONLY_CONFIRMED });
   const savings = amount(answers["s3-0.1"]?.savings_reachable);
+  const checkOne = rowsOf(answers, "s3-1.1", "check_one");
+  const checkTwo = rowsOf(answers, "s3-1.1", "check_two");
+  const leftToLiveOn = amount(checkOne[LEFT_TO_LIVE_ON_ROW]?.amount);
+  const runwayWanted = amount(checkTwo[RUNWAY_WANTED_ROW]?.answer);
 
   const complete = guessed.complete && found.complete && income.complete;
 
@@ -168,10 +190,17 @@ export function moneyThread(answers: Answers): MoneyThread {
   const monthly = found.value ?? guessed.value;
   const balance = income.value !== null && monthly !== null ? income.value - monthly : null;
 
-  // A runway worked out from half a total is worse than no runway at all, so
-  // it is only stated when every figure behind it is known.
+  /*
+   * A runway worked out from half a total is worse than no runway at all, so
+   * it is only stated when every figure behind it is known — and it divides
+   * what is left after the move is paid for, which is the figure the workbook
+   * divides. Dividing the savings before the move comes out of them overstates
+   * the runway by the whole cost of moving.
+   */
   const runwayMonths =
-    complete && savings !== null && balance !== null && balance < 0 ? Math.floor(savings / -balance) : null;
+    complete && leftToLiveOn !== null && balance !== null && balance < 0
+      ? Math.floor(leftToLiveOn / -balance)
+      : null;
 
   return {
     guessed: guessed.value,
@@ -182,7 +211,9 @@ export function moneyThread(answers: Answers): MoneyThread {
     income: income.value,
     balance: complete ? balance : null,
     savings,
+    leftToLiveOn,
     runwayMonths,
+    runwayWanted,
   };
 }
 
@@ -215,6 +246,20 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       title: `Your checked costs are ${Math.abs(money.differencePercent)}% ${more ? "higher" : "lower"} than your first guess`,
       quote: `Step 1 said about ${amountText(money.guessed, currency)}. Step 2 found ${amountText(money.found, currency)}.`,
       where: "Step 2 asks you to go back through both sets of figures when they differ by more than 20%",
+    });
+  }
+
+  /*
+   * The one comparison the workbook asks for by name. Step 3 has somebody
+   * write down the runway they want, right under the runway they have, and
+   * until now the document never put the two side by side.
+   */
+  if (money.runwayMonths !== null && money.runwayWanted !== null && money.runwayMonths < money.runwayWanted) {
+    out.push({
+      tone: "amber",
+      title: "Your runway is shorter than the one you wanted",
+      quote: `You wanted ${money.runwayWanted} months. What is left to live on covers about ${money.runwayMonths}.`,
+      where: "Step 3 · 1.1 — your own two lines, the runway you have and the runway you asked for",
     });
   }
 

@@ -21,6 +21,9 @@ export const CODE_LENGTH = 6;
 /** Fifteen minutes: long enough to find the email, short enough to matter. */
 export const CLAIM_MINUTES = 15;
 
+/** One code a minute per person, so this cannot be used to work through a list. */
+export const COOLDOWN_SECONDS = 60;
+
 /** After this many wrong tries the code is dead and they ask for a new one. */
 export const MAX_ATTEMPTS = 5;
 

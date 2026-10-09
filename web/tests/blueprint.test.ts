@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import step3 from "../src/content/step3-content.json" with { type: "json" };
 import {
   headline,
   lights,
@@ -26,6 +27,9 @@ const full: Answers = {
     date: "Before 20 January",
   },
   "s3-0.1": { savings_reachable: "16350" },
+  // Check one walks down to what is left after the move; the runway divides
+  // this, not the 16350 above it.
+  "s3-1.1": { check_one: { r0: { amount: "16350" }, r6: { amount: "16350" } } },
   green_lights: {
     lights: {
       r0: { colour: "Amber", turns_green: "Lotte's income confirmed", by_when: "Before 1 March" },
@@ -74,6 +78,7 @@ test("the money thread puts three figures written weeks apart side by side", () 
   assert.equal(m.income, 1600);
   assert.equal(m.balance, -850, "measured against the checked figure, not the guess");
   assert.equal(m.savings, 16350);
+  assert.equal(m.leftToLiveOn, 16350, "nothing taken off in this fixture");
   assert.equal(m.runwayMonths, 19);
 });
 
@@ -87,7 +92,9 @@ test("the money thread says nothing it cannot know", () => {
     income: null,
     balance: null,
     savings: null,
+    leftToLiveOn: null,
     runwayMonths: null,
+    runwayWanted: null,
   });
 });
 
@@ -252,4 +259,74 @@ test("what happens next is earliest first, and what has no date stays at the end
   };
   const order = whatHappensNext(answers as never).map((n) => n.when);
   assert.deepEqual(order, ["March 2027", "Done, 4 March 2027", "4 May 2027", "30 June 2027", "1 December 2027", "Done"]);
+});
+
+/* ── the runway divides what is left, not what you started with ── */
+
+test("the runway comes off what is left after the move is paid for", () => {
+  // Round 5: the document divided the first line of Step 3's money column
+  // instead of the last, so it promised a runway the size of the move itself.
+  const answers = {
+    "3.2": { costs: { r0: { new_life: "2000", certainty: "Known" } } },
+    "s2-3.1": { costs: { r0: { found: "2000" } } },
+    "3.4": { income: { r0: { new_life: "1500", certainty: "Confirmed" } } },
+    "s3-0.1": { savings_reachable: "20000" },
+    "s3-1.1": {
+      check_one: {
+        r0: { amount: "20000" },
+        r2: { amount: "8000" },
+        r4: { amount: "5000" },
+        r6: { amount: "7000" },
+      },
+      check_two: { r5: { answer: "12" } },
+    },
+  };
+  const m = moneyThread(answers as never);
+  assert.equal(m.balance, -500, "short 500 a month");
+  assert.equal(m.savings, 20000, "the gross figure is still reported");
+  assert.equal(m.leftToLiveOn, 7000, "and so is what is left after the move");
+  assert.equal(m.runwayMonths, 14, "7000 / 500, not 20000 / 500");
+  assert.equal(m.runwayWanted, 12);
+});
+
+test("no runway at all when the bottom line is empty", () => {
+  // Better to say nothing than to fall back on the figure before the move.
+  const answers = {
+    "3.2": { costs: { r0: { new_life: "2000", certainty: "Known" } } },
+    "s2-3.1": { costs: { r0: { found: "2000" } } },
+    "3.4": { income: { r0: { new_life: "1500", certainty: "Confirmed" } } },
+    "s3-0.1": { savings_reachable: "20000" },
+  };
+  assert.equal(moneyThread(answers as never).runwayMonths, null);
+});
+
+test("a runway shorter than the one they asked for is named", () => {
+  const answers = {
+    "3.2": { costs: { r0: { new_life: "2000", certainty: "Known" } } },
+    "s2-3.1": { costs: { r0: { found: "2000" } } },
+    "3.4": { income: { r0: { new_life: "1500", certainty: "Confirmed" } } },
+    "s3-1.1": { check_one: { r6: { amount: "3000" } }, check_two: { r5: { answer: "12" } } },
+  };
+  const flags = whatDoesNotLineUp(answers as never);
+  const f = flags.find((x) => x.title === "Your runway is shorter than the one you wanted");
+  assert.ok(f, "6 months against the 12 they wanted");
+  assert.match(f.quote, /wanted 12 months/);
+
+  const enough = { ...answers, "s3-1.1": { check_one: { r6: { amount: "30000" } }, check_two: { r5: { answer: "12" } } } };
+  assert.ok(
+    !whatDoesNotLineUp(enough as never).some((x) => x.title === "Your runway is shorter than the one you wanted"),
+    "60 months against 12 is not a problem",
+  );
+});
+
+test("the rows the runway reads are the rows the workbook writes", () => {
+  // blueprint.ts has to address these by position. If a row moves in the
+  // content, this fails rather than the runway quietly changing.
+  const one = step3.parts
+    .flatMap((p) => p.exercises)
+    .find((e) => e.id === "s3-1.1").start_here.fields;
+  const checkOne = one.find((f) => f.id === "check_one");
+  const checkTwo = one.find((f) => f.id === "check_two");
+  assert.equal(checkOne.row_labels[6], "Savings left to live on");
+  assert.equal(checkTwo.row_labels[5], "The runway I want, in months (my choice)");
 });
