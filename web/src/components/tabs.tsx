@@ -75,12 +75,24 @@ const TABS: Tab[] = [
   },
 ];
 
-export function Tabs({ free = false }: { free?: boolean }) {
-  const path = usePathname();
+/**
+ * The same four places, for the header on a computer.
+ *
+ * One list, used twice, because a phone and a laptop disagreeing about what
+ * the app is called is worse than either naming on its own. The header had
+ * "Overview" and "What my AI partner knows" long after the phone had settled
+ * on Modules, Exercises, AI and Settings — and no way to reach Modules at all.
+ */
+export function tabsFor(free: boolean): Tab[] {
   // A free account keeps Modules and Settings. The Exercises overview is the
   // whole eight-step road — the structure a free account should not be shown —
   // and the AI partner comes with the course.
-  const tabs = free ? TABS.filter((t) => t.href === "/modules" || t.href === "/settings") : TABS;
+  return free ? TABS.filter((t) => t.href === "/modules" || t.href === "/settings") : TABS;
+}
+
+export function Tabs({ free = false }: { free?: boolean }) {
+  const path = usePathname();
+  const tabs = tabsFor(free);
   return (
     <nav
       aria-label="The app"

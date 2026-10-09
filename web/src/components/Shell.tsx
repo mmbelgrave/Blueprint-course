@@ -1,13 +1,13 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Lockup } from "@/components/brand";
 import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { PRODUCT } from "@/lib/content";
-import { Tabs, TABS_ROOM } from "@/components/tabs";
+import { Tabs, TABS_ROOM, tabsFor } from "@/components/tabs";
 import { resetIsAdmin, useIsAdmin } from "@/lib/use-is-admin";
 
 export function Shell({
@@ -26,6 +26,7 @@ export function Shell({
   const { user, entitlements, signOut } = useApp();
   const free = isFree(entitlements);
   const router = useRouter();
+  const path = usePathname();
   const isAdmin = useIsAdmin(!!user);
 
   return (
@@ -42,22 +43,23 @@ export function Shell({
           <Link href={user ? "/modules" : "/"} aria-label={`${PRODUCT.name} — ${PRODUCT.edition}`}>
             <Lockup />
           </Link>
+          {/* The same four places the phone has along the bottom, named the
+              same way, plus the two that are not tabs. */}
           {user && (
             <nav className="hidden flex-wrap items-center gap-x-4 gap-y-1 text-sm sm:flex">
-              {!free && (
-                <Link href="/dashboard" className="text-pine hover:underline">
-                  Overview
-                </Link>
-              )}
-              {!free && (
-                <Link href="/me" className="text-pine hover:underline">
-                  <span className="hidden sm:inline">What my AI partner knows</span>
-                  <span className="sm:hidden">My notes</span>
-                </Link>
-              )}
-              <Link href="/settings" className="text-pine hover:underline">
-                Settings
-              </Link>
+              {tabsFor(free).map((t) => {
+                const here = t.match(path);
+                return (
+                  <Link
+                    key={t.href}
+                    href={t.href}
+                    aria-current={here ? "page" : undefined}
+                    className={here ? "font-semibold text-ochre" : "text-pine hover:underline"}
+                  >
+                    {t.label}
+                  </Link>
+                );
+              })}
               <Link href="/help" className="text-pine hover:underline">
                 Help
               </Link>
