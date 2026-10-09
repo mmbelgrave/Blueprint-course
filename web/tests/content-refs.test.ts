@@ -12,6 +12,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { ALSO_READS, referencedFields, splitRef } from "../src/lib/content-refs.ts";
+import { stepNameOf } from "../src/lib/content-refs.ts";
 import step1 from "../src/content/step1-content.json" with { type: "json" };
 import step2 from "../src/content/step2-content.json" with { type: "json" };
 import step3 from "../src/content/step3-content.json" with { type: "json" };
@@ -88,4 +89,30 @@ test("the spine keeps no row labels and no column labels", () => {
   assert.ok(!text.includes("row_labels"), "the spine still carries row labels");
   assert.ok(!text.includes("Housing (rent or mortgage)"), "the spine still carries a cost category");
   assert.ok(!text.includes("total_filter"), "the spine still carries a total filter");
+});
+
+/* ── the suggestion says which step it came from ── */
+
+test("a carried-forward answer names the step it really came from", () => {
+  // Step 3's Start page copies from both Step 1 and Step 2. Saying "Step 1"
+  // over a Step 2 answer is small, wrong, and read by everybody who buys.
+  assert.equal(stepNameOf("5.1"), "Step 1");
+  assert.equal(stepNameOf("1.4"), "Step 1");
+  assert.equal(stepNameOf("s2-5.1"), "Step 2");
+  assert.equal(stepNameOf("s3-0.1"), "Step 3");
+});
+
+test("every page Step 3 copies from is named correctly", () => {
+  const expected: Record<string, string> = {
+    "5.1": "Step 1",
+    "1.4": "Step 1",
+    "s2-5.1": "Step 2",
+    "s3-0.1": "Step 3",
+  };
+  for (const page of pages) {
+    for (const key of referencedFields(page as never)) {
+      const [from] = splitRef(key);
+      if (expected[from]) assert.equal(stepNameOf(from), expected[from], `${page.id} reads ${key}`);
+    }
+  }
 });

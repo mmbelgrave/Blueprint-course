@@ -5,6 +5,7 @@ import { tableFieldTotal, type FieldExtras, type TableValue } from "@/components
 import { fieldAnswerText } from "@/lib/answer-text";
 import type { Answers } from "@/lib/backend";
 import { exerciseFields, tableRows, type CalcRow, type Exercise, type Field } from "@/lib/content";
+import { stepNameOf } from "@/lib/content-refs";
 import { evaluate, parseAmount, tableTotal, type CalcResult } from "@/lib/money";
 
 /**
@@ -103,7 +104,9 @@ export function fieldExtras(
       // in the smallest page that will hold it rather than fetching the rest.
       const asPage = source ? ({ id: from, title: "", start_here: { fields: [source] } } as Exercise) : undefined;
       const text = fieldAnswerText(from, fromField, answers[from], asPage);
-      return text ? { suggestion: { title: "From your Step 1:", text, button: "Copy this in" } } : undefined;
+      return text
+        ? { suggestion: { title: `From your ${stepNameOf(from)}:`, text, button: "Copy this in" } }
+        : undefined;
     }
     if (field.type !== "table") return undefined;
     const extras: FieldExtras = {};

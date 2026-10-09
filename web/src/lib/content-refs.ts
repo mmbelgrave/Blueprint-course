@@ -44,3 +44,16 @@ export function referencedFields(exercise: Exercise): string[] {
   }
   return [...wanted];
 }
+
+/**
+ * Which step a page belongs to, from its id alone.
+ *
+ * Step 1's pages are "5.1" and "1.4"; every later step carries its number in
+ * front, "s2-5.1". The copy-forward suggestion says where an answer came from,
+ * and saying Step 1 over a Step 2 answer is the kind of small wrongness that
+ * makes somebody doubt the rest of the page.
+ */
+export function stepNameOf(pageId: string): string {
+  const m = /^s(\d+)-/.exec(pageId);
+  return `Step ${m ? m[1] : "1"}`;
+}
