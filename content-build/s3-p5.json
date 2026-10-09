@@ -1,0 +1,265 @@
+[
+  {
+    "id": "s3-p5",
+    "number": 5,
+    "label": "Staying route",
+    "title": "Your staying route",
+    "optional": true,
+    "promise": "Build the life you want where you are.",
+    "intro_title": "Why staying needs a plan too",
+    "intro": [
+      "Staying can be the best result of this Blueprint. But staying and changing nothing is not the same as building the life you want where you are. A change at home needs the same care as a move: a date, an order, money that works, people on board, and a way to check that it helps.",
+      "This part turns your decision into a plan. It is shorter than the moving steps, because you keep your home, your papers and your surroundings. What changes is how you use them. Use this part if your decision was \"go and change where I am\". Moving? Skip it and continue with Step 4."
+    ],
+    "time": "1–2 hours",
+    "route_title": "Only if you stay: plan your change where you are",
+    "can_skip": "Only if you are staying. If your decision was to move, skip this part and continue with Step 4.",
+    "finish": {
+      "id": "change_plan",
+      "title": "My Change Plan",
+      "description": "Your change where you are, with a date, a first step and a check-in."
+    },
+    "exercises": [
+      {
+        "id": "s3-5.1",
+        "number": "5.1",
+        "title": "Your change, planned backwards",
+        "start_here": {
+          "fields": [
+            {
+              "id": "steps",
+              "type": "table",
+              "rows": 6,
+              "columns": [
+                {
+                  "id": "step",
+                  "label": "Step",
+                  "kind": "text"
+                },
+                {
+                  "id": "first",
+                  "label": "What must be true first",
+                  "kind": "text"
+                },
+                {
+                  "id": "how_long",
+                  "label": "How long it takes",
+                  "kind": "text"
+                },
+                {
+                  "id": "start_by",
+                  "label": "I start by",
+                  "kind": "text"
+                }
+              ]
+            }
+          ],
+          "prompt": "Pick the date your change should be in place. Then count back: what has to happen first, and how long does it take? Think of a conversation with your employer, a notice period, a course, your first clients, or saving a buffer."
+        },
+        "example": {
+          "who": "Sanne, 41",
+          "text": "Change: four days a week from 1 March, with Fridays for my ceramics studio. Steps: talk to my manager in October; try a ceramics course in November to test the idea; review our budget with my partner in December; submit a formal request for four days in January, with two months' notice; my first Friday in the studio on 3 March."
+        }
+      },
+      {
+        "id": "s3-5.2",
+        "number": "5.2",
+        "title": "Money and work",
+        "start_here": {
+          "fields": [
+            {
+              "id": "income_after",
+              "type": "long_text",
+              "label": "My income after the change, and from when"
+            },
+            {
+              "id": "costs_change",
+              "type": "long_text",
+              "label": "Costs that start or stop"
+            },
+            {
+              "id": "buffer",
+              "type": "short_text",
+              "label": "The buffer I keep"
+            },
+            {
+              "id": "conversation",
+              "type": "long_text",
+              "label": "The conversation I need to have, and with whom"
+            },
+            {
+              "id": "adviser_questions",
+              "type": "long_text",
+              "label": "Questions for an adviser: tax, pension, social security"
+            }
+          ],
+          "prompt": "In Part 1 you checked whether the money carries your change. Now make it concrete: what changes in your income, and from when? Which costs start or stop? And which conversation do you need to have first?"
+        },
+        "tips": [
+          "Working fewer hours or starting a business can change your tax, your pension and your social security. Ask your employer, your pension fund or an adviser before you sign anything."
+        ]
+      },
+      {
+        "id": "s3-5.3",
+        "number": "5.3",
+        "title": "Your home and your time",
+        "start_here": {
+          "fields": [
+            {
+              "id": "my_choice_hours",
+              "type": "short_text",
+              "label": "Hours of \"my choice\" per week now, and after the change"
+            },
+            {
+              "id": "home_changes",
+              "type": "long_text",
+              "label": "What I change at home: space, the garden, a room for my work"
+            },
+            {
+              "id": "must_dos",
+              "type": "long_text",
+              "label": "Must-dos I stop, share or simplify"
+            },
+            {
+              "id": "blocks_back",
+              "type": "long_text",
+              "label": "Two blocks of my week I take back first."
+            }
+          ],
+          "prompt": "Your home and your week are where a change becomes real. In Step 1 you sorted your week into time fixed by others, must-dos and your own choice. Look at it again: what moves to \"my choice\" after this change?"
+        }
+      },
+      {
+        "id": "s3-5.4",
+        "number": "5.4",
+        "title": "The people around you",
+        "start_here": {
+          "fields": [
+            {
+              "id": "who_i_tell",
+              "type": "long_text",
+              "label": "Who I tell, and when"
+            },
+            {
+              "id": "what_i_need",
+              "type": "long_text",
+              "label": "What I need from my partner or family"
+            },
+            {
+              "id": "who_already",
+              "type": "long_text",
+              "label": "Who already lives the way I want, and what I will ask them"
+            }
+          ],
+          "prompt": "The people around you notice a change at home as much as a move. Tell them what you are changing, why, and what you need from them. Some will cheer you on, and some will not understand. Look for people who already live the way you want to: they are your best source of advice."
+        }
+      },
+      {
+        "id": "s3-5.5",
+        "number": "5.5",
+        "title": "Your first 90 days",
+        "start_here": {
+          "fields": [
+            {
+              "id": "week_one",
+              "type": "long_text",
+              "label": "The first thing I do in week one"
+            },
+            {
+              "id": "after_30",
+              "type": "long_text",
+              "label": "What I want to be true after 30 days"
+            },
+            {
+              "id": "after_90",
+              "type": "long_text",
+              "label": "What I want to be true after 90 days"
+            },
+            {
+              "id": "say_no_to",
+              "type": "long_text",
+              "label": "What I will say no to, to protect the change"
+            }
+          ],
+          "prompt": "The first months decide whether a change sticks. Old habits pull you back, and work fills the free time again. Plan your first 90 days on purpose."
+        }
+      },
+      {
+        "id": "s3-5.6",
+        "number": "5.6",
+        "title": "Check in: is it working?",
+        "start_here": {
+          "bullets": [
+            "Do my ordinary days look more like my Life Picture than before?",
+            "Who decides my time now?",
+            "What is my next change, or is this enough for now?"
+          ],
+          "fields": [
+            {
+              "id": "check_in_dates",
+              "type": "short_text",
+              "label": "My two check-in dates: three months and one year after the change"
+            }
+          ],
+          "prompt": "Put two dates in your calendar: three months and one year after the change. On those dates, read your Life Picture from Step 1 again, and ask yourself three questions:"
+        },
+        "closing": "If the answer disappoints you, you have not failed. You have learned what does not work, and that is the start of your next plan. And if the change works and you still want more, look at Step 2 again. Maybe your next step is a move after all."
+      }
+    ],
+    "talk": "Ask the person closest to you two questions. What do you think will change for you? And what do you need from me?",
+    "summary": {
+      "id": "change_plan",
+      "title": "My Change Plan",
+      "intro": "Bring it together on one page. Short sentences are enough.",
+      "prompt": "Bring it together on one page. Short sentences are enough.",
+      "fields": [
+        {
+          "id": "the_change",
+          "type": "long_text",
+          "label": "The change I am making"
+        },
+        {
+          "id": "in_place_date",
+          "type": "short_text",
+          "label": "The date it is in place."
+        },
+        {
+          "id": "first_three",
+          "type": "long_text",
+          "label": "My first three steps, and when"
+        },
+        {
+          "id": "income_buffer",
+          "type": "long_text",
+          "label": "My income and buffer after the change"
+        },
+        {
+          "id": "who_i_tell",
+          "type": "long_text",
+          "label": "Who I tell, and what I need from them"
+        },
+        {
+          "id": "first_90",
+          "type": "long_text",
+          "label": "My first 90 days"
+        },
+        {
+          "id": "plan_b",
+          "type": "long_text",
+          "label": "My Plan B"
+        },
+        {
+          "id": "check_in_dates",
+          "type": "short_text",
+          "label": "My check-in dates",
+          "copy_from": {
+            "exercise": "s3-5.6",
+            "field": "check_in_dates"
+          }
+        }
+      ],
+      "result": "My Change Plan — your change where you are, with a date, a first step and a check-in."
+    },
+    "result": "My Change Plan — your change where you are, with a date, a first step and a check-in."
+  }
+]

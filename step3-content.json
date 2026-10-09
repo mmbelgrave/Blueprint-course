@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": "The Made Real Blueprint - Step 3 Decide workbook - Rev.00a.docx (October 2026)",
+  "source": "The Made Real Blueprint - Step 3.docx (October 2026)",
   "source_note": "App adaptations (8 Oct 2026): where the workbook says \"this workbook\" about how the reader works, the app says \"this step\". The paper-only line about the two routes through Part 1 is kept; nothing else is left out.",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
@@ -21,7 +21,7 @@
     ],
     "intro": [
       "Now comes the question most people rush or avoid: am I ready for this option?",
-      "In this step, you test your plan before you commit to it. You check five green lights: money, papers, people, place and your Plan B. You look at what could go wrong, and in which order to do things. Then you decide: go, not yet, or no.",
+      "In this step, you test your plan before you commit to it. You check five green lights: money, papers, people, place and your Plan B. You consider what could go wrong and the order of operations. Then you decide: go, not yet, or no.",
       "All three answers are good ones. A clear \"not yet\", with the conditions written down, is worth more than a \"go\" that rests on hope. And a \"no\" you reach now costs far less than one you reach after you have sold your home.",
       "Every exercise starts with a short explanation, then asks you to apply it to your own life."
     ],
@@ -30,7 +30,7 @@
       "bullets": [
         "Your Working Direction and Life Picture from Step 1, including your must-haves and dealbreakers.",
         "Your Explore Summary from Step 2: the place you want to plan for, and what you still do not know about it.",
-        "Your updated money picture, with the real costs you found in Step 2."
+        "Your updated money picture, with the real costs you created in Step 2."
       ],
       "after": "If you have not completed Step 2, you can still work through this step, but many answers will rest on guesses. Mark them as estimates, and go back to Step 2 before you make the final decision."
     },
@@ -40,9 +40,10 @@
         "This step is about testing. You check your plan against real numbers, real rules and real people.",
         "Each green light gets a colour. Green means ready. Amber means not ready yet, but you know what to do. Red means something stops this option as it stands.",
         "Amber is normal. Most people finish this step with a few ambers. What matters is that each one has a next action and a date.",
-        "This step stays high level. Modules that go deeper are planned for later and are not part of this course, such as Portugal in detail, Your Money Plan and starting a company.",
+        "This step stays high-level. Modules that go deeper are planned for later and are not part of this course, such as Portugal in detail, Your Money Plan and starting a company.",
         "Some questions are expert work. Tax, residence law and contracts depend on your situation. This workbook helps you prepare your questions. The answers come from qualified professionals.",
-        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
+        "Each light has an \"If you are staying\" box. It shows what the check means for a change where you live.",
         "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different."
       ]
     },
@@ -84,7 +85,7 @@
       ]
     },
     "tips": [
-      "Part 1 takes the most time, because some lights need a phone call, an adviser or a conversation at home. Spread it over two or three weeks."
+      "Part 1 takes the most time because some lights need a phone call, an adviser or a conversation at home. Spread it over two or three weeks."
     ],
     "route": {
       "title": "Your route through Step 3",
@@ -124,9 +125,16 @@
           "Make your decision",
           "30–45 min",
           "My Decision"
+        ],
+        [
+          "Staying route (optional)",
+          "Only if you stay: plan your change where you are",
+          "1–2 hours",
+          "My Change Plan"
         ]
       ]
-    }
+    },
+    "staying": "Staying and changing your life where you are? This step is for you too. The option you test can also be a change where you live: working four days a week, a new job, your own business, more space, or another region in your own country. Test it in Parts 1 to 4, just like a move. You can skip 1.2 Papers and 1.4 Place unless your change involves them, for example, moving to another region or renovating. Then finish with \"Your staying route\" at the end of this step."
   },
   "parts": [
     {
@@ -138,7 +146,7 @@
       "intro_title": "Why the question matters",
       "intro": [
         "\"Should I move to Portugal?\" sounds like one question. It is usually several. Move for good, or for a trial year? Rent first, or buy? This year, or in two years? On your own, or with your family? If the question is vague, the answer will be vague too.",
-        "Write the decision down as precisely as you can. Include what \"go\" would mean, and when you want to decide. Then you know exactly what you are testing in the rest of this step."
+        "Write the decision down as precisely as you can. Include what \"go\" would mean, and when you want to decide. Then you know exactly what you are testing in the rest of this step. The same goes for staying. Name the exact change you are testing."
       ],
       "time": "30–40 min",
       "route_title": "Bring your work together and name the decision",
@@ -159,7 +167,7 @@
                 "type": "heading",
                 "marker": "A",
                 "label": "Bring your work with you",
-                "hint": "Copy the most important lines from Steps 1 and 2. You will use them in every part of this step, and this step then holds your whole decision in one place."
+                "hint": "Copy the most important lines from Steps 1 and 2. You will use them in every part of this step, and this workbook then holds your whole decision in one place."
               },
               {
                 "id": "life_picture",
@@ -248,7 +256,7 @@
                 "id": "what_go_means",
                 "type": "long_text",
                 "lines": 2,
-                "label": "What \"go\" would mean: move for good, trial period, rent or buy"
+                "label": "What \"go\" would mean: move for good, a trial period, or a change where I live, rent or buy"
               },
               {
                 "id": "when_roughly",
@@ -258,7 +266,7 @@
               {
                 "id": "who_decides",
                 "type": "short_text",
-                "label": "Who decides with me"
+                "label": "Who decides with me?"
               },
               {
                 "id": "decide_by",
@@ -289,7 +297,7 @@
             "text": "Option: move to the Silver Coast with our two children. \"Go\" means renting for one year first, then deciding whether to buy. When: next summer, at the start of the school year. We decide together; the children get a say, but not a vote. Decide by: 31 March. If \"not yet\" or \"no\": we both try a four-day week and spend a long summer in Portugal each year."
           },
           "tips": [
-            "A trial year is a real option. Renting for a year, keeping your home and keeping your work options open lets you test the life before you commit to it. It costs more in the short term, and it can save you a great deal later."
+            "A trial year is a real option. Renting for a year, keeping your home, and keeping your work options open lets you test life before you commit. It costs more in the short term, but it can save you a great deal later."
           ]
         }
       ],
@@ -352,7 +360,7 @@
                 "id": "check_two",
                 "type": "table",
                 "row_header": "Check two",
-                "hint": "Check two: does your confirmed income cover the month? Mark every cost known, estimate or unknown. An unknown means the check is not finished yet.",
+                "hint": "Check two: does your confirmed income cover the month? Mark every cost known, estimated, or unknown. An unknown means the check is not finished yet.",
                 "row_labels": [
                   "My confirmed income per month in the new place",
                   "Agreed income, and the month it starts (not counted yet)",
@@ -400,20 +408,21 @@
               "Are there special tax rules for newcomers, and do they apply to me? These rules change often."
             ]
           },
-          "intro_after": "If your confirmed income already covers your monthly costs, write \"covered\" as your runway. Check one still applies: your savings must still carry the move, your reserve and your return fund.",
+          "intro_after": "If your confirmed income already covers your monthly costs, write \"covered\" as your runway. One thing still applies: your savings must still carry the move, your reserve and your return fund.",
           "closing": "Green means: check one is above zero, including the cost of deciding and your reserve, and your runway, counting confirmed income only, is at least the number of months you chose, or your confirmed income covers the month.",
           "tips": [
             "Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. The amounts in the examples are made up to show how the check works."
           ],
           "example": {
             "who": "Lotte and Ben, 44 and 47",
-            "text": "Check one: savings €56,000, minus €3,000 for deciding (two trips, a lawyer, translations), €8,000 for the move, €3,000 in deposits and a €12,000 reserve (about four months of costs) and a €7,000 return fund, kept apart for Plan B. Left to live on: €23,000. Check two: confirmed income €2,400 from Ben's remote contract. Agreed: €900 a month for Lotte from October, not counted yet. Costs: €2,900 a month, rent known, school costs an estimate. Short: €500 a month, so the runway is 46 months. The runway we want: 12 months. If everything costs 30% more, we are €1,370 short and the runway drops to about 17 months, still above what we want. Our light: amber, until Lotte's income is confirmed."
+            "text": "Check one: savings €56,000, minus €3,000 for deciding (two trips, a lawyer, translations), €8,000 for the move, €3,000 in deposits and a €12,000 reserve (about four months of costs) and a €7,000 return fund, kept apart for Plan B. Left to live on: €23,000. Check two: confirmed income €2,400 from Ben's remote contract. Agreed: €900 a month for Lotte from October, not counted yet. Costs: €2,900 a month; rent is known, school costs are an estimate. Short: €500 a month, so the runway is 46 months. The runway we want: 12 months. If everything costs 30% more, we are €1,370 short, and the runway drops to about 17 months, still above what we want. Our light: amber, until Lotte's income is confirmed."
           },
           "story": {
             "status": "ready",
-            "text": "Before I moved, I made sure I had twelve months of living costs saved. I explained why in Step 1. What I learned here is that structure matters as much as savings. In my first year in Portugal, with the help of an accountant, I set up a Portuguese company. I use it for my consultancy work, and later for the farm and rural tourism I have in mind. It also made sense for the costs of the land and the renovation. That was the right choice for me, after advice. Your situation may be completely different, which is exactly why this is a question for an adviser, not for a forum."
+            "text": "Before I moved, I made sure I had twelve months of living costs saved. I explained why in Step 1. I learned that structure matters as much as savings. In my first year in Portugal, I set up a Portuguese company with an accountant's help. I use it for my consultancy work, and later for the farm and rural tourism I have in mind. It also made sense given the land and renovation costs. That was the right choice for me, after advice. Your situation may be completely different, which is exactly why this is a question for an adviser, not for a forum."
           },
-          "expert_work": "Tax rules for newcomers change often, and the right answer depends on your income, your assets and both countries involved. Talk to a qualified tax adviser before you move money, sell property, set up a company or change where you pay tax."
+          "expert_work": "Tax rules for newcomers change often, and the right answer depends on your income, your assets and both countries involved. Talk to a qualified tax adviser before you move money, sell property, set up a company or change where you pay tax.",
+          "staying": "Use the same two checks for your change. Check one: can your savings carry the change itself, such as a course, an income gap or a renovation? Check two: does your confirmed income cover the month after the change, for example, on four days a week, or in the first year of your own business? Leave out the lines about moving."
         },
         {
           "id": "s3-1.2",
@@ -422,7 +431,7 @@
           "kicker": "Can you legally live there, and do you have the basics in place?",
           "intro": [
             "Paperwork takes time, and some steps depend on others. Many of them can start before you move.",
-            "In Step 2 you checked whether you are allowed to live in the country. Here you list everything you will need, in which order, and how long each step takes."
+            "In Step 2, you checked whether you are allowed to live in the country. Here you list everything you will need, in which order, and how long each step takes."
           ],
           "start_here": {
             "prompt": "Tick what applies to you. For each item, write whether it is done, in progress or not started, and how long it takes.",
@@ -434,11 +443,11 @@
                 "row_labels": [
                   "Tax number (in Portugal: NIF)",
                   "A bank account that works for payments there",
-                  "Right to live there: visa, residence permit or EU registration",
+                  "Right to live there: visa, residence permit or EU registration.",
                   "Proof of address",
                   "Health cover: public registration and private insurance",
                   "Social security (if you work or run a business)",
-                  "Driving licence: still valid, or to exchange",
+                  "Driving licence: still valid, or to be exchanged",
                   "School places for children",
                   "Travel papers for pets",
                   "Deregistering at home: tax, health, address"
@@ -493,12 +502,13 @@
             "For Portugal, two different routes exist, and people mix them up. With an EU, EEA, Andorran or Swiss passport, you can live there and register at the câmara municipal for a registration certificate (see aima.gov.pt). With any other passport, you normally need a visa before you travel (vistos.mne.gov.pt), and then apply for a residence permit with AIMA. For everyone: you can request a tax number (NIF) through the Portal das Finanças or gov.pt, also from abroad; your health service user number (número de utente) comes through your local health centre (gov.pt, sns.gov.pt); for driving licences, see imt-ip.pt. Checked 28 September 2026."
           ],
           "tips": [
-            "Do things in the right order. Some steps depend on others. In Portugal, a tax number usually comes first, because you need it for a bank account, a rental contract or a purchase."
+            "Do things in the right order. Some steps depend on others. In Portugal, you usually get a tax number first because you need it for a bank account, a rental contract, or a purchase."
           ],
           "story": {
             "status": "ready",
-            "text": "I started before I moved. I arranged my Portuguese tax number through an online service, and I made sure I had a bank account that worked for international payments. You need both to buy land. With the help of an agent, who checked the essential land papers, and a lawyer, I signed the promissory contract about two months after my trip, during my first long stay, and the deed at the notary about three months later. Registering the sale then took only about a month. That winter, the parish council (junta de freguesia) confirmed my address, and with that letter the câmara municipal issued my EU registration certificate. My tax number was first registered with my Bali address, so I changed that too. Early the next year, I set up my company with an accountant, which also brought my social security numbers and Portuguese bank accounts. My health insurance followed a few months later, and after that my number for the public health service. Once I started, the paperwork for living here took about four months."
-          }
+            "text": "I started before I moved. I arranged my Portuguese tax number through an online service and made sure I had a bank account that supported international payments. You need both to buy land. With the help of an agent, who checked the essential land papers, and a lawyer, I signed the promissory contract about two months after I decided to purchase the land. I signed the deed at the notary about three months later. Registering the sale then took only about a month. That winter, the parish council (junta de freguesia) confirmed my address, and the câmara municipal issued my EU registration certificate. My tax number was first registered to my Bali address, so I changed that as well. Early the next year, I set up my company with an accountant, who also helped me get my social security numbers and Portuguese bank accounts. My health insurance came a few months later, followed by my public health service number."
+          },
+          "staying": "This light is usually short. Think of your employment contract and notice period, permission from your employer for fewer hours or remote work, registering a business, or a permit if you renovate or build. If your change needs none of this, mark this light green and move on."
         },
         {
           "id": "s3-1.3",
@@ -506,9 +516,9 @@
           "title": "People",
           "kicker": "Who comes with you, who stays behind, and who will be there?",
           "intro": [
-            "A move changes more lives than your own. A partner who agrees at the kitchen table can feel very different in the first wet winter. Children, parents and close friends are part of the decision, even when they are not part of the move.",
-            "There is a second side to this light: the people you will have there. In a new place, you start without the network you built over the years. Who will you call when the car breaks down, when you need a doctor, or when you get bad news?",
-            "Each person who moves with you fills in their own page first, before you talk together, as in Steps 1 and 2. Involve children in a way that fits their age: young children need to hear what will stay the same, and teenagers need a real voice in the choice of place and school. They get a say, even when they do not get a vote."
+            "A move changes more lives than your own. A partner who agrees at the kitchen table can feel very different in the first wet winter. Children, parents, and close friends shape the decision, even when they aren't moving.",
+            "There's another side to this light: the people you will have there. In a new place, you start without the network you built over the years. Who will you call when the car breaks down, when you need a doctor, or when you get bad news?",
+            "Each person who moves with you fills in their own page first, before you talk together, as in Steps 1 and 2. Involve children the way you normally involve them in big decisions. Every family does this differently. Some parents decide first and then explain; others let teenagers help choose the place or the school. Whatever you choose, tell them early, and be honest about what will change and what will stay the same."
           ],
           "start_here": {
             "fields": [
@@ -529,7 +539,7 @@
                   },
                   {
                     "id": "needs",
-                    "label": "What they need in order to say yes",
+                    "label": "What they need to say yes",
                     "kind": "text"
                   },
                   {
@@ -563,12 +573,13 @@
               }
             ]
           },
-          "closing": "Green means: everyone the move affects has done their own thinking, you have talked it through together, and what each person needs in order to say yes is in place or planned.",
+          "closing": "Green means: everyone the move or change affects has done their own thinking, you have talked it through together, and what each person needs to say yes is in place or planned.",
           "talk": "Ask your partner, or the person closest to you, three questions. What are you most looking forward to? What worries you most? What would make you want to go back? Listen first, and write their answers down in their own words.",
           "story": {
             "status": "ready",
-            "text": "I went through the whole process on my own, and that is one reason this Blueprint exists. But I was not alone for long. The owners who sold me the land and I clicked from the first day, and they have helped me with many things. The English couple whose Airbnb I stayed in had made the same move years before; he gave me the contact of my accountant. In my first months in Portugal, I lost my mother. When she was ill, the life I had built gave me the freedom to fly back and spend real time with her. When I lost her, these new friends, together with my closest friend, carried me through. Today they are family."
-          }
+            "text": "I went through the whole process on my own, and that is one reason this Blueprint exists. But I was not alone for long. The owners who sold me the land and I clicked from day one, and they have helped me with many things. The English couple whose Airbnb I stayed in made the same move years earlier; he gave me my accountant's contact. In my first months in Portugal, I lost my mother. When she was ill, the life I had built gave me the freedom to fly back and spend real time with her. When I lost her, these new friends, together with my closest friend, carried me through. Today they are family."
+          },
+          "staying": "A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?"
         },
         {
           "id": "s3-1.4",
@@ -615,7 +626,7 @@
                 "id": "change_my_mind",
                 "type": "long_text",
                 "lines": 2,
-                "label": "What would make me change my mind about this place"
+                "label": "What would make me change my mind about this place?"
               },
               {
                 "id": "place_light",
@@ -638,12 +649,13 @@
           "closing": "Green means: the place still meets your must-haves after your test visit, you have seen it outside the high season, and what you commit to, renting or buying, matches what you know.",
           "tips": [
             "Rent first if you can. A year in a rented home shows you the winters, the neighbours and the drive to the hospital before you own anything. If you want to buy, you can look for the right property while you live there.",
-            "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next one is strict. Before you buy, try to meet the engineer who will handle your plans, tell them your ideas, and listen. At the very least, find out how that câmara usually works. It can make the difference between a smooth process and many rounds of changes."
+            "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next is stricter. Before you buy, try to meet the person who will handle your plans, share your ideas, and listen. At the very least, find out how that câmara (or the municipality in your chosen county) usually works. It can make the difference between a smooth process and many rounds of changes."
           ],
           "story": {
             "status": "ready",
-            "text": "I did it the other way round. I bought before I moved, so renting to test the area was not part of my route. I would still recommend it to most people. What gave me confidence was that the plot came with a renovation project for the ruin that the previous owners had already had approved. In Portugal, getting a project approved can easily take two years. It was one of the main reasons I chose this plot. Once the project was transferred to my name and I had chosen a contractor, I received the building permit. My design differed from theirs in places, but after a conversation with the câmara, we could start. One thing I would do differently: I only checked my other plans later. About half a year after I moved, I submitted a request for prior information (pedido de informação prévia, PIP) for storage, a garage and a few cabins for rural tourism. New-build cabins turned out not to be possible, because of the rules of the Serra da Estrela nature park. My plans had changed by then, so it did not hurt much. But if you have specific plans for a property, ask for a PIP before the deed, if the owner agrees, and make the promissory contract say you can step out if the answer is no."
-          }
+            "text": "I did it the other way round. I bought before I moved, so renting to test the area wasn't part of my plan. I would still recommend it to most people. What gave me confidence was that the plot came with a renovation project for the ruin that the previous owners had already had approved. In Portugal, getting a project approved can easily take two years. It was one of the main reasons I chose this plot. Once the project was transferred to my name and I had chosen a contractor, I received the building permit. My design differed from theirs in places, but after a conversation with the câmara, we could start. One thing I would do differently: I only checked my other plans later. About half a year after I moved, I submitted a request for prior information (pedido de informação prévia, PIP) for a storage room, a garage and a few cabins for rural tourism. New-build cabins turned out to be impossible because of the Serra da Estrela nature park rules. My plans had changed by then, so it did not hurt much. But if you have specific plans for a property, ask for a PIP before the deed, if the owner agrees, and make the promissory contract say you can step out if the answer is no."
+          },
+          "staying": "Staying in your home? Skip this light, or mark it green. If your change involves your place, such as another region in your own country, more space or a renovation, use the same questions."
         },
         {
           "id": "s3-1.5",
@@ -651,16 +663,21 @@
           "title": "Plan B",
           "kicker": "What will you do if it does not work out?",
           "intro": [
-            "Nobody moves planning to fail. That is exactly why your Plan B needs to be written down now, while you are calm, and not later, when you are tired, disappointed or short of money.",
-            "A good Plan B has three parts. What you keep, so going back or moving on stays possible: savings, a reserve, a way to earn. What would tell you it is not working: a warning sign, a number or a date. And what you would do then: go back, try another region, rent instead of own, or move on."
+            "Nobody moves with a plan to fail. That's why you need to write down your Plan B now, while you are calm, not later, when you are tired, disappointed, or short on money.",
+            "A Plan B looks different for everyone. Some people trust themselves to rebuild and need very little. Others need much more security before they feel comfortable. It also depends on who moves with you and your situation: if you need to sell your house to pay for your new life, renting it out isn't an option. So first work out how much of a Plan B you need to feel comfortable. Then write down what fits you. A Plan B usually covers three things. What you keep, so going back or moving on stays possible: savings, a reserve, a way to earn. What would tell you it is not working: a warning sign, a number or a date. And what you would do then: go back, try another region, rent instead of own, or move on."
           ],
           "start_here": {
             "fields": [
               {
+                "id": "how_much",
+                "type": "long_text",
+                "label": "How much of a Plan B I need to feel comfortable, and why"
+              },
+              {
                 "id": "keep",
                 "type": "long_text",
                 "lines": 2,
-                "label": "What I keep, so I can change course"
+                "label": "What I keep so that I can change course"
               },
               {
                 "id": "return_fund",
@@ -709,15 +726,16 @@
               }
             ]
           },
-          "closing": "Green means: your Plan B is written down, with a named return fund, a warning sign, a review date and the first thing you would do.",
+          "closing": "Green means: your Plan B is written down at a level that makes you comfortable, with at least a warning sign, a review date and the first thing you would do.",
           "example": {
             "who": "Lotte and Ben, 44 and 47",
-            "text": "Keep: we rent out our house for the first year instead of selling it. Return fund: €7,000, on top of our reserve and already deducted in our money check, for the move back, a first month in a holiday rental and storage; we could stay with my sister. Warning sign: the children are still unhappy at school after two terms, or we have used more than half of our reserve. Review date: 1 April next year. What then: back to our own house, or a different area in Portugal, closer to an international school. Help: my sister, and the parents we meet through the school."
+            "text": "Keep: we rent out our house for the first year instead of selling it. Return fund: €7,000, on top of our reserve and already deducted in our money check, for the move back, a first month in a holiday rental and storage; we could stay with my sister. Warning sign: the children are still unhappy at school after two terms, or we have used more than half of our reserve. Review date: 1 April next year. What then: return to our own house, or move to a different area in Portugal closer to an international school. Help: my sister and the parents we meet through the school."
           },
           "story": {
             "status": "ready",
-            "text": "I did not write down a detailed Plan B, but I did keep a way back. Part of it was financial: enough money set aside that, if it did not work out, I could decide in that moment what to do next, whether that meant renting, travelling or moving to another country. And I kept Bali open. My company and bank accounts there stayed in place, I could apply for a new residence permit through the company, and I kept my international health insurance. I also kept running my inspection business there from Portugal, with people I trust doing the inspections on site. And I had experience. When I came back to the Netherlands from Thailand, I had nothing. I slept at my aunt's for the first months, until I found an apartment and a job. Then I built a life in Bali, and then in Portugal. I knew I could always build my life up again. I also trusted the signs on my path, and that has always worked out for me. But I would not advise you to rely on that alone. Write your Plan B down. You may never need it, and that is the best outcome."
-          }
+            "text": "I didn't write down a detailed Plan B, but I kept a way back. Part of it was financial: I set aside enough money that, if it didn't work out, I could decide what to do next in the moment, whether that meant renting, travelling, or moving to another country. And I kept Bali open. My company and bank accounts there stayed in place; I could easily apply for a new residence permit. In addition, my plan B was my experience. When I came back to the Netherlands from Thailand, I had nothing. I slept at my aunt's for the first few months, until I found an apartment and a job. Then I built a life in Bali, and then in Portugal. I knew I could always rebuild my life. I also trusted the signs on my path, and that has always worked out for me. That was enough for me, but a Plan B looks different for everyone. Write yours down in a way that makes you feel comfortable. You may never need it, and that is the best outcome."
+          },
+          "staying": "What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable."
         }
       ],
       "tables": [
@@ -816,10 +834,10 @@
           "number": "2.1",
           "title": "Two futures",
           "intro": [
-            "An option you cannot imagine on a bad day is an option you have not really considered. So you picture both: an ordinary good day and an ordinary difficult day, five years from now."
+            "An option you cannot imagine on a bad day is one you haven't really considered. So you picture both: an ordinary good day and an ordinary difficult day, five years from now."
           ],
           "start_here": {
-            "prompt": "Take the option you are deciding on and, if you have one, your best alternative, such as staying and changing something. Imagine it is five years from now. For each option, write a normal good day and a normal difficult day.",
+            "prompt": "Take the option you are deciding on and, if you have one, your best alternative. Staying? Compare your change with keeping things as they are. Imagine it is five years from now. For each option, write a normal good day and a normal difficult day.",
             "fields": [
               {
                 "id": "o1_good",
@@ -847,7 +865,7 @@
               }
             ]
           },
-          "intro_after": "In each day, notice who decides your time. Are your days busy by your own choice, or busy because others decide? And when do the busy transition years end: the paperwork, the renovation, finding work? More control over your time often comes after them, not straight away.",
+          "intro_after": "In each day, notice who decides your time. Are your days busy by choice, or because others decide? And when do the busy transition years end: the paperwork, the renovation, finding work? More control over your time often comes after them, not straight away.",
           "go_deeper": {
             "prompt": "What would still be difficult, even after moving? Some things change with a place. Some things come with you.",
             "fields": [
@@ -860,7 +878,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "After four years in Bali, the island no longer felt the same. Then I had an accident with my motorbike. It was not my fault, but I was blamed for it. It made me realise that, after all those years, I was still seen as a foreigner. When I found the self-sufficient life I wanted on YouTube, I saw two futures: staying in a place that no longer felt like home, or starting again somewhere that fitted my new picture. The hardest part was leaving the life and the friends I had built over four years, knowing I had to start again. But I knew it was the right decision."
+            "text": "After three years in Bali, the island no longer felt the same. Then I had an accident with my motorbike. It wasn't my fault, but they blamed me. It made me realise that, after all those years, they still saw me as a foreigner. When I found the self-sufficient life I wanted on YouTube, I saw two futures: staying in a place that no longer felt like home, or starting again somewhere that fitted my new picture. The hardest part was leaving the life and the friends I had built over three years, knowing I had to start again. But I knew it was the right decision."
           }
         },
         {
@@ -1010,7 +1028,8 @@
       "intro_title": "Why order matters",
       "intro": [
         "The most expensive mistakes in a move are often not wrong choices. They are right choices made in the wrong order: selling the house before the papers are clear, signing a contract before the money is in place, or arriving before there is somewhere to live.",
-        "Do the steps you can undo cheaply first: a tax number, a bank account, a conversation with an adviser, renting, a trial period. Do the steps that are expensive or impossible to undo last: selling your home, resigning from your job, signing a purchase contract. And before each big step, write down what must be true first."
+        "Do the steps you can undo cheaply first: a tax number, a bank account, a conversation with an adviser, renting, a trial period. Do the steps that are expensive or impossible to undo last: selling your home, resigning from your job, signing a purchase contract. And before each big step, write down what must be true first.",
+        "Staying? The same rule works. Talk to your employer before you hand in your notice, test your business idea before you invest in it, and rent extra space before you buy it."
       ],
       "time": "45–60 min",
       "route_title": "Put things in the right order",
@@ -1036,7 +1055,7 @@
                   "Notice period for my job",
                   "End of my rental contract, or mortgage terms",
                   "Sale or rental of my home",
-                  "Visa validity (other passports: a Portuguese residency visa is valid for four months, in which you apply for your residence permit)",
+                  "Visa validity (other passports: a Portuguese residency visa is valid for four months, during which you apply for your residence permit)",
                   "Other fixed dates"
                 ],
                 "columns": [
@@ -1089,10 +1108,10 @@
           },
           "story": {
             "status": "ready",
-            "text": "My own order was not the textbook one. I sold my house in Bali months before I had even visited Portugal, and moved out just before the trip. I spent two months travelling through Portugal, then went back to the Netherlands until the summer. That summer, I came back for a longer stay in an Airbnb close to the land, and signed the promissory contract about two months after my trip. About three months later, I signed the deed. That autumn and winter, I travelled between Portugal, the Netherlands and Bali: to be with my family, to start the paperwork, and to wrap up my life in Bali. The next spring, I came back for good. I stayed in the Airbnb again while I turned a shed into a small place to live. A contractor started renovating the ruin, and soon after, I moved onto the land. About eight months later, just before Christmas, we moved into the house. That speed came from the approved project, the right contractor, my experience, and being on site every day. Selling first worked for me because I had a reserve and had done this before. If this is your first move, I would take the easy-to-undo steps first."
+            "text": "My own order was not the textbook one. I sold my house in Bali a couple of months before I visited Portugal. I spent two months travelling through Portugal. That same summer, I returned for a longer stay in an Airbnb close to the land and signed the promissory contract about two months after my trip. About three months later, I signed the deed. That autumn and winter, I travelled between Portugal, the Netherlands, and Bali: to be with my family, start the paperwork, and wrap up my life in Bali. The next spring, I came back for good. I stayed in the Airbnb again. A contractor started renovating the ruin, and soon after, I moved onto the land. About eight months later, just before Christmas, I moved into the house. That speed came from the approved project, the right contractor, my experience, and being on site every day. Selling first worked for me because my picture was very clear. I knew Bali was no longer my place, and my research showed me I wanted this life in Portugal. I also had a reserve, and I had done this before. If this is your first move, I would take the easy-to-undo steps first."
           },
           "tips": [
-            "Build in extra time. Papers, contractors and sales often take longer than planned. My paperwork alone took about four months, and that was with help. Add a few months to every step you do not control yourself."
+            "Build in extra time. Papers, contractors and sales often take much longer than planned. Add a few months to every step you don't control."
           ]
         }
       ],
@@ -1123,7 +1142,7 @@
             "id": "first_step",
             "type": "long_text",
             "lines": 1,
-            "label": "The step I will take first"
+            "label": "The step I will take first."
           },
           {
             "id": "first_step_date",
@@ -1158,7 +1177,7 @@
       ],
       "time": "30–45 min",
       "route_title": "Make your decision",
-      "talk": "Tell the people close to you what you decided, and why. Not to ask for permission, but so they can support you, and so you hear your decision out loud.",
+      "talk": "Tell the people close to you what you decided, and why. Not to ask for permission, but so they can support you and you can say your decision out loud.",
       "finish": {
         "id": "decision",
         "title": "My Decision",
@@ -1231,7 +1250,8 @@
                 "type": "single_choice",
                 "label": "My decision",
                 "options": [
-                  "Go",
+                  "Go and move",
+                  "Go and change where I am",
                   "Not yet",
                   "No"
                 ]
@@ -1280,29 +1300,26 @@
               {
                 "id": "review_when",
                 "type": "short_text",
-                "label": "When I will review this decision"
+                "label": "When will I review this decision?"
               },
               {
                 "id": "would_change",
                 "type": "long_text",
                 "lines": 2,
-                "label": "What would make me change it"
+                "label": "What would make me change it?"
               }
             ]
           },
-          "choice_explanations_intro": "For \"My decision\", three answers are possible, and all three are good:",
+          "choice_explanations_intro": "For \"My decision\", four answers are possible, and all four are good:",
           "choice_explanations": [
             "Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is coming soon), but you take no hard-to-undo step until those conditions are met.",
+            "Go, and change where I am. Your option was a change where you live, and it passed the same test. Continue with \"Your staying route\" at the end of this step.",
             "Not yet. The picture is right, but the conditions are not. Write down exactly what must change, and when you will look again. A \"not yet\" with a date is a decision. Without a date, it is a way of putting it off.",
-            "No. This option does not fit, or not at this price. That is a result, not a failure. Go back to Step 2 to look at another place, build the life you want where you are, or keep the life you have."
+            "No. This option does not fit, or not at this price. That is a result, not a failure. Go back to Step 2 to look at another place, test a change where you live, or keep the life you have."
           ],
           "example": {
             "who": "Lotte and Ben",
-            "text": "A completed page. Lotte and Ben are made up. The point is not their answer. It is that every line is filled in, including the conditions and the dates. Decision question: do we move to the Silver Coast with our two children, renting for a trial year from next summer? Decision: go, as a trial year, with conditions. We start preparing now; we sign nothing hard to undo until the conditions below are met. Must-haves: not all yet. All must-haves are met except one: a good school, which is an estimate until we have visited it and have places. That is a condition below. No dealbreakers broken. Why: our ordinary days there look like our Life Picture. The money lasts about 17 months even if everything costs 30% more, with our reserve and return fund untouched. The children are curious rather than against it. Lights: green: papers and place. Amber: money, until Lotte's income is confirmed; people, until care for Ben's mother is arranged; Plan B, until a tenant has signed for our house. Red: none. Conditions: Lotte's income confirmed. Care for Ben's mother arranged. A tenant signed for our house. School places confirmed. Who decided: both of us, after each of us filled in our own page. The children were heard. We agree. First step: meet two care providers for Ben's mother, before 15 March. Review: 1 April next year, whatever has happened by then. What would change it: no school places by May, or Lotte's income not confirmed by June: then we move the trial year back by one year."
-          },
-          "story": {
-            "status": "ready",
-            "text": "Looking back, I did not decide in one moment. I decided in steps. The two-million question gave me the direction. Selling my house in Bali was the first big step, and I took it before I knew exactly where I would go. The campervan trip made the place real, and the third plot made the decision for me. For me, the biggest decision was not Portugal. It was choosing to start again. If you notice that you are waiting for certainty, remember that you will never have all of it. You need enough of it, and a plan for the rest."
+            "text": "A completed page. Lotte and Ben are made up. Every line is filled in, including the conditions and the dates. Decision question: do we move to the Silver Coast with our two children, renting for a trial year from next summer? Decision: go, as a trial year, with conditions. We start preparing now; we sign nothing hard to undo until the conditions below are met. Must-haves: not all yet. All must-haves are met except one: a good school, which is an estimate until we visit and have places. That is a condition below. No dealbreakers broken. Why: our ordinary days there look like our Life Picture. The money lasts about 17 months even if everything costs 30% more, with our reserve and return fund untouched. The children are curious, not against it. Lights: green: papers and place. Amber: money, until Lotte's income is confirmed; people, until care for Ben's mother is arranged; Plan B, until a tenant has signed for our house. Red: none. Conditions: Lotte's income confirmed. Care for Ben's mother arranged. A tenant signed for our house. School places confirmed. Who decided: both of us, after each of us filled in our own page. The children were heard. We agree. First step: meet two care providers for Ben's mother. Date of my first step: before 15 March. Review: 1 April next year, whatever has happened by then. What would change it: no school places by May, or Lotte's income not confirmed by June: then we move the trial year back by one year."
           },
           "result": "My Decision — go, not yet, or no, with your reasons, conditions and dates."
         },
@@ -1332,7 +1349,7 @@
                 "id": "before_again",
                 "type": "long_text",
                 "lines": 2,
-                "label": "What must be true before I look again"
+                "label": "What must be true before I look again?"
               },
               {
                 "id": "meanwhile",
@@ -1347,7 +1364,7 @@
               }
             ]
           },
-          "intro_after": "Decided to build the life you want where you are? Go back to your Life Picture from Step 1, and choose one change for the next three months. Decided to keep the life you have? Write down what you want to protect, and why.",
+          "intro_after": "Decided to build the life you want where you are? Test that change in Parts 1 to 4, then continue with \"Your staying route\" on the next pages. Decided to keep the life you have? Write down what you want to protect, and why.",
           "tips": [
             "A decision to wait is only a decision if it has a date. Put it in your calendar today."
           ]
@@ -1359,27 +1376,291 @@
         "length": "10–12 min",
         "url": null
       }
+    },
+    {
+      "id": "s3-p5",
+      "number": 5,
+      "label": "Staying route",
+      "title": "Your staying route",
+      "optional": true,
+      "promise": "Build the life you want where you are.",
+      "intro_title": "Why staying needs a plan too",
+      "intro": [
+        "Staying can be the best result of this Blueprint. But staying and changing nothing is not the same as building the life you want where you are. A change at home needs the same care as a move: a date, an order, money that works, people on board, and a way to check that it helps.",
+        "This part turns your decision into a plan. It is shorter than the moving steps, because you keep your home, your papers and your surroundings. What changes is how you use them. Use this part if your decision was \"go and change where I am\". Moving? Skip it and continue with Step 4."
+      ],
+      "time": "1–2 hours",
+      "route_title": "Only if you stay: plan your change where you are",
+      "can_skip": "Only if you are staying. If your decision was to move, skip this part and continue with Step 4.",
+      "finish": {
+        "id": "change_plan",
+        "title": "My Change Plan",
+        "description": "Your change where you are, with a date, a first step and a check-in."
+      },
+      "exercises": [
+        {
+          "id": "s3-5.1",
+          "number": "5.1",
+          "title": "Your change, planned backwards",
+          "start_here": {
+            "fields": [
+              {
+                "id": "steps",
+                "type": "table",
+                "rows": 6,
+                "columns": [
+                  {
+                    "id": "step",
+                    "label": "Step",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "first",
+                    "label": "What must be true first",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "how_long",
+                    "label": "How long it takes",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "start_by",
+                    "label": "I start by",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "prompt": "Pick the date your change should be in place. Then count back: what has to happen first, and how long does it take? Think of a conversation with your employer, a notice period, a course, your first clients, or saving a buffer."
+          },
+          "example": {
+            "who": "Sanne, 41",
+            "text": "Change: four days a week from 1 March, with Fridays for my ceramics studio. Steps: talk to my manager in October; try a ceramics course in November to test the idea; review our budget with my partner in December; submit a formal request for four days in January, with two months' notice; my first Friday in the studio on 3 March."
+          }
+        },
+        {
+          "id": "s3-5.2",
+          "number": "5.2",
+          "title": "Money and work",
+          "start_here": {
+            "fields": [
+              {
+                "id": "income_after",
+                "type": "long_text",
+                "label": "My income after the change, and from when"
+              },
+              {
+                "id": "costs_change",
+                "type": "long_text",
+                "label": "Costs that start or stop"
+              },
+              {
+                "id": "buffer",
+                "type": "short_text",
+                "label": "The buffer I keep"
+              },
+              {
+                "id": "conversation",
+                "type": "long_text",
+                "label": "The conversation I need to have, and with whom"
+              },
+              {
+                "id": "adviser_questions",
+                "type": "long_text",
+                "label": "Questions for an adviser: tax, pension, social security"
+              }
+            ],
+            "prompt": "In Part 1 you checked whether the money carries your change. Now make it concrete: what changes in your income, and from when? Which costs start or stop? And which conversation do you need to have first?"
+          },
+          "tips": [
+            "Working fewer hours or starting a business can change your tax, your pension and your social security. Ask your employer, your pension fund or an adviser before you sign anything."
+          ]
+        },
+        {
+          "id": "s3-5.3",
+          "number": "5.3",
+          "title": "Your home and your time",
+          "start_here": {
+            "fields": [
+              {
+                "id": "my_choice_hours",
+                "type": "short_text",
+                "label": "Hours of \"my choice\" per week now, and after the change"
+              },
+              {
+                "id": "home_changes",
+                "type": "long_text",
+                "label": "What I change at home: space, the garden, a room for my work"
+              },
+              {
+                "id": "must_dos",
+                "type": "long_text",
+                "label": "Must-dos I stop, share or simplify"
+              },
+              {
+                "id": "blocks_back",
+                "type": "long_text",
+                "label": "Two blocks of my week I take back first."
+              }
+            ],
+            "prompt": "Your home and your week are where a change becomes real. In Step 1 you sorted your week into time fixed by others, must-dos and your own choice. Look at it again: what moves to \"my choice\" after this change?"
+          }
+        },
+        {
+          "id": "s3-5.4",
+          "number": "5.4",
+          "title": "The people around you",
+          "start_here": {
+            "fields": [
+              {
+                "id": "who_i_tell",
+                "type": "long_text",
+                "label": "Who I tell, and when"
+              },
+              {
+                "id": "what_i_need",
+                "type": "long_text",
+                "label": "What I need from my partner or family"
+              },
+              {
+                "id": "who_already",
+                "type": "long_text",
+                "label": "Who already lives the way I want, and what I will ask them"
+              }
+            ],
+            "prompt": "The people around you notice a change at home as much as a move. Tell them what you are changing, why, and what you need from them. Some will cheer you on, and some will not understand. Look for people who already live the way you want to: they are your best source of advice."
+          }
+        },
+        {
+          "id": "s3-5.5",
+          "number": "5.5",
+          "title": "Your first 90 days",
+          "start_here": {
+            "fields": [
+              {
+                "id": "week_one",
+                "type": "long_text",
+                "label": "The first thing I do in week one"
+              },
+              {
+                "id": "after_30",
+                "type": "long_text",
+                "label": "What I want to be true after 30 days"
+              },
+              {
+                "id": "after_90",
+                "type": "long_text",
+                "label": "What I want to be true after 90 days"
+              },
+              {
+                "id": "say_no_to",
+                "type": "long_text",
+                "label": "What I will say no to, to protect the change"
+              }
+            ],
+            "prompt": "The first months decide whether a change sticks. Old habits pull you back, and work fills the free time again. Plan your first 90 days on purpose."
+          }
+        },
+        {
+          "id": "s3-5.6",
+          "number": "5.6",
+          "title": "Check in: is it working?",
+          "start_here": {
+            "bullets": [
+              "Do my ordinary days look more like my Life Picture than before?",
+              "Who decides my time now?",
+              "What is my next change, or is this enough for now?"
+            ],
+            "fields": [
+              {
+                "id": "check_in_dates",
+                "type": "short_text",
+                "label": "My two check-in dates: three months and one year after the change"
+              }
+            ],
+            "prompt": "Put two dates in your calendar: three months and one year after the change. On those dates, read your Life Picture from Step 1 again, and ask yourself three questions:"
+          },
+          "closing": "If the answer disappoints you, you have not failed. You have learned what does not work, and that is the start of your next plan. And if the change works and you still want more, look at Step 2 again. Maybe your next step is a move after all."
+        }
+      ],
+      "talk": "Ask the person closest to you two questions. What do you think will change for you? And what do you need from me?",
+      "summary": {
+        "id": "change_plan",
+        "title": "My Change Plan",
+        "intro": "Bring it together on one page. Short sentences are enough.",
+        "prompt": "Bring it together on one page. Short sentences are enough.",
+        "fields": [
+          {
+            "id": "the_change",
+            "type": "long_text",
+            "label": "The change I am making"
+          },
+          {
+            "id": "in_place_date",
+            "type": "short_text",
+            "label": "The date it is in place."
+          },
+          {
+            "id": "first_three",
+            "type": "long_text",
+            "label": "My first three steps, and when"
+          },
+          {
+            "id": "income_buffer",
+            "type": "long_text",
+            "label": "My income and buffer after the change"
+          },
+          {
+            "id": "who_i_tell",
+            "type": "long_text",
+            "label": "Who I tell, and what I need from them"
+          },
+          {
+            "id": "first_90",
+            "type": "long_text",
+            "label": "My first 90 days"
+          },
+          {
+            "id": "plan_b",
+            "type": "long_text",
+            "label": "My Plan B"
+          },
+          {
+            "id": "check_in_dates",
+            "type": "short_text",
+            "label": "My check-in dates",
+            "copy_from": {
+              "exercise": "s3-5.6",
+              "field": "check_in_dates"
+            }
+          }
+        ],
+        "result": "My Change Plan — your change where you are, with a date, a first step and a check-in."
+      },
+      "result": "My Change Plan — your change where you are, with a date, a first step and a check-in."
     }
   ],
   "closing": {
     "title": "What comes next",
-    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision.",
+    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision. From here, the road splits: Step 4 if you move, and the staying route if you build the life you want where you are.",
     "bullets": [
       "Going? Step 4, Prepare, is coming soon. It will turn your decision into a moving plan: what to arrange, in which order, and by when. Until then, your First Timeline from Part 3 is your plan.",
-      "Not yet? Work on your ambers, and look again on the date you set.",
-      "No? Go back to Step 2 with what you have learned, build the life you want where you are, or keep the life you have."
+      "Not yet? Work on your ambers, and revisit the date you set.",
+      "Staying and changing your life where you are? Your staying route, on the previous pages, completes your Blueprint. Keep your check-in dates.",
+      "No? Go back to Step 2 with what you have learned, or keep the life you have."
     ],
     "tips": [
       "Keep this workbook close. When doubt comes, and it will, read your reasons again. You made this decision with a clear head."
     ],
     "final": [
       "You will never be completely sure.",
-      "But you can be ready enough, and know what to do next."
+      "But you can be ready enough and know what to do next."
     ]
   },
   "sources": {
     "title": "Where the information in this workbook comes from",
-    "intro": "Rules, prices and services change. Everything in this workbook that is not my own experience comes from an official source, and I wrote down the date it was checked. Check it again for your own situation before you decide anything.",
+    "intro": "Rules, prices and services change. Everything in this workbook that isn't my own experience comes from an official source, and I noted the date I checked it. Check it again for your own situation before you decide anything.",
     "header": [
       "Subject",
       "Official source",

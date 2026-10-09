@@ -8,7 +8,7 @@
     "intro_title": "Rough numbers now beat perfect numbers later.",
     "intro": [
       "It is easy to put off the numbers, or to look once, feel overwhelmed, and stop. Start with rough figures. You will improve them as you learn more.",
-      "At this stage, the numbers help you choose a direction and a timescale. A plan that is out of reach this year could work in three years or with another source of income. Sometimes a version of your plan will not work financially. Then you need to change it, postpone it, or set it aside.",
+      "At this stage, the numbers help you choose a direction and a timescale. A plan out of reach this year could work in three years or with another income source. Sometimes a version of your plan will not work financially. Then you need to change it, postpone it, or set it aside.",
       "Start with three numbers:"
     ],
     "intro_bullets": [
@@ -186,7 +186,7 @@
         "id": "3.4",
         "title": "What comes in per month?",
         "intro": [
-          "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. In 3.5 you add your confirmed and agreed income together. Hoped income is left out."
+          "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Confirmed and agreed income goes into the check in 3.5. Hoped income stays out of it. Write the month the agreed income starts, so you can see what the check depends on."
         ],
         "tables": [
           {
@@ -205,7 +205,7 @@
                 "An idea. It may well happen, but nothing supports it yet."
               ]
             ],
-            "after": "Agreed income is counted in 3.5, so write down when it starts. If it begins in six months, the sums in 3.5 show your life from then, not your life today."
+            "after": "If it begins in six months, the sums in 3.5 show your life from then, not your life today."
           }
         ],
         "start_here": {
@@ -430,9 +430,9 @@
         },
         "story": {
           "status": "ready",
-          "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
+          "text": "A few years ago, I had savings in different accounts but no clear plan. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
         },
-        "go_further": "Want to go further? The module Your Money Plan (future) helps you with goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
+        "go_further": "Want to go further? A module called Your Money Plan is planned for later; it is not part of this course. It will cover goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
       }
     ],
     "summary": {

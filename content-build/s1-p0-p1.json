@@ -116,7 +116,7 @@
     "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
     "intro": [
       "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" Both questions matter. Here, we begin with the life you want, then look at the place and the money.",
-      "You need something to judge a place or a price against. If you do not know how you want to live, every country looks good in the photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
+      "You need something to judge a place or a price against. If you don't know how you want to live, every country looks good in photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
       "A picture goes further than a wish. A wish is a word; a picture is a scene. Two people who want \"more freedom\" can mean completely different things. \"I decide what I do on a Tuesday morning\" gives you something concrete. You can compare a job, a house or a country with it and ask: would this give me that Tuesday morning?",
       "You are also allowed to want something ordinary. Your picture does not have to impress anyone. Mine was simple: land, my hands in the soil, a warm climate, and work that meant something. It took years to build. It never became more impressive. It became more real."
     ],
@@ -126,7 +126,7 @@
     ],
     "time": "75–100 min",
     "route_title": "Picture your new life",
-    "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you are planning this life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
+    "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you plan to build a life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
     "finish": {
       "id": "life_picture",
       "title": "My Life Picture",
@@ -230,11 +230,11 @@
         },
         "example": {
           "who": "Tom, 58",
-          "text": "Sailing with my brother last summer. Repairing the old bench in the garden. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present, not busy with work or my phone."
+          "text": "Sailing with my brother last summer. Repairing the old garden bench. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present, not busy with work or my phone."
         },
         "story": {
           "status": "ready",
-          "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I built something with my hands, helped someone move forward, or spent time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
+          "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I built something with my hands, helped someone move forward, or spent time in a warm climate in nature. I started to see what those moments had in common. The answers were already in my life; I only had to look."
         }
       },
       {
@@ -590,7 +590,7 @@
       ],
       "example": {
         "who": "Maria, 46",
-        "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: ground to grow food, internet good enough for video calls, a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
+        "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: a place to grow food, internet good enough for video calls, and a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
       },
       "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
     },

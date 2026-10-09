@@ -3,6 +3,7 @@
 // folder by scripts/sync-content.mjs — never edit the copies.
 import step1Spine from "@/content/spine/step1.json";
 import step2Spine from "@/content/spine/step2.json";
+import step3Spine from "@/content/spine/step3.json";
 import journeyRaw from "@/content/journey.json";
 import appGuideRaw from "@/content/app-guide.json";
 
@@ -152,6 +153,8 @@ export type Exercise = {
   challenge?: string;
   where_to_check?: string[];
   expert_work?: string;
+  /** Step 3: what this check means for somebody who is staying where they are. */
+  staying?: string;
   belief_examples?: { title: string; items: string[] }[];
   choice_explanations_intro?: string;
   choice_explanations?: string[];
@@ -300,7 +303,7 @@ export const stepIsOpen = (n: number) => journey.steps.some((s) => s.number === 
  * To release a step: add its spine above and its name here, and set in_app in
  * journey.json. Both, or it will not appear.
  */
-export const steps: StepContent[] = [step1Spine, step2Spine] as unknown as StepContent[];
+export const steps: StepContent[] = [step1Spine, step2Spine, step3Spine] as unknown as StepContent[];
 
 export function getStep(number: number): StepContent | undefined {
   return steps.find((s) => s.step.number === number);

@@ -1,6 +1,6 @@
 {
   "version": 21,
-  "source": "The Made Real Blueprint - Step 1 Picture workbook - Issued.docx (version 21, October 2026)",
+  "source": "The Made Real Blueprint - Step 1 Picture workbook - Rev.01b.docx (October 2026)",
   "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
@@ -63,7 +63,7 @@
         "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
         "Write in your own language if you prefer.",
         "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
-        "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
+        "\"Talk about it\" boxes help you discuss your plans with your partner, family or friends."
       ]
     },
     "word_help": {
@@ -260,7 +260,7 @@
       "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
       "intro": [
         "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" Both questions matter. Here, we begin with the life you want, then look at the place and the money.",
-        "You need something to judge a place or a price against. If you do not know how you want to live, every country looks good in the photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
+        "You need something to judge a place or a price against. If you don't know how you want to live, every country looks good in photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
         "A picture goes further than a wish. A wish is a word; a picture is a scene. Two people who want \"more freedom\" can mean completely different things. \"I decide what I do on a Tuesday morning\" gives you something concrete. You can compare a job, a house or a country with it and ask: would this give me that Tuesday morning?",
         "You are also allowed to want something ordinary. Your picture does not have to impress anyone. Mine was simple: land, my hands in the soil, a warm climate, and work that meant something. It took years to build. It never became more impressive. It became more real."
       ],
@@ -270,7 +270,7 @@
       ],
       "time": "75–100 min",
       "route_title": "Picture your new life",
-      "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you are planning this life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
+      "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you plan to build a life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
       "finish": {
         "id": "life_picture",
         "title": "My Life Picture",
@@ -374,11 +374,11 @@
           },
           "example": {
             "who": "Tom, 58",
-            "text": "Sailing with my brother last summer. Repairing the old bench in the garden. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present, not busy with work or my phone."
+            "text": "Sailing with my brother last summer. Repairing the old garden bench. Sunday breakfast with my grandchildren. What made them possible: free time, no rush. What they have in common: I was fully present, not busy with work or my phone."
           },
           "story": {
             "status": "ready",
-            "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I built something with my hands, helped someone move forward, or spent time in nature in a warm climate. I started to see what those moments had in common. The answers were already in my life; I only had to look."
+            "text": "I found questions like \"What is your passion?\" and \"What makes you truly happy?\" surprisingly hard. Sometimes I felt frustrated that I could not answer. What helped was remembering moments when I built something with my hands, helped someone move forward, or spent time in a warm climate in nature. I started to see what those moments had in common. The answers were already in my life; I only had to look."
           }
         },
         {
@@ -734,7 +734,7 @@
         ],
         "example": {
           "who": "Maria, 46",
-          "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: ground to grow food, internet good enough for video calls, a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
+          "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: a place to grow food, internet good enough for video calls, and a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
         },
         "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
       },
@@ -758,7 +758,7 @@
       ],
       "time": "60–75 min",
       "route_title": "Look honestly at today",
-      "talk": "Want to hear what held other people back at the start? Ask in the network, or ask someone who made a big change. You may hear some of your own beliefs, and how they found a way through them.",
+      "talk": "Want to hear what held other people back at the start? Ask someone you know who made a big change. You may hear some of your own beliefs, and how they found a way through them.",
       "finish": {
         "id": "starting_point",
         "title": "My Starting Point",
@@ -860,7 +860,7 @@
                 "id": "decides",
                 "type": "table",
                 "row_header": "Who decides my week?",
-                "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of your whole week (about 112 hours) is really yours.",
+                "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of the hours you are awake each week (about 112: 16 hours a day, 7 days) is really yours.",
                 "row_labels": [
                   "Fixed by others",
                   "Must-dos",
@@ -952,7 +952,7 @@
             },
             {
               "who": "Lucas, 29",
-              "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of my waking week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
+              "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of the hours I am awake each week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
             }
           ],
           "go_deeper": {
@@ -1020,7 +1020,7 @@
           ],
           "story": {
             "status": "ready",
-            "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about six months. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after I put the company online and introduced it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
+            "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about six months. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after I put the company online and introduced it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to notice frustrations that could become opportunities, and to value the people who already trusted my work."
           },
           "go_deeper": {
             "title": "Connect the dots",
@@ -1057,7 +1057,7 @@
             ],
             "story": {
               "status": "ready",
-              "text": "When I was 21, shortly after graduating, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fit together."
+              "text": "When I was 21, shortly after graduating, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I knew I wouldn't stay forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back, I can see how those experiences fit together."
             }
           }
         },
@@ -1294,7 +1294,7 @@
       "intro_title": "Rough numbers now beat perfect numbers later.",
       "intro": [
         "It is easy to put off the numbers, or to look once, feel overwhelmed, and stop. Start with rough figures. You will improve them as you learn more.",
-        "At this stage, the numbers help you choose a direction and a timescale. A plan that is out of reach this year could work in three years or with another source of income. Sometimes a version of your plan will not work financially. Then you need to change it, postpone it, or set it aside.",
+        "At this stage, the numbers help you choose a direction and a timescale. A plan out of reach this year could work in three years or with another income source. Sometimes a version of your plan will not work financially. Then you need to change it, postpone it, or set it aside.",
         "Start with three numbers:"
       ],
       "intro_bullets": [
@@ -1472,7 +1472,7 @@
           "id": "3.4",
           "title": "What comes in per month?",
           "intro": [
-            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. In 3.5 you add your confirmed and agreed income together. Hoped income is left out."
+            "Separate income you can count on from income you hope to earn. A potential client and an existing salary can look much the same in a budget. Confirmed and agreed income goes into the check in 3.5. Hoped income stays out of it. Write the month the agreed income starts, so you can see what the check depends on."
           ],
           "tables": [
             {
@@ -1491,7 +1491,7 @@
                   "An idea. It may well happen, but nothing supports it yet."
                 ]
               ],
-              "after": "Agreed income is counted in 3.5, so write down when it starts. If it begins in six months, the sums in 3.5 show your life from then, not your life today."
+              "after": "If it begins in six months, the sums in 3.5 show your life from then, not your life today."
             }
           ],
           "start_here": {
@@ -1716,9 +1716,9 @@
           },
           "story": {
             "status": "ready",
-            "text": "A few years ago, I had savings in different accounts but no clear plan for them. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
+            "text": "A few years ago, I had savings in different accounts but no clear plan. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
           },
-          "go_further": "Want to go further? The module Your Money Plan (future) helps you with goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
+          "go_further": "Want to go further? A module called Your Money Plan is planned for later; it is not part of this course. It will cover goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
         }
       ],
       "summary": {
@@ -1797,7 +1797,7 @@
       ],
       "time": "30–45 min",
       "route_title": "Compare your options",
-      "talk": "Find one person who made a change like the one you are thinking about: in the network, online, or through me. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
+      "talk": "Find one person who made a change like the one you are thinking about: among people you know, or online. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
       "finish": {
         "id": "options",
         "title": "My Options",
@@ -1962,7 +1962,7 @@
                 "id": "staying",
                 "type": "table",
                 "rows": 1,
-                "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? And what would it cost in time, energy or happiness? Write down both to make the comparison fair.",
+                "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? What would it cost in time, energy, or happiness? Write down both to make the comparison fair.",
                 "columns": [
                   {
                     "id": "protects",
@@ -2164,17 +2164,17 @@
           "choice_explanations": [
             "I have a direction I want to investigate. Step 2 is waiting for you.",
             "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-            "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. We are developing a full staying route with the first participants.",
+            "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 3 tests your change and ends with your staying route: a plan for the change where you are.",
             "I am not ready to choose yet. Your page shows what you need to learn first.",
             "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
           ],
           "example": {
             "who": "Tom, 58",
-            "text": "What I choose now: not ready yet. While doing this workbook, my wife and I found out that we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
+            "text": "What I choose now: not ready yet. While doing this workbook, my wife and I realised we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
           },
           "example_page": {
             "title": "A completed page",
-            "intro": "Rosa is made up, and she ends up staying. The point is not her answer. It is that every line is filled in, including the parts she does not know yet.",
+            "intro": "Rosa is made up, and she stays. The point is not her answer. Every line is filled in, including the parts she does not know yet.",
             "rows": [
               [
                 "My life picture in three sentences",
@@ -2305,7 +2305,7 @@
     "intro": "You have made your picture clearer, looked honestly at your life and your money, and chosen a Working Direction.",
     "bullets": [
       "Want to investigate a direction? Step 2, Explore, helps you check it. The questions work for Portugal and for other places.",
-      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Until the full staying route is ready, your Working Direction is your guide.",
+      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Then test that change in Step 3, which ends with your staying route.",
       "Not ready yet? Your page tells you what to learn first."
     ],
     "tips": [
@@ -2334,7 +2334,7 @@
       ],
       [
         "Connect the dots (2.2)",
-        "The phrase comes from Steve Jobs' 2005 speech at Stanford University."
+        "The phrase comes from Steve Jobs' 2005 Stanford University speech."
       ],
       [
         "Comparing options and small tests (Part 4)",

@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 const dir = process.argv[2];
 const read = (n) => JSON.parse(readFileSync(`${dir}/content-build/${n}`, "utf8"));
 const head = read("s3-step.json");
-const parts = [...read("s3-p0-p1.json"), ...read("s3-p2-p4.json")];
+const parts = [...read("s3-p0-p1.json"), ...read("s3-p2-p4.json"), ...read("s3-p5.json")];
 const content = {
   version: head.version,
   source: head.source,

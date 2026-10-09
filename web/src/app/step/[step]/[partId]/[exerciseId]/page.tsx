@@ -527,6 +527,11 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             <p>{exercise.expert_work}</p>
           </Card>
         )}
+        {exercise.staying && (
+          <Card tone="staying" title="If you are staying" collapsible={false}>
+            <p>{exercise.staying}</p>
+          </Card>
+        )}
         {asList(exercise.story).map((s) => (
           <Card key={s.text.slice(0, 30)} tone="story" title="My story — Mwata">
             <p>{s.text}</p>

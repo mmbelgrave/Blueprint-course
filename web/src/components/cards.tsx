@@ -18,6 +18,9 @@ const tones = {
   sources: { box: "bg-white border-l-4 border-pine", title: "text-pine" },
   expert: { box: "bg-white border-2 border-pine/40", title: "text-pine" },
   skip: { box: "bg-sand border border-line", title: "text-stone" },
+  // Step 3: what this check means for somebody building the life they want
+  // where they already are. Calm, not a warning: staying is a real choice.
+  staying: { box: "bg-sage border-l-4 border-pine", title: "text-pine" },
 } as const;
 
 export function Card({

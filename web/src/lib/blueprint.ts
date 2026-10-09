@@ -269,8 +269,14 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
     });
   }
 
-  // "Go" with nothing named that has to be true first.
-  if (text(answers, "s3-4.2", "decision").toLowerCase() === "go" && text(answers, "s3-4.2", "conditions") === "") {
+  /*
+   * A go with nothing named that has to be true first.
+   *
+   * Since the final workbook, "go" comes in two kinds — "Go and move" and
+   * "Go and change where I am" — so this looks for a decision that begins
+   * with go rather than one that is exactly the word.
+   */
+  if (/^go\b/.test(text(answers, "s3-4.2", "decision").toLowerCase()) && text(answers, "s3-4.2", "conditions") === "") {
     out.push({
       tone: "amber",
       title: "A go with no conditions written down",

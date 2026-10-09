@@ -13,7 +13,7 @@
     ],
     "time": "30–45 min",
     "route_title": "Compare your options",
-    "talk": "Find one person who made a change like the one you are thinking about: in the network, online, or through me. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
+    "talk": "Find one person who made a change like the one you are thinking about: among people you know, or online. Ask: \"What surprised you? What would you do differently?\" One honest conversation can teach you a lot.",
     "finish": {
       "id": "options",
       "title": "My Options",
@@ -178,7 +178,7 @@
               "id": "staying",
               "type": "table",
               "rows": 1,
-              "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? And what would it cost in time, energy or happiness? Write down both to make the comparison fair.",
+              "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? What would it cost in time, energy, or happiness? Write down both to make the comparison fair.",
               "columns": [
                 {
                   "id": "protects",
@@ -380,17 +380,17 @@
         "choice_explanations": [
           "I have a direction I want to investigate. Step 2 is waiting for you.",
           "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-          "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. We are developing a full staying route with the first participants.",
+          "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 3 tests your change and ends with your staying route: a plan for the change where you are.",
           "I am not ready to choose yet. Your page shows what you need to learn first.",
           "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
         ],
         "example": {
           "who": "Tom, 58",
-          "text": "What I choose now: not ready yet. While doing this workbook, my wife and I found out that we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
+          "text": "What I choose now: not ready yet. While doing this workbook, my wife and I realised we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
         },
         "example_page": {
           "title": "A completed page",
-          "intro": "Rosa is made up, and she ends up staying. The point is not her answer. It is that every line is filled in, including the parts she does not know yet.",
+          "intro": "Rosa is made up, and she stays. The point is not her answer. Every line is filled in, including the parts she does not know yet.",
           "rows": [
             [
               "My life picture in three sentences",

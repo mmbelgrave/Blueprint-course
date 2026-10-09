@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "source": "The Made Real Blueprint - Step 3 Decide workbook - Rev.00a.docx (October 2026)",
+  "source": "The Made Real Blueprint - Step 3.docx (October 2026)",
   "step": {
     "id": "step3",
     "number": 3,
@@ -11,7 +11,7 @@
     ],
     "intro": [
       "Now comes the question most people rush or avoid: am I ready for this option?",
-      "In this step, you test your plan before you commit to it. You check five green lights: money, papers, people, place and your Plan B. You look at what could go wrong, and in which order to do things. Then you decide: go, not yet, or no.",
+      "In this step, you test your plan before you commit to it. You check five green lights: money, papers, people, place and your Plan B. You consider what could go wrong and the order of operations. Then you decide: go, not yet, or no.",
       "All three answers are good ones. A clear \"not yet\", with the conditions written down, is worth more than a \"go\" that rests on hope. And a \"no\" you reach now costs far less than one you reach after you have sold your home.",
       "Every exercise starts with a short explanation, then asks you to apply it to your own life."
     ],
@@ -20,7 +20,7 @@
       "bullets": [
         "Your Working Direction and Life Picture from Step 1, including your must-haves and dealbreakers.",
         "Your Explore Summary from Step 2: the place you want to plan for, and what you still do not know about it.",
-        "Your updated money picture, with the real costs you found in Step 2."
+        "Your updated money picture, with the real costs you created in Step 2."
       ],
       "after": "If you have not completed Step 2, you can still work through this step, but many answers will rest on guesses. Mark them as estimates, and go back to Step 2 before you make the final decision."
     },
@@ -30,53 +30,89 @@
         "This step is about testing. You check your plan against real numbers, real rules and real people.",
         "Each green light gets a colour. Green means ready. Amber means not ready yet, but you know what to do. Red means something stops this option as it stands.",
         "Amber is normal. Most people finish this step with a few ambers. What matters is that each one has a next action and a date.",
-        "This step stays high level. Modules that go deeper are planned for later and are not part of this course, such as Portugal in detail, Your Money Plan and starting a company.",
+        "This step stays high-level. Modules that go deeper are planned for later and are not part of this course, such as Portugal in detail, Your Money Plan and starting a company.",
         "Some questions are expert work. Tax, residence law and contracts depend on your situation. This workbook helps you prepare your questions. The answers come from qualified professionals.",
-        "Each part ends with \"What does this tell me?\" Use your answers to complete a short summary.",
+        "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
+        "Each light has an \"If you are staying\" box. It shows what the check means for a change where you live.",
         "The people in the examples are made up. They show what an answer can look like. Your answers can be completely different."
       ]
     },
     "word_help": {
       "title": "Word help",
       "items": [
-        ["Green light", "ready, and you have evidence."],
-        ["Amber", "not ready yet, with a clear next action."],
-        ["Red", "this blocks the option as it stands."],
-        ["Easy to undo", "a step you can reverse at low cost, such as renting."],
-        ["Hard to undo", "a step that is expensive or impossible to reverse, such as selling your home."],
-        ["Plan B", "what you will do if the plan does not work, decided before you need it."],
-        ["Confirmed income", "income you have evidence will continue in your new situation."],
-        ["Known, estimate, unknown", "how sure you are about a number or fact, as in Steps 1 and 2."]
+        [
+          "Green light",
+          "ready, and you have evidence."
+        ],
+        [
+          "Amber",
+          "not ready yet, with a clear next action."
+        ],
+        [
+          "Red",
+          "this blocks the option as it stands."
+        ],
+        [
+          "Easy to undo",
+          "a step you can reverse at low cost, such as renting."
+        ],
+        [
+          "Hard to undo",
+          "a step that is expensive or impossible to reverse, such as selling your home."
+        ],
+        [
+          "Plan B",
+          "what you will do if the plan does not work, decided before you need it."
+        ],
+        [
+          "Confirmed income",
+          "income you have evidence will continue in your new situation."
+        ],
+        [
+          "Known, estimate, unknown",
+          "how sure you are about a number or fact, as in Steps 1 and 2."
+        ]
       ]
     },
     "tips": [
-      "Part 1 takes the most time, because some lights need a phone call, an adviser or a conversation at home. Spread it over two or three weeks."
+      "Part 1 takes the most time because some lights need a phone call, an adviser or a conversation at home. Spread it over two or three weeks."
     ],
     "route": {
       "title": "Your route through Step 3",
-      "header": ["", "What you do", "Time", "You finish with"]
-    }
+      "header": [
+        "",
+        "What you do",
+        "Time",
+        "You finish with"
+      ]
+    },
+    "staying": "Staying and changing your life where you are? This step is for you too. The option you test can also be a change where you live: working four days a week, a new job, your own business, more space, or another region in your own country. Test it in Parts 1 to 4, just like a move. You can skip 1.2 Papers and 1.4 Place unless your change involves them, for example, moving to another region or renovating. Then finish with \"Your staying route\" at the end of this step."
   },
   "closing": {
     "title": "What comes next",
-    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision.",
+    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision. From here, the road splits: Step 4 if you move, and the staying route if you build the life you want where you are.",
     "bullets": [
       "Going? Step 4, Prepare, is coming soon. It will turn your decision into a moving plan: what to arrange, in which order, and by when. Until then, your First Timeline from Part 3 is your plan.",
-      "Not yet? Work on your ambers, and look again on the date you set.",
-      "No? Go back to Step 2 with what you have learned, build the life you want where you are, or keep the life you have."
+      "Not yet? Work on your ambers, and revisit the date you set.",
+      "Staying and changing your life where you are? Your staying route, on the previous pages, completes your Blueprint. Keep your check-in dates.",
+      "No? Go back to Step 2 with what you have learned, or keep the life you have."
     ],
     "tips": [
       "Keep this workbook close. When doubt comes, and it will, read your reasons again. You made this decision with a clear head."
     ],
     "final": [
       "You will never be completely sure.",
-      "But you can be ready enough, and know what to do next."
+      "But you can be ready enough and know what to do next."
     ]
   },
   "sources": {
     "title": "Where the information in this workbook comes from",
-    "intro": "Rules, prices and services change. Everything in this workbook that is not my own experience comes from an official source, and I wrote down the date it was checked. Check it again for your own situation before you decide anything.",
-    "header": ["Subject", "Official source", "Checked"],
+    "intro": "Rules, prices and services change. Everything in this workbook that isn't my own experience comes from an official source, and I noted the date I checked it. Check it again for your own situation before you decide anything.",
+    "header": [
+      "Subject",
+      "Official source",
+      "Checked"
+    ],
     "rows": [
       [
         "Tax number (NIF) for foreign citizens",
@@ -93,8 +129,16 @@
         "gov.pt, \"Obter o número de utente do SNS\"; sns.gov.pt",
         "28 Sep 2026"
       ],
-      ["Exchanging a foreign driving licence", "IMT, imt-ip.pt; gov.pt", "28 Sep 2026"],
-      ["Visas for other passports", "Portuguese visa portal, vistos.mne.gov.pt", "20 Sep 2026"]
+      [
+        "Exchanging a foreign driving licence",
+        "IMT, imt-ip.pt; gov.pt",
+        "28 Sep 2026"
+      ],
+      [
+        "Visas for other passports",
+        "Portuguese visa portal, vistos.mne.gov.pt",
+        "20 Sep 2026"
+      ]
     ],
     "expert_work": "Nothing in this workbook is legal, tax or financial advice. It helps you ask better questions and arrive prepared. The answers for your situation come from qualified professionals in the country itself."
   },

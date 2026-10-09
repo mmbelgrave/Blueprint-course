@@ -13,7 +13,7 @@
     ],
     "time": "60–75 min",
     "route_title": "Look honestly at today",
-    "talk": "Want to hear what held other people back at the start? Ask in the network, or ask someone who made a big change. You may hear some of your own beliefs, and how they found a way through them.",
+    "talk": "Want to hear what held other people back at the start? Ask someone you know who made a big change. You may hear some of your own beliefs, and how they found a way through them.",
     "finish": {
       "id": "starting_point",
       "title": "My Starting Point",
@@ -115,7 +115,7 @@
               "id": "decides",
               "type": "table",
               "row_header": "Who decides my week?",
-              "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of your whole week (about 112 hours) is really yours.",
+              "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of the hours you are awake each week (about 112: 16 hours a day, 7 days) is really yours.",
               "row_labels": [
                 "Fixed by others",
                 "Must-dos",
@@ -144,14 +144,24 @@
                   "label": "My choice, hours now",
                   "example": "37",
                   "hidden": true,
-                  "from": { "exercise": "2.1", "field": "decides", "column": "now", "row": "My choice" }
+                  "from": {
+                    "exercise": "2.1",
+                    "field": "decides",
+                    "column": "now",
+                    "row": "My choice"
+                  }
                 },
                 {
                   "id": "choice_want",
                   "label": "My choice, hours I want",
                   "example": "50",
                   "hidden": true,
-                  "from": { "exercise": "2.1", "field": "decides", "column": "want", "row": "My choice" }
+                  "from": {
+                    "exercise": "2.1",
+                    "field": "decides",
+                    "column": "want",
+                    "row": "My choice"
+                  }
                 },
                 {
                   "id": "share_now",
@@ -197,7 +207,7 @@
           },
           {
             "who": "Lucas, 29",
-            "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of my waking week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
+            "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of the hours I am awake each week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
           }
         ],
         "go_deeper": {
@@ -265,7 +275,7 @@
         ],
         "story": {
           "status": "ready",
-          "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about six months. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after I put the company online and introduced it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to pay attention to frustrations that could become opportunities, and to the people who already trusted my work."
+          "text": "Alongside my consultancy work, I missed doing something connected to building, which has always interested me. When I bought a newly built house in Bali, I wanted an inspector for extra reassurance, even though I could check it myself. Finding a good one proved difficult, and that gave me an idea. I took an online course and became an accredited inspector with InterNACHI. The course took about six months. Including a simple website and an Instagram page, I invested about €2,000. The rest was my time. Promoting myself was the hardest part. I have always been more comfortable showing what I can do than selling it. Two months after I put the company online and introduced it to several agents, I had my first client. The work came through a recommendation from the estate agent who had handled my own purchase. That was how the business started. It taught me to notice frustrations that could become opportunities, and to value the people who already trusted my work."
         },
         "go_deeper": {
           "title": "Connect the dots",
@@ -302,7 +312,7 @@
           ],
           "story": {
             "status": "ready",
-            "text": "When I was 21, shortly after graduating, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I already knew I would not stay there forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back helped me see how those experiences fit together."
+            "text": "When I was 21, shortly after graduating, I moved to Thailand with my parents. They made the decision, but I was closely involved in finding land, building our home, and settling into a place where we had to learn a new language. Asia felt like home. I returned to the Netherlands for my career, but I knew I wouldn't stay forever. Another connection was my interest in technology and building, which started when I was young. It runs through my engineering career, the inspection business in Bali, and the land in Portugal. Looking back, I can see how those experiences fit together."
           }
         }
       },

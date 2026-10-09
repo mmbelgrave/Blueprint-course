@@ -22,25 +22,51 @@
         "number": "2.1",
         "title": "Two futures",
         "intro": [
-          "An option you cannot imagine on a bad day is an option you have not really considered. So you picture both: an ordinary good day and an ordinary difficult day, five years from now."
+          "An option you cannot imagine on a bad day is one you haven't really considered. So you picture both: an ordinary good day and an ordinary difficult day, five years from now."
         ],
         "start_here": {
-          "prompt": "Take the option you are deciding on and, if you have one, your best alternative, such as staying and changing something. Imagine it is five years from now. For each option, write a normal good day and a normal difficult day.",
+          "prompt": "Take the option you are deciding on and, if you have one, your best alternative. Staying? Compare your change with keeping things as they are. Imagine it is five years from now. For each option, write a normal good day and a normal difficult day.",
           "fields": [
-            { "id": "o1_good", "type": "long_text", "lines": 4, "label": "Option 1, a good day" },
-            { "id": "o1_hard", "type": "long_text", "lines": 4, "label": "Option 1, a difficult day" },
-            { "id": "o2_good", "type": "long_text", "lines": 4, "label": "Option 2, a good day" },
-            { "id": "o2_hard", "type": "long_text", "lines": 4, "label": "Option 2, a difficult day" }
+            {
+              "id": "o1_good",
+              "type": "long_text",
+              "lines": 4,
+              "label": "Option 1, a good day"
+            },
+            {
+              "id": "o1_hard",
+              "type": "long_text",
+              "lines": 4,
+              "label": "Option 1, a difficult day"
+            },
+            {
+              "id": "o2_good",
+              "type": "long_text",
+              "lines": 4,
+              "label": "Option 2, a good day"
+            },
+            {
+              "id": "o2_hard",
+              "type": "long_text",
+              "lines": 4,
+              "label": "Option 2, a difficult day"
+            }
           ]
         },
-        "intro_after": "In each day, notice who decides your time. Are your days busy by your own choice, or busy because others decide? And when do the busy transition years end: the paperwork, the renovation, finding work? More control over your time often comes after them, not straight away.",
+        "intro_after": "In each day, notice who decides your time. Are your days busy by choice, or because others decide? And when do the busy transition years end: the paperwork, the renovation, finding work? More control over your time often comes after them, not straight away.",
         "go_deeper": {
           "prompt": "What would still be difficult, even after moving? Some things change with a place. Some things come with you.",
-          "fields": [{ "id": "still_difficult", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "still_difficult",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         },
         "story": {
           "status": "ready",
-          "text": "After four years in Bali, the island no longer felt the same. Then I had an accident with my motorbike. It was not my fault, but I was blamed for it. It made me realise that, after all those years, I was still seen as a foreigner. When I found the self-sufficient life I wanted on YouTube, I saw two futures: staying in a place that no longer felt like home, or starting again somewhere that fitted my new picture. The hardest part was leaving the life and the friends I had built over four years, knowing I had to start again. But I knew it was the right decision."
+          "text": "After three years in Bali, the island no longer felt the same. Then I had an accident with my motorbike. It wasn't my fault, but they blamed me. It made me realise that, after all those years, they still saw me as a foreigner. When I found the self-sufficient life I wanted on YouTube, I saw two futures: staying in a place that no longer felt like home, or starting again somewhere that fitted my new picture. The hardest part was leaving the life and the friends I had built over three years, knowing I had to start again. But I knew it was the right decision."
         }
       },
       {
@@ -81,24 +107,55 @@
               "type": "table",
               "rows": 4,
               "columns": [
-                { "id": "option", "label": "Option", "kind": "text" },
-                { "id": "fear", "label": "What I am afraid of", "kind": "text" },
+                {
+                  "id": "option",
+                  "label": "Option",
+                  "kind": "text"
+                },
+                {
+                  "id": "fear",
+                  "label": "What I am afraid of",
+                  "kind": "text"
+                },
                 {
                   "id": "likely",
                   "label": "How likely?",
                   "kind": "choice",
-                  "options": ["Low", "Medium", "High", "Not sure"]
+                  "options": [
+                    "Low",
+                    "Medium",
+                    "High",
+                    "Not sure"
+                  ]
                 },
-                { "id": "impact", "label": "Impact", "kind": "text" },
-                { "id": "sign", "label": "Early warning sign", "kind": "text" },
-                { "id": "do", "label": "What I can do", "kind": "text" }
+                {
+                  "id": "impact",
+                  "label": "Impact",
+                  "kind": "text"
+                },
+                {
+                  "id": "sign",
+                  "label": "Early warning sign",
+                  "kind": "text"
+                },
+                {
+                  "id": "do",
+                  "label": "What I can do",
+                  "kind": "text"
+                }
               ]
             }
           ]
         },
         "go_deeper": {
           "prompt": "Look at your biggest fear. What is it telling you? Maybe you need more information. Maybe two of your needs pull in different directions. Maybe it is a real risk to plan for.",
-          "fields": [{ "id": "biggest_fear", "type": "long_text", "lines": 3 }]
+          "fields": [
+            {
+              "id": "biggest_fear",
+              "type": "long_text",
+              "lines": 3
+            }
+          ]
         },
         "example": {
           "who": "Aisha, 33",
@@ -123,7 +180,12 @@
           "lines": 3,
           "label": "My biggest risks, and how likely they are"
         },
-        { "id": "signs", "type": "long_text", "lines": 2, "label": "The early warning signs I will watch" },
+        {
+          "id": "signs",
+          "type": "long_text",
+          "lines": 2,
+          "label": "The early warning signs I will watch"
+        },
         {
           "id": "prevent",
           "type": "long_text",
@@ -139,7 +201,11 @@
       ],
       "result": "My Risks — your biggest risks, the signs to watch, and what you will do."
     },
-    "video": { "title": "Part 2 · Stress-test your plan", "length": "8–12 min", "url": null }
+    "video": {
+      "title": "Part 2 · Stress-test your plan",
+      "length": "8–12 min",
+      "url": null
+    }
   },
   {
     "id": "s3-p3",
@@ -150,7 +216,8 @@
     "intro_title": "Why order matters",
     "intro": [
       "The most expensive mistakes in a move are often not wrong choices. They are right choices made in the wrong order: selling the house before the papers are clear, signing a contract before the money is in place, or arriving before there is somewhere to live.",
-      "Do the steps you can undo cheaply first: a tax number, a bank account, a conversation with an adviser, renting, a trial period. Do the steps that are expensive or impossible to undo last: selling your home, resigning from your job, signing a purchase contract. And before each big step, write down what must be true first."
+      "Do the steps you can undo cheaply first: a tax number, a bank account, a conversation with an adviser, renting, a trial period. Do the steps that are expensive or impossible to undo last: selling your home, resigning from your job, signing a purchase contract. And before each big step, write down what must be true first.",
+      "Staying? The same rule works. Talk to your employer before you hand in your notice, test your business idea before you invest in it, and rent extra space before you buy it."
     ],
     "time": "45–60 min",
     "route_title": "Put things in the right order",
@@ -176,10 +243,16 @@
                 "Notice period for my job",
                 "End of my rental contract, or mortgage terms",
                 "Sale or rental of my home",
-                "Visa validity (other passports: a Portuguese residency visa is valid for four months, in which you apply for your residence permit)",
+                "Visa validity (other passports: a Portuguese residency visa is valid for four months, during which you apply for your residence permit)",
                 "Other fixed dates"
               ],
-              "columns": [{ "id": "when", "label": "When", "kind": "text" }]
+              "columns": [
+                {
+                  "id": "when",
+                  "label": "When",
+                  "kind": "text"
+                }
+              ]
             },
             {
               "id": "steps",
@@ -187,15 +260,32 @@
               "rows": 7,
               "hint": "List the main steps of your move. For each one, write whether it is easy or hard to undo, what must be true first, and roughly when you would take it.",
               "columns": [
-                { "id": "step", "label": "Step", "kind": "text" },
+                {
+                  "id": "step",
+                  "label": "Step",
+                  "kind": "text"
+                },
                 {
                   "id": "undo",
                   "label": "Easy or hard to undo?",
                   "kind": "choice",
-                  "options": ["Easy", "Fairly easy", "Hard", "Hardest"]
+                  "options": [
+                    "Easy",
+                    "Fairly easy",
+                    "Hard",
+                    "Hardest"
+                  ]
                 },
-                { "id": "first", "label": "What must be true first", "kind": "text" },
-                { "id": "when", "label": "Roughly when", "kind": "text" }
+                {
+                  "id": "first",
+                  "label": "What must be true first",
+                  "kind": "text"
+                },
+                {
+                  "id": "when",
+                  "label": "Roughly when",
+                  "kind": "text"
+                }
               ]
             }
           ]
@@ -206,10 +296,10 @@
         },
         "story": {
           "status": "ready",
-          "text": "My own order was not the textbook one. I sold my house in Bali months before I had even visited Portugal, and moved out just before the trip. I spent two months travelling through Portugal, then went back to the Netherlands until the summer. That summer, I came back for a longer stay in an Airbnb close to the land, and signed the promissory contract about two months after my trip. About three months later, I signed the deed. That autumn and winter, I travelled between Portugal, the Netherlands and Bali: to be with my family, to start the paperwork, and to wrap up my life in Bali. The next spring, I came back for good. I stayed in the Airbnb again while I turned a shed into a small place to live. A contractor started renovating the ruin, and soon after, I moved onto the land. About eight months later, just before Christmas, we moved into the house. That speed came from the approved project, the right contractor, my experience, and being on site every day. Selling first worked for me because I had a reserve and had done this before. If this is your first move, I would take the easy-to-undo steps first."
+          "text": "My own order was not the textbook one. I sold my house in Bali a couple of months before I visited Portugal. I spent two months travelling through Portugal. That same summer, I returned for a longer stay in an Airbnb close to the land and signed the promissory contract about two months after my trip. About three months later, I signed the deed. That autumn and winter, I travelled between Portugal, the Netherlands, and Bali: to be with my family, start the paperwork, and wrap up my life in Bali. The next spring, I came back for good. I stayed in the Airbnb again. A contractor started renovating the ruin, and soon after, I moved onto the land. About eight months later, just before Christmas, I moved into the house. That speed came from the approved project, the right contractor, my experience, and being on site every day. Selling first worked for me because my picture was very clear. I knew Bali was no longer my place, and my research showed me I wanted this life in Portugal. I also had a reserve, and I had done this before. If this is your first move, I would take the easy-to-undo steps first."
         },
         "tips": [
-          "Build in extra time. Papers, contractors and sales often take longer than planned. My paperwork alone took about four months, and that was with help. Add a few months to every step you do not control yourself."
+          "Build in extra time. Papers, contractors and sales often take much longer than planned. Add a few months to every step you don't control."
         ]
       }
     ],
@@ -224,20 +314,43 @@
       ],
       "prompt": "Now bring it together in My First Timeline. Short sentences are enough.",
       "fields": [
-        { "id": "easy_steps", "type": "long_text", "lines": 3, "label": "My easy-to-undo steps, and when" },
+        {
+          "id": "easy_steps",
+          "type": "long_text",
+          "lines": 3,
+          "label": "My easy-to-undo steps, and when"
+        },
         {
           "id": "hard_steps",
           "type": "long_text",
           "lines": 3,
           "label": "My hard-to-undo steps, and what must be true first"
         },
-        { "id": "first_step", "type": "long_text", "lines": 1, "label": "The step I will take first" },
-        { "id": "first_step_date", "type": "short_text", "label": "The date of that first step" },
-        { "id": "extra_time", "type": "long_text", "lines": 2, "label": "Where I have added extra time" }
+        {
+          "id": "first_step",
+          "type": "long_text",
+          "lines": 1,
+          "label": "The step I will take first."
+        },
+        {
+          "id": "first_step_date",
+          "type": "short_text",
+          "label": "The date of that first step"
+        },
+        {
+          "id": "extra_time",
+          "type": "long_text",
+          "lines": 2,
+          "label": "Where I have added extra time"
+        }
       ],
       "result": "My First Timeline — the right steps, in the right order."
     },
-    "video": { "title": "Part 3 · Put things in the right order", "length": "8–10 min", "url": null }
+    "video": {
+      "title": "Part 3 · Put things in the right order",
+      "length": "8–10 min",
+      "url": null
+    }
   },
   {
     "id": "s3-p4",
@@ -252,7 +365,7 @@
     ],
     "time": "30–45 min",
     "route_title": "Make your decision",
-    "talk": "Tell the people close to you what you decided, and why. Not to ask for permission, but so they can support you, and so you hear your decision out loud.",
+    "talk": "Tell the people close to you what you decided, and why. Not to ask for permission, but so they can support you and you can say your decision out loud.",
     "finish": {
       "id": "decision",
       "title": "My Decision",
@@ -273,18 +386,30 @@
               "type": "table",
               "rows": 6,
               "columns": [
-                { "id": "item", "label": "My must-haves and dealbreakers (Step 1)", "kind": "text" },
+                {
+                  "id": "item",
+                  "label": "My must-haves and dealbreakers (Step 1)",
+                  "kind": "text"
+                },
                 {
                   "id": "meets",
                   "label": "Does this option meet it?",
                   "kind": "choice",
-                  "options": ["Yes", "No", "Partly"]
+                  "options": [
+                    "Yes",
+                    "No",
+                    "Partly"
+                  ]
                 },
                 {
                   "id": "certainty",
                   "label": "Known / estimate / unknown",
                   "kind": "choice",
-                  "options": ["Known", "Estimate", "Unknown"]
+                  "options": [
+                    "Known",
+                    "Estimate",
+                    "Unknown"
+                  ]
                 }
               ]
             }
@@ -302,13 +427,22 @@
               "type": "long_text",
               "lines": 2,
               "label": "My decision question (from the Start)",
-              "copy_from": { "step": 3, "exercise": "s3-0.1", "field": "the_option" }
+              "copy_from": {
+                "step": 3,
+                "exercise": "s3-0.1",
+                "field": "the_option"
+              }
             },
             {
               "id": "decision",
               "type": "single_choice",
               "label": "My decision",
-              "options": ["Go", "Not yet", "No"]
+              "options": [
+                "Go and move",
+                "Go and change where I am",
+                "Not yet",
+                "No"
+              ]
             },
             {
               "id": "must_haves_met",
@@ -316,7 +450,12 @@
               "lines": 2,
               "label": "Must-haves met, and no dealbreakers broken?"
             },
-            { "id": "reasons", "type": "long_text", "lines": 3, "label": "Why: my three main reasons" },
+            {
+              "id": "reasons",
+              "type": "long_text",
+              "lines": 3,
+              "label": "Why: my three main reasons"
+            },
             {
               "id": "lights",
               "type": "long_text",
@@ -335,25 +474,40 @@
               "lines": 2,
               "label": "Who decided with me, and do we agree?"
             },
-            { "id": "first_step", "type": "long_text", "lines": 1, "label": "My first step" },
-            { "id": "first_step_date", "type": "short_text", "label": "Date of my first step" },
-            { "id": "review_when", "type": "short_text", "label": "When I will review this decision" },
-            { "id": "would_change", "type": "long_text", "lines": 2, "label": "What would make me change it" }
+            {
+              "id": "first_step",
+              "type": "long_text",
+              "lines": 1,
+              "label": "My first step"
+            },
+            {
+              "id": "first_step_date",
+              "type": "short_text",
+              "label": "Date of my first step"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text",
+              "label": "When will I review this decision?"
+            },
+            {
+              "id": "would_change",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What would make me change it?"
+            }
           ]
         },
-        "choice_explanations_intro": "For \"My decision\", three answers are possible, and all three are good:",
+        "choice_explanations_intro": "For \"My decision\", four answers are possible, and all four are good:",
         "choice_explanations": [
           "Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is coming soon), but you take no hard-to-undo step until those conditions are met.",
+          "Go, and change where I am. Your option was a change where you live, and it passed the same test. Continue with \"Your staying route\" at the end of this step.",
           "Not yet. The picture is right, but the conditions are not. Write down exactly what must change, and when you will look again. A \"not yet\" with a date is a decision. Without a date, it is a way of putting it off.",
-          "No. This option does not fit, or not at this price. That is a result, not a failure. Go back to Step 2 to look at another place, build the life you want where you are, or keep the life you have."
+          "No. This option does not fit, or not at this price. That is a result, not a failure. Go back to Step 2 to look at another place, test a change where you live, or keep the life you have."
         ],
         "example": {
           "who": "Lotte and Ben",
-          "text": "A completed page. Lotte and Ben are made up. The point is not their answer. It is that every line is filled in, including the conditions and the dates. Decision question: do we move to the Silver Coast with our two children, renting for a trial year from next summer? Decision: go, as a trial year, with conditions. We start preparing now; we sign nothing hard to undo until the conditions below are met. Must-haves: not all yet. All must-haves are met except one: a good school, which is an estimate until we have visited it and have places. That is a condition below. No dealbreakers broken. Why: our ordinary days there look like our Life Picture. The money lasts about 17 months even if everything costs 30% more, with our reserve and return fund untouched. The children are curious rather than against it. Lights: green: papers and place. Amber: money, until Lotte's income is confirmed; people, until care for Ben's mother is arranged; Plan B, until a tenant has signed for our house. Red: none. Conditions: Lotte's income confirmed. Care for Ben's mother arranged. A tenant signed for our house. School places confirmed. Who decided: both of us, after each of us filled in our own page. The children were heard. We agree. First step: meet two care providers for Ben's mother, before 15 March. Review: 1 April next year, whatever has happened by then. What would change it: no school places by May, or Lotte's income not confirmed by June: then we move the trial year back by one year."
-        },
-        "story": {
-          "status": "ready",
-          "text": "Looking back, I did not decide in one moment. I decided in steps. The two-million question gave me the direction. Selling my house in Bali was the first big step, and I took it before I knew exactly where I would go. The campervan trip made the place real, and the third plot made the decision for me. For me, the biggest decision was not Portugal. It was choosing to start again. If you notice that you are waiting for certainty, remember that you will never have all of it. You need enough of it, and a plan for the rest."
+          "text": "A completed page. Lotte and Ben are made up. Every line is filled in, including the conditions and the dates. Decision question: do we move to the Silver Coast with our two children, renting for a trial year from next summer? Decision: go, as a trial year, with conditions. We start preparing now; we sign nothing hard to undo until the conditions below are met. Must-haves: not all yet. All must-haves are met except one: a good school, which is an estimate until we visit and have places. That is a condition below. No dealbreakers broken. Why: our ordinary days there look like our Life Picture. The money lasts about 17 months even if everything costs 30% more, with our reserve and return fund untouched. The children are curious, not against it. Lights: green: papers and place. Amber: money, until Lotte's income is confirmed; people, until care for Ben's mother is arranged; Plan B, until a tenant has signed for our house. Red: none. Conditions: Lotte's income confirmed. Care for Ben's mother arranged. A tenant signed for our house. School places confirmed. Who decided: both of us, after each of us filled in our own page. The children were heard. We agree. First step: meet two care providers for Ben's mother. Date of my first step: before 15 March. Review: 1 April next year, whatever has happened by then. What would change it: no school places by May, or Lotte's income not confirmed by June: then we move the trial year back by one year."
         },
         "result": "My Decision — go, not yet, or no, with your reasons, conditions and dates."
       },
@@ -367,7 +521,12 @@
         ],
         "start_here": {
           "fields": [
-            { "id": "really_want", "type": "long_text", "lines": 2, "label": "What I now know I want" },
+            {
+              "id": "really_want",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What I now know I want"
+            },
             {
               "id": "missing",
               "type": "long_text",
@@ -378,7 +537,7 @@
               "id": "before_again",
               "type": "long_text",
               "lines": 2,
-              "label": "What must be true before I look again"
+              "label": "What must be true before I look again?"
             },
             {
               "id": "meanwhile",
@@ -386,14 +545,24 @@
               "lines": 2,
               "label": "What I will change in the meantime"
             },
-            { "id": "review", "type": "short_text", "label": "When I will look at this again" }
+            {
+              "id": "review",
+              "type": "short_text",
+              "label": "When I will look at this again"
+            }
           ]
         },
-        "intro_after": "Decided to build the life you want where you are? Go back to your Life Picture from Step 1, and choose one change for the next three months. Decided to keep the life you have? Write down what you want to protect, and why.",
-        "tips": ["A decision to wait is only a decision if it has a date. Put it in your calendar today."]
+        "intro_after": "Decided to build the life you want where you are? Test that change in Parts 1 to 4, then continue with \"Your staying route\" on the next pages. Decided to keep the life you have? Write down what you want to protect, and why.",
+        "tips": [
+          "A decision to wait is only a decision if it has a date. Put it in your calendar today."
+        ]
       }
     ],
     "result": "My Decision — go, not yet, or no, with your reasons, conditions and dates.",
-    "video": { "title": "Part 4 · Make your decision", "length": "10–12 min", "url": null }
+    "video": {
+      "title": "Part 4 · Make your decision",
+      "length": "10–12 min",
+      "url": null
+    }
   }
 ]

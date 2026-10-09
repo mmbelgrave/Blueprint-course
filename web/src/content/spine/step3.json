@@ -271,6 +271,10 @@
           "title": "Plan B",
           "fields": [
             {
+              "id": "how_much",
+              "type": "long_text"
+            },
+            {
               "id": "keep",
               "type": "long_text"
             },
@@ -595,6 +599,160 @@
           ]
         }
       ]
+    },
+    {
+      "id": "s3-p5",
+      "number": 5,
+      "label": "Staying route",
+      "title": "Your staying route",
+      "optional": true,
+      "time": "1–2 hours",
+      "finish": {
+        "id": "change_plan",
+        "title": "My Change Plan",
+        "description": "Your change where you are, with a date, a first step and a check-in."
+      },
+      "exercises": [
+        {
+          "id": "s3-5.1",
+          "number": "5.1",
+          "title": "Your change, planned backwards",
+          "fields": [
+            {
+              "id": "steps",
+              "type": "table",
+              "rows": 6,
+              "columns": [
+                {
+                  "id": "step",
+                  "kind": "text"
+                },
+                {
+                  "id": "first",
+                  "kind": "text"
+                },
+                {
+                  "id": "how_long",
+                  "kind": "text"
+                },
+                {
+                  "id": "start_by",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s3-5.2",
+          "number": "5.2",
+          "title": "Money and work",
+          "fields": [
+            {
+              "id": "income_after",
+              "type": "long_text"
+            },
+            {
+              "id": "costs_change",
+              "type": "long_text"
+            },
+            {
+              "id": "buffer",
+              "type": "short_text"
+            },
+            {
+              "id": "conversation",
+              "type": "long_text"
+            },
+            {
+              "id": "adviser_questions",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-5.3",
+          "number": "5.3",
+          "title": "Your home and your time",
+          "fields": [
+            {
+              "id": "my_choice_hours",
+              "type": "short_text"
+            },
+            {
+              "id": "home_changes",
+              "type": "long_text"
+            },
+            {
+              "id": "must_dos",
+              "type": "long_text"
+            },
+            {
+              "id": "blocks_back",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-5.4",
+          "number": "5.4",
+          "title": "The people around you",
+          "fields": [
+            {
+              "id": "who_i_tell",
+              "type": "long_text"
+            },
+            {
+              "id": "what_i_need",
+              "type": "long_text"
+            },
+            {
+              "id": "who_already",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-5.5",
+          "number": "5.5",
+          "title": "Your first 90 days",
+          "fields": [
+            {
+              "id": "week_one",
+              "type": "long_text"
+            },
+            {
+              "id": "after_30",
+              "type": "long_text"
+            },
+            {
+              "id": "after_90",
+              "type": "long_text"
+            },
+            {
+              "id": "say_no_to",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s3-5.6",
+          "number": "5.6",
+          "title": "Check in: is it working?",
+          "fields": [
+            {
+              "id": "check_in_dates",
+              "type": "short_text"
+            }
+          ]
+        }
+      ],
+      "summary": {
+        "id": "change_plan",
+        "title": "My Change Plan",
+        "kind": "summary",
+        "fields": []
+      }
     }
   ]
 }

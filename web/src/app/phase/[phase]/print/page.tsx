@@ -120,7 +120,12 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
               <li>What does not line up yet, and what happens next</li>
               <li>
                 {mine
-                  .map((n) => getStep(n)?.parts.at(-1)?.finish.title)
+                  .map((n) => {
+                    // The same rule as the sheets below: an optional part is
+                    // not the step's result.
+                    const ps = getStep(n)?.parts ?? [];
+                    return (ps.filter((p) => !p.optional).at(-1) ?? ps.at(-1))?.finish.title;
+                  })
                   .filter(Boolean)
                   .join(", ")}{" "}
                 in full
@@ -340,7 +345,14 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
         const finished = done.find((d) => d.step === n)?.finished;
         if (!step) return null;
         const full = words.ready.get(n);
-        const result = full?.parts.at(-1) ?? step.parts.at(-1)!;
+        /*
+         * The step's result is its last part — but not an optional one. Step 3
+         * ends with the staying route, which only some people do, and if that
+         * were taken as the result then My Decision would vanish from the
+         * Blueprint of everybody who is moving.
+         */
+        const lastReal = (ps: typeof step.parts) => ps.filter((p) => !p.optional).at(-1) ?? ps.at(-1)!;
+        const result = full ? lastReal(full.parts) : lastReal(step.parts);
         const pages = (full ? partItems(result) : [])
           .map((page) => ({ page, lines: exerciseAnswerLines(page.id, answers[page.id], page) }))
           .filter((p) => p.lines.length > 0);

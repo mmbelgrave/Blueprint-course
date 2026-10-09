@@ -1,6 +1,6 @@
 {
   "version": 21,
-  "source": "The Made Real Blueprint - Step 1 Picture workbook - Issued.docx (version 21, October 2026)",
+  "source": "The Made Real Blueprint - Step 1 Picture workbook - Rev.01b.docx (October 2026)",
   "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
   "step": {
     "id": "step1",
@@ -17,9 +17,18 @@
     "ways_to_use": {
       "title": "Three ways to use this step",
       "rows": [
-        ["This workbook on its own", "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."],
-        ["With the videos", "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions."],
-        ["With the app", "The same questions in digital form, with an AI partner that remembers your answers and asks about them later. Useful if you prefer typing to paper."]
+        [
+          "This workbook on its own",
+          "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."
+        ],
+        [
+          "With the videos",
+          "Each part has a short video where I explain the same ideas in my own words. Watch first, then answer the questions."
+        ],
+        [
+          "With the app",
+          "The same questions in digital form, with an AI partner that remembers your answers and asks about them later. Useful if you prefer typing to paper."
+        ]
       ]
     },
     "how_it_works": {
@@ -32,17 +41,32 @@
         "There are no perfect answers. \"I don't know yet\" is an honest answer. Write it down, along with how you could find out.",
         "Write in your own language if you prefer.",
         "Each part ends with \"What does this tell me?\" Use your answers to complete a summary.",
-        "\"Talk about it\" boxes help you discuss your plans with your partner, family, friends, people in the network, or me."
+        "\"Talk about it\" boxes help you discuss your plans with your partner, family or friends."
       ]
     },
     "word_help": {
       "title": "Word help",
       "items": [
-        ["Must-have", "something your new life really needs."],
-        ["Dealbreaker", "something you will not accept, even if everything else is good."],
-        ["Reserve (or buffer)", "money you keep aside for emergencies, not for everyday spending."],
-        ["Trade-off", "getting one thing by giving up another."],
-        ["Working Direction", "what you want to explore next, not a final decision."]
+        [
+          "Must-have",
+          "something your new life really needs."
+        ],
+        [
+          "Dealbreaker",
+          "something you will not accept, even if everything else is good."
+        ],
+        [
+          "Reserve (or buffer)",
+          "money you keep aside for emergencies, not for everyday spending."
+        ],
+        [
+          "Trade-off",
+          "getting one thing by giving up another."
+        ],
+        [
+          "Working Direction",
+          "what you want to explore next, not a final decision."
+        ]
       ]
     },
     "tips": [
@@ -50,7 +74,12 @@
     ],
     "route": {
       "title": "Your route through Step 1",
-      "header": ["", "What you do", "Time", "You finish with"]
+      "header": [
+        "",
+        "What you do",
+        "Time",
+        "You finish with"
+      ]
     }
   },
   "closing": {
@@ -58,7 +87,7 @@
     "intro": "You have made your picture clearer, looked honestly at your life and your money, and chosen a Working Direction.",
     "bullets": [
       "Want to investigate a direction? Step 2, Explore, helps you check it. The questions work for Portugal and for other places.",
-      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Until the full staying route is ready, your Working Direction is your guide.",
+      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Then test that change in Step 3, which ends with your staying route.",
       "Not ready yet? Your page tells you what to learn first."
     ],
     "tips": [
@@ -73,12 +102,30 @@
     "title": "Where these ideas come from",
     "intro": "Most of this workbook comes from my experience of building a life in Bali and then starting again in Portugal. Where I draw on someone else's method, I name it below.",
     "rows": [
-      ["The wheel of life (2.1)", "A coaching tool used for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."],
-      ["The Johari window (2.5)", "Psychologists Joseph Luft and Harrington Ingham described it in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."],
-      ["Michael Pilarczyk's work", "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move."],
-      ["Connect the dots (2.2)", "The phrase comes from Steve Jobs' 2005 speech at Stanford University."],
-      ["Comparing options and small tests (Part 4)", "Common practice in planning and decision-making. Bill Burnett and Dave Evans describe similar ideas in their book Designing Your Life."],
-      ["Everything else", "My own experience, my mistakes, and what the people I have guided told me was missing."]
+      [
+        "The wheel of life (2.1)",
+        "A coaching tool used for decades, with no single owner. I first used it myself during my year in Bali, and I still do it every year."
+      ],
+      [
+        "The Johari window (2.5)",
+        "Psychologists Joseph Luft and Harrington Ingham described it in the 1950s. The part I use here is the simple idea that other people can see things about you that you cannot see yourself."
+      ],
+      [
+        "Michael Pilarczyk's work",
+        "Several questions draw on Michael Pilarczyk's programmes, which I followed myself. They include the two-million question that helped me plan my own move."
+      ],
+      [
+        "Connect the dots (2.2)",
+        "The phrase comes from Steve Jobs' 2005 Stanford University speech."
+      ],
+      [
+        "Comparing options and small tests (Part 4)",
+        "Common practice in planning and decision-making. Bill Burnett and Dave Evans describe similar ideas in their book Designing Your Life."
+      ],
+      [
+        "Everything else",
+        "My own experience, my mistakes, and what the people I have guided told me was missing."
+      ]
     ],
     "closing": "Rules, prices and official procedures change, so this workbook does not state any. You will find those, with their sources and dates, in Step 2 and Step 3, where they belong."
   }
