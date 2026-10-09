@@ -52,6 +52,25 @@ only creates what is missing — so after a change like the **questions** table
 that the script is "potentially destructive" because it re-creates the access
 rules; it only touches this app's own tables.
 
+**One table can stop the whole file.** The access rules for nine tables are
+switched on inside a single do-block, so if any one of those tables is missing,
+the block raises an error and every rule in it rolls back together — the file
+looks like it ran, and nothing was applied. That is worth knowing because it
+has already happened once: `video_progress` was in the file but never in the
+database (found 9 October, fixed by `2026-10-09-video-progress.sql`).
+
+So after running schema.sql, **read what the SQL Editor says**. "Success. No
+rows returned" is the answer you want; an error naming a relation means a table
+is missing and the access rules did not take.
+
+The small dated files beside schema.sql are the changes since, each one safe to
+run twice, for when you would rather not re-run everything:
+
+| File | What it adds |
+| --- | --- |
+| `2026-10-09-selling.sql` | The order log and the "I bought it but cannot get in" codes |
+| `2026-10-09-video-progress.sql` | Where each person had got to in each video |
+
 ## 2b. Supabase: switch on the picture store (once)
 
 The vision board on 1.2 keeps people's pictures in a private store that does not
