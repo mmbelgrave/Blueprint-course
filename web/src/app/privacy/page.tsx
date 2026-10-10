@@ -18,8 +18,10 @@ export default function Privacy() {
 
         <h2 className="font-semibold">Who is responsible</h2>
         <p>
-          The Life You Choose is a brand of <strong>Belgrave Management, Unipessoal Lda</strong>, a company registered
-          in Portugal. Mwata runs it. Questions about your data:{" "}
+          The Life You Choose is a brand of <strong>Belgrave Management, Unipessoal Lda</strong>, a company
+          registered in Portugal, registration and tax number (NIPC) 518428338. The company is responsible for your
+          personal data &mdash; in legal terms, the &ldquo;controller&rdquo;. Mwata runs it. Questions about your
+          data:{" "}
           <a href="mailto:info@maderealblueprint.com" className="text-pine underline">
             info@maderealblueprint.com
           </a>
@@ -29,8 +31,8 @@ export default function Privacy() {
         <h2 className="font-semibold">What we store</h2>
         <p>
           Your email address, your first name, your answers, the pictures you add to your board, your chats with your
-          AI partner, the short notes your AI partner keeps about your answers, your feedback on each part, and any
-          question you send from the Help page.
+          AI partner, the short notes your AI partner keeps about your answers, your feedback on each part and on
+          each page, and any question you send from the Help page.
         </p>
 
         <h2 className="font-semibold">Who reads it</h2>
