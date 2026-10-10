@@ -341,11 +341,11 @@ Object.assign(answers, {
   },
   "s3-3.1": {
     steps: table([
-      row(["step", "Move the bookkeeping fully online"], ["undo", "Easy"], ["first", "Yes"], ["when", "March 2027"]),
-      row(["step", "Rent out my flat, rather than sell it"], ["undo", "Fairly easy"], ["first", "Yes"], ["when", "April 2027"]),
-      row(["step", "Give notice at the office, three months"], ["undo", "Hardest"], ["first", ""], ["when", "April 2027"]),
-      row(["step", "Sign the twelve-month rental near Góis"], ["undo", "Hard"], ["first", ""], ["when", "May 2027"]),
-      row(["step", "Apply for residency"], ["undo", "Fairly easy"], ["first", ""], ["when", "June 2027"]),
+      row(["step", "Move the bookkeeping fully online"], ["undo", "Easy"], ["first", "Nothing — this one I can do on my own"], ["when", "March 2027"]),
+      row(["step", "Rent out my flat, rather than sell it"], ["undo", "Fairly easy"], ["first", "An agent who will manage it while I am away"], ["when", "April 2027"]),
+      row(["step", "Give notice at the office, three months"], ["undo", "Hardest"], ["first", "Two clients confirmed in writing"], ["when", "April 2027"]),
+      row(["step", "Sign the twelve-month rental near Góis"], ["undo", "Hard"], ["first", "Notice given, and the flat let"], ["when", "May 2027"]),
+      row(["step", "Apply for residency"], ["undo", "Fairly easy"], ["first", "A signed rental contract as proof of address"], ["when", "June 2027"]),
     ]),
   },
   "s3-4.1": {
@@ -364,7 +364,7 @@ Object.assign(answers, {
     must_haves_met:
       "All four essentials are met and no dealbreaker is broken. Neighbours is only partly met, and I accept that for a year.",
     reasons:
-      "The money works: a 29-month runway even before a single new client. The place held up on a second visit, in winter, alone. And staying costs me another four years of the same week.",
+      "The money works: a 22-month runway once the return fund is set aside, and that is before a single new client. The place held up on a second visit, in winter, alone. And staying costs me another four years of the same week.",
     lights:
       "Papers, Place and Plan B are green. Money stays amber until two clients sign. People stays amber until Lotte and I fix the dates.",
     conditions:
@@ -375,6 +375,206 @@ Object.assign(answers, {
     review_when: "1 December 2027, after the first winter",
     would_change:
       "If neither new client signs by June and the costs hold at €2,360, I postpone by six months rather than start on a shrinking runway.",
+  },
+});
+
+/*
+ * The rest of Anna's case: the pages the result documents read that the first
+ * pass did not fill in. Her figures stay the ones she already wrote — €2,360
+ * a month found in Step 2, €1,650 confirmed, €42,000 of savings — so every
+ * number the documents work out from them still ties back to a page she filled.
+ */
+Object.assign(answers, {
+  /* ── Step 1, the two summary pages the documents quote ──────────────── */
+  life_picture: {
+    needs_patterns:
+      "Outside, hands busy, and nobody waiting for me. The same three things come back in every good moment I wrote down.",
+    more_of: "Daylight, quiet, and hours that belong to me rather than to a diary somebody else fills in.",
+    keep: "My three regular clients. My sister Lotte within a day's travel. Work I am genuinely good at.",
+    essentials: "Outside space of my own. Internet I can work on. A doctor within half an hour. A day's travel to Lotte.",
+    tensions: "I want to be further away and closer to my mother at the same time. That does not resolve, it gets managed.",
+    unknowns: "Whether I can live on less, or whether I am telling myself a nice story about it.",
+  },
+  starting_point: {
+    today:
+      "Work and money are steady; free time and home are where the gaps are. Family and friends is the one area I would not want to trade for anything.",
+    time:
+      "52 hours a week are fixed by other people and 28 go on must-dos. 32 are mine. I want that to be 60, and the first block back is Wednesday afternoon.",
+    strengths:
+      "I have done a hard change before: I ran my father's care for two years while keeping every client. Lotte's directness and Hendrik's loyalty are things I can lean on again.",
+    stopped_before:
+      "I waited for a moment when nothing was uncertain. It never came. This time I plan for the uncertainty instead of waiting it out.",
+    beliefs_to_check: "That my clients need me in the same country. That a cheap house inland is a bargain.",
+    unknowns: "What a January inland actually feels like when there is nobody to talk to.",
+  },
+  money_picture: {
+    monthly_costs: "About €2,245 a month in my first guess. Housing and insurance are known; the rest are estimates.",
+    one_time: "€11,000 for the move itself: the van, the deposit on a van, the lawyer, and two months of overlap.",
+    income_sure: "€1,650 a month from the three clients I already have, confirmed.",
+    income_hoped: "€700 from two new remote clients, and €350 from the guest room. Neither is counted.",
+    first_check: "€595 short a month on my first guess, with savings that cover it for a long time.",
+    money_words: "Freedom, fear, and January. The fear is always about one month of the year.",
+    unknowns: "Heating. Health cover once I am self-employed there. What the car really costs on those roads.",
+  },
+  options: {
+    keep:
+      "Renting near Góis for a year, because it is reversible. And staying in a cheaper Dutch town on four-day weeks, because it tests the same need without leaving.",
+    let_go:
+      "Buying and renovating inland: I do not have the skill or the stomach for it yet. And the Algarve: the price and the crowds are the opposite of what I wrote down.",
+    must_be_true: "Fibre I can work on, a doctor within half an hour, and a landlord who will take a twelve-month let.",
+    risks: "That the quiet I am moving towards turns out to be loneliness in February.",
+    find_out: "What the winter is like, and whether my clients mind the address.",
+  },
+
+  /* ── Step 2: the country scores, the daily checks and the visit ─────── */
+  "s2-1.2": {
+    countries: ["Portugal", "Spain", "Netherlands"],
+    scores: {
+      r0: { c1: "2", c2: "2", c3: "0" },
+      r1: { c1: "2", c2: "1", c3: "2" },
+      r2: { c1: "1", c2: "1", c3: "2" },
+      r3: { c1: "1", c2: "1", c3: "2" },
+      r4: { c1: "2", c2: "1", c3: "2" },
+      r5: { c1: "2", c2: "2", c3: "2" },
+      r6: { c1: "2", c2: "1", c3: "1" },
+      r7: { c1: "2", c2: "1", c3: "2" },
+      r8: { c1: "1", c2: "1", c3: "2" },
+      r9: { c1: "1", c2: "1", c3: "2" },
+    },
+  },
+  country_choice: {
+    country: "Portugal",
+    reasons: "The climate and the land are what I am actually moving for, and the budget works there.",
+    let_go: "Spain: the summer heat scores zero for me. Home scores highest on paper, and still does not give me the two things I want most.",
+    doubt: "The language. I have six words.",
+    must_check: "The residency route for a self-employed bookkeeper, with my own lawyer.",
+  },
+  "s2-3.3": {
+    daily: {
+      r0: { p1: "40 minutes to Coimbra", p2: "35 minutes", certainty: "Known" },
+      r1: { p1: "25 minutes, taking new patients", p2: "In the town itself", certainty: "Estimate" },
+      r2: { p1: "Public system once registered; private cover for the first year.", p2: "Same", certainty: "Estimate" },
+      r4: { p1: "300 Mb fibre, measured at the kitchen table", p2: "Fibre in the town, not on the edges", certainty: "Known" },
+      r5: { p1: "My own clients, online. Nothing local.", p2: "Same", certainty: "Known" },
+      r6: { p1: "12 minutes to Góis, a market on Saturday", p2: "In the town", certainty: "Known" },
+      r7: { p1: "2 h to Porto, then a 2 h 40 flight", p2: "2 h 15 to Porto", certainty: "Known" },
+      r8: { p1: "Cold and wet from December. Wood heating in every house I saw.", p2: "A little milder", certainty: "Estimate" },
+      r9: { p1: "Hot and dry. Fire risk is real and the clearing is the law.", p2: "Same", certainty: "Known" },
+    },
+  },
+  "s2-4.3": {
+    ordinary_week:
+      "On the Wednesday it rained all day, I worked until two and then walked to the village in the wet, and it still felt like my life.",
+    rather_overlooked:
+      "How quiet the valley is after eight in the evening, and how far away everyone I know would be.",
+    good_surprise: "A neighbour I had never met turned up with firewood the day I arrived.",
+  },
+  test_visit: {
+    where_when: "Góis and Arganil, eight days in February 2027, in the weather I was most afraid of.",
+    confirmed:
+      "Eight days in February gave me what the research could not: an ordinary winter week, with laundry, bad internet weather and nothing special happening.",
+    changed:
+      "The house: the cold old places I had been looking at are not workable, so I am looking at newer rentals.\nThe language: fewer people spoke English than I expected, so I start lessons now.\nThe distance: Lotte would be a flight away, not a drive.",
+    best_fit: "Góis, because of the fibre and the Saturday market.",
+    still_test: "A full summer, and the fire season.",
+  },
+
+  /* ── Step 3: the money check, the place, Plan B and the risks ───────── */
+  "s3-1.1": {
+    check_one: {
+      r0: { amount: "42000" },
+      r1: { amount: "600" },
+      r2: { amount: "11000" },
+      r3: { amount: "2300" },
+      r4: { amount: "8000" },
+      r5: { amount: "4000" },
+      r6: { amount: "16100" },
+    },
+    check_two: {
+      r0: { answer: "1650" },
+      r1: { answer: "None agreed yet. The €700 from two remote clients is still hoped for, not counted." },
+      r2: { answer: "2360 — housing and insurance known, the rest still estimates" },
+      r3: { answer: "-710" },
+      r4: { answer: "22" },
+      r5: { answer: "18" },
+      r6: {
+        answer:
+          "Costs €3,068, short €1,418 a month, and the runway falls to 11 months. That is under the 18 I want, so I would delay by a season and bank the summer work first.",
+      },
+    },
+    adviser_questions: "Where I pay tax in the first year, and what happens to my Dutch pension if I deregister.",
+    money_light: "Amber",
+    money_green_by: "Two remote clients signed, or €200 off the monthly costs. By 30 June 2027.",
+  },
+  "s3-1.4": {
+    place: "A rented house with land around Góis, inland from Coimbra.",
+    known: "The fibre, the Saturday market, the drive to Coimbra, and what a wet February is like.",
+    estimate_unknown: "The heating bill in January and what the fire season asks of me.",
+    off_season: "Yes. Eight days in February 2027, and ten days alone in November.",
+    rent_or_buy: "I rent for a full year before I even look at buying.",
+    change_my_mind: "A winter where the internet drops for days, or a landlord who will not sign twelve months.",
+    place_light: "Green",
+    place_green_by: "Already green: the November visit confirmed what February showed.",
+  },
+  "s3-1.5": {
+    how_much: "Enough that a bad year costs me a year, not my savings. I have watched someone lose both.",
+    keep: "I rent my flat out rather than sell it, so there is a roof to come back to.",
+    return_fund:
+      "€4,000 kept apart, which covers the van home and a first month somewhere. Lotte's spare room is where I would land.",
+    warning_sign: "Two months where I do not want to leave the house, or a client leaving over the distance.",
+    review_when: "1 December 2027, after the first winter",
+    what_then: "Give notice on the rental, come back in spring, and keep the clients I kept.",
+    who_helps: "Lotte, and Hendrik for the work.",
+    planb_light: "Green",
+    planb_green_by: "Already green once the flat is let rather than sold.",
+  },
+  "s3-2.1": {
+    o1_good:
+      "I am at the kitchen table by eight, finished by one, and in the garden with the afternoon still ahead of me.",
+    o1_hard: "Three days of rain, no post, and a client who has not replied since Monday.",
+    o2_good: "A four-day week in a cheaper Dutch town, with the garden allotment and Lotte twenty minutes away.",
+    o2_hard: "The same Tuesday I already have, with less money and the question still unanswered.",
+  },
+  "s3-2.2": {
+    risks: {
+      r0: {
+        option: "Góis",
+        fear: "The quiet turns into loneliness",
+        likely: "Medium",
+        impact: "High",
+        sign: "Two months where I do not want to leave the house",
+        do: "Portuguese lessons from week one, and the market every Saturday whether I need anything or not.",
+      },
+      r1: {
+        option: "Góis",
+        fear: "A client leaves over the address",
+        likely: "Low",
+        impact: "High",
+        sign: "A quarter-end where Hendrik asks to meet in person twice",
+        do: "Fly over in March every year at my own cost, and say so before I go.",
+      },
+      r2: {
+        option: "Góis",
+        fear: "My mother's health turns while I am four hours away",
+        likely: "Medium",
+        impact: "High",
+        sign: "A second hospital visit in one month",
+        do: "A flight budget kept separate, and the dates I come back fixed with Lotte in advance.",
+      },
+    },
+  },
+  risks: {
+    biggest: "Loneliness in February, and my mother's health. Both medium, both things I can prepare for rather than prevent.",
+    signs: "Two months indoors. A second hospital visit in a month. A client asking to meet twice in a quarter.",
+    prevent: "Lessons from week one, a fixed flight budget, and the return dates agreed with Lotte before I go.",
+    anywhere: "January would still frighten me in Utrecht. That one comes with me.",
+  },
+  first_timeline: {
+    easy_steps: "Moving the bookkeeping fully online, and letting the flat rather than selling it. March and April.",
+    hard_steps: "Giving notice at the office, and signing a twelve-month rental. Not before the income is in writing.",
+    first_step: "Move the bookkeeping fully online, so the address stops mattering.",
+    first_step_date: "4 May 2027",
+    extra_time: "Six weeks between the rental signature and the move, for the paperwork to be slower than promised.",
   },
 });
 

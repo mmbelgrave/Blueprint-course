@@ -1,7 +1,16 @@
 "use client";
-// The printable result of a step (brief 4.6): Step 1 "My Working Direction",
-// Step 2 "My Explore Summary". One document layout serves every step.
-// "Save as PDF" uses the browser's print window.
+/*
+ * The result of a step, as a document (spec §6.5).
+ *
+ * Step 1 ends in My Working Direction, Step 2 in My Explore Summary, Step 3 in
+ * My Decision. Each one is a short set of A4 sheets built from the person's
+ * own answers — laid out as paper, because this is the thing they show to a
+ * partner, a parent or an adviser, and read by somebody who was not there.
+ *
+ * What goes on each page is decided in lib/report.ts; how a page looks is in
+ * components/report. This file is only the plumbing: who may see it, where
+ * the words come from, and the two buttons at the top.
+ */
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
@@ -10,128 +19,24 @@ import { ClosedStep } from "@/components/closed-step";
 import { stepFor } from "@/lib/access-app";
 import { useStepContent } from "@/lib/use-step-content";
 import { RequireUser, Shell } from "@/components/Shell";
-import { exerciseAnswerLines, fieldAnswerText } from "@/lib/answer-text";
+import { exerciseAnswerLines } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
-import { downloadText, fileName, writtenText } from "@/lib/written-text";
-import {
-  exerciseFields,
-  getStep,
-  tableRows,
-  PRODUCT,
-  type Exercise,
-  type Field,
-  type StepContent,
-  type TableColumn,
-} from "@/lib/content";
-import { partItems } from "@/lib/content";
+import { Body, Footnote, Headline, Kicker, PageFoot, RunningHead, Sheet } from "@/components/report/chrome";
+import { Step1Doc } from "@/components/report/step1";
+import { Step2Doc } from "@/components/report/step2";
+import { Step3Doc } from "@/components/report/step3";
+import { step1Report, step2Report, step3Report, type Answers } from "@/lib/report";
+import { stepsFinished } from "@/lib/blueprint";
+import { getStep, partItems, PRODUCT, type StepContent } from "@/lib/content";
 import { stepHref } from "@/lib/progress";
+import { downloadText, fileName, writtenText } from "@/lib/written-text";
 
-type TableValue = Record<string, Record<string, string>>;
-
-function fieldLabel(field: Field) {
-  return field.label ?? field.hint ?? "";
-}
-
-function tableHasData(value: unknown) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
-  return Object.values(value as TableValue).some((row) => Object.values(row ?? {}).some((v) => String(v ?? "").trim()));
-}
-
-/** A table answer as it is meant to be read on paper: the columns as columns. */
-function AnswerTable({ field, value, currency }: { field: Field; value: unknown; currency: string }) {
-  const cols = field.columns ?? [];
-  const data = (value && typeof value === "object" && !Array.isArray(value) ? value : {}) as TableValue;
-  const base = tableRows(field);
-  // Rows the person added beyond the printed ones keep their own keys.
-  const extraKeys = Object.keys(data).filter((k) => !base.some((r) => r.key === k));
-  const rows = [...base, ...extraKeys.map((key) => ({ key, label: undefined as string | undefined }))];
-  const hasRowNames = Boolean(field.row_labels);
-
-  const cellText = (rowKey: string, label: string | undefined, col: TableColumn) => {
-    const typed = data[rowKey]?.[col.id]?.trim();
-    if (typed) return typed;
-    // The workbook's starting text in the first column (4.1 "Change nothing").
-    if (label && cols[0]?.id === col.id) return field.prefill?.[label]?.trim() ?? "";
-    return "";
-  };
-
-  const filled = rows.filter(({ key, label }) => cols.some((c) => cellText(key, label, c)));
-  if (!filled.length) return null;
-
-  const head = "border-b border-pine/20 bg-pine px-3 py-2 text-left text-[9pt] font-semibold uppercase tracking-wide text-sand";
-
-  return (
-    <div className="break-inside-avoid overflow-hidden rounded-lg border border-line">
-      <table className="w-full border-collapse text-[10.5pt]">
-        <thead>
-          <tr>
-            {hasRowNames && <th className={head}>{field.row_header ?? ""}</th>}
-            {cols.map((c) => (
-              <th key={c.id} className={head}>
-                {c.label}
-                {c.kind === "money" && <span className="font-normal normal-case"> ({currency})</span>}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {filled.map(({ key, label }, i) => (
-            <tr key={key} className={i ? "border-t border-line" : ""}>
-              {hasRowNames && (
-                <th scope="row" className="bg-sage/60 px-3 py-2 text-left align-top font-semibold">
-                  {label}
-                </th>
-              )}
-              {cols.map((c) => (
-                <td key={c.id} className="px-3 py-2 align-top">
-                  {cellText(key, label, c) || <span className="text-stone">—</span>}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-/** One answer: a table keeps its shape, everything else is label and text. */
-function AnswerBlock({ exercise, field, currency }: { exercise: Exercise; field: Field; currency: string }) {
+/** The pictures from 1.2, as the last sheet of Step 1's document. */
+function BoardSheet({ who, page, of }: { who: string; page: number; of: number }) {
   const { answers } = useApp();
-  const values = answers[exercise.id];
-  const label = fieldLabel(field);
-
-  if (field.type === "table") {
-    if (!tableHasData(values?.[field.id])) return null;
-    return (
-      <div className="break-inside-avoid space-y-2">
-        {label && <p className="text-[9.5pt] font-semibold text-pine">{label}</p>}
-        <AnswerTable field={field} value={values?.[field.id]} currency={currency} />
-      </div>
-    );
-  }
-
-  const text = fieldAnswerText(exercise.id, field.id, values, exercise);
-  if (!text) return null;
-  return (
-    <div className="break-inside-avoid">
-      <p className="text-[9.5pt] font-semibold text-pine">{label}</p>
-      <p className="mt-0.5 whitespace-pre-line text-[11pt] leading-relaxed">{text}</p>
-    </div>
-  );
-}
-
-function hasAnswers(exercise: Exercise, answers: Record<string, Record<string, unknown>>) {
-  const values = answers[exercise.id];
-  return exerciseFields(exercise).some((f) =>
-    f.type === "table" ? tableHasData(values?.[f.id]) : Boolean(fieldAnswerText(exercise.id, f.id, values, exercise)),
-  );
-}
-
-/** The pictures from 1.2, printed three to a row under the Working Direction. */
-function BoardSection() {
-  const { answers } = useApp();
-  const pictures = Array.isArray(answers["1.2"]?.board) ? (answers["1.2"].board as { path: string; caption: string }[]) : [];
+  const pictures = Array.isArray(answers["1.2"]?.board)
+    ? (answers["1.2"].board as { path: string; caption: string }[])
+    : [];
   const [links, setLinks] = useState<Record<string, string>>({});
   const paths = pictures.map((p) => p.path).join("|");
 
@@ -148,50 +53,53 @@ function BoardSection() {
 
   if (!pictures.length) return null;
   return (
-    <section className="break-inside-avoid space-y-3">
-      <h2 className="text-[16pt] text-pine">My board</h2>
-      <div className="grid grid-cols-3 gap-3">
-        {pictures.map((p) => (
-          <figure key={p.path} className="break-inside-avoid">
-            {links[p.path] && (
-              // eslint-disable-next-line @next/next/no-img-element -- short-lived signed links
-              <img src={links[p.path]} alt={p.caption || "A picture from my board"} className="aspect-[4/3] w-full rounded-lg object-cover" />
-            )}
-            {p.caption && <figcaption className="mt-1 text-[9.5pt] text-stone">{p.caption}</figcaption>}
-          </figure>
-        ))}
-      </div>
-    </section>
+    <Sheet last>
+      <RunningHead where="Step 1 · Picture" />
+      <Body>
+        <Kicker>My board</Kicker>
+        <Headline>The pictures I chose</Headline>
+        <div className="mt-8 grid grid-cols-3 gap-4">
+          {pictures.map((p) => (
+            <figure key={p.path} className="break-inside-avoid">
+              {links[p.path] && (
+                // eslint-disable-next-line @next/next/no-img-element -- short-lived signed links
+                <img
+                  src={links[p.path]}
+                  alt={p.caption || "A picture from my board"}
+                  className="aspect-[4/3] w-full rounded-lg object-cover"
+                />
+              )}
+              {p.caption && <figcaption className="mt-2 text-[9.5pt] text-stone">{p.caption}</figcaption>}
+            </figure>
+          ))}
+        </div>
+        <Footnote>The pictures I put on my board in 1.2, with the lines I wrote under them.</Footnote>
+      </Body>
+      <PageFoot who={who} page={page} of={of} />
+    </Sheet>
   );
 }
 
-function PrintPage({ step }: { step: StepContent }) {
+function Document({ step }: { step: StepContent }) {
   const { profile, answers } = useApp();
-  // The step's result is its last part: the main page first, then the others.
-  /*
-   * The step's result is its last part, but never an optional one. Step 3
-   * ends with the staying route, which only some people do; taking that as
-   * the result would print an empty page instead of My Decision.
-   */
-  const result = step.parts.filter((p) => !p.optional).at(-1) ?? step.parts.at(-1)!;
-  const [main, ...others] = result.exercises;
+  const a = answers as Answers;
+  const n = step.step.number;
+  const who = profile?.first_name ?? "";
   const currency = profile?.currency ?? "EUR";
-  const mainFields = exerciseFields(main);
-  const [lead, ...restOfMain] = mainFields;
-  const leadText = lead && lead.type !== "table" ? fieldAnswerText(main.id, lead.id, answers[main.id], main) : null;
-  const mainFilled = hasAnswers(main, answers);
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 
-  /* The same result, as a plain text file: the page without the paper. */
+  /* The step's result is its last part, but never an optional one: Step 3 ends
+     with the staying route, which only some people do. */
+  const result = step.parts.filter((p) => !p.optional).at(-1) ?? step.parts.at(-1)!;
+
   const asText = () =>
     writtenText({
       title: `${PRODUCT.name} — ${result.finish.title}`,
-      who: profile?.first_name ?? undefined,
-      when: `Step ${step.step.number} · ${step.step.title} · ${today}`,
+      who: who || undefined,
+      when: `Step ${n} · ${step.step.title} · ${today}`,
       note: result.finish.description ?? undefined,
       sections: [
         {
-          // The part, not the result: the document is already called that.
           title: `${result.label} · ${result.title}`,
           pages: partItems(result).map((page) => ({
             title: page.title,
@@ -199,24 +107,27 @@ function PrintPage({ step }: { step: StepContent }) {
           })),
         },
       ],
-      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. Your answers are your own. This page is for your personal use; the workbook text and layout may not be copied or shared.`,
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
     });
 
-  /*
-   * "Download" on the step page is a link to this page asking for the file.
-   * The words have to be here before there is anything to hand over, so the
-   * file is made once the page itself is ready, and only once.
-   */
+  /* "Download" on the step page is a link to this page asking for the file. */
   const asked = useSearchParams().get("download") === "1";
   const handed = useRef(false);
   useEffect(() => {
     if (!asked || handed.current) return;
     handed.current = true;
     downloadText(fileName(result.finish.title), asText());
-    // asText reads what is already on the screen; it is deliberately not a
-    // dependency, or every keystroke elsewhere would hand over another file.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [asked]);
+
+  const done = stepsFinished(a);
+  const dots = ([1, 2, 3] as const).map((s) => ({
+    label: ["Picture", "Explore", "Decide"][s - 1],
+    state: (s === n ? "here" : done.find((d) => d.step === s)?.finished ? "done" : "open") as "here" | "done" | "open",
+  }));
+
+  const hasBoard = n === 1 && Array.isArray(answers["1.2"]?.board) && (answers["1.2"].board as unknown[]).length > 0;
+  const when = (page: string, field: string) => (typeof a[page]?.[field] === "string" ? (a[page]![field] as string) : "");
 
   return (
     <>
@@ -234,77 +145,42 @@ function PrintPage({ step }: { step: StepContent }) {
         </p>
       </div>
 
-      <article className="mx-auto max-w-[210mm] overflow-hidden rounded-2xl bg-white shadow-sm print:max-w-none print:rounded-none print:shadow-none">
-        {/* The result banner: Sand on Pine, the brand's way of marking a result. */}
-        <header className="bg-pine px-8 py-7 text-sand">
-          <p className="text-[9pt] font-semibold uppercase tracking-[0.14em] text-ochre-light">
-            {PRODUCT.name} · {PRODUCT.edition}
-          </p>
-          <h1 className="display mt-2 text-[30pt] leading-tight text-sand">{result.finish.title}</h1>
-          <p className="mt-2 text-[10.5pt] text-sand/85">
-            Step {step.step.number} · {step.step.title}
-            {profile?.first_name ? ` · ${profile.first_name}` : ""} · {today}
-          </p>
-        </header>
-
-        <div className="space-y-7 px-8 py-8">
-          {result.finish.description && <p className="text-[11pt] text-stone">{result.finish.description}</p>}
-
-          {mainFilled ? (
-            <>
-              {leadText && (
-                <section className="break-inside-avoid border-l-4 border-ochre bg-sage/50 px-5 py-4">
-                  <p className="text-[9.5pt] font-semibold text-pine">{fieldLabel(lead)}</p>
-                  <p className="display mt-1 whitespace-pre-line text-[14pt] leading-snug text-granite">{leadText}</p>
-                </section>
-              )}
-              <section className="space-y-5">
-                {(leadText ? restOfMain : mainFields).map((f) => (
-                  <AnswerBlock key={f.id} exercise={main} field={f} currency={currency} />
-                ))}
-              </section>
-            </>
-          ) : (
-            <p className="rounded-lg bg-sand p-4">
-              Nothing written yet. Fill in {main.number ?? main.id} {main.title} first — then your page appears here.
-            </p>
-          )}
-
-          {others.filter((e) => hasAnswers(e, answers)).map((e) => (
-            <section key={e.id} className="break-inside-avoid space-y-4">
-              <h2 className="border-b border-line pb-1 text-[17pt] text-pine">{e.title}</h2>
-              {exerciseFields(e).map((f) => (
-                <AnswerBlock key={f.id} exercise={e} field={f} currency={currency} />
-              ))}
-            </section>
-          ))}
-
-          {step.step.number === 1 && <BoardSection />}
-
-          <footer className="break-inside-avoid space-y-4 border-t-2 border-pine pt-5">
-            {/* "You just took the first one" on an empty page congratulates nobody. */}
-            {mainFilled && (
-              <div className="space-y-1">
-                <p className="text-[10.5pt] text-stone">{step.closing.intro}</p>
-                {step.closing.final.map((l) => (
-                  <p key={l} className="display text-[13pt] text-pine">
-                    {l}
-                  </p>
-                ))}
-              </div>
-            )}
-            <p className="text-[8.5pt] leading-relaxed text-stone">
-              © {new Date().getFullYear()} {PRODUCT.copyright_holder} · {PRODUCT.name} — {PRODUCT.edition}. Your
-              answers are your own. This page is for your personal use; the workbook text and layout may not be
-              copied or shared.
-            </p>
-          </footer>
-        </div>
-      </article>
+      {n === 1 && (
+        <Step1Doc
+          r={step1Report(a)}
+          who={who}
+          when={when("5.1", "date") || today}
+          currency={currency}
+          stepsDone={dots}
+          board={hasBoard ? <BoardSheet who={who} page={4} of={4} /> : undefined}
+        />
+      )}
+      {n === 2 && (
+        <Step2Doc r={step2Report(a)} who={who} when={when("s2-5.1", "date") || today} currency={currency} />
+      )}
+      {n === 3 && (
+        <Step3Doc
+          r={step3Report(a)}
+          who={who}
+          when={when("s3-4.2", "first_step_date") || when("s3-0.1", "decide_by") || today}
+          currency={currency}
+        />
+      )}
+      {n > 3 && (
+        <Sheet last>
+          <RunningHead where={`Step ${n}`} />
+          <Body>
+            <Kicker>{result.finish.title}</Kicker>
+            <Headline>This step&rsquo;s document is still being written</Headline>
+            <Footnote>Everything you wrote is safe, and is in &ldquo;Everything I wrote&rdquo;.</Footnote>
+          </Body>
+          <PageFoot who={who} page={1} of={1} />
+        </Sheet>
+      )}
 
       <p className="mt-8 text-center print:hidden">
-        <Link href={stepHref(step.step.number)} className="text-pine hover:underline">
-          ← Back to Step {step.step.number}
+        <Link href={stepHref(n)} className="text-pine hover:underline">
+          ← Back to Step {n}
         </Link>
       </p>
     </>
@@ -318,7 +194,7 @@ export default function Print() {
   const page = useStepContent(content ? Number(step) : undefined);
   const verdict = stepFor(Number(step), entitlements);
   return (
-    <Shell>
+    <Shell wide>
       <RequireUser>
         {content && !verdict.open ? (
           <ClosedStep step={Number(step)} why={verdict.why} />
@@ -326,7 +202,7 @@ export default function Print() {
           <p>This step does not exist.</p>
         ) : page.state === "ready" ? (
           <Suspense fallback={<p className="py-16 text-center text-stone">One moment…</p>}>
-            <PrintPage step={page.content} />
+            <Document step={page.content} />
           </Suspense>
         ) : page.state === "refused" ? (
           <p className="text-center">{page.because}</p>

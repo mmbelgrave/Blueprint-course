@@ -335,6 +335,41 @@ the credits. That is the "see what is inside" material, and only to someone
 signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
 it ever matters.
 
+## The result documents, rebuilt to the design proposals (10 October 2026)
+
+Mwata sent four design proposals — My Working Direction, My Explore
+Summary, My Decision and My Blueprint — asking for documents with tables and
+charts in them rather than a list of answers. The four are now built:
+3, 3, 4 and 4 sheets of A4, each sheet exactly one printed page.
+
+- **lib/report.ts** turns answers into what each page shows, and is where the
+  awkward decisions live: which row of which table is the reserve, when a
+  figure is missing rather than zero, and that a chart never invents a scale.
+  Tables are read by row position, so tests/report.test.ts pins every one of
+  those positions to the label in the content file — a row moving in the
+  workbook now fails a test instead of mislabelling somebody's savings.
+- **components/report** is the paper: a cover that bleeds Pine to the edge, a
+  running head, page numbers, and the charts — a today→in-a-year dumbbell, the
+  share of the week, country scores, the five lights, a numbered timeline, and
+  the savings waterfall (check one, line for line).
+- **The cover line is always the person's own first sentence**, split over two
+  lines and sized to its length. The proposals' editorial headlines are the
+  one thing the app cannot honestly produce, so section headings are fixed and
+  nothing on a cover is written on anyone's behalf.
+- The money page is written once and used by both My Decision and the
+  Blueprint, so the two can never show a person two different runways.
+
+Checked every element of the four proposals against the content: all of it is
+in the app except the editorial headlines, a second voice (the partner seat,
+§6.8, is not built) and the "beach" spoke, which no question asks for.
+`design/results/README.md` lists where each element comes from.
+
+Anna's example answers were extended to a complete case — the country scores,
+the daily checks, the visit, the Step 3 money check, Plan B, the risks — so
+the four PDFs in `design/results/` are printed from the app with figures that
+tie out: €2,360 found against €1,650 confirmed, €42,000 of savings becoming
+€16,100 to live on, and a 22-month runway rather than the 29 Step 1 guessed.
+
 ## Mwata's review of 9 October (9 October 2026)
 
 Sixteen notes with screenshots, in `design/review-09-oct/`. What changed:
