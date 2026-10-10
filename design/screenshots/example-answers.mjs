@@ -307,7 +307,7 @@ Object.assign(answers, {
       "Whether the fibre holds in a storm. What the house really costs to heat in January. Whether I will still want this in my third winter.",
     who_i_need: "A Portuguese accountant, Rui and Ineke in the village, and my own lawyer for the paperwork.",
     choice: "Go further with this place",
-    next_step: "Book a second visit in November, alone, for ten days",
+    next_step: "Book a second visit in April, alone, for ten days",
     date: "14 March 2027",
     review_when: "Mid-December 2027",
   },
@@ -335,7 +335,7 @@ Object.assign(answers, {
       row(["colour", "Amber"], ["turns_green", "Two remote clients signed, or €200 off the monthly costs"], ["by_when", "30 June 2027"]),
       row(["colour", "Green"], ["turns_green", "Residency file checked by my lawyer and ready to send"], ["by_when", "Done, 4 March 2027"]),
       row(["colour", "Amber"], ["turns_green", "Lotte and I agree the dates I come back each year"], ["by_when", ""]),
-      row(["colour", "Green"], ["turns_green", "The November visit confirmed the house and the village"], ["by_when", "Done"]),
+      row(["colour", "Green"], ["turns_green", "The April visit confirmed the house and the village"], ["by_when", "Done"]),
       row(["colour", "Green"], ["turns_green", "The flat is rented out for the first year, not sold"], ["by_when", "Done"]),
     ]),
   },
@@ -364,15 +364,15 @@ Object.assign(answers, {
     must_haves_met:
       "All four essentials are met and no dealbreaker is broken. Neighbours is only partly met, and I accept that for a year.",
     reasons:
-      "The money works: a 22-month runway once the return fund is set aside, and that is before a single new client. The place held up on a second visit, in winter, alone. And staying costs me another four years of the same week.",
+      "The money works: a 22-month runway once the return fund is set aside, and that is before a single new client. The place held up on a second visit, alone. And staying costs me another four years of the same week.",
     lights:
       "Papers, Place and Plan B are green. Money stays amber until two clients sign. People stays amber until Lotte and I fix the dates.",
     conditions:
       "The flat is rented out before I sign anything in Portugal, and the €8,000 reserve stays untouched.",
     who_decided: "Lotte knows and agrees. Hendrik has confirmed the work continues wherever I sit.",
-    first_step: "Sign the twelve-month rental on the house near Góis, after the November visit.",
+    first_step: "Sign the twelve-month rental on the house near Góis, after the April 2027 visit",
     first_step_date: "4 May 2027",
-    review_when: "1 December 2027, after the first winter",
+    review_when: "1 April 2028, after the first winter",
     would_change:
       "If neither new client signs by June and the costs hold at €2,360, I postpone by six months rather than start on a shrinking runway.",
   },
@@ -510,11 +510,11 @@ Object.assign(answers, {
     place: "A rented house with land around Góis, inland from Coimbra.",
     known: "The fibre, the Saturday market, the drive to Coimbra, and what a wet February is like.",
     estimate_unknown: "The heating bill in January and what the fire season asks of me.",
-    off_season: "Yes. Eight days in February 2027, and ten days alone in November.",
+    off_season: "Yes. Eight days in February 2027, and ten days alone in April 2027.",
     rent_or_buy: "I rent for a full year before I even look at buying.",
     change_my_mind: "A winter where the internet drops for days, or a landlord who will not sign twelve months.",
     place_light: "Green",
-    place_green_by: "Already green: the November visit confirmed what February showed.",
+    place_green_by: "Already green: the April visit confirmed what February showed.",
   },
   "s3-1.5": {
     how_much: "Enough that a bad year costs me a year, not my savings. I have watched someone lose both.",
@@ -522,7 +522,7 @@ Object.assign(answers, {
     return_fund:
       "€4,000 kept apart, which covers the van home and a first month somewhere. Lotte's spare room is where I would land.",
     warning_sign: "Two months where I do not want to leave the house, or a client leaving over the distance.",
-    review_when: "1 December 2027, after the first winter",
+    review_when: "1 April 2028, after the first winter",
     what_then: "Give notice on the rental, come back in spring, and keep the clients I kept.",
     who_helps: "Lotte, and Hendrik for the work.",
     planb_light: "Green",

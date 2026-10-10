@@ -165,7 +165,7 @@ function Document({ step }: { step: StepContent }) {
           r={step3Report(a)}
           plan={changePlan(a)}
           who={who}
-          when={when("s3-4.2", "first_step_date") || when("s3-0.1", "decide_by") || today}
+          when={when("s3-0.1", "decide_by") || when("s3-4.2", "first_step_date") || today}
           currency={currency}
         />
       )}

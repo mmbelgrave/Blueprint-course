@@ -448,7 +448,12 @@ export function step3Report(a: Answers) {
     question: text(a, "s3-4.2", "question") || text(a, "s3-0.1", "the_option"),
     what: text(a, "s3-0.1", "what_go_means"),
     conditions: text(a, "s3-4.2", "conditions"),
-    when: text(a, "s3-4.2", "first_step_date") || text(a, "s3-0.1", "decide_by"),
+    /*
+     * The date OF the decision, not the date of what it sets off. Those are
+     * two different days, and showing the first action twice made the
+     * decision and its deadline look like the same moment.
+     */
+    when: text(a, "s3-0.1", "decide_by") || text(a, "s3-4.2", "first_step_date"),
     lights: lightsOf(a),
     money: moneyThread(a),
     cascade: savingsCascade(a),
@@ -527,7 +532,7 @@ export function blueprintReport(a: Answers) {
     dates: {
       one: text(a, "5.1", "date"),
       two: text(a, "s2-5.1", "date"),
-      three: text(a, "s3-4.2", "first_step_date") || text(a, "s3-0.1", "decide_by"),
+      three: text(a, "s3-0.1", "decide_by") || text(a, "s3-4.2", "first_step_date"),
     },
     place: text(a, "s2-5.1", "place") || text(a, "s3-1.4", "place"),
     where: text(a, "s2-5.1", "where"),

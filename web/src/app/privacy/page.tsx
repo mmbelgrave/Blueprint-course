@@ -54,18 +54,32 @@ export default function Privacy() {
           answers are not attached to it.
         </p>
 
+        <h2 className="font-semibold">Please keep the sensitive things out</h2>
+        <p>
+          The exercises ask about your life, so write honestly &mdash; but please leave out health details, anything
+          about someone else&rsquo;s health, and anything a court would call sensitive. The app does not need them,
+          and the fewer of them it holds the better protected you are. Nothing stops you writing them; this is a
+          request, not a filter.
+        </p>
+
         <h2 className="font-semibold">The help we use</h2>
         <p>
-          Two companies help run this app. <strong>Supabase</strong> stores your account and your answers in a database
-          in the European Union. <strong>Anthropic</strong> runs the AI model (Claude) that your AI partner uses.
-          Anthropic does not use what you write to train its models. <strong>Resend</strong> delivers the emails: your
-          sign-in code, and the questions you send from Help.
+          Five companies help run this app. <strong>Supabase</strong> stores your account and your answers in a
+          database in the European Union. <strong>Anthropic</strong> runs the AI model (Claude) that your AI partner
+          uses: it is in the United States, it does not use what you write to train its models, and it deletes what it
+          receives within 30 days. <strong>Vercel</strong> runs the app itself. <strong>Resend</strong> delivers the
+          emails: your sign-in code, and the questions you send from Help. <strong>Lemon Squeezy</strong> takes the
+          payment if you buy, and holds the order.
         </p>
 
         <h2 className="font-semibold">How long</h2>
         <p>
-          As long as you use the Blueprint. If you stop and do nothing, your account stays until you delete it or ask
-          for it to go.
+          As long as you use the Blueprint. If you have not signed in for <strong>24 months</strong>, we email you
+          first; if there is no reply within 30 days, the account and everything in it are deleted. Sign-in codes last
+          an hour. The log of how much you used your AI partner is kept for 12 months, and questions you send from
+          Help for 12 months after we last spoke. An order has to be kept as long as tax law says, which is generally
+          10 years &mdash; so after you delete your account the order record is all that is left. Backups may hold
+          deleted data for up to 7 days.
         </p>
 
         <h2 className="font-semibold">Deleting</h2>
