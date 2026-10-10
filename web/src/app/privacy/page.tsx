@@ -37,8 +37,9 @@ export default function Privacy() {
 
         <h2 className="font-semibold">Who reads it</h2>
         <p>
-          Your AI partner reads your answers to help you think. Mwata can read your answers only if you ticked that
-          box &mdash; you can untick it at any time under Settings. Nobody else reads them.
+          Your AI partner reads your answers to help you think &mdash; but only if you asked for it. That tick box,
+          and the one that lets Mwata read your answers, are both optional, and both can be changed at any time under
+          Settings. With them off, nobody reads what you write but you.
         </p>
 
         <h2 className="font-semibold">Your pictures</h2>

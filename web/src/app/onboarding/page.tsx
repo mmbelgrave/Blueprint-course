@@ -67,7 +67,10 @@ function ConsentForm() {
             <li>
               Your pictures stay in your own account. Your AI partner reads only the line you write under a picture.
             </li>
-            <li>An AI model reads your answers to help you think. It does not decide anything for you.</li>
+            <li>
+              If you switch your AI partner on, an AI model reads your answers to help you think. It does not decide
+              anything for you.
+            </li>
             <li>You can see what your AI partner remembers about you, and change it.</li>
             <li>You can delete everything at any time.</li>
           </ul>
@@ -108,42 +111,54 @@ function ConsentForm() {
         </p>
       </section>
 
-      <section className="space-y-3">
+      <section className="space-y-4">
+        {/* The one thing everybody has to agree to: what is kept, and that it
+            can all go. It is an acknowledgement, not a consent, so it is not
+            stored — the form simply cannot be sent without it. */}
         <label className="flex gap-3">
-          <input
-            type="checkbox"
-            required
-            className="mt-1.5 h-5 w-5 accent-pine"
-            checked={free ? true : consentAi}
-            onChange={(e) => setConsentAi(free ? false : e.target.checked)}
-          />
+          <input type="checkbox" required className="mt-1.5 h-5 w-5 accent-pine" />
           <span>
-            {free ? (
-              <>
-                I understand that what I write is stored in my own account, and that I can delete everything at any
-                time. <span className="text-stone">(needed to use the app)</span>
-              </>
-            ) : (
-              <>
-                I understand that an AI model reads my answers to help me, and that I can delete everything at any
-                time. <span className="text-stone">(needed to use the app)</span>
-              </>
-            )}
+            I understand that what I write is stored in my own account, and that I can delete everything at any time.{" "}
+            <span className="text-stone">(needed to use the app)</span>
           </span>
         </label>
+
         {!free && (
-          <label className="flex gap-3">
-            <input
-              type="checkbox"
-              className="mt-1.5 h-5 w-5 accent-pine"
-              checked={founder}
-              onChange={(e) => setFounder(e.target.checked)}
-            />
-            <span>
-              Mwata may read my answers and my AI summary to guide me.{" "}
-              <span className="text-stone">(optional — you can change this later)</span>
-            </span>
-          </label>
+          <>
+            {/* Unticked on purpose. The course works without it, and a box you
+                cannot refuse is not a choice. */}
+            <label className="flex gap-3">
+              <input
+                type="checkbox"
+                className="mt-1.5 h-5 w-5 accent-pine"
+                checked={consentAi}
+                onChange={(e) => setConsentAi(e.target.checked)}
+              />
+              <span>
+                To help me think, my AI partner may read what I write and send it to Anthropic, a company in the
+                United States. I agree.{" "}
+                <span className="text-stone">(optional — you can switch it on or off in Settings)</span>
+              </span>
+            </label>
+
+            <label className="flex gap-3">
+              <input
+                type="checkbox"
+                className="mt-1.5 h-5 w-5 accent-pine"
+                checked={founder}
+                onChange={(e) => setFounder(e.target.checked)}
+              />
+              <span>
+                Mwata may read my answers and my AI summary to guide me.{" "}
+                <span className="text-stone">(optional — you can change this in Settings)</span>
+              </span>
+            </label>
+
+            <p className="text-sm text-stone">
+              Leave both unticked if you prefer. Every exercise, every workbook and every result still works; you
+              simply write on your own.
+            </p>
+          </>
         )}
       </section>
 

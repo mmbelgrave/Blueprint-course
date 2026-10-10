@@ -73,9 +73,10 @@ function SettingsForm({ profile }: { profile: Profile }) {
             onChange={(e) => set({ consent_ai: e.target.checked })}
           />
           <span>
-            My AI partner may read my answers to help me.
+            My AI partner may read my answers and send them to Anthropic, in the United States, to help me think.
             <span className="block text-sm text-stone">
-              If you switch this off, your AI partner stops helping and stops making notes.
+              Optional. Switch it off and your AI partner stops helping and stops making notes; everything else in the
+              course works exactly as before.
             </span>
           </span>
         </label>
