@@ -13,22 +13,26 @@
  */
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Rule, RunningHead, Sheet, Standfirst } from "./chrome";
 import { ConditionRows, Lights, Numbered, Steps } from "./charts";
+import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { noStop, openLights, type Step3 } from "@/lib/report";
+import { noStop, openLights, type ChangePlan, type Step3 } from "@/lib/report";
 import { coverWords } from "@/lib/report";
 
 export function Step3Doc({
   r,
+  plan,
   who,
   when,
   currency,
 }: {
   r: Step3;
+  /** The staying route, for somebody who is changing their life where they are. */
+  plan: ChangePlan;
   who: string;
   when: string;
   currency: string;
 }) {
-  const of = 4;
+  const of = plan.written ? 5 : 4;
   const open = openLights(r.lights);
   const cover = coverWords(r.decision || "My decision");
 
@@ -141,7 +145,7 @@ export function Step3Doc({
       </Sheet>
 
       {/* ──────────────────────────── four ───────────────────────────── */}
-      <Sheet last>
+      <Sheet last={!plan.written}>
         <RunningHead where="Step 3 · Decide" />
         <Body>
           <Kicker>From decision to action</Kicker>
@@ -179,6 +183,9 @@ export function Step3Doc({
         </Body>
         <PageFoot who={who} page={4} of={of} />
       </Sheet>
+
+      {/* ──────────────────────────── five ───────────────────────────── */}
+      <ChangePlanSheet plan={plan} who={who} where="Step 3 · Decide" page={5} of={of} last />
     </>
   );
 }

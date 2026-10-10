@@ -25,7 +25,7 @@ import { Body, Footnote, Headline, Kicker, PageFoot, RunningHead, Sheet } from "
 import { Step1Doc } from "@/components/report/step1";
 import { Step2Doc } from "@/components/report/step2";
 import { Step3Doc } from "@/components/report/step3";
-import { step1Report, step2Report, step3Report, type Answers } from "@/lib/report";
+import { changePlan, step1Report, step2Report, step3Report, type Answers } from "@/lib/report";
 import { stepsFinished } from "@/lib/blueprint";
 import { getStep, partItems, PRODUCT, type StepContent } from "@/lib/content";
 import { stepHref } from "@/lib/progress";
@@ -91,6 +91,8 @@ function Document({ step }: { step: StepContent }) {
   /* The step's result is its last part, but never an optional one: Step 3 ends
      with the staying route, which only some people do. */
   const result = step.parts.filter((p) => !p.optional).at(-1) ?? step.parts.at(-1)!;
+  /* …but if they did do it, it belongs in the file too, under its own heading. */
+  const staying = step.parts.filter((p) => p.optional && p !== result);
 
   const asText = () =>
     writtenText({
@@ -98,15 +100,15 @@ function Document({ step }: { step: StepContent }) {
       who: who || undefined,
       when: `Step ${n} · ${step.step.title} · ${today}`,
       note: result.finish.description ?? undefined,
-      sections: [
-        {
-          title: `${result.label} · ${result.title}`,
-          pages: partItems(result).map((page) => ({
-            title: page.title,
-            lines: exerciseAnswerLines(page.id, answers[page.id], page, "\n"),
-          })),
-        },
-      ],
+      // The part, not the result: the document is already called that. The
+      // staying route follows it when somebody took that road.
+      sections: [result, ...staying].map((part) => ({
+        title: `${part.label} · ${part.title}`,
+        pages: partItems(part).map((page) => ({
+          title: page.title,
+          lines: exerciseAnswerLines(page.id, answers[page.id], page, "\n"),
+        })),
+      })),
       footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
     });
 
@@ -161,6 +163,7 @@ function Document({ step }: { step: StepContent }) {
       {n === 3 && (
         <Step3Doc
           r={step3Report(a)}
+          plan={changePlan(a)}
           who={who}
           when={when("s3-4.2", "first_step_date") || when("s3-0.1", "decide_by") || today}
           currency={currency}

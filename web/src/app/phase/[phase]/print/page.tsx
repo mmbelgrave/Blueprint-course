@@ -20,7 +20,7 @@ import { BlueprintDoc } from "@/components/report/blueprint";
 import { stepFor } from "@/lib/access-app";
 import { exerciseAnswerLines } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
-import { blueprintReport, type Answers } from "@/lib/report";
+import { blueprintReport, changePlan, type Answers } from "@/lib/report";
 import { partItems, PRODUCT } from "@/lib/content";
 import { useStepsContent } from "@/lib/use-step-content";
 import { downloadText, fileName, writtenText } from "@/lib/written-text";
@@ -105,6 +105,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
 
       <BlueprintDoc
         r={r}
+        plan={changePlan(a)}
         who={who}
         when={r.dates.three || today}
         currency={currency}

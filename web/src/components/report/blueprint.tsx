@@ -14,23 +14,27 @@
  */
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Pull, Rule, RunningHead, Sheet, Standfirst } from "./chrome";
 import { BigNumbers, ConditionRows, Lights, NeedRows, PhaseDots, ShareBars } from "./charts";
+import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { durationIn, firstClause, noStop, openLights, WAKING_HOURS, type Blueprint } from "@/lib/report";
+import { durationIn, firstClause, noStop, openLights, WAKING_HOURS, type Blueprint, type ChangePlan } from "@/lib/report";
 
 export function BlueprintDoc({
   r,
+  plan,
   who,
   when,
   currency,
   phaseName,
 }: {
   r: Blueprint;
+  /** The staying route, for somebody who is changing their life where they are. */
+  plan: ChangePlan;
   who: string;
   when: string;
   currency: string;
   phaseName: string;
 }) {
-  const of = 4;
+  const of = plan.written ? 5 : 4;
   const open = openLights(r.lights);
   const where = phaseName;
   // Only when they said how long: nothing on this cover is a figure we chose.
@@ -157,7 +161,7 @@ export function BlueprintDoc({
       />
 
       {/* ──────────────────────────── four ───────────────────────────── */}
-      <Sheet last>
+      <Sheet last={!plan.written}>
         <RunningHead where={where} />
         <Body>
           <Kicker>My next chapter</Kicker>
@@ -205,6 +209,9 @@ export function BlueprintDoc({
         </Body>
         <PageFoot who={who} page={4} of={of} />
       </Sheet>
+
+      {/* ──────────────────────────── five ───────────────────────────── */}
+      <ChangePlanSheet plan={plan} who={who} where={where} page={5} of={of} last />
     </>
   );
 }

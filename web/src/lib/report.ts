@@ -469,6 +469,44 @@ export function step3Report(a: Answers) {
   };
 }
 
+/**
+ * The staying route (s3-p5), for somebody whose answer is to change their life
+ * where they are.
+ *
+ * It is an optional part, so the step's result is deliberately taken from Part
+ * 4 and not from here — otherwise My Decision would vanish from the document of
+ * everybody who is moving. But for the person who stays, this *is* the work,
+ * and a result document that left it out would be the document of a decision
+ * they did not make. So it is its own sheet, and only when they wrote it.
+ */
+export type ChangePlan = ReturnType<typeof changePlan>;
+
+export function changePlan(a: Answers) {
+  const plan = {
+    change: text(a, "change_plan", "the_change"),
+    inPlace: text(a, "change_plan", "in_place_date"),
+    firstThree: lines(text(a, "change_plan", "first_three")),
+    incomeBuffer: text(a, "change_plan", "income_buffer"),
+    whoITell: text(a, "change_plan", "who_i_tell"),
+    first90: text(a, "change_plan", "first_90"),
+    planB: text(a, "change_plan", "plan_b"),
+    checkIns: text(a, "change_plan", "check_in_dates"),
+    /** From 5.3: the hours they decide now, and after the change. */
+    hours: text(a, "s3-5.3", "my_choice_hours"),
+    /** From 5.1: the steps, planned backwards, where they filled the table in. */
+    steps: filledRows(rowsOf(a, "s3-5.1", "steps"))
+      .filter((r) => r.row.step?.trim())
+      .slice(0, 5)
+      .map((r) => ({
+        what: r.row.step.trim(),
+        when: r.row.start_by?.trim() || undefined,
+        note: r.row.first?.trim() || undefined,
+      })),
+  };
+  const written = Boolean(plan.change || plan.firstThree.length || plan.first90 || plan.steps.length);
+  return { ...plan, written };
+}
+
 export type Blueprint = ReturnType<typeof blueprintReport>;
 
 export function blueprintReport(a: Answers) {
