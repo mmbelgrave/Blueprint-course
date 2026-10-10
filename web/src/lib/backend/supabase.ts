@@ -114,6 +114,36 @@ export const supabaseStore: DataStore = {
       .insert({ user_id: userId, part_id: partId, rating: feedback.rating, comment: feedback.comment });
     if (error) throw error;
   },
+  async loadPageNote(userId, exerciseId) {
+    const { data, error } = await supabaseBrowser()
+      .from("page_feedback")
+      .select("clear, comment")
+      .eq("user_id", userId)
+      .eq("exercise_id", exerciseId)
+      .maybeSingle();
+    if (error) throw error;
+    return data ? { clear: data.clear, comment: data.comment ?? "" } : null;
+  },
+  /*
+   * One row per person per page: somebody who says "not quite", reads it
+   * again and then says "yes" has changed their mind, and the newer answer is
+   * the true one.
+   */
+  async savePageNote(userId, exerciseId, note) {
+    const { error } = await supabaseBrowser()
+      .from("page_feedback")
+      .upsert(
+        {
+          user_id: userId,
+          exercise_id: exerciseId,
+          clear: note.clear,
+          comment: note.comment,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "user_id,exercise_id" },
+      );
+    if (error) throw error;
+  },
   async loadAiProfile(userId) {
     const { data, error } = await supabaseBrowser()
       .from("ai_profile")

@@ -25,6 +25,7 @@ import {
   type Located,
   type Part,
 } from "@/lib/content";
+import { PageClear } from "@/components/page-clear";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
 import { Fold } from "@/components/fold";
 import { VideoSlot } from "@/components/video-slot";
@@ -584,6 +585,9 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             See and save {part.finish.title} as PDF
           </Link>
         )}
+
+        {/* The small question on every page, and the part question once. */}
+        {!free && <PageClear key={exercise.id} exerciseId={exercise.id} />}
 
         {feedbackHere && <PartFeedback partId={part.id} />}
 

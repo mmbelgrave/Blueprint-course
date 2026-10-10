@@ -128,7 +128,7 @@ export async function POST(request: Request) {
       return Response.json({ ok: true, ignored: "seen before" });
     }
 
-    const sent = await sendWelcome(order, decision.product);
+    const sent = await sendWelcome(order, decision.product, isNew);
     await log(
       "opened",
       `${decision.product} for ${order.email}${isNew ? ", new account" : ""}${sent ? "" : " — welcome email NOT sent"}.`,
@@ -182,7 +182,7 @@ async function findOrCreateAccount(
 
 
 /** Returns false when there is no key or Resend refuses; the order stands. */
-async function sendWelcome(order: Order, product: string): Promise<boolean> {
+async function sendWelcome(order: Order, product: string, isNew: boolean): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
   if (!key) return false;
   const { subject, text } = welcomeMail({
@@ -190,6 +190,7 @@ async function sendWelcome(order: Order, product: string): Promise<boolean> {
     productName: order.productName || (product === "phase1" ? "Phase 1 · Choose it" : "The Made Real Blueprint"),
     appUrl: APP_URL,
     email: order.email,
+    isNew,
   });
   try {
     const res = await fetch("https://api.resend.com/emails", {

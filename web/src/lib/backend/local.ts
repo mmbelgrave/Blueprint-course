@@ -1,11 +1,15 @@
 // Local preview mode: no accounts, everything stays in this browser only.
 // Used when Supabase is not configured yet, so the workbook can be tried early.
-import type { AuthProvider, DataStore, Feedback, UserData } from "./types";
+import type { AuthProvider, DataStore, Feedback, PageNote, UserData } from "./types";
 
 const KEY = "blueprint-preview-v1";
 const USER = { id: "local-preview", email: null };
 
-type LocalData = UserData & { signedIn: boolean; feedback?: Record<string, Feedback> };
+type LocalData = UserData & {
+  signedIn: boolean;
+  feedback?: Record<string, Feedback>;
+  pageNotes?: Record<string, PageNote>;
+};
 
 function read(): LocalData {
   try {
@@ -66,6 +70,15 @@ export const localStore: DataStore = {
   async saveFeedback(_userId, partId, feedback) {
     write((d) => {
       d.feedback = { ...d.feedback, [partId]: feedback };
+    });
+  },
+  // Kept in this browser too, so the line can be tried in preview mode.
+  async loadPageNote(_userId, exerciseId) {
+    return read().pageNotes?.[exerciseId] ?? null;
+  },
+  async savePageNote(_userId, exerciseId, note) {
+    write((d) => {
+      d.pageNotes = { ...d.pageNotes, [exerciseId]: note };
     });
   },
   async load() {

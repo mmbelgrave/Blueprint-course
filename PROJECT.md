@@ -588,11 +588,14 @@ step results in order, with my name, the date and the copyright line.
   follow the person's own choice.
 
 ### 6.7 Feedback on every page
-The part feedback (stars and a comment, §3.7) stays. Add a small, optional line
-at the foot of each exercise page: **"Was this clear?"** yes / not quite, with a
-box for what was missing. Admin lists it by step and page, so Mwata can see
-exactly where people get stuck. Founding members give their promised feedback
-here, without meetings.
+**Built 10 October.** The part feedback (stars and a comment, §3.7) stays. At
+the foot of each exercise page there is now a small, optional line: **"Was this
+page clear?"** yes / not quite, and "not quite" opens a box for what was
+missing. One row per person per page (`page_feedback`), so changing your mind
+replaces the answer rather than adding a second one. Admin leads with **"Where
+people got stuck"**: the pages with the most "not quite", the comments
+underneath, pages named rather than people. Founding members give their
+promised feedback here, without meetings.
 
 ### 6.8 A partner seat
 Each purchase may invite **one partner** (the terms allow use with the people
@@ -604,6 +607,15 @@ you plan your move with, and many exercises are for couples).
 - The partner's access ends when the buyer's does (refund), and the buyer can
   remove the partner and invite someone else.
 - Their AI use counts in Admin like anyone else's.
+
+**Later, if the seat gets used (Mwata, 10 October):** two people answer the
+same exercises separately, and then the app shows them side by side — where
+they agree, where they do not, and which must-haves only one of them wrote
+down. Several exercises are already built for exactly that conversation (1.5
+"Whose picture is this?", 5.2 "The people involved", Step 3's "who decides with
+me"). Deliberately not in the first version: it needs a second set of answers
+to exist before it is worth designing, and showing one person another person's
+answers is a promise that cannot be taken back.
 
 ### 6.9 How the app is laid out
 **Decided 7 October**, from Mwata's sketch. This replaces the earlier tab-bar

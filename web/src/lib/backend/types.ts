@@ -59,12 +59,18 @@ export type ChatMessage = { role: "user" | "assistant"; content: string };
 
 export type Feedback = { rating: number | null; comment: string };
 
+/** "Was this page clear?" — the smaller question, on every exercise page (6.7). */
+export type PageNote = { clear: boolean; comment: string };
+
 export interface DataStore {
   /** The AI partner's last draft for a summary page, per box (null when none). */
   loadDraft(userId: string, pageId: string): Promise<Record<string, string> | null>;
   /** The person's latest answer to "How did this part feel?" (null when none). */
   loadFeedback(userId: string, partId: string): Promise<Feedback | null>;
   saveFeedback(userId: string, partId: string, feedback: Feedback): Promise<void>;
+  /** Whether this page was clear to them, and what was missing (null when unasked). */
+  loadPageNote(userId: string, exerciseId: string): Promise<PageNote | null>;
+  savePageNote(userId: string, exerciseId: string, note: PageNote): Promise<void>;
   /** What the AI partner knows (null in preview mode or when nothing is known yet). */
   loadAiProfile(userId: string): Promise<Record<string, unknown> | null>;
   saveAiProfile(userId: string, profile: Record<string, unknown>): Promise<void>;

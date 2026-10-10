@@ -22,6 +22,7 @@ type Participant = {
     parts: { label: string; optional: boolean; done: number; total: number; complete: boolean }[];
   }[];
   feedback: { part: string; rating: number | null; comment: string; date: string }[];
+  pageNotes: { page: string; pageId: string; clear: boolean; comment: string; date: string }[];
   owns: {
     id: number;
     product: string;
@@ -410,6 +411,7 @@ function AdminOverview() {
         the cache is not counted, so the real cost is a little higher. Your Anthropic Console shows the exact bill. Of
         that, {usd(freeCost)} is free accounts.
       </p>
+      <Stuck data={data} />
       <Webhooks events={webhooks} />
       <UpdateList emails={updateList} />
       {data.length === 0 && (
@@ -421,6 +423,61 @@ function AdminOverview() {
         ))}
       </ul>
     </>
+  );
+}
+
+/**
+ * Where people got stuck (§6.7).
+ *
+ * The pages somebody answered "not quite" on, the ones with the most first.
+ * This is the question the founding members are here to answer, so it sits
+ * above the participant list rather than inside it — and it names pages, not
+ * people, because what matters is which page to rewrite.
+ */
+function Stuck({ data }: { data: Participant[] }) {
+  const notes = data.flatMap((p) => p.pageNotes.map((n) => ({ ...n, who: p.name || p.email })));
+  const clear = notes.filter((n) => n.clear).length;
+  const byPage = new Map<string, { page: string; count: number; comments: { who: string; comment: string }[] }>();
+  for (const n of notes.filter((x) => !x.clear)) {
+    const row = byPage.get(n.pageId) ?? { page: n.page, count: 0, comments: [] };
+    row.count += 1;
+    if (n.comment) row.comments.push({ who: n.who, comment: n.comment });
+    byPage.set(n.pageId, row);
+  }
+  const rows = [...byPage.values()].sort((a, b) => b.count - a.count);
+
+  if (notes.length === 0) return null;
+  return (
+    <section className="mt-6 rounded-2xl bg-white p-5">
+      <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <h2 className="text-xl text-pine">Where people got stuck</h2>
+        <p className="text-sm text-stone">
+          {clear} of {notes.length} answers said the page was clear
+        </p>
+      </div>
+      {rows.length === 0 ? (
+        <p className="mt-3 text-stone">Nobody has said &ldquo;not quite&rdquo; yet.</p>
+      ) : (
+        <ul className="mt-4 space-y-3">
+          {rows.map((r) => (
+            <li key={r.page} className="border-b border-line pb-3 last:border-0">
+              <p className="flex items-baseline justify-between gap-3">
+                <span className="font-semibold text-pine">{r.page}</span>
+                <span className="text-sm text-ochre">
+                  {r.count} × not quite
+                </span>
+              </p>
+              {r.comments.map((c, i) => (
+                <p key={i} className="mt-1 text-sm">
+                  <span className="text-stone">{c.who}: </span>
+                  {c.comment}
+                </p>
+              ))}
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
 

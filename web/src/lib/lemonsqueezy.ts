@@ -198,22 +198,46 @@ export function decideAccess(
  * code: §3.1 says the email with the code is asked for by the person, at the
  * moment they want it, and never sent on anyone's behalf.
  */
-export function welcomeMail(o: { name: string; productName: string; appUrl: string; email: string }) {
+export function welcomeMail(o: {
+  name: string;
+  productName: string;
+  appUrl: string;
+  email: string;
+  /** False when this address already had an account — a Phase 1 buyer coming back. */
+  isNew?: boolean;
+}) {
   const hello = o.name ? `Hello ${o.name.split(" ")[0]},` : "Hello,";
+
+  /*
+   * Somebody coming back for the rest does not need the course explained to
+   * them again. What they do need to hear is that everything they already
+   * wrote is still there: that is what people worry about when they buy the
+   * next part of something they have already started.
+   */
+  const middle =
+    o.isNew === false
+      ? [
+          `Go to ${o.appUrl} and sign in as usual, with ${o.email}. Everything you have`,
+          "already written is where you left it, and the new steps are simply open.",
+        ]
+      : [
+          `Go to ${o.appUrl} and sign in with this email address — ${o.email}. There is no`,
+          "password: you ask for a code, it arrives here, and you type it in.",
+          "",
+          "Inside you will find the videos, the workbook to download, and every exercise",
+          "to answer in the app if you prefer. Your answers are saved as you write, and",
+          "you can download all of them whenever you like.",
+          "",
+          "Take your time with it. Step 1 is not a form to fill in; it is the part where",
+          "you work out what you actually want.",
+        ];
+
   const text = [
     hello,
     "",
     `Thank you. ${o.productName} is open for you.`,
     "",
-    `Go to ${o.appUrl} and sign in with this email address — ${o.email}. There is no`,
-    "password: you ask for a code, it arrives here, and you type it in.",
-    "",
-    "Inside you will find the videos, the workbook to download, and every exercise",
-    "to answer in the app if you prefer. Your answers are saved as you write, and",
-    "you can download all of them whenever you like.",
-    "",
-    "Take your time with it. Step 1 is not a form to fill in; it is the part where",
-    "you work out what you actually want.",
+    ...middle,
     "",
     "Mwata",
     "The Made Real Blueprint",
