@@ -335,6 +335,61 @@ the credits. That is the "see what is inside" material, and only to someone
 signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
 it ever matters.
 
+## The workbook revisions, and the app's own words (14 October 2026)
+
+Mwata ran his humanizer pass over the four workbooks and sent the revisions:
+Introduction Rev.01e, Step 1 Rev.01c, Step 2 Rev.01b, Step 3 Rev.01a.
+
+Ported, then checked both ways with `content-build/check-content.mjs` until
+nothing was left but headings, table labels and the step question. Seven
+changes needed a second pass, because the sentence had changed too much for the
+matcher to pair it with the old one:
+
+- 2.3: "An earlier attempt tells you something useful."
+- Part 5: "A clear next direction, which you can still change."
+- "Keeping a good life is also a decision."
+- Rosa: "Look at how every line is filled in, including the parts she does not
+  know yet."
+- Two of Rosa's own answers.
+- Step 3: "A 'not yet' or a 'no' can feel like a step back. You do know more
+  now about what you want..." (he dropped "It is not.")
+- Every result line. The revisions write them "My Life Picture. What you want
+  more of..." instead of with an em dash, so all nineteen changed.
+
+The Introduction fed three files the step content does not touch:
+`journey.json` (the route line, the two outcomes with the staying route, the
+Choose it description, and the Step 2 and Step 3 results, which still said "My
+shortlist and what I found") and `modules.json` (two phase descriptions).
+
+**The app's own text got the same pass.** About forty sentences across the
+privacy page, onboarding, the admin notes, the welcome email, the two-year
+notice, the exercise pages, the result documents and the admin log: no em dash
+inside a sentence, no "X, not Y" as a figure of speech, and the stock words
+gone where they were mine and not his. "The order matters" is now "The order I
+will do this in".
+
+The AI partner's own prompt was part of it, which matters more than it looks:
+the model copies the punctuation it is written in. It now has a rule saying
+plain punctuation and never a dash mid-sentence.
+
+Left alone on purpose: the product and workbook names, the lone "—" that stands
+for an empty cell, the separators in document titles, and code comments.
+
+**The four result PDFs are printed again** from the same answers, still 3, 3, 4
+and 4 pages. `design/results/README.md` now says how to print them, since that
+route (preview build, a seed server on 3099 because the page cannot read a
+file:// path, then `page.pdf` with `preferCSSPageSize`) was only in my head.
+
+**The workbook PDFs in the bucket are his new exports.** Uploaded with the new
+`web/scripts/upload-workbooks.mjs`, which reads each file back and compares
+hashes: all four match. `modules.json` says 14 October, so the download page
+tells people which version they hold.
+
+**Live.** Pushed, and the deploy carries it: the privacy page says "The app
+does not check what you type", `/free` says "The Ordinary Tuesday: the exercise
+most people say told them the most." 184 tests, lint and build clean.
+
+
 ## The result documents, rebuilt to the design proposals (10 October 2026)
 
 Mwata sent four design proposals — My Working Direction, My Explore
