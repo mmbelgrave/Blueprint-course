@@ -242,7 +242,7 @@
         }
       ],
       "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
-      "result": "My Options — the options worth investigating, and what you need to learn about them."
+      "result": "My Options. The options worth investigating, and what you need to learn about them."
     },
     "video": {
       "title": "Part 4 · Compare your options",
@@ -255,7 +255,7 @@
     "number": 5,
     "label": "Part 5",
     "title": "Choose your working direction",
-    "promise": "Not a final decision. A clear next direction.",
+    "promise": "A clear next direction, which you can still change.",
     "intro_title": "A direction is not a decision.",
     "intro": [
       "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
@@ -382,7 +382,7 @@
           "I want to compare two or more directions. Step 2 helps you explore them side by side.",
           "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 3 tests your change and ends with your staying route: a plan for the change where you are.",
           "I am not ready to choose yet. Your page shows what you need to learn first.",
-          "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
+          "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is also a decision."
         ],
         "example": {
           "who": "Tom, 58",
@@ -390,7 +390,7 @@
         },
         "example_page": {
           "title": "A completed page",
-          "intro": "Rosa is made up, and she stays. The point is not her answer. Every line is filled in, including the parts she does not know yet.",
+          "intro": "Rosa is made up, and she stays. Look at how every line is filled in, including the parts she does not know yet.",
           "rows": [
             [
               "My life picture in three sentences",
@@ -402,7 +402,7 @@
             ],
             [
               "The direction(s) I want to explore",
-              "Four days a week instead of five, in my current job, and one day a week outside."
+              "Four days a week at my current job instead of five, and one day a week outside."
             ],
             [
               "Why: two or three reasons",
@@ -434,7 +434,7 @@
             ],
             [
               "My next small step, within two weeks",
-              "Redo Part 3 with 80% of my take-home pay, using our last three bank statements."
+              "Redo Part 3 using 80% of my take-home pay and our last three bank statements."
             ],
             [
               "What this step will help me learn",
@@ -508,7 +508,7 @@
         }
       }
     ],
-    "result": "My Working Direction — what you want to explore, what you take with you, and your next step.",
+    "result": "My Working Direction. What you want to explore, what you take with you, and your next step.",
     "video": {
       "title": "Part 5 · Choose your working direction",
       "length": "8–10 min",

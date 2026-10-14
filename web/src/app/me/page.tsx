@@ -52,7 +52,7 @@ function ProfileItem({
         <h2 className="font-semibold text-pine">{field.label}</h2>
         {corrected && <span className="text-xs text-success">You corrected this</span>}
         {forgotten && (
-          <span className="text-xs text-stone">Forgotten — your AI partner does not use this topic</span>
+          <span className="text-xs text-stone">Forgotten. Your AI partner does not use this topic</span>
         )}
       </div>
 

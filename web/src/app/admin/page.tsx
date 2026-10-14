@@ -381,13 +381,13 @@ function AdminOverview() {
       {emailOff && (
         <p className="mt-3 rounded-lg bg-ochre-soft p-3 text-sm">
           Questions are saved and shown here, but no email is sent: RESEND_API_KEY is missing. Add it in Vercel to get
-          every question in your inbox — and so a new buyer gets their welcome email.
+          every question in your inbox, and so a new buyer gets their welcome email.
         </p>
       )}
       {!buyingRequired && (
         <p className="mt-3 rounded-lg bg-ochre-soft p-3 text-sm">
           <strong>Buying is not required.</strong> Everyone signed in can open every released step, whatever they own.
-          Switch NEXT_PUBLIC_REQUIRE_PURCHASE on in Vercel and redeploy — after giving the people below what they
+          Switch NEXT_PUBLIC_REQUIRE_PURCHASE on in Vercel and redeploy, after giving the people below what they
           should keep.
         </p>
       )}

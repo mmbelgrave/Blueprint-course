@@ -50,7 +50,7 @@ export function Lesson({
               setProblem(!ok);
             }}
           >
-            {done ? "✓ Completed — undo" : "Mark as completed"}
+            {done ? "✓ Completed (undo)" : "Mark as completed"}
           </button>
         </p>
       )}

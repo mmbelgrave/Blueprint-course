@@ -92,7 +92,7 @@ export function fieldExtras(
 ): (field: Field) => FieldExtras | undefined {
   const find = lookup(exercise, sources);
   const names = optionNames(answers, find("4.1", "options"));
-  const withName = (letter: string) => (names[letter] ? `${letter} — ${names[letter]}` : letter);
+  const withName = (letter: string) => (names[letter] ? `${letter}: ${names[letter]}` : letter);
   const calc = calculate(exercise, answers, find);
 
   return (field) => {

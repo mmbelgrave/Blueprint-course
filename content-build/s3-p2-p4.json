@@ -7,7 +7,7 @@
     "promise": "A plan that only works on good days is not ready yet.",
     "intro_title": "Why we look at the difficult days",
     "intro": [
-      "Imagining the good day is easy. The difficult day is where the information is. Winter, illness, a quiet week with nobody around, work that goes wrong: those days happen in every life, in every country. The question is not whether they come. It is whether you could manage them in the life you are building."
+      "Imagining the good day is easy. The difficult day is where the information is. Winter, illness, a quiet week with nobody around, work that goes wrong: those days happen in every life, in every country. The question is whether you could manage them in the life you are building."
     ],
     "time": "60 min",
     "route_title": "Stress-test your plan",
@@ -199,7 +199,7 @@
           "label": "What would still be difficult, wherever I live"
         }
       ],
-      "result": "My Risks — your biggest risks, the signs to watch, and what you will do."
+      "result": "My Risks. Your biggest risks, the signs to watch, and what you will do."
     },
     "video": {
       "title": "Part 2 · Stress-test your plan",
@@ -215,7 +215,7 @@
     "promise": "Easy to undo first. Hard to undo last.",
     "intro_title": "Why order matters",
     "intro": [
-      "The most expensive mistakes in a move are often not wrong choices. They are right choices made in the wrong order: selling the house before the papers are clear, signing a contract before the money is in place, or arriving before there is somewhere to live.",
+      "The most expensive mistakes in a move are often right choices made in the wrong order: selling the house before the papers are clear, signing a contract before the money is in place, or arriving before there is somewhere to live.",
       "Do the steps you can undo cheaply first: a tax number, a bank account, a conversation with an adviser, renting, a trial period. Do the steps that are expensive or impossible to undo last: selling your home, resigning from your job, signing a purchase contract. And before each big step, write down what must be true first.",
       "Staying? The same rule works. Talk to your employer before you hand in your notice, test your business idea before you invest in it, and rent extra space before you buy it."
     ],
@@ -344,7 +344,7 @@
           "label": "Where I have added extra time"
         }
       ],
-      "result": "My First Timeline — the right steps, in the right order."
+      "result": "My First Timeline. The right steps, in the right order."
     },
     "video": {
       "title": "Part 3 · Put things in the right order",
@@ -365,7 +365,7 @@
     ],
     "time": "30–45 min",
     "route_title": "Make your decision",
-    "talk": "Tell the people close to you what you decided, and why. Not to ask for permission, but so they can support you and you can say your decision out loud.",
+    "talk": "Tell the people close to you what you decided, and why. You are not asking for permission. You tell them so they can support you, and so you hear yourself say it.",
     "finish": {
       "id": "decision",
       "title": "My Decision",
@@ -503,13 +503,13 @@
           "Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is coming soon), but you take no hard-to-undo step until those conditions are met.",
           "Go, and change where I am. Your option was a change where you live, and it passed the same test. Continue with \"Your staying route\" at the end of this step.",
           "Not yet. The picture is right, but the conditions are not. Write down exactly what must change, and when you will look again. A \"not yet\" with a date is a decision. Without a date, it is a way of putting it off.",
-          "No. This option does not fit, or not at this price. That is a result, not a failure. Go back to Step 2 to look at another place, test a change where you live, or keep the life you have."
+          "No. This option does not fit, or not at this price. That is a result too. Go back to Step 2 to look at another place, test a change where you live, or keep the life you have."
         ],
         "example": {
           "who": "Lotte and Ben",
           "text": "A completed page. Lotte and Ben are made up. Every line is filled in, including the conditions and the dates. Decision question: do we move to the Silver Coast with our two children, renting for a trial year from next summer? Decision: go, as a trial year, with conditions. We start preparing now; we sign nothing hard to undo until the conditions below are met. Must-haves: not all yet. All must-haves are met except one: a good school, which is an estimate until we visit and have places. That is a condition below. No dealbreakers broken. Why: our ordinary days there look like our Life Picture. The money lasts about 17 months even if everything costs 30% more, with our reserve and return fund untouched. The children are curious, not against it. Lights: green: papers and place. Amber: money, until Lotte's income is confirmed; people, until care for Ben's mother is arranged; Plan B, until a tenant has signed for our house. Red: none. Conditions: Lotte's income confirmed. Care for Ben's mother arranged. A tenant signed for our house. School places confirmed. Who decided: both of us, after each of us filled in our own page. The children were heard. We agree. First step: meet two care providers for Ben's mother. Date of my first step: before 15 March. Review: 1 April next year, whatever has happened by then. What would change it: no school places by May, or Lotte's income not confirmed by June: then we move the trial year back by one year."
         },
-        "result": "My Decision — go, not yet, or no, with your reasons, conditions and dates."
+        "result": "My Decision. Go, not yet, or no, with your reasons, conditions and dates."
       },
       {
         "id": "s3-4.3",
@@ -517,7 +517,7 @@
         "title": "If your answer is \"not yet\" or \"no\"",
         "optional": true,
         "intro": [
-          "A \"not yet\" or a \"no\" can feel like a step back. It is not. You now know more about what you want, and about what this option would require."
+          "A \"not yet\" or a \"no\" can feel like a step back. You do know more now about what you want, and about what this option would require."
         ],
         "start_here": {
           "fields": [
@@ -558,7 +558,7 @@
         ]
       }
     ],
-    "result": "My Decision — go, not yet, or no, with your reasons, conditions and dates.",
+    "result": "My Decision. Go, not yet, or no, with your reasons, conditions and dates.",
     "video": {
       "title": "Part 4 · Make your decision",
       "length": "10–12 min",

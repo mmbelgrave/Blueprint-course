@@ -70,7 +70,7 @@ export function answerText(field: Field, value: unknown, separator = "; "): stri
           return v ? `${cols.length > 1 ? `${c.label}: ` : ""}${v}` : null;
         })
         .filter(Boolean);
-      if (cells.length) lines.push(`${label ? `${label} — ` : ""}${cells.join(", ")}`);
+      if (cells.length) lines.push(`${label ? `${label} · ` : ""}${cells.join(", ")}`);
     }
     return lines.length ? clip(lines.join(separator === "; " ? " | " : separator)) : null;
   }
@@ -97,7 +97,7 @@ export function fieldAnswerText(
         (field.columns ?? [])
           .map((c, i) => cell(field, data[key] ?? {}, c.id, i, label))
           .filter(Boolean)
-          .join(" — "),
+          .join(" · "),
       )
       .filter(Boolean);
     return lines.length ? lines.join("\n") : null;

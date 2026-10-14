@@ -137,7 +137,7 @@ function ConsentForm() {
               <span>
                 To help me think, my AI partner may read what I write and send it to Anthropic, a company in the
                 United States. I agree.{" "}
-                <span className="text-stone">(optional — you can switch it on or off in Settings)</span>
+                <span className="text-stone">(optional, you can switch it on or off in Settings)</span>
               </span>
             </label>
 
@@ -150,7 +150,7 @@ function ConsentForm() {
               />
               <span>
                 Mwata may read my answers and my AI summary to guide me.{" "}
-                <span className="text-stone">(optional — you can change this in Settings)</span>
+                <span className="text-stone">(optional, you can change this in Settings)</span>
               </span>
             </label>
 

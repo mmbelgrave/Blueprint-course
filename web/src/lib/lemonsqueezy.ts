@@ -221,15 +221,15 @@ export function welcomeMail(o: {
           "already written is where you left it, and the new steps are simply open.",
         ]
       : [
-          `Go to ${o.appUrl} and sign in with this email address — ${o.email}. There is no`,
+          `Go to ${o.appUrl} and sign in with this email address: ${o.email}. There is no`,
           "password: you ask for a code, it arrives here, and you type it in.",
           "",
           "Inside you will find the videos, the workbook to download, and every exercise",
           "to answer in the app if you prefer. Your answers are saved as you write, and",
           "you can download all of them whenever you like.",
           "",
-          "Take your time with it. Step 1 is not a form to fill in; it is the part where",
-          "you work out what you actually want.",
+          "Take your time with it. Step 1 is where you work out what you actually",
+          "want.",
         ];
 
   const text = [
@@ -243,5 +243,5 @@ export function welcomeMail(o: {
     "The Made Real Blueprint",
   ].join("\n");
 
-  return { subject: `${o.productName} is open — how to start`, text };
+  return { subject: `${o.productName} is open: how to start`, text };
 }

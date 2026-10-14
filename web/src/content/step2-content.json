@@ -297,7 +297,7 @@
           }
         }
       ],
-      "result": "What I Am Looking For — the measuring stick you use for every place in this step."
+      "result": "What I Am Looking For. The measuring stick you use for every place in this step."
     },
     {
       "id": "s2-p1",
@@ -310,7 +310,7 @@
       "intro_title": "Start with the list, not the map",
       "intro": [
         "When I chose a country, I began with a list of what my life needed. Then I checked which countries fitted. It sounds obvious, but it is easy to start with somewhere you already like and try to make it work.",
-        "A list gives you something to score, compare and check. Your feeling about a country matters too, and you will explore that in Part 4. This part helps you decide which places are worth visiting.",
+        "A list gives you something to score, compare and check. Your feeling about a country counts too, and you will explore that in Part 4. This part helps you decide which places are worth visiting.",
         "The ten factors below give you a starting point. I used the first eight myself and added the last two later, because I have seen how often they stop a plan."
       ],
       "time": "60–90 min",
@@ -450,7 +450,7 @@
           "title": "The two questions that end most plans",
           "intro": [
             "Two questions can stop an otherwise appealing plan. They are easy to leave until the end, but they need answers early.",
-            "Am I allowed to live there? Every country sets its own conditions for who can stay and for how long. Your passport, income, work and family situation all matter. Someone else's experience doesn't determine what applies to you.",
+            "Am I allowed to live there? Every country sets its own conditions for who can stay and for how long. Your passport, income, work and family situation all play a part. Someone else's experience doesn't determine what applies to you.",
             "Can I afford to live there? Compare the cost of an ordinary month with your First Money Picture from Step 1. Include housing, food, energy, healthcare, transport, insurance, and something for enjoyment. A holiday budget will not answer this question."
           ],
           "start_here": {
@@ -544,7 +544,7 @@
           "who": "Tomás, 36",
           "text": "Country: Portugal. Why: I feel well in that climate, my money goes further than at home, and I work online, so I need reliable internet. I ruled out Costa Rica because it is too far from my parents and flights are expensive. My biggest doubt is winter in a stone house. I need to find out how people heat their homes and what it costs."
         },
-        "result": "My Country Choice — one country to explore, with your reasons and your open questions."
+        "result": "My Country Choice. One country to explore, with your reasons and your open questions."
       },
       "video": {
         "title": "Part 1 · Which country?",
@@ -614,7 +614,7 @@
                 ],
                 [
                   "8. Internet and mobile",
-                  "Check the speed at a specific address on an ordinary evening, rather than simply asking whether internet is available."
+                  "Check the speed at a specific address on an ordinary evening. A yes to \"Is there internet?\" tells you very little."
                 ],
                 [
                   "9. People and language",
@@ -813,14 +813,14 @@
             "label": "What I must find out about each (Part 3)"
           }
         ],
-        "result": "My Region Shortlist — two or three regions, with what you like and what worries you."
+        "result": "My Region Shortlist. Two or three regions, with what you like and what worries you."
       },
       "video": {
         "title": "Part 2 · Which region?",
         "length": "10–14 min",
         "url": null
       },
-      "staying": "Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need isn't a new country, but a move an hour away: closer to nature, family, or work you enjoy."
+      "staying": "Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy."
     },
     {
       "id": "s2-p3",
@@ -1135,7 +1135,7 @@
             "label": "What I want to test in person"
           }
         ],
-        "result": "My Place Profiles — real information for each place, with your unknowns written down honestly."
+        "result": "My Place Profiles. Real information for each place, with your unknowns written down honestly."
       },
       "video": {
         "title": "Part 3 · Check it from home",
@@ -1361,7 +1361,7 @@
             "label": "What I still need to test, and when"
           }
         ],
-        "result": "My Test Visit Report — what you learned in person, written down while it is fresh."
+        "result": "My Test Visit Report. What you learned in person, written down while it is fresh."
       },
       "video": {
         "title": "Part 4 · Test it in real life",
@@ -1559,7 +1559,7 @@
           ]
         }
       ],
-      "result": "My Explore Summary — one place, one honest picture, and your decision about what comes next.",
+      "result": "My Explore Summary. One place, one honest picture, and your decision about what comes next.",
       "video": {
         "title": "Part 5 · Bring it together",
         "length": "8–10 min",

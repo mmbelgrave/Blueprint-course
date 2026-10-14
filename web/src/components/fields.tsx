@@ -401,7 +401,7 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                 )}
                 {cols.map((c) => {
                   const v = cellValue(key, label, c.id);
-                  const aria = `${rowLabel(key, label) ?? `Row ${Number(key.slice(1)) + 1}`} — ${colLabel(c)}`;
+                  const aria = `${rowLabel(key, label) ?? `Row ${Number(key.slice(1)) + 1}`}, ${colLabel(c)}`;
                   return (
                     <td
                       key={c.id}
@@ -486,7 +486,7 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
       </div>
       {field.totals && cols.some((c) => c.kind === "money" && !tableFieldTotal(field, data, c.id).complete) && (
         <p className="text-sm text-ochre">
-          Not complete yet: some amounts are unknown or not marked. That is fine — now you know what to check.
+          Not complete yet: some amounts are unknown or not marked. That is fine. Now you know what to check.
         </p>
       )}
     </div>
@@ -504,7 +504,7 @@ function formatCalc(row: CalcRow, r: CalcResult, currency: string) {
   else if (row.format === "left_or_short")
     text = r.value < 0 ? `${formatMoney(-r.value, currency)} short` : `${formatMoney(r.value, currency)} left over`;
   else text = formatMoney(r.value, currency);
-  return r.complete ? text : `${text} — not complete yet`;
+  return r.complete ? text : `${text} (not complete yet)`;
 }
 
 function Calculation({ field, value, onChange, currency, extras }: FieldProps) {

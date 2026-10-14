@@ -58,12 +58,12 @@ export function Step3Doc({
             <Lights lights={r.lights.map((l) => ({ name: l.name, colour: l.colour, note: l.note }))} />
           </div>
           <Footnote>
-            The colours are my own answers on the day, not a certificate that anything is ready.
+            The colours are my own answers on the day. Nothing here says that anything is ready.
           </Footnote>
 
           {open.length > 0 && (
             <div className="mt-8">
-              <Kicker>The conditions that still matter</Kicker>
+              <Kicker>The conditions still open</Kicker>
               <div className="mt-4">
                 <ConditionRows rows={open.map((l) => ({ name: l.name, note: l.note, when: l.when }))} />
               </div>
@@ -149,7 +149,7 @@ export function Step3Doc({
         <RunningHead where="Step 3 · Decide" />
         <Body>
           <Kicker>From decision to action</Kicker>
-          <Headline>The order matters</Headline>
+          <Headline>The order I will do this in</Headline>
           {r.conditions && <Standfirst>{r.conditions}</Standfirst>}
 
           {r.steps.length > 0 && (

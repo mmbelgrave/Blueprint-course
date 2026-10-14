@@ -131,7 +131,7 @@ export async function POST(request: Request) {
     const sent = await sendWelcome(order, decision.product, isNew);
     await log(
       "opened",
-      `${decision.product} for ${order.email}${isNew ? ", new account" : ""}${sent ? "" : " — welcome email NOT sent"}.`,
+      `${decision.product} for ${order.email}${isNew ? ", new account" : ""}${sent ? "" : ", welcome email NOT sent"}.`,
       order,
     );
     return Response.json({ ok: true });

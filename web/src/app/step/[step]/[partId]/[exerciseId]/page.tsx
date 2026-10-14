@@ -61,7 +61,7 @@ function Fields({
       ? {
           ...baseExtras(field),
           suggestion: {
-            title: "Draft — make it yours:",
+            title: "Draft, make it yours:",
             text: drafts[field.id],
             button: "Use this draft",
             replaceButton: "Replace my text with this draft",
@@ -152,7 +152,7 @@ function ExampleFold({ example }: { example: { who: string; text: string } }) {
       </button>
       {open && (
         <div className="mt-2 rounded-xl bg-sage p-4">
-          <p className="display text-pine">Made-up example — {example.who}</p>
+          <p className="display text-pine">Made-up example: {example.who}</p>
           <p className="mt-1">{example.text}</p>
           <p className="mt-2 text-sm text-stone">Your answer can be completely different.</p>
         </div>
@@ -223,7 +223,7 @@ function DeeperHint({ exercise, sources }: { exercise: Exercise; sources: Record
   return (
     <p className="rounded-lg bg-sand p-3 text-sm">
       Your costs in your new life plus 30%: <strong>{formatMoney(t.value * 1.3, currency)}</strong> per month
-      (instead of {formatMoney(t.value, currency)}){t.complete ? "" : " — not complete yet"}.
+      (instead of {formatMoney(t.value, currency)}).{t.complete ? "" : " Not complete yet."}
     </p>
   );
 }
@@ -239,8 +239,8 @@ function Step1MoneyHint({ exercise, sources }: { exercise: Exercise; sources: Re
   return (
     <p className="rounded-lg bg-sand p-3 text-sm">
       Your total in Step 1 (3.2, in my new life):{" "}
-      <strong>{formatMoney(t.value, profile?.currency ?? "EUR")}</strong> per month
-      {t.complete ? "" : " — not complete yet"}.
+      <strong>{formatMoney(t.value, profile?.currency ?? "EUR")}</strong> per month.
+      {t.complete ? "" : " Not complete yet."}
     </p>
   );
 }
@@ -479,7 +479,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             </div>
             {exercise.go_deeper.story && (
               <div className="mt-4 rounded-xl bg-sage p-4">
-                <p className="display text-pine">My story — Mwata</p>
+                <p className="display text-pine">{"Mwata's story"}</p>
                 <p className="mt-1">{exercise.go_deeper.story.text}</p>
               </div>
             )}
@@ -534,7 +534,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           </Card>
         )}
         {asList(exercise.story).map((s) => (
-          <Card key={s.text.slice(0, 30)} tone="story" title="My story — Mwata">
+          <Card key={s.text.slice(0, 30)} tone="story" title="Mwata's story">
             <p>{s.text}</p>
           </Card>
         ))}
@@ -545,7 +545,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
         {(isSummary || (!part.summary && exercise.id === part.exercises.at(-1)!.id)) && (
           <p className="rounded-2xl bg-success-soft p-4">
             <span className="font-semibold text-success">✓ Result: {part.finish.title}</span>
-            {part.finish.description && <> — {part.finish.description}</>}
+            {part.finish.description && <>. {part.finish.description}</>}
           </p>
         )}
 

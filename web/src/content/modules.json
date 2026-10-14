@@ -35,7 +35,7 @@
       "id": "phase-1",
       "kind": "phase",
       "name": "Phase 1 · Choose it",
-      "blurb": "Decide what you want, and whether to move.",
+      "blurb": "Decide what you want, and whether to move or to change your life where you are.",
       "steps": [
         1,
         2,
@@ -59,7 +59,7 @@
       "id": "phase-3",
       "kind": "phase",
       "name": "Phase 3 · Live it",
-      "blurb": "Settle in, and keep checking that it works for you.",
+      "blurb": "Settle into everyday life and keep checking that it works for you.",
       "steps": [
         8
       ],

@@ -30,22 +30,18 @@
     "title": "Picture",
     "question": "What life do I really want?",
     "tagline": [
-      "Now the real work begins, and it begins with you."
+      "Now you start on your own answers."
     ],
     "intro": [
       "In this first step, you build a clearer picture of the life you want. You look honestly at where you stand today, including your money. You finish with a Working Direction: what you want to explore next. This is not a final decision. That comes in Step 3, after you have explored your options.",
       "Every exercise starts with a short explanation, then asks you to apply it to your own life. I give you the tools and questions, and share my own story, including the parts that changed along the way. You do the work of deciding what fits you."
     ],
     "ways_to_use": {
-      "title": "Three ways to use this step",
+      "title": "Two ways to use this step",
       "rows": [
         [
           "This workbook on its own",
-          "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Nothing else is required."
-        ],
-        [
-          "With the videos (coming soon)",
-          "Each part will have a short video where I explain the same ideas in my own words. They are being recorded and are not part of the course yet; the written explanation says the same thing."
+          "Read, think, write. Print it and use a pen, or type in the boxes. Everything you need is in here. Videos are planned; they are not part of this course yet."
         ],
         [
           "With the app",
@@ -259,10 +255,10 @@
       "title": "Picture your new life",
       "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
       "intro": [
-        "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" Both questions matter. Here, we begin with the life you want, then look at the place and the money.",
+        "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" You will answer both. Here, we begin with the life you want, then look at the place and the money.",
         "You need something to judge a place or a price against. If you don't know how you want to live, every country looks good in photos and every price looks high. Your picture is the measuring stick: it gives you a way to compare your options.",
         "A picture goes further than a wish. A wish is a word; a picture is a scene. Two people who want \"more freedom\" can mean completely different things. \"I decide what I do on a Tuesday morning\" gives you something concrete. You can compare a job, a house or a country with it and ask: would this give me that Tuesday morning?",
-        "You are also allowed to want something ordinary. Your picture does not have to impress anyone. Mine was simple: land, my hands in the soil, a warm climate, and work that meant something. It took years to build. It never became more impressive. It became more real."
+        "You are also allowed to want something ordinary. Your picture does not have to impress anyone. Mine was simple: land, my hands in the soil, a warm climate, and work that meant something. It took years to build, and it is still simple. It is also real."
       ],
       "intro_title": "Why we start with a picture",
       "tips": [
@@ -310,7 +306,7 @@
           },
           "example": {
             "who": "Tom, 58",
-            "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner—no more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
+            "text": "No more: evenings on my laptop. Instead: I finish work at six and spend some time outside before dinner. No more: grey winters that last half a year. Instead: I can sit outside in March with a coffee."
           },
           "tips": [
             "Some things you do not want have no clear \"yes\" yet. Write \"not sure yet\". You come back to them in 1.2, when you describe your normal day."
@@ -350,7 +346,7 @@
                   "Calm, meaning, freedom, being useful"
                 ]
               ],
-              "after": "The third one matters most. The activity may not be possible in your new life. The need comes with you wherever you go."
+              "after": "The third one is the most important. The activity may not be possible in your new life. The need comes with you wherever you go."
             }
           ],
           "watch_out": [
@@ -523,7 +519,7 @@
           "tables": [
             {
               "place": "before",
-              "lead": "Here, you turn what matters to you into practical criteria for your choices. Sort them into three groups:",
+              "lead": "Here, you turn what matters to you into criteria for your choices. Sort them into three groups:",
               "rows": [
                 [
                   "Must-have",
@@ -736,7 +732,7 @@
           "who": "Maria, 46",
           "text": "What keeps coming back: making something with my hands, one person nearby, no rush. More of: time outside every day, work I choose, quiet mornings. Keep: Sunday dinner with my sister, my two long-standing clients, swimming twice a week. Essential: a place to grow food, internet good enough for video calls, and a hospital within 45 minutes because of my mother. Pulls in two directions: quiet countryside against Sunday dinners with my sister, so for now, countryside but no more than three hours from her. Still don't know: whether my clients would stay if I moved abroad, what a house with land really costs, and how much of \"abroad\" is really mine."
         },
-        "result": "My Life Picture — what you want more of, what you keep, what is essential, and what is still open."
+        "result": "My Life Picture. What you want more of, what you keep, what is essential, and what is still open."
       },
       "video": {
         "title": "Part 1 · Picture your new life",
@@ -770,7 +766,7 @@
           "title": "Your life today, and in one year",
           "promise": "A simple picture of how your life is doing, area by area.",
           "intro": [
-            "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, rather than letting one problem dominate it.",
+            "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, so one problem does not dominate it.",
             "It helps in two ways. First, it separates things that can get mixed up. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
             "The score is only a starting point. The explanation beside it is what makes it useful."
           ],
@@ -854,7 +850,7 @@
                 "id": "decides_intro",
                 "type": "heading",
                 "heading": "Then look at who decides",
-                "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. Being busy is not the problem. Being busy with what others decide is."
+                "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. The problem is being busy with what others decide."
               },
               {
                 "id": "decides",
@@ -972,7 +968,7 @@
             },
             {
               "status": "ready",
-              "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: not more free time, but more say over my time."
+              "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: more say over my time."
             }
           ]
         },
@@ -1064,7 +1060,7 @@
         {
           "id": "2.3",
           "title": "What stopped you before?",
-          "promise": "Earlier attempts are not failures. They are information.",
+          "promise": "An earlier attempt tells you something useful.",
           "intro": [
             "Most of us have tried to change something before: a plan we never started, a move we postponed, or a business that remained an idea. Look at what stopped you and sort it into three groups.",
             "Outside your control: rules changing, illness, a pandemic. You cannot prevent these. You can plan for them, with a reserve, a fallback, or a slower timeline.",
@@ -1122,7 +1118,7 @@
           "intro": [
             "\"I am too old to start again.\" \"Life there is cheaper.\" These can feel like facts, even when we haven't checked them.",
             "The beliefs that hold us back are often easier to notice because they hurt. The appealing ones deserve just as much attention. When something supports a plan we like, we are less inclined to question it. That can become expensive later.",
-            "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, rather than treating it as a fact."
+            "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, and do not treat it as a fact."
           ],
           "tables": [
             {
@@ -1221,7 +1217,7 @@
             "closing": "No one to ask? Read old messages, cards or feedback you received. Or ask yourself: what would a good friend say?"
           },
           "tips": [
-            "Their answers are a perspective, not a verdict. Look at the examples they give, and decide which points deserve more thought, including the uncomfortable ones."
+            "Their answers are one perspective. Look at the examples they give, and decide which points deserve more thought, including the uncomfortable ones."
           ],
           "story": {
             "status": "ready",
@@ -1277,7 +1273,7 @@
             "label": "What I still don't know"
           }
         ],
-        "result": "My Starting Point — where you stand, what you can build on, and what you will check."
+        "result": "My Starting Point. Where you stand, what you can build on, and what you will check."
       },
       "video": {
         "title": "Part 2 · Look honestly at today",
@@ -1491,7 +1487,7 @@
                   "An idea. It may well happen, but nothing supports it yet."
                 ]
               ],
-              "after": "If it begins in six months, the sums in 3.5 show your life from then, not your life today."
+              "after": "Write the month the agreed income starts, so you can see what the check depends on."
             }
           ],
           "start_here": {
@@ -1775,7 +1771,7 @@
             "label": "My biggest money unknowns, and how I will check them"
           }
         ],
-        "result": "My First Money Picture — your first numbers, how sure they are, and what to check next."
+        "result": "My First Money Picture. Your first numbers, how sure they are, and what to check next."
       },
       "video": {
         "title": "Part 3 · Your first money picture",
@@ -2026,7 +2022,7 @@
           }
         ],
         "closing": "Step 3 looks at your worries properly, with a risk check for each option.",
-        "result": "My Options — the options worth investigating, and what you need to learn about them."
+        "result": "My Options. The options worth investigating, and what you need to learn about them."
       },
       "video": {
         "title": "Part 4 · Compare your options",
@@ -2039,7 +2035,7 @@
       "number": 5,
       "label": "Part 5",
       "title": "Choose your working direction",
-      "promise": "Not a final decision. A clear next direction.",
+      "promise": "A clear next direction, which you can still change.",
       "intro_title": "A direction is not a decision.",
       "intro": [
         "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
@@ -2166,7 +2162,7 @@
             "I want to compare two or more directions. Step 2 helps you explore them side by side.",
             "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 3 tests your change and ends with your staying route: a plan for the change where you are.",
             "I am not ready to choose yet. Your page shows what you need to learn first.",
-            "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is a decision too."
+            "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is also a decision."
           ],
           "example": {
             "who": "Tom, 58",
@@ -2174,7 +2170,7 @@
           },
           "example_page": {
             "title": "A completed page",
-            "intro": "Rosa is made up, and she stays. The point is not her answer. Every line is filled in, including the parts she does not know yet.",
+            "intro": "Rosa is made up, and she stays. Look at how every line is filled in, including the parts she does not know yet.",
             "rows": [
               [
                 "My life picture in three sentences",
@@ -2186,7 +2182,7 @@
               ],
               [
                 "The direction(s) I want to explore",
-                "Four days a week instead of five, in my current job, and one day a week outside."
+                "Four days a week at my current job instead of five, and one day a week outside."
               ],
               [
                 "Why: two or three reasons",
@@ -2218,7 +2214,7 @@
               ],
               [
                 "My next small step, within two weeks",
-                "Redo Part 3 with 80% of my take-home pay, using our last three bank statements."
+                "Redo Part 3 using 80% of my take-home pay and our last three bank statements."
               ],
               [
                 "What this step will help me learn",
@@ -2292,7 +2288,7 @@
           }
         }
       ],
-      "result": "My Working Direction — what you want to explore, what you take with you, and your next step.",
+      "result": "My Working Direction. What you want to explore, what you take with you, and your next step.",
       "video": {
         "title": "Part 5 · Choose your working direction",
         "length": "8–10 min",

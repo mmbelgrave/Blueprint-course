@@ -30,7 +30,7 @@ export function Shell({
     <div className="flex min-h-full flex-1 flex-col">
       {!isSupabaseConfigured && (
         <div className="bg-ochre px-4 py-1.5 text-center text-sm text-white print:hidden">
-          Preview mode — no account. Your answers are saved in this browser only.
+          Preview mode. No account. Your answers are saved in this browser only.
         </div>
       )}
       <header className={`border-b border-line bg-sand print:hidden ${ownHeader ? "hidden sm:block" : ""}`}>

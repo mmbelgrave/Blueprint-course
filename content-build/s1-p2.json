@@ -25,7 +25,7 @@
         "title": "Your life today, and in one year",
         "promise": "A simple picture of how your life is doing, area by area.",
         "intro": [
-          "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, rather than letting one problem dominate it.",
+          "This exercise uses the wheel of life, a tool coaches have used for decades. You score each area of your life to see the whole picture, so one problem does not dominate it.",
           "It helps in two ways. First, it separates things that can get mixed up. \"I am unhappy\" becomes \"my work is fine, but my free time feels empty\". Second, comparing today with where you want to be in one year shows which gaps matter to you. A 5 you are happy with needs no action. A 7 you want to bring up to 9 deserves your attention.",
           "The score is only a starting point. The explanation beside it is what makes it useful."
         ],
@@ -109,7 +109,7 @@
               "id": "decides_intro",
               "type": "heading",
               "heading": "Then look at who decides",
-              "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. Being busy is not the problem. Being busy with what others decide is."
+              "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. The problem is being busy with what others decide."
             },
             {
               "id": "decides",
@@ -227,7 +227,7 @@
           },
           {
             "status": "ready",
-            "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: not more free time, but more say over my time."
+            "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: more say over my time."
           }
         ]
       },
@@ -319,7 +319,7 @@
       {
         "id": "2.3",
         "title": "What stopped you before?",
-        "promise": "Earlier attempts are not failures. They are information.",
+        "promise": "An earlier attempt tells you something useful.",
         "intro": [
           "Most of us have tried to change something before: a plan we never started, a move we postponed, or a business that remained an idea. Look at what stopped you and sort it into three groups.",
           "Outside your control: rules changing, illness, a pandemic. You cannot prevent these. You can plan for them, with a reserve, a fallback, or a slower timeline.",
@@ -377,7 +377,7 @@
         "intro": [
           "\"I am too old to start again.\" \"Life there is cheaper.\" These can feel like facts, even when we haven't checked them.",
           "The beliefs that hold us back are often easier to notice because they hurt. The appealing ones deserve just as much attention. When something supports a plan we like, we are less inclined to question it. That can become expensive later.",
-          "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, rather than treating it as a fact."
+          "Often, checking a belief takes one phone call, an official website, or a conversation with someone who lives there. If you cannot check it, keep it as an uncertainty to plan for, and do not treat it as a fact."
         ],
         "tables": [
           {
@@ -476,7 +476,7 @@
           "closing": "No one to ask? Read old messages, cards or feedback you received. Or ask yourself: what would a good friend say?"
         },
         "tips": [
-          "Their answers are a perspective, not a verdict. Look at the examples they give, and decide which points deserve more thought, including the uncomfortable ones."
+          "Their answers are one perspective. Look at the examples they give, and decide which points deserve more thought, including the uncomfortable ones."
         ],
         "story": {
           "status": "ready",
@@ -532,7 +532,7 @@
           "label": "What I still don't know"
         }
       ],
-      "result": "My Starting Point — where you stand, what you can build on, and what you will check."
+      "result": "My Starting Point. Where you stand, what you can build on, and what you will check."
     },
     "video": {
       "title": "Part 2 · Look honestly at today",

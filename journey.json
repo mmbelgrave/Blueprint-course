@@ -1,7 +1,7 @@
 {
-  "source": "The Made Real Blueprint - Introduction v5.docx, \"Your route\" (three phases, eight steps)",
+  "source": "The Made Real Blueprint - Introduction - Rev.01e.docx, \"Your route\" (three phases, eight steps)",
   "title": "The whole road",
-  "intro": "Three phases, eight steps. Each step answers one big question and gives you a practical result to work with.",
+  "intro": "Three phases, eight steps. Each step answers one big question and gives you a result you can use.",
   "phases": [
     {
       "id": "choose",
@@ -11,7 +11,7 @@
         2,
         3
       ],
-      "says": "Decide honestly what you want, and where. Deciding not to move is a real choice too."
+      "says": "Decide what you want, and whether to move or to change your life where you are."
     },
     {
       "id": "build",
@@ -33,7 +33,7 @@
       "says": "Settle into everyday life and keep checking that it works for you."
     }
   ],
-  "two_outcomes": "Steps 1 to 3 work for any destination, including staying where you are. If you decide to stay, you leave with a clear plan to change your life at home. If you decide to move, Steps 4 to 8 guide you through building your new life in Portugal.",
+  "two_outcomes": "Steps 1 to 3 work for any destination, including staying where you are. If you decide to stay, Step 3 ends with your staying route: a plan to change your life where you are. That completes your Blueprint. If you decide to move, Steps 4 to 8 (coming soon) will guide you through building your new life in Portugal.",
   "steps": [
     {
       "number": 1,
@@ -46,14 +46,14 @@
       "number": 2,
       "title": "Explore",
       "question": "Where can this life happen?",
-      "result": "My shortlist and what I found",
+      "result": "My Explore Summary",
       "in_app": true
     },
     {
       "number": 3,
       "title": "Decide",
       "question": "Am I ready for this option?",
-      "result": "My Decision: go, not yet, or no",
+      "result": "My Decision: go, not yet, or no; if you stay, also My Change Plan",
       "in_app": true
     },
     {

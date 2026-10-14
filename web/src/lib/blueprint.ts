@@ -259,7 +259,7 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       tone: "amber",
       title: "Your runway is shorter than the one you wanted",
       quote: `You wanted ${money.runwayWanted} months. What is left to live on covers about ${money.runwayMonths}.`,
-      where: "Step 3 · 1.1 — your own two lines, the runway you have and the runway you asked for",
+      where: "Step 3 · 1.1: your own two lines, the runway you have and the runway you asked for",
     });
   }
 
@@ -270,14 +270,14 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
         tone: "red",
         title: `${light.name} is a red light`,
         quote: light.turnsGreen || "Nothing written down yet about what would change it.",
-        where: "Step 3 · 1.1 to 1.5 — a red light blocks this option as it stands",
+        where: "Step 3 · 1.1 to 1.5: a red light blocks this option as it stands",
       });
     } else if (colour === "amber" && light.byWhen === "") {
       out.push({
         tone: "amber",
         title: `${light.name} is amber, without a date`,
         quote: light.turnsGreen || "No next action written down yet.",
-        where: "Step 3 · Part 1 — an amber light needs a next action and a date",
+        where: "Step 3 · Part 1: an amber light needs a next action and a date",
       });
     }
   }
@@ -290,7 +290,7 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       tone: "red",
       title: "Something on your list this option does not meet",
       quote: row!.item,
-      where: "Step 3 · 4.1 — a broken dealbreaker ends this option, whatever the other lights say",
+      where: "Step 3 · 4.1: a broken dealbreaker ends this option, whatever the other lights say",
     });
   }
   const checked = Object.values(check).filter((r) => (r?.item ?? "").trim() && (r?.meets ?? "").trim());
@@ -299,7 +299,7 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       tone: "green",
       title: "Nothing on your list is broken",
       quote: `All ${checked.length} you checked are met, or partly met.`,
-      where: "Step 3 · 4.1 — checked against the list you wrote in Step 1",
+      where: "Step 3 · 4.1: checked against the list you wrote in Step 1",
     });
   }
 
@@ -310,7 +310,7 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       tone: "amber",
       title: "An unknown you carried through",
       quote: unknowns,
-      where: "Step 2 · My Explore Summary — still written down as unknown",
+      where: "Step 2 · My Explore Summary: still written down as unknown",
     });
   }
 
@@ -326,7 +326,7 @@ export function whatDoesNotLineUp(answers: Answers, currency = ""): Flag[] {
       tone: "amber",
       title: "A go with no conditions written down",
       quote: "Nothing is named that must be true before the hard-to-undo steps.",
-      where: "Step 3 · 4.2 — a go with conditions is the safer kind",
+      where: "Step 3 · 4.2: a go with conditions is the safer kind",
     });
   }
 

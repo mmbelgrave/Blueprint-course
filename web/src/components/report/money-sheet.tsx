@@ -69,7 +69,7 @@ export function MoneySheet({
 
         {m.guessed !== null && m.found !== null && m.differencePercent !== null && (
           <p className="mt-7 text-[11pt] leading-relaxed">
-            Step 1 guessed {money(m.guessed, currency)} a month. Step 2 found {money(m.found, currency)} —{" "}
+            Step 1 guessed {money(m.guessed, currency)} a month. Step 2 found {money(m.found, currency)},{" "}
             {m.differencePercent === 0
               ? "the same figure"
               : `${Math.abs(m.differencePercent)}% ${m.differencePercent > 0 ? "more" : "less"}`}

@@ -61,7 +61,7 @@ export function PageClear({ exerciseId }: { exerciseId: string }) {
   if (saved && !asking) {
     return (
       <p className="print:hidden text-center text-sm text-stone">
-        {saved.clear ? "Thank you — noted as clear." : "Thank you. Mwata reads these."}{" "}
+        {saved.clear ? "Thank you. Noted as clear." : "Thank you. Mwata reads these."}{" "}
         <button className="underline" onClick={() => setAsking(true)}>
           {saved.clear ? "Change my answer" : saved.comment ? "Change what I wrote" : "Add what was missing"}
         </button>

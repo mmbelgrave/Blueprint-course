@@ -88,7 +88,7 @@ export function Step1Doc({
 
           <Footnote>
             {r.choice ? `${r.choice}. ` : ""}
-            {r.letGo ? `Let go for now: ${r.letGo}` : "A direction to investigate, not a final decision."}
+            {r.letGo ? `Let go for now: ${r.letGo}` : "A direction to investigate, which I can still change."}
           </Footnote>
         </Body>
         {foot(1)}

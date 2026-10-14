@@ -104,7 +104,7 @@ export function quietMail(o: { name?: string; appUrl: string; email: string }) {
     "",
     `If you would like to keep your account, sign in at ${o.appUrl} with this`,
     `address (${o.email}) within the next 30 days. There is no password: you ask`,
-    "for a code and type it in. That is all it takes — nothing else is needed.",
+    "for a code and type it in. That is all it takes.",
     "",
     "If you do nothing, your account and everything in it will be deleted after",
     "those 30 days: your answers, your pictures, your chats and the notes your AI",

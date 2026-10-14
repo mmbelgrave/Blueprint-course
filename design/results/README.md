@@ -1,6 +1,6 @@
 # The four result documents
 
-Printed from the app on 10 October 2026, from Anna's answers in
+Printed from the app on 14 October 2026, from Anna's answers in
 `../screenshots/example-answers.mjs`. Nothing is drawn by hand: every word and
 every figure on these pages came out of the app, and the charts were worked out
 from her own tables.
@@ -61,7 +61,7 @@ Everything in the proposals is in the app except the three noted at the end.
 | 22 / 18 months | s3-1.1 check two; the runway divides what is **left to live on**, not the savings |
 | The three risks | s3-2.2 `risks` — the fear, the early warning sign, what she will do |
 | My way back | s3-1.5 `return_fund` and `keep` |
-| The order matters | s3-3.1 `steps`, with what must be true first |
+| The order I will do this in | s3-3.1 `steps`, with what must be true first |
 | Buying waits | s3-1.4 `rent_or_buy` |
 
 ### 04 My Blueprint Phase 1
@@ -92,3 +92,21 @@ Two smaller ones: the proposals' "countries out of 20" assumes the ten factors
 were scored, and the hub assumes travel times were written as times ("40
 minutes"). Where either is missing the page leaves that part out rather than
 guessing.
+
+## How to print them again
+
+1. `node design/screenshots/example-answers.mjs <somewhere>/anna.json` writes
+   Anna's answers in the shape the app keeps them in.
+2. `cd web && node scripts/preview-mode.cjs` builds and serves a copy with no
+   Supabase and no sign-in on port 3001. Preview mode reads its answers from
+   `localStorage` under `blueprint-preview-v1`.
+3. Serve `anna.json` on port 3099 with `access-control-allow-origin: *`, open
+   `http://localhost:3001/privacy`, and in the page do
+   `localStorage.setItem("blueprint-preview-v1", await (await fetch("http://localhost:3099/")).text())`.
+   A file:// path cannot be read from the page, and `public/` is not served by
+   this build, so the small server is the way in.
+4. Print each page with Chromium: `/step/1/print`, `/step/2/print`,
+   `/step/3/print`, `/phase/1/print`, as
+   `page.pdf({ preferCSSPageSize: true, printBackground: true, margin: 0 })`.
+   The sheets carry their own A4 size, so any added margin pushes each one onto
+   a second page.

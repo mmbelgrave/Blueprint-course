@@ -163,7 +163,7 @@
         ]
       }
     ],
-    "result": "My Decision Question — the exact decision you are testing in this step."
+    "result": "My Decision Question. The exact decision you are testing in this step."
   },
   {
     "id": "s3-p1",
@@ -173,7 +173,7 @@
     "promise": "Five checks. Each one green, amber or red.",
     "intro_title": "Why five lights, and not one feeling",
     "intro": [
-      "It is easy to feel ready before checking the practical details. Feelings matter, and you tested yours in Step 2. But a feeling cannot tell you whether your savings will last, whether your papers are in order, or whether your partner is really on board.",
+      "It is easy to feel ready before checking the practical details. Feelings count, and you tested yours in Step 2. But a feeling cannot tell you whether your savings will last, whether your papers are in order, or whether your partner is really on board.",
       "The five green lights split the decision into parts you can check: money, papers, people, place and your Plan B. You do not need five greens to start preparing. You need to know which lights are amber, and what will turn them green."
     ],
     "time": "3–5 hours",
@@ -281,7 +281,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "Before I moved, I made sure I had twelve months of living costs saved. I explained why in Step 1. I learned that structure matters as much as savings. In my first year in Portugal, I set up a Portuguese company with an accountant's help. I use it for my consultancy work, and later for the farm and rural tourism I have in mind. It also made sense given the land and renovation costs. That was the right choice for me, after advice. Your situation may be completely different, which is exactly why this is a question for an adviser, not for a forum."
+          "text": "Before I moved, I made sure I had twelve months of living costs saved. I explained why in Step 1. I learned that how you set things up is as important as your savings. In my first year in Portugal, I set up a Portuguese company with an accountant's help. I use it for my consultancy work, and later for the farm and rural tourism I have in mind. It also made sense given the land and renovation costs. That was the right choice for me, after advice. Your situation may be completely different, which is exactly why this is a question for an adviser, not for a forum."
         },
         "expert_work": "Tax rules for newcomers change often, and the right answer depends on your income, your assets and both countries involved. Talk to a qualified tax adviser before you move money, sell property, set up a company or change where you pay tax.",
         "staying": "Use the same two checks for your change. Check one: can your savings carry the change itself, such as a course, an income gap or a renovation? Check two: does your confirmed income cover the month after the change, for example, on four days a week, or in the first year of your own business? Leave out the lines about moving."
@@ -665,7 +665,7 @@
           ]
         }
       ],
-      "result": "My Green Lights — five checks, each with a colour, a next action and a date."
+      "result": "My Green Lights. Five checks, each with a colour, a next action and a date."
     },
     "video": {
       "title": "Part 1 · Five green lights",

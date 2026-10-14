@@ -32,7 +32,7 @@ export function questionMail(q: QuestionMail) {
   if (q.adminUrl) lines.push(`Their progress: ${q.adminUrl}`);
   lines.push("", "Sent from the Blueprint app.");
 
-  return { subject: `Question from ${who} — ${about}`, text: lines.join("\n") };
+  return { subject: `Question from ${who}: ${about}`, text: lines.join("\n") };
 }
 
 /**

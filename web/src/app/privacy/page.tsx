@@ -20,7 +20,7 @@ export default function Privacy() {
         <p>
           The Life You Choose is a brand of <strong>Belgrave Management, Unipessoal Lda</strong>, a company
           registered in Portugal, registration and tax number (NIPC) 518428338. The company is responsible for your
-          personal data &mdash; in legal terms, the &ldquo;controller&rdquo;. Mwata runs it. Questions about your
+          personal data (in legal terms, the &ldquo;controller&rdquo;). Mwata runs it. Questions about your
           data:{" "}
           <a href="mailto:info@maderealblueprint.com" className="text-pine underline">
             info@maderealblueprint.com
@@ -37,7 +37,7 @@ export default function Privacy() {
 
         <h2 className="font-semibold">Who reads it</h2>
         <p>
-          Your AI partner reads your answers to help you think &mdash; but only if you asked for it. That tick box,
+          Your AI partner reads your answers to help you think, and only if you asked for it. That tick box,
           and the one that lets Mwata read your answers, are both optional, and both can be changed at any time under
           Settings. With them off, nobody reads what you write but you.
         </p>
@@ -57,10 +57,10 @@ export default function Privacy() {
 
         <h2 className="font-semibold">Please keep the sensitive things out</h2>
         <p>
-          The exercises ask about your life, so write honestly &mdash; but please leave out health details, anything
+          The exercises ask about your life, so write honestly. Please leave out health details, anything
           about someone else&rsquo;s health, and anything a court would call sensitive. The app does not need them,
-          and the fewer of them it holds the better protected you are. Nothing stops you writing them; this is a
-          request, not a filter.
+          and the fewer of them it holds the better protected you are. Nothing stops you writing them. The app does not check what you type; this is a
+          request.
         </p>
 
         <h2 className="font-semibold">The help we use</h2>
@@ -79,7 +79,7 @@ export default function Privacy() {
           first; if there is no reply within 30 days, the account and everything in it are deleted. Sign-in codes last
           an hour. The log of how much you used your AI partner is kept for 12 months, and questions you send from
           Help for 12 months after we last spoke. An order has to be kept as long as tax law says, which is generally
-          10 years &mdash; so after you delete your account the order record is all that is left. Backups may hold
+          10 years, so after you delete your account the order record is all that is left. Backups may hold
           deleted data for up to 7 days.
         </p>
 

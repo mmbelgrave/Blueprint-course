@@ -99,7 +99,7 @@ export function BlueprintDoc({
           <Headline>Keep the life in the plan</Headline>
           {r.values.length > 0 && (
             <Standfirst>
-              {r.values.join(", ")}. The move only matters if ordinary days make more room for these.
+              {r.values.join(", ")}. The move is only worth it if ordinary days make more room for these.
             </Standfirst>
           )}
 
@@ -170,7 +170,7 @@ export function BlueprintDoc({
           <div className="mt-7">
             <Lights lights={r.lights.map((l) => ({ name: l.name, colour: l.colour, note: l.note }))} />
           </div>
-          <Footnote>The colours are my own answers on the day, not a certificate that anything is ready.</Footnote>
+          <Footnote>The colours are my own answers on the day. Nothing here says that anything is ready.</Footnote>
 
           {open.length > 0 && (
             <div className="mt-8">

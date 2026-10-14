@@ -13,7 +13,7 @@ const base = {
 
 test("the subject says who asked and about what", () => {
   const { subject } = questionMail(base);
-  assert.equal(subject, "Question from Anna — Step 1 Picture, 1.2 A normal day in your new life");
+  assert.equal(subject, "Question from Anna: Step 1 Picture, 1.2 A normal day in your new life");
   // Without a name, the address has to stand in for it.
   assert.match(questionMail({ ...base, name: "" }).subject, /^Question from anna@example\.com/);
 });
@@ -28,7 +28,7 @@ test("the body holds the question, the way back and nothing else", () => {
 
 test("no page and no admin link still reads properly", () => {
   const { subject, text } = questionMail({ ...base, page: undefined, adminUrl: undefined });
-  assert.equal(subject, "Question from Anna — Step 1 Picture");
+  assert.equal(subject, "Question from Anna: Step 1 Picture");
   assert.ok(!text.includes("Their progress"));
   assert.ok(!text.includes("undefined"));
 });
