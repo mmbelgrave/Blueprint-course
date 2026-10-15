@@ -335,6 +335,66 @@ the credits. That is the "see what is inside" material, and only to someone
 signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
 it ever matters.
 
+## The partner seat, slice 1 (15 October 2026)
+
+Mwata challenged the seat before it was built: a lot of this course is done
+together, so two identical copies of the app would be wrong. He is right, and
+the money check proves it. With two separate accounts, Lotte's Decision
+document would say the runway is 46 months and Ben's would say something else,
+from the same savings.
+
+So every page is now one of three kinds, decided page by page in
+`design/partner-seat.md` and held as data in `together.json`: 37 shared, 29
+personal, 3 to read. `content-build/check-together.mjs` runs with the content
+build and refuses a page nobody has decided about.
+
+**What is built.**
+
+- `partner_seats`: one row per buyer, one seat per purchase, one open seat per
+  address, one household per partner. The last three are unique indexes rather
+  than promises, which is what makes "no swapping" true.
+- Settings: the invitation card. It draws nothing for a free account, shows the
+  address once a seat exists, and offers to send the letter again while it has
+  not been used. Changing the address is an email to Mwata, and the card says
+  so.
+- The invited account is made when the invitation is sent. No Supabase email of
+  its own goes out, and the seat works even if sign-up is ever closed again.
+- `/api/household` is the one door to the shared answers. Row-level security is
+  not loosened anywhere: a partner asking Supabase directly for the buyer's
+  rows still gets nothing.
+- Shared answers are written to the buyer's rows with `changed_by`. The browser
+  sends the moment it last had the truth, so a save knows whether the other
+  person got there first. If they did, nothing is saved: both answers come back
+  and the page asks which to keep.
+- A shared page's progress is the household's, so a partner does not open Step
+  1 to find a filled-in money table marked "not started".
+- The AI partner sees your own answers plus the shared ones, never the other
+  person's personal answers. Enforced in the query (`answersIMaySee`), not in
+  the prompt, because a prompt can be talked round.
+- Entitlements are read from the buyer rather than copied, so a refund ends the
+  partner's access in the same moment with nothing to keep in step.
+- Admin lists the seats, and the invitation is logged to `webhook_events` under
+  `source: "seat"`.
+- A partner who deletes their account ends the seat. A buyer who deletes theirs
+  takes the row with them, and the shared answers go with the purchase.
+
+**What is not built yet**: the comparison (slice 2) and two voices in the
+result documents (slice 3). Until then a personal page in a household says only
+that you each answer it yourself.
+
+**Checked**: 204 tests (20 of them new, for the sharing rules and the
+household), typecheck, lint and a production build. The four new routes are in
+the build. Nothing in the app changes for a person working alone, which is the
+state of every account today.
+
+**Waiting on Mwata**: run `web/supabase/2026-10-15-partner-seat.sql`. Until it
+is run the seat table is not there, every account reads as "alone", and the app
+behaves exactly as it did before.
+
+One thing worth knowing: `npm ci` had to be run halfway through this, because
+node_modules lost most of its packages while OneDrive was syncing. The known
+OneDrive problem, in a new shape.
+
 ## The workbook revisions, and the app's own words (14 October 2026)
 
 Mwata ran his humanizer pass over the four workbooks and sent the revisions:

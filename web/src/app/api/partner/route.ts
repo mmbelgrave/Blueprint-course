@@ -7,6 +7,7 @@ import { findExercise } from "@/lib/content";
 import { anthropicClient } from "@/lib/partner/client";
 import { contextMessage, HELPERS, partnerRequest, type HelperType } from "@/lib/partner/prompt";
 import { STATUS_MARK, type PartnerStatus } from "@/lib/partner/protocol";
+import { answersIMaySee } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -82,8 +83,8 @@ export async function POST(request: Request) {
   }
 
   // Everything the partner needs: answers, what it knows, and this page's chat.
-  const [answerRows, aiProfile, history] = await Promise.all([
-    supabase.from("answers").select("exercise_id, field_id, value"),
+  const [answers, aiProfile, history] = await Promise.all([
+    answersIMaySee(supabase, supabaseAdmin(), user.id) as Promise<Answers>,
     supabase.from("ai_profile").select("profile").eq("user_id", user.id).maybeSingle(),
     supabase
       .from("conversations")
@@ -92,8 +93,7 @@ export async function POST(request: Request) {
       .order("created_at", { ascending: false })
       .limit(HISTORY_MESSAGES),
   ]);
-  const answers: Answers = {};
-  for (const a of answerRows.data ?? []) (answers[a.exercise_id] ??= {})[a.field_id] = a.value;
+
   // The page may hold newer text than the database (autosave waits a moment).
   // Ignored when unreasonably large, so nobody can send a huge request at our cost.
   if (

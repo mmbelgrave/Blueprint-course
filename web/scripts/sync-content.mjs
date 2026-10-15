@@ -16,6 +16,7 @@ for (const name of [
   "app-guide.json",
   "access.json",
   "modules.json",
+  "together.json",
 ]) {
   const source = new URL(`../../${name}`, import.meta.url);
   const target = new URL(`../src/content/${name}`, import.meta.url);
@@ -27,6 +28,10 @@ for (const name of [
   copyFileSync(source, target);
   console.log(`sync-content: ${name} copied.`);
 }
+
+// Who answers what together has to match the content: an exercise nobody has
+// decided about would silently become personal (spec 6.8).
+execFileSync(process.execPath, [join(here, "../../content-build/check-together.mjs")], { stdio: "inherit" });
 
 // The browser gets the shape of the workbook, never the words (review round 4).
 // Generated from the same source files, so it can never drift from them.

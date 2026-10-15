@@ -9,6 +9,13 @@ export type PendingAnswer = {
   exerciseId: string;
   fieldId: string;
   value: unknown;
+  /**
+   * Set when this answer belongs to a household (spec 6.8): it is stored once,
+   * on the buyer rows, through the server. The moment the page last had the
+   * truth travels with it, so a save can tell whether the other person wrote
+   * this same box first. Decided when the answer is typed, not when it is sent.
+   */
+  shared?: { loadedAt: string };
 };
 
 export class AnswerSaver {

@@ -600,22 +600,78 @@ promised feedback here, without meetings.
 ### 6.8 A partner seat
 Each purchase may invite **one partner** (the terms allow use with the people
 you plan your move with, and many exercises are for couples).
-- The buyer types their partner's email in Settings; the partner gets an email,
-  signs in with a code, and gets the same steps.
-- Each person has their **own account, answers, AI partner and notes**. Nothing
-  is shared between them unless a later version adds that on purpose.
-- The partner's access ends when the buyer's does (refund), and the buyer can
-  remove the partner and invite someone else.
-- Their AI use counts in Admin like anyone else's.
 
-**Later, if the seat gets used (Mwata, 10 October):** two people answer the
-same exercises separately, and then the app shows them side by side — where
-they agree, where they do not, and which must-haves only one of them wrote
-down. Several exercises are already built for exactly that conversation (1.5
-"Whose picture is this?", 5.2 "The people involved", Step 3's "who decides with
-me"). Deliberately not in the first version: it needs a second set of answers
-to exist before it is worth designing, and showing one person another person's
-answers is a promise that cannot be taken back.
+**Agreed 15 October, after Mwata's challenge:** two identical copies of the app
+would be wrong. A lot of this course is done together, and some of it must be,
+or a couple ends with two Decision documents that contradict each other. So
+every page is one of three kinds, listed page by page in
+`design/partner-seat.md` and held as data in `together.json`:
+
+| | What it means | How many |
+| --- | --- | --- |
+| **Ours** | One answer for the household. Either person writes it, and the page says who changed it last. All the money, the facts about a place, the timeline, the five lights, the decision being tested. | 37 |
+| **Mine** | Each person answers alone. Nothing is shown to the other until both have written. The wishes, the scores, the feelings, the must-haves, the dealbreakers. | 29 |
+| **Read** | Nothing to answer, so nothing to share. | 3 |
+
+A field is the unit an answer is stored under, so a shared page can still hold
+a personal box: `mine_fields` lists them (the biggest fear in s3-2.2, the
+personal time in s3-5.3, what I need from my partner in s3-5.4).
+`content-build/check-together.mjs` refuses a page nobody has decided about, so a
+new exercise cannot default quietly into either kind.
+
+**How it works.**
+- The buyer types their partner's email in Settings. One seat per purchase, set
+  once; moving it is an email to Mwata, which the card says plainly. The
+  account for that address is made when the invitation is sent, so asking for a
+  code is an ordinary sign-in even if sign-up is ever closed again.
+- Each person has their **own account, chats and notes**, and their own personal
+  answers. The shared answers live on the buyer's rows, which is what makes
+  "the answers stay with the buyer if the seat ends" true without anything
+  having to be moved.
+- Row-level security is **not** loosened. A partner who asks Supabase directly
+  for the buyer's answers still gets nothing. `/api/household` is the one door,
+  and it checks the household and the page before it opens.
+- The partner's access **follows the buyer's**: entitlements are read, never
+  copied, so a refund ends both in the same moment with nothing to keep in step.
+- The AI partner sees your own answers plus the shared ones, never the other
+  person's personal answers. That is enforced in the query, not in the prompt,
+  because a prompt can be talked round.
+- A shared page that is finished is finished for both, so its progress belongs
+  to the household too.
+- Two people in one money table: answers are stored per field with the moment
+  they were written, so a save can tell whether the other person got there
+  first. Nothing is overwritten silently. The page shows both answers and asks.
+- Their AI use counts in Admin like anyone else's, and Admin lists the seats.
+
+**Built in three slices.** Slice 1 (15 October): the seat, the shared answers,
+the conflict question, the admin list. Slice 2: the comparison, which is the
+waiting rule ("nothing until both have written"), the per-page private switch
+for 2.3, 2.4 and 3.1, the side-by-side view, and the one agreed answer on 5.1
+and 3.4.2. Slice 3: two voices in the result documents, so a couple gets one My
+Decision and one Blueprint with both names on the cover and the personal parts
+printed twice.
+
+**Where the comparison lives, and where it does not.** Not a fifth tab: five
+labels do not fit a 375-pixel phone (decided 6 October), and the comparison
+belongs where the work is. On the page, in the part summary, and in one gathered
+card per step beside the result.
+
+**Freshness.** The app loads every answer once when it starts and saves a second
+after typing stops. For a household that means the other person's writing is
+there when the app is opened, a waiting comparison asks the server every twenty
+seconds while the page is open, and opening a step says what is new. Supabase
+Realtime is deliberately not used: it costs a connection per person and buys
+only watching a word appear as it is typed.
+
+**Nobody invited, nothing new on screen.** A person working alone sees the app
+exactly as before: no labels, no panels, no waiting, a single-voice document.
+The only new thing is the invitation card in Settings.
+
+**Later, if the seat gets used (Mwata, 10 October):** two people answer the same
+exercises separately, and the app shows them side by side. Several exercises are
+already built for exactly that conversation (1.5 "Whose picture is this?", 5.2
+"The people involved", Step 3's "who decides with me"). That is slice 2, and it
+needs a second set of answers to exist before it is worth designing.
 
 ### 6.9 How the app is laid out
 **Decided 7 October**, from Mwata's sketch. This replaces the earlier tab-bar

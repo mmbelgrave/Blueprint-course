@@ -34,6 +34,17 @@ export async function deletePictures(admin: SupabaseClient, userId: string) {
  */
 export async function deleteEverything(admin: SupabaseClient, userId: string) {
   await deletePictures(admin, userId);
+  /*
+   * A partner who leaves ends the seat rather than leaving it pointing at
+   * nobody (6.8). A buyer who leaves takes the row with them: the seat belongs
+   * to the purchase, and so do the shared answers.
+   */
+  await admin
+    .from("partner_seats")
+    .update({ status: "ended", ended_at: new Date().toISOString(), ended_reason: "account_deleted" })
+    .eq("partner_id", userId)
+    .neq("status", "ended")
+    .then(() => undefined, () => undefined);
   const { error } = await admin.auth.admin.deleteUser(userId);
   if (error) throw new Error(`the account could not be deleted: ${error.message}`);
 }

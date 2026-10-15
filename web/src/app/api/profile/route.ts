@@ -5,6 +5,7 @@ import type { Answers } from "@/lib/backend";
 import { anthropicClient } from "@/lib/partner/client";
 import { updateProfile } from "@/lib/partner/profile-update";
 import { applyPersonChoices, type AiProfile } from "@/lib/profile-fields";
+import { answersIMaySee } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -30,12 +31,11 @@ export async function POST() {
     .maybeSingle();
   if (!profileRow?.consent_ai) return fail(403, "Your AI partner is switched off. You can switch it on in My settings.");
 
-  const [answerRows, current] = await Promise.all([
-    supabase.from("answers").select("exercise_id, field_id, value"),
+  const [answers, current] = await Promise.all([
+    answersIMaySee(supabase, supabaseAdmin(), user.id) as Promise<Answers>,
     supabase.from("ai_profile").select("profile").eq("user_id", user.id).maybeSingle(),
   ]);
-  const answers: Answers = {};
-  for (const a of answerRows.data ?? []) (answers[a.exercise_id] ??= {})[a.field_id] = a.value;
+
 
   try {
     const result = await updateProfile(

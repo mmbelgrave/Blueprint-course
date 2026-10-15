@@ -26,6 +26,7 @@ import {
   type Part,
 } from "@/lib/content";
 import { PageClear } from "@/components/page-clear";
+import { SharedNote } from "@/components/shared-note";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
 import { Fold } from "@/components/fold";
 import { VideoSlot } from "@/components/video-slot";
@@ -419,6 +420,10 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             ))}
           </div>
         )}
+
+        {/* In a household: who answers this one, and the question when both
+            of you wrote the same box (6.8). Nothing for a person alone. */}
+        <SharedNote exercise={exercise} />
 
         {exercise.start_here && exercise.start_here.fields.length > 0 && (
           <section className="space-y-4 rounded-2xl bg-white p-5 sm:p-6">

@@ -19,8 +19,19 @@ export async function GET() {
       .order("created_at", { ascending: false })
       .limit(25);
 
+    /*
+     * The partner seats (6.8). Read on its own and allowed to fail: before the
+     * migration is run the table is not there, and the admin page must still
+     * open.
+     */
+    const { data: seats } = await auth.admin
+      .from("partner_seats")
+      .select("buyer_id, email, partner_id, status, invited_at, joined_at")
+      .order("invited_at", { ascending: false });
+
     return Response.json({
       participants: await buildOverview(auth.admin),
+      seats: seats ?? [],
       emailNotifications: !!process.env.RESEND_API_KEY,
       webhooks: webhooks ?? [],
       buyingRequired: process.env.NEXT_PUBLIC_REQUIRE_PURCHASE === "true",

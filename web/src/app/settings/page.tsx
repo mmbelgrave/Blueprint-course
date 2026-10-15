@@ -3,6 +3,7 @@
 // "you can change this later"), plus first name and currency.
 import Link from "next/link";
 import { useState } from "react";
+import { PartnerSeat } from "@/components/partner-seat";
 import { RequireUser, Shell } from "@/components/Shell";
 import { isFree } from "@/lib/access-app";
 import { ThemeChoice } from "@/components/theme-choice";
@@ -158,6 +159,10 @@ export default function SettingsPage() {
               </a>
             </p>
           </div>
+
+          {/* The seat that comes with a purchase (6.8). It draws nothing at
+              all until there is one to offer or one in use. */}
+          <PartnerSeat />
 
           <div className="mt-8 border-t border-line pt-8">
             <h2 className="text-xl font-semibold text-pine">Help</h2>

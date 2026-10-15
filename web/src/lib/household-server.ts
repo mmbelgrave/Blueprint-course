@@ -1,0 +1,218 @@
+/**
+ * The household against the database (spec §6.8).
+ *
+ * Everything here runs on the server with the service role, because a shared
+ * answer belongs to the buyer's rows and row-level security says "your own rows
+ * only". That rule stays: a partner who asks Supabase directly for the buyer's
+ * answers still gets nothing. This file is the one door, and it checks the
+ * household and the page before it opens.
+ */
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { conflict, householdFrom, mayWriteShared, type Conflict, type Household, type Seat } from "@/lib/household";
+import { sharedAnswer, sharedStatus } from "@/lib/together-app";
+
+type Admin = SupabaseClient;
+
+/** The seat this person is named in, as buyer or as partner. */
+export async function seatOf(admin: Admin, userId: string): Promise<Seat | null> {
+  const { data } = await admin
+    .from("partner_seats")
+    .select("buyer_id, email, partner_id, status, invited_at, joined_at")
+    .or(`buyer_id.eq.${userId},partner_id.eq.${userId}`)
+    .maybeSingle();
+  return (data as Seat | null) ?? null;
+}
+
+/** The household this person is in. Reads, changes nothing. */
+export async function householdOf(admin: Admin, userId: string): Promise<{ household: Household; seat: Seat | null }> {
+  const seat = await seatOf(admin, userId);
+  return { household: householdFrom(userId, seat), seat };
+}
+
+/**
+ * The household, and a partner's first visit turned into a seat that is in use.
+ *
+ * The flip happens when the app loads, so there is no separate "accept" step to
+ * press and nothing is left half-joined if they never press anything. Only the
+ * app's own household route calls this; every other reader uses `householdOf`,
+ * which changes nothing.
+ */
+export async function joinAndRead(admin: Admin, userId: string): Promise<{ household: Household; seat: Seat | null }> {
+  let seat = await seatOf(admin, userId);
+  if (seat && seat.status === "invited" && seat.partner_id === userId) {
+    const { data } = await admin
+      .from("partner_seats")
+      .update({ status: "active", joined_at: new Date().toISOString() })
+      .eq("buyer_id", seat.buyer_id)
+      .select("buyer_id, email, partner_id, status, invited_at, joined_at")
+      .maybeSingle();
+    seat = (data as Seat | null) ?? { ...seat, status: "active" };
+  }
+  return { household: householdFrom(userId, seat), seat };
+}
+
+export type SharedState = {
+  answers: Record<string, Record<string, unknown>>;
+  statuses: Record<string, string>;
+  /** Who last wrote each shared answer, for the line that says so. */
+  changed: Record<string, { by: string; at: string }>;
+};
+
+/**
+ * Every shared answer of this household, and nothing else.
+ *
+ * The filter is the page list, not the person: a personal answer of the other
+ * person is never read here, whatever the caller asks for.
+ */
+export async function sharedState(admin: Admin, household: Household): Promise<SharedState> {
+  const empty: SharedState = { answers: {}, statuses: {}, changed: {} };
+  if (household.role === "alone") return empty;
+
+  const [{ data: rows }, { data: statusRows }] = await Promise.all([
+    admin
+      .from("answers")
+      .select("exercise_id, field_id, value, changed_by, updated_at")
+      .eq("user_id", household.ownerId),
+    admin.from("exercise_status").select("exercise_id, status").eq("user_id", household.ownerId),
+  ]);
+
+  const state: SharedState = { answers: {}, statuses: {}, changed: {} };
+  for (const row of rows ?? []) {
+    if (!sharedAnswer(row.exercise_id, row.field_id)) continue;
+    state.answers[row.exercise_id] ??= {};
+    state.answers[row.exercise_id][row.field_id] = row.value;
+    if (row.changed_by) state.changed[`${row.exercise_id}/${row.field_id}`] = { by: row.changed_by, at: row.updated_at };
+  }
+  for (const row of statusRows ?? []) {
+    if (sharedStatus(row.exercise_id)) state.statuses[row.exercise_id] = row.status;
+  }
+  return state;
+}
+
+export type WriteResult = { saved: true } | { saved: false; conflict: Conflict; theirs: unknown };
+
+/**
+ * Write one shared answer.
+ *
+ * Refused unless the page really is a shared one, so a mistake in the browser
+ * cannot write a personal answer onto somebody else's rows. If the other person
+ * has written that same box since this page was loaded, nothing is saved and
+ * the page is told, so it can ask which answer to keep.
+ */
+export async function writeShared(
+  admin: Admin,
+  household: Household,
+  userId: string,
+  item: { exerciseId: string; fieldId: string; value: unknown; loadedAt: string; force?: boolean },
+): Promise<WriteResult | { error: string }> {
+  if (!sharedAnswer(item.exerciseId, item.fieldId)) return { error: "That answer is not a shared one." };
+  if (!mayWriteShared(household, userId)) return { error: "That is not your household." };
+
+  const { data: stored } = await admin
+    .from("answers")
+    .select("value, changed_by, updated_at")
+    .eq("user_id", household.ownerId)
+    .eq("exercise_id", item.exerciseId)
+    .eq("field_id", item.fieldId)
+    .maybeSingle();
+
+  if (!item.force) {
+    const clash = conflict(stored, { userId, loadedAt: item.loadedAt });
+    if (clash.kind === "theirs") return { saved: false, conflict: clash, theirs: stored?.value ?? null };
+  }
+
+  const { error } = await admin.from("answers").upsert(
+    {
+      user_id: household.ownerId,
+      exercise_id: item.exerciseId,
+      field_id: item.fieldId,
+      value: item.value as never,
+      changed_by: userId,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,exercise_id,field_id" },
+  );
+  if (error) return { error: error.message };
+  return { saved: true };
+}
+
+/** A shared page that is finished is finished for both, so its progress is the household's. */
+export async function writeSharedStatus(
+  admin: Admin,
+  household: Household,
+  userId: string,
+  item: { exerciseId: string; status: string },
+): Promise<{ saved: true } | { error: string }> {
+  if (!sharedStatus(item.exerciseId)) return { error: "That page is not a shared one." };
+  if (!mayWriteShared(household, userId)) return { error: "That is not your household." };
+  const { error } = await admin.from("exercise_status").upsert(
+    {
+      user_id: household.ownerId,
+      exercise_id: item.exerciseId,
+      status: item.status,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,exercise_id" },
+  );
+  return error ? { error: error.message } : { saved: true };
+}
+
+/** The other person's first name, for "Ben changed this": nothing else of theirs. */
+export async function otherName(admin: Admin, household: Household): Promise<string | null> {
+  if (!household.otherId) return null;
+  const { data } = await admin
+    .from("profiles")
+    .select("first_name")
+    .eq("user_id", household.otherId)
+    .maybeSingle();
+  const name = (data as { first_name?: string | null } | null)?.first_name?.trim();
+  return name || null;
+}
+
+/**
+ * What the household owns.
+ *
+ * A partner's access follows the buyer's, so it is read rather than copied: a
+ * refund ends the buyer's entitlement and the partner loses access in the same
+ * moment, with nothing to keep in step. Their own purchases, if they have any,
+ * still count.
+ */
+export async function householdEntitlements(
+  admin: Admin,
+  household: Household,
+  mine: { product: string; status: string }[],
+): Promise<{ product: string; status: string }[]> {
+  if (household.role !== "partner") return mine;
+  const { data } = await admin.from("entitlements").select("product, status").eq("user_id", household.ownerId);
+  return [...mine, ...((data ?? []) as { product: string; status: string }[])];
+}
+
+/**
+ * Everything this person's AI partner may see.
+ *
+ * Their own answers, with the household's shared answers laid over the top.
+ * Never one of the other person's personal answers: that is the promise the
+ * seat rests on, and it is kept here rather than in the prompt, because a
+ * prompt can be talked round and a query cannot.
+ */
+export async function answersIMaySee(
+  supabase: { from: (table: string) => { select: (columns: string) => PromiseLike<{ data: unknown }> } },
+  admin: Admin | null,
+  userId: string,
+): Promise<Record<string, Record<string, unknown>>> {
+  const { data } = await supabase.from("answers").select("exercise_id, field_id, value");
+  const answers: Record<string, Record<string, unknown>> = {};
+  for (const row of (data ?? []) as { exercise_id: string; field_id: string; value: unknown }[]) {
+    (answers[row.exercise_id] ??= {})[row.field_id] = row.value;
+  }
+  if (!admin) return answers;
+
+  const { household } = await householdOf(admin, userId);
+  if (household.role === "alone" || household.ownerId === userId) return answers;
+
+  const shared = await sharedState(admin, household);
+  for (const [exerciseId, fields] of Object.entries(shared.answers)) {
+    answers[exerciseId] = { ...answers[exerciseId], ...fields };
+  }
+  return answers;
+}

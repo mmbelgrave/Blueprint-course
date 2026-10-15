@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The partner seat</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pine: #2c3b2f;
+        --sand: #f3ece0;
+        --line: #ddd7c6;
+        --ochre: #8f5410;
+        --ochre-soft: #f6ead9;
+        --moss: #5e7a50;
+        --stone: #66625a;
+        --success: #2e6b45;
+        --success-soft: #e4ede7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 32px 16px 80px;
+        background: var(--sand);
+        color: #23211e;
+        font: 400 17px/1.6 "Hanken Grotesk", "Segoe UI", Arial, sans-serif;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: Newsreader, Georgia, serif;
+        font-weight: 500;
+        line-height: 1.15;
+        color: var(--pine);
+        margin: 0;
+      }
+      h1 {
+        font-size: 2.1rem;
+      }
+      .note {
+        color: var(--stone);
+        font-size: 0.95rem;
+      }
+      .kicker {
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ochre);
+        font-weight: 600;
+      }
+      section {
+        margin-top: 44px;
+      }
+      .screen {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 22px;
+        margin-top: 14px;
+      }
+      .page-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 12px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+      }
+      .tag {
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 3px 10px;
+        white-space: nowrap;
+      }
+      .tag.ours {
+        background: var(--success-soft);
+        color: var(--success);
+      }
+      .tag.mine {
+        background: var(--ochre-soft);
+        color: var(--ochre);
+      }
+      .box {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fffdf9;
+      }
+      .box.waiting {
+        border-style: dashed;
+        background: transparent;
+        color: var(--stone);
+      }
+      .two {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: 1fr 1fr;
+      }
+      @media (max-width: 620px) {
+        .two {
+          grid-template-columns: 1fr;
+        }
+      }
+      .who {
+        font-weight: 600;
+        color: var(--pine);
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+      }
+      ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 3px 0;
+      }
+      .same {
+        color: var(--success);
+        font-weight: 600;
+      }
+      .diff {
+        color: var(--ochre);
+        font-weight: 600;
+      }
+      .panel {
+        margin-top: 16px;
+        border-radius: 12px;
+        padding: 14px 16px;
+        background: var(--success-soft);
+      }
+      .panel.warn {
+        background: var(--ochre-soft);
+      }
+      .panel h3 {
+        font-size: 1.05rem;
+        margin-bottom: 4px;
+      }
+      .changed {
+        font-size: 0.85rem;
+        color: var(--stone);
+        margin-top: 8px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-variant-numeric: tabular-nums;
+        font-size: 0.95rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 7px 8px;
+        border-bottom: 1px solid var(--line);
+      }
+      th {
+        font-weight: 600;
+        color: var(--stone);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      td.num {
+        text-align: right;
+      }
+      .btn {
+        display: inline-block;
+        background: var(--pine);
+        color: var(--sand);
+        border-radius: 999px;
+        padding: 9px 18px;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+      .btn.quiet {
+        background: transparent;
+        color: var(--pine);
+        border: 1px solid var(--pine);
+      }
+      .field {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: var(--stone);
+        background: #fff;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .legend {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .legend span {
+        font-size: 0.9rem;
+        color: var(--stone);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="kicker">A proposal, 15 October 2026</p>
+      <h1>The partner seat, on screen</h1>
+      <p class="note">
+        Four screens. Lotte bought the course and invited Ben. They each sign in with their own address.
+      </p>
+      <div class="legend">
+        <span><span class="tag ours">Ours</span> one answer for the two of you</span>
+        <span><span class="tag mine">Mine</span> you each answer, then you compare</span>
+      </div>
+
+      <section>
+        <p class="kicker">1. A shared page</p>
+        <h2>One money picture, not two</h2>
+        <div class="screen">
+          <div class="page-head">
+            <h3>3.2 What does your life cost per month?</h3>
+            <span class="tag ours">Ours</span>
+          </div>
+          <table>
+            <tr>
+              <th>Cost per month</th>
+              <th>Today</th>
+              <th>In our new life</th>
+              <th>How sure</th>
+            </tr>
+            <tr>
+              <td>Rent or mortgage</td>
+              <td class="num">1,450</td>
+              <td class="num">900</td>
+              <td>Estimate</td>
+            </tr>
+            <tr>
+              <td>Food</td>
+              <td class="num">620</td>
+              <td class="num">450</td>
+              <td>Known</td>
+            </tr>
+            <tr>
+              <td>Health insurance</td>
+              <td class="num">260</td>
+              <td class="num">120</td>
+              <td>Unknown</td>
+            </tr>
+          </table>
+          <p class="changed">Ben changed the health insurance line, 20 minutes ago.</p>
+        </div>
+        <p class="note">
+          Either of you can write here. The page says who touched it last, so nobody wonders. One savings total means one
+          runway, and one Decision document at the end.
+        </p>
+      </section>
+
+      <section>
+        <p class="kicker">2. A personal page, before</p>
+        <h2>Ben has not seen her answer</h2>
+        <div class="screen">
+          <div class="page-head">
+            <h3>1.4 What matters most</h3>
+            <span class="tag mine">Mine</span>
+          </div>
+          <div class="two">
+            <div>
+              <p class="who">Ben, you</p>
+              <div class="field">Pick the words that describe the life you want…</div>
+            </div>
+            <div>
+              <p class="who">Lotte</p>
+              <div class="box waiting">
+                Lotte wrote this one on 12 October.<br /><br />
+                You will see her answer as soon as yours is in.
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note">
+          This is the rule that makes the feature worth anything. If Ben could read her must-haves first, he would write
+          hers.
+        </p>
+      </section>
+
+      <section>
+        <p class="kicker">3. The same page, after</p>
+        <h2>Where you agree, and where you do not</h2>
+        <div class="screen">
+          <div class="page-head">
+            <h3>1.4 What matters most</h3>
+            <span class="tag mine">Mine</span>
+          </div>
+          <div class="two">
+            <div class="box">
+              <p class="who">Ben</p>
+              <p class="note" style="margin: 0 0 4px">Must-haves</p>
+              <ul>
+                <li class="same">Time outside every day</li>
+                <li class="same">Work I choose</li>
+                <li>A workshop</li>
+                <li class="diff">Fast internet at the house</li>
+              </ul>
+              <p class="note" style="margin: 10px 0 4px">I will not accept</p>
+              <ul>
+                <li>An hour's drive to the shops</li>
+              </ul>
+            </div>
+            <div class="box">
+              <p class="who">Lotte</p>
+              <p class="note" style="margin: 0 0 4px">Must-haves</p>
+              <ul>
+                <li class="same">Time outside every day</li>
+                <li class="same">Work I choose</li>
+                <li>My sister within a day's travel</li>
+                <li class="diff">A school we both believe in</li>
+              </ul>
+              <p class="note" style="margin: 10px 0 4px">I will not accept</p>
+              <ul>
+                <li class="diff">Being more than 40 minutes from a hospital</li>
+              </ul>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Both of you wrote</h3>
+            <p style="margin: 0">Time outside every day. Work I choose.</p>
+          </div>
+          <div class="panel warn">
+            <h3>Only one of you wrote it</h3>
+            <p style="margin: 0 0 6px">
+              Ben: fast internet at the house. Lotte: a school you both believe in, and no more than 40 minutes from a
+              hospital.
+            </p>
+            <p class="note" style="margin: 0">
+              A dealbreaker only one of you has still stops an option. Step 3 checks both lists.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">4. The decision</p>
+        <h2>Both answer alone, then you answer together</h2>
+        <div class="screen">
+          <div class="page-head">
+            <h3>4.2 My Decision</h3>
+            <span class="tag mine">Mine</span>
+          </div>
+          <div class="two">
+            <div class="box">
+              <p class="who">Ben</p>
+              <p style="margin: 0 0 4px"><strong>Go, and move</strong></p>
+              <p class="note" style="margin: 0">
+                "The money works at four days a week. I would rather start in spring than wait another year."
+              </p>
+            </div>
+            <div class="box">
+              <p class="who">Lotte</p>
+              <p style="margin: 0 0 4px"><strong>Not yet</strong></p>
+              <p class="note" style="margin: 0">
+                "Go once the school visit is done and my mother's results are in. Both before the end of March."
+              </p>
+            </div>
+          </div>
+          <div class="panel warn">
+            <h3>You answered differently</h3>
+            <p style="margin: 0 0 10px">
+              That is not a problem to solve on this page. Lotte's two conditions have dates. A "not yet" with
+              conditions written down is the safer kind of answer.
+            </p>
+            <p class="note" style="margin: 0 0 6px">The decision you make together:</p>
+            <div class="field">Not yet. Go when the school visit and the results are in, by 31 March.</div>
+            <div class="row">
+              <span class="btn">Save our decision</span>
+              <span class="btn quiet">Talk about it first</span>
+            </div>
+          </div>
+          <p class="changed">
+            One My Decision document, with both names on it, and both of your original answers printed inside.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <p class="kicker">Settings</p>
+        <h2>Inviting the partner</h2>
+        <div class="screen">
+          <div class="page-head">
+            <h3>Your partner seat</h3>
+            <span class="tag ours">Ours</span>
+          </div>
+          <p style="margin: 0 0 10px">
+            Your purchase comes with one seat for the person you are planning this with. They get their own sign-in,
+            their own answers and their own AI partner.
+          </p>
+          <div class="field">ben@example.com</div>
+          <div class="row">
+            <span class="btn">Send the invitation</span>
+          </div>
+          <p class="changed">
+            One seat per purchase, and it is set once. If you need to change it later, send me an email and I will do
+            it.
+          </p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

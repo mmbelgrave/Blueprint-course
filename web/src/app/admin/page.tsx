@@ -339,10 +339,62 @@ function Webhooks({ events }: { events: WebhookEvent[] }) {
   );
 }
 
+type SeatRow = {
+  buyer_id: string;
+  email: string;
+  partner_id: string | null;
+  status: string;
+  invited_at: string;
+  joined_at: string | null;
+};
+
+/** Who has given their seat to whom (6.8), and whether it is in use. */
+function Seats({ seats, people }: { seats: SeatRow[]; people: Participant[] }) {
+  if (seats.length === 0) return null;
+  const emailOf = (id: string | null) => people.find((p) => p.id === id)?.email ?? null;
+  return (
+    <section className="mt-8 rounded-2xl bg-white p-5">
+      <h2 className="text-lg font-semibold text-pine">Partner seats</h2>
+      <table className="mt-3 w-full text-left text-sm">
+        <thead>
+          <tr className="border-b border-line text-stone">
+            <th className="py-1 pr-3 font-medium">Buyer</th>
+            <th className="py-1 pr-3 font-medium">Seat with</th>
+            <th className="py-1 pr-3 font-medium">Since</th>
+            <th className="py-1 pr-3 font-medium">In use</th>
+          </tr>
+        </thead>
+        <tbody>
+          {seats.map((s) => (
+            <tr key={s.buyer_id} className="border-b border-line/60 align-top">
+              <td className="py-1 pr-3">{emailOf(s.buyer_id) ?? s.buyer_id.slice(0, 8)}</td>
+              <td className="py-1 pr-3">{s.email}</td>
+              <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(s.invited_at)}</td>
+              <td className="py-1 pr-3">
+                {s.status === "ended" ? (
+                  <span className="text-stone">Ended</span>
+                ) : s.joined_at ? (
+                  <span className="font-semibold text-success">Since {day(s.joined_at)}</span>
+                ) : (
+                  <span className="text-ochre">Invited, not signed in</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="mt-2 text-xs text-stone">
+        A seat is set once. Moving one is a manual change in partner_seats, on an email request.
+      </p>
+    </section>
+  );
+}
+
 function AdminOverview() {
   const [data, setData] = useState<Participant[] | null>(null);
   const [emailOff, setEmailOff] = useState(false);
   const [webhooks, setWebhooks] = useState<WebhookEvent[]>([]);
+  const [seats, setSeats] = useState<SeatRow[]>([]);
   const [buyingRequired, setBuyingRequired] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -356,6 +408,7 @@ function AdminOverview() {
         setData(body.participants);
         setEmailOff(body.emailNotifications === false);
         setWebhooks(body.webhooks ?? []);
+        setSeats(body.seats ?? []);
         setBuyingRequired(body.buyingRequired !== false);
       })
       .catch((e) => !cancelled && setError((e as Error).message || "Could not load the overview."));
@@ -413,6 +466,7 @@ function AdminOverview() {
       </p>
       <Stuck data={data} />
       <Webhooks events={webhooks} />
+      <Seats seats={seats} people={data} />
       <UpdateList emails={updateList} />
       {data.length === 0 && (
         <p className="mt-6 rounded-lg bg-sand p-4">No participants yet. They appear here after they sign in.</p>
