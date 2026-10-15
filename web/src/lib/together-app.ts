@@ -7,14 +7,17 @@
  */
 import togetherRaw from "@/content/together.json";
 import {
+  AGREED_FIELD,
   asksForAgreement,
   isShared,
   kindOf,
+  mayCompare,
   mineFieldsOf,
   personalPages,
   privateAllowed,
   sharedPages,
   statusIsShared,
+  waitingBecause,
   type Kind,
   type TogetherConfig,
 } from "@/lib/together";
@@ -29,3 +32,8 @@ export const allSharedPages = () => sharedPages(togetherConfig);
 export const allPersonalPages = () => personalPages(togetherConfig);
 export const mayKeepPrivate = (exerciseId: string) => privateAllowed(togetherConfig, exerciseId);
 export const wantsAgreement = (exerciseId: string) => asksForAgreement(togetherConfig, exerciseId);
+export const agreedField = AGREED_FIELD;
+export const canSeeTheirs = (state: { mineWritten: boolean; theirsWritten: boolean; theirsPrivate: boolean }) =>
+  mayCompare(state);
+export const whyWaiting = (state: { mineWritten: boolean; theirsWritten: boolean; theirsPrivate: boolean }) =>
+  waitingBecause(state);

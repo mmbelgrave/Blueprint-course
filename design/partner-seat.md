@@ -264,3 +264,32 @@ personal pages become comparable as the partner writes each one, and the
 waiting rule still does its job, because the partner has not seen the buyer's
 answer and the buyer wrote theirs with nobody to copy. If the seat ever ends,
 the extra screens disappear again and the shared answers stay with the buyer.
+
+## Built
+
+**Slice 1, 15 October.** `partner_seats`, the invitation card in Settings, the
+account made when the letter goes out, `/api/household` as the one door to the
+shared answers, `changed_by` and the conflict question, the household's own
+progress on a shared page, `answersIMaySee` so the AI partner sees the shared
+answers but never the other person's private side, entitlements read from the
+buyer rather than copied, and the seat list in Admin. Migration:
+`web/supabase/2026-10-15-partner-seat.sql`.
+
+**Slice 2, 15 October.** `mayCompare` and `waitingBecause` with the three
+questions, `private_pages` for 2.3, 2.4 and 3.1, `/api/household/compare` for
+one page and for a whole step, the side-by-side panel with the words you both
+chose marked, the "you both wrote" and "only one of you wrote it" lines, the
+agreed answer on 5.1 and 3.4.2 as a reserved shared field, the twenty-second
+ask while a page waits, and the "You and Ben" card on the step page.
+Migration: `web/supabase/2026-10-15-private-pages.sql`.
+
+**One change to the table above.** 4.1 is Mine rather than "Ours with a feeling
+column each": the option and the feeling sit in the same table field, which is
+the unit an answer is stored under, so splitting them needs column-level
+sharing. Comparing which options you each see is worth having on its own, and
+the shared conclusion still lands in the summaries.
+
+**Slice 3, still to come.** Two voices in the result documents: both names on
+the cover, the joint facts once, the personal parts twice, and a line where a
+difference matters (a must-have only one of them wrote, a dealbreaker only one
+of them has, two different answers to the honest evening question).

@@ -6,6 +6,7 @@ import { JourneyMotif } from "@/components/brand";
 import { Card } from "@/components/cards";
 import { PartRail } from "@/components/journey";
 import { RequireUser, Shell } from "@/components/Shell";
+import { StepTogether } from "@/components/step-together";
 import { Bullets, InfoTable } from "@/components/text";
 import { useApp } from "@/lib/app-state";
 import { ClosedStep } from "@/components/closed-step";
@@ -162,6 +163,10 @@ function StepOverview({ step }: { step: StepContent }) {
           <PartRail content={step} statuses={statuses} />
         </div>
       )}
+
+      {/* The one gathered place for the comparison (6.8). Nothing at all for
+          a person working alone. */}
+      <StepTogether step={step} />
 
       <div className="mt-6">
         <StepIntro step={step} />

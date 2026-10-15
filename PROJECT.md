@@ -644,12 +644,14 @@ new exercise cannot default quietly into either kind.
 - Their AI use counts in Admin like anyone else's, and Admin lists the seats.
 
 **Built in three slices.** Slice 1 (15 October): the seat, the shared answers,
-the conflict question, the admin list. Slice 2: the comparison, which is the
-waiting rule ("nothing until both have written"), the per-page private switch
-for 2.3, 2.4 and 3.1, the side-by-side view, and the one agreed answer on 5.1
-and 3.4.2. Slice 3: two voices in the result documents, so a couple gets one My
-Decision and one Blueprint with both names on the cover and the personal parts
-printed twice.
+the conflict question, the admin list. Slice 2 (15 October): the comparison.
+Nothing of theirs until both have written, a private switch on 2.3, 2.4 and
+3.1, the two answers side by side with the words you both chose marked, "you
+both wrote" and "only one of you wrote it", the one agreed answer on 5.1 and
+3.4.2, a page that asks again every twenty seconds while it waits, and the
+gathered "You and Ben" card on the step page. Slice 3, still to come: two
+voices in the result documents, so a couple gets one My Decision and one
+Blueprint with both names on the cover and the personal parts printed twice.
 
 **Where the comparison lives, and where it does not.** Not a fifth tab: five
 labels do not fit a 375-pixel phone (decided 6 October), and the comparison

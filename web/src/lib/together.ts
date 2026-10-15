@@ -36,14 +36,53 @@ export function mineFieldsOf(config: TogetherConfig, exerciseId: string): string
 }
 
 /**
+ * The one answer a pair agrees on, on a page they each answered alone.
+ *
+ * 5.1 asks for the direction you agree on and 3.4.2 for the decision you make
+ * together. Both are stored like any other shared answer, under this reserved
+ * field id, so no second mechanism is needed to keep them in one place.
+ */
+export const AGREED_FIELD = "agreed";
+
+/**
  * Is this one answer the household shares?
  *
  * The question is always asked about a field, not a page, because that is how
- * an answer is stored. A page can be shared while one box on it is not.
+ * an answer is stored. A page can be shared while one box on it is not, and a
+ * personal page can still carry the one answer the two of them agree on.
  */
 export function isShared(config: TogetherConfig, exerciseId: string, fieldId: string): boolean {
+  if (fieldId === AGREED_FIELD) return asksForAgreement(config, exerciseId);
   if (kindOf(config, exerciseId) !== "ours") return false;
   return !mineFieldsOf(config, exerciseId).includes(fieldId);
+}
+
+/**
+ * May I see the other person's answers to this page?
+ *
+ * Three things have to be true, and the first is the one the whole feature
+ * rests on: I have written mine. If I could read theirs first, I would write
+ * theirs. The third is the person's own choice to keep a page back.
+ */
+export function mayCompare(state: {
+  mineWritten: boolean;
+  theirsWritten: boolean;
+  theirsPrivate: boolean;
+}): boolean {
+  return state.mineWritten && state.theirsWritten && !state.theirsPrivate;
+}
+
+/** What the page should say when it cannot show the comparison yet. */
+export function waitingBecause(state: {
+  mineWritten: boolean;
+  theirsWritten: boolean;
+  theirsPrivate: boolean;
+}): "theirs-private" | "neither" | "only-them" | "only-me" | null {
+  if (mayCompare(state)) return null;
+  if (state.theirsPrivate) return "theirs-private";
+  if (!state.mineWritten && !state.theirsWritten) return "neither";
+  if (!state.mineWritten) return "only-them";
+  return "only-me";
 }
 
 /** Every page a household answers together. */

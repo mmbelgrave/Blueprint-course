@@ -26,6 +26,8 @@ import {
   type Part,
 } from "@/lib/content";
 import { PageClear } from "@/components/page-clear";
+import { ComparePanel } from "@/components/compare-panel";
+import { pageKind } from "@/lib/together-app";
 import { SharedNote } from "@/components/shared-note";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
 import { Fold } from "@/components/fold";
@@ -590,6 +592,10 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             See and save {part.finish.title} as PDF
           </Link>
         )}
+
+{/* A page you each answer yourself: the two answers side by side, once you
+            have both written (6.8). Nothing for a person alone. */}
+        {pageKind(exercise.id) === "mine" && <ComparePanel key={exercise.id} exercise={exercise} />}
 
         {/* The small question on every page, and the part question once. */}
         {!free && <PageClear key={exercise.id} exerciseId={exercise.id} />}

@@ -9,7 +9,9 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { conflict, householdFrom, mayWriteShared, type Conflict, type Household, type Seat } from "@/lib/household";
-import { sharedAnswer, sharedStatus } from "@/lib/together-app";
+import { hasWritten } from "@/lib/compare";
+import { mayCompare, waitingBecause } from "@/lib/together";
+import { mayKeepPrivate, sharedAnswer, sharedStatus } from "@/lib/together-app";
 
 type Admin = SupabaseClient;
 
@@ -215,4 +217,157 @@ export async function answersIMaySee(
     answers[exerciseId] = { ...answers[exerciseId], ...fields };
   }
   return answers;
+}
+
+/* ---------------------------------------------------------------------------
+ * The comparison (slice 2).
+ *
+ * Reading the other person's answers happens here and nowhere else, and it
+ * happens behind three questions: have I written mine, have they written
+ * theirs, and have they kept this page private. The server holds both sides
+ * either way; what matters is what it hands over.
+ * ------------------------------------------------------------------------- */
+
+/** Everything one person wrote on one page, leaving out what is shared. */
+async function pageAnswersOf(
+  admin: Admin,
+  userId: string,
+  exerciseId: string,
+): Promise<Record<string, unknown>> {
+  const { data } = await admin
+    .from("answers")
+    .select("field_id, value")
+    .eq("user_id", userId)
+    .eq("exercise_id", exerciseId);
+  const out: Record<string, unknown> = {};
+  for (const row of (data ?? []) as { field_id: string; value: unknown }[]) {
+    // The agreed answer belongs to both of them and is shown on its own, so it
+    // is not one of the two sides.
+    if (sharedAnswer(exerciseId, row.field_id)) continue;
+    out[row.field_id] = row.value;
+  }
+  return out;
+}
+
+/** The pages this person is holding back for good. */
+export async function privatePagesOf(admin: Admin, userId: string): Promise<string[]> {
+  const { data } = await admin.from("private_pages").select("exercise_id").eq("user_id", userId);
+  return ((data ?? []) as { exercise_id: string }[]).map((r) => r.exercise_id);
+}
+
+export type PageCompare = {
+  mineWritten: boolean;
+  theirsWritten: boolean;
+  theirsPrivate: boolean;
+  minePrivate: boolean;
+  may: boolean;
+  waiting: ReturnType<typeof waitingBecause>;
+  /** Their answers, and only when all three questions allow it. */
+  theirs: Record<string, unknown> | null;
+  theirName: string | null;
+};
+
+export async function comparePage(
+  admin: Admin,
+  household: Household,
+  userId: string,
+  exerciseId: string,
+): Promise<PageCompare> {
+  const empty: PageCompare = {
+    mineWritten: false,
+    theirsWritten: false,
+    theirsPrivate: false,
+    minePrivate: false,
+    may: false,
+    waiting: "neither",
+    theirs: null,
+    theirName: null,
+  };
+  if (!household.otherId) return empty;
+
+  const [mine, theirs, mineHidden, theirsHidden, name] = await Promise.all([
+    pageAnswersOf(admin, userId, exerciseId),
+    pageAnswersOf(admin, household.otherId, exerciseId),
+    privatePagesOf(admin, userId),
+    privatePagesOf(admin, household.otherId),
+    otherName(admin, household),
+  ]);
+
+  const state = {
+    mineWritten: hasWritten(mine),
+    theirsWritten: hasWritten(theirs),
+    theirsPrivate: theirsHidden.includes(exerciseId),
+  };
+  const may = mayCompare(state);
+  return {
+    ...state,
+    minePrivate: mineHidden.includes(exerciseId),
+    may,
+    waiting: waitingBecause(state),
+    theirs: may ? theirs : null,
+    theirName: name,
+  };
+}
+
+/**
+ * The same three questions for a whole step, as yes or no and nothing else.
+ *
+ * This is what a step page needs to say "Ben has written 1.4 and 2.1", and it
+ * carries none of their words, so it is safe to ask for at any time.
+ */
+export async function compareStep(
+  admin: Admin,
+  household: Household,
+  userId: string,
+  pageIds: string[],
+): Promise<{ pages: Record<string, { mineWritten: boolean; theirsWritten: boolean; may: boolean }>; theirName: string | null }> {
+  if (!household.otherId) return { pages: {}, theirName: null };
+
+  const [mineRows, theirRows, theirsHidden, name] = await Promise.all([
+    admin.from("answers").select("exercise_id, field_id, value").eq("user_id", userId).in("exercise_id", pageIds),
+    admin
+      .from("answers")
+      .select("exercise_id, field_id, value")
+      .eq("user_id", household.otherId)
+      .in("exercise_id", pageIds),
+    privatePagesOf(admin, household.otherId),
+    otherName(admin, household),
+  ]);
+
+  const gather = (rows: unknown) => {
+    const by: Record<string, Record<string, unknown>> = {};
+    for (const row of (rows ?? []) as { exercise_id: string; field_id: string; value: unknown }[]) {
+      if (sharedAnswer(row.exercise_id, row.field_id)) continue;
+      (by[row.exercise_id] ??= {})[row.field_id] = row.value;
+    }
+    return by;
+  };
+  const mine = gather(mineRows.data);
+  const theirs = gather(theirRows.data);
+
+  const pages: Record<string, { mineWritten: boolean; theirsWritten: boolean; may: boolean }> = {};
+  for (const id of pageIds) {
+    const state = {
+      mineWritten: hasWritten(mine[id]),
+      theirsWritten: hasWritten(theirs[id]),
+      theirsPrivate: theirsHidden.includes(id),
+    };
+    pages[id] = { mineWritten: state.mineWritten, theirsWritten: state.theirsWritten, may: mayCompare(state) };
+  }
+  return { pages, theirName: name };
+}
+
+/** Keep a page private, or stop keeping it private. Only the person's own. */
+export async function setPrivate(
+  admin: Admin,
+  userId: string,
+  exerciseId: string,
+  keepPrivate: boolean,
+): Promise<{ ok: true } | { error: string }> {
+  if (!mayKeepPrivate(exerciseId)) return { error: "That page is not one you can keep private." };
+  const query = keepPrivate
+    ? admin.from("private_pages").upsert({ user_id: userId, exercise_id: exerciseId }, { onConflict: "user_id,exercise_id" })
+    : admin.from("private_pages").delete().eq("user_id", userId).eq("exercise_id", exerciseId);
+  const { error } = await query;
+  return error ? { error: error.message } : { ok: true };
 }

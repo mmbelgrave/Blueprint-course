@@ -335,6 +335,57 @@ the credits. That is the "see what is inside" material, and only to someone
 signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
 it ever matters.
 
+## The comparison, slice 2 (15 October 2026)
+
+The half of the seat that makes it worth having. Three things decide whether
+you see your partner's answer to a page, and they live in one function with
+tests on it: have I written mine, have they written theirs, and have they kept
+this page private. The first is the one the feature rests on. If Ben can read
+Lotte's must-haves before he writes his own, he writes hers.
+
+**On the page.** A page you each answer yourself now ends with "You and Ben".
+Before both of you have written it is a closed door with a line saying which
+thing it is waiting for, and it asks the server again every twenty seconds, so
+the comparison appears by itself when the other person finishes in the next
+room. Afterwards it is the two answers side by side, field by field, with the
+words you both chose marked in green on both sides, a "you both wrote" line,
+and an "only one of you wrote it" line that says plainly that neither list is
+the right one.
+
+**The private switch** sits on 2.3 (what stopped you before), 2.4 (beliefs) and
+3.1 (what money means to you), the three pages people may not want to hand
+over. A row in `private_pages` means "my partner never sees this one", and only
+the person who wrote it can read or change that list: row-level security, not a
+promise in code.
+
+**The one agreed answer.** 5.1 asks for the direction you agree on, 3.4.2 for
+the decision you make together, and both appear only once you have each written
+your own. It is stored as an ordinary shared answer under a reserved field id,
+so there is no second mechanism for it and the Blueprint can print it in slice
+3.
+
+**The gathered place** is a card on the step page beside the result, "You and
+Ben": which pages are ready to compare, which ones they have written and you
+have not, and which are waiting for them. It carries no words of theirs, only
+page names. Not a fifth tab, for the reason decided on 6 October: five labels
+do not fit a 375-pixel phone.
+
+**What the server hands over.** `/api/household/compare?page=1.4` answers the
+three questions and attaches their answers only when all three allow it;
+`?step=1` answers the same questions for a whole step as yes or no, with none
+of their words, which is why the step card is safe to draw at any time. The
+agreed answer is left out of both sides, because it belongs to the two of them
+and is shown on its own.
+
+**Checked**: 215 tests (11 new for the comparison rules), typecheck, lint and a
+production build with the new route in it.
+
+**Waiting on Mwata**: two migrations now, `2026-10-15-partner-seat.sql` and
+`2026-10-15-private-pages.sql`. Until they are run every account reads as
+"alone" and nothing on screen changes. After that the honest test needs two
+accounts: invite a second address, write 1.4 on both sides, and watch the page
+open.
+
 ## The partner seat, slice 1 (15 October 2026)
 
 Mwata challenged the seat before it was built: a lot of this course is done
