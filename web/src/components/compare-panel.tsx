@@ -10,7 +10,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useApp } from "@/lib/app-state";
 import { answerText } from "@/lib/answer-text";
-import { agreedWords, differences, rows as compareRows } from "@/lib/compare";
+import { agreedWords, differences, rows as compareRows, same } from "@/lib/compare";
 import { fetchPageCompare, setPagePrivate, WAIT_POLL_MS, type PageCompare } from "@/lib/compare-client";
 import { exerciseFields, type Exercise } from "@/lib/content";
 import { agreedField, mayKeepPrivate, wantsAgreement } from "@/lib/together-app";
@@ -130,7 +130,7 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
               {row.kind === "list" ? (
                 <ul className="mt-1 list-disc pl-5">
                   {row.mine.map((line) => (
-                    <li key={line} className={row.overlap.both.includes(line) ? "font-semibold text-success" : ""}>
+                    <li key={line} className={row.overlap.both.some((b) => same(b, line)) ? "font-semibold text-success" : ""}>
                       {line}
                     </li>
                   ))}
@@ -146,11 +146,7 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
                   {row.theirs.map((line) => (
                     <li
                       key={line}
-                      className={
-                        row.overlap.both.some((b) => b.toLowerCase() === line.toLowerCase())
-                          ? "font-semibold text-success"
-                          : ""
-                      }
+                      className={row.overlap.both.some((b) => same(b, line)) ? "font-semibold text-success" : ""}
                     >
                       {line}
                     </li>
