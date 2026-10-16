@@ -182,3 +182,15 @@ table,
 .btn-ghost:hover {
   background: var(--color-sage);
 }
+
+/*
+ * Listening rather than watching (spec §6.4).
+ *
+ * The sound-only file has no picture in it, so the player would show a black
+ * rectangle. The still from the video is laid under the player instead, and
+ * the video element itself is made invisible: everything the skin draws on
+ * top of it, the play button and the bar, stays where it was and still works.
+ */
+[data-listening] video {
+  opacity: 0;
+}

@@ -236,9 +236,18 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
       {children}
       {now && (
         <div
+          data-listening={listening || undefined}
           className={`fixed z-40 overflow-hidden rounded-2xl bg-black shadow-lg print:hidden ${mini ? "ring-1 ring-line" : ""}`}
           style={style}
         >
+          {/* Listening: the still stays on screen where the picture would be,
+              and the video itself is made invisible by the rule in
+              globals.css, so the controls on top of it still work. A black
+              rectangle with a speaker on it says nothing (Mwata, 16 Oct). */}
+          {listening && now.poster && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={now.poster} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+          )}
           <VideoPlayer title={now.title} poster={now.poster}>
             <VideoSkin style={{ aspectRatio: "16 / 9" }}>
               <HlsJsVideo ref={media} source={{ src: listening && now.audioSrc ? now.audioSrc : now.src }} playsInline>
