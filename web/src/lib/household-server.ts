@@ -9,7 +9,6 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { conflict, householdFrom, mayWriteShared, type Conflict, type Household, type Seat } from "@/lib/household";
-import { hasWritten } from "@/lib/compare";
 import { mayCompare, waitingBecause } from "@/lib/together";
 import { mayKeepPrivate, sharedAnswer, sharedStatus } from "@/lib/together-app";
 
@@ -329,6 +328,27 @@ async function pageAnswersOf(
   return out;
 }
 
+/**
+ * Which of these pages each person has marked done.
+ *
+ * Keys are "user/exercise". The comparison turns on this rather than on
+ * whether a box has words in it: a page somebody is halfway through is not
+ * ready to be read by the other one.
+ */
+export async function doneWith(admin: Admin, userIds: string[], pageIds: string[]): Promise<Set<string>> {
+  const { data } = await admin
+    .from("exercise_status")
+    .select("user_id, exercise_id, status")
+    .in("user_id", userIds)
+    .in("exercise_id", pageIds)
+    .eq("status", "done");
+  const out = new Set<string>();
+  for (const row of (data ?? []) as { user_id: string; exercise_id: string }[]) {
+    out.add(`${row.user_id}/${row.exercise_id}`);
+  }
+  return out;
+}
+
 /** The pages this person is holding back for good. */
 export async function privatePagesOf(admin: Admin, userId: string): Promise<string[]> {
   const { data } = await admin.from("private_pages").select("exercise_id").eq("user_id", userId);
@@ -336,8 +356,8 @@ export async function privatePagesOf(admin: Admin, userId: string): Promise<stri
 }
 
 export type PageCompare = {
-  mineWritten: boolean;
-  theirsWritten: boolean;
+  mineDone: boolean;
+  theirsDone: boolean;
   theirsPrivate: boolean;
   minePrivate: boolean;
   may: boolean;
@@ -354,8 +374,8 @@ export async function comparePage(
   exerciseId: string,
 ): Promise<PageCompare> {
   const empty: PageCompare = {
-    mineWritten: false,
-    theirsWritten: false,
+    mineDone: false,
+    theirsDone: false,
     theirsPrivate: false,
     minePrivate: false,
     may: false,
@@ -365,17 +385,19 @@ export async function comparePage(
   };
   if (!household.otherId) return empty;
 
-  const [mine, theirs, mineHidden, theirsHidden, name] = await Promise.all([
-    pageAnswersOf(admin, userId, exerciseId),
+  // My own answers are not read here: the page already has them, and this
+  // route hands over theirs or nothing.
+  const [theirs, mineHidden, theirsHidden, finished, name] = await Promise.all([
     pageAnswersOf(admin, household.otherId, exerciseId),
     privatePagesOf(admin, userId),
     privatePagesOf(admin, household.otherId),
+    doneWith(admin, [userId, household.otherId], [exerciseId]),
     otherName(admin, household),
   ]);
 
   const state = {
-    mineWritten: hasWritten(mine),
-    theirsWritten: hasWritten(theirs),
+    mineDone: finished.has(`${userId}/${exerciseId}`),
+    theirsDone: finished.has(`${household.otherId}/${exerciseId}`),
     theirsPrivate: theirsHidden.includes(exerciseId),
     minePrivate: mineHidden.includes(exerciseId),
   };
@@ -400,41 +422,25 @@ export async function compareStep(
   household: Household,
   userId: string,
   pageIds: string[],
-): Promise<{ pages: Record<string, { mineWritten: boolean; theirsWritten: boolean; may: boolean }>; theirName: string | null }> {
+): Promise<{ pages: Record<string, { mineDone: boolean; theirsDone: boolean; may: boolean }>; theirName: string | null }> {
   if (!household.otherId) return { pages: {}, theirName: null };
 
-  const [mineRows, theirRows, theirsHidden, mineHidden, name] = await Promise.all([
-    admin.from("answers").select("exercise_id, field_id, value").eq("user_id", userId).in("exercise_id", pageIds),
-    admin
-      .from("answers")
-      .select("exercise_id, field_id, value")
-      .eq("user_id", household.otherId)
-      .in("exercise_id", pageIds),
+  const [finished, theirsHidden, mineHidden, name] = await Promise.all([
+    doneWith(admin, [userId, household.otherId], pageIds),
     privatePagesOf(admin, household.otherId),
     privatePagesOf(admin, userId),
     otherName(admin, household),
   ]);
 
-  const gather = (rows: unknown) => {
-    const by: Record<string, Record<string, unknown>> = {};
-    for (const row of (rows ?? []) as { exercise_id: string; field_id: string; value: unknown }[]) {
-      if (sharedAnswer(row.exercise_id, row.field_id)) continue;
-      (by[row.exercise_id] ??= {})[row.field_id] = row.value;
-    }
-    return by;
-  };
-  const mine = gather(mineRows.data);
-  const theirs = gather(theirRows.data);
-
-  const pages: Record<string, { mineWritten: boolean; theirsWritten: boolean; may: boolean }> = {};
+  const pages: Record<string, { mineDone: boolean; theirsDone: boolean; may: boolean }> = {};
   for (const id of pageIds) {
     const state = {
-      mineWritten: hasWritten(mine[id]),
-      theirsWritten: hasWritten(theirs[id]),
+      mineDone: finished.has(`${userId}/${id}`),
+      theirsDone: finished.has(`${household.otherId}/${id}`),
       theirsPrivate: theirsHidden.includes(id),
       minePrivate: mineHidden.includes(id),
     };
-    pages[id] = { mineWritten: state.mineWritten, theirsWritten: state.theirsWritten, may: mayCompare(state) };
+    pages[id] = { mineDone: state.mineDone, theirsDone: state.theirsDone, may: mayCompare(state) };
   }
   return { pages, theirName: name };
 }

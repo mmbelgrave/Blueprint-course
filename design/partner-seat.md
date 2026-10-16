@@ -24,8 +24,13 @@ the scores, the feelings, the must-haves, the dealbreakers.
 
 If Ben can see Lotte's must-haves before he writes his own, he writes hers. The
 value of the comparison is that neither saw the other's answer first. So a
-"Mine" page shows "Lotte has written this one" and nothing else until you have
-written too.
+"Mine" page shows nothing of hers until he has answered too.
+
+**What counts as answered (Mwata, 16 October): the page is marked done.** Not
+the first word typed. A half-finished answer is not worth reading, every page
+already carries the button, and "we have both marked this one done" is a
+sentence either of them can act on. Until both have pressed it, the page says
+which of the two it is waiting for.
 
 Each person can also keep one page private for good: 2.3 (what stopped you
 before), 2.4 (beliefs) and 3.1 (what money means to you) are the ones people

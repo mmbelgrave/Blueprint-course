@@ -3,22 +3,22 @@ import { test } from "node:test";
 import { agreedWords, differences, hasWritten, listOf, overlap, rows, same } from "../src/lib/compare.ts";
 import { mayCompare, waitingBecause, isShared, AGREED_FIELD, type TogetherConfig } from "../src/lib/together.ts";
 
-test("nothing of theirs until I have written mine", () => {
-  assert.equal(mayCompare({ mineWritten: false, theirsWritten: true, theirsPrivate: false, minePrivate: false }), false);
-  assert.equal(mayCompare({ mineWritten: true, theirsWritten: false, theirsPrivate: false, minePrivate: false }), false);
-  assert.equal(mayCompare({ mineWritten: true, theirsWritten: true, theirsPrivate: false, minePrivate: false }), true);
+test("nothing of theirs until I have marked mine done", () => {
+  assert.equal(mayCompare({ mineDone: false, theirsDone: true, theirsPrivate: false, minePrivate: false }), false);
+  assert.equal(mayCompare({ mineDone: true, theirsDone: false, theirsPrivate: false, minePrivate: false }), false);
+  assert.equal(mayCompare({ mineDone: true, theirsDone: true, theirsPrivate: false, minePrivate: false }), true);
 });
 
 test("a page kept private stays private, even when both have written", () => {
-  assert.equal(mayCompare({ mineWritten: true, theirsWritten: true, theirsPrivate: true, minePrivate: false }), false);
-  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: true, theirsPrivate: true, minePrivate: false }), "theirs-private");
+  assert.equal(mayCompare({ mineDone: true, theirsDone: true, theirsPrivate: true, minePrivate: false }), false);
+  assert.equal(waitingBecause({ mineDone: true, theirsDone: true, theirsPrivate: true, minePrivate: false }), "theirs-private");
 });
 
 test("the page knows which thing it is waiting for", () => {
-  assert.equal(waitingBecause({ mineWritten: false, theirsWritten: false, theirsPrivate: false, minePrivate: false }), "neither");
-  assert.equal(waitingBecause({ mineWritten: false, theirsWritten: true, theirsPrivate: false, minePrivate: false }), "only-them");
-  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: false, theirsPrivate: false, minePrivate: false }), "only-me");
-  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: true, theirsPrivate: false, minePrivate: false }), null);
+  assert.equal(waitingBecause({ mineDone: false, theirsDone: false, theirsPrivate: false, minePrivate: false }), "neither");
+  assert.equal(waitingBecause({ mineDone: false, theirsDone: true, theirsPrivate: false, minePrivate: false }), "only-them");
+  assert.equal(waitingBecause({ mineDone: true, theirsDone: false, theirsPrivate: false, minePrivate: false }), "only-me");
+  assert.equal(waitingBecause({ mineDone: true, theirsDone: true, theirsPrivate: false, minePrivate: false }), null);
 });
 
 test("the agreed answer is shared, but only on the two pages that ask for one", () => {
@@ -98,13 +98,26 @@ test("the page's own summary lines: agreed, and the differences", () => {
  * their own 2.3 to themselves does not get to read their partner's.
  */
 test("a page I keep to myself is closed both ways", () => {
-  const state = { mineWritten: true, theirsWritten: true, theirsPrivate: false, minePrivate: true };
+  const state = { mineDone: true, theirsDone: true, theirsPrivate: false, minePrivate: true };
   assert.equal(mayCompare(state), false);
   assert.equal(waitingBecause(state), "mine-private");
 });
 
 test("my own choice is the one the page tells me about first", () => {
   // Both sides private: it is my own switch I can do something about.
-  const state = { mineWritten: true, theirsWritten: true, theirsPrivate: true, minePrivate: true };
+  const state = { mineDone: true, theirsDone: true, theirsPrivate: true, minePrivate: true };
   assert.equal(waitingBecause(state), "mine-private");
+});
+
+/*
+ * Mwata, 16 October: the comparison waits for "Mark as done" on both sides.
+ * Writing a few words is not the same as being finished with a page, and the
+ * waiting line should say which of the two of you it is waiting for.
+ */
+test("writing is not enough: both have to mark the page done", () => {
+  assert.equal(mayCompare({ mineDone: false, theirsDone: true, theirsPrivate: false, minePrivate: false }), false);
+  assert.equal(waitingBecause({ mineDone: false, theirsDone: true, theirsPrivate: false, minePrivate: false }), "only-them");
+  assert.equal(waitingBecause({ mineDone: true, theirsDone: false, theirsPrivate: false, minePrivate: false }), "only-me");
+  assert.equal(waitingBecause({ mineDone: false, theirsDone: false, theirsPrivate: false, minePrivate: false }), "neither");
+  assert.equal(mayCompare({ mineDone: true, theirsDone: true, theirsPrivate: false, minePrivate: false }), true);
 });

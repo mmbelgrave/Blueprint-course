@@ -58,8 +58,16 @@ export function isShared(config: TogetherConfig, exerciseId: string, fieldId: st
 }
 
 export type CompareState = {
-  mineWritten: boolean;
-  theirsWritten: boolean;
+  /**
+   * Marked done, not merely written in.
+   *
+   * Mwata, 16 October: a half-finished answer is not worth comparing, and
+   * every page already carries a "Mark as done" button. So the comparison
+   * waits for that button on both sides. It is a rule that can be said in one
+   * line, and both people can see where they stand without being told.
+   */
+  mineDone: boolean;
+  theirsDone: boolean;
   theirsPrivate: boolean;
   /**
    * Whether I am keeping this page to myself.
@@ -76,11 +84,11 @@ export type CompareState = {
  * May I see the other person's answers to this page?
  *
  * Four things have to be true, and the first is the one the whole feature
- * rests on: I have written mine. If I could read theirs first, I would write
+ * rests on: I have finished mine. If I could read theirs first, I would write
  * theirs.
  */
 export function mayCompare(state: CompareState): boolean {
-  return state.mineWritten && state.theirsWritten && !state.theirsPrivate && !state.minePrivate;
+  return state.mineDone && state.theirsDone && !state.theirsPrivate && !state.minePrivate;
 }
 
 /** What the page should say when it cannot show the comparison yet. */
@@ -90,8 +98,8 @@ export function waitingBecause(
   if (mayCompare(state)) return null;
   if (state.minePrivate) return "mine-private";
   if (state.theirsPrivate) return "theirs-private";
-  if (!state.mineWritten && !state.theirsWritten) return "neither";
-  if (!state.mineWritten) return "only-them";
+  if (!state.mineDone && !state.theirsDone) return "neither";
+  if (!state.mineDone) return "only-them";
   return "only-me";
 }
 

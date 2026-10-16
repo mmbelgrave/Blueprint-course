@@ -7,8 +7,8 @@
  */
 
 export type PageCompare = {
-  mineWritten: boolean;
-  theirsWritten: boolean;
+  mineDone: boolean;
+  theirsDone: boolean;
   theirsPrivate: boolean;
   minePrivate: boolean;
   may: boolean;
@@ -18,7 +18,7 @@ export type PageCompare = {
 };
 
 export type StepCompare = {
-  pages: Record<string, { mineWritten: boolean; theirsWritten: boolean; may: boolean }>;
+  pages: Record<string, { mineDone: boolean; theirsDone: boolean; may: boolean }>;
   theirName: string | null;
 };
 

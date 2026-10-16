@@ -45,15 +45,15 @@ export function StepTogether({ step }: { step: StepContent }) {
     }
   }
 
-  const pick = (test: (p: { mineWritten: boolean; theirsWritten: boolean; may: boolean }) => boolean): Row[] =>
+  const pick = (test: (p: { mineDone: boolean; theirsDone: boolean; may: boolean }) => boolean): Row[] =>
     Object.entries(state.pages)
       .filter(([, p]) => test(p))
       .map(([id]) => where.get(id))
       .filter((row): row is Row => Boolean(row));
 
   const ready = pick((p) => p.may);
-  const yourTurn = pick((p) => !p.may && p.theirsWritten && !p.mineWritten);
-  const waitingOnThem = pick((p) => !p.may && p.mineWritten && !p.theirsWritten);
+  const yourTurn = pick((p) => !p.may && p.theirsDone && !p.mineDone);
+  const waitingOnThem = pick((p) => !p.may && p.mineDone && !p.theirsDone);
 
   if (ready.length === 0 && yourTurn.length === 0 && waitingOnThem.length === 0) return null;
 
@@ -74,7 +74,7 @@ export function StepTogether({ step }: { step: StepContent }) {
     <section className="mt-6 rounded-2xl bg-white p-5">
       <h2 className="text-lg font-semibold text-pine">You and {them}</h2>
       <p className="mt-1 text-sm text-stone">
-        The pages you each answer yourself. You see each other&rsquo;s answers once you have both written.
+        The pages you each answer yourself. You see each other&rsquo;s answers once you have both marked one done.
       </p>
       {ready.length > 0 && (
         <div className="mt-3 text-sm">
@@ -84,7 +84,7 @@ export function StepTogether({ step }: { step: StepContent }) {
       )}
       {yourTurn.length > 0 && (
         <div className="mt-3 text-sm">
-          <p className="font-semibold text-ochre">{them} has written these. Your turn.</p>
+          <p className="font-semibold text-ochre">{them} has finished these. Your turn.</p>
           {list(yourTurn)}
         </div>
       )}
