@@ -13,7 +13,7 @@
  */
 import { itemFor, stepFor } from "@/lib/access-app";
 import { myAccess } from "@/lib/access-server";
-import { folderUrl, looksLikeVideoId } from "@/lib/bunny";
+import { fileUrl, folderUrl, looksLikeVideoId } from "@/lib/bunny";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -41,13 +41,16 @@ async function there(address: string): Promise<boolean> {
  */
 const CAPTION_FILES = ["captions/EN.vtt", "captions/en.vtt", "captions/en-GB.vtt", "captions/en-US.vtt"];
 
-async function captionTrack(folder: string) {
-  for (const file of CAPTION_FILES) {
-    if (await there(folder + file)) {
-      return [{ src: folder + file, label: "English", language: "en", default: true }];
-    }
-  }
-  return [];
+async function captionTrack(cdn: string, videoId: string, key: string) {
+  // All four at once: four turns of a loop added two seconds to pressing play.
+  const tried = await Promise.all(
+    CAPTION_FILES.map(async (file) => {
+      const src = fileUrl({ cdn, videoId, key, file });
+      return (await there(src)) ? src : null;
+    }),
+  );
+  const found = tried.find(Boolean);
+  return found ? [{ src: found, label: "English", language: "en", default: true }] : [];
 }
 
 export async function GET(request: Request) {
@@ -99,7 +102,10 @@ export async function GET(request: Request) {
    * here too in case a library ever does.
    */
   const audioFolder = audioId ? folderUrl({ cdn, videoId: audioId, key }).folder : null;
-  const [captions, besideIt] = await Promise.all([captionTrack(folder), there(`${folder}audio.mp3`)]);
+  const [captions, besideIt] = await Promise.all([
+    captionTrack(cdn, videoId, key),
+    there(`${folder}audio.mp3`),
+  ]);
 
   // Never cached: an address that outlives its token is worse than none.
   return Response.json(

@@ -75,6 +75,30 @@ export type Playback = { url: string; expires: number };
  * the caption track, the audio. One token opens all of them, so the address
  * for each is this prefix plus the file name.
  */
+/**
+ * One file, with the token in the query.
+ *
+ * The token-in-the-path form is what a playlist needs, because the addresses
+ * inside it are relative and inherit the folder they sit in. It also only
+ * works for a file directly in the video's own folder: proved on 16 October,
+ * when captions/EN.vtt answered 404 signed that way and 200 signed this way.
+ * So anything one level deeper is signed here instead.
+ */
+export function fileUrl({
+  cdn,
+  videoId,
+  key,
+  file,
+  minutes = 20,
+  now = Date.now(),
+}: Omit<PlaybackOptions, "file"> & { file: string }): string {
+  const expires = Math.floor(now / 1000) + minutes * 60;
+  const tokenPath = `/${videoId}/`;
+  const token = signToken({ key, tokenPath, expires, params: { token_path: tokenPath } });
+  const query = new URLSearchParams({ token, expires: String(expires), token_path: tokenPath });
+  return `https://${cdn}${tokenPath}${file}?${query}`;
+}
+
 export function folderUrl({ cdn, videoId, key, minutes = 20, now = Date.now() }: Omit<PlaybackOptions, "file">): {
   folder: string;
   expires: number;

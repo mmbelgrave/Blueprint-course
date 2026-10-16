@@ -190,12 +190,23 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
    * Walking away from a video stops it, with the place kept, so it is waiting
    * when the person comes back. It only follows them to another page if they
    * asked it to, by popping it out or by listening.
+   *
+   * The wait matters. A video that has just started has no rectangle yet: the
+   * slot reports where it is from its own effect, one commit later, and this
+   * effect reads the rectangle from the render it belongs to. Without the
+   * pause it stopped every video a moment after it started, which is what it
+   * did to the first video we ever put in (16 October). A slot that is on
+   * screen claims its place within a frame; somebody who has walked away
+   * never does.
    */
   useEffect(() => {
     if (!now || rect !== null || popped || listening) return;
-    const el = media.current;
-    if (el) save(now, el.currentTime, el.duration, true);
-    setNow(null);
+    const timer = setTimeout(() => {
+      const el = media.current;
+      if (el) save(now, el.currentTime, el.duration, true);
+      setNow(null);
+    }, 400);
+    return () => clearTimeout(timer);
   }, [now, rect, popped, listening, save]);
 
   const value = useMemo<VideoState>(
