@@ -21,6 +21,8 @@ import { supabaseServer } from "@/lib/supabase-server";
 export const runtime = "nodejs";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.maderealblueprint.com";
+/** How long before the same invitation can be sent again. */
+const RESEND_WAIT_MS = 5 * 60 * 1000;
 const fail = (status: number, error: string) => Response.json({ error }, { status });
 
 /** The admin trail, in the same place as the webhook's own story. */
@@ -45,6 +47,8 @@ export async function GET() {
   if (!admin) return Response.json({ seat: null, mayInvite: false });
 
   const seat = await seatOf(admin, auth.user.id);
+  // Deliberately this person own purchase, not the household: a partner may
+  // not pass the seat on to a third person (6.8).
   const entitlements = await myEntitlements(supabase);
   const mine = seat?.buyer_id === auth.user.id ? seat : null;
   return Response.json({
@@ -91,20 +95,32 @@ export async function POST(request: Request) {
     if (existing.email.toLowerCase() !== email) {
       return fail(409, `Your seat is already with ${existing.email}. Send me an email if that has to change.`);
     }
+    /*
+     * The same address again means "it never arrived", and that is fine. But
+     * not as often as somebody likes: without this, the form is a way to send
+     * letters to an address from our own domain (review round 6).
+     */
+    const since = Date.now() - new Date(existing.invited_at ?? 0).getTime();
+    if (since < RESEND_WAIT_MS) {
+      const minutes = Math.ceil((RESEND_WAIT_MS - since) / 60_000);
+      return fail(429, `The last invitation went a moment ago. You can send it again in ${minutes} minute(s).`);
+    }
   }
 
   // The address cannot be in another household, and somebody who owns the
   // Blueprint already does not need a seat on top of it.
   const theirId = await findAccountByEmail(admin, email).catch(() => null);
   if (theirId) {
-    const { data: theirSeat } = await admin
+    const { data: theirSeats } = await admin
       .from("partner_seats")
       .select("buyer_id, status")
-      .eq("partner_id", theirId)
-      .neq("status", "ended")
-      .maybeSingle();
-    if (theirSeat && theirSeat.buyer_id !== user.id) {
-      return fail(409, "That address already has a seat with somebody else.");
+      .or(`partner_id.eq.${theirId},buyer_id.eq.${theirId}`)
+      .neq("status", "ended");
+    // Either as somebody else's partner, or as a buyer with a seat of their
+    // own: both mean that address already belongs to a household.
+    const elsewhere = (theirSeats ?? []).filter((s) => s.buyer_id !== user.id);
+    if (elsewhere.length > 0) {
+      return fail(409, "That address already belongs to another household.");
     }
     const { data: theirs } = await admin
       .from("entitlements")

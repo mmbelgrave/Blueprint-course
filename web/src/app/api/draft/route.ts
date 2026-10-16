@@ -2,7 +2,7 @@
 // own answers. The draft is stored (part_results.ai_draft) and shown next to the
 // boxes; the person decides what goes in.
 import Anthropic from "@anthropic-ai/sdk";
-import { isFreeAccount, myEntitlements } from "@/lib/access-server";
+import { isFreeAccount, myAccess } from "@/lib/access-server";
 import type { Answers } from "@/lib/backend";
 import { findExercise } from "@/lib/content";
 import { draftFields } from "@/lib/drafts";
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   if (!profileRow?.consent_ai) return fail(403, "Your AI partner is switched off. You can switch it on in My settings.");
 
   // The AI partner, drafts and all, comes with the course (§6.2).
-  if (isFreeAccount(await myEntitlements(supabase))) {
+  if (isFreeAccount(await myAccess(supabase, user.id))) {
     return fail(403, "Your AI partner comes with the course.");
   }
 

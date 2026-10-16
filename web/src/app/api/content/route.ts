@@ -13,7 +13,7 @@
  */
 import type { Entitlement } from "@/lib/access";
 import { pageFor, stepFor } from "@/lib/access-app";
-import { myEntitlements } from "@/lib/access-server";
+import { myAccess } from "@/lib/access-server";
 import { freePagesOf, fullStep, findPage, sourceFieldsFor, stepChrome } from "@/lib/content-server";
 import { supabaseServer } from "@/lib/supabase-server";
 
@@ -39,8 +39,9 @@ export async function GET(request: Request) {
     const supabase = await supabaseServer();
     const { data: auth } = await supabase.auth.getUser();
     if (!auth.user) return fail(401, "Please sign in again.");
-    // Read with the person's own session, so row-level security still decides.
-    entitlements = await myEntitlements(supabase);
+    // Read with the person's own session, so row-level security still
+    // decides, and widened by the seat they sit on (6.8).
+    entitlements = await myAccess(supabase, auth.user.id);
   }
 
   if (pageId) {

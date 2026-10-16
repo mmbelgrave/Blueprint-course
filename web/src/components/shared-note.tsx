@@ -19,7 +19,7 @@ function asText(exercise: Exercise, fieldId: string, value: unknown): string {
 }
 
 export function SharedNote({ exercise }: { exercise: Exercise }) {
-  const { household, conflicts, settle } = useApp();
+  const { household, conflicts, settle, dismissConflict } = useApp();
   if (household.role === "alone") return null;
 
   const them = household.otherName ?? "your partner";
@@ -58,14 +58,34 @@ export function SharedNote({ exercise }: { exercise: Exercise }) {
               <p className="mt-1 whitespace-pre-wrap">{asText(exercise, clash.fieldId, clash.theirs) || "(empty)"}</p>
             </div>
           </div>
-          <p className="mt-3 flex flex-wrap justify-center gap-2">
-            <button type="button" className="btn btn-primary" onClick={() => settle(key, "mine")}>
-              Keep mine
-            </button>
-            <button type="button" className="btn btn-ghost" onClick={() => settle(key, "theirs")}>
-              Use theirs
-            </button>
-          </p>
+          {/* After a choice the other answer stays here until the page is
+              left, so a decision made in a hurry can still be undone. */}
+          {clash.settled ? (
+            <p className="mt-3 flex flex-wrap items-center justify-center gap-2 text-sm">
+              <span className="text-stone">
+                {clash.settled === "mine" ? "You kept yours." : `You took ${clash.name ?? them}'s answer.`}
+              </span>
+              <button
+                type="button"
+                className="btn btn-ghost"
+                onClick={() => settle(key, clash.settled === "mine" ? "theirs" : "mine")}
+              >
+                {clash.settled === "mine" ? "Use theirs after all" : "Put mine back"}
+              </button>
+              <button type="button" className="btn btn-ghost" onClick={() => dismissConflict(key)}>
+                Done
+              </button>
+            </p>
+          ) : (
+            <p className="mt-3 flex flex-wrap justify-center gap-2">
+              <button type="button" className="btn btn-primary" onClick={() => settle(key, "mine")}>
+                Keep mine
+              </button>
+              <button type="button" className="btn btn-ghost" onClick={() => settle(key, "theirs")}>
+                Use theirs
+              </button>
+            </p>
+          )}
         </div>
       ))}
     </>

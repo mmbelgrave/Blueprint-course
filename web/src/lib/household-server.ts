@@ -15,14 +15,34 @@ import { mayKeepPrivate, sharedAnswer, sharedStatus } from "@/lib/together-app";
 
 type Admin = SupabaseClient;
 
-/** The seat this person is named in, as buyer or as partner. */
+/**
+ * The seat this person is named in, as buyer or as partner.
+ *
+ * Review round 6, finding R6-2: this used to ask for a single row and throw the
+ * error away, so two matching rows, or a database that was simply unwell, read
+ * as "no seat at all" and quietly dissolved a household. Now an error is
+ * raised, and more than one row is resolved rather than guessed at: a person's
+ * own purchase governs their shared answers, and an active seat beats an
+ * invitation that was never used.
+ */
 export async function seatOf(admin: Admin, userId: string): Promise<Seat | null> {
-  const { data } = await admin
+  const { data, error } = await admin
     .from("partner_seats")
     .select("buyer_id, email, partner_id, status, invited_at, joined_at")
     .or(`buyer_id.eq.${userId},partner_id.eq.${userId}`)
-    .maybeSingle();
-  return (data as Seat | null) ?? null;
+    .neq("status", "ended")
+    .limit(5);
+  if (error) {
+    // The caller decides what to do, and every caller fails closed: a shared
+    // answer waits rather than going to one person's own rows.
+    throw new Error(`the partner seat could not be read: ${error.message}`);
+  }
+  const rows = (data ?? []) as Seat[];
+  if (rows.length === 0) return null;
+  if (rows.length > 1) {
+    console.warn(`partner seats: ${rows.length} rows mention ${userId}; using their own purchase first.`);
+  }
+  return rows.find((r) => r.buyer_id === userId) ?? rows.find((r) => r.status === "active") ?? rows[0];
 }
 
 /** The household this person is in. Reads, changes nothing. */
@@ -123,19 +143,79 @@ export async function writeShared(
     if (clash.kind === "theirs") return { saved: false, conflict: clash, theirs: stored?.value ?? null };
   }
 
-  const { error } = await admin.from("answers").upsert(
-    {
-      user_id: household.ownerId,
-      exercise_id: item.exerciseId,
-      field_id: item.fieldId,
-      value: item.value as never,
-      changed_by: userId,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "user_id,exercise_id,field_id" },
-  );
-  if (error) return { error: error.message };
-  return { saved: true };
+  const row = {
+    user_id: household.ownerId,
+    exercise_id: item.exerciseId,
+    field_id: item.fieldId,
+    value: item.value as never,
+    changed_by: userId,
+    updated_at: new Date().toISOString(),
+  };
+
+  /*
+   * Written only if nothing moved since it was read.
+   *
+   * Review round 6 asked about the gap between the read above and the write
+   * below: two saves a few milliseconds apart would both pass the check and
+   * the second would win silently. So the update carries the timestamp it
+   * expects to find. If the row has changed, nothing is written and the clash
+   * comes back with whatever is there now, which is the same answer the check
+   * above would have given a moment earlier.
+   */
+  if (stored?.updated_at) {
+    const { data: written, error } = await admin
+      .from("answers")
+      .update(row)
+      .eq("user_id", household.ownerId)
+      .eq("exercise_id", item.exerciseId)
+      .eq("field_id", item.fieldId)
+      .eq("updated_at", stored.updated_at)
+      .select("field_id");
+    if (error) return { error: error.message };
+    if ((written ?? []).length > 0) return { saved: true };
+    if (item.force) {
+      // The person chose this answer knowing the other one; a write that slid
+      // in between does not change that.
+      const { error: forced } = await admin
+        .from("answers")
+        .upsert(row, { onConflict: "user_id,exercise_id,field_id" });
+      return forced ? { error: forced.message } : { saved: true };
+    }
+    const { data: now } = await admin
+      .from("answers")
+      .select("value, changed_by, updated_at")
+      .eq("user_id", household.ownerId)
+      .eq("exercise_id", item.exerciseId)
+      .eq("field_id", item.fieldId)
+      .maybeSingle();
+    return {
+      saved: false,
+      conflict: { kind: "theirs", changedBy: now?.changed_by ?? "someone", at: now?.updated_at ?? row.updated_at },
+      theirs: now?.value ?? null,
+    };
+  }
+
+  // Nothing there yet. An insert that loses a race fails on the primary key
+  // rather than overwriting, and then it is a clash like any other.
+  const { error } = await admin.from("answers").insert(row);
+  if (!error) return { saved: true };
+  if (item.force) {
+    const { error: forced } = await admin.from("answers").upsert(row, { onConflict: "user_id,exercise_id,field_id" });
+    return forced ? { error: forced.message } : { saved: true };
+  }
+  const { data: now } = await admin
+    .from("answers")
+    .select("value, changed_by, updated_at")
+    .eq("user_id", household.ownerId)
+    .eq("exercise_id", item.exerciseId)
+    .eq("field_id", item.fieldId)
+    .maybeSingle();
+  if (!now) return { error: error.message };
+  return {
+    saved: false,
+    conflict: { kind: "theirs", changedBy: now.changed_by ?? "someone", at: now.updated_at ?? row.updated_at },
+    theirs: now.value ?? null,
+  };
 }
 
 /** A shared page that is finished is finished for both, so its progress is the household's. */
@@ -297,11 +377,11 @@ export async function comparePage(
     mineWritten: hasWritten(mine),
     theirsWritten: hasWritten(theirs),
     theirsPrivate: theirsHidden.includes(exerciseId),
+    minePrivate: mineHidden.includes(exerciseId),
   };
   const may = mayCompare(state);
   return {
     ...state,
-    minePrivate: mineHidden.includes(exerciseId),
     may,
     waiting: waitingBecause(state),
     theirs: may ? theirs : null,
@@ -323,7 +403,7 @@ export async function compareStep(
 ): Promise<{ pages: Record<string, { mineWritten: boolean; theirsWritten: boolean; may: boolean }>; theirName: string | null }> {
   if (!household.otherId) return { pages: {}, theirName: null };
 
-  const [mineRows, theirRows, theirsHidden, name] = await Promise.all([
+  const [mineRows, theirRows, theirsHidden, mineHidden, name] = await Promise.all([
     admin.from("answers").select("exercise_id, field_id, value").eq("user_id", userId).in("exercise_id", pageIds),
     admin
       .from("answers")
@@ -331,6 +411,7 @@ export async function compareStep(
       .eq("user_id", household.otherId)
       .in("exercise_id", pageIds),
     privatePagesOf(admin, household.otherId),
+    privatePagesOf(admin, userId),
     otherName(admin, household),
   ]);
 
@@ -351,6 +432,7 @@ export async function compareStep(
       mineWritten: hasWritten(mine[id]),
       theirsWritten: hasWritten(theirs[id]),
       theirsPrivate: theirsHidden.includes(id),
+      minePrivate: mineHidden.includes(id),
     };
     pages[id] = { mineWritten: state.mineWritten, theirsWritten: state.theirsWritten, may: mayCompare(state) };
   }

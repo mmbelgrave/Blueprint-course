@@ -12,7 +12,7 @@ export type PageCompare = {
   theirsPrivate: boolean;
   minePrivate: boolean;
   may: boolean;
-  waiting: "theirs-private" | "neither" | "only-them" | "only-me" | null;
+  waiting: "mine-private" | "theirs-private" | "neither" | "only-them" | "only-me" | null;
   theirs: Record<string, unknown> | null;
   theirName: string | null;
 };

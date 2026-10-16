@@ -4,21 +4,21 @@ import { agreedWords, differences, hasWritten, listOf, overlap, rows, same } fro
 import { mayCompare, waitingBecause, isShared, AGREED_FIELD, type TogetherConfig } from "../src/lib/together.ts";
 
 test("nothing of theirs until I have written mine", () => {
-  assert.equal(mayCompare({ mineWritten: false, theirsWritten: true, theirsPrivate: false }), false);
-  assert.equal(mayCompare({ mineWritten: true, theirsWritten: false, theirsPrivate: false }), false);
-  assert.equal(mayCompare({ mineWritten: true, theirsWritten: true, theirsPrivate: false }), true);
+  assert.equal(mayCompare({ mineWritten: false, theirsWritten: true, theirsPrivate: false, minePrivate: false }), false);
+  assert.equal(mayCompare({ mineWritten: true, theirsWritten: false, theirsPrivate: false, minePrivate: false }), false);
+  assert.equal(mayCompare({ mineWritten: true, theirsWritten: true, theirsPrivate: false, minePrivate: false }), true);
 });
 
 test("a page kept private stays private, even when both have written", () => {
-  assert.equal(mayCompare({ mineWritten: true, theirsWritten: true, theirsPrivate: true }), false);
-  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: true, theirsPrivate: true }), "theirs-private");
+  assert.equal(mayCompare({ mineWritten: true, theirsWritten: true, theirsPrivate: true, minePrivate: false }), false);
+  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: true, theirsPrivate: true, minePrivate: false }), "theirs-private");
 });
 
 test("the page knows which thing it is waiting for", () => {
-  assert.equal(waitingBecause({ mineWritten: false, theirsWritten: false, theirsPrivate: false }), "neither");
-  assert.equal(waitingBecause({ mineWritten: false, theirsWritten: true, theirsPrivate: false }), "only-them");
-  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: false, theirsPrivate: false }), "only-me");
-  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: true, theirsPrivate: false }), null);
+  assert.equal(waitingBecause({ mineWritten: false, theirsWritten: false, theirsPrivate: false, minePrivate: false }), "neither");
+  assert.equal(waitingBecause({ mineWritten: false, theirsWritten: true, theirsPrivate: false, minePrivate: false }), "only-them");
+  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: false, theirsPrivate: false, minePrivate: false }), "only-me");
+  assert.equal(waitingBecause({ mineWritten: true, theirsWritten: true, theirsPrivate: false, minePrivate: false }), null);
 });
 
 test("the agreed answer is shared, but only on the two pages that ask for one", () => {
@@ -91,4 +91,20 @@ test("the page's own summary lines: agreed, and the differences", () => {
   );
   assert.deepEqual(agreedWords(made), ["Nature"]);
   assert.deepEqual(differences(made), { mine: ["Freedom", "A workshop"], theirs: ["Health", "A school"] });
+});
+
+/*
+ * Review round 6, R6-3. Privacy on these pages is mutual: somebody who keeps
+ * their own 2.3 to themselves does not get to read their partner's.
+ */
+test("a page I keep to myself is closed both ways", () => {
+  const state = { mineWritten: true, theirsWritten: true, theirsPrivate: false, minePrivate: true };
+  assert.equal(mayCompare(state), false);
+  assert.equal(waitingBecause(state), "mine-private");
+});
+
+test("my own choice is the one the page tells me about first", () => {
+  // Both sides private: it is my own switch I can do something about.
+  const state = { mineWritten: true, theirsWritten: true, theirsPrivate: true, minePrivate: true };
+  assert.equal(waitingBecause(state), "mine-private");
 });

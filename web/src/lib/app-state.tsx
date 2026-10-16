@@ -23,10 +23,16 @@ import type { Entitlement } from "@/lib/access";
 import { AnswerSaver, type SaveState } from "@/lib/answer-saver";
 import {
   fetchHousehold,
+  forgetHousehold,
+  knownHousehold,
+  markSeen,
+  rememberHousehold,
   saveSharedAnswer,
   saveSharedStatus,
+  seenAt,
   workingAlone,
   type Household,
+  type HouseholdLoad,
 } from "@/lib/household-client";
 import { sharedAnswer, sharedStatus } from "@/lib/together-app";
 
@@ -48,10 +54,14 @@ type AppState = {
    * Keyed "exercise/field". Nothing is thrown away: the page asks.
    */
   conflicts: Record<string, Conflict>;
-  /** Keep mine, or take theirs. Either way the question is gone afterwards. */
+  /** Keep mine, or take theirs. The other answer stays recoverable. */
   settle: (key: string, keep: "mine" | "theirs") => Promise<void>;
-  /** Ask the server what the other person has done since. */
-  refreshHousehold: () => Promise<void>;
+  /** Done with the question; the other answer is let go. */
+  dismissConflict: (key: string) => void;
+  /** Has the household been asked successfully? Unknown is not alone. */
+  householdKnown: boolean;
+  /** Ask the server what the other person has done since. True when it answered. */
+  refreshHousehold: () => Promise<boolean>;
   setAnswer: (exerciseId: string, fieldId: string, value: unknown) => void;
   /** Returns false when the change could not be saved (and was undone). */
   setStatus: (exerciseId: string, status: ExerciseStatus) => Promise<boolean>;
@@ -69,6 +79,8 @@ export type Conflict = {
   /** Who wrote it first, when they have told us a name. */
   name: string | null;
   at: string | null;
+  /** Which answer was chosen, while the other one is still recoverable. */
+  settled?: "mine" | "theirs";
 };
 
 const Ctx = createContext<AppState | null>(null);
@@ -94,26 +106,40 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [entitlements, setEntitlements] = useState<Entitlement[]>([]);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [household, setHousehold] = useState<Household>(() => workingAlone());
+  /* Whether the household has been asked successfully at all. Unknown is not
+     the same as alone, and nothing shared is written while it is unknown. */
+  const [householdKnown, setHouseholdKnown] = useState(false);
   const [conflicts, setConflicts] = useState<Record<string, Conflict>>({});
 
   const [saver] = useState(
     () =>
       new AnswerSaver(async (item) => {
-        // Whether this answer is the household's was decided when it was
-        // typed, so the saver needs to know nothing about households.
-        if (item.shared) {
+        /*
+         * Whose answer this is gets decided here, when it is actually sent,
+         * and not when it was typed (review round 6, R6-1). At startup, and
+         * after a request that did not arrive, the household is simply not
+         * known yet; throwing leaves the answer in the queue, keeps the page
+         * honest about not having saved it, and the saver tries again in a few
+         * seconds. The one thing it must not do is write a household's answer
+         * to one person's own rows.
+         */
+        const house = knownHousehold();
+        if (!house) throw new Error("the household is not known yet");
+
+        if (house.role !== "alone" && sharedAnswer(item.exerciseId, item.fieldId)) {
+          const key = `${item.exerciseId}/${item.fieldId}`;
           const result = await saveSharedAnswer({
             exerciseId: item.exerciseId,
             fieldId: item.fieldId,
             value: item.value,
-            loadedAt: item.shared.loadedAt,
+            loadedAt: seenAt(key),
           });
           // Written by the other person first. Not an error to try again: the
           // page is told, and it asks which answer to keep.
           if (!result.saved) {
             setConflicts((all) => ({
               ...all,
-              [`${item.exerciseId}/${item.fieldId}`]: {
+              [key]: {
                 exerciseId: item.exerciseId,
                 fieldId: item.fieldId,
                 mine: item.value,
@@ -136,11 +162,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * For the partner it is how the money table and the research arrive.
    */
   const applyHousehold = useCallback(
-    async () => {
-      const loaded = await fetchHousehold();
-      if (!loaded) return;
+    async (already?: HouseholdLoad | null) => {
+      // `already` is a request that was started earlier, so the two loads can
+      // run at the same time and still be applied in order.
+      const loaded = already === undefined ? await fetchHousehold() : already;
+      // Could not be asked. The household stays unknown rather than becoming
+      // "alone", so no shared answer goes to the wrong rows (R6-1).
+      if (!loaded) return false;
+      rememberHousehold(loaded.household);
       setHousehold(loaded.household);
-      if (loaded.household.role === "alone") return;
+      setHouseholdKnown(true);
+      if (loaded.household.role === "alone") return true;
       setAnswers((mine) => {
         const merged: Answers = { ...mine };
         for (const [exerciseId, fields] of Object.entries(loaded.answers)) {
@@ -151,8 +183,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       setStatuses((mine) => ({ ...mine, ...loaded.statuses }));
       // A partner's access follows the buyer's, so the household's list wins.
       if (loaded.entitlements) setEntitlements(loaded.entitlements);
+      return true;
     },
-    [setHousehold],
+    [],
   );
 
   const apply = useCallback((result: Loaded) => {
@@ -173,15 +206,48 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   const reload = useCallback(async () => {
     setLoading(true);
+    const house = fetchHousehold();
     apply(await loadEverything());
-    await applyHousehold();
+    await applyHousehold(await house);
   }, [apply, applyHousehold]);
 
+  /*
+   * Both at once, rather than one after the other: the household decides where
+   * an answer is stored, so the window where it is unknown has to be as small
+   * as it can be (R6-1). A shared answer typed inside that window waits in the
+   * saver instead of going to the wrong rows.
+   */
   useEffect(() => {
-    loadEverything()
-      .then(apply)
-      .then(() => applyHousehold());
+    let gone = false;
+    // Both requests leave now, so the window where the household is unknown is
+    // as short as the slower of the two. They are applied in order below.
+    const house = fetchHousehold();
+    const people = loadEverything();
+    people
+      .then((loaded) => {
+        if (gone) return null;
+        apply(loaded);
+        return house;
+      })
+      .then((waited) => {
+        if (!gone && waited !== null) return applyHousehold(waited);
+        return false;
+      })
+      .catch(() => undefined);
+    return () => {
+      gone = true;
+    };
   }, [apply, applyHousehold]);
+
+  /* A household that could not be asked for is asked for again. Until it
+     answers, shared answers stay in the queue and the page says so. */
+  useEffect(() => {
+    if (householdKnown) return;
+    const timer = setInterval(() => {
+      applyHousehold();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [householdKnown, applyHousehold]);
 
   const setStatus = useCallback(
     async (exerciseId: string, status: ExerciseStatus) => {
@@ -191,7 +257,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       try {
         // A shared page is finished for both of them or for neither, so its
         // progress is stored once, with the shared answers on it.
-        if (household.role !== "alone" && sharedStatus(exerciseId)) {
+        if (householdKnown && household.role !== "alone" && sharedStatus(exerciseId)) {
           await saveSharedStatus(exerciseId, status);
         } else {
           await store.setStatus(user.id, exerciseId, status);
@@ -210,7 +276,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         return false;
       }
     },
-    [user, statuses, saver, profile, household.role],
+    [user, statuses, saver, profile, household.role, householdKnown],
   );
 
   const setAnswer = useCallback(
@@ -223,18 +289,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       if ((statuses[exerciseId] ?? "not_started") === "not_started") {
         setStatus(exerciseId, "in_progress");
       }
-      // An answer the household shares goes through the server, and carries
-      // the moment this page last had the truth with it (spec 6.8).
-      const shared = household.role !== "alone" && sharedAnswer(exerciseId, fieldId);
-      saver.schedule({
-        userId: user.id,
-        exerciseId,
-        fieldId,
-        value,
-        ...(shared ? { shared: { loadedAt: household.at } } : {}),
-      });
+      // Where this answer belongs is decided when it is sent, not here: at
+      // startup the household is not known yet (R6-1).
+      saver.schedule({ userId: user.id, exerciseId, fieldId, value });
     },
-    [user, statuses, setStatus, saver, household.role, household.at],
+    [user, statuses, setStatus, saver],
   );
 
   useEffect(() => {
@@ -268,32 +327,45 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
    * just chose. "Theirs" puts their answer on the page, where it can still be
    * edited afterwards like any other.
    */
+  /**
+   * Two people wrote the same box. Keep mine, or take theirs.
+   *
+   * The choice is written down, and the other answer is kept beside it until
+   * the page is left, so "keep mine" can still be undone (review round 6
+   * raised this: a choice made in a hurry was final).
+   */
   const settle = useCallback(
     async (key: string, keep: "mine" | "theirs") => {
       const clash = conflicts[key];
       if (!clash) return;
-      if (keep === "mine") {
-        await saveSharedAnswer({
-          exerciseId: clash.exerciseId,
-          fieldId: clash.fieldId,
-          value: clash.mine,
-          loadedAt: household.at,
-          force: true,
-        }).catch(() => undefined);
-      } else {
+      const value = keep === "mine" ? clash.mine : clash.theirs;
+      await saveSharedAnswer({
+        exerciseId: clash.exerciseId,
+        fieldId: clash.fieldId,
+        value,
+        loadedAt: seenAt(key),
+        force: true,
+      }).catch(() => undefined);
+      markSeen(key);
+      if (keep === "theirs") {
         setAnswers((all) => ({
           ...all,
           [clash.exerciseId]: { ...all[clash.exerciseId], [clash.fieldId]: clash.theirs },
         }));
       }
-      setConflicts((all) => {
-        const rest = { ...all };
-        delete rest[key];
-        return rest;
-      });
+      setConflicts((all) => ({ ...all, [key]: { ...all[key], settled: keep } }));
     },
-    [conflicts, household.at],
+    [conflicts],
   );
+
+  /** The question is answered and the person is done with it. */
+  const dismissConflict = useCallback((key: string) => {
+    setConflicts((all) => {
+      const rest = { ...all };
+      delete rest[key];
+      return rest;
+    });
+  }, []);
 
   const signOut = useCallback(async () => {
     await auth.signOut();
@@ -303,6 +375,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setStatuses({});
     setEntitlements([]);
     setHousehold(workingAlone());
+    setHouseholdKnown(false);
+    forgetHousehold();
     setConflicts({});
   }, [setHousehold]);
 
@@ -318,8 +392,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         entitlements,
         saveState,
         household,
+        householdKnown,
         conflicts,
         settle,
+        dismissConflict,
         refreshHousehold: applyHousehold,
         setAnswer,
         setStatus,

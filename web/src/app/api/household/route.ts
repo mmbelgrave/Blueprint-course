@@ -28,7 +28,19 @@ export async function GET() {
   // works as it always has.
   if (!admin) return Response.json({ role: "alone", at });
 
-  const { household } = await joinAndRead(admin, user.id);
+  /*
+   * A seat that cannot be read is not the same as no seat (review round 6,
+   * R6-2). Saying "alone" here would send a household's answers to one
+   * person's own rows, so this refuses instead: the browser keeps the
+   * household unknown, holds shared answers in the queue, and asks again.
+   */
+  let household;
+  try {
+    ({ household } = await joinAndRead(admin, user.id));
+  } catch (e) {
+    console.error("household:", (e as Error).message);
+    return Response.json({ error: "Could not read your household. Trying again shortly." }, { status: 503 });
+  }
   if (household.role === "alone") return Response.json({ role: "alone", at });
 
   const [shared, name, mine] = await Promise.all([

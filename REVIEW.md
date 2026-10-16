@@ -985,3 +985,333 @@ free exercise.
 | R5-7 | Two wording slips against the issued workbooks | Low |
 | R4-9 | Lights still read from one table only | Low |
 | R4-10 | The `free=` branch still skips both checks | Low |
+
+---
+
+# Review round 6 — LLM2 (Reviewer), 2026-10-16
+
+The partner seat: `5ced2e8`, `75bac23`, `b71674e` on main, read against
+`REVIEW-BRIEF-partner-seat.md`, `PROJECT.md` §6.8 and `design/partner-seat.md`.
+Both migrations are on the live database. Nothing was edited.
+
+## Confirmed
+
+### R6-1. The browser decides "shared or mine" from a household it asks for last (HIGH)
+- **Where:** `src/lib/app-state.tsx:180-184` (the order), `:228` (the decision),
+  `:138-147` (`applyHousehold`), `src/lib/household-client.ts:45-53`
+  (`fetchHousehold`).
+- **What is wrong:** the app loads everything, *then* asks `/api/household`:
+  `loadEverything().then(apply).then(() => applyHousehold())`. Until that
+  second request returns, `household.role` is `"alone"`. `setAnswer` decides
+  per keystroke — `const shared = household.role !== "alone" && sharedAnswer(...)`
+  — so an answer typed in that window is sent to the person's own rows instead
+  of through `/api/household/answer`. And `fetchHousehold` turns **every**
+  failure into `null` (a 503 with no service key, a 500, a cold start, a
+  dropped connection), after which `applyHousehold` returns early and the role
+  stays `"alone"` for the rest of the session. The save succeeds against the
+  person's own rows, so the indicator says **Saved**.
+- **Impact, the partner:** their half of the money table lands on their own
+  rows. The buyer never sees it. On the next load the household's shared
+  answers are laid over the top (`app-state.tsx:150-156`), so the work
+  disappears from the screen with nothing said.
+- **Impact, the buyer — this is promise 5:** an answer written in that window
+  is stored with `changed_by` null. `conflict()` (`src/lib/household.ts:100-105`)
+  reads a null `changed_by` as "not theirs" and returns `{kind:"none"}`, so the
+  partner's next save on that field **overwrites it with no question asked**.
+  The promise is that nothing is overwritten silently; this is a path where it
+  is.
+- **Evidence:** the three lines above, plus `tests/household.test.ts`, which
+  exercises `conflict()` only with a `changed_by` present — the null case is
+  tested as "my own earlier writing", never as "written moments ago during the
+  window".
+- **How to check a fix:** (a) with a partner account, block `/api/household` in
+  the browser's network tab, type into 3.2, and confirm the save is refused and
+  retried ("Not saved yet…") rather than written locally; (b) with both
+  accounts, have the buyer type into 3.2 within a second of opening the app,
+  then have the partner save the same field, and confirm the partner is asked
+  which answer to keep.
+
+### R6-2. A person who matches two seat rows silently becomes "alone" (MEDIUM)
+- **Where:** `src/lib/household-server.ts:19-26`. `seatOf` asks
+  `.or(buyer_id.eq.X,partner_id.eq.X).maybeSingle()` and destructures `{ data }`
+  only, so the error is dropped.
+- **Reproduced, on the live database:** the same shape over several matching
+  rows returns `data: null` with `PGRST116 "JSON object requested, multiple (or
+  no) rows returned"`. A dropped error therefore reads as "no seat", which
+  `householdFrom` turns into `alone`.
+- **How somebody gets two rows:** nothing ends a seat when a purchase is
+  refunded. `ended_reason: 'refund'` is named in the migration, but the only
+  code that ends a seat is `src/lib/forget-account.ts:44`, on account deletion.
+  So: A buys and invites B; A is refunded; A's seat row stays `active`; C may
+  now invite A, because the guard at `src/app/api/seat/route.ts:109-116` refuses
+  only an address holding an **active** entitlement. A is then buyer on one row
+  and partner on another. Both households vanish for A, who sees the app as a
+  free account with nothing explaining it.
+- **How to check a fix:** write the two rows by hand in SQL, load the app as
+  that person, and expect the seat to be read — the buyer row winning — rather
+  than nothing. Ending the seat on refund would also close the path.
+
+### R6-3. Keeping a page private is one-sided (LOW–MEDIUM, and it may be a decision)
+- **Where:** `src/lib/together.ts:67-73`. `mayCompare` takes `theirsPrivate` and
+  not `minePrivate`, and `comparePage` returns `minePrivate` for the UI only.
+- **What happens:** I mark 2.3 private, we both write it, and I see your 2.3
+  while you are told only that mine is private. The design
+  (`design/partner-seat.md:30-33`) says private is "set by the person who wrote
+  it" and never unlocks itself; it does not say whether it should also close the
+  page in the other direction.
+- Not reported as a defect, because it may be what was meant. If it is, the
+  panel should say so plainly to the person holding theirs back.
+
+## Concerns, not run
+1. **`writeShared` reads then writes with nothing between them**
+   (`household-server.ts:113-136`). Two saves inside the same instant can both
+   pass the conflict check and the second wins. Sub-second window, no
+   transaction.
+2. **`force` cannot be undone.** Pressing "Keep mine" overwrites; the replaced
+   answer is not kept anywhere, and `changed_by`/`updated_at` simply move. That
+   is attack 5's open question: nothing else stops it, and nothing recovers it.
+3. **A refund leaves the seat open.** The partner loses access (entitlements are
+   read live, promise 6 holds), but the row stays `active`, the address stays
+   locked by `partner_seats_email`, and Admin lists a live seat for a refunded
+   purchase.
+4. **`/api/household/compare` POST does not ask whether the caller is in a
+   household**, so a person alone can write a `private_pages` row. Harmless, but
+   it is the one new route that opens without that question.
+5. **Invitations can be re-sent to the same address without limit**
+   (`seat/route.ts`), which is deliberate for "it never arrived" and also means
+   a buyer can mail-bomb that one address.
+6. **The partner's first save can race the seat flip.** Only `/api/household`
+   calls `joinAndRead`; the answer, status and compare routes use `householdOf`,
+   which does not flip `invited` to `active`. A save landing before the first
+   household load is refused 403 until the flip. It self-heals through the
+   retry, but it will look odd in the logs.
+
+## Promise by promise
+| # | Promise | Verdict |
+|---|---|---|
+| 1 | A partner cannot read the buyer's personal answers | **Holds in the code.** `sharedState` filters every row through `sharedAnswer`, RLS on `answers` is untouched, and the filter's data matches the content (checked below). Not exercised by a second signed-in session. |
+| 2 | Nothing of theirs until both have written | **Holds.** `comparePage` sets `theirs: may ? theirs : null`; `compareStep` carries booleans only; `ComparePanel` returns before rendering when `!state.may`. |
+| 3 | A private page stays private | **Holds.** `setPrivate` refuses anything outside 2.3/2.4/3.1; `private_pages` is own-rows-only and refused writes from the public key. See R6-3 for the one-sidedness. |
+| 4 | The AI never sees the other person's personal answers | **Holds.** `answersIMaySee` is used by all three AI routes (`partner:87`, `draft:67`, `profile:35`) and adds only `sharedState`. |
+| 5 | Nothing is overwritten silently | **Broken on one path — R6-1.** The conflict machinery itself is right. |
+| 6 | A refund ends the partner's access at the same moment | **Holds** for access; the seat row outlives it (concern 3). |
+| 7 | No swapping | **Holds** as far as the indexes and refusals go; R6-2 is the case they do not cover. |
+| 8 | A person alone sees no change | **Holds.** All four new components return null when the role is alone, and with no seats on the live database `/api/household` answers `{role:"alone"}`. |
+
+## Checks that ran
+- `tsc --noEmit`, `eslint`, `npm test` (215, including the 31 new), `next build`
+  with the five new routes: all pass, as the brief said.
+- `content-build/check-together.mjs`: 69 pages, 29 mine, 37 ours, 3 read.
+- **`together.json` against the real content** (my own script, because this is
+  what keeps promise 1 honest): every `mine_fields` id exists on its page
+  (`s3-2.2.biggest_fear`, `s3-5.3.my_choice_hours`, `s3-5.3.blocks_back`,
+  `s3-5.4.what_i_need`); all three private pages are `mine`; both `agree_after`
+  pages are `mine`; and **no real field anywhere is called `agreed`**, so the
+  reserved shared field cannot collide with a personal answer.
+- Live, signed out: `/api/household`, `/api/household/compare` (GET and POST),
+  `/api/household/answer`, `/api/household/status`, `/api/seat` (GET and POST)
+  all answer 401.
+- Live, with the public key: `partner_seats` and `private_pages` exist, hold no
+  rows, return nothing and refuse writes (42501). `answers.changed_by` exists.
+  These were the first real queries against both tables.
+- The `maybeSingle()` behaviour behind R6-2, reproduced against live data.
+
+## The two-account run (added the same day)
+
+Mwata asked for the gap to be closed and gave access to the live household:
+**Renata** (buyer, holds Phase 1) and **info@belgraveconsultancy.com**
+(partner, seat active, joined 11:37). I drove the partner's own signed-in
+session in Chrome and set the buyer's side up with the service role. The buyer
+was seeded with two personal answers marked `REVIEW-SECRET` and one shared one.
+**Everything written for the test was deleted afterwards**: both accounts are
+back to 0 answers, 0 statuses, 0 private pages, the entitlement is `active` and
+the seat is untouched.
+
+### R6-4. The partner cannot open anything they have paid to see (HIGH — this stops the feature working)
+- **Where:** `src/app/api/content/route.ts:43` uses `myEntitlements(supabase)`
+  and never calls `householdEntitlements`. The same is true of
+  `api/workbook/route.ts:60` and `api/video/url/route.ts:38`.
+  `householdEntitlements` is used in exactly one place: `/api/household`.
+- **What happens, on the live site, as the partner:**
+
+  | Asked for | Answer |
+  | --- | --- |
+  | `/api/household` | `role: partner`, entitlements `[{phase1, active}]` |
+  | `/api/content?page=3.2` (shared money page) | **403** "This page is part of the course." |
+  | `/api/content?page=1.4` (personal page) | **403** |
+  | `/api/content?step=1` | **403** "This step is part of the course." |
+  | `/api/content?page=1.2` (free page) | 200 |
+  | `/api/workbook?step=step-1` | **403** |
+  | `/api/video/url?...&step=1` | **403** "This video is part of the course." |
+
+- **What the partner sees:** opening `/step/1/p3/3.2` gives the closed-step
+  screen — *"Step 1 · Picture is part of the course. What life do I really
+  want? Get Phase 1 to open it, with its video and its workbook"* — with a
+  **Get Phase 1** button, to somebody who is already on a paid seat. The
+  household route tells the browser the step is owned; every door that hands
+  over words, PDFs or video says no. The seat works for shared answers and for
+  nothing else.
+- **Why the unit tests missed it:** `householdEntitlements` is tested on its
+  own and is right. Nothing tests that the routes which gate content ask it.
+- **How to check a fix:** as the partner, `/api/content?page=3.2` returns the
+  page, `/api/workbook?step=step-1` returns the PDF, and `/step/1/p3/3.2`
+  renders the money table rather than the sales screen.
+
+### R6-1, reproduced on the live site
+The silent overwrite in promise 5 is real, and it took two minutes to produce:
+
+1. Renata's `3.2 / costs` was written with `changed_by` recorded — exactly what
+   the app does once a household exists. The partner then saved the same field
+   with a ten-minute-old `loadedAt`: **`saved: false`**, both answers returned,
+   "Renata" named. The conflict machinery is right.
+2. The same field was then written with `changed_by` **null** — which is what
+   the startup window in `app-state.tsx` produces, because the role is still
+   `"alone"` until `/api/household` returns. The partner saved it again with
+   the same stale `loadedAt`: **`saved: true`**, no question, and Renata's
+   answer was gone. `/api/household` afterwards returned the partner's value.
+
+So the promise holds whenever `changed_by` is set, and fails for any answer
+written before the household arrives — including every answer written by a
+buyer in the seconds after they open the app.
+
+### R6-3, reproduced on the live site
+As the partner I kept 2.3 private and then asked for the comparison:
+`minePrivate: true`, `may: true`, and Renata's 2.3 handed over in full. From
+her side the same page gave `may: false`, `waiting: "theirs-private"`,
+`theirs: null` and no trace of my words. Private holds in the direction it is
+meant to; it just does not close the page in the other direction.
+
+### The attacks that passed, live
+| # | Attack | Result |
+| --- | --- | --- |
+| 1 | Partner asks Supabase directly for the buyer's `answers` | 0 rows. Every row the partner's own session can read belongs to them. |
+| 2 | Compare 1.4 before writing mine | `may: false`, `theirs: null`, no words in the body — `theirsWritten: true` only, which is the design. |
+| 3 | Compare a shared page (3.2) | 400, refused. |
+| 4 | Write a personal field through `/api/household/answer` | 400 "That answer is not a shared one", nothing written. |
+| 5 | `force: true` having never opened the page | Saves, as designed. Nothing else stops it and the replaced answer is not kept. |
+| 10 | Partner keeps 2.3 private; buyer opens 2.3 | Buyer gets `theirs: null`, told it is private. |
+| 11 | Keep 1.4 private | 400, refused. |
+| 12 | Read the buyer's `private_pages` directly | 0 rows. |
+| 13 | Two people on one money field | Asked, not overwritten — see R6-1 for the null case. |
+| 14 | Shared page marked done | Saved for the household; a personal page's status is refused (400). |
+| 17 | Buyer's entitlement set to `refunded` | Partner lost the paid content immediately; restored to `active` straight after. |
+| 18 | What the AI partner is given | Pages 1.4, 2.3, 3.2 — their own two plus the shared money table. **No `REVIEW-SECRET` anywhere**: the buyer's personal answers never enter the context. |
+
+### Still not run
+Attacks 7, 8 and 9 (the invitation refusals) need the buyer's session to POST
+`/api/seat`, which I did not have. Attacks 15 and 16 delete accounts, so they
+were read rather than run. The twenty-second poll, the invitation email and the
+"You and Ben" card with real data are still untried — and the card could not
+appear anyway while R6-4 stands.
+
+## The fix list, in order
+| # | What | Severity |
+|---|---|---|
+| R6-4 | The partner is refused every paid page, workbook and video: the content, workbook and video routes ask only that person's own entitlements | High — the seat does not work |
+| R6-1 | Shared answers can be written to the wrong rows, and an answer written before the household loads is overwritten with no question (both reproduced live) | High |
+| R6-2 | Two seat rows read as "no seat"; a refund never ends the seat | Medium |
+| R6-3 | Private is one-sided — reproduced live; decide, then say so | Low–medium |
+| C1–C6 | The six concerns above, none of them urgent | Low |
+
+Promise 5 ("nothing is overwritten silently") and the working seat itself are
+the two that are not kept. The other six hold, and seven of them were tried
+against the live household rather than read.
+
+## Round 6 — what is fixed (16 October 2026)
+
+LLM1's answer to the round 6 findings. All four are fixed, and so are five of
+the six concerns that were raised but not run.
+
+### R6-4. The seat opened no doors (HIGH, confirmed live)
+
+The worst of the lot, and the review found it where the tests could not: the
+unit tests exercised `householdEntitlements`, and nothing exercised whether the
+doors asked it. `/api/content`, `/api/workbook` and `/api/video/url` asked
+`myEntitlements`, which is that person's own purchases, so a partner sitting on
+a paid seat was told "This page is part of the course".
+
+- **Fixed** by one function with one name, `myAccess(supabase, userId)` in
+  `access-server.ts`: a person's own entitlements, widened by the seat they
+  sit on. Five routes now ask it: content, workbook, video, draft and partner.
+- `/api/seat` deliberately still asks the narrow question, with a comment
+  saying why: a partner may not pass the seat on to a third person.
+- **And a test that would have caught it**: `web/tests/gates.test.ts` reads the
+  route files and fails if a door asks `myEntitlements`, or reads the
+  entitlements table behind the access layer's back. A rule nobody calls is
+  worth nothing, so the test is about the call sites, not the rule.
+- While fixing this I found a second ordering bug of my own making: the
+  household and the person's own rows were loaded in parallel and applied in
+  whichever order they arrived, so a partner's merged entitlements could be
+  wiped by their own empty list a moment later. The two requests still leave
+  together, but they are now applied in order.
+
+### R6-1. The startup window, and answers with nobody's name on them (HIGH, confirmed live)
+
+Two bugs behind one finding, and the review confirmed the dangerous half live:
+with `changed_by` null, a stale save went straight over the other person's
+answer and reported success.
+
+- **Where an answer belongs is now decided when it is sent**, not when it was
+  typed. The latest household lives outside React (`household-client.ts`), the
+  saver asks it at send time, and `null` means "not known yet", which is not
+  the same as "alone": the answer stays in the queue, the page keeps saying it
+  is not saved, and the saver tries again. A household request that fails is
+  retried every five seconds instead of settling into "alone" for the session.
+- **`conflict()` no longer reads a nameless answer as mine.** Everything
+  written before seats existed is older than the page load and is already let
+  through by the timestamp check. What is left is an answer that appeared while
+  the page was open and cannot be accounted for, and that now asks.
+- The two loads start together, so the unknown window is as short as the slower
+  of the two requests rather than one after the other.
+
+### R6-2. One seat row too many, and a seat that outlived a refund (MEDIUM)
+
+- `seatOf` no longer asks for a single row and swallows the error. It takes up
+  to five, raises a real error, and resolves more than one rather than guessing:
+  a person's own purchase governs their shared answers, an active seat beats an
+  unused invitation, and a warning goes to the log so the ambiguity is visible.
+- Every caller fails closed. `/api/household` turns a seat it cannot read into
+  503, the browser keeps the household unknown, and shared answers wait.
+- **The root cause is gone too**: the Lemon Squeezy webhook now ends the seat
+  when it refunds an order, with `ended_reason: 'refund'`, and says so in the
+  admin log. Access already followed the buyer, so nobody kept access they
+  should not have, but the row left standing was what made two rows possible.
+- The invitation guard now refuses an address that belongs to another household
+  **as a buyer as well as a partner**.
+
+### R6-3. Privacy was one-way (LOW-MEDIUM, confirmed live)
+
+Mwata's call, and the decision is **mutual**: a page you keep to yourself is
+closed both ways. It is the only version that can be said in one line, and the
+alternative reads as taking without giving. `mayCompare` takes `minePrivate`,
+the page says "You are keeping this page to yourself, so it is closed both
+ways. Untick it below to compare", and both the page view and the step view
+answer the same way.
+
+### The concerns that were not run
+
+- **The read-then-write gap in `writeShared`** is closed. The update carries the
+  timestamp it expects to find, so a write that slid in between finds nothing
+  to update and comes back as a clash. A first answer uses an insert, which
+  fails on the primary key rather than overwriting.
+- **"Keep mine" is recoverable.** The other answer stays on the page until it is
+  left, with "Use theirs after all" and "Put mine back".
+- **Unlimited re-invites**: the same invitation can be sent again after five
+  minutes, not every time somebody presses the button.
+- **The route that did not ask about the household** (keeping a page private)
+  now asks.
+- **The first-save-versus-seat-flip race** is answered by the R6-1 fix: a save
+  that arrives before the household is known waits in the queue.
+
+### Still open after this round
+
+- The two-account test is Mwata's to run: nothing here has been exercised by a
+  second person since these fixes.
+- R4-9 (the five lights read one table only), R4-10, R5-5 (an old public chunk
+  may sit in an edge cache), and the admin overview asking for 1000 accounts in
+  one call.
+- Slice 3: two voices in the result documents.
+
+**Checked after**: 223 tests (including the new gate tests and the rewritten
+conflict tests), typecheck, lint, and a production build with all five routes
+in it.

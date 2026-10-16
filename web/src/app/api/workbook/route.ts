@@ -10,10 +10,9 @@
  *   ?module=introduction  a module that carries its own (the Introduction)
  *   &open=1             opens in the browser instead of downloading
  */
-import type { Entitlement } from "@/lib/access";
 import { ownedSteps } from "@/lib/access";
 import { accessConfig, requirePurchase } from "@/lib/access-app";
-import { isFreeAccount, myEntitlements } from "@/lib/access-server";
+import { isFreeAccount, myAccess } from "@/lib/access-server";
 import { freeItemById, moduleById, workbookOf } from "@/lib/modules-app";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -50,15 +49,14 @@ export async function GET(request: Request) {
 
   // A module's own workbook (the Introduction) comes with the course: a free
   // account is welcome to the video, and to the free exercises as PDFs.
-  if (moduleId && isFreeAccount(await myEntitlements(supabase))) {
+  if (moduleId && isFreeAccount(await myAccess(supabase, auth.user.id))) {
     return fail(403, "The workbook comes with the course.");
   }
 
   // A step's workbook belongs to the step.
   if (stepId && requirePurchase) {
     const number = Number(stepId.replace("step-", ""));
-    const { data: rows } = await supabase.from("entitlements").select("product, status");
-    const mine = ownedSteps((rows ?? []) as Entitlement[], accessConfig);
+    const mine = ownedSteps(await myAccess(supabase, auth.user.id), accessConfig);
     if (!mine.includes(number)) return fail(403, "This workbook is part of the course.");
   }
 

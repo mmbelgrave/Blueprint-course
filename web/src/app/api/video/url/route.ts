@@ -7,8 +7,8 @@
  * in the browser decides what to draw, this one decides what may be watched.
  */
 import { stepFor } from "@/lib/access-app";
+import { myAccess } from "@/lib/access-server";
 import { playbackUrl, looksLikeVideoId } from "@/lib/bunny";
-import type { Entitlement } from "@/lib/access";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -40,8 +40,7 @@ export async function GET(request: Request) {
    * is now refused, not waved through.
    */
   if (!Number.isInteger(step) || step < 1) return fail(400, "That is not a step.");
-  const { data } = await supabase.from("entitlements").select("product, status");
-  const verdict = stepFor(step, (data ?? []) as Entitlement[]);
+  const verdict = stepFor(step, await myAccess(supabase, user.id));
   if (!verdict.open) {
     return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This video is part of the course.");
   }

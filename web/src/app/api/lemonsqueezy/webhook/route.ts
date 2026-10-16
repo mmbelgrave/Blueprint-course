@@ -96,12 +96,33 @@ export async function POST(request: Request) {
 
   try {
     if (decision.act === "close") {
-      const { error } = await admin
+      const { data: ended, error } = await admin
         .from("entitlements")
         .update({ status: "refunded", ended_at: new Date().toISOString() })
-        .eq("order_id", order.orderId);
+        .eq("order_id", order.orderId)
+        .select("user_id");
       if (error) throw new Error(error.message);
-      await log("closed", `Refunded: ${order.reference}.`, order);
+      /*
+       * And the seat that came with it (spec §6.8, review round 6 R6-2).
+       * Access already follows the buyer, so the partner is locked out either
+       * way, but a seat row left standing means that address still counts as
+       * "in a household" and cannot be invited anywhere else.
+       */
+      const seatsEnded: string[] = [];
+      for (const row of (ended ?? []) as { user_id: string }[]) {
+        const { data: seat } = await admin
+          .from("partner_seats")
+          .update({ status: "ended", ended_at: new Date().toISOString(), ended_reason: "refund" })
+          .eq("buyer_id", row.user_id)
+          .neq("status", "ended")
+          .select("email");
+        for (const s of (seat ?? []) as { email: string }[]) seatsEnded.push(s.email);
+      }
+      await log(
+        "closed",
+        `Refunded: ${order.reference}.${seatsEnded.length ? ` Partner seat ended for ${seatsEnded.join(", ")}.` : ""}`,
+        order,
+      );
       return Response.json({ ok: true });
     }
 

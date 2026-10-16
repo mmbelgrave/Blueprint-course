@@ -98,11 +98,21 @@ export function conflict(
   who: { userId: string; loadedAt: string },
 ): Conflict {
   if (!stored?.updated_at) return { kind: "none" };
-  const changedBy = stored.changed_by ?? null;
-  // My own earlier writing is not a conflict, however long ago it was.
-  if (!changedBy || changedBy === who.userId) return { kind: "none" };
+  // My own writing is not a conflict, however long ago it was.
+  if (stored.changed_by === who.userId) return { kind: "none" };
+  // Anything already there when this page was loaded is not a clash either:
+  // it is what the page was showing.
   if (new Date(stored.updated_at).getTime() <= new Date(who.loadedAt).getTime()) return { kind: "none" };
-  return { kind: "theirs", changedBy, at: stored.updated_at };
+  /*
+   * An answer with nobody's name on it, written since the page was loaded.
+   *
+   * Review round 6, finding R6-1: this used to count as "mine", because every
+   * answer written before seats existed has no name on it. But those are all
+   * older than the page load and are caught above, so what is left is an
+   * answer that appeared just now and cannot be accounted for. Overwriting it
+   * silently is the one thing promise 5 says never happens, so it asks.
+   */
+  return { kind: "theirs", changedBy: stored.changed_by ?? "someone", at: stored.updated_at };
 }
 
 /** An invitation can only go to one address, and not to yourself. */

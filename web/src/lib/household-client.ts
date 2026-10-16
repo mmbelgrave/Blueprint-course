@@ -41,6 +41,44 @@ export const workingAlone = (at = new Date().toISOString()): Household => ({
   at,
 });
 
+/*
+ * The latest household, outside React.
+ *
+ * Review round 6, finding R6-1: the browser used to decide "shared or mine"
+ * when an answer was typed, from whatever the household happened to be then.
+ * At startup that is nobody, and a failed request left it at nobody for the
+ * whole session, so answers that belonged to the household were quietly
+ * written to one person's own rows while the page said "Saved".
+ *
+ * So the decision moved to the moment the answer is actually sent, and the
+ * answer to "which household is this" lives here, where the saver can ask it
+ * then. `null` means not known yet, which is not the same as working alone:
+ * a shared answer waits rather than going to the wrong rows.
+ */
+let latest: Household | null = null;
+
+/** When each shared answer was last reconciled with the other person. */
+const seen: Record<string, string> = {};
+
+export const knownHousehold = (): Household | null => latest;
+
+export const rememberHousehold = (household: Household | null) => {
+  latest = household;
+};
+
+/** The moment this browser last had the truth about one shared answer. */
+export const seenAt = (key: string): string => seen[key] ?? latest?.at ?? new Date(0).toISOString();
+
+/** After a clash is settled, this answer is up to date again. */
+export const markSeen = (key: string, when = new Date().toISOString()) => {
+  seen[key] = when;
+};
+
+export const forgetHousehold = () => {
+  latest = null;
+  for (const key of Object.keys(seen)) delete seen[key];
+};
+
 /** What the household looks like now. Returns null when it cannot be asked. */
 export async function fetchHousehold(): Promise<HouseholdLoad | null> {
   try {

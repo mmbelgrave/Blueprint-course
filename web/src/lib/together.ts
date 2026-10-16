@@ -57,28 +57,38 @@ export function isShared(config: TogetherConfig, exerciseId: string, fieldId: st
   return !mineFieldsOf(config, exerciseId).includes(fieldId);
 }
 
+export type CompareState = {
+  mineWritten: boolean;
+  theirsWritten: boolean;
+  theirsPrivate: boolean;
+  /**
+   * Whether I am keeping this page to myself.
+   *
+   * Review round 6, finding R6-3: without this, somebody could keep their own
+   * 2.3 private and still read their partner's. Privacy on these pages is
+   * mutual, which is also the only version that can be explained in one line:
+   * a page you keep to yourself is closed both ways.
+   */
+  minePrivate: boolean;
+};
+
 /**
  * May I see the other person's answers to this page?
  *
- * Three things have to be true, and the first is the one the whole feature
+ * Four things have to be true, and the first is the one the whole feature
  * rests on: I have written mine. If I could read theirs first, I would write
- * theirs. The third is the person's own choice to keep a page back.
+ * theirs.
  */
-export function mayCompare(state: {
-  mineWritten: boolean;
-  theirsWritten: boolean;
-  theirsPrivate: boolean;
-}): boolean {
-  return state.mineWritten && state.theirsWritten && !state.theirsPrivate;
+export function mayCompare(state: CompareState): boolean {
+  return state.mineWritten && state.theirsWritten && !state.theirsPrivate && !state.minePrivate;
 }
 
 /** What the page should say when it cannot show the comparison yet. */
-export function waitingBecause(state: {
-  mineWritten: boolean;
-  theirsWritten: boolean;
-  theirsPrivate: boolean;
-}): "theirs-private" | "neither" | "only-them" | "only-me" | null {
+export function waitingBecause(
+  state: CompareState,
+): "mine-private" | "theirs-private" | "neither" | "only-them" | "only-me" | null {
   if (mayCompare(state)) return null;
+  if (state.minePrivate) return "mine-private";
   if (state.theirsPrivate) return "theirs-private";
   if (!state.mineWritten && !state.theirsWritten) return "neither";
   if (!state.mineWritten) return "only-them";

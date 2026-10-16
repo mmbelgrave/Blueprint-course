@@ -1,7 +1,7 @@
 // The AI partner: one streamed reply per request. Server-only — the Anthropic
 // API key never reaches the browser. Answer texts are never written to logs.
 import Anthropic from "@anthropic-ai/sdk";
-import { isFreeAccount, myEntitlements } from "@/lib/access-server";
+import { isFreeAccount, myAccess } from "@/lib/access-server";
 import type { Answers, Profile } from "@/lib/backend";
 import { findExercise } from "@/lib/content";
 import { anthropicClient } from "@/lib/partner/client";
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   // service key the usage log is not written, so the chats are counted instead.
   // The AI partner is part of the course (§6.2). A free account never sees the
   // panel; this is the same answer given where it counts.
-  if (isFreeAccount(await myEntitlements(supabase))) {
+  if (isFreeAccount(await myAccess(supabase, user.id))) {
     return fail(403, "Your AI partner comes with the course.");
   }
 

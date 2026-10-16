@@ -77,11 +77,30 @@ test("my own earlier answer is never a conflict", () => {
   });
 });
 
-test("an answer written before the seat existed is never a conflict", () => {
-  const now = new Date().toISOString();
-  const later = new Date(Date.now() + 60_000).toISOString();
-  assert.deepEqual(conflict({ changed_by: null, updated_at: later }, { userId: PARTNER, loadedAt: now }), {
+test("an answer that was already there when I opened the page is not a conflict, named or not", () => {
+  const before = new Date("2026-10-16T08:00:00Z").toISOString();
+  const opened = new Date("2026-10-16T09:00:00Z").toISOString();
+  assert.deepEqual(conflict({ changed_by: null, updated_at: before }, { userId: PARTNER, loadedAt: opened }), {
     kind: "none",
+  });
+  assert.deepEqual(conflict({ changed_by: BUYER, updated_at: before }, { userId: PARTNER, loadedAt: opened }), {
+    kind: "none",
+  });
+});
+
+/*
+ * Review round 6, R6-1. An answer with no name on it used to count as
+ * "mine, written before seats existed", and those are all older than the page
+ * load. One that appears while the page is open cannot be accounted for, and
+ * a save from the other side used to go straight over it.
+ */
+test("a nameless answer written while the page was open is a conflict, not a free overwrite", () => {
+  const opened = new Date("2026-10-16T09:00:00Z").toISOString();
+  const after = new Date("2026-10-16T09:03:00Z").toISOString();
+  assert.deepEqual(conflict({ changed_by: null, updated_at: after }, { userId: PARTNER, loadedAt: opened }), {
+    kind: "theirs",
+    changedBy: "someone",
+    at: after,
   });
 });
 

@@ -30,6 +30,7 @@ function Waiting({ why, them }: { why: PageCompare["waiting"]; them: string }) {
     "only-me": `You have written this one. ${them} has not yet, so there is nothing to compare.`,
     neither: `Neither of you has written this one yet. When you both have, your answers appear side by side.`,
     "theirs-private": `${them} is keeping this page private, which is their choice to make.`,
+    "mine-private": `You are keeping this page to yourself, so it is closed both ways. Untick it below to compare.`,
   };
   return (
     <p className="rounded-2xl border border-dashed border-line px-4 py-3 text-sm text-stone">

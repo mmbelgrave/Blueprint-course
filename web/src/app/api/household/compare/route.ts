@@ -73,6 +73,10 @@ export async function POST(request: Request) {
   }
   if (!body.exerciseId) return fail(400, "Which page?");
 
+  // Keeping a page to yourself only means something inside a household.
+  const { household } = await householdOf(admin, user.id);
+  if (household.role === "alone") return fail(403, "You have no partner seat.");
+
   const result = await setPrivate(admin, user.id, body.exerciseId, body.keepPrivate === true);
   return "error" in result ? fail(400, result.error) : Response.json({ keepPrivate: body.keepPrivate === true });
 }
