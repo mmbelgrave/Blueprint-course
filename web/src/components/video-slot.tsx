@@ -107,7 +107,8 @@ export function VideoSlot({
     setProblem(null);
     try {
       const where = access && "module" in access ? `module=${encodeURIComponent(access.module)}` : `step=${access && "step" in access ? access.step : ""}`;
-      const res = await fetch(`/api/video/url?video=${encodeURIComponent(video.url)}&${where}`, { cache: "no-store" });
+      const sound = video.audio_url ? `&audio=${encodeURIComponent(video.audio_url)}` : "";
+      const res = await fetch(`/api/video/url?video=${encodeURIComponent(video.url)}&${where}${sound}`, { cache: "no-store" });
       const data = await res.json();
       if (!res.ok) {
         setProblem(data.error ?? "That video could not be started.");

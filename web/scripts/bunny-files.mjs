@@ -13,7 +13,7 @@ const dir = `/${id}/`;
 const token = `HS256-${base64url(createHmac("sha256", key).update(`${dir}${expires}token_path=${dir}`).digest())}`;
 const query = new URLSearchParams({ token, expires: String(expires), token_path: dir });
 const referer = "https://app.maderealblueprint.com/";
-for (const file of ["audio.mp3", "captions/en.vtt", "captions/en-US.vtt", "thumbnail.jpg", "preview.webp", "play_720p.mp4", "playlist.m3u8"]) {
+for (const file of ["captions/EN.vtt", "captions/en.vtt", "thumbnail.jpg", "playlist.m3u8"]) {
   const r = await fetch(`https://${cdn}${dir}${file}?${query}`, { headers: { referer } });
   console.log(`${String(r.status).padEnd(4)} ${file}${r.ok ? `  (${r.headers.get("content-type")}, ${r.headers.get("content-length") ?? "?"} bytes)` : ""}`);
 }

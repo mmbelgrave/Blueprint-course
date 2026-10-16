@@ -33,6 +33,23 @@ async function there(address: string): Promise<boolean> {
   }
 }
 
+/*
+ * Bunny files a caption track under the language code it was given, and the
+ * CDN path is case-sensitive: the Introduction track sits at captions/EN.vtt.
+ * Rather than make that a rule somebody has to remember, the few spellings are
+ * tried and the first one that answers is used.
+ */
+const CAPTION_FILES = ["captions/EN.vtt", "captions/en.vtt", "captions/en-GB.vtt", "captions/en-US.vtt"];
+
+async function captionTrack(folder: string) {
+  for (const file of CAPTION_FILES) {
+    if (await there(folder + file)) {
+      return [{ src: folder + file, label: "English", language: "en", default: true }];
+    }
+  }
+  return [];
+}
+
 export async function GET(request: Request) {
   const cdn = process.env.NEXT_PUBLIC_BUNNY_CDN;
   const key = process.env.BUNNY_TOKEN_KEY;
@@ -45,11 +62,13 @@ export async function GET(request: Request) {
 
   const params = new URL(request.url).searchParams;
   const videoId = params.get("video") ?? "";
+  const audioId = params.get("audio") ?? "";
   const moduleId = params.get("module");
   const step = Number(params.get("step"));
 
   // A video id goes into a web address, so it is checked rather than trusted.
   if (!looksLikeVideoId(videoId)) return fail(400, "That is not a video.");
+  if (audioId && !looksLikeVideoId(audioId)) return fail(400, "That is not a video.");
 
   const entitlements = await myAccess(supabase, user.id);
 
@@ -74,20 +93,21 @@ export async function GET(request: Request) {
   }
 
   const { folder, expires } = folderUrl({ cdn, videoId, key });
-  const [hasCaptions, hasAudio] = await Promise.all([
-    there(`${folder}captions/en.vtt`),
-    there(`${folder}audio.mp3`),
-  ]);
+  /*
+   * The sound-only version is its own upload with its own folder, so it is
+   * signed separately. Bunny makes no audio.mp3 of its own, which is checked
+   * here too in case a library ever does.
+   */
+  const audioFolder = audioId ? folderUrl({ cdn, videoId: audioId, key }).folder : null;
+  const [captions, besideIt] = await Promise.all([captionTrack(folder), there(`${folder}audio.mp3`)]);
 
   // Never cached: an address that outlives its token is worse than none.
   return Response.json(
     {
       url: `${folder}playlist.m3u8`,
       poster: `${folder}thumbnail.jpg`,
-      audio: hasAudio ? `${folder}audio.mp3` : null,
-      captions: hasCaptions
-        ? [{ src: `${folder}captions/en.vtt`, label: "English", language: "en", default: true }]
-        : [],
+      audio: audioFolder ? `${audioFolder}playlist.m3u8` : besideIt ? `${folder}audio.mp3` : null,
+      captions,
       expires,
     },
     { headers: { "cache-control": "no-store" } },
