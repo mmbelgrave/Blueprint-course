@@ -298,3 +298,22 @@ the shared conclusion still lands in the summaries.
 the cover, the joint facts once, the personal parts twice, and a line where a
 difference matters (a must-have only one of them wrote, a dealbreaker only one
 of them has, two different answers to the honest evening question).
+
+**Slice 3, 16 October.** Two voices in the result documents.
+`/api/household/report` hands over the other person's answers for the personal
+pages the comparison has already opened, and nothing else. `togetherReport`
+turns that into the few things a document needs: the words they both chose,
+the must-haves only one of them wrote, each of their directions and decisions,
+the honest evening answer, and the two agreed lines. `components/report/
+two-voices.tsx` prints them, and draws nothing at all when there is one voice,
+which is every document today.
+
+Where each one lands: the agreed direction on My Working Direction, the words
+and the must-haves on its third sheet, the evening question on My Explore
+Summary, both decisions and the agreed decision on My Decision, and on the
+Blueprint the agreed decision on the first page with the must-haves beside the
+values. Both names go on the cover and the foot ("Mwata and Renata"), and the
+footnote reads "Our own answers" rather than "My own answers".
+
+A page one of them has not finished prints one voice. That is the truth about
+where they are, and it is the same rule the screen uses.

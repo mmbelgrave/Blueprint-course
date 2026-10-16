@@ -13,11 +13,14 @@
  */
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Pull, Rule, RunningHead, Sheet, Standfirst } from "./chrome";
 import { AmountBars, Dumbbell, PhaseDots, ShareBars, Statement, money } from "./charts";
-import type { Step1 } from "@/lib/report";
+import { Agreed, SharedAndApart } from "./two-voices";
+import type { Step1, Together } from "@/lib/report";
 import { WAKING_HOURS } from "@/lib/report";
 
 export function Step1Doc({
   r,
+  two,
+  mine = "",
   who,
   when,
   currency,
@@ -25,6 +28,10 @@ export function Step1Doc({
   board,
 }: {
   r: Step1;
+  /** The other person's answers, when there is one (6.8 slice 3). */
+  two?: Together;
+  /** This person’s own name, for the blocks that name both. */
+  mine?: string;
   who: string;
   when: string;
   currency: string;
@@ -90,6 +97,8 @@ export function Step1Doc({
             {r.choice ? `${r.choice}. ` : ""}
             {r.letGo ? `Let go for now: ${r.letGo}` : "A direction to investigate, which I can still change."}
           </Footnote>
+          {/* The one the two of them agreed on, which outranks either own. */}
+          {two?.agreedDirection && <Agreed what="The direction we agree on" line={two.agreedDirection} />}
         </Body>
         {foot(1)}
       </Sheet>
@@ -202,6 +211,14 @@ export function Step1Doc({
               <Kicker>What my new life must give me</Kicker>
               <p className="mt-3 text-[11pt] leading-relaxed">{r.mustHaves.map((m) => m.what).join("  ·  ")}</p>
             </div>
+          )}
+
+          {/* A must-have only one of them wrote is still a must-have. */}
+          {two?.mustHaves && two.name && (
+            <SharedAndApart overlap={two.mustHaves} mine={mine} theirs={two.name} what="What this life must give us" />
+          )}
+          {two?.values && two.name && (
+            <SharedAndApart overlap={two.values} mine={mine} theirs={two.name} what="The words we chose" />
           )}
 
           {r.nextStep && (

@@ -335,6 +335,39 @@ the credits. That is the "see what is inside" material, and only to someone
 signed in — a stranger gets 401. Narrowing it is a change to `freePagesOf` if
 it ever matters.
 
+## Two voices in the documents, slice 3 (16 October 2026)
+
+The last piece of the partner seat. A couple shares the money, the lights and
+the timeline, so those parts of a document were already the same on both
+sides. What was missing was the other half: each of their own answers, and the
+two lines they agreed on, which were being collected since slice 2 and printed
+nowhere.
+
+**What a household's documents say now.** Both names on the cover and the
+foot. The agreed direction on My Working Direction and the agreed decision on
+My Decision and on the Blueprint, printed larger than either person's own,
+because that is the line the plan rests on. The words they both chose and the
+must-haves only one of them wrote, which is where couples are most often
+surprised. Each of their decisions side by side on the way to the agreed one.
+The honest evening question twice, which two people rarely answer alike.
+
+**What it does not do.** A page one of them has not finished prints one voice.
+`/api/household/report` hands over the other person's answers only for pages
+the comparison has already opened: both finished, neither private. So the
+document can never show something the screen would not.
+
+The model is `togetherReport` in lib/report.ts, the printing is
+components/report/two-voices.tsx, and both draw nothing at all when there is
+one voice, which is every document today.
+
+**One thing to know for next time:** report.ts is read straight by the tests,
+which do not know the `@` alias, so its imports are relative with the
+extension on. I broke the report tests by forgetting that and fixed it in the
+same hour.
+
+**Checked**: 231 tests, 7 of them new for what a couple's document says,
+typecheck, lint, production build with the new route in it.
+
 ## The comparison, slice 2 (15 October 2026)
 
 The half of the seat that makes it worth having. Three things decide whether

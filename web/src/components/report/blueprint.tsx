@@ -16,11 +16,14 @@ import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Pull, Rul
 import { BigNumbers, ConditionRows, Lights, NeedRows, PhaseDots, ShareBars } from "./charts";
 import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { durationIn, firstClause, noStop, openLights, WAKING_HOURS, type Blueprint, type ChangePlan } from "@/lib/report";
+import { durationIn, firstClause, noStop, openLights, WAKING_HOURS, type Blueprint, type ChangePlan, type Together } from "@/lib/report";
+import { Agreed, SharedAndApart } from "./two-voices";
 
 export function BlueprintDoc({
   r,
   plan,
+  two,
+  mine = "",
   who,
   when,
   currency,
@@ -29,6 +32,10 @@ export function BlueprintDoc({
   r: Blueprint;
   /** The staying route, for somebody who is changing their life where they are. */
   plan: ChangePlan;
+  /** The other person's answers, when there is one (§6.8, slice 3). */
+  two?: Together;
+  /** This person's own name, for the blocks that name both. */
+  mine?: string;
   who: string;
   when: string;
   currency: string;
@@ -83,9 +90,14 @@ export function BlueprintDoc({
             />
           </div>
 
+          {/* The decision the two of them made together outranks either of
+              their own, so it sits on the first page, under the numbers. */}
+          {two?.agreedDecision && <Agreed what="The decision we made together" line={two.agreedDecision} />}
+
           <Footnote>
-            My own answers across the three steps of Phase 1, gathered on one document. It shows what I think today,
-            with the open work visible. It is not advice, and it is not a recommendation to move.
+            {two?.name ? "Our own answers" : "My own answers"} across the three steps of Phase 1, gathered on one
+            document. It shows what {two?.name ? "we think" : "I think"} today, with the open work visible. It is not
+            advice, and it is not a recommendation to move.
           </Footnote>
         </Body>
         <PageFoot who={who} page={1} of={of} />
@@ -101,6 +113,12 @@ export function BlueprintDoc({
             <Standfirst>
               {r.values.join(", ")}. The move is only worth it if ordinary days make more room for these.
             </Standfirst>
+          )}
+
+          {/* A must-have only one of them wrote is still a must-have, and the
+              one place a couple is most likely to be surprised. */}
+          {two?.mustHaves && two.name && (
+            <SharedAndApart overlap={two.mustHaves} mine={mine} theirs={two.name} what="What this life must give us" />
           )}
 
           {(r.time.now !== null || r.time.want !== null) && (

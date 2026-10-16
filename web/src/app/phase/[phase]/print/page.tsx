@@ -20,7 +20,8 @@ import { BlueprintDoc } from "@/components/report/blueprint";
 import { stepFor } from "@/lib/access-app";
 import { exerciseAnswerLines } from "@/lib/answer-text";
 import { useApp } from "@/lib/app-state";
-import { blueprintReport, changePlan, type Answers } from "@/lib/report";
+import { blueprintReport, bothNames, changePlan, togetherReport, type Answers } from "@/lib/report";
+import { usePair } from "@/lib/pair-client";
 import { partItems, PRODUCT } from "@/lib/content";
 import { useStepsContent } from "@/lib/use-step-content";
 import { downloadText, fileName, writtenText } from "@/lib/written-text";
@@ -34,7 +35,11 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
   const a = answers as Answers;
   const currency = profile?.currency ?? "EUR";
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
-  const who = profile?.first_name ?? "";
+  const myName = profile?.first_name ?? "";
+  /* The second voice, when there is one (6.8 slice 3). */
+  const second = usePair([1, 2, 3]);
+  const two = togetherReport(a, second.pair);
+  const who = bothNames(myName, two.name);
 
   // A step nobody owns is not gathered here either.
   const mine = phase.steps.filter((n) => stepFor(n, entitlements).open);
@@ -79,7 +84,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
   const handed = useRef(false);
   // Not before the answers are in memory, and for a household, not before the
   // shared half is either (6.8).
-  const ready = !words.loading && !loading && (householdKnown || household.role === "alone");
+  const ready = !words.loading && !loading && !second.loading && (householdKnown || household.role === "alone");
   useEffect(() => {
     if (!asked || handed.current || !ready) return;
     handed.current = true;
@@ -111,6 +116,8 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
       <BlueprintDoc
         r={r}
         plan={changePlan(a)}
+        two={two}
+        mine={myName}
         who={who}
         when={r.dates.three || today}
         currency={currency}

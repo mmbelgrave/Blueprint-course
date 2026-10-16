@@ -15,12 +15,15 @@ import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Rule, Run
 import { ConditionRows, Lights, Numbered, Steps } from "./charts";
 import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { noStop, openLights, type ChangePlan, type Step3 } from "@/lib/report";
+import { noStop, openLights, type ChangePlan, type Step3, type Together } from "@/lib/report";
 import { coverWords } from "@/lib/report";
+import { Agreed, SideBySide } from "./two-voices";
 
 export function Step3Doc({
   r,
   plan,
+  two,
+  mine = "",
   who,
   when,
   currency,
@@ -28,6 +31,10 @@ export function Step3Doc({
   r: Step3;
   /** The staying route, for somebody who is changing their life where they are. */
   plan: ChangePlan;
+  /** The other person's answers, when there is one (6.8 slice 3). */
+  two?: Together;
+  /** This person’s own name, for the blocks that name both. */
+  mine?: string;
   who: string;
   when: string;
   currency: string;
@@ -60,6 +67,23 @@ export function Step3Doc({
           <Footnote>
             The colours are my own answers on the day. Nothing here says that anything is ready.
           </Footnote>
+
+          {/*
+           * Two people decide separately and then together. Printing only one
+           * of them would be the wrong document for a plan two people share,
+           * and printing them without the agreed line would leave the reader
+           * to guess which one counts.
+           */}
+          {two?.decisions && two.name && (
+            <SideBySide
+              what="What each of us decided"
+              mine={[two.decisions.mine.what, two.decisions.mine.why].filter(Boolean).join(". ")}
+              theirs={[two.decisions.theirs.what, two.decisions.theirs.why].filter(Boolean).join(". ")}
+              mineName={mine}
+              theirName={two.name}
+            />
+          )}
+          {two?.agreedDecision && <Agreed what="The decision we made together" line={two.agreedDecision} />}
 
           {open.length > 0 && (
             <div className="mt-8">

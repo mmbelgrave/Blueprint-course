@@ -8,15 +8,22 @@
  */
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Rule, RunningHead, Sheet, Standfirst } from "./chrome";
 import { AmountBars, Hub, Quote, ScoreBars, Statement, money } from "./charts";
-import type { Step2 } from "@/lib/report";
+import type { Step2, Together } from "@/lib/report";
+import { SideBySide } from "./two-voices";
 
 export function Step2Doc({
   r,
+  two,
+  mine = "",
   who,
   when,
   currency,
 }: {
   r: Step2;
+  /** The other person's answers, when there is one (6.8 slice 3). */
+  two?: Together;
+  /** This person’s own name, for the blocks that name both. */
+  mine?: string;
   who: string;
   when: string;
   currency: string;
@@ -105,6 +112,16 @@ export function Step2Doc({
                 ))}
               </div>
             </>
+          )}
+
+          {two?.evening && two.name && (
+            <SideBySide
+              what="The honest question, on the last evening"
+              mine={two.evening.mine}
+              theirs={two.evening.theirs}
+              mineName={mine}
+              theirName={two.name}
+            />
           )}
 
           {r.changed && (

@@ -649,9 +649,13 @@ Nothing of theirs until both have written, a private switch on 2.3, 2.4 and
 3.1, the two answers side by side with the words you both chose marked, "you
 both wrote" and "only one of you wrote it", the one agreed answer on 5.1 and
 3.4.2, a page that asks again every twenty seconds while it waits, and the
-gathered "You and Ben" card on the step page. Slice 3, still to come: two
-voices in the result documents, so a couple gets one My Decision and one
-Blueprint with both names on the cover and the personal parts printed twice.
+gathered "You and Ben" card on the step page. Slice 3 (16 October): two voices in the result
+documents. Both names on the cover and the foot, the shared facts once because
+they are one set of answers, the personal halves twice, a line for a must-have
+only one of them wrote, and the agreed direction and the agreed decision
+printed where they outrank either person’s own answer. A second voice appears
+only where the comparison is already open, so a page one of them has not
+finished still prints one voice, which is the truth about where they are.
 
 **Where the comparison lives, and where it does not.** Not a fifth tab: five
 labels do not fit a 375-pixel phone (decided 6 October), and the comparison

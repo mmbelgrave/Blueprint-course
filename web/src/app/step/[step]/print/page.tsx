@@ -25,7 +25,8 @@ import { Body, Footnote, Headline, Kicker, PageFoot, RunningHead, Sheet } from "
 import { Step1Doc } from "@/components/report/step1";
 import { Step2Doc } from "@/components/report/step2";
 import { Step3Doc } from "@/components/report/step3";
-import { changePlan, step1Report, step2Report, step3Report, type Answers } from "@/lib/report";
+import { bothNames, changePlan, step1Report, step2Report, step3Report, togetherReport, type Answers } from "@/lib/report";
+import { usePair } from "@/lib/pair-client";
 import { stepsFinished } from "@/lib/blueprint";
 import { getStep, partItems, PRODUCT, type StepContent } from "@/lib/content";
 import { stepHref } from "@/lib/progress";
@@ -82,9 +83,14 @@ function BoardSheet({ who, page, of }: { who: string; page: number; of: number }
 
 function Document({ step }: { step: StepContent }) {
   const { profile, answers, loading, householdKnown, household } = useApp();
+  /* The second voice, when there is one (6.8). Almost every document has one
+     voice, and then this is null and nothing below changes. */
+  const second = usePair([step.step.number]);
   const a = answers as Answers;
   const n = step.step.number;
-  const who = profile?.first_name ?? "";
+  const mine = profile?.first_name ?? "";
+  const two = togetherReport(answers as Answers, second.pair);
+  const who = bothNames(mine, two.name);
   const currency = profile?.currency ?? "EUR";
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
 
@@ -120,7 +126,7 @@ function Document({ step }: { step: StepContent }) {
    * moment the page opens gets a document with their money table missing, and
    * nothing about the file says it was handed over half made.
    */
-  const ready = !loading && (householdKnown || household.role === "alone");
+  const ready = !loading && !second.loading && (householdKnown || household.role === "alone");
   const asked = useSearchParams().get("download") === "1";
   const handed = useRef(false);
   useEffect(() => {
@@ -160,6 +166,8 @@ function Document({ step }: { step: StepContent }) {
       {n === 1 && (
         <Step1Doc
           r={step1Report(a)}
+          two={two}
+          mine={mine}
           who={who}
           when={when("5.1", "date") || today}
           currency={currency}
@@ -168,12 +176,21 @@ function Document({ step }: { step: StepContent }) {
         />
       )}
       {n === 2 && (
-        <Step2Doc r={step2Report(a)} who={who} when={when("s2-5.1", "date") || today} currency={currency} />
+        <Step2Doc
+          r={step2Report(a)}
+          two={two}
+          mine={mine}
+          who={who}
+          when={when("s2-5.1", "date") || today}
+          currency={currency}
+        />
       )}
       {n === 3 && (
         <Step3Doc
           r={step3Report(a)}
           plan={changePlan(a)}
+          two={two}
+          mine={mine}
           who={who}
           when={when("s3-0.1", "decide_by") || when("s3-4.2", "first_step_date") || today}
           currency={currency}

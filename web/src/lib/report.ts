@@ -29,6 +29,10 @@ import { parseAmount, tableTotal } from "./money.ts";
 
 export type { Answers };
 
+/* A relative path on purpose: this file is read straight by the tests, which
+   do not know the @ alias, and it has always stood on its own. */
+import { overlap } from "./compare.ts";
+
 /* ────────────────────────────── reading ───────────────────────────────── */
 
 const text = (a: Answers, page: string, field: string): string => {
@@ -547,3 +551,71 @@ export function blueprintReport(a: Answers) {
 }
 
 export type { MoneyThread };
+
+/* ---------------------------------------------------------------------------
+ * Two voices (spec §6.8, slice 3).
+ *
+ * A household answers the money, the lights and the timeline once, so those
+ * parts of a document are the same on both sides already. What differs is the
+ * personal half, and that is worth printing twice: a must-have only one of
+ * them wrote is still a must-have, and a decision they made together belongs
+ * on the page more than either of their own.
+ *
+ * The second voice only arrives for pages where the comparison is already
+ * open, so a page one of them has not finished simply prints one voice.
+ * ------------------------------------------------------------------------- */
+
+export type Pair = { name: string; theirs: Answers } | null;
+
+const AGREED = "agreed";
+
+/** What the two of them wrote, and what only one did. */
+function bothLists(mine: string[], theirs: string[]) {
+  return overlap(mine, theirs);
+}
+
+export type Together = ReturnType<typeof togetherReport>;
+
+export function togetherReport(a: Answers, pair: Pair) {
+  const theirs = pair?.theirs ?? {};
+  const has = (page: string) => Boolean(pair && theirs[page]);
+
+  const mustHavesOf = (from: Answers) =>
+    filledRows(rowsOf(from, "1.4", "must_haves"))
+      .map((r) => r.row.must_have?.trim() ?? "")
+      .filter(Boolean);
+
+  return {
+    name: pair?.name ?? null,
+    /** The one line they agreed on, which is the point of the two of them. */
+    agreedDirection: text(a, "5.1", AGREED),
+    agreedDecision: text(a, "s3-4.2", AGREED),
+    /** Step 1: the words and the must-haves, side by side. */
+    values: has("1.4") ? bothLists(listOf(a, "1.4", "values"), listOf(theirs, "1.4", "values")) : null,
+    mustHaves: has("1.4") ? bothLists(mustHavesOf(a), mustHavesOf(theirs)) : null,
+    dealbreakers: has("1.4")
+      ? { mine: text(a, "1.4", "dealbreakers"), theirs: text(theirs, "1.4", "dealbreakers") }
+      : null,
+    /** Step 1's own direction, each in their own words. */
+    directions: has("5.1") ? { mine: text(a, "5.1", "choice"), theirs: text(theirs, "5.1", "choice") } : null,
+    /** Step 2: the question asked on the last evening of the visit. */
+    evening: has("s2-4.3")
+      ? { mine: text(a, "s2-4.3", "honest_answer"), theirs: text(theirs, "s2-4.3", "honest_answer") }
+      : null,
+    /** Step 3: what each of them decided, before they agreed anything. */
+    decisions: has("s3-4.2")
+      ? {
+          mine: { what: text(a, "s3-4.2", "decision"), why: text(a, "s3-4.2", "because") },
+          theirs: { what: text(theirs, "s3-4.2", "decision"), why: text(theirs, "s3-4.2", "because") },
+        }
+      : null,
+  };
+}
+
+/** Is there anything of the other person to print at all? */
+export const hasSecondVoice = (t: Together) =>
+  Boolean(t.values || t.mustHaves || t.directions || t.evening || t.decisions);
+
+/** Both names, for the cover and the foot: "Mwata and Renata". */
+export const bothNames = (mine: string, theirs: string | null) =>
+  theirs ? `${mine} and ${theirs}` : mine;
