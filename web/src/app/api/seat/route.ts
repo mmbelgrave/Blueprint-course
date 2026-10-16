@@ -40,6 +40,8 @@ async function log(
 }
 
 export async function GET() {
+  // Preview mode: no accounts, so no seat to give.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ seat: null, mayInvite: false });
   const supabase = await supabaseServer();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return fail(401, "Please sign in again.");

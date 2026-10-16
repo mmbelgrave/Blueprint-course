@@ -7,7 +7,7 @@
  * still takes the old, direct path.
  */
 import type { Entitlement } from "@/lib/access";
-import type { Answers, ExerciseStatus } from "@/lib/backend";
+import { isSupabaseConfigured, type Answers, type ExerciseStatus } from "@/lib/backend";
 
 export type HouseholdRole = "alone" | "buyer" | "partner";
 
@@ -81,6 +81,8 @@ export const forgetHousehold = () => {
 
 /** What the household looks like now. Returns null when it cannot be asked. */
 export async function fetchHousehold(): Promise<HouseholdLoad | null> {
+  // No database, no households: preview mode is one person in one browser.
+  if (!isSupabaseConfigured) return { household: workingAlone(), answers: {}, statuses: {}, entitlements: null };
   try {
     const res = await fetch("/api/household", { cache: "no-store" });
     if (!res.ok) return null;

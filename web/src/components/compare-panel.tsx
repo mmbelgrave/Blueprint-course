@@ -71,8 +71,11 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
   const [state, setState] = useState<PageCompare | null>(null);
 
   const load = useCallback(() => fetchPageCompare(exercise.id), [exercise.id]);
+  /* Nobody to compare with: do not even ask. Almost every account is here. */
+  const alone = household.role === "alone";
 
   useEffect(() => {
+    if (alone) return;
     let gone = false;
     load().then((next) => {
       if (!gone && next) setState(next);
@@ -80,11 +83,11 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
     return () => {
       gone = true;
     };
-  }, [load]);
+  }, [load, alone]);
 
   // While it waits, ask again now and then: the other person may be writing it
   // in the next room, and nobody should have to reload a page to find out.
-  const waiting = Boolean(state && !state.may && state.waiting !== "theirs-private");
+  const waiting = Boolean(!alone && state && !state.may && state.waiting !== "theirs-private" && state.waiting !== "mine-private");
   useEffect(() => {
     if (!waiting) return;
     const timer = setInterval(() => {
@@ -93,7 +96,7 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
     return () => clearInterval(timer);
   }, [waiting, load]);
 
-  if (household.role === "alone" || !state) return null;
+  if (alone || !state) return null;
 
   const them = state.theirName ?? household.otherName ?? "your partner";
   const canHide = mayKeepPrivate(exercise.id);

@@ -17,6 +17,14 @@ import { supabaseServer } from "@/lib/supabase-server";
 export const runtime = "nodejs";
 
 export async function GET() {
+  /*
+   * Preview mode: a sandbox with no accounts and no database, so there is no
+   * household to read and nothing to protect. Answering plainly keeps the
+   * saver working there, since an answer waits while the household is unknown.
+   */
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+    return Response.json({ role: "alone", at: new Date().toISOString() });
+  }
   const supabase = await supabaseServer();
   const { data: auth } = await supabase.auth.getUser();
   const user = auth.user;

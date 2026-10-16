@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { PartnerSeat } from "@/components/partner-seat";
 import { RequireUser, Shell } from "@/components/Shell";
+import { SignOutCard } from "@/components/sign-out-card";
 import { isFree } from "@/lib/access-app";
 import { ThemeChoice } from "@/components/theme-choice";
 import { useApp } from "@/lib/app-state";
@@ -175,6 +176,11 @@ export default function SettingsPage() {
               </Link>
             </p>
           </div>
+          {/* Spec 6.9 puts signing out in Settings. The header has it too, but
+              the header is hidden on a phone, so this is the only way out
+              there, and the way two people swap accounts on one laptop. */}
+          <SignOutCard />
+
           {/* A free account has no footer, so the notice that covers it lives
               here: the last line on the page, quietly. */}
           {free && (

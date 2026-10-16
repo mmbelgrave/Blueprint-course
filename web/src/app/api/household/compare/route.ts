@@ -31,6 +31,8 @@ function personalPagesOfStep(step: number): string[] {
 }
 
 export async function GET(request: Request) {
+  // Preview mode: one person in one browser, so there is nobody to compare with.
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ role: "alone" });
   const supabase = await supabaseServer();
   const { data: auth } = await supabase.auth.getUser();
   const user = auth.user;
@@ -57,6 +59,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return fail(503, "That is not set up yet.");
   const supabase = await supabaseServer();
   const { data: auth } = await supabase.auth.getUser();
   const user = auth.user;
