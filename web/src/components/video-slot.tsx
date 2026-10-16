@@ -151,7 +151,10 @@ export function VideoSlot({
         {!playingThis && (
           <button
             type="button"
-            className="relative flex h-full w-full flex-col items-center justify-center gap-2 text-sand"
+            /* White on a dark wash, whatever the theme: this sits over a
+               photograph, and in dark mode the brand colours flip, which
+               turned the wash cream and the words dark (Mwata, 16 Oct). */
+            className="relative flex h-full w-full flex-col items-center justify-center gap-2 text-white"
             disabled={busy}
             onClick={() => start(false)}
           >
@@ -164,7 +167,7 @@ export function VideoSlot({
                 signed one that expires in minutes. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={still} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
-            <span aria-hidden className="absolute inset-0 bg-pine/55" />
+            <span aria-hidden className="absolute inset-0 bg-black/45" />
             <span aria-hidden className="relative text-4xl">
               ▶
             </span>
