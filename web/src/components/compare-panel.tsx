@@ -67,7 +67,7 @@ function Private({ exerciseId, on }: { exerciseId: string; on: boolean }) {
 }
 
 export function ComparePanel({ exercise }: { exercise: Exercise }) {
-  const { household, answers, setAnswer } = useApp();
+  const { household, answers, setAnswer, loading } = useApp();
   const [state, setState] = useState<PageCompare | null>(null);
 
   const load = useCallback(() => fetchPageCompare(exercise.id), [exercise.id]);
@@ -75,7 +75,15 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
   const alone = household.role === "alone";
 
   useEffect(() => {
-    if (alone) return;
+    /*
+     * Not until this person’s own answers are in memory.
+     *
+     * The other side comes from the server and the own side from the app’s own
+     * state, and the server was winning the race: the panel painted with
+     * "(empty)" against every one of their partner’s answers, then filled itself
+     * in a second later. Mwata caught it on video on 16 October.
+     */
+    if (alone || loading) return;
     let gone = false;
     load().then((next) => {
       if (!gone && next) setState(next);
@@ -83,7 +91,7 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
     return () => {
       gone = true;
     };
-  }, [load, alone]);
+  }, [load, alone, loading]);
 
   // While it waits, ask again now and then: the other person may be writing it
   // in the next room, and nobody should have to reload a page to find out.
@@ -96,7 +104,7 @@ export function ComparePanel({ exercise }: { exercise: Exercise }) {
     return () => clearInterval(timer);
   }, [waiting, load]);
 
-  if (alone || !state) return null;
+  if (alone || loading || !state) return null;
 
   const them = state.theirName ?? household.otherName ?? "your partner";
   const canHide = mayKeepPrivate(exercise.id);
