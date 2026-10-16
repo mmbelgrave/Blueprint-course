@@ -74,7 +74,7 @@ export function StepTogether({ step }: { step: StepContent }) {
     <section className="mt-6 rounded-2xl bg-white p-5">
       <h2 className="text-lg font-semibold text-pine">You and {them}</h2>
       <p className="mt-1 text-sm text-stone">
-        The pages you each answer yourself. You see each other&rsquo;s answers once you have both marked one done.
+        The pages you each answer yourself. You see each other&rsquo;s answers once you have both finished a page.
       </p>
       {ready.length > 0 && (
         <div className="mt-3 text-sm">

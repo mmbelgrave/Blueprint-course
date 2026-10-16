@@ -26,10 +26,10 @@ const labelOf = (exercise: Exercise, fieldId: string): string =>
 
 function Waiting({ why, them }: { why: PageCompare["waiting"]; them: string }) {
   const lines: Record<string, string> = {
-    "only-them": `${them} has marked this one done. Mark yours done and you will see both answers.`,
-    "only-me": `You have marked this one done. ${them} has not yet, so there is nothing to compare.`,
-    neither: `When you have both marked this one done, your answers appear side by side.`,
-    "theirs-private": `${them} is keeping this page private, which is their choice to make.`,
+    "only-them": `${them} has finished this page. Finish yours to see both answers.`,
+    "only-me": `You have finished this page. ${them} has not finished it yet, so there is nothing to compare.`,
+    neither: `When you have both finished this page, your answers appear side by side.`,
+    "theirs-private": `${them} is keeping this page private. That is their choice to make.`,
     "mine-private": `You are keeping this page to yourself, so it is closed both ways. Untick it below to compare.`,
   };
   return (
