@@ -85,9 +85,8 @@ export function PartnerSeat() {
       <div className="mt-8 border-t border-line pt-8">
         <h2 className="text-xl font-semibold text-pine">Your seat</h2>
         <p className="mt-1 text-sm text-stone">
-          You are here on the seat that comes with {household.otherName ? `${household.otherName}'s` : "another"}{" "}
-          purchase. Your answers are your own, and so is your AI partner. The pages you fill in together are the
-          money, the research and the plan.
+          You are here on invitation of {household.otherName ?? "the person who bought it"}. Your answers are your
+          own, and so is your AI partner. The pages you fill in together are the money, the research and the plan.
         </p>
       </div>
     );
