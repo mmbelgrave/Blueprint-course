@@ -19,6 +19,7 @@ const DOORS = [
   "app/api/content/route.ts",
   "app/api/workbook/route.ts",
   "app/api/video/url/route.ts",
+  "app/api/video/captions/route.ts",
   "app/api/draft/route.ts",
   "app/api/partner/route.ts",
 ];
@@ -26,7 +27,9 @@ const DOORS = [
 test("every door asks what the household may open", () => {
   for (const door of DOORS) {
     const source = read(door);
-    assert.match(source, /myAccess\(/, `${door} does not call myAccess`);
+    // Either directly, or through mayWatch, which asks it for the two video
+    // routes so they can never disagree about who may watch what.
+    assert.match(source, /myAccess\(|mayWatch\(/, `${door} asks neither myAccess nor mayWatch`);
     assert.doesNotMatch(
       source,
       /myEntitlements\(/,
@@ -49,6 +52,8 @@ test("myAccess is the only place the seat widens access", () => {
   const source = read("lib/access-server.ts");
   assert.match(source, /export async function myAccess/);
   assert.match(source, /householdEntitlements/);
+  // And the one helper standing in front of it asks it properly.
+  assert.match(read("lib/video-access.ts"), /myAccess\(/);
 });
 
 test("the seat route still asks about this person's own purchase", () => {
