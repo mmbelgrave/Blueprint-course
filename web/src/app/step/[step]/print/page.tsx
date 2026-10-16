@@ -81,7 +81,7 @@ function BoardSheet({ who, page, of }: { who: string; page: number; of: number }
 }
 
 function Document({ step }: { step: StepContent }) {
-  const { profile, answers } = useApp();
+  const { profile, answers, loading, householdKnown, household } = useApp();
   const a = answers as Answers;
   const n = step.step.number;
   const who = profile?.first_name ?? "";
@@ -112,15 +112,25 @@ function Document({ step }: { step: StepContent }) {
       footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
     });
 
-  /* "Download" on the step page is a link to this page asking for the file. */
+  /*
+   * "Download" on the step page is a link to this page asking for the file.
+   *
+   * It waits for the answers to be in memory, and for a household, for the
+   * shared half as well (6.8). Without that, somebody who presses Download the
+   * moment the page opens gets a document with their money table missing, and
+   * nothing about the file says it was handed over half made.
+   */
+  const ready = !loading && (householdKnown || household.role === "alone");
   const asked = useSearchParams().get("download") === "1";
   const handed = useRef(false);
   useEffect(() => {
-    if (!asked || handed.current) return;
+    if (!asked || handed.current || !ready) return;
     handed.current = true;
     downloadText(fileName(result.finish.title), asText());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [asked]);
+  }, [asked, ready]);
+
+  if (!ready) return <p className="py-16 text-center text-stone">One moment…</p>;
 
   const done = stepsFinished(a);
   const dots = ([1, 2, 3] as const).map((s) => ({

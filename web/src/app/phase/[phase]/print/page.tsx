@@ -30,7 +30,7 @@ const PHASES: Record<string, { name: string; steps: number[] }> = {
 };
 
 function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
-  const { answers, entitlements, profile } = useApp();
+  const { answers, entitlements, profile, loading, householdKnown, household } = useApp();
   const a = answers as Answers;
   const currency = profile?.currency ?? "EUR";
   const today = new Date().toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
@@ -77,12 +77,17 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
   // "Download" on the Phase page is a link to this page asking for the file.
   const asked = useSearchParams().get("download") === "1";
   const handed = useRef(false);
+  // Not before the answers are in memory, and for a household, not before the
+  // shared half is either (6.8).
+  const ready = !words.loading && !loading && (householdKnown || household.role === "alone");
   useEffect(() => {
-    if (!asked || handed.current || words.loading) return;
+    if (!asked || handed.current || !ready) return;
     handed.current = true;
     downloadText(fileName(`my blueprint ${phase.name}`), asText());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [asked, words.loading]);
+  }, [asked, ready]);
+
+  if (!ready) return <p className="py-16 text-center text-stone">One moment…</p>;
 
   return (
     <>
