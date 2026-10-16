@@ -11,10 +11,9 @@
  * caption track and the audio-only version. The last two are asked for rather
  * than assumed, so adding captions in Bunny is enough to make them appear.
  */
-import { itemFor, stepFor } from "@/lib/access-app";
-import { myAccess } from "@/lib/access-server";
 import { fileUrl, folderUrl, looksLikeVideoId } from "@/lib/bunny";
 import { supabaseServer } from "@/lib/supabase-server";
+import { mayWatch } from "@/lib/video-access";
 
 export const runtime = "nodejs";
 
@@ -41,16 +40,17 @@ async function there(address: string): Promise<boolean> {
  */
 const CAPTION_FILES = ["captions/EN.vtt", "captions/en.vtt", "captions/en-GB.vtt", "captions/en-US.vtt"];
 
-async function captionTrack(cdn: string, videoId: string, key: string) {
+async function captionTrack(cdn: string, videoId: string, key: string, mine: string) {
   // All four at once: four turns of a loop added two seconds to pressing play.
   const tried = await Promise.all(
-    CAPTION_FILES.map(async (file) => {
-      const src = fileUrl({ cdn, videoId, key, file });
-      return (await there(src)) ? src : null;
-    }),
+    CAPTION_FILES.map((file) => there(fileUrl({ cdn, videoId, key, file }))),
   );
-  const found = tried.find(Boolean);
-  return found ? [{ src: found, label: "English", language: "en", default: true }] : [];
+  /*
+   * The address handed over is ours, not the CDN is: a text track from another
+   * address is refused by the browser unless the whole player is put into
+   * cross-origin mode, and Bunny sends no header to allow it.
+   */
+  return tried.some(Boolean) ? [{ src: mine, label: "English", language: "en", default: true }] : [];
 }
 
 export async function GET(request: Request) {
@@ -73,27 +73,8 @@ export async function GET(request: Request) {
   if (!looksLikeVideoId(videoId)) return fail(400, "That is not a video.");
   if (audioId && !looksLikeVideoId(audioId)) return fail(400, "That is not a video.");
 
-  const entitlements = await myAccess(supabase, user.id);
-
-  /*
-   * A video belongs either to a step, which decides who may watch it, or to a
-   * module of its own. The Introduction is the second kind: §6.2 gives it to a
-   * free account, along with the free exercises.
-   *
-   * The step check used to be skipped when the step was not a number, and
-   * "abc" is not a number, so ?step=abc walked straight past it. A step that
-   * cannot be read is refused, not waved through.
-   */
-  if (moduleId) {
-    const verdict = itemFor(moduleId, entitlements);
-    if (!verdict.open) return fail(403, "This video is part of the course.");
-  } else {
-    if (!Number.isInteger(step) || step < 1) return fail(400, "That is not a step.");
-    const verdict = stepFor(step, entitlements);
-    if (!verdict.open) {
-      return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This video is part of the course.");
-    }
-  }
+  const allowed = await mayWatch(supabase, user.id, { moduleId, step });
+  if (!allowed.ok) return fail(allowed.status, allowed.error);
 
   const { folder, expires } = folderUrl({ cdn, videoId, key });
   /*
@@ -102,8 +83,10 @@ export async function GET(request: Request) {
    * here too in case a library ever does.
    */
   const audioFolder = audioId ? folderUrl({ cdn, videoId: audioId, key }).folder : null;
+  // Our own address for the track, carrying the same question this route asked.
+  const belongs = moduleId ? `module=${encodeURIComponent(moduleId)}` : `step=${step}`;
   const [captions, besideIt] = await Promise.all([
-    captionTrack(cdn, videoId, key),
+    captionTrack(cdn, videoId, key, `/api/video/captions?video=${encodeURIComponent(videoId)}&${belongs}`),
     there(`${folder}audio.mp3`),
   ]);
 
