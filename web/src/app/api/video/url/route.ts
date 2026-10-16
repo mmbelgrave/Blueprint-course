@@ -5,15 +5,33 @@
  * whether that person may have one, and hands back something that works for a
  * few minutes. Checking access here is the point: the copy of the rules running
  * in the browser decides what to draw, this one decides what may be watched.
+ *
+ * It answers with the whole set the player needs, because one token covers the
+ * video's whole folder: the stream, the picture to show before it starts, the
+ * caption track and the audio-only version. The last two are asked for rather
+ * than assumed, so adding captions in Bunny is enough to make them appear.
  */
-import { stepFor } from "@/lib/access-app";
+import { itemFor, stepFor } from "@/lib/access-app";
 import { myAccess } from "@/lib/access-server";
-import { playbackUrl, looksLikeVideoId } from "@/lib/bunny";
+import { folderUrl, looksLikeVideoId } from "@/lib/bunny";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
 const fail = (status: number, error: string) => Response.json({ error }, { status });
+
+/** Bunny refuses a request with no referer when Allowed domains is in use. */
+const REFERER = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.maderealblueprint.com";
+
+/** Is this file in the folder? A video with no captions must not get a broken track. */
+async function there(address: string): Promise<boolean> {
+  try {
+    const res = await fetch(address, { method: "HEAD", headers: { referer: REFERER }, cache: "no-store" });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 
 export async function GET(request: Request) {
   const cdn = process.env.NEXT_PUBLIC_BUNNY_CDN;
@@ -27,25 +45,51 @@ export async function GET(request: Request) {
 
   const params = new URL(request.url).searchParams;
   const videoId = params.get("video") ?? "";
+  const moduleId = params.get("module");
   const step = Number(params.get("step"));
-  const file = params.get("audio") === "1" ? "audio.mp3" : "playlist.m3u8";
 
   // A video id goes into a web address, so it is checked rather than trusted.
   if (!looksLikeVideoId(videoId)) return fail(400, "That is not a video.");
 
+  const entitlements = await myAccess(supabase, user.id);
+
   /*
-   * A video belongs to a step, and the step decides who may watch it. The
-   * check used to be skipped when the step was not a number — and "abc" is not
-   * a number, so ?step=abc walked straight past it. A step that cannot be read
-   * is now refused, not waved through.
+   * A video belongs either to a step, which decides who may watch it, or to a
+   * module of its own. The Introduction is the second kind: §6.2 gives it to a
+   * free account, along with the free exercises.
+   *
+   * The step check used to be skipped when the step was not a number, and
+   * "abc" is not a number, so ?step=abc walked straight past it. A step that
+   * cannot be read is refused, not waved through.
    */
-  if (!Number.isInteger(step) || step < 1) return fail(400, "That is not a step.");
-  const verdict = stepFor(step, await myAccess(supabase, user.id));
-  if (!verdict.open) {
-    return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This video is part of the course.");
+  if (moduleId) {
+    const verdict = itemFor(moduleId, entitlements);
+    if (!verdict.open) return fail(403, "This video is part of the course.");
+  } else {
+    if (!Number.isInteger(step) || step < 1) return fail(400, "That is not a step.");
+    const verdict = stepFor(step, entitlements);
+    if (!verdict.open) {
+      return fail(403, verdict.why === "not-released" ? "This step is not open yet." : "This video is part of the course.");
+    }
   }
 
-  const playback = playbackUrl({ cdn, videoId, key, file });
+  const { folder, expires } = folderUrl({ cdn, videoId, key });
+  const [hasCaptions, hasAudio] = await Promise.all([
+    there(`${folder}captions/en.vtt`),
+    there(`${folder}audio.mp3`),
+  ]);
+
   // Never cached: an address that outlives its token is worse than none.
-  return Response.json(playback, { headers: { "cache-control": "no-store" } });
+  return Response.json(
+    {
+      url: `${folder}playlist.m3u8`,
+      poster: `${folder}thumbnail.jpg`,
+      audio: hasAudio ? `${folder}audio.mp3` : null,
+      captions: hasCaptions
+        ? [{ src: `${folder}captions/en.vtt`, label: "English", language: "en", default: true }]
+        : [],
+      expires,
+    },
+    { headers: { "cache-control": "no-store" } },
+  );
 }

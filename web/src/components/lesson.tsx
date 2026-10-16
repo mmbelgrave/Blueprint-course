@@ -10,9 +10,22 @@
  */
 import Link from "next/link";
 import { useState } from "react";
-import { VideoSlot } from "@/components/video-slot";
+import { VideoSlot, type VideoAccess } from "@/components/video-slot";
 import { useApp } from "@/lib/app-state";
 import type { ModuleVideo, Workbook } from "@/lib/modules";
+
+/**
+ * Which door to check for this lesson video.
+ *
+ * The key already says where the lesson sits: "module:introduction" is the
+ * Introduction, which a free account may watch (6.2), and
+ * "module:phase-1:step-2:p3" belongs to Step 2, which is bought.
+ */
+export function accessFor(videoKey: string): VideoAccess {
+  const step = /:step-(d+)/.exec(videoKey);
+  if (step) return { step: Number(step[1]) };
+  return { module: videoKey.replace(/^module:/, "").split(":")[0] };
+}
 
 export function Lesson({
   video,
@@ -38,7 +51,7 @@ export function Lesson({
 
   return (
     <div className="space-y-6">
-      <VideoSlot video={video} id={videoKey} plain />
+      <VideoSlot video={video} id={videoKey} access={accessFor(videoKey)} plain />
 
       {/* The one thing to press when the video is finished. */}
       {watchable && (

@@ -7,32 +7,43 @@
  * or the person moves to another page, the slot stops reporting and the player
  * becomes the small one in the corner, still playing.
  */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useVideo, type Video } from "@/components/player";
 import { shouldOfferResume, timeLabel } from "@/lib/video";
 
 export type VideoContent = {
   title: string;
   length: string | null;
+  /** The Bunny video id. The address is signed by the server, per viewer. */
   url: string | null;
-  /** The same lesson as sound only (spec §6.4). */
+  /** A second id, when the sound-only version is its own upload (§6.4). */
   audio_url?: string | null;
   poster?: string;
   captions?: Video["captions"];
 };
 
+/** Which door the server should check before it signs anything. */
+export type VideoAccess = { step: number } | { module: string };
+
 export function VideoSlot({
   video,
   id,
+  access,
   plain = false,
 }: {
   video?: VideoContent;
   id?: string;
+  /** The step or module this video belongs to, which decides who may watch. */
+  access?: VideoAccess;
   /** On a lesson page the video stands alone: no line about the writing below. */
   plain?: boolean;
 }) {
   const box = useRef<HTMLDivElement>(null);
   const ctx = useVideo();
+  const [problem, setProblem] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  /* Set once the server says this video has a sound-only file beside it. */
+  const [listen, setListen] = useState(false);
   const videoId = id ?? video?.title ?? "";
   const playingThis = ctx?.now?.id === videoId;
 
@@ -78,6 +89,48 @@ export function VideoSlot({
 
   const progress = ctx?.progressOf(videoId) ?? null;
   const resume = shouldOfferResume(progress);
+  /* Sound only: either its own upload, or the audio Bunny keeps beside the
+     video. The second is only known once the server has answered. */
+  const canListen = Boolean(video.audio_url) || listen;
+
+  /**
+   * Ask the server for an address and hand it to the player.
+   *
+   * The files answer only to a signed address and the key that signs one never
+   * leaves the server, so this is the only way a video can start. The answer
+   * carries the picture, the caption track and the audio as well, because one
+   * token covers the whole folder.
+   */
+  async function start(asAudio: boolean) {
+    if (!video?.url || !ctx) return;
+    setBusy(true);
+    setProblem(null);
+    try {
+      const where = access && "module" in access ? `module=${encodeURIComponent(access.module)}` : `step=${access && "step" in access ? access.step : ""}`;
+      const res = await fetch(`/api/video/url?video=${encodeURIComponent(video.url)}&${where}`, { cache: "no-store" });
+      const data = await res.json();
+      if (!res.ok) {
+        setProblem(data.error ?? "That video could not be started.");
+        return;
+      }
+      setListen(Boolean(data.audio));
+      ctx.play(
+        {
+          id: videoId,
+          title: video.title,
+          src: data.url,
+          audioSrc: data.audio ?? undefined,
+          poster: data.poster ?? video.poster,
+          captions: data.captions?.length ? data.captions : video.captions,
+        },
+        asAudio,
+      );
+    } catch {
+      setProblem("That video could not be started. Please check your internet.");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   return (
     <div className="print:hidden">
@@ -88,22 +141,14 @@ export function VideoSlot({
           <button
             type="button"
             className="flex h-full w-full flex-col items-center justify-center gap-2 text-sand"
-            onClick={() =>
-              ctx?.play({
-                id: videoId,
-                title: video.title,
-                src: video.url!,
-                audioSrc: video.audio_url ?? undefined,
-                poster: video.poster,
-                captions: video.captions,
-              })
-            }
+            disabled={busy}
+            onClick={() => start(false)}
           >
             <span aria-hidden className="text-4xl">
               ▶
             </span>
             <span className="font-semibold">
-              {resume ? `Continue at ${timeLabel(progress!.seconds)}` : "Play"}
+              {busy ? "One moment…" : resume ? `Continue at ${timeLabel(progress!.seconds)}` : "Play"}
             </span>
             <span className="text-sm opacity-80">
               {video.title}
@@ -118,28 +163,17 @@ export function VideoSlot({
           {video.length ? ` · ${video.length}` : ""}
           {plain ? "" : ". The written explanation says the same thing."}
         </span>
-        {video.audio_url && (
-          <button
-            type="button"
-            className="text-pine underline"
-            onClick={() =>
-              ctx?.play(
-                {
-                  id: videoId,
-                  title: video.title,
-                  src: video.url!,
-                  audioSrc: video.audio_url ?? undefined,
-                  poster: video.poster,
-                  captions: video.captions,
-                },
-                true,
-              )
-            }
-          >
+        {canListen && (
+          <button type="button" className="text-pine underline" disabled={busy} onClick={() => start(true)}>
             Listen instead
           </button>
         )}
       </p>
+      {problem && (
+        <p role="alert" className="mt-2 rounded-lg bg-ochre-soft p-3 text-sm">
+          {problem}
+        </p>
+      )}
     </div>
   );
 }

@@ -69,6 +69,24 @@ export type PlaybackOptions = {
 export type Playback = { url: string; expires: number };
 
 /**
+ * The signed folder, which is what the token really covers.
+ *
+ * Everything belonging to one video sits in it: the playlist, the thumbnail,
+ * the caption track, the audio. One token opens all of them, so the address
+ * for each is this prefix plus the file name.
+ */
+export function folderUrl({ cdn, videoId, key, minutes = 20, now = Date.now() }: Omit<PlaybackOptions, "file">): {
+  folder: string;
+  expires: number;
+} {
+  const expires = Math.floor(now / 1000) + minutes * 60;
+  const tokenPath = `/${videoId}/`;
+  const token = signToken({ key, tokenPath, expires, params: { token_path: tokenPath } });
+  const prefix = `/bcdn_token=${encodeURIComponent(token)}&expires=${expires}&token_path=${encodeURIComponent(tokenPath)}`;
+  return { folder: `https://${cdn}${prefix}${tokenPath}`, expires };
+}
+
+/**
  * An address the player can use. The token sits in the path, before the video's
  * own folder, so everything the playlist points at inherits it.
  */

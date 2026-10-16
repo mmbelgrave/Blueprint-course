@@ -369,7 +369,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
                   <p>{part.staying}</p>
                 </Card>
               )}
-              <VideoSlot video={part.video} />
+              <VideoSlot video={part.video} access={{ step: stepNumber }} />
               <Fold
                 title={part.intro_title ?? `About ${part.label}`}
                 minutes={readingMinutes(part)}
