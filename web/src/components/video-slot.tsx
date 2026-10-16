@@ -151,10 +151,11 @@ export function VideoSlot({
         {!playingThis && (
           <button
             type="button"
-            /* White on a dark wash, whatever the theme: this sits over a
-               photograph, and in dark mode the brand colours flip, which
-               turned the wash cream and the words dark (Mwata, 16 Oct). */
-            className="relative flex h-full w-full flex-col items-center justify-center gap-2 text-white"
+            /* Real white on a black wash, whatever the theme. Not text-white:
+               in this design system "white" is a token, and in dark mode it is
+               #1a1d19, which is how the words came out almost black over the
+               photograph (Mwata, 16 Oct). */
+            className="relative flex h-full w-full flex-col items-center justify-center gap-2 text-[#ffffff]"
             disabled={busy}
             onClick={() => start(false)}
           >
