@@ -89,6 +89,17 @@ export function VideoSlot({
 
   const progress = ctx?.progressOf(videoId) ?? null;
   const resume = shouldOfferResume(progress);
+  /* Which door the server should check, written once for both the address and
+     the still. */
+  const where =
+    access && "module" in access
+      ? `module=${encodeURIComponent(access.module)}`
+      : `step=${access && "step" in access ? access.step : ""}`;
+  /* The still, shown before anything is pressed. It is an ordinary image with
+     our own address: the route checks who is asking and sends the browser on
+     to the signed one (Mwata, 16 October: "is it possible to already show the
+     thumbnail?"). */
+  const still = `/api/video/poster?video=${encodeURIComponent(video.url)}&${where}`;
   /* Sound only: either its own upload, or the audio Bunny keeps beside the
      video. The second is only known once the server has answered. */
   const canListen = Boolean(video.audio_url) || listen;
@@ -106,7 +117,6 @@ export function VideoSlot({
     setBusy(true);
     setProblem(null);
     try {
-      const where = access && "module" in access ? `module=${encodeURIComponent(access.module)}` : `step=${access && "step" in access ? access.step : ""}`;
       const sound = video.audio_url ? `&audio=${encodeURIComponent(video.audio_url)}` : "";
       const res = await fetch(`/api/video/url?video=${encodeURIComponent(video.url)}&${where}${sound}`, { cache: "no-store" });
       const data = await res.json();
@@ -141,17 +151,27 @@ export function VideoSlot({
         {!playingThis && (
           <button
             type="button"
-            className="flex h-full w-full flex-col items-center justify-center gap-2 text-sand"
+            className="relative flex h-full w-full flex-col items-center justify-center gap-2 text-sand"
             disabled={busy}
             onClick={() => start(false)}
           >
-            <span aria-hidden className="text-4xl">
+            {/* The still from the video itself. A plain image: the route
+                behind this address checks who is asking and sends the browser
+                on to the signed one. The dark wash keeps the words readable
+                over whatever frame it is. */}
+            {/* A plain img on purpose: next/image would fetch and cache this
+                on the server, and the address behind it is a redirect to a
+                signed one that expires in minutes. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={still} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
+            <span aria-hidden className="absolute inset-0 bg-pine/55" />
+            <span aria-hidden className="relative text-4xl">
               ▶
             </span>
-            <span className="font-semibold">
+            <span className="relative font-semibold">
               {busy ? "One moment…" : resume ? `Continue at ${timeLabel(progress!.seconds)}` : "Play"}
             </span>
-            <span className="text-sm opacity-80">
+            <span className="relative text-sm opacity-80">
               {video.title}
               {video.length ? ` · ${video.length}` : ""}
             </span>

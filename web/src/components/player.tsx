@@ -216,10 +216,16 @@ export function PlayerHost({ children }: { children: React.ReactNode }) {
 
   /*
    * The corner player appears for two reasons only: the person pressed the
-   * button, or they are listening rather than watching, where a picture would
-   * be beside the point. Leaving the page is not one of them — see below.
+   * button, or there is no slot on screen to sit in. Leaving the page is not
+   * one of them, see below.
+   *
+   * Listening used to send it to the corner as well, on the grounds that a
+   * picture is beside the point. Mwata, 16 October: it should stay where the
+   * video was. It is the same lesson either way, and a player that jumps into
+   * the corner when you press "Listen instead" reads as something going
+   * wrong.
    */
-  const mini = popped || listening || rect === null;
+  const mini = popped || rect === null;
   const style: React.CSSProperties =
     mini || rect === null
       ? { right: "1rem", bottom: "1rem", width: "min(22rem, 70vw)" }
