@@ -108,6 +108,16 @@ export async function POST(request: Request) {
        * way, but a seat row left standing means that address still counts as
        * "in a household" and cannot be invited anywhere else.
        */
+      /* An open withdrawal is now finished: the money has gone back. */
+      for (const row of (ended ?? []) as { user_id: string }[]) {
+        await admin
+          .from("withdrawal_requests")
+          .update({ status: "refunded", refunded_at: new Date().toISOString() })
+          .eq("user_id", row.user_id)
+          .eq("status", "requested")
+          .then(() => undefined, () => undefined);
+      }
+
       const seatsEnded: string[] = [];
       for (const row of (ended ?? []) as { user_id: string }[]) {
         const { data: seat } = await admin

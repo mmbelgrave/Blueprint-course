@@ -21,8 +21,27 @@ export type AccessConfig = {
   free: { items: string[]; steps: number[]; pages: string[]; lessons: string[] };
 };
 
-/** What a person holds. Only "active" counts; a refund or a revoke ends it. */
-export type Entitlement = { product: string; status: "active" | "refunded" | "revoked" };
+/**
+ * What a person holds. Only "active" counts; a refund or a revoke ends it.
+ *
+ * `ended_at` is when it stops opening anything. A refund sets it to the moment
+ * the money went back; a withdrawal sets it three working days ahead, so the
+ * person keeps their answers for a few days after pressing the button (Terms
+ * §9). A date in the future changes nothing; a date in the past closes the
+ * purchase without waiting for any job to run.
+ */
+export type Entitlement = {
+  product: string;
+  status: "active" | "refunded" | "revoked";
+  ended_at?: string | null;
+};
+
+/** Does this purchase still open anything, right now? */
+export function counts(e: Entitlement, now: Date | string = new Date()): boolean {
+  if (e.status !== "active") return false;
+  if (!e.ended_at) return true;
+  return new Date(e.ended_at).getTime() > new Date(now).getTime();
+}
 
 export type Verdict =
   | { open: true; because: "free" | "owned" }
@@ -41,7 +60,7 @@ export type Ask = {
 export function ownedSteps(entitlements: Entitlement[], config: AccessConfig): number[] {
   const steps = new Set<number>();
   for (const e of entitlements) {
-    if (e.status !== "active") continue;
+    if (!counts(e)) continue;
     for (const s of config.products[e.product]?.steps ?? []) steps.add(s);
   }
   return [...steps].sort((a, b) => a - b);

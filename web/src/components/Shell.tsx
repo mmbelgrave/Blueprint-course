@@ -93,6 +93,14 @@ export function Shell({
             Privacy
           </Link>
           <span className="mx-2">·</span>
+          <a href="https://maderealblueprint.com/terms.html" className="hover:underline">
+            Terms
+          </a>
+          <span className="mx-2">·</span>
+          <Link href="/withdraw" className="hover:underline">
+            Withdraw from contract
+          </Link>
+          <span className="mx-2">·</span>
           This app uses an AI partner. It helps you think. You decide.
         </footer>
       )}

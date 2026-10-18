@@ -176,7 +176,7 @@ export const supabaseStore: DataStore = {
       sb.from("exercise_status").select("exercise_id, status"),
       // Row-level security keeps this to the person's own rows; the server
       // checks again before it hands anything over.
-      sb.from("entitlements").select("product, status"),
+      sb.from("entitlements").select("product, status, ended_at"),
     ]);
     for (const r of [profile, answers, statuses, entitlements]) if (r.error) throw r.error;
 

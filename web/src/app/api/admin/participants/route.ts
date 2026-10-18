@@ -29,9 +29,18 @@ export async function GET() {
       .select("buyer_id, email, partner_id, status, invited_at, joined_at")
       .order("invited_at", { ascending: false });
 
+    /* Withdrawals waiting for a refund (Terms 9). Allowed to fail, like the
+       seats above, so the page opens before the migration is run. */
+    const { data: withdrawals } = await auth.admin
+      .from("withdrawal_requests")
+      .select("email, order_id, amount_cents, currency, requested_at, access_ends_at, status, source")
+      .order("requested_at", { ascending: false })
+      .limit(25);
+
     return Response.json({
       participants: await buildOverview(auth.admin),
       seats: seats ?? [],
+      withdrawals: withdrawals ?? [],
       emailNotifications: !!process.env.RESEND_API_KEY,
       webhooks: webhooks ?? [],
       buyingRequired: process.env.NEXT_PUBLIC_REQUIRE_PURCHASE === "true",

@@ -264,7 +264,7 @@ export async function householdEntitlements(
   mine: { product: string; status: string }[],
 ): Promise<{ product: string; status: string }[]> {
   if (household.role !== "partner") return mine;
-  const { data } = await admin.from("entitlements").select("product, status").eq("user_id", household.ownerId);
+  const { data } = await admin.from("entitlements").select("product, status, ended_at").eq("user_id", household.ownerId);
   return [...mine, ...((data ?? []) as { product: string; status: string }[])];
 }
 

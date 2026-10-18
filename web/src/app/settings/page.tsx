@@ -3,6 +3,7 @@
 // "you can change this later"), plus first name and currency.
 import Link from "next/link";
 import { useState } from "react";
+import { AccountWithdraw } from "@/components/account-withdraw";
 import { PartnerSeat } from "@/components/partner-seat";
 import { RequireUser, Shell } from "@/components/Shell";
 import { SignOutCard } from "@/components/sign-out-card";
@@ -176,6 +177,10 @@ export default function SettingsPage() {
               </Link>
             </p>
           </div>
+          {/* Terms 9: the withdrawal has to be reachable without hunting for
+              it. A free account sees nothing here. */}
+          <AccountWithdraw />
+
           {/* Spec 6.9 puts signing out in Settings. The header has it too, but
               the header is hidden on a phone, so this is the only way out
               there, and the way two people swap accounts on one laptop. */}

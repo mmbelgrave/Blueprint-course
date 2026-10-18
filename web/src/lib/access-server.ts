@@ -15,7 +15,7 @@ type Queryable = {
 
 /** What this person owns, read with their own session, so RLS still applies. */
 export async function myEntitlements(supabase: Queryable): Promise<Entitlement[]> {
-  const { data } = await supabase.from("entitlements").select("product, status");
+  const { data } = await supabase.from("entitlements").select("product, status, ended_at");
   return (data ?? []) as Entitlement[];
 }
 

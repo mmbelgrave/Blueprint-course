@@ -127,3 +127,33 @@ test("nobody is free while buying is switched off", () => {
 test("a refunded purchase makes a free account again", () => {
   assert.equal(isFreeAccount({ entitlements: bought("phase1", "refunded"), requirePurchase: true, config }), true);
 });
+
+/*
+ * A purchase that has ended (Terms §9, 18 October).
+ *
+ * A withdrawal sets `ended_at` three working days ahead rather than closing
+ * the purchase on the spot, so the person keeps their answers while they
+ * think. The access rules have to respect that date without anything having
+ * to run on time.
+ */
+test("a withdrawal that has not taken effect yet still opens the course", () => {
+  const soon = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString();
+  const held: Entitlement[] = [{ product: "phase1", status: "active", ended_at: soon }];
+  assert.deepEqual(ownedSteps(held, config), [1, 2, 3]);
+  assert.equal(stepAccess(1, askFor(held, true)).open, true);
+});
+
+test("once the date has passed the purchase opens nothing", () => {
+  const past = new Date(Date.now() - 60 * 1000).toISOString();
+  const over: Entitlement[] = [{ product: "phase1", status: "active", ended_at: past }];
+  assert.deepEqual(ownedSteps(over, config), []);
+  assert.equal(stepAccess(1, askFor(over, true)).open, false);
+  // And the account reads as free again, which is what the screens check.
+  assert.equal(isFreeAccount({ entitlements: over, requirePurchase: true, config }), true);
+});
+
+test("no end date means no end", () => {
+  const plain: Entitlement[] = [{ product: "phase1", status: "active" }];
+  assert.deepEqual(ownedSteps(plain, config), [1, 2, 3]);
+  assert.deepEqual(ownedSteps([{ product: "phase1", status: "active", ended_at: null }], config), [1, 2, 3]);
+});

@@ -339,6 +339,75 @@ function Webhooks({ events }: { events: WebhookEvent[] }) {
   );
 }
 
+type WithdrawalRow = {
+  email: string;
+  order_id: string | null;
+  amount_cents: number | null;
+  currency: string | null;
+  requested_at: string;
+  access_ends_at: string;
+  status: string;
+  source: string;
+};
+
+/**
+ * Withdrawals waiting for their money (Terms 9).
+ *
+ * The app ends the access on its own; the refund is pressed by hand in Lemon
+ * Squeezy. So this list is the one thing standing between a buyer and their
+ * money, and it sits above the webhooks for that reason.
+ */
+function Withdrawals({ rows }: { rows: WithdrawalRow[] }) {
+  if (rows.length === 0) return null;
+  const open = rows.filter((r) => r.status === "requested");
+  return (
+    <section className="mt-8 rounded-2xl bg-white p-5">
+      <h2 className="text-lg font-semibold text-pine">
+        Withdrawals{open.length > 0 ? ` · ${open.length} to refund` : ""}
+      </h2>
+      {open.length > 0 && (
+        <p className="mt-1 rounded-lg bg-ochre-soft p-3 text-sm">
+          Refund these in full in Lemon Squeezy. The app has already told the buyer and set the date their access ends.
+        </p>
+      )}
+      <table className="mt-3 w-full text-left text-sm">
+        <thead>
+          <tr className="border-b border-line text-stone">
+            <th className="py-1 pr-3 font-medium">Asked</th>
+            <th className="py-1 pr-3 font-medium">Who</th>
+            <th className="py-1 pr-3 font-medium">Order</th>
+            <th className="py-1 pr-3 font-medium">Refund</th>
+            <th className="py-1 pr-3 font-medium">Access ends</th>
+            <th className="py-1 pr-3 font-medium">State</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={`${r.email}-${r.requested_at}`} className="border-b border-line/60 align-top">
+              <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(r.requested_at)}</td>
+              <td className="py-1 pr-3">{r.email}</td>
+              <td className="py-1 pr-3">{r.order_id ?? "—"}</td>
+              <td className="py-1 pr-3 whitespace-nowrap">
+                {r.amount_cents === null ? "—" : `${r.currency === "USD" ? "$" : "€"}${(r.amount_cents / 100).toFixed(2)}`}
+              </td>
+              <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(r.access_ends_at)}</td>
+              <td className="py-1 pr-3">
+                {r.status === "requested" ? (
+                  <span className="font-semibold text-ochre">Waiting for the refund</span>
+                ) : r.status === "refunded" ? (
+                  <span className="font-semibold text-success">Refunded</span>
+                ) : (
+                  <span className="text-stone">Cancelled</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+  );
+}
+
 type SeatRow = {
   buyer_id: string;
   email: string;
@@ -395,6 +464,7 @@ function AdminOverview() {
   const [emailOff, setEmailOff] = useState(false);
   const [webhooks, setWebhooks] = useState<WebhookEvent[]>([]);
   const [seats, setSeats] = useState<SeatRow[]>([]);
+  const [withdrawals, setWithdrawals] = useState<WithdrawalRow[]>([]);
   const [buyingRequired, setBuyingRequired] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -409,6 +479,7 @@ function AdminOverview() {
         setEmailOff(body.emailNotifications === false);
         setWebhooks(body.webhooks ?? []);
         setSeats(body.seats ?? []);
+        setWithdrawals(body.withdrawals ?? []);
         setBuyingRequired(body.buyingRequired !== false);
       })
       .catch((e) => !cancelled && setError((e as Error).message || "Could not load the overview."));
@@ -465,6 +536,7 @@ function AdminOverview() {
         that, {usd(freeCost)} is free accounts.
       </p>
       <Stuck data={data} />
+      <Withdrawals rows={withdrawals} />
       <Webhooks events={webhooks} />
       <Seats seats={seats} people={data} />
       <UpdateList emails={updateList} />
