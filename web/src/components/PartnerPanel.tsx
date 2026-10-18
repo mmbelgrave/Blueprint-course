@@ -1,7 +1,8 @@
 "use client";
 // The AI partner panel: helper buttons, a chat per page, replies that stream in.
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { AiConsentScreen, AiSwitchedOff, useAiConsent } from "@/components/ai-consent";
+import { AI_REMINDER, SENSITIVE_REMINDER } from "@/lib/consent";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured, store, type ChatMessage } from "@/lib/backend";
 import { HELPER_LABELS, STATUS_MARK, type PartnerHelper, type PartnerStatus } from "@/lib/partner/protocol";
@@ -17,13 +18,17 @@ function Header() {
           Your AI partner
         </p>
         <p className="text-sm text-stone">I help you think. You decide.</p>
+        {/* Said out loud, on every page, not once at sign-up (legal review, part 1). */}
+        <p className="text-xs text-stone">{AI_REMINDER}</p>
       </div>
     </div>
   );
 }
 
 export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
-  const { user, profile, answers } = useApp();
+  const { user, answers } = useApp();
+  const consent = useAiConsent();
+  const [asking, setAsking] = useState(false);
   // Each visit starts with an empty chat. Earlier messages on this page are still
   // saved and still known to the partner; the person can show them on request.
   const [earlier, setEarlier] = useState<ChatMessage[]>([]);
@@ -67,17 +72,38 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
     );
   }
 
-  if (profile && !profile.consent_ai) {
+  /*
+   * Nothing is sent until this person has agreed, in words they have read.
+   * The server enforces the same rule; this decides what the panel shows.
+   */
+  if (consent.loading) {
+    return (
+      <div className="rounded-2xl bg-white p-5 shadow-sm">
+        <Header />
+      </div>
+    );
+  }
+
+  if (consent.failed) {
     return (
       <div className="rounded-2xl bg-white p-5 shadow-sm">
         <Header />
         <p className="mt-4 rounded-lg bg-sand p-3 text-sm text-stone">
-          Your AI partner is switched off. You can switch it on in{" "}
-          <Link href="/settings" className="underline">
-            My settings
-          </Link>
-          .
+          Your AI partner could not be reached just now. Please reload the page.
         </p>
+      </div>
+    );
+  }
+
+  if (!consent.state?.ai) {
+    return (
+      <div className="rounded-2xl bg-white p-5 shadow-sm">
+        <Header />
+        {consent.state?.mustAsk || asking ? (
+          <AiConsentScreen onNotNow={() => setAsking(false)} />
+        ) : (
+          <AiSwitchedOff onAsk={() => setAsking(true)} />
+        )}
       </div>
     );
   }
@@ -253,6 +279,7 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
         <button className="btn btn-primary self-center px-6 py-2 text-sm" disabled={busy || !draft.trim()}>
           Send
         </button>
+        <p className="text-xs text-stone">{SENSITIVE_REMINDER}</p>
       </form>
     </div>
   );

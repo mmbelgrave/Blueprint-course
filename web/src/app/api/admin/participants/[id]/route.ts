@@ -3,6 +3,7 @@
 import type { NextRequest } from "next/server";
 import { requireAdmin } from "@/lib/admin-server";
 import { answerText, exerciseAnswersText } from "@/lib/answer-text";
+import { mayFounderRead } from "@/lib/consent-server";
 import { displayTitle, partItems, setupKey, steps } from "@/lib/content";
 import { PROFILE_FIELDS, type AiProfile } from "@/lib/profile-fields";
 
@@ -14,13 +15,14 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/admin/parti
   const { admin } = auth;
   const { id } = await ctx.params;
 
-  const { data: profile } = await admin
-    .from("profiles")
-    .select("first_name, consent_founder_access")
-    .eq("user_id", id)
-    .maybeSingle();
+  const { data: profile } = await admin.from("profiles").select("first_name").eq("user_id", id).maybeSingle();
   if (!profile) return Response.json({ error: "This person was not found." }, { status: 404 });
-  if (!profile.consent_founder_access) {
+  /*
+   * The consents table is the only authority (legal review of 18 October).
+   * A tick on the profile row is not consent: it has no wording version and no
+   * minute behind it, and it cannot be shown to anybody as proof.
+   */
+  if (!(await mayFounderRead(id))) {
     return Response.json(
       { error: "This person did not give consent. You can see progress and feedback, not answers." },
       { status: 403 },

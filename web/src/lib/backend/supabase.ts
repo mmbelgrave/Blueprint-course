@@ -192,8 +192,6 @@ export const supabaseStore: DataStore = {
         first_name: p.first_name ?? "",
         language: p.language,
         currency: p.currency,
-        consent_ai: p.consent_ai,
-        consent_founder_access: p.consent_founder_access,
         came_from: p.came_from ?? null,
         wants_updates: p.wants_updates ?? false,
       };

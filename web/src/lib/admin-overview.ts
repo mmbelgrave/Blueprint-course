@@ -4,6 +4,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { estimateCostUsd } from "@/lib/admin-server";
 import type { ExerciseStatus } from "@/lib/backend";
+import { consentState, type ConsentRow } from "@/lib/consent";
 import { displayTitle, partItems, steps } from "@/lib/content";
 import { partProgress } from "@/lib/progress";
 import { sourceLabel } from "@/lib/signup-source";
@@ -13,11 +14,12 @@ type Row = Record<string, unknown>;
 const latest = (a: string | null, b: string | null | undefined) => (!b ? a : !a || b > a ? b : a);
 
 export async function buildOverview(admin: SupabaseClient) {
-  const [users, profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage] = await Promise.all([
+  const [users, profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents] =
+    await Promise.all([
     admin.auth.admin.listUsers({ perPage: 1000 }),
     admin
       .from("profiles")
-      .select("user_id, first_name, consent_ai, consent_founder_access, came_from, wants_updates, created_at"),
+      .select("user_id, first_name, came_from, wants_updates, created_at"),
     admin.from("exercise_status").select("user_id, exercise_id, status, updated_at"),
     admin.from("answers").select("user_id, updated_at"),
     admin.from("conversations").select("user_id, created_at"),
@@ -32,11 +34,22 @@ export async function buildOverview(admin: SupabaseClient) {
       .select("user_id, topic, page, question, created_at")
       .order("created_at", { ascending: false }),
     admin.from("usage_log").select("user_id, request_type, input_tokens, output_tokens, cache_read_tokens"),
+    // What each person agreed to, and when. The profile ticks are history; this
+    // table is the record (legal review of 18 October).
+    admin.from("consents").select("user_id, kind, granted, wording_version, recorded_at"),
   ]);
-  for (const r of [profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage]) {
+  for (const r of [profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents]) {
     if (r.error) throw new Error(`Could not read the database: ${r.error.message}`);
   }
   if (users.error) throw new Error("Could not read the accounts.");
+
+  const consentBy = new Map<string, ConsentRow[]>();
+  for (const row of (consents.data ?? []) as (ConsentRow & { user_id: string })[]) {
+    const mine = consentBy.get(row.user_id) ?? [];
+    mine.push(row);
+    consentBy.set(row.user_id, mine);
+  }
+  const consentFor = (id: string) => consentState(consentBy.get(id) ?? []);
 
   const byUser = <T extends Row>(rows: T[] | null) => {
     const m = new Map<string, T[]>();
@@ -103,8 +116,8 @@ export async function buildOverview(admin: SupabaseClient) {
       name: (profile?.first_name as string) || "",
       started: (profile?.created_at as string) ?? u.created_at,
       lastActivity: last,
-      consentFounder: !!profile?.consent_founder_access,
-      consentAi: !!profile?.consent_ai,
+      consentFounder: consentFor(u.id).founder,
+      consentAi: consentFor(u.id).ai,
       // Where the sign-up link was shared, and whether they asked to hear
       // about new things (§6.2). Nothing is sent yet; this is the list.
       cameFrom: sourceLabel(profile?.came_from as string | null),

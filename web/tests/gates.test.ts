@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { test } from "node:test";
 
 /*
@@ -71,4 +71,56 @@ test("shared answers are written through the household, never straight to the ta
   // The browser decides per answer; the decision has to be made from the
   // household, not assumed.
   assert.match(state, /sharedAnswer\(/);
+});
+
+/*
+ * Consent, after the legal review of 18 October. The rule is the same shape as
+ * the access rule above: it is worth nothing unless every AI route asks it, so
+ * the test reads the routes rather than the rules.
+ */
+const AI_ROUTES = ["app/api/partner/route.ts", "app/api/draft/route.ts", "app/api/profile/route.ts"];
+
+test("no AI route sends a word without a consent record", () => {
+  for (const route of AI_ROUTES) {
+    const source = read(route);
+    assert.match(source, /mayUseAi\(/, `${route} sends words to Anthropic without asking mayUseAi`);
+    assert.doesNotMatch(
+      source,
+      /consent_ai/,
+      `${route} gates on the old profile column, which has no wording version behind it`,
+    );
+  }
+});
+
+test("every route that reaches for Anthropic is on that list", () => {
+  // A new AI route that forgets the consent check fails here, not in somebody's
+  // hands. The list above is the only place to add it.
+  const routes = readdirSync(new URL("../src/app/api/", import.meta.url), { recursive: true }) as string[];
+  for (const entry of routes) {
+    const path = String(entry).replaceAll("\\", "/");
+    if (!path.endsWith("route.ts")) continue;
+    const source = read(`app/api/${path}`);
+    if (!/@anthropic-ai\/sdk|anthropicClient\(/.test(source)) continue;
+    assert.ok(
+      AI_ROUTES.includes(`app/api/${path}`),
+      `app/api/${path} talks to Anthropic but is not in the consent list in this test`,
+    );
+  }
+});
+
+test("the admin view of somebody's answers asks the consents table", () => {
+  const source = read("app/api/admin/participants/[id]/route.ts");
+  assert.match(source, /mayFounderRead\(/);
+  assert.doesNotMatch(source, /consent_founder_access/);
+});
+
+test("consent rows are written on the server only", () => {
+  // Row-level security allows reading your own history and nothing else, so a
+  // tick in the browser cannot invent a consent that was never given.
+  const sql = readFileSync(new URL("../supabase/2026-10-18-consents.sql", import.meta.url), "utf8");
+  assert.match(sql, /enable row level security/);
+  assert.match(sql, /for select using \(auth\.uid\(\) = user_id\)/);
+  assert.doesNotMatch(sql, /for insert/);
+  // And the table cannot be rewritten after the fact.
+  assert.match(sql, /before update on public\.consents/);
 });

@@ -19,6 +19,7 @@ import {
   type Profile,
   type UserData,
 } from "@/lib/backend";
+import { aiConsentIsOn } from "@/components/ai-consent";
 import type { Entitlement } from "@/lib/access";
 import { AnswerSaver, type SaveState } from "@/lib/answer-saver";
 import {
@@ -262,7 +263,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         } else {
           await store.setStatus(user.id, exerciseId, status);
         }
-        if (status === "done" && isSupabaseConfigured && profile?.consent_ai) {
+        if (status === "done" && isSupabaseConfigured && aiConsentIsOn()) {
           // Let the partner update what it knows — after every typed answer is stored.
           // In the background: the person does not wait for it, and a failure is harmless.
           saver
@@ -276,7 +277,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         return false;
       }
     },
-    [user, statuses, saver, profile, household.role, householdKnown],
+    [user, statuses, saver, household.role, householdKnown],
   );
 
   const setAnswer = useCallback(

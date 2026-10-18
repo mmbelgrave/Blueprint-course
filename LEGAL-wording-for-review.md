@@ -157,19 +157,34 @@ person writes leaves the app.
 >
 > Please avoid special categories of data, for example health, religion,
 > sexual orientation or political opinions, unless you want your AI partner to
-> take them into account. If you choose to write them, ticking this box is your
-> explicit consent to their processing as described in the privacy note.
+> take them into account.
 >
-> ☐ I understand, and I agree that my AI partner may read what I write and send
-> it to Anthropic, including any special categories of data I choose to write.
+> ☐ I agree that my AI partner may read what I write and send it to Anthropic,
+> a company in the United States, so it can reply. (needed for your AI partner)
+>
+> ☐ I also agree that it may read special categories of data if I choose to
+> write them, for example about my health, my beliefs, my sexual orientation or
+> my political opinions. (optional)
 >
 > [Switch on my AI partner] [Not now]
 >
 > Optional. You can switch it off again in Settings at any time, and everything
 > else in the app keeps working.
 
-**The line under the chat box, always visible:** Please avoid health details
-and other sensitive data unless you want your AI partner to use them.
+Both boxes are empty when the screen opens, and the button stays dead until
+the first one is ticked. The second box is separate on the lawyer's
+instruction of 18 October: the AI partner runs on the first box alone, and
+special categories are their own explicit consent.
+
+Each answer is written to a `consents` table that is append-only: the user id,
+the minute in UTC, the version of this wording, and the value of each box.
+Switching a tick off in Settings adds a row saying so rather than changing the
+row that recorded the tick. Changing a word here bumps the version, and
+everybody is asked again. No IP address is kept.
+
+**Two lines always visible in the panel:** "You are talking to an AI, not a
+person." under the name, and "Please avoid health details and other sensitive
+data unless you want your AI partner to use them." under the chat box.
 
 **The line at the top of the panel, always visible:** You are talking to an AI,
 not a person.

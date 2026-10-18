@@ -17,8 +17,6 @@ function ConsentForm() {
   const router = useRouter();
   const [firstName, setFirstName] = useState(profile?.first_name ?? "");
   const [currency, setCurrency] = useState(profile?.currency ?? "EUR");
-  const [consentAi, setConsentAi] = useState(profile?.consent_ai ?? false);
-  const [founder, setFounder] = useState(profile?.consent_founder_access ?? false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
 
@@ -37,8 +35,6 @@ function ConsentForm() {
             first_name: firstName.trim(),
             language: "en",
             currency,
-            consent_ai: consentAi,
-            consent_founder_access: founder,
             came_from: signup.from ?? profile?.came_from ?? null,
             wants_updates: signup.wants_updates || (profile?.wants_updates ?? false),
           });
@@ -123,42 +119,17 @@ function ConsentForm() {
           </span>
         </label>
 
+        {/*
+            Nothing about the AI partner is asked here (legal review of 18
+            October). Consent belongs to the moment it is used: the AI panel
+            asks the first time somebody opens it, in words about that panel,
+            and Settings is where it can be changed again.
+         */}
         {!free && (
-          <>
-            {/* Unticked on purpose. The course works without it, and a box you
-                cannot refuse is not a choice. */}
-            <label className="flex gap-3">
-              <input
-                type="checkbox"
-                className="mt-1.5 h-5 w-5 accent-pine"
-                checked={consentAi}
-                onChange={(e) => setConsentAi(e.target.checked)}
-              />
-              <span>
-                To help me think, my AI partner may read what I write and send it to Anthropic, a company in the
-                United States. I agree.{" "}
-                <span className="text-stone">(optional, you can switch it on or off in Settings)</span>
-              </span>
-            </label>
-
-            <label className="flex gap-3">
-              <input
-                type="checkbox"
-                className="mt-1.5 h-5 w-5 accent-pine"
-                checked={founder}
-                onChange={(e) => setFounder(e.target.checked)}
-              />
-              <span>
-                Mwata may read my answers and my AI summary to guide me.{" "}
-                <span className="text-stone">(optional, you can change this in Settings)</span>
-              </span>
-            </label>
-
-            <p className="text-sm text-stone">
-              Leave both unticked if you prefer. Every exercise, every workbook and every result still works; you
-              simply write on your own.
-            </p>
-          </>
+          <p className="text-sm text-stone">
+            Your AI partner is optional and it is off until you switch it on. It asks you the first time you open it,
+            and you can switch it off again in My settings.
+          </p>
         )}
       </section>
 

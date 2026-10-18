@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { AccountWithdraw } from "@/components/account-withdraw";
+import { ConsentSettings } from "@/components/consent-settings";
 import { PartnerSeat } from "@/components/partner-seat";
 import { RequireUser, Shell } from "@/components/Shell";
 import { SignOutCard } from "@/components/sign-out-card";
@@ -66,36 +67,8 @@ function SettingsForm({ profile }: { profile: Profile }) {
         )}
       </section>
 
-      <section className={free ? "hidden" : "space-y-4"}>
-        <h2 className="text-xl font-semibold text-pine">Who may read your answers</h2>
-        <label className="flex gap-3">
-          <input
-            type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-pine"
-            checked={draft.consent_ai}
-            onChange={(e) => set({ consent_ai: e.target.checked })}
-          />
-          <span>
-            My AI partner may read my answers and send them to Anthropic, in the United States, to help me think.
-            <span className="block text-sm text-stone">
-              Optional. Switch it off and your AI partner stops helping and stops making notes; everything else in the
-              course works exactly as before.
-            </span>
-          </span>
-        </label>
-        <label className="flex gap-3">
-          <input
-            type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-pine"
-            checked={draft.consent_founder_access}
-            onChange={(e) => set({ consent_founder_access: e.target.checked })}
-          />
-          <span>
-            Mwata may read my answers and my AI summary to guide me.
-            <span className="block text-sm text-stone">You can change this at any time.</span>
-          </span>
-        </label>
-      </section>
+      {/* Each tick saves itself, with the date and the words that were read. */}
+      {!free && <ConsentSettings />}
 
       <div className="flex flex-col items-center gap-2">
         <button className="btn btn-primary" disabled={state === "saving"}>

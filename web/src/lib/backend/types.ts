@@ -8,8 +8,15 @@ export type Profile = {
   first_name: string;
   language: string;
   currency: string;
-  consent_ai: boolean;
-  consent_founder_access: boolean;
+  /*
+   * The consent columns on the profile row are history. What somebody agreed
+   * to now lives in the consents table, with the wording version and the
+   * minute (legal review of 18 October). Nothing reads these; nothing writes
+   * them. They are typed as optional so no screen can start sending them
+   * again by accident.
+   */
+  consent_ai?: boolean;
+  consent_founder_access?: boolean;
   /** Where the sign-up link was shared (§6.2). Null when we do not know. */
   came_from?: string | null;
   /** "Send me an occasional update." Recorded only; nothing is sent yet. */

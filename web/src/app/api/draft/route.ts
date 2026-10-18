@@ -4,6 +4,8 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { isFreeAccount, myAccess } from "@/lib/access-server";
 import type { Answers } from "@/lib/backend";
+import { SWITCHED_OFF } from "@/lib/consent";
+import { mayUseAi } from "@/lib/consent-server";
 import { findExercise } from "@/lib/content";
 import { draftFields } from "@/lib/drafts";
 import { anthropicClient } from "@/lib/partner/client";
@@ -39,12 +41,14 @@ export async function POST(request: Request) {
   const found = findExercise(exerciseId);
   if (!found || !draftFields(found.exercise).length) return fail(400, "This page has no draft.");
 
+  // Consent first, every time (legal review of 18 October, part 1).
+  if (!(await mayUseAi(user.id))) return fail(403, SWITCHED_OFF);
+
   const { data: profileRow } = await supabase
     .from("profiles")
-    .select("consent_ai, language")
+    .select("language")
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!profileRow?.consent_ai) return fail(403, "Your AI partner is switched off. You can switch it on in My settings.");
 
   // The AI partner, drafts and all, comes with the course (§6.2).
   if (isFreeAccount(await myAccess(supabase, user.id))) {
@@ -75,7 +79,7 @@ export async function POST(request: Request) {
       exerciseId,
       answers,
       (current.data?.profile ?? {}) as AiProfile,
-      profileRow.language,
+      profileRow?.language ?? "en",
     );
     if (!result) return fail(502, "Your AI partner could not write a draft this time.");
     if (!Object.keys(result.drafts).length) {

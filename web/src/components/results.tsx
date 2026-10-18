@@ -3,13 +3,15 @@
 // person's own answers) and "How did this part feel?" (feedback per part).
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useAiConsent } from "@/components/ai-consent";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured, store, type Feedback } from "@/lib/backend";
 
 export type Drafts = Record<string, string>;
 
 export function DraftHelper({ pageId, onDrafts }: { pageId: string; onDrafts: (d: Drafts) => void }) {
-  const { user, profile } = useApp();
+  const { user } = useApp();
+  const consent = useAiConsent();
   const [busy, setBusy] = useState(false);
   const [has, setHas] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,10 +34,13 @@ export function DraftHelper({ pageId, onDrafts }: { pageId: string; onDrafts: (d
   }, [user, pageId, onDrafts]);
 
   if (!isSupabaseConfigured) return null;
-  if (!profile?.consent_ai) {
+  // Same rule as the panel: the draft is an AI request like any other.
+  if (consent.loading) return null;
+  if (!consent.state?.ai) {
     return (
       <p className="rounded-lg bg-sand p-3 text-sm text-stone">
-        Your AI partner can write a first draft of this page from your answers. It is switched off in{" "}
+        Your AI partner can write a first draft of this page from your answers. It is switched off. You can switch it
+        on in the panel beside this page, or in{" "}
         <Link href="/settings" className="underline">
           My settings
         </Link>

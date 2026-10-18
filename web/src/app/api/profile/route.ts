@@ -2,6 +2,8 @@
 // answers. Called by the browser after a page is marked as done.
 import Anthropic from "@anthropic-ai/sdk";
 import type { Answers } from "@/lib/backend";
+import { SWITCHED_OFF } from "@/lib/consent";
+import { mayUseAi } from "@/lib/consent-server";
 import { anthropicClient } from "@/lib/partner/client";
 import { updateProfile } from "@/lib/partner/profile-update";
 import { applyPersonChoices, type AiProfile } from "@/lib/profile-fields";
@@ -24,12 +26,14 @@ export async function POST() {
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 
+  // Consent first, every time (legal review of 18 October, part 1).
+  if (!(await mayUseAi(user.id))) return fail(403, SWITCHED_OFF);
+
   const { data: profileRow } = await supabase
     .from("profiles")
-    .select("consent_ai, language")
+    .select("language")
     .eq("user_id", user.id)
     .maybeSingle();
-  if (!profileRow?.consent_ai) return fail(403, "Your AI partner is switched off. You can switch it on in My settings.");
 
   const [answers, current] = await Promise.all([
     answersIMaySee(supabase, supabaseAdmin(), user.id) as Promise<Answers>,
@@ -42,7 +46,7 @@ export async function POST() {
       anthropicClient(),
       (current.data?.profile ?? {}) as AiProfile,
       answers,
-      profileRow.language,
+      profileRow?.language ?? "en",
     );
     if (!result) return fail(502, "Your AI partner could not update its notes this time.");
 
