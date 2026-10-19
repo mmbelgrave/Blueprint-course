@@ -196,6 +196,15 @@ export type Receipt = {
 export function withdrawalMail(r: Receipt) {
   const local = whenIn(r.requestedAt, r.timeZone);
   const utc = whenIn(r.requestedAt, "UTC");
+  /*
+   * A request we could not match to a purchase gets a conditional promise.
+   * Saying "we refund the full price you paid" to somebody whose address
+   * bought nothing is a promise about a purchase we cannot see, and the next
+   * paragraph admits we could not find it.
+   */
+  const promise = r.endsAt || r.matchedOrder
+    ? refundPromise(r.window)
+    : "If this address bought the course, we refund the full price you paid, to the payment method you used, within 14 days.";
   const lines = [
     r.name ? `Hello ${r.name},` : "Hello,",
     "",
@@ -208,7 +217,7 @@ export function withdrawalMail(r: Receipt) {
     `  Order number: ${r.orderEntered || "(not given)"}`,
     `  Name: ${r.name || "(not given)"}`,
     "",
-    refundPromise(r.window),
+    promise,
     `${r.amountCents === null ? "" : `That is ${money(r.amountCents, r.currency)}. `}You do not have to do anything else.`,
     "",
   ];

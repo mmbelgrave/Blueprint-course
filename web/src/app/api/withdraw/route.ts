@@ -146,7 +146,17 @@ export async function POST(request: Request) {
   const signedIn = auth.user;
 
   const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
-  const email = signedIn?.email ?? str(body.email, 200);
+  /*
+   * The address they typed wins over the one they happen to be signed in with.
+   *
+   * Found on the first real use of this page: somebody signed in on an account
+   * with no purchase, filled in the address they had paid with, and the app
+   * threw it away, looked up the signed-in account instead, found nothing, and
+   * sent the confirmation to the wrong address. Somebody who paid with one
+   * address and signed in with another is an ordinary case, not a mistake.
+   */
+  const typed = str(body.email, 200);
+  const email = looksLikeEmail(typed) ? typed : (signedIn?.email ?? "");
   const orderEntered = str(body.order, 100) || null;
   const name = str(body.name, 120) || null;
   const timeZone = str(body.timeZone, 60) || null;
@@ -197,11 +207,15 @@ export async function POST(request: Request) {
     return fail(429, "We already have a request from that address. Please email info@maderealblueprint.com.");
   }
 
-  const found = await findPurchase(admin, {
-    userId: signedIn?.id,
-    email: signedIn ? undefined : email,
-    orderEntered,
-  });
+  /*
+   * We look up the purchase behind the address we are about to write to, and
+   * never behind a different one. Typing an address means "this purchase";
+   * the signed-in account is only used when they typed nothing, which is the
+   * button in Settings.
+   */
+  const found = typed
+    ? await findPurchase(admin, { email, orderEntered })
+    : await findPurchase(admin, { userId: signedIn?.id, orderEntered });
 
   const requestedAt = new Date();
   const deadline = refundDeadline(requestedAt);
@@ -283,7 +297,8 @@ export async function POST(request: Request) {
           accessEndsAt: endsAt?.toISOString() ?? null,
           amountCents: found?.row.amount_cents ?? null,
           currency: found?.row.currency ?? null,
-          promise: refundPromise(where),
+          // Only when we know which purchase this is about.
+          promise: found ? refundPromise(where) : undefined,
         }
       : {}),
   });

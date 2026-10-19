@@ -187,3 +187,13 @@ test("a withdrawal that matched no purchase never deletes anybody", () => {
   const nothing = open({ access_ends_at: null, user_id: null });
   assert.deepEqual(sweepActs(nothing, "2027-01-01T04:00:00Z"), ["remind"]);
 });
+
+test("a request we could not match promises nothing it cannot keep", () => {
+  const { text } = withdrawalMail(receipt({ matchedOrder: null, endsAt: null, amountCents: null }));
+  assert.match(text, /If this address bought the course, we refund the full price/);
+  assert.doesNotMatch(text, /You withdrew inside the 14 days, so we refund/);
+});
+
+test("a matched request still promises plainly", () => {
+  assert.match(withdrawalMail(receipt()).text, /You withdrew inside the 14 days, so we refund/);
+});
