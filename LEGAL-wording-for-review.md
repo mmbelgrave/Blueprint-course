@@ -7,9 +7,13 @@ are now built, with your words where you gave words. This note lists the places
 where the app deliberately says something different, and why, so you can tell
 us which of them to change back.
 
-Nothing is live yet. Two database changes have to be run before the app is
-deployed, and after that the three accounts that consented under the old
-sign-up wording are asked again.
+All of it is live in the app as of 19 October 2026. The three accounts that
+had consented under the old sign-up wording are being asked again: their old
+consent does not count, and until they answer the new screen, nothing they
+write is sent to Anthropic.
+
+The app's privacy page is the only page of this that is published. The Terms
+and the website footer (your sections A2 and C2) are not changed yet.
 
 ---
 
