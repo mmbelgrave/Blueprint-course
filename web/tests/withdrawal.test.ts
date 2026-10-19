@@ -1,124 +1,189 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
+  DELETE_AFTER_ACCESS_DAYS,
+  GRACE_DAYS,
   accessEndsAt,
   accessIsOver,
   daysBetween,
-  mayWithdraw,
+  homeDay,
+  refundDeadline,
+  refundPromise,
+  reminderMail,
   sameEmail,
+  sweepActs,
+  whenIn,
   windowFor,
   withdrawalMail,
   withdrawalNotice,
-  type Order,
+  type Receipt,
 } from "../src/lib/withdrawal.ts";
 
-/*
- * Withdrawing from the contract (Terms §9).
- *
- * The edges are where money and law meet, so they are the tests: the last day
- * that still counts, the first that does not, and the three working days that
- * decide when somebody loses access to what they wrote.
- */
-
-const order = (over: Partial<Order> = {}): Order => ({
-  orderId: "LS-1234",
-  email: "buyer@example.com",
-  product: "phase1",
-  status: "active",
-  amountCents: 9900,
-  currency: "EUR",
-  boughtAt: "2026-10-01T09:00:00Z",
-  ...over,
-});
+const BOUGHT = "2026-10-01T10:00:00Z";
 
 test("day 14 is still inside the legal right, day 15 is not", () => {
-  assert.equal(windowFor("2026-10-01", "2026-10-15"), "withdrawal", "fourteen days after");
-  assert.equal(windowFor("2026-10-01", "2026-10-16"), "guarantee", "fifteen days after");
-  assert.equal(windowFor("2026-10-01", "2026-10-01"), "withdrawal", "the day itself");
+  assert.equal(windowFor(BOUGHT, "2026-10-15T09:00:00Z"), "withdrawal");
+  assert.equal(windowFor(BOUGHT, "2026-10-16T09:00:00Z"), "guarantee");
 });
 
 test("the time of day never decides it", () => {
-  // Bought late at night, withdrawing early in the morning on day 14.
-  assert.equal(windowFor("2026-10-01T23:50:00Z", "2026-10-15T00:10:00Z"), "withdrawal");
-  assert.equal(daysBetween("2026-10-01T23:50:00Z", "2026-10-15T00:10:00Z"), 14);
+  assert.equal(windowFor(BOUGHT, "2026-10-15T23:59:00Z"), "withdrawal");
+  assert.equal(daysBetween(BOUGHT, "2026-10-15T00:01:00Z"), 14);
 });
 
 test("the thirty-day guarantee, and then nothing", () => {
-  assert.equal(windowFor("2026-10-01", "2026-10-31"), "guarantee", "day 30");
-  assert.equal(windowFor("2026-10-01", "2026-11-01"), "closed", "day 31");
+  assert.equal(windowFor(BOUGHT, "2026-10-31T09:00:00Z"), "guarantee");
+  assert.equal(windowFor(BOUGHT, "2026-11-02T09:00:00Z"), "closed");
 });
 
-test("three working days skip the weekend", () => {
-  // Thursday 15 October 2026: Friday, Monday, Tuesday.
-  assert.equal(accessEndsAt("2026-10-15T10:00:00Z").toISOString().slice(0, 10), "2026-10-20");
-  // Monday: Tuesday, Wednesday, Thursday.
-  assert.equal(accessEndsAt("2026-10-19T10:00:00Z").toISOString().slice(0, 10), "2026-10-22");
-  // Saturday: Monday, Tuesday, Wednesday.
-  assert.equal(accessEndsAt("2026-10-17T10:00:00Z").toISOString().slice(0, 10), "2026-10-21");
+test("access ends at the end of the third day, weekend or not", () => {
+  // Mwata's decision of 19 October: three calendar days, not working days.
+  // Friday 23 October -> the end of Monday 26 October.
+  assert.equal(homeDay(accessEndsAt("2026-10-23T10:00:00Z")), "2026-10-26");
+  // And the same count from a Monday.
+  assert.equal(homeDay(accessEndsAt("2026-10-19T10:00:00Z")), "2026-10-22");
+  assert.equal(GRACE_DAYS, 3);
+});
+
+test("a request late at night still gets its three whole days", () => {
+  // 23:30 UTC on 23 October is already 00:30 on the 24th in Lisbon in summer,
+  // and the date in the email has to be the date the person is living in.
+  assert.equal(homeDay(accessEndsAt("2026-06-23T23:30:00Z")), "2026-06-27");
 });
 
 test("access ends when the moment arrives, not before", () => {
-  const ends = accessEndsAt("2026-10-15T10:00:00Z");
-  assert.equal(accessIsOver(ends, "2026-10-19T23:59:00Z"), false);
+  const ends = accessEndsAt("2026-10-19T10:00:00Z");
+  assert.equal(accessIsOver(ends, new Date(ends.getTime() - 1000)), false);
   assert.equal(accessIsOver(ends, ends), true);
-  assert.equal(accessIsOver(ends, "2026-10-21T00:00:00Z"), true);
 });
 
-test("an order nobody can find is refused in words somebody can act on", () => {
-  const no = mayWithdraw(null);
-  assert.equal(no.ok, false);
-  assert.match(no.ok === false ? no.why : "", /order number and the email/);
+test("the money is due fourteen days after the request", () => {
+  assert.equal(refundDeadline("2026-10-19T10:00:00Z").toISOString(), "2026-11-02T10:00:00.000Z");
 });
 
-test("an order already refunded is not refunded twice", () => {
-  const no = mayWithdraw(order({ status: "refunded" }), "2026-10-05");
-  assert.equal(no.ok, false);
-  assert.match(no.ok === false ? no.why : "", /already been refunded/);
-});
-
-test("after both windows the door is not slammed", () => {
-  const no = mayWithdraw(order(), "2026-12-01");
-  assert.equal(no.ok, false);
-  assert.match(no.ok === false ? no.why : "", /Email info@maderealblueprint.com anyway/);
-});
-
-test("inside the windows it says which one, because the page says different things", () => {
-  const legal = mayWithdraw(order(), "2026-10-10");
-  assert.deepEqual(legal, { ok: true, window: "withdrawal" });
-  const promise = mayWithdraw(order(), "2026-10-20");
-  assert.deepEqual(promise, { ok: true, window: "guarantee" });
+test("both windows promise the full price, and neither refuses", () => {
+  assert.match(refundPromise("withdrawal"), /full price/);
+  assert.match(refundPromise("guarantee"), /30-day guarantee/);
+  // Past both, the request is still answered by a person.
+  assert.match(refundPromise("closed"), /reply to you/);
 });
 
 test("the email address matches however it was typed", () => {
-  assert.ok(sameEmail("Buyer@Example.com ", "buyer@example.com"));
-  assert.ok(!sameEmail("buyer@example.com", "other@example.com"));
-  assert.ok(!sameEmail(null, "buyer@example.com"));
+  assert.equal(sameEmail(" Mwata@Example.com ", "mwata@example.com"), true);
+  assert.equal(sameEmail("a@b.com", "c@d.com"), false);
+  assert.equal(sameEmail(null, "a@b.com"), false);
 });
 
-test("the letter states the date, the time and the full amount", () => {
-  const mail = withdrawalMail({
-    orderId: "LS-1234",
-    amountCents: 9900,
-    currency: "EUR",
-    requestedAt: "2026-10-15T14:05:00Z",
-    endsAt: accessEndsAt("2026-10-15T14:05:00Z"),
-  });
-  assert.match(mail.text, /15 October 2026 at 14:05/);
-  assert.match(mail.text, /€99\.00 in full/);
-  assert.match(mail.text, /20 October 2026/);
-  assert.match(mail.text, /order LS-1234/);
-  assert.match(mail.subject, /withdrawal/i);
+const receipt = (over: Partial<Receipt> = {}): Receipt => ({
+  email: "buyer@example.com",
+  name: "Renata",
+  orderEntered: "9762789",
+  matchedOrder: "9762789",
+  product: "phase1",
+  amountCents: 9900,
+  currency: "EUR",
+  requestedAt: "2026-10-19T10:00:00Z",
+  timeZone: "Europe/Lisbon",
+  endsAt: accessEndsAt("2026-10-19T10:00:00Z"),
+  window: "withdrawal",
+  ...over,
 });
 
-test("the note to Mwata says what to do and by when", () => {
-  const note = withdrawalNotice({
-    orderId: "LS-1234",
+test("the letter states their clock, UTC, and what they typed", () => {
+  const { subject, text } = withdrawalMail(receipt());
+  assert.match(subject, /Phase 1/);
+  assert.match(text, /Hello Renata,/);
+  assert.match(text, /You withdrew from the contract for Phase 1 of The Made Real Blueprint\./);
+  assert.match(text, /\(Europe\/Lisbon\)/);
+  assert.match(text, /UTC/);
+  assert.match(text, /Email: buyer@example\.com/);
+  assert.match(text, /Order number: 9762789/);
+  assert.match(text, /€99\.00/);
+  assert.match(text, /22 October 2026/);
+  assert.match(text, /download your workbook/);
+  assert.match(text, /30 days after your/);
+  assert.match(text, /Reply to this email if you change your mind/);
+});
+
+test("a withdrawal that matched nothing says so, and promises an answer", () => {
+  const { text } = withdrawalMail(
+    receipt({ matchedOrder: null, orderEntered: null, endsAt: null, amountCents: null, name: null }),
+  );
+  assert.match(text, /Hello,/);
+  assert.match(text, /could not match your email address/);
+  assert.match(text, /Order number: \(not given\)/);
+  assert.doesNotMatch(text, /access to the app ends/);
+});
+
+test("an unknown time zone does not lose the record", () => {
+  const { zone, text } = whenIn("2026-10-19T10:00:00Z", "Mars/Olympus");
+  assert.equal(zone, "UTC");
+  assert.match(text, /19 October 2026/);
+});
+
+test("the note to Mwata says what to do, by when, and what did not match", () => {
+  const { subject, text } = withdrawalNotice(receipt());
+  assert.match(subject, /Withdrawal: buyer@example\.com/);
+  assert.match(text, /Refund due by: 2 November 2026/);
+  assert.match(text, /Lemon Squeezy/);
+  const unmatched = withdrawalNotice(receipt({ matchedOrder: null, endsAt: null })).text;
+  assert.match(unmatched, /match this by hand/);
+  assert.match(unmatched, /No access was ended/);
+});
+
+test("the day-seven nudge counts the days that are left", () => {
+  const { subject, text } = reminderMail({
     email: "buyer@example.com",
+    matchedOrder: "9762789",
     amountCents: 9900,
     currency: "EUR",
-    endsAt: "2026-10-20T14:05:00Z",
+    requestedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
   });
-  assert.match(note.text, /Refund it in Lemon Squeezy/);
-  assert.match(note.text, /€99\.00/);
-  assert.match(note.subject, /buyer@example\.com/);
+  assert.match(subject, /Refund still due/);
+  assert.match(text, /7 days away/);
+});
+
+const open = (over: Partial<Parameters<typeof sweepActs>[0]> = {}) => ({
+  status: "received",
+  requested_at: "2026-10-01T10:00:00Z",
+  access_ends_at: "2026-10-04T22:59:59Z",
+  reminded_at: null,
+  data_deleted_at: null,
+  user_id: "u1",
+  ...over,
+});
+
+test("the sweep does nothing on the day of the request", () => {
+  assert.deepEqual(sweepActs(open(), "2026-10-01T12:00:00Z"), []);
+});
+
+test("the sweep closes the purchase once the three days are up", () => {
+  assert.deepEqual(sweepActs(open(), "2026-10-05T04:00:00Z"), ["revoke"]);
+});
+
+test("day seven nudges Mwata, once", () => {
+  assert.ok(sweepActs(open(), "2026-10-08T04:00:00Z").includes("remind"));
+  assert.ok(!sweepActs(open({ reminded_at: "2026-10-08T04:00:00Z" }), "2026-10-09T04:00:00Z").includes("remind"));
+});
+
+test("a refund stops the nudge but not the tidying", () => {
+  const refunded = open({ status: "refunded" });
+  assert.deepEqual(sweepActs(refunded, "2026-10-08T04:00:00Z"), ["revoke"]);
+});
+
+test("the answers go thirty days after access ended, and not before", () => {
+  assert.ok(!sweepActs(open(), "2026-11-02T04:00:00Z").includes("delete-data"));
+  const after = new Date(Date.parse("2026-10-04T22:59:59Z") + DELETE_AFTER_ACCESS_DAYS * 86400000);
+  assert.ok(sweepActs(open(), after).includes("delete-data"));
+  // Once is enough.
+  assert.ok(!sweepActs(open({ data_deleted_at: after.toISOString() }), after).includes("delete-data"));
+});
+
+test("somebody who took their withdrawal back is left entirely alone", () => {
+  assert.deepEqual(sweepActs(open({ status: "cancelled" }), "2027-01-01T04:00:00Z"), []);
+});
+
+test("a withdrawal that matched no purchase never deletes anybody", () => {
+  const nothing = open({ access_ends_at: null, user_id: null });
+  assert.deepEqual(sweepActs(nothing, "2027-01-01T04:00:00Z"), ["remind"]);
 });

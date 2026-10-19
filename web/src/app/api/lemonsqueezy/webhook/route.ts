@@ -108,18 +108,21 @@ export async function POST(request: Request) {
        * way, but a seat row left standing means that address still counts as
        * "in a household" and cannot be invited anywhere else.
        */
-      /* An open withdrawal is now finished: the money has gone back. */
-      for (const row of (ended ?? []) as { user_id: string }[]) {
-        await admin
-          .from("withdrawal_requests")
-          .update({ status: "refunded", refunded_at: new Date().toISOString() })
-          .eq("user_id", row.user_id)
-          .eq("status", "requested")
-          .then(() => undefined, () => undefined);
-      }
+      /*
+       * An open withdrawal is now finished: the money has gone back. Matched
+       * by order, so a refund closes the request it actually paid for.
+       */
+      await admin
+        .from("withdrawals")
+        .update({ status: "refunded", refunded_at: new Date().toISOString() })
+        .eq("matched_order_id", order.orderId)
+        .eq("status", "received")
+        .then(() => undefined, () => undefined);
 
       const seatsEnded: string[] = [];
-      for (const row of (ended ?? []) as { user_id: string }[]) {
+      // A purchase whose account was deleted keeps the row but loses the
+      // person, and there is no seat left to end.
+      for (const row of ((ended ?? []) as { user_id: string | null }[]).filter((r) => r.user_id)) {
         const { data: seat } = await admin
           .from("partner_seats")
           .update({ status: "ended", ended_at: new Date().toISOString(), ended_reason: "refund" })

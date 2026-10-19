@@ -124,3 +124,40 @@ test("consent rows are written on the server only", () => {
   // And the table cannot be rewritten after the fact.
   assert.match(sql, /before update on public\.consents/);
 });
+
+/*
+ * Withdrawal, after the legal review of 18 October. The rule that matters is
+ * that the endpoint never refuses a withdrawal, which is a property of the
+ * route rather than of any function, so it is read here.
+ */
+test("the withdrawal route accepts the request whatever it is", () => {
+  const source = read("app/api/withdraw/route.ts");
+  // The only refusals allowed are a broken request, a missing email address,
+  // too many requests, and our own failure to save it. Not "we cannot find
+  // that order", which was the shape of yesterday's version.
+  const refusals = [...source.matchAll(/fail\((\d{3}),/g)].map((m) => Number(m[1])).sort((a, b) => a - b);
+  assert.deepEqual([...new Set(refusals)], [400, 429, 500, 503]);
+  assert.doesNotMatch(source, /fail\(404/, "a withdrawal is never refused for not matching a purchase");
+  assert.doesNotMatch(source, /mayWithdraw\(/, "the window decides the sentence, not whether the button works");
+});
+
+test("no withdrawal or consent record keeps an IP address", () => {
+  // Point 4 of the review: these two tables hold what somebody agreed to and
+  // what they asked for, and nothing about the machine they did it from.
+  for (const path of ["app/api/withdraw/route.ts", "app/api/consent/route.ts"]) {
+    const source = read(path);
+    assert.doesNotMatch(source, /x-forwarded-for|x-real-ip|request\.ip/i, `${path} reaches for an IP address`);
+  }
+  for (const sql of ["2026-10-19-withdrawals.sql", "2026-10-18-consents.sql"]) {
+    const text = readFileSync(new URL(`../supabase/${sql}`, import.meta.url), "utf8");
+    assert.doesNotMatch(text, /\bip_address\b|\binet\b/, `${sql} has a column for an IP address`);
+  }
+});
+
+test("the order record outlives the account", () => {
+  // "Delete everything" deletes the account. The purchase is what a refund
+  // argument turns on, so it stays, with the person detached from it.
+  const sql = readFileSync(new URL("../supabase/2026-10-19-withdrawals.sql", import.meta.url), "utf8");
+  assert.match(sql, /alter table public\.entitlements alter column user_id drop not null/);
+  assert.match(sql, /references auth\.users \(id\) on delete set null/);
+});

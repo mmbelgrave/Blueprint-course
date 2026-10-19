@@ -32,8 +32,10 @@ export async function GET() {
     /* Withdrawals waiting for a refund (Terms 9). Allowed to fail, like the
        seats above, so the page opens before the migration is run. */
     const { data: withdrawals } = await auth.admin
-      .from("withdrawal_requests")
-      .select("email, order_id, amount_cents, currency, requested_at, access_ends_at, status, source")
+      .from("withdrawals")
+      .select(
+        "email, name, order_entered, matched_order_id, amount_cents, currency, requested_at, refund_deadline, access_ends_at, status, source",
+      )
       .order("requested_at", { ascending: false })
       .limit(25);
 

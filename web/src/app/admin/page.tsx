@@ -341,11 +341,14 @@ function Webhooks({ events }: { events: WebhookEvent[] }) {
 
 type WithdrawalRow = {
   email: string;
-  order_id: string | null;
+  name: string | null;
+  order_entered: string | null;
+  matched_order_id: string | null;
   amount_cents: number | null;
   currency: string | null;
   requested_at: string;
-  access_ends_at: string;
+  refund_deadline: string;
+  access_ends_at: string | null;
   status: string;
   source: string;
 };
@@ -359,7 +362,7 @@ type WithdrawalRow = {
  */
 function Withdrawals({ rows }: { rows: WithdrawalRow[] }) {
   if (rows.length === 0) return null;
-  const open = rows.filter((r) => r.status === "requested");
+  const open = rows.filter((r) => r.status === "received");
   return (
     <section className="mt-8 rounded-2xl bg-white p-5">
       <h2 className="text-lg font-semibold text-pine">
@@ -377,6 +380,7 @@ function Withdrawals({ rows }: { rows: WithdrawalRow[] }) {
             <th className="py-1 pr-3 font-medium">Who</th>
             <th className="py-1 pr-3 font-medium">Order</th>
             <th className="py-1 pr-3 font-medium">Refund</th>
+            <th className="py-1 pr-3 font-medium">Money due by</th>
             <th className="py-1 pr-3 font-medium">Access ends</th>
             <th className="py-1 pr-3 font-medium">State</th>
           </tr>
@@ -385,14 +389,25 @@ function Withdrawals({ rows }: { rows: WithdrawalRow[] }) {
           {rows.map((r) => (
             <tr key={`${r.email}-${r.requested_at}`} className="border-b border-line/60 align-top">
               <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(r.requested_at)}</td>
-              <td className="py-1 pr-3">{r.email}</td>
-              <td className="py-1 pr-3">{r.order_id ?? "—"}</td>
+              <td className="py-1 pr-3">
+                {r.email}
+                {r.name ? <span className="block text-stone">{r.name}</span> : null}
+              </td>
+              <td className="py-1 pr-3">
+                {r.matched_order_id ?? <span className="font-semibold text-ochre">match by hand</span>}
+                {r.order_entered && r.order_entered !== r.matched_order_id ? (
+                  <span className="block text-stone">typed: {r.order_entered}</span>
+                ) : null}
+              </td>
               <td className="py-1 pr-3 whitespace-nowrap">
                 {r.amount_cents === null ? "—" : `${r.currency === "USD" ? "$" : "€"}${(r.amount_cents / 100).toFixed(2)}`}
               </td>
-              <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(r.access_ends_at)}</td>
+              <td className="py-1 pr-3 whitespace-nowrap text-stone">{day(r.refund_deadline)}</td>
+              <td className="py-1 pr-3 whitespace-nowrap text-stone">
+                {r.access_ends_at ? day(r.access_ends_at) : "—"}
+              </td>
               <td className="py-1 pr-3">
-                {r.status === "requested" ? (
+                {r.status === "received" ? (
                   <span className="font-semibold text-ochre">Waiting for the refund</span>
                 ) : r.status === "refunded" ? (
                   <span className="font-semibold text-success">Refunded</span>

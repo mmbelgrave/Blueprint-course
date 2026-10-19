@@ -17,15 +17,18 @@
  *
  * `?dry=1` reports what it would do and changes nothing. Use that first.
  */
+import { counts, type Entitlement } from "@/lib/access";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { deleteEverything } from "@/lib/forget-account";
 import { decide, quietMail, type Account } from "@/lib/retention";
+import { reminderMail, sweepActs, type OpenWithdrawal } from "@/lib/withdrawal";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.maderealblueprint.com";
 const FROM = `The Made Real Blueprint <${process.env.SUPPORT_EMAIL_FROM ?? "info@maderealblueprint.com"}>`;
+const SUPPORT = process.env.SUPPORT_EMAIL_TO ?? "info@maderealblueprint.com";
 const PER_PAGE = 200;
 const MAX_PAGES = 50;
 
@@ -124,7 +127,118 @@ export async function GET(request: Request) {
     }
   }
 
-  return Response.json({ ok: true, dry, ...done, ...(dry ? { detail } : {}) });
+  const withdrawals = await sweepWithdrawals(admin, now, dry, detail);
+
+  return Response.json({ ok: true, dry, ...done, withdrawals, ...(dry ? { detail } : {}) });
+}
+
+/**
+ * The three jobs that follow a withdrawal (Terms §9, legal review part 2).
+ *
+ * Access has already stopped by itself: the access rules read `ended_at`, and
+ * the withdrawal set it three days out. What is left is to make the rows say
+ * so, to nudge Mwata if the money has not gone back by day seven, and to
+ * delete the answers thirty days after access ended.
+ *
+ * Nothing here is allowed to throw the sweep over. A withdrawal that cannot be
+ * tidied is written to webhook_events and the next one is tried.
+ */
+async function sweepWithdrawals(
+  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
+  now: Date,
+  dry: boolean,
+  detail: string[],
+) {
+  const tally = { revoked: 0, reminded: 0, dataDeleted: 0, failed: 0 };
+  const { data, error } = await admin
+    .from("withdrawals")
+    .select(
+      "id, email, status, requested_at, access_ends_at, reminded_at, data_deleted_at, user_id, entitlement_id, matched_order_id, amount_cents, currency",
+    )
+    .neq("status", "cancelled");
+  if (error) {
+    // The table may not exist yet on a database where the migration has not
+    // been run. The quiet-account sweep above has already done its work.
+    console.error("withdrawal sweep: could not read withdrawals:", error.message);
+    return tally;
+  }
+
+  for (const row of (data ?? []) as (OpenWithdrawal & {
+    id: number;
+    email: string;
+    entitlement_id: number | null;
+    matched_order_id: string | null;
+    amount_cents: number | null;
+    currency: string | null;
+  })[]) {
+    const acts = sweepActs(row, now);
+    if (acts.length === 0) continue;
+    if (dry) {
+      detail.push(`withdrawal ${row.email}: ${acts.join(", ")}`);
+      continue;
+    }
+
+    try {
+      if (acts.includes("remind")) {
+        const sent = await sendMail(
+          SUPPORT,
+          reminderMail({
+            email: row.email,
+            matchedOrder: row.matched_order_id,
+            amountCents: row.amount_cents,
+            currency: row.currency,
+            requestedAt: row.requested_at,
+          }),
+        );
+        // Only written when the email left, so a failure is tried again
+        // tomorrow rather than forgotten.
+        if (sent) {
+          await admin.from("withdrawals").update({ reminded_at: now.toISOString() }).eq("id", row.id);
+          await log(admin, "withdrawal_refund_overdue", row.email, "Day seven and the refund has not arrived.");
+          tally.reminded += 1;
+        }
+      }
+
+      if (acts.includes("revoke") && row.entitlement_id) {
+        const { data: closed } = await admin
+          .from("entitlements")
+          .update({ status: "revoked" })
+          .eq("id", row.entitlement_id)
+          .eq("status", "active")
+          .select("id");
+        if ((closed ?? []).length > 0) {
+          await log(admin, "withdrawal_access_ended", row.email, "The three days are up.");
+          tally.revoked += 1;
+        }
+      }
+
+      if (acts.includes("delete-data") && row.user_id) {
+        /*
+         * Somebody who came back and bought again keeps everything. The
+         * withdrawal is old news, and deleting their answers because of it
+         * would be the worst bug in this file.
+         */
+        const { data: theirs } = await admin
+          .from("entitlements")
+          .select("product, status, ended_at")
+          .eq("user_id", row.user_id);
+        const stillIn = ((theirs ?? []) as Entitlement[]).some((e) => counts(e, now));
+        if (stillIn) continue;
+        await deleteEverything(admin, row.user_id);
+        // The account is gone; the withdrawal row stays, and says when.
+        await admin.from("withdrawals").update({ data_deleted_at: now.toISOString() }).eq("id", row.id);
+        await log(admin, "withdrawal_data_deleted", row.email, "Thirty days after access ended.");
+        tally.dataDeleted += 1;
+      }
+    } catch (e) {
+      tally.failed += 1;
+      const why = e instanceof Error ? e.message : String(e);
+      console.error("withdrawal sweep:", row.email, why);
+      await log(admin, "withdrawal_sweep_failed", row.email, why, "failed");
+    }
+  }
+
+  return tally;
 }
 
 async function log(

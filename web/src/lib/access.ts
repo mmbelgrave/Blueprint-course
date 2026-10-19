@@ -43,6 +43,22 @@ export function counts(e: Entitlement, now: Date | string = new Date()): boolean
   return new Date(e.ended_at).getTime() > new Date(now).getTime();
 }
 
+/**
+ * The day access ends, when it is already set and still ahead.
+ *
+ * A withdrawal sets `ended_at` three days out rather than closing the door at
+ * once, so for those three days the app has to say so: the person is still in
+ * the course, and the course is going to stop.
+ */
+export function endingSoon(entitlements: Entitlement[], now: Date | string = new Date()): string | null {
+  const at = new Date(now).getTime();
+  const dates = entitlements
+    .filter((e) => e.status === "active" && e.ended_at && new Date(e.ended_at).getTime() > at)
+    .map((e) => e.ended_at as string)
+    .sort();
+  return dates[0] ?? null;
+}
+
 export type Verdict =
   | { open: true; because: "free" | "owned" }
   | { open: false; why: "not-released" | "not-bought" };

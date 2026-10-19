@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react";
 import { WithdrawCard, type Done, type Purchase } from "@/components/withdraw-card";
 
-type Mine = { signedIn: boolean; purchase: Purchase | null; may?: boolean; why?: string | null; already?: Done | null };
+type Mine = { signedIn: boolean; purchase: Purchase | null; already?: Done | null };
 
 export function AccountWithdraw() {
   const [mine, setMine] = useState<Mine | null>(null);
@@ -39,7 +39,7 @@ export function AccountWithdraw() {
         our 30-day guarantee gives you the same thing.
       </p>
       <div className="mt-3">
-        <WithdrawCard purchase={mine.purchase} why={mine.why} already={mine.already ?? null} />
+        <WithdrawCard purchase={mine.purchase} already={mine.already ?? null} />
       </div>
     </div>
   );

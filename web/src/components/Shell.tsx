@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Lockup } from "@/components/brand";
 import { isFree } from "@/lib/access-app";
+import { endingSoon } from "@/lib/access";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { PRODUCT } from "@/lib/content";
@@ -81,6 +82,7 @@ export function Shell({
           )}
         </div>
       </header>
+      <GraceBanner endsAt={endingSoon(entitlements)} />
       <main className={`mx-auto w-full flex-1 px-4 py-8 ${wide ? "max-w-7xl" : "max-w-4xl"} ${user ? TABS_ROOM : ""}`}>
         {children}
       </main>
@@ -104,6 +106,27 @@ export function Shell({
           This app uses an AI partner. It helps you think. You decide.
         </footer>
       )}
+    </div>
+  );
+}
+
+/**
+ * The three days between a withdrawal and the end of access (Terms §9).
+ *
+ * It says the date, and the one thing worth doing before it: take the
+ * workbook. Shown on every page, because somebody in those three days should
+ * not have to go looking for the news.
+ */
+function GraceBanner({ endsAt }: { endsAt: string | null }) {
+  if (!endsAt) return null;
+  const day = new Date(endsAt).toLocaleDateString("en-GB", { dateStyle: "long" });
+  return (
+    <div className="border-b border-line bg-ochre-soft px-4 py-3 text-center text-sm print:hidden">
+      You withdrew from the contract, so your access ends on <strong>{day}</strong>. Download your workbook in{" "}
+      <Link href="/settings" className="underline">
+        My settings
+      </Link>{" "}
+      before then. If you have changed your mind, reply to the email we sent you.
     </div>
   );
 }

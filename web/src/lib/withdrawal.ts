@@ -1,19 +1,23 @@
 /**
- * Withdrawing from the contract (Terms §9).
+ * Withdrawing from the contract (Terms §9, legal review of 18 October).
  *
  * The law gives a consumer 14 days to walk away from a distance purchase,
  * without a reason, and the full price back. The app's job is to make that one
  * button rather than an email somebody has to compose, and to put the date and
  * time of the request beyond argument.
  *
- * Three decisions are written into these rules, all Mwata's (18 October):
+ * Four decisions are written into these rules, all Mwata's:
  *
  *   1. The refund is always the full price, in both windows.
- *   2. Access ends three working days after the request, not at once and not
- *      when the money arrives. Three days is a grace period for somebody who
- *      changes their mind, and it means nobody loses their answers the second
- *      they press a button.
- *   3. The refund itself stays manual in Lemon Squeezy, so the app never holds
+ *   2. Access ends three days after the request, not at once and not when the
+ *      money arrives. Three days is a grace period for somebody who changes
+ *      their mind, and it means nobody loses their answers the second they
+ *      press a button. Calendar days, not working days (19 October): a date
+ *      anybody can count beats a date they have to work out.
+ *   3. The page never refuses. A request outside both windows is still
+ *      recorded and still answered; what changes is the sentence, not whether
+ *      the button works.
+ *   4. The refund itself stays manual in Lemon Squeezy, so the app never holds
  *      a payment key.
  *
  * Nothing here touches a database or the network, so the rules can be read and
@@ -26,8 +30,17 @@ export const WITHDRAWAL_DAYS = 14;
 /** The owner's own guarantee, beyond the legal right. */
 export const GUARANTEE_DAYS = 30;
 
-/** How long access lasts after a withdrawal is confirmed. */
-export const GRACE_WORKING_DAYS = 3;
+/** How long access lasts after a withdrawal is recorded. */
+export const GRACE_DAYS = 3;
+
+/** How long the trader has to pay the money back. */
+export const REFUND_DAYS = 14;
+
+/** How long the answers stay after access ends, unless asked sooner. */
+export const DELETE_AFTER_ACCESS_DAYS = 30;
+
+/** The clock the dates are stated in. */
+export const HOME_ZONE = "Europe/Lisbon";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -59,29 +72,47 @@ export function windowFor(boughtAt: Date | string, now: Date | string = new Date
   return "closed";
 }
 
-/** Saturday or Sunday. Portuguese public holidays are not counted: see below. */
-const isWeekend = (d: Date) => d.getUTCDay() === 0 || d.getUTCDay() === 6;
+/** A zone's offset from UTC at that moment, in minutes. */
+function zoneOffsetMinutes(at: Date, timeZone = HOME_ZONE): number {
+  const name = new Intl.DateTimeFormat("en-US", { timeZone, timeZoneName: "longOffset" })
+    .formatToParts(at)
+    .find((part) => part.type === "timeZoneName")?.value;
+  const match = /GMT([+-])(\d{1,2})(?::(\d{2}))?/.exec(name ?? "");
+  if (!match) return 0;
+  const sign = match[1] === "-" ? -1 : 1;
+  return sign * (Number(match[2]) * 60 + Number(match[3] ?? 0));
+}
+
+/** The calendar day in Lisbon, as YYYY-MM-DD. */
+export function homeDay(at: Date | string, timeZone = HOME_ZONE): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).format(
+    new Date(at),
+  );
+}
 
 /**
  * When access ends after a request.
  *
- * Three working days, counting only weekends out. Public holidays are
- * deliberately not in here: a holiday would make access end a day later than
- * the email said, and a promise that is easy to check beats one that is
- * perfectly exact. If that ever changes, the list belongs in one place and the
- * email must read from the same function.
+ * Three days, and then the whole of that third day: access ends one second
+ * before midnight at the end of it, in Lisbon. So the email can name a date
+ * and be right about it for the whole of that day, whatever hour the request
+ * came in, and the date it names is the last day that works rather than the
+ * first day that does not.
  */
-export function accessEndsAt(requestedAt: Date | string, days = GRACE_WORKING_DAYS): Date {
-  const end = new Date(requestedAt);
-  let left = days;
-  while (left > 0) {
-    end.setUTCDate(end.getUTCDate() + 1);
-    if (!isWeekend(end)) left -= 1;
-  }
-  return end;
+export function accessEndsAt(requestedAt: Date | string, days = GRACE_DAYS): Date {
+  const [y, m, d] = homeDay(requestedAt).split("-").map(Number);
+  // The last second of the third day, read as a Lisbon clock and turned back
+  // into a real moment.
+  const lastSecond = new Date(Date.UTC(y, m - 1, d + days) + DAY - 1000);
+  return new Date(lastSecond.getTime() - zoneOffsetMinutes(lastSecond) * 60 * 1000);
 }
 
-/** Has the grace period run out for a request that is still waiting? */
+/** The day the money has to be back by. */
+export function refundDeadline(requestedAt: Date | string, days = REFUND_DAYS): Date {
+  return new Date(new Date(requestedAt).getTime() + days * DAY);
+}
+
+/** Has the grace period run out? */
 export const accessIsOver = (endsAt: Date | string, now: Date | string = new Date()) =>
   new Date(now).getTime() >= new Date(endsAt).getTime();
 
@@ -95,100 +126,210 @@ export type Order = {
   boughtAt: string;
 };
 
-export type Refusal = { ok: false; why: string };
-export type Allowed = { ok: true; window: Exclude<Window, "closed"> };
-
-/**
- * May this order be withdrawn from, and what should the person be told?
- *
- * Every refusal is a sentence somebody reads, so each one says what to do
- * next rather than only what went wrong.
- */
-export function mayWithdraw(order: Order | null, now: Date | string = new Date()): Allowed | Refusal {
-  if (!order) {
-    return {
-      ok: false,
-      why: "We cannot find that order. Check the order number and the email address you paid with, both on your receipt from Lemon Squeezy.",
-    };
-  }
-  if (order.status === "refunded") {
-    return { ok: false, why: "That order has already been refunded. Nothing more is needed." };
-  }
-  if (order.status === "revoked") {
-    return { ok: false, why: "That order is already closed. Email info@maderealblueprint.com and we will look at it." };
-  }
-  const where = windowFor(order.boughtAt, now);
-  if (where === "closed") {
-    return {
-      ok: false,
-      why: "The 14 days and the 30-day guarantee have both passed. Email info@maderealblueprint.com anyway and tell us what happened.",
-    };
-  }
-  return { ok: true, window: where };
-}
-
 /** The same address, however it was typed. */
 export const sameEmail = (a: string | null | undefined, b: string | null | undefined) =>
   Boolean(a && b && a.trim().toLowerCase() === b.trim().toLowerCase());
 
+/**
+ * What this person is promised, in one sentence they can hold us to.
+ *
+ * Both windows are a full refund, so the sentence differs only in which
+ * promise it leans on. Outside both, nothing is refused: the request is
+ * recorded and answered by a person.
+ */
+export function refundPromise(where: Window): string {
+  if (where === "withdrawal") {
+    return "You withdrew inside the 14 days, so we refund the full price you paid, to the payment method you used, within 14 days.";
+  }
+  if (where === "guarantee") {
+    return "You are past the 14 days, and our own 30-day guarantee covers you, so we refund the full price you paid, to the payment method you used, within 14 days.";
+  }
+  return "You are past both the 14 days and our 30-day guarantee. We will look at your request and reply to you by email.";
+}
+
 const money = (cents: number | null, currency: string | null) =>
   cents === null ? "the price you paid" : `${currency === "USD" ? "$" : "€"}${(cents / 100).toFixed(2)}`;
 
-const when = (at: Date | string) =>
-  new Date(at).toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short", timeZone: "UTC" });
+const productName = (product: string | null) =>
+  product === "full" ? "The Made Real Blueprint" : "Phase 1 of The Made Real Blueprint";
 
-const day = (at: Date | string) => new Date(at).toLocaleDateString("en-GB", { dateStyle: "long", timeZone: "UTC" });
+/** The moment, on the clock the person was looking at. */
+export function whenIn(at: Date | string, timeZone: string | null): { text: string; zone: string } {
+  const zone = timeZone || "UTC";
+  try {
+    return {
+      text: new Date(at).toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short", timeZone: zone }),
+      zone,
+    };
+  } catch {
+    // A browser can send anything. An unknown zone must not lose the record.
+    return {
+      text: new Date(at).toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short", timeZone: "UTC" }),
+      zone: "UTC",
+    };
+  }
+}
+
+const day = (at: Date | string) => new Date(at).toLocaleDateString("en-GB", { dateStyle: "long", timeZone: HOME_ZONE });
+
+export type Receipt = {
+  email: string;
+  name: string | null;
+  orderEntered: string | null;
+  matchedOrder: string | null;
+  product: string | null;
+  amountCents: number | null;
+  currency: string | null;
+  requestedAt: Date | string;
+  timeZone: string | null;
+  endsAt: Date | string | null;
+  window: Window;
+};
 
 /**
  * The letter the buyer gets, which is the law's "confirmation without delay".
  *
- * It states the date and the time, because that is what the confirmation is
- * for, and it says plainly what happens next so nobody has to ask.
+ * It repeats what they typed, states the minute on their own clock and in UTC,
+ * and says what happens next, so nobody has to ask and nobody has to keep a
+ * screenshot.
  */
-export function withdrawalMail(o: {
-  orderId: string | null;
-  amountCents: number | null;
-  currency: string | null;
-  requestedAt: Date | string;
-  endsAt: Date | string;
-}) {
-  const text = [
-    "Hello,",
+export function withdrawalMail(r: Receipt) {
+  const local = whenIn(r.requestedAt, r.timeZone);
+  const utc = whenIn(r.requestedAt, "UTC");
+  const lines = [
+    r.name ? `Hello ${r.name},` : "Hello,",
     "",
-    `We received your withdrawal from the contract on ${when(o.requestedAt)} UTC${
-      o.orderId ? `, for order ${o.orderId}` : ""
-    }.`,
+    `You withdrew from the contract for ${productName(r.product)}.`,
     "",
-    `You do not have to do anything else. We refund ${money(o.amountCents, o.currency)} in full, to the`,
-    "payment method you used, within 14 days.",
+    `We received it on ${local.text} (${local.zone}), which is ${utc.text} UTC.`,
     "",
-    `Your access to the app ends on ${day(o.endsAt)}, three working days from now, so`,
-    "you have a little time in case you change your mind. If you do, reply to this",
-    "email before then.",
+    "What you told us:",
+    `  Email: ${r.email}`,
+    `  Order number: ${r.orderEntered || "(not given)"}`,
+    `  Name: ${r.name || "(not given)"}`,
+    "",
+    refundPromise(r.window),
+    `${r.amountCents === null ? "" : `That is ${money(r.amountCents, r.currency)}. `}You do not have to do anything else.`,
+    "",
+  ];
+
+  if (r.endsAt) {
+    lines.push(
+      `Your access to the app ends on ${day(r.endsAt)}, three days from now, so you`,
+      "have a little time in case you change your mind.",
+      "",
+      "Before that date, open My settings and download your workbook, so you keep",
+      "everything you have written. Your answers are deleted 30 days after your",
+      "access ends, or sooner if you ask us.",
+      "",
+    );
+  } else {
+    lines.push(
+      "We could not match your email address to a purchase, so no access has",
+      "changed. We will look at it by hand and reply to you. If you have your",
+      "order number from Lemon Squeezy, reply with it and it will be quicker.",
+      "",
+    );
+  }
+
+  lines.push(
+    "Reply to this email if you change your mind, or if anything above is wrong.",
     "",
     "Mwata",
     "The Made Real Blueprint",
-  ].join("\n");
-  return { subject: "Your withdrawal from The Made Real Blueprint", text };
+  );
+  return { subject: `Your withdrawal from ${productName(r.product)}`, text: lines.join("\n") };
 }
 
 /** The note to Mwata, which exists to make the refund happen the same day. */
-export function withdrawalNotice(o: {
-  orderId: string | null;
+export function withdrawalNotice(r: Receipt) {
+  const utc = whenIn(r.requestedAt, "UTC");
+  const lines = [
+    `${r.email} has withdrawn from the contract.`,
+    "",
+    `Received: ${utc.text} UTC`,
+    `Name: ${r.name || "(not given)"}`,
+    `Order number they typed: ${r.orderEntered || "(not given)"}`,
+    `Order we matched: ${r.matchedOrder ?? "NONE - match this by hand"}`,
+    `Refund in full: ${money(r.amountCents, r.currency)}`,
+    `Refund due by: ${day(refundDeadline(r.requestedAt))}`,
+    r.endsAt ? `Their access ends on ${day(r.endsAt)}.` : "No access was ended, because nothing matched.",
+    "",
+    "Refund it in full in Lemon Squeezy. The app ends the access on its own and",
+    "marks the request done when the refund webhook arrives.",
+  ];
+  return { subject: `Withdrawal: ${r.email}`, text: lines.join("\n") };
+}
+
+/** The nudge on day seven, when the money has still not gone back. */
+export function reminderMail(r: {
   email: string;
+  matchedOrder: string | null;
   amountCents: number | null;
   currency: string | null;
-  endsAt: Date | string;
+  requestedAt: Date | string;
 }) {
+  const due = refundDeadline(r.requestedAt);
+  const left = Math.max(0, daysBetween(new Date(), due));
   const text = [
-    `${o.email} has withdrawn from the contract.`,
+    `${r.email} withdrew on ${day(r.requestedAt)} and the refund has not arrived yet.`,
     "",
-    `Order: ${o.orderId ?? "(no order number)"}`,
-    `Refund in full: ${money(o.amountCents, o.currency)}`,
-    `Their access ends on ${day(o.endsAt)}.`,
+    `Order: ${r.matchedOrder ?? "(not matched)"}`,
+    `Refund in full: ${money(r.amountCents, r.currency)}`,
+    `Due by: ${day(due)}, which is ${left} day${left === 1 ? "" : "s"} away.`,
     "",
-    "Refund it in Lemon Squeezy. The app ends the access on its own, and marks",
-    "the request done when the refund arrives.",
+    "Refund it in Lemon Squeezy today. The law gives 14 days from the request,",
+    "and this is day seven.",
   ].join("\n");
-  return { subject: `Withdrawal: ${o.email}`, text };
+  return { subject: `Refund still due: ${r.email}`, text };
+}
+
+export type OpenWithdrawal = {
+  status: string;
+  requested_at: string;
+  access_ends_at: string | null;
+  reminded_at: string | null;
+  data_deleted_at: string | null;
+  user_id: string | null;
+};
+
+/** What the daily sweep should do about one withdrawal, in any combination. */
+export type SweepAct = "revoke" | "remind" | "delete-data";
+
+/** The day the owner is nudged if the money has still not gone back. */
+export const REMIND_ON_DAY = 7;
+
+/**
+ * What is due on this withdrawal today.
+ *
+ * Three jobs, each one idempotent on its own:
+ *
+ *   revoke       the three days are up, so the purchase is closed. Access has
+ *                already stopped on its own, because the access rules read
+ *                `ended_at`; this only makes the row say what is true.
+ *   remind       day seven and the refund has not arrived. The law gives 14
+ *                days for the money, and nobody should find that out on day 13.
+ *   delete-data  thirty days after access ended, the answers go. Mwata's
+ *                decision of 19 October, and the confirmation email says so.
+ *
+ * A withdrawal somebody took back ('cancelled') is left entirely alone.
+ */
+export function sweepActs(w: OpenWithdrawal, now: Date | string = new Date()): SweepAct[] {
+  if (w.status === "cancelled") return [];
+  const acts: SweepAct[] = [];
+
+  if (w.status === "received" && !w.reminded_at && daysBetween(w.requested_at, now) >= REMIND_ON_DAY) {
+    acts.push("remind");
+  }
+  if (w.access_ends_at && accessIsOver(w.access_ends_at, now)) {
+    acts.push("revoke");
+    if (
+      w.user_id &&
+      !w.data_deleted_at &&
+      daysBetween(w.access_ends_at, now) >= DELETE_AFTER_ACCESS_DAYS
+    ) {
+      acts.push("delete-data");
+    }
+  }
+  return acts;
 }
