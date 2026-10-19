@@ -15,7 +15,7 @@ export const PROFILE_FIELDS = [
   { key: "money", label: "Your money picture", kind: "text" },
   { key: "options", label: "Your options", kind: "list" },
   { key: "fears", label: "Your fears and what you can do", kind: "list" },
-  { key: "places", label: "Places you are exploring", kind: "text" },
+  { key: "places", label: "What you are exploring: places, or a change where you live", kind: "text" },
   { key: "open_questions", label: "Your open questions", kind: "list" },
   { key: "patterns_and_tensions", label: "Patterns and things that pull in two directions", kind: "list" },
 ] as const;

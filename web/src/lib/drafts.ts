@@ -22,6 +22,20 @@ const EXTRA_DRAFTABLE: Record<string, string[]> = {
     "unknowns",
     "who_i_need",
   ],
+  // The staying route's summary (S7, workbook Rev.01c). Without this, a
+  // person who stays is the only one who gets no draft on their own summary.
+  "s2-s7": [
+    "change",
+    "gives_keeps",
+    "reasons",
+    "not_give",
+    "money",
+    "rules",
+    "hours",
+    "people",
+    "test",
+    "unknowns",
+  ],
 };
 
 const isText = (f: Field) => f.type === "long_text" || f.type === "short_text";
