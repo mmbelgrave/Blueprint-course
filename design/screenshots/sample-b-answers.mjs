@@ -22,6 +22,9 @@ const table = (rows) => Object.fromEntries(rows.map((r, i) => [`r${i}`, r]));
 
 const answers = {
   "0.1": {
+    clarity_score: "4",
+    clarity_why:
+      "I know what I do not want much better than what I do want. I can picture the evening; I cannot picture the year.",
     moment:
       "A Friday in September when I took a day off for no reason. I spent it in my sister's garden, moved three wheelbarrows of soil, and ate outside. I did not look at my phone until the evening.",
     normal_day:
@@ -248,6 +251,9 @@ const answers = {
       "If I am outside on most of those evenings, I ask for the four-day week. If I work through them anyway, the hours are not the problem, and I look at the job instead.",
     two_years:
       "I will know it worked if a normal Friday is spent outside and I have stopped reading about other people's countries.",
+    clarity_now: "8",
+    clarity_changed:
+      "I can describe the week now, not just the feeling. What is still unclear is whether work will agree, and that is a question rather than a fog.",
   },
   "5.2": {
     people: "My sister first. Then my manager. Then the team, once there is something to tell them.",
@@ -265,68 +271,82 @@ const answers = {
     place_kind: "The town where I live",
     top_three: "My own street, the allotments by the river, and my sister's garden ten minutes away.",
   },
-  "s2-3.1": {
-    costs: table([
-      row(["guess", "980"], ["found", "980"], ["source", "My own rent, unchanged"], ["date", "First month"]),
-      row(["guess", "160"], ["found", "172"], ["source", "Last winter's bills, averaged"], ["date", "First month"]),
-      row(["guess", "400"], ["found", "395"], ["source", "Four weeks of real shopping"], ["date", "First month"]),
-      row(["guess", "110"], ["found", "96"], ["source", "Fuel, two weeks of walking to work"], ["date", "First month"]),
-      row(["guess", "140"], ["found", "140"], ["source", "Payslip, unchanged on four days"], ["date", "First month"]),
-      row(["guess", "55"], ["found", "55"], ["source", "My own bills"], ["date", "First month"]),
-      row(["guess", "150"], ["found", "138"], ["source", "Four weeks of what I actually spent"], ["date", "First month"]),
-      row(["guess", "60"], ["found", "60"], ["source", "Train to my parents, twice a year"], ["date", "First month"]),
-      row(["guess", "0"], ["found", "0"], ["source", "No loans"], ["date", "First month"]),
-      row(["guess", "0"], ["found", "0"], ["source", "Nobody to care for yet"], ["date", "First month"]),
-      row(["guess", "90"], ["found", "90"], ["source", "Yearly bills divided by twelve"], ["date", "First month"]),
-      row(["guess", "65"], ["found", "72"], ["source", "Allotment, seeds, two repairs"], ["date", "First month"]),
-    ]),
-    income_there: "€2,360 confirmed from the fourth month. €120 hoped from weekend hours, not counted.",
+  /* The staying path (workbook Rev.01c). Sam skips Parts 3 to 5. */
+  "s2-s1": {
+    change: "Four days a week in the same job, with Friday outdoors, and two evenings that end at six.",
+    gives: "Daylight after work, one day a week outside, and my own rent still paid without counting.",
+    keep: "My job and the people in it. The flat. My sister ten minutes away. The Thursday market.",
+    still_hard: "January is dark whatever I do. And I am the one who fills my own evenings with work.",
   },
-  "s2-3.3": {
-    daily: table([
-      row(["p1", "8 minutes by car, and I have driven it twice"], ["p2", ""], ["certainty", "Known"]),
-      row(["p1", "5 minutes on foot, and she knows me"], ["p2", ""], ["certainty", "Known"]),
-      row(["p1", "Through my employer, and it continues on four days"], ["p2", ""], ["certainty", "Known"]),
-      row(["p1", "Not needed"], ["p2", ""], ["certainty", "Known"]),
-      row(["p1", "Fast enough to work from home on a Friday"], ["p2", ""], ["certainty", "Known"]),
-      row(["p1", "My own job, 32 hours instead of 40"], ["p2", ""], ["certainty", "Estimate"]),
-      row(["p1", "6 minutes to the market, everything else within a walk"], ["p2", ""], ["certainty", "Known"]),
-      row(["p1", "Not needed. I am not flying anywhere"], ["p2", ""], ["certainty", "Known"]),
+  "s2-s2": {
+    money: table([
+      row(["now", "2950"], ["after", "2360"], ["certainty", "Known"]),
+      row(["now", "2285"], ["after", "2198"], ["certainty", "Estimate"]),
+      row(["now", "665"], ["after", "162"], ["certainty", "Estimate"]),
+      row(["now", "0"], ["after", "690"], ["certainty", "Known"]),
+      row(["now", "6600"], ["after", "6600"], ["certainty", "Known"]),
     ]),
   },
-  "s2-4.2": {
-    did: ["Spent an ordinary day there", "Walked the area at night", "Went there in bad weather", "Talked to a neighbour", "Sat still for an hour"],
-    notes: table([
-      row(["place", "No work after six, Tuesday and Thursday, four weeks"], ["felt", "Twitchy in the first week. Normal by the third."], ["measured", "Kept it on 6 evenings out of 8. Went outside on 5. Nobody at work noticed."], ["score", "8"]),
-      row(["place", "One unpaid Friday, as a test"], ["felt", "Long and slow, in a good way."], ["measured", "Garden in the morning, river in the afternoon. Cost €210. Did not open email."], ["score", "9"]),
-      row(["place", "The allotments by the river"], ["felt", "Hopeful, and annoyed I had not asked sooner."], ["measured", "14 months of waiting list. Two people offered me a corner of theirs meanwhile."], ["score", "6"]),
-      row(["place", "Walking to work twice a week"], ["felt", "Better than the gym I never go to."], ["measured", "35 minutes each way. Means leaving at 8:05. Only works when it is dry."], ["score", "7"]),
+  "s2-s3": {
+    rules: table([
+      row(["found", "The handbook allows a request for fewer hours after two years. I have nine."], ["date", "First week"]),
+      row(["found", "Two months' notice on a change of hours, in writing."], ["date", "First week"]),
+      row(["found", "Not needed. I stay employed."], ["date", "First week"]),
+      row(["found", "Not needed. The flat stays as it is, and the allotment is the council's."], ["date", "Second week"]),
+      row(["found", "Pension contributions drop with the pay. HR is checking what that costs over ten years."], ["date", "Second week"]),
+      row(["found", "HR for the hours and the pension. The council for the allotment list."], ["date", "First week"]),
     ]),
   },
-  "s2-4.3": {
-    ordinary_week:
-      "Yes. The ordinary week is the part I like. What I could not live with was the evening disappearing into work.",
-    rather_overlooked:
-      "Twice I kept the evening free and then filled it with work anyway, because nobody asked me not to.",
-    good_surprise: "Nothing went wrong at work when I stopped at six. I had expected something to.",
+  "s2-s4": {
+    week: table([
+      row(["now", "52"], ["after", "42"], ["certainty", "Known"]),
+      row(["now", "44"], ["after", "44"], ["certainty", "Estimate"]),
+      row(["now", "16"], ["after", "26"], ["certainty", "Estimate"]),
+      row(["now", "0"], ["after", "3"], ["certainty", "Estimate"]),
+    ]),
   },
-  "s2-5.1": {
-    place: "The town where I live",
-    where: "The same flat, the same street, the allotments by the river, my sister ten minutes away.",
+  "s2-s5": {
+    people: table([
+      row(["who", "My sister"], ["means", "A standing Friday, and the dog on days I am home"], ["needs", "To know which Friday, a week ahead"], ["agreed", "Friday mornings, from March"]),
+      row(["who", "My manager"], ["means", "A handover every Thursday, and no Friday meetings"], ["needs", "To see a month of it working first"], ["agreed", "We talk again after the trial"]),
+      row(["who", "My team"], ["means", "Thursday becomes the day to ask me things"], ["needs", "A calendar they can see"], ["agreed", "I tell them once it is signed"]),
+      row(["who", "The neighbour who works four days"], ["means", "Nothing, but he has done it"], ["needs", "Nothing"], ["agreed", "He says the first month is the hard one"]),
+    ]),
+  },
+  "s2-s6": {
+    test: "Two evenings a week that end at six, for four weeks, and one unpaid Friday.",
+    how: "No work after six on Tuesday and Thursday. One Friday off in the fourth week, unpaid.",
+    costs: "€210 of pay for the Friday. The evenings cost nothing but the habit.",
+    questions:
+      "Do I go outside when the evening is free? Does anything at work actually break? Do I miss the money?",
+    dates: "The four weeks after this page, ending with the unpaid Friday.",
+    confirmed:
+      "I used the evenings when something was waiting for me outside. The Friday was the best day of the month, and nothing at work went wrong.",
+    changed:
+      "I stopped looking at houses abroad. The problem was the week, not the country. I also learned the evenings only work when somebody is expecting me.",
+    still_test: "A Friday in January, when it is dark and wet, before I call this settled.",
+  },
+  "s2-s7": {
+    change: "Four days a week in the same job, with Friday outdoors.",
+    gives_keeps:
+      "Daylight after work and one day a week outside. I keep the job, the flat, my sister nearby and the market.",
     reasons:
-      "Everything I said is essential is already here. The thing I wanted was a different week, not a different place.",
-    not_give: "My sister nearby, work I am good at, and rent I can pay without counting.",
-    monthly_cost: "€2,210 after the change, against €2,285 today.",
-    income: "€2,360 confirmed on four days. €120 hoped from weekend hours, not counted.",
-    legal: "Nothing changes. Same country, same contract, same address. A four-day week needs a written request and my notice period.",
-    healthcare: "Through my employer, and it continues on four days. My doctor is five minutes away.",
-    unknowns: "Whether my manager will agree, and whether I keep the evenings free once nobody is watching.",
-    who_i_need: "My manager, for the hours. My sister, for the Fridays.",
-    choice: "Stay here and change the week",
+      "Everything I said is essential is already here. The test worked on six evenings out of eight. Moving would cost me the people I stay for.",
+    not_give:
+      "It does not give me land of my own. A corner of a neighbour's allotment does for now, and the list moves in the spring.",
+    money: "€2,360 a month after the change, against €2,198 of costs. €162 left over, and the €6,600 reserve untouched.",
+    rules:
+      "The handbook allows the request after two years; I have nine. Two months' notice, in writing. HR is still checking what the lower pay does to my pension.",
+    hours: "About 16 hours a week are mine now. About 26 after the change, less the three the allotment adds.",
+    people:
+      "My sister wants a week's notice on the Friday. My manager wants a month of it working first. The team wants Thursday to be the day they ask me things.",
+    test: "Six evenings out of eight, and the unpaid Friday spent outside. Nothing at work went wrong.",
+    unknowns: "What the lower pay does to my pension over ten years. Whether I keep it up in January.",
+    choice: "Go further with this change",
     next_step: "Ask my manager for a meeting about four days.",
-    date: "In the first week",
     review_when: "In 8 weeks",
   },
+
   "s2-5.3": {
     really_want: "My evenings and one outdoor day. Not a different country.",
     change: "A four-day week, with Friday outdoors, and two evenings that end at six.",
@@ -515,7 +535,9 @@ const answers = {
   change_plan: {
     the_change:
       "Four days a week in the same job, with Friday outdoors, and two evenings a week that end at six.",
+    keep: "My job and the people in it, the flat, my sister ten minutes away, and the Thursday market.",
     in_place_date: "In the fourth month",
+    small_test: "Four weeks of evenings that end at six, and one unpaid Friday, before I ask for anything.",
     first_three:
       "Ask for the meeting, in the first week. Live on four-fifths pay on paper, in the first month. Put the request in writing with my notice period, in the second month.",
     income_buffer:
@@ -524,6 +546,8 @@ const answers = {
       "My sister first, then my manager, then the team. From my sister I need a standing Friday, so somebody is expecting me.",
     first_90:
       "Week one, the meeting. After 30 days, two evenings a week that really end at six. After 90 days, the request agreed and in writing.",
+    uncertain:
+      "What the lower pay does to my pension over ten years. Whether I keep the Friday in January, when it is dark and wet.",
     plan_b:
       "If four days is refused, I keep the two evenings and ask again after six months, with one unpaid day a month meanwhile. If the lower pay does not add up, I go back to five days for a season rather than spend the reserve.",
     check_in_dates: "the third month after the change, and again after a year",
@@ -531,6 +555,8 @@ const answers = {
 
   /* The three named summary pages Step 1 carries. */
   life_picture: {
+    responsible:
+      "My own rent and bills. My share of looking after my sister's dog when she travels. Nobody depends on my income but me, which is why this is possible at all.",
     needs_patterns: "Daylight, something to do with my hands, and people a short walk away.",
     more_of: "Time outside. Evenings that belong to me.",
     keep: "My job and the people in it. My flat. My sister. The Thursday market.",
@@ -562,20 +588,6 @@ const answers = {
     must_be_true: "My manager agrees, and one month on the lower pay adds up.",
     risks: "I get the time and waste it.",
     find_out: "Four weeks of evenings, and one month of figures.",
-  },
-  country_choice: {
-    country: "The town where I live",
-    reasons: "Everything I said is essential is already here, and the people are the part I cannot pack.",
-    let_go: "The idea that the life I want is abroad.",
-    doubt: "Whether I am choosing this or settling for it. Four weeks of evenings answered that.",
-    must_check: "One month on four-fifths pay, and whether my manager agrees.",
-  },
-  test_visit: {
-    where_when: "Here, four weeks: two evenings a week that end at six, plus one unpaid Friday.",
-    confirmed: "I use the evenings when something is waiting for me outside. The Friday was the best day of the month.",
-    changed: "I stopped looking at houses abroad. The problem was the week, not the country.",
-    best_fit: "Four days here, with the Friday outdoors.",
-    still_test: "Whether I keep it up in January, when it is dark and wet.",
   },
 };
 

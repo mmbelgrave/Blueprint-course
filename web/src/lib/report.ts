@@ -517,7 +517,17 @@ export function step2Report(a: Answers) {
   }).filter((s) => s.value);
 
   const guess = totalOf(a, "3.2", "costs", "new_life");
-  const found = totalOf(a, "s2-3.1", "costs", "found");
+  /*
+   * What a month really costs, found in Step 2. A mover finds it in Part 3;
+   * somebody on the staying path finds it in S2, at the changed income. The
+   * Blueprint's "guessed against found" line needs whichever they filled in.
+   */
+  const stayingCosts = num(cell(rowsOf(a, "s2-s2", "money"), 1, "after"));
+  const movingFound = totalOf(a, "s2-3.1", "costs", "found");
+  const found =
+    movingFound.value !== null || stayingCosts === null
+      ? movingFound
+      : { value: stayingCosts, complete: /known/i.test(cell(rowsOf(a, "s2-s2", "money"), 1, "certainty")) };
   const income = totalOf(a, "3.4", "income", "new_life", { column: "certainty", values: ["Confirmed"] });
 
   return {
@@ -541,6 +551,14 @@ export function step2Report(a: Answers) {
     guess,
     found,
     income,
+    /** True when Parts 3 to 5 were answered, rather than the staying path. */
+    movingWritten: Boolean(
+      text(a, "s2-5.1", "place") ||
+        text(a, "s2-5.1", "choice") ||
+        Object.keys(rowsOf(a, "s2-1.2", "scores")).length > 0 ||
+        Object.keys(rowsOf(a, "s2-2.3", "scores")).length > 0 ||
+        Object.keys(rowsOf(a, "s2-3.1", "costs")).length > 0,
+    ),
     monthlyCost: text(a, "s2-5.1", "monthly_cost"),
     incomeThere: text(a, "s2-5.1", "income"),
     legal: text(a, "s2-5.1", "legal"),

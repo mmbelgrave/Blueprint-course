@@ -81,8 +81,18 @@ export function ChangePlanSheet({ plan, who, where, page, of, last = false }: Pr
             )
           )}
 
-          <MoneyRow plan={plan} />
-          {!split && <PeopleAndPlanB plan={plan} />}
+          {/*
+              The money row shares the first sheet only when the plan is short
+              enough to stay on one. Rev.01b added "What I keep" and "The small
+              test I run first" above the steps, and those two plus the money
+              row ran the sheet 103px past A4.
+           */}
+          {!split && (
+            <>
+              <MoneyRow plan={plan} />
+              <PeopleAndPlanB plan={plan} />
+            </>
+          )}
         </Body>
         <PageFoot who={who} page={page} of={of} />
       </Sheet>
@@ -92,8 +102,9 @@ export function ChangePlanSheet({ plan, who, where, page, of, last = false }: Pr
           <RunningHead where={where} />
           <Body>
             <Kicker>If I am staying</Kicker>
-            <Headline>Who it rests on, and the way back</Headline>
-            <PeopleAndPlanB plan={plan} first />
+            <Headline>What it rests on, and the way back</Headline>
+            <MoneyRow plan={plan} first />
+            <PeopleAndPlanB plan={plan} />
           </Body>
           <PageFoot who={who} page={page + 1} of={of} />
         </Sheet>
@@ -103,12 +114,12 @@ export function ChangePlanSheet({ plan, who, where, page, of, last = false }: Pr
 }
 
 /** The money and the hours, which belong beside the steps. */
-function MoneyRow({ plan }: { plan: ChangePlan }) {
+function MoneyRow({ plan, first = false }: { plan: ChangePlan; first?: boolean }) {
   if (!plan.incomeBuffer && !plan.hours) return null;
   return (
     <>
-      <Rule />
-      <div className="grid grid-cols-2 gap-x-10">
+      {!first && <Rule />}
+      <div className={`grid grid-cols-2 gap-x-10 ${first ? "mt-8" : ""}`}>
         {plan.incomeBuffer && (
           <div>
             <Kicker>Money and buffer</Kicker>
@@ -127,11 +138,11 @@ function MoneyRow({ plan }: { plan: ChangePlan }) {
 }
 
 /** Who is in it, the first 90 days, Plan B and the check-in. */
-function PeopleAndPlanB({ plan, first = false }: { plan: ChangePlan; first?: boolean }) {
+function PeopleAndPlanB({ plan }: { plan: ChangePlan }) {
   return (
     <>
       {(plan.whoITell || plan.first90) && (
-        <div className={`grid grid-cols-2 gap-x-10 ${first ? "mt-6" : "mt-8"}`}>
+        <div className="mt-8 grid grid-cols-2 gap-x-10">
           {plan.whoITell && (
             <div>
               <Kicker>Who I tell</Kicker>

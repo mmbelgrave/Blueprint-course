@@ -35,7 +35,14 @@ export function Step2Doc({
   // The staying summary adds its own sheets, so the page count follows the
   // route this person actually took.
   const extra = staying ? exploreStayingSheets(staying) : 0;
-  const of = 3 + extra;
+  /*
+   * Somebody who took the staying path skipped Parts 3 to 5, so the sheets
+   * built from those parts have nothing to say. Printing them empty tells
+   * that person their work does not count; leaving them out gives them their
+   * own two-page document.
+   */
+  const movingSheets = r.movingWritten || extra === 0;
+  const of = (movingSheets ? 3 : 0) + extra;
   const foot = (n: number) => <PageFoot who={who} page={n} of={of} />;
   const scores = r.regions.length > 0 ? r.regions : r.countries;
   // The one they chose, which is not always the one with the highest total.
@@ -47,6 +54,8 @@ export function Step2Doc({
   return (
     <>
       <PageSetup />
+      {movingSheets && (
+        <>
       {/* ───────────────────────────── one ───────────────────────────── */}
       <Sheet>
         <Cover
@@ -213,9 +222,13 @@ export function Step2Doc({
         </Body>
         {foot(3)}
       </Sheet>
+        </>
+      )}
 
       {/* The staying route’s own result, when that is the route they took. */}
-      {staying && <ExploreStayingSheets plan={staying} who={who} when={when} page={4} of={of} />}
+      {staying && (
+        <ExploreStayingSheets plan={staying} who={who} when={when} page={movingSheets ? 4 : 1} of={of} />
+      )}
     </>
   );
 }
