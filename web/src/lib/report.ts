@@ -581,6 +581,27 @@ export function changePlan(a: Answers) {
   return { ...plan, written };
 }
 
+/*
+ * Roughly how tall this plan prints, in pixels of A4 at 96dpi.
+ *
+ * Measured against the real sheet rather than guessed: a step row is about
+ * 95px, prose runs about half a pixel per character in these two columns, and
+ * the kicker, headline, pull quote and footnote are about 140px between them.
+ * The body of a sheet holds about 900px once the running head and the page
+ * foot have taken theirs.
+ */
+export function changePlanHeight(plan: ChangePlan): number {
+  const prose = [plan.change, plan.inPlace, plan.incomeBuffer, plan.hours, plan.whoITell, plan.first90, plan.planB]
+    .filter(Boolean)
+    .join(" ");
+  const steps = plan.steps.length > 0 ? plan.steps.length * 95 : plan.firstThree.slice(0, 4).length * 60;
+  return 140 + steps + prose.length * 0.5;
+}
+
+/** One sheet, or two when it will not fit on one. */
+export const changePlanSheets = (plan: ChangePlan): number =>
+  !plan.written ? 0 : changePlanHeight(plan) > 900 ? 2 : 1;
+
 export type Blueprint = ReturnType<typeof blueprintReport>;
 
 export function blueprintReport(a: Answers) {

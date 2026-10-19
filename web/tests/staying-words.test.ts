@@ -2,12 +2,15 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   blueprintReport,
+  changePlanHeight,
+  changePlanSheets,
   isStaying,
   lightsOf,
   looksLikeADate,
   savingsCascade,
   whenSuffix,
   type Answers,
+  type ChangePlan,
 } from "../src/lib/report.ts";
 
 /*
@@ -110,4 +113,61 @@ test("the summary wins over the page, row by row", () => {
 
 test("nothing answered anywhere is still unknown, not green", () => {
   assert.deepEqual(lightsOf({}).map((l) => l.colour), ["unknown", "unknown", "unknown", "unknown", "unknown"]);
+});
+
+/*
+ * A full change plan does not fit on one A4 sheet. Printing Sample B showed
+ * it spilling onto a second page with no running head and the footer in the
+ * wrong place, so a long plan is now two proper sheets.
+ */
+const planOf = (over: Partial<ChangePlan>): ChangePlan =>
+  ({
+    written: true,
+    change: "Four days a week in the same job, with Friday outdoors.",
+    inPlace: "In the fourth month",
+    firstThree: [],
+    steps: [],
+    incomeBuffer: "",
+    whoITell: "",
+    first90: "",
+    planB: "",
+    hours: "",
+    checkIns: "",
+    ...over,
+  }) as ChangePlan;
+
+test("a plan nobody wrote has no sheet at all", () => {
+  assert.equal(changePlanSheets(planOf({ written: false })), 0);
+});
+
+test("a short plan is one sheet", () => {
+  const short = planOf({
+    steps: [
+      { what: "Ask my manager", when: "First week" },
+      { what: "Put it in writing", when: "Second month" },
+    ],
+    planB: "Keep the evenings and ask again in six months.",
+  });
+  assert.equal(changePlanSheets(short), 1);
+  assert.ok(changePlanHeight(short) < 900);
+});
+
+test("a full plan is two, rather than spilling onto a ragged page", () => {
+  // Sample B's own plan, word for word. On one sheet it measured 1400px
+  // against A4's 1123, which is where this rule comes from.
+  const full = planOf({
+    change: "Four days a week in the same job, with Friday outdoors, and two evenings a week that end at six.",
+    steps: Array.from({ length: 5 }, (_, i) => ({ what: `Step ${i + 1}`, when: "Soon", note: "Something first" })),
+    incomeBuffer:
+      "€2,360 a month from the fourth month, confirmed, against €2,210 of costs. The buffer stays at €6,600, three months of everything, untouched.",
+    hours: "About 16 hours a week now. About 26 after the change.",
+    whoITell:
+      "My sister first, then my manager, then the team. From my sister I need a standing Friday, so somebody is expecting me.",
+    first90:
+      "Week one, the meeting. After 30 days, two evenings a week that really end at six. After 90 days, the request agreed and in writing.",
+    planB:
+      "If four days is refused, I keep the two evenings and ask again after six months, with one unpaid day a month meanwhile. If the lower pay does not add up, I go back to five days for a season rather than spend the reserve.",
+  });
+  assert.ok(changePlanHeight(full) > 900, `measured ${Math.round(changePlanHeight(full))}`);
+  assert.equal(changePlanSheets(full), 2);
 });

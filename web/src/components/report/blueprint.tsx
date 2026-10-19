@@ -16,7 +16,17 @@ import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Pull, Rul
 import { BigNumbers, ConditionRows, Lights, NeedRows, PhaseDots, ShareBars } from "./charts";
 import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { durationIn, firstClause, noStop, openLights, WAKING_HOURS, type Blueprint, type ChangePlan, type Together } from "@/lib/report";
+import {
+  changePlanSheets,
+  durationIn,
+  firstClause,
+  noStop,
+  openLights,
+  WAKING_HOURS,
+  type Blueprint,
+  type ChangePlan,
+  type Together,
+} from "@/lib/report";
 import { Agreed, SharedAndApart } from "./two-voices";
 
 export function BlueprintDoc({
@@ -41,7 +51,7 @@ export function BlueprintDoc({
   currency: string;
   phaseName: string;
 }) {
-  const of = plan.written ? 5 : 4;
+  const of = 4 + changePlanSheets(plan);
   const open = openLights(r.lights);
   const where = phaseName;
   // Only when they said how long: nothing on this cover is a figure we chose.
