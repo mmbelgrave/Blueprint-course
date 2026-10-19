@@ -327,18 +327,26 @@ export function Lights({ lights }: { lights: { name: string; colour: LightColour
 
 /* ─────────────────────────── the life around it ───────────────────────── */
 
+/** One line per corner, in the order the tiles are laid out. */
+const SPOKE_LINES = [
+  { x1: "14%", y1: "26%", x2: "42%", y2: "46%" },
+  { x1: "86%", y1: "26%", x2: "58%", y2: "46%" },
+  { x1: "14%", y1: "80%", x2: "42%", y2: "58%" },
+  { x1: "86%", y1: "80%", x2: "58%", y2: "58%" },
+];
+
 /** Times from the same front door, drawn around the house. */
 export function Hub({ centre, spokes }: { centre: string; spokes: { label: string; value: string; sure: boolean }[] }) {
   const four = spokes.slice(0, 4);
   const corner = ["items-start text-left", "items-end text-right", "items-start text-left", "items-end text-right"];
   return (
     <div className="relative">
-      {/* The four thin lines back to the house. Decoration, not measurement. */}
+      {/* A thin line back to the house for each time there is, and no more:
+          a line reaching into an empty corner reads as a missing answer. */}
       <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden preserveAspectRatio="none">
-        <line x1="14%" y1="26%" x2="42%" y2="46%" stroke="var(--color-line)" strokeWidth="1" />
-        <line x1="86%" y1="26%" x2="58%" y2="46%" stroke="var(--color-line)" strokeWidth="1" />
-        <line x1="14%" y1="80%" x2="42%" y2="58%" stroke="var(--color-line)" strokeWidth="1" />
-        <line x1="86%" y1="80%" x2="58%" y2="58%" stroke="var(--color-line)" strokeWidth="1" />
+        {four.map((s, i) => (
+          <line key={s.label} {...SPOKE_LINES[i]} stroke="var(--color-line)" strokeWidth="1" />
+        ))}
       </svg>
       <div className="grid grid-cols-2 gap-y-16">
         {four.map((s, i) => (

@@ -68,7 +68,7 @@
               "id": "the_place",
               "type": "long_text",
               "lines": 2,
-              "label": "The place I want to go further with (Step 2)",
+              "label": "The place or change I want to go further with (Step 2)",
               "copy_from": {
                 "step": 2,
                 "exercise": "s2-5.1",
@@ -90,12 +90,12 @@
               "id": "monthly_costs",
               "type": "long_text",
               "lines": 2,
-              "label": "My monthly costs there, and how sure I am (known / estimate / unknown)"
+              "label": "My monthly costs there or after the change, and how sure I am (known / estimate / unknown)"
             },
             {
               "id": "confirmed_income",
               "type": "short_text",
-              "label": "My confirmed income there, per month"
+              "label": "My confirmed income per month, there or after the change"
             },
             {
               "id": "savings_reachable",
@@ -191,7 +191,7 @@
         "kicker": "Can you afford the change, and the life after it?",
         "intro": [
           "In Step 1 you made a first money picture. In Step 2 you replaced guesses with real costs. Now you turn those numbers into a decision: does the money carry this plan, and for how long?",
-          "Look at three things. The one-time cost of the move. The monthly cost of your new life, compared with the income you can count on. And your reserve: money you keep aside, so one bad month or a delay does not end the plan.",
+          "Look at three things. The one-time cost of the move or the change. The monthly cost of the life you want, compared with the income you can count on. And your reserve: money you keep aside, so one bad month or a delay does not end the plan. And your reserve: money you keep aside, so one bad month or a delay does not end the plan.",
           "Only confirmed income counts: income you have evidence will continue in your new situation. Agreed income gets its own line, with the month it starts, but it does not go into the check yet. Hoped-for income stays out, as in Step 1."
         ],
         "start_here": {
@@ -226,7 +226,7 @@
               "row_labels": [
                 "My confirmed income per month in the new place",
                 "Agreed income, and the month it starts (not counted yet)",
-                "My costs per month in the new place (known / estimate / unknown)",
+                "My costs per month in the new place (known / estimate/unknown)",
                 "Left over or short each month",
                 "If short: how many months my savings left to live on can cover (my runway)",
                 "The runway I want, in months (my choice)",
@@ -273,7 +273,8 @@
         "intro_after": "If your confirmed income already covers your monthly costs, write \"covered\" as your runway. One thing still applies: your savings must still carry the move, your reserve and your return fund.",
         "closing": "Green means: check one is above zero, including the cost of deciding and your reserve, and your runway, counting confirmed income only, is at least the number of months you chose, or your confirmed income covers the month.",
         "tips": [
-          "Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. The amounts in the examples are made up to show how the check works."
+          "Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. The amounts in the examples are made up to show how the check works.",
+          "If you are staying: Use the same two checks for your change. Check one: can your savings carry the change itself, such as a course, an income gap or a renovation? Check two: does your confirmed income cover the month after the change, for example, on four days a week, or in the first year of your own business? Leave out the lines about moving."
         ],
         "example": {
           "who": "Lotte and Ben, 44 and 47",
@@ -364,7 +365,8 @@
           "For Portugal, two different routes exist, and people mix them up. With an EU, EEA, Andorran or Swiss passport, you can live there and register at the câmara municipal for a registration certificate (see aima.gov.pt). With any other passport, you normally need a visa before you travel (vistos.mne.gov.pt), and then apply for a residence permit with AIMA. For everyone: you can request a tax number (NIF) through the Portal das Finanças or gov.pt, also from abroad; your health service user number (número de utente) comes through your local health centre (gov.pt, sns.gov.pt); for driving licences, see imt-ip.pt. Checked 28 September 2026."
         ],
         "tips": [
-          "Do things in the right order. Some steps depend on others. In Portugal, you usually get a tax number first because you need it for a bank account, a rental contract, or a purchase."
+          "Do things in the right order. Some steps depend on others. In Portugal, you usually get a tax number first because you need it for a bank account, a rental contract, or a purchase.",
+          "If you are staying: This light is usually short. Think of your employment contract and notice period, permission from your employer for fewer hours or remote work, registering a business, or a permit if you renovate or build. If your change needs none of this, mark this light green and move on."
         ],
         "story": {
           "status": "ready",
@@ -441,7 +443,10 @@
           "status": "ready",
           "text": "I went through the whole process on my own, and that is one reason this Blueprint exists. But I was not alone for long. The owners who sold me the land and I clicked from day one, and they have helped me with many things. The English couple whose Airbnb I stayed in made the same move years earlier; he gave me my accountant's contact. In my first months in Portugal, I lost my mother. When she was ill, the life I had built gave me the freedom to fly back and spend real time with her. When I lost her, these new friends, together with my closest friend, carried me through. Today they are family."
         },
-        "staying": "A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?"
+        "staying": "A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?",
+        "tips": [
+          "If you are staying: A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?"
+        ]
       },
       {
         "id": "s3-1.4",
@@ -511,7 +516,8 @@
         "closing": "Green means: the place still meets your must-haves after your test visit, you have seen it outside the high season, and what you commit to, renting or buying, matches what you know.",
         "tips": [
           "Rent first if you can. A year in a rented home shows you the winters, the neighbours and the drive to the hospital before you own anything. If you want to buy, you can look for the right property while you live there.",
-          "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next is stricter. Before you buy, try to meet the person who will handle your plans, share your ideas, and listen. At the very least, find out how that câmara (or the municipality in your chosen county) usually works. It can make the difference between a smooth process and many rounds of changes."
+          "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next is stricter. Before you buy, try to meet the person who will handle your plans, share your ideas, and listen. At the very least, find out how that câmara (or the municipality in your chosen county) usually works. It can make the difference between a smooth process and many rounds of changes.",
+          "If you are staying: Staying in your home? Skip this light, or mark it green. If your change involves your place, such as another region in your own country, more space or a renovation, use the same questions."
         ],
         "story": {
           "status": "ready",
@@ -597,7 +603,10 @@
           "status": "ready",
           "text": "I didn't write down a detailed Plan B, but I kept a way back. Part of it was financial: I set aside enough money that, if it didn't work out, I could decide what to do next in the moment, whether that meant renting, travelling, or moving to another country. And I kept Bali open. My company and bank accounts there stayed in place; I could easily apply for a new residence permit. In addition, my plan B was my experience. When I came back to the Netherlands from Thailand, I had nothing. I slept at my aunt's for the first few months, until I found an apartment and a job. Then I built a life in Bali, and then in Portugal. I knew I could always rebuild my life. I also trusted the signs on my path, and that has always worked out for me. That was enough for me, but a Plan B looks different for everyone. Write yours down in a way that makes you feel comfortable. You may never need it, and that is the best outcome."
         },
-        "staying": "What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable."
+        "staying": "What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable.",
+        "tips": [
+          "If you are staying: What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable."
+        ]
       }
     ],
     "tables": [

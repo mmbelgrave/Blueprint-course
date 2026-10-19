@@ -219,9 +219,21 @@
           "label": "The change I am making"
         },
         {
+          "id": "keep",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I keep"
+        },
+        {
           "id": "in_place_date",
           "type": "short_text",
           "label": "The date it is in place."
+        },
+        {
+          "id": "small_test",
+          "type": "long_text",
+          "lines": 2,
+          "label": "The small test I run first"
         },
         {
           "id": "first_three",
@@ -231,7 +243,7 @@
         {
           "id": "income_buffer",
           "type": "long_text",
-          "label": "My income and buffer after the change"
+          "label": "Money and time after the change: income, buffer, and hours that become mine"
         },
         {
           "id": "who_i_tell",
@@ -242,6 +254,12 @@
           "id": "first_90",
           "type": "long_text",
           "label": "My first 90 days"
+        },
+        {
+          "id": "uncertain",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What is still uncertain"
         },
         {
           "id": "plan_b",
@@ -258,7 +276,56 @@
           }
         }
       ],
-      "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in."
+      "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in.",
+      "example_page": {
+        "lead": "A completed page. Rosa from Step 1 is made up. She tested her change in Step 2, and her decision in Part 4 was \"Go, and change where I am\". This is her Change Plan. Every line is filled in, including what is still uncertain.",
+        "rows": [
+          [
+            "The change I am making",
+            "Four days a week at my current job, with Fridays outside."
+          ],
+          [
+            "What I keep",
+            "My job and my team, our rented flat, my parents twenty minutes away, and Sunday dinners with them."
+          ],
+          [
+            "The date it is in place.",
+            "1 March."
+          ],
+          [
+            "The small test I run first",
+            "Six Friday afternoons of unpaid leave, from January to mid-February. Errands move to Thursday evening."
+          ],
+          [
+            "My first three steps, and when",
+            "Talk to my manager in November. Redo our budget at 80% with my partner in December. Submit the formal request in January, with two months' notice."
+          ],
+          [
+            "Money and time after the change: income, buffer, and hours that become mine",
+            "Take-home pay drops by about €420 a month. We cut €300: the second car and fewer meals out. The last €120 comes from our buffer for now, under the €150 we set in Step 1. My choice goes from about 30 to 38 hours a week."
+          ],
+          [
+            "Who I tell, and what I need from them",
+            "My partner: help me keep Fridays free. My manager: a clear handover on Thursdays. My parents: lunch on Friday, every other week."
+          ],
+          [
+            "My first 90 days",
+            "Week one: a walk on Friday morning, phone off. After 30 days: no work email on Fridays. After 90 days: outside every Friday, and still within budget."
+          ],
+          [
+            "What is still uncertain",
+            "Whether my workload shrinks with my hours. Whether the budget holds once the winter energy bills arrive."
+          ],
+          [
+            "My Plan B",
+            "If work spills into my Fridays for more than a month, I ask my manager for a review. If nothing changes, I look at other jobs here before anything bigger."
+          ],
+          [
+            "My check-in dates",
+            "1 June, and 1 March next year."
+          ]
+        ]
+      }
     },
     "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in."
   }

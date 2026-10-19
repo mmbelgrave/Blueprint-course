@@ -1,13 +1,13 @@
 {
-  "version": 1,
-  "source": "The Made Real Blueprint - Step 3.docx (October 2026)",
+  "version": 2,
+  "source": "The Made Real Blueprint - Step 3 Decide workbook - Rev.01b.docx (October 2026)",
   "step": {
     "id": "step3",
     "number": 3,
     "title": "Decide",
     "question": "Am I ready for this option?",
     "tagline": [
-      "You know what you want, and you have found a place where it could work."
+      "You know what you want, and you have found an option that could give it to you: a move to a new place, or a change where you live. Both get the same test. Now comes the question most people rush or avoid: am I ready for this option?"
     ],
     "intro": [
       "Now comes the question most people rush or avoid: am I ready for this option?",
@@ -19,7 +19,7 @@
       "title": "What you need before you start",
       "bullets": [
         "Your Working Direction and Life Picture from Step 1, including your must-haves and dealbreakers.",
-        "Your Explore Summary from Step 2: the place you want to plan for, and what you still do not know about it.",
+        "Your Explore Summary from Step 2, or your Explore Summary (staying): the place or the change you want to plan for, and what you still do not know about it.",
         "Your updated money picture, with the real costs you created in Step 2."
       ],
       "after": "If you have not completed Step 2, you can still work through this step, but many answers will rest on guesses. Mark them as estimates, and go back to Step 2 before you make the final decision."
@@ -86,15 +86,15 @@
         "You finish with"
       ]
     },
-    "staying": "Staying and changing your life where you are? This step is for you too. The option you test can also be a change where you live: working four days a week, a new job, your own business, more space, or another region in your own country. Test it in Parts 1 to 4, just like a move. You can skip 1.2 Papers and 1.4 Place unless your change involves them, for example, moving to another region or renovating. Then finish with \"Your staying route\" at the end of this step."
+        "staying": "Changing your life where you are? The option you test can be a change where you live: working four days a week, a new job, your own business, more space, or another region in your own country. Test it in Parts 1 to 4, just like a move. You can skip 1.2 Papers and 1.4 Place unless your change involves them, for example, moving to another region or renovating. Then finish with \"Your staying route\" at the end of this step."
   },
   "closing": {
     "title": "What comes next",
-    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision. From here, the road splits: Step 4 if you move, and the staying route if you build the life you want where you are.",
+    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision. From here, the road splits: Your Change Plan if you build the life you want where you are, and your first timeline if you move, until Step 4 exists.",
     "bullets": [
-      "Going? Step 4, Prepare, is coming soon. It will turn your decision into a moving plan: what to arrange, in which order, and by when. Until then, your First Timeline from Part 3 is your plan.",
+      "Going? This part turns your decision into a plan. It is shorter than the moving steps, because you keep your home, your papers and your surroundings. What changes is how you use them. Use this part if your decision was \"go and change where I am\". Moving? Skip it. Step 4 is planned, with no date yet, so your First Timeline from Part 3 is your plan for now. It will turn your decision into a moving plan: what to arrange, in which order, and by when. Until then, your First Timeline from Part 3 is your plan.",
       "Not yet? Work on your ambers, and revisit the date you set.",
-      "Staying and changing your life where you are? Your staying route, on the previous pages, completes your Blueprint. Keep your check-in dates.",
+      "Changing your life where you are? Your Change Plan, on the previous pages, completes your Blueprint. Keep your check-in dates. Keep your check-in dates.",
       "No? Go back to Step 2 with what you have learned, or keep the life you have."
     ],
     "tips": [

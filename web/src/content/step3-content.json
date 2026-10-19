@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "source": "The Made Real Blueprint - Step 3.docx (October 2026)",
+  "version": 2,
+  "source": "The Made Real Blueprint - Step 3 Decide workbook - Rev.01b.docx (October 2026)",
   "source_note": "App adaptations (8 Oct 2026): where the workbook says \"this workbook\" about how the reader works, the app says \"this step\". The paper-only line about the two routes through Part 1 is kept; nothing else is left out.",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
@@ -17,7 +17,7 @@
     "title": "Decide",
     "question": "Am I ready for this option?",
     "tagline": [
-      "You know what you want, and you have found a place where it could work."
+      "You know what you want, and you have found an option that could give it to you: a move to a new place, or a change where you live. Both get the same test. Now comes the question most people rush or avoid: am I ready for this option?"
     ],
     "intro": [
       "Now comes the question most people rush or avoid: am I ready for this option?",
@@ -29,7 +29,7 @@
       "title": "What you need before you start",
       "bullets": [
         "Your Working Direction and Life Picture from Step 1, including your must-haves and dealbreakers.",
-        "Your Explore Summary from Step 2: the place you want to plan for, and what you still do not know about it.",
+        "Your Explore Summary from Step 2, or your Explore Summary (staying): the place or the change you want to plan for, and what you still do not know about it.",
         "Your updated money picture, with the real costs you created in Step 2."
       ],
       "after": "If you have not completed Step 2, you can still work through this step, but many answers will rest on guesses. Mark them as estimates, and go back to Step 2 before you make the final decision."
@@ -134,7 +134,7 @@
         ]
       ]
     },
-    "staying": "Staying and changing your life where you are? This step is for you too. The option you test can also be a change where you live: working four days a week, a new job, your own business, more space, or another region in your own country. Test it in Parts 1 to 4, just like a move. You can skip 1.2 Papers and 1.4 Place unless your change involves them, for example, moving to another region or renovating. Then finish with \"Your staying route\" at the end of this step."
+    "staying": "Changing your life where you are? The option you test can be a change where you live: working four days a week, a new job, your own business, more space, or another region in your own country. Test it in Parts 1 to 4, just like a move. You can skip 1.2 Papers and 1.4 Place unless your change involves them, for example, moving to another region or renovating. Then finish with \"Your staying route\" at the end of this step."
   },
   "parts": [
     {
@@ -206,7 +206,7 @@
                 "id": "the_place",
                 "type": "long_text",
                 "lines": 2,
-                "label": "The place I want to go further with (Step 2)",
+                "label": "The place or change I want to go further with (Step 2)",
                 "copy_from": {
                   "step": 2,
                   "exercise": "s2-5.1",
@@ -228,12 +228,12 @@
                 "id": "monthly_costs",
                 "type": "long_text",
                 "lines": 2,
-                "label": "My monthly costs there, and how sure I am (known / estimate / unknown)"
+                "label": "My monthly costs there or after the change, and how sure I am (known / estimate / unknown)"
               },
               {
                 "id": "confirmed_income",
                 "type": "short_text",
-                "label": "My confirmed income there, per month"
+                "label": "My confirmed income per month, there or after the change"
               },
               {
                 "id": "savings_reachable",
@@ -329,7 +329,7 @@
           "kicker": "Can you afford the change, and the life after it?",
           "intro": [
             "In Step 1 you made a first money picture. In Step 2 you replaced guesses with real costs. Now you turn those numbers into a decision: does the money carry this plan, and for how long?",
-            "Look at three things. The one-time cost of the move. The monthly cost of your new life, compared with the income you can count on. And your reserve: money you keep aside, so one bad month or a delay does not end the plan.",
+            "Look at three things. The one-time cost of the move or the change. The monthly cost of the life you want, compared with the income you can count on. And your reserve: money you keep aside, so one bad month or a delay does not end the plan. And your reserve: money you keep aside, so one bad month or a delay does not end the plan.",
             "Only confirmed income counts: income you have evidence will continue in your new situation. Agreed income gets its own line, with the month it starts, but it does not go into the check yet. Hoped-for income stays out, as in Step 1."
           ],
           "start_here": {
@@ -364,7 +364,7 @@
                 "row_labels": [
                   "My confirmed income per month in the new place",
                   "Agreed income, and the month it starts (not counted yet)",
-                  "My costs per month in the new place (known / estimate / unknown)",
+                  "My costs per month in the new place (known / estimate/unknown)",
                   "Left over or short each month",
                   "If short: how many months my savings left to live on can cover (my runway)",
                   "The runway I want, in months (my choice)",
@@ -411,7 +411,8 @@
           "intro_after": "If your confirmed income already covers your monthly costs, write \"covered\" as your runway. One thing still applies: your savings must still carry the move, your reserve and your return fund.",
           "closing": "Green means: check one is above zero, including the cost of deciding and your reserve, and your runway, counting confirmed income only, is at least the number of months you chose, or your confirmed income covers the month.",
           "tips": [
-            "Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. The amounts in the examples are made up to show how the check works."
+            "Your reserve is yours to decide. A common way to think about it is how many months of costs you want covered if everything stopped. The amounts in the examples are made up to show how the check works.",
+            "If you are staying: Use the same two checks for your change. Check one: can your savings carry the change itself, such as a course, an income gap or a renovation? Check two: does your confirmed income cover the month after the change, for example, on four days a week, or in the first year of your own business? Leave out the lines about moving."
           ],
           "example": {
             "who": "Lotte and Ben, 44 and 47",
@@ -502,7 +503,8 @@
             "For Portugal, two different routes exist, and people mix them up. With an EU, EEA, Andorran or Swiss passport, you can live there and register at the câmara municipal for a registration certificate (see aima.gov.pt). With any other passport, you normally need a visa before you travel (vistos.mne.gov.pt), and then apply for a residence permit with AIMA. For everyone: you can request a tax number (NIF) through the Portal das Finanças or gov.pt, also from abroad; your health service user number (número de utente) comes through your local health centre (gov.pt, sns.gov.pt); for driving licences, see imt-ip.pt. Checked 28 September 2026."
           ],
           "tips": [
-            "Do things in the right order. Some steps depend on others. In Portugal, you usually get a tax number first because you need it for a bank account, a rental contract, or a purchase."
+            "Do things in the right order. Some steps depend on others. In Portugal, you usually get a tax number first because you need it for a bank account, a rental contract, or a purchase.",
+            "If you are staying: This light is usually short. Think of your employment contract and notice period, permission from your employer for fewer hours or remote work, registering a business, or a permit if you renovate or build. If your change needs none of this, mark this light green and move on."
           ],
           "story": {
             "status": "ready",
@@ -579,7 +581,10 @@
             "status": "ready",
             "text": "I went through the whole process on my own, and that is one reason this Blueprint exists. But I was not alone for long. The owners who sold me the land and I clicked from day one, and they have helped me with many things. The English couple whose Airbnb I stayed in made the same move years earlier; he gave me my accountant's contact. In my first months in Portugal, I lost my mother. When she was ill, the life I had built gave me the freedom to fly back and spend real time with her. When I lost her, these new friends, together with my closest friend, carried me through. Today they are family."
           },
-          "staying": "A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?"
+          "staying": "A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?",
+          "tips": [
+            "If you are staying: A change where you live affects people too: your partner, your children, your colleagues and your friends. Fill in the same table for everyone your change touches. The first-year question becomes: Who supports you while you make the change?"
+          ]
         },
         {
           "id": "s3-1.4",
@@ -649,7 +654,8 @@
           "closing": "Green means: the place still meets your must-haves after your test visit, you have seen it outside the high season, and what you commit to, renting or buying, matches what you know.",
           "tips": [
             "Rent first if you can. A year in a rented home shows you the winters, the neighbours and the drive to the hospital before you own anything. If you want to buy, you can look for the right property while you live there.",
-            "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next is stricter. Before you buy, try to meet the person who will handle your plans, share your ideas, and listen. At the very least, find out how that câmara (or the municipality in your chosen county) usually works. It can make the difference between a smooth process and many rounds of changes."
+            "Every câmara follows the same national rules, but they do not all read them the same way. One câmara may be open to new projects, while the next is stricter. Before you buy, try to meet the person who will handle your plans, share your ideas, and listen. At the very least, find out how that câmara (or the municipality in your chosen county) usually works. It can make the difference between a smooth process and many rounds of changes.",
+            "If you are staying: Staying in your home? Skip this light, or mark it green. If your change involves your place, such as another region in your own country, more space or a renovation, use the same questions."
           ],
           "story": {
             "status": "ready",
@@ -735,7 +741,10 @@
             "status": "ready",
             "text": "I didn't write down a detailed Plan B, but I kept a way back. Part of it was financial: I set aside enough money that, if it didn't work out, I could decide what to do next in the moment, whether that meant renting, travelling, or moving to another country. And I kept Bali open. My company and bank accounts there stayed in place; I could easily apply for a new residence permit. In addition, my plan B was my experience. When I came back to the Netherlands from Thailand, I had nothing. I slept at my aunt's for the first few months, until I found an apartment and a job. Then I built a life in Bali, and then in Portugal. I knew I could always rebuild my life. I also trusted the signs on my path, and that has always worked out for me. That was enough for me, but a Plan B looks different for everyone. Write yours down in a way that makes you feel comfortable. You may never need it, and that is the best outcome."
           },
-          "staying": "What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable."
+          "staying": "What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable.",
+          "tips": [
+            "If you are staying: What if the change does not work? For example: can you go back to five days, return to a job, or keep one client while you build your business? The same rule applies: write down as much Plan B as you need to feel comfortable."
+          ]
         }
       ],
       "tables": [
@@ -1070,7 +1079,7 @@
                 "id": "steps",
                 "type": "table",
                 "rows": 7,
-                "hint": "List the main steps of your move. For each one, write whether it is easy or hard to undo, what must be true first, and roughly when you would take it.",
+                "hint": "List the main steps of your move or your change. For each one, write whether it is easy or hard to undo, what must be true first, and roughly when you would take it.",
                 "columns": [
                   {
                     "id": "step",
@@ -1189,7 +1198,7 @@
           "number": "4.1",
           "title": "One last check: must-haves and dealbreakers",
           "intro": [
-            "In Step 1 you named what your new life needs and what you will not accept. Hold this option against them one last time. It is the cheapest red light there is: a broken dealbreaker ends this option, whatever the other lights say."
+            "In Step 1 you named what the life you want needs and what you will not accept. Hold this option against them one last time. It is the cheapest red light there is: a broken dealbreaker ends this option, whatever the other lights say. It is the cheapest red light there is: a broken dealbreaker ends this option, whatever the other lights say."
           ],
           "start_here": {
             "fields": [
@@ -1312,7 +1321,7 @@
           },
           "choice_explanations_intro": "For \"My decision\", four answers are possible, and all four are good:",
           "choice_explanations": [
-            "Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is coming soon), but you take no hard-to-undo step until those conditions are met.",
+            "Go. No light is red, and every amber light has a named condition, an action and a date. Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is planned, with no date yet; until then, your First Timeline is your plan), but you take no hard-to-undo step until those conditions are met.",
             "Go, and change where I am. Your option was a change where you live, and it passed the same test. Continue with \"Your staying route\" at the end of this step.",
             "Not yet. The picture is right, but the conditions are not. Write down exactly what must change, and when you will look again. A \"not yet\" with a date is a decision. Without a date, it is a way of putting it off.",
             "No. This option does not fit, or not at this price. That is a result too. Go back to Step 2 to look at another place, test a change where you live, or keep the life you have."
@@ -1597,9 +1606,21 @@
             "label": "The change I am making"
           },
           {
+            "id": "keep",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What I keep"
+          },
+          {
             "id": "in_place_date",
             "type": "short_text",
             "label": "The date it is in place."
+          },
+          {
+            "id": "small_test",
+            "type": "long_text",
+            "lines": 2,
+            "label": "The small test I run first"
           },
           {
             "id": "first_three",
@@ -1609,7 +1630,7 @@
           {
             "id": "income_buffer",
             "type": "long_text",
-            "label": "My income and buffer after the change"
+            "label": "Money and time after the change: income, buffer, and hours that become mine"
           },
           {
             "id": "who_i_tell",
@@ -1620,6 +1641,12 @@
             "id": "first_90",
             "type": "long_text",
             "label": "My first 90 days"
+          },
+          {
+            "id": "uncertain",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What is still uncertain"
           },
           {
             "id": "plan_b",
@@ -1636,18 +1663,67 @@
             }
           }
         ],
-        "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in."
+        "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in.",
+        "example_page": {
+          "lead": "A completed page. Rosa from Step 1 is made up. She tested her change in Step 2, and her decision in Part 4 was \"Go, and change where I am\". This is her Change Plan. Every line is filled in, including what is still uncertain.",
+          "rows": [
+            [
+              "The change I am making",
+              "Four days a week at my current job, with Fridays outside."
+            ],
+            [
+              "What I keep",
+              "My job and my team, our rented flat, my parents twenty minutes away, and Sunday dinners with them."
+            ],
+            [
+              "The date it is in place.",
+              "1 March."
+            ],
+            [
+              "The small test I run first",
+              "Six Friday afternoons of unpaid leave, from January to mid-February. Errands move to Thursday evening."
+            ],
+            [
+              "My first three steps, and when",
+              "Talk to my manager in November. Redo our budget at 80% with my partner in December. Submit the formal request in January, with two months' notice."
+            ],
+            [
+              "Money and time after the change: income, buffer, and hours that become mine",
+              "Take-home pay drops by about €420 a month. We cut €300: the second car and fewer meals out. The last €120 comes from our buffer for now, under the €150 we set in Step 1. My choice goes from about 30 to 38 hours a week."
+            ],
+            [
+              "Who I tell, and what I need from them",
+              "My partner: help me keep Fridays free. My manager: a clear handover on Thursdays. My parents: lunch on Friday, every other week."
+            ],
+            [
+              "My first 90 days",
+              "Week one: a walk on Friday morning, phone off. After 30 days: no work email on Fridays. After 90 days: outside every Friday, and still within budget."
+            ],
+            [
+              "What is still uncertain",
+              "Whether my workload shrinks with my hours. Whether the budget holds once the winter energy bills arrive."
+            ],
+            [
+              "My Plan B",
+              "If work spills into my Fridays for more than a month, I ask my manager for a review. If nothing changes, I look at other jobs here before anything bigger."
+            ],
+            [
+              "My check-in dates",
+              "1 June, and 1 March next year."
+            ]
+          ]
+        }
       },
       "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in."
     }
   ],
   "closing": {
     "title": "What comes next",
-    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision. From here, the road splits: Step 4 if you move, and the staying route if you build the life you want where you are.",
+    "intro": "You have tested your plan against real numbers, real rules and real people, and you have made a decision. From here, the road splits: Your Change Plan if you build the life you want where you are, and your first timeline if you move, until Step 4 exists.",
     "bullets": [
-      "Going? Step 4, Prepare, is coming soon. It will turn your decision into a moving plan: what to arrange, in which order, and by when. Until then, your First Timeline from Part 3 is your plan.",
+      "Going? This part turns your decision into a plan. It is shorter than the moving steps, because you keep your home, your papers and your surroundings. What changes is how you use them. Use this part if your decision was \"go and change where I am\". Moving? Skip it. Step 4 is planned, with no date yet, so your First Timeline from Part 3 is your plan for now. It will turn your decision into a moving plan: what to arrange, in which order, and by when. Until then, your First Timeline from Part 3 is your plan.",
       "Not yet? Work on your ambers, and revisit the date you set.",
-      "Staying and changing your life where you are? Your staying route, on the previous pages, completes your Blueprint. Keep your check-in dates.",
+      "Changing your life where you are? Your Change Plan, on the previous pages, completes your Blueprint. Keep your check-in dates. Keep your check-in dates.",
       "No? Go back to Step 2 with what you have learned, or keep the life you have."
     ],
     "tips": [

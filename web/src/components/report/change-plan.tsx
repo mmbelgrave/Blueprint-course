@@ -16,7 +16,7 @@
  */
 import { Body, Footnote, Headline, Kicker, PageFoot, Pull, RunningHead, Rule, Sheet } from "./chrome";
 import { Steps } from "./charts";
-import { changePlanSheets, looksLikeADate, noStop, type ChangePlan } from "@/lib/report";
+import { changePlanSheets, inPlaceLine, looksLikeADate, noStop, type ChangePlan } from "@/lib/report";
 
 type Props = {
   plan: ChangePlan;
@@ -38,7 +38,22 @@ export function ChangePlanSheet({ plan, who, where, page, of, last = false }: Pr
           <Kicker>If I am staying</Kicker>
           <Headline>My change plan</Headline>
           {plan.change && <Pull className="mt-5">{plan.change}</Pull>}
-          {plan.inPlace && <p className="mt-3 text-[11pt] text-stone">In place by {plan.inPlace}.</p>}
+          {inPlaceLine(plan.inPlace) && (
+            <p className="mt-3 text-[11pt] text-stone">{inPlaceLine(plan.inPlace)}</p>
+          )}
+          {/* Rev.01b: what they hold on to, and the test before the change. */}
+          {plan.keep && (
+            <div className="mt-6">
+              <Kicker>What I keep</Kicker>
+              <p className="mt-2 whitespace-pre-line text-[11pt] leading-relaxed">{plan.keep}</p>
+            </div>
+          )}
+          {plan.smallTest && (
+            <div className="mt-6">
+              <Kicker>The small test I run first</Kicker>
+              <p className="mt-2 whitespace-pre-line text-[11pt] leading-relaxed">{plan.smallTest}</p>
+            </div>
+          )}
 
           {plan.steps.length > 0 ? (
             <div className="mt-8">
@@ -129,6 +144,13 @@ function PeopleAndPlanB({ plan, first = false }: { plan: ChangePlan; first?: boo
               <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.first90}</p>
             </div>
           )}
+        </div>
+      )}
+
+      {plan.uncertain && (
+        <div className="mt-8">
+          <Kicker>What is still uncertain</Kicker>
+          <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.uncertain}</p>
         </div>
       )}
 

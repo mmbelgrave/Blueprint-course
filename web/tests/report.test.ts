@@ -13,6 +13,7 @@ import {
   coverWords,
   durationIn,
   firstClause,
+  inPlaceLine,
   lines,
   lightsOf,
   myTime,
@@ -20,6 +21,7 @@ import {
   options,
   runway,
   savingsCascade,
+  travelTime,
   wheel,
   type Answers,
 } from "../src/lib/report.ts";
@@ -214,4 +216,45 @@ test("the options are the ones with something written in them", () => {
     ["A", "B"],
   );
   assert.equal(options(ANNA, 2)[0].doubt, "The winter");
+});
+
+/* ───────────────── a time phrase reading as a phrase ──────────────────── */
+
+test("a period written where a date was asked for does not double the preposition", () => {
+  assert.equal(inPlaceLine("In the fourth month"), "In place by the fourth month.");
+  assert.equal(inPlaceLine("The fourth month"), "In place by the fourth month.");
+  assert.equal(inPlaceLine("on the first Monday"), "In place by the first Monday.");
+});
+
+test("a phrase with its own preposition keeps it, and loses ours", () => {
+  assert.equal(inPlaceLine("Within three months"), "In place within three months.");
+  assert.equal(inPlaceLine("After the first month"), "In place after the first month.");
+});
+
+test("a date is left exactly as it was written, and a name keeps its capital", () => {
+  assert.equal(inPlaceLine("14 March"), "In place by 14 March.");
+  assert.equal(inPlaceLine("March 2027"), "In place by March 2027.");
+  assert.equal(inPlaceLine("Easter"), "In place by Easter.");
+  assert.equal(inPlaceLine(""), null);
+  assert.equal(inPlaceLine(undefined), null);
+});
+
+/* ─────────────────── travel times, and what is not one ────────────────── */
+
+test("minutes and kilometres are read as the journey they are", () => {
+  assert.equal(travelTime("8 minutes by car, and I have driven it twice"), "8 min");
+  assert.equal(travelTime("5 min on foot"), "5 min");
+  assert.equal(travelTime("12 km, mostly motorway"), "12 km");
+  assert.equal(travelTime("2 hours to Porto"), "2 h");
+});
+
+test("a working week is not a travel time, so the tile stays empty", () => {
+  assert.equal(travelTime("My own job, 32 hours instead of 40"), null);
+  assert.equal(travelTime("32 h"), null);
+  assert.equal(travelTime("Four days a week, 30 hours"), null);
+  assert.equal(travelTime("Not needed. I am not flying anywhere"), null);
+});
+
+test("a journey given in minutes wins over hours written in the same line", () => {
+  assert.equal(travelTime("35 minutes each way, so 6 hours a week"), "35 min");
 });

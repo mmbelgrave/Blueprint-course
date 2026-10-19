@@ -258,7 +258,7 @@
               "id": "steps",
               "type": "table",
               "rows": 7,
-              "hint": "List the main steps of your move. For each one, write whether it is easy or hard to undo, what must be true first, and roughly when you would take it.",
+              "hint": "List the main steps of your move or your change. For each one, write whether it is easy or hard to undo, what must be true first, and roughly when you would take it.",
               "columns": [
                 {
                   "id": "step",
@@ -377,7 +377,7 @@
         "number": "4.1",
         "title": "One last check: must-haves and dealbreakers",
         "intro": [
-          "In Step 1 you named what your new life needs and what you will not accept. Hold this option against them one last time. It is the cheapest red light there is: a broken dealbreaker ends this option, whatever the other lights say."
+          "In Step 1 you named what the life you want needs and what you will not accept. Hold this option against them one last time. It is the cheapest red light there is: a broken dealbreaker ends this option, whatever the other lights say. It is the cheapest red light there is: a broken dealbreaker ends this option, whatever the other lights say."
         ],
         "start_here": {
           "fields": [
@@ -500,7 +500,7 @@
         },
         "choice_explanations_intro": "For \"My decision\", four answers are possible, and all four are good:",
         "choice_explanations": [
-          "Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is coming soon), but you take no hard-to-undo step until those conditions are met.",
+          "Go. No light is red, and every amber light has a named condition, an action and a date. Go. No light is red, and every amber light has a named condition, an action and a date. A go with conditions means you start preparing (Step 4, Prepare, is planned, with no date yet; until then, your First Timeline is your plan), but you take no hard-to-undo step until those conditions are met.",
           "Go, and change where I am. Your option was a change where you live, and it passed the same test. Continue with \"Your staying route\" at the end of this step.",
           "Not yet. The picture is right, but the conditions are not. Write down exactly what must change, and when you will look again. A \"not yet\" with a date is a decision. Without a date, it is a way of putting it off.",
           "No. This option does not fit, or not at this price. That is a result too. Go back to Step 2 to look at another place, test a change where you live, or keep the life you have."

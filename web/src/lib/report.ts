@@ -172,7 +172,7 @@ export const CHECK_ONE_ROWS = [
 export const CHECK_TWO_ROWS = [
   "My confirmed income per month in the new place",
   "Agreed income, and the month it starts (not counted yet)",
-  "My costs per month in the new place (known / estimate / unknown)",
+  "My costs per month in the new place (known / estimate/unknown)",
   "Left over or short each month",
   "If short: how many months my savings left to live on can cover (my runway)",
   "The runway I want, in months (my choice)",
@@ -310,6 +310,63 @@ export function whenSuffix(value: string | undefined, preposition: string): stri
   const v = (value ?? "").trim();
   if (!v) return ".";
   return looksLikeADate(v) ? `, ${preposition} ${noStop(v)}.` : `. ${noStop(v)}.`;
+}
+
+/**
+ * The words a time phrase starts with when it is a period rather than a name:
+ * these may be lower-cased mid-sentence, where "Easter" or "March" may not.
+ */
+const TIME_WORD =
+  /^(the|a|an|this|next|early|mid|late|end|start|beginning|first|second|third|fourth|fifth|sixth|within|before|after|around|about|once|when|my|our|spring|summer|autumn|winter|day|days|week|weeks|month|months|year|years|two|three|four|five|six|nine|twelve)\b/i;
+
+const lowerFirst = (v: string) => (TIME_WORD.test(v) ? v[0].toLowerCase() + v.slice(1) : v);
+
+/**
+ * "In place by …" with the phrase reading as a phrase.
+ *
+ * The same fault `whenSuffix` fixes for "before": the workbook asks for a date
+ * and people write a period, so "In place by" + "In the fourth month" gives
+ * "In place by In the fourth month". A phrase that carries its own "in", "on"
+ * or "at" loses it, one that carries "within" or "after" keeps it and drops
+ * our "by", and a date is left exactly as written.
+ */
+export function inPlaceLine(value: string | undefined): string | null {
+  const v = noStop((value ?? "").trim());
+  if (!v) return null;
+  if (looksLikeADate(v)) return `In place by ${v}.`;
+  const ownIn = /^(?:in|on|at)\s+(.+)$/i.exec(v);
+  if (ownIn) return `In place by ${lowerFirst(ownIn[1])}.`;
+  if (/^(?:within|after|before|from|during|by)\s+/i.test(v)) {
+    return `In place ${v[0].toLowerCase()}${v.slice(1)}.`;
+  }
+  return `In place by ${lowerFirst(v)}.`;
+}
+
+/**
+ * A travel time out of a free-text answer, for the hub of times around the
+ * house — which says underneath that these are travel times.
+ *
+ * Minutes and kilometres mean one thing only. Hours do not: somebody staying
+ * where they are answers the work question with their week ("my own job, 32
+ * hours instead of 40"), and a hub of journeys must not read that as a journey
+ * of thirty-two hours. So hours count only when they could be a journey and
+ * the sentence is not about a working week. Nothing to show leaves the tile
+ * out, which is honest; inventing a commute would not be.
+ */
+export function travelTime(answer: string): string | null {
+  const aboutWork =
+    /\bhours?\b[^.]*\b(?:a|per)\s+week\b|\bhours?\s+instead\s+of\b|\bworking\s+hours?\b|\b(?:days?|hours?)\s+a\s+week\b/i.test(
+      answer,
+    );
+  for (const m of answer.matchAll(/(\d+)\s*(minutes?|mins?|hours?|hrs?|h|km)\b/gi)) {
+    const n = Number(m[1]);
+    const unit = m[2].toLowerCase();
+    if (unit === "km") return `${n} km`;
+    if (unit.startsWith("m")) return `${n} min`;
+    // Hours: a journey, not a week. Twelve is already a long way to travel.
+    if (!aboutWork && n <= 12) return `${n} h`;
+  }
+  return null;
 }
 
 /** The three figures under the cascade: runway, runway under stress, runway wanted. */
@@ -451,10 +508,9 @@ export function step2Report(a: Answers) {
   const daily = rowsOf(a, "s2-3.3", "daily");
   const spokes = DAILY_ROWS.map((r, i) => {
     const answer = cell(daily, i, "p1") || cell(daily, i, "p2");
-    const time = /(\d+)\s*(min|minute|hour|hr|h\b|km)/i.exec(answer);
     return {
       label: r.short,
-      value: time ? `${time[1]}${/h/i.test(time[2]) ? " h" : /km/i.test(time[2]) ? " km" : " min"}` : "",
+      value: travelTime(answer) ?? "",
       sure: /known/i.test(cell(daily, i, "certainty")),
       answer,
     };
@@ -558,6 +614,11 @@ export type ChangePlan = ReturnType<typeof changePlan>;
 export function changePlan(a: Answers) {
   const plan = {
     change: text(a, "change_plan", "the_change"),
+    /* Rev.01b: what they hold on to, the test before the change, and the
+       part they are honest about not knowing. */
+    keep: text(a, "change_plan", "keep"),
+    smallTest: text(a, "change_plan", "small_test"),
+    uncertain: text(a, "change_plan", "uncertain"),
     inPlace: text(a, "change_plan", "in_place_date"),
     firstThree: lines(text(a, "change_plan", "first_three")),
     incomeBuffer: text(a, "change_plan", "income_buffer"),
@@ -591,7 +652,7 @@ export function changePlan(a: Answers) {
  * foot have taken theirs.
  */
 export function changePlanHeight(plan: ChangePlan): number {
-  const prose = [plan.change, plan.inPlace, plan.incomeBuffer, plan.hours, plan.whoITell, plan.first90, plan.planB]
+  const prose = [plan.change, plan.inPlace, plan.keep, plan.smallTest, plan.incomeBuffer, plan.hours, plan.whoITell, plan.first90, plan.uncertain, plan.planB]
     .filter(Boolean)
     .join(" ");
   const steps = plan.steps.length > 0 ? plan.steps.length * 95 : plan.firstThree.slice(0, 4).length * 60;
