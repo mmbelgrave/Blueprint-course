@@ -62,6 +62,14 @@ export async function POST(request: Request) {
   if (!(await mayUseAi(user.id))) return fail(403, SWITCHED_OFF);
 
   const { data: profileRow } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
+  /*
+   * No profile row means onboarding was never finished. Until 19 October the
+   * consent check read that same row, so a missing one was refused by
+   * accident; now that consent lives in its own table, this has to be said
+   * out loud. The prompt reads the first name and the currency, and a crash
+   * here would be a 500 where a sentence belongs.
+   */
+  if (!profileRow) return fail(403, "Please finish setting up your account first.");
   const profile = profileRow as Profile;
 
   // Daily limit since midnight UTC. Counted in the usage log, which people cannot
