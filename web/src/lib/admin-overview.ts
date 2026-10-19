@@ -4,6 +4,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { estimateCostUsd } from "@/lib/admin-server";
 import type { ExerciseStatus } from "@/lib/backend";
+import { everyAccount } from "@/lib/accounts";
 import { consentState, type ConsentRow } from "@/lib/consent";
 import { displayTitle, partItems, steps } from "@/lib/content";
 import { partProgress } from "@/lib/progress";
@@ -11,12 +12,13 @@ import { sourceLabel } from "@/lib/signup-source";
 import { supportTopics, topicLabel } from "@/lib/support";
 
 type Row = Record<string, unknown>;
+
 const latest = (a: string | null, b: string | null | undefined) => (!b ? a : !a || b > a ? b : a);
 
 export async function buildOverview(admin: SupabaseClient) {
-  const [users, profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents] =
-    await Promise.all([
-    admin.auth.admin.listUsers({ perPage: 1000 }),
+  // prettier-ignore
+  const [users, profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents] = await Promise.all([
+    everyAccount(admin),
     admin
       .from("profiles")
       .select("user_id, first_name, came_from, wants_updates, created_at"),
@@ -41,7 +43,7 @@ export async function buildOverview(admin: SupabaseClient) {
   for (const r of [profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents]) {
     if (r.error) throw new Error(`Could not read the database: ${r.error.message}`);
   }
-  if (users.error) throw new Error("Could not read the accounts.");
+
 
   const consentBy = new Map<string, ConsentRow[]>();
   for (const row of (consents.data ?? []) as (ConsentRow & { user_id: string })[]) {
@@ -84,7 +86,7 @@ export async function buildOverview(admin: SupabaseClient) {
     }
   }
 
-  const participants = users.data.users.map((u) => {
+  const participants = users.map((u) => {
     const profile = profileBy.get(u.id);
     const st: Record<string, ExerciseStatus> = {};
     let last: string | null = u.last_sign_in_at ?? null;

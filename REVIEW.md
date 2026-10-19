@@ -421,7 +421,10 @@ live checks were read, not repeated.
 2. **A picture uploaded while saving fails** stays in storage without being in
    any answer. It is only cleaned up by "Delete everything".
 3. **The admin overview reads up to 1000 accounts** (`admin-overview.ts:15`) —
-   fine for the pilot, worth remembering later.
+   fine for the pilot, worth remembering later. **Fixed 19 October 2026:** it
+   pages 200 at a time through `lib/accounts.ts`, the same walk as
+   find-account.ts and the retention sweep, and raises rather than drawing a
+   list that is quietly missing people. `tests/admin-paging.test.ts`.
 4. Nothing checks that `ADMIN_EMAIL` belongs to a real account; a typo simply
    means no one sees the admin pages (fails safe).
 
@@ -1324,6 +1327,8 @@ answer the same way.
   now runs after every build, Vercel's included, so a leak fails the deploy
   instead of waiting for a review. It was proved against the server build,
   where the prose does live, and finds it there.
+- The admin overview asking for 1000 accounts in one call is **fixed**
+  (19 October 2026); see concern 3 of round 4.
 - (was R5-5: an old public chunk
   may sit in an edge cache), and the admin overview asking for 1000 accounts in
   one call.
