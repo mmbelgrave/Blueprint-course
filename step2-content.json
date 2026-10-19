@@ -1,6 +1,6 @@
 {
-  "version": 9,
-  "source": "The Made Real Blueprint - Step 2 Explore workbook - Rev.01a.docx (October 2026)",
+  "version": 10,
+  "source": "The Made Real Blueprint - Step 2 Explore workbook - Rev.01c.docx (October 2026)",
   "source_note": "App adaptations (Mwata, 6 Oct 2026): the five-country comparison table in 1.2 is left out of the app as too much detail; his story about that comparison stays. The paper-only line \"Use an extra sheet if you include a fifth country\" is left out; the app has four columns. Where the workbook says \"this workbook\" about the reader's own working, the app says \"this step\". The workbook attributes an official source with a dash (\"studying—source: aima.gov.pt\"); the app writes it as a sentence (\"Source: aima.gov.pt, checked 20 September 2026.\").",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
@@ -22,9 +22,10 @@
     "intro": [
       "Sometimes it works out. When it doesn't, the cost in time, money, and energy can be considerable.",
       "Start with what you need, then look for a place that fits. Check what you can from home, using real information. Then visit and find out what it feels like to live there.",
-      "You finish with your Explore Summary: one or two places that fit your picture, what you know about them, what you still need to check, and what you want to test in real life.",
-      "Thinking of staying where you live now? This step is for you too. Use it to check whether your country and your region still fit your picture, instead of assuming they do.",
-      "Every exercise starts with a short explanation, then asks you to apply it to your own life."
+      "You finish with your Explore Summary: one or two places that fit your picture, or one change where you live, with what you know, what you still need to check, and what you want to test in real life.",
+      "Exploring a change where you live now? This step has a staying path for you. You check the change itself, test it in real life, and write your Explore Summary (staying). The questions work anywhere; the rules and examples cover Portugal.",
+      "Every exercise starts with a short explanation, then asks you to apply it to your own life.",
+      "Exploring a change where you live now? This step has a staying path for you. You check the change itself, test it in real life, and write your Explore Summary (staying). The questions work anywhere; the rules and examples cover Portugal."
     ],
     "what_you_need": {
       "title": "What you need before you start",
@@ -60,9 +61,9 @@
           "Part 3"
         ],
         [
-          "I am thinking of staying where I live now.",
-          "You check whether your own country and region still fit your picture, and compare them with one or two places that crossed your mind.",
-          "Part 1 or Part 2"
+          "I want to change my life where I live now",
+          "You check and test the change itself: money at the changed income, rules at work or home, time, and the people involved. Use Part 1 or 2 only if the place might change too.",
+          "The staying path"
         ]
       ],
       "challenge": "Before you skip Part 1 or Part 2, check what you already know. Have you visited in the cold, wet months, not just summer? Do you know the cost of living there, beyond a holiday budget? Have you checked your legal right to live there and the local rules for your plans: building, working, keeping animals, or running a business? If any answer is no, work through that part. A few hours now can save you years in the wrong place."
@@ -70,8 +71,8 @@
     "how_it_works": {
       "title": "How this step works",
       "bullets": [
-        "Parts 1 and 2 are optional. Use them if you are still choosing a country or region. They are also useful if you are thinking of staying: they show whether the country and region where you live now still fit your picture best.",
-        "Parts 3, 4 and 5 are for everyone. They take you through research, a test visit, and your Explore Summary.",
+        "Parts 1 and 2 are optional. Use them if you are still choosing a country or region. Parts 1 and 2 are optional. Use them if you are still choosing a country or region. If you are exploring a change where you live, use them only if the place might change too, for example a move to another region.",
+        "Two paths lead to your Explore Summary. Exploring a place? Parts 3, 4 and 5 take you through research, a test visit and your Explore Summary. Exploring a change where you live? The staying path, after Part 5, replaces them: you check the change, test it, and write your Explore Summary (staying).",
         "You do the research. I show you what to check and where to look. You find the answers for your own situation.",
         "This step gives you an overview of what to check and where to look. A more detailed Portugal module is planned for later; it is not part of this course. It will cover land and building rules, fire safety, water, and local costs. Other planned modules will focus on finding and choosing land, buying a house, renovating an old house, living off-grid, Your Money Plan, and starting a company.",
         "Three words come back again and again: known, estimate, unknown. Writing \"unknown\" is progress. It shows you what to find out next.",
@@ -84,7 +85,7 @@
       "items": [
         [
           "Must-have",
-          "something your new life really needs."
+          "something the life you want really needs."
         ],
         [
           "Dealbreaker",
@@ -159,9 +160,16 @@
           "Bring it together",
           "45 min",
           "My Explore Summary"
+        ],
+        [
+          "The staying path (optional)",
+          "Check and test your change where you live",
+          "3–5 hours, plus a test",
+          "My Explore Summary (staying)"
         ]
       ]
-    }
+    },
+    "route_note": "Two paths lead to your Explore Summary. Exploring a place? Parts 3, 4 and 5 take you through research, a test visit and your Explore Summary. Exploring a change where you live? The staying path, after Part 5, replaces them: you check the change, test it, and write your Explore Summary (staying)."
   },
   "parts": [
     {
@@ -178,7 +186,7 @@
       ],
       "time": "20–30 min",
       "route_title": "Write down what you are looking for",
-      "talk": "If you are moving with someone, each of you should complete this page separately. Then compare and talk about where your answers differ. Have that conversation now, before you arrive.",
+      "talk": "If you make this choice with someone, each of you should complete this page separately. Then compare and talk about where your answers differ. Have that conversation now, before anything changes.",
       "finish": {
         "id": "looking_for",
         "title": "What I Am Looking For",
@@ -289,7 +297,8 @@
                 "lines": 4,
                 "hint": "Now write the three things that matter most, in your own words. If a place cannot give you these three, it is not your place."
               }
-            ]
+            ],
+            "prompt": "Do not name a country yet. Describe the place your picture needs. Tick what is true for you. Exploring a change where you live? Tick it for where you live now: it shows what to protect and what to change."
           },
           "example": {
             "who": "Nadia, 41",
@@ -551,7 +560,10 @@
         "length": "12–16 min",
         "url": null
       },
-      "staying": "Do this part anyway, with your own country in it. Score it like any other, next to one or two countries that have crossed your mind. If your own country still comes out best, you have checked it instead of assuming it. That is a strong reason to stay."
+      "staying": "Exploring a change where you live?  Use this part only if another country is also on your mind. Then score your own country like any other. If it still comes out best, you have checked it instead of assuming it. If only your daily life needs to change, go to the staying path after Part 5.",
+      "tips": [
+        "Exploring a change where you live? Use this part only if another country is also on your mind. Then score your own country like any other. If it still comes out best, you have checked it instead of assuming it. If only your daily life needs to change, go to the staying path after Part 5."
+      ]
     },
     {
       "id": "s2-p2",
@@ -707,7 +719,7 @@
           "number": "2.3",
           "title": "Your region shortlist",
           "start_here": {
-            "prompt": "Choose two to four regions. Thinking of staying? Include the region where you live now. Score each factor: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty if you do not know yet, and add it to your research list.",
+            "prompt": "Choose two to four regions. Exploring a change where you live? Include the region where you live now. Score each factor: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty if you do not know yet, and add it to your research list.",
             "fields": [
               {
                 "id": "regions",
@@ -820,7 +832,10 @@
         "length": "10–14 min",
         "url": null
       },
-      "staying": "Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy."
+      "staying": "Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy.",
+      "tips": [
+        "Exploring a change where you live? Use this part only if the place might change. Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy."
+      ]
     },
     {
       "id": "s2-p3",
@@ -1141,7 +1156,10 @@
         "title": "Part 3 · Check it from home",
         "length": "12–15 min",
         "url": null
-      }
+      },
+      "tips": [
+        "Exploring a change where you live? Skip Parts 3, 4 and 5. Your path continues with the staying path after Part 5: you check the change, test it in real life and write your Explore Summary (staying)."
+      ]
     },
     {
       "id": "s2-p4",
@@ -1278,7 +1296,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "In April and May 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited 25 plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. I eventually bought the third plot: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time. I signed a promissory contract in August 2024 and the deed at the notary in November. With a good lawyer, it went smoothly, and registering the sale took only about a month after that. With my financial plan already in place from Step 1, I felt comfortable committing when the opportunity came."
+            "text": "In the spring of 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited 25 plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. I eventually bought the third plot: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time. I signed a promissory contract that summer, and the deed at the notary a few months later. With a good lawyer, it went smoothly, and registering the sale took only about a month after that. With my financial plan already in place from Step 1, I felt comfortable committing when the opportunity came."
           },
           "tips": [
             "I took two lessons from that trip. Visit a place twice before deciding: you notice more the second time. And compare several places. Seeing the other plots helped me understand why the third one felt right."
@@ -1367,7 +1385,10 @@
         "title": "Part 4 · Test it in real life",
         "length": "8–12 min",
         "url": null
-      }
+      },
+      "tips": [
+        "Exploring a change where you live? Your real-life test is in the staying path, after Part 5."
+      ]
     },
     {
       "id": "s2-p5",
@@ -1513,7 +1534,11 @@
           "title": "If you decide to stay",
           "optional": true,
           "intro": [
-            "You may discover that the life you want does not require another country. If you scored where you live now in Part 1 or Part 2 and it came out best, you have checked that, not assumed it. Staying is a real result. Your answers usually point to one of four things:"
+            "You may discover, after Parts 3 to 5, that the life you want does not require another country. Staying is a real result. Your answers usually point to one of four things:",
+            "What I want is here, but my life needs to be organised differently. Focus on time, work, home and people, and take that change through the staying path below.",
+            "What I want is somewhere else, but the time is not right. Look at what needs to change in money, family, work or health. Write down what must be in place before you go, and by when.",
+            "I wanted a change more than a different place. Use your Life Picture from Step 1 to choose one concrete change, and take it through the staying path below.",
+            "What I want is in my own country, but in another region. Take your region shortlist from Part 2 into Step 3, and plan it like any other move: the money, the timing and the people involved."
           ],
           "intro_bullets": [
             "What I want is here, but my life needs to be organised differently. Focus on time, work, home and people.",
@@ -1556,7 +1581,8 @@
           },
           "tips": [
             "Put a review date in your calendar today. A decision to wait is only a decision if it has a date."
-          ]
+          ],
+          "kicker": "Leaning towards staying?"
         }
       ],
       "result": "My Explore Summary. One place, one honest picture, and your decision about what comes next.",
@@ -1564,16 +1590,433 @@
         "title": "Part 5 · Bring it together",
         "length": "8–10 min",
         "url": null
-      }
+      },
+      "tips": [
+        "Exploring a change where you live? Your summary is My Explore Summary (staying), at the end of the staying path."
+      ]
+    },
+    {
+      "id": "s2-p6",
+      "number": 6,
+      "label": "The staying path",
+      "title": "Check and test your change",
+      "promise": "A change at home deserves the same care as a move.",
+      "route_title": "Check and test your change where you live",
+      "optional": true,
+      "can_skip": "Exploring a change where you live? This path replaces Parts 3, 4 and 5.",
+      "intro_title": "Exploring a change where you live? This path replaces Parts 3, 4 and 5.",
+      "intro": [
+        "Many changes happen where you already are: fewer working days, another job, your own business, more space, another home in the same area, more time outside. They change your money, your week and the people around you, just like a move does. This path checks that kind of change with the same care a mover gives a new country.",
+        "Start with the change you chose in Step 1: your staying option from Part 4, or the direction in your Working Direction. Use Parts 1 and 2 only if the place might change too. Then come back here."
+      ],
+      "time": "3–5 hours, plus a test",
+      "finish": {
+        "id": "explore_staying",
+        "title": "My Explore Summary (staying)",
+        "description": "Your change, checked and tested, and what comes next."
+      },
+      "result": "My Explore Summary (staying). Your change, checked and tested, and what comes next.",
+      "exercises": [
+        {
+          "id": "s2-s1",
+          "number": "S1",
+          "title": "Describe the change",
+          "start_here": {
+            "fields": [
+              {
+                "id": "change",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The change I want to explore"
+              },
+              {
+                "id": "gives",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What it should give me (from my Life Picture)"
+              },
+              {
+                "id": "keep",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What I keep: people, work, home and routines that already work"
+              },
+              {
+                "id": "still_hard",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What would stay difficult, even after this change"
+              }
+            ]
+          }
+        },
+        {
+          "id": "s2-s2",
+          "number": "S2",
+          "title": "The money check at the changed income",
+          "intro": [
+            "Redo your First Money Picture from Step 1 for the change. Use the income you would have after it: four days instead of five, a new salary, or the first year of your own business. As in Step 1, count confirmed and agreed income. Hoped income stays out."
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "money",
+                "type": "table",
+                "row_header": "What I check",
+                "row_labels": [
+                  "Income per month, after tax",
+                  "Costs per month",
+                  "Left over or short each month",
+                  "One-time costs of the change: a course, equipment, a gap in income",
+                  "Savings I keep as a reserve"
+                ],
+                "columns": [
+                  {
+                    "id": "now",
+                    "label": "Now",
+                    "kind": "money"
+                  },
+                  {
+                    "id": "after",
+                    "label": "After the change",
+                    "kind": "money"
+                  },
+                  {
+                    "id": "certainty",
+                    "label": "Known / estimate / unknown",
+                    "kind": "choice",
+                    "options": [
+                      "Known",
+                      "Estimate",
+                      "Unknown"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "tips": [
+            "Short each month after the change? That is not the end of the idea. It shows what to work on: lower costs, more certain income, or a later start. Step 3 checks the money again with your runway."
+          ]
+        },
+        {
+          "id": "s2-s3",
+          "number": "S3",
+          "title": "The rules at work or at home",
+          "intro": [
+            "A change where you live has rules too. They come from your contract, your employer, your landlord or your municipality. Write down what applies to your change, where you found it, and when."
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "rules",
+                "type": "table",
+                "row_header": "Question",
+                "row_labels": [
+                  "What does my contract or employer allow: fewer hours, remote work, unpaid leave?",
+                  "Notice periods or deadlines I must respect",
+                  "Do I need to register a business, or tell the tax office?",
+                  "Do I need permission for a change at home: renting out, building, a business from home?",
+                  "What does it mean for my pension, insurance or benefits?",
+                  "Who can I ask: HR, an accountant, the council?"
+                ],
+                "columns": [
+                  {
+                    "id": "found",
+                    "label": "What I found (and where)",
+                    "kind": "long_text"
+                  },
+                  {
+                    "id": "date",
+                    "label": "Date checked",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "watch_out": [
+            "This is expert work. Working fewer hours or starting a business can change your tax, your pension and your social security. Ask your employer, your pension fund or an adviser before you sign anything."
+          ]
+        },
+        {
+          "id": "s2-s4",
+          "number": "S4",
+          "title": "Time: who decides your week after the change?",
+          "intro": [
+            "In Step 1 you sorted your week into time fixed by others, must-dos and your own choice. Do it again for the week after the change. A change can free time, but it can also bring new must-dos: a business to run, a course, more admin."
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "week",
+                "type": "table",
+                "row_header": "My week",
+                "row_labels": [
+                  "Fixed by others",
+                  "Must-dos",
+                  "My choice",
+                  "New must-dos this change brings"
+                ],
+                "columns": [
+                  {
+                    "id": "now",
+                    "label": "Hours now",
+                    "kind": "number"
+                  },
+                  {
+                    "id": "after",
+                    "label": "Hours after the change",
+                    "kind": "number"
+                  },
+                  {
+                    "id": "certainty",
+                    "label": "Known / estimate / unknown",
+                    "kind": "choice",
+                    "options": [
+                      "Known",
+                      "Estimate",
+                      "Unknown"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "s2-s5",
+          "number": "S5",
+          "title": "The people involved",
+          "intro": [
+            "Talk to the people this change touches: your partner, your children, a manager, colleagues, clients or friends. Ask what it means for them and what they would need. Then find one person who already made a change like yours, and ask: what did you underestimate?"
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "people",
+                "type": "table",
+                "rows": 5,
+                "columns": [
+                  {
+                    "id": "who",
+                    "label": "Person",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "means",
+                    "label": "What this change means for them",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "needs",
+                    "label": "What they need",
+                    "kind": "text"
+                  },
+                  {
+                    "id": "agreed",
+                    "label": "What we agreed",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "s2-s6",
+          "number": "S6",
+          "title": "Test your change in real life",
+          "intro": [
+            "A visit tests a place. For a change where you live, you test the change itself: small, for a limited time, and before you commit. A good test is cheap and quick, and it can prove you wrong."
+          ],
+          "bullets": [
+            "Work four days for a month, using a holiday day each week.",
+            "Take one afternoon a week outside for six weeks.",
+            "Sell at a local market on three Saturdays before you start a business.",
+            "Live on your future income for two months, and save the difference."
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "test",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The change I test"
+              },
+              {
+                "id": "how",
+                "type": "long_text",
+                "lines": 2,
+                "label": "How I test it, and for how long"
+              },
+              {
+                "id": "costs",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What it costs: money, time, comfort"
+              },
+              {
+                "id": "questions",
+                "type": "long_text",
+                "lines": 3,
+                "label": "The three questions this test must answer"
+              },
+              {
+                "id": "dates",
+                "type": "short_text",
+                "label": "Start date and end date"
+              },
+              {
+                "id": "confirmed",
+                "type": "long_text",
+                "lines": 2,
+                "heading": "Write down what you learned while it is fresh.",
+                "label": "What the test confirmed"
+              },
+              {
+                "id": "changed",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What it changed"
+              },
+              {
+                "id": "still_test",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What I still need to test, and when"
+              }
+            ]
+          },
+          "example": {
+            "who": "Rosa, from Step 1",
+            "text": "For six weeks, I took Friday afternoon off as unpaid leave and spent it outside. Our budget held. By week three, the errands had moved into Friday, so the time was only half mine. Next test: Friday stays outside, and the errands move to Thursday evening."
+          }
+        },
+        {
+          "id": "s2-s7",
+          "number": "S7",
+          "title": "My Explore Summary (staying)",
+          "intro": [
+            "Bring your checks and your test together on one page. You make the decision in Step 3, where you check the change with the five green lights and finish with your Change Plan."
+          ],
+          "start_here": {
+            "fields": [
+              {
+                "id": "change",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The change I want to explore further"
+              },
+              {
+                "id": "gives_keeps",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What it should give me, and what I keep"
+              },
+              {
+                "id": "reasons",
+                "type": "long_text",
+                "lines": 3,
+                "label": "Three reasons it fits my picture"
+              },
+              {
+                "id": "not_give",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What it does not give me, and how I deal with that"
+              },
+              {
+                "id": "money",
+                "type": "long_text",
+                "lines": 2,
+                "label": "My income and costs after the change"
+              },
+              {
+                "id": "rules",
+                "type": "long_text",
+                "lines": 2,
+                "label": "Rules at work or home, and what I still need to check"
+              },
+              {
+                "id": "hours",
+                "type": "long_text",
+                "lines": 2,
+                "label": "My week: \"my choice\" hours now and after the change"
+              },
+              {
+                "id": "people",
+                "type": "long_text",
+                "lines": 2,
+                "label": "The people involved, and what they need"
+              },
+              {
+                "id": "test",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What my test showed"
+              },
+              {
+                "id": "unknowns",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What is still unknown"
+              },
+              {
+                "id": "choice",
+                "type": "single_choice",
+                "label": "What I choose now",
+                "options": [
+                  "Go further with this change",
+                  "Test it longer, or smaller",
+                  "Look at a move after all",
+                  "Keep the life I have"
+                ]
+              },
+              {
+                "id": "next_step",
+                "type": "short_text",
+                "label": "My next small step, within two weeks"
+              },
+              {
+                "id": "review_when",
+                "type": "short_text",
+                "label": "When I will review what I learned"
+              }
+            ]
+          },
+          "result_guide": {
+            "intro": "All four answers are good ones:",
+            "rows": [
+              [
+                "Go further with this change",
+                "Step 3 checks it with the five green lights and ends with your Change Plan."
+              ],
+              [
+                "Test it longer, or smaller",
+                "One more test is cheaper than a decision you have to undo. Set the end date now."
+              ],
+              [
+                "Look at a move after all",
+                "If the test showed that your change needs another place, go back to Part 1 or 2 with what you learned."
+              ],
+              [
+                "Keep the life I have",
+                "Write down what you want to protect, and why. That is a decision too."
+              ]
+            ]
+          }
+        }
+      ]
     }
   ],
   "closing": {
     "title": "What comes next",
-    "intro": "This step takes patience. You now know more about the place than photographs can show, and you have a clearer list of what still needs checking.",
+    "intro": "This step takes patience. This step takes patience. You now know more about your place or your change than you did at the start, and you have a clearer list of what still needs checking.",
     "bullets": [
       "Going further with a place? Step 3, Decide, turns it into a plan: money, timing, paperwork, and the order of things.",
       "Keeping two places open? Take both into Step 3. A plan on paper is the cheapest way to compare them.",
-      "Staying for now? Use \"If you decide to stay\", then take your change into Step 3: test it in Parts 1 to 4, and plan it in \"Your staying route\"."
+      "Changing your life where you live? Take your Explore Summary (staying) into Step 3. You check it with the five green lights there, and Step 3 ends with your Change Plan."
     ],
     "tips": [
       "Keep your Explore Summary somewhere easy to find. In a year, you can look back at what you expected and see what turned out to be true."

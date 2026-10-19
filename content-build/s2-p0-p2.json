@@ -13,7 +13,7 @@
     ],
     "time": "20–30 min",
     "route_title": "Write down what you are looking for",
-    "talk": "If you are moving with someone, each of you should complete this page separately. Then compare and talk about where your answers differ. Have that conversation now, before you arrive.",
+    "talk": "If you make this choice with someone, each of you should complete this page separately. Then compare and talk about where your answers differ. Have that conversation now, before anything changes.",
     "finish": {
       "id": "looking_for",
       "title": "What I Am Looking For",
@@ -124,7 +124,8 @@
               "lines": 4,
               "hint": "Now write the three things that matter most, in your own words. If a place cannot give you these three, it is not your place."
             }
-          ]
+          ],
+          "prompt": "Do not name a country yet. Describe the place your picture needs. Tick what is true for you. Exploring a change where you live? Tick it for where you live now: it shows what to protect and what to change."
         },
         "example": {
           "who": "Nadia, 41",
@@ -386,7 +387,10 @@
       "length": "12–16 min",
       "url": null
     },
-    "staying": "Do this part anyway, with your own country in it. Score it like any other, next to one or two countries that have crossed your mind. If your own country still comes out best, you have checked it instead of assuming it. That is a strong reason to stay."
+    "staying": "Exploring a change where you live?  Use this part only if another country is also on your mind. Then score your own country like any other. If it still comes out best, you have checked it instead of assuming it. If only your daily life needs to change, go to the staying path after Part 5.",
+    "tips": [
+      "Exploring a change where you live? Use this part only if another country is also on your mind. Then score your own country like any other. If it still comes out best, you have checked it instead of assuming it. If only your daily life needs to change, go to the staying path after Part 5."
+    ]
   },
   {
     "id": "s2-p2",
@@ -542,7 +546,7 @@
         "number": "2.3",
         "title": "Your region shortlist",
         "start_here": {
-          "prompt": "Choose two to four regions. Thinking of staying? Include the region where you live now. Score each factor: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty if you do not know yet, and add it to your research list.",
+          "prompt": "Choose two to four regions. Exploring a change where you live? Include the region where you live now. Score each factor: 2 = good for me, 1 = maybe, 0 = no. Leave a box empty if you do not know yet, and add it to your research list.",
           "fields": [
             {
               "id": "regions",
@@ -655,6 +659,9 @@
       "length": "10–14 min",
       "url": null
     },
-    "staying": "Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy."
+    "staying": "Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy.",
+    "tips": [
+      "Exploring a change where you live? Use this part only if the place might change. Is the region where you live now still the best place for your picture? Score it as Region 1, next to one or two other regions in your own country. Sometimes the change you need is a move an hour away: closer to nature, family, or work you enjoy."
+    ]
   }
 ]

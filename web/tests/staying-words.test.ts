@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   blueprintReport,
+  exploreStaying,
+  exploreStayingSheets,
   changePlanHeight,
   changePlanSheets,
   isStaying,
@@ -170,4 +172,36 @@ test("a full plan is two, rather than spilling onto a ragged page", () => {
   });
   assert.ok(changePlanHeight(full) > 900, `measured ${Math.round(changePlanHeight(full))}`);
   assert.equal(changePlanSheets(full), 2);
+});
+
+/*
+ * Step 2's staying route, from workbook Rev.01c. A person who checks a change
+ * where they live finishes with My Explore Summary (staying), and the Step 2
+ * document has to show it. Before this, their document was the moving one,
+ * which asks about a place they never chose.
+ */
+test("no staying summary, no extra sheets", () => {
+  assert.equal(exploreStaying({}).written, false);
+  assert.equal(exploreStayingSheets(exploreStaying({})), 0);
+});
+
+test("the staying summary is read from S7, and falls back to the pages behind it", () => {
+  const a: Answers = {
+    "s2-s1": { change: "Four days a week", gives: "Daylight after work", still_hard: "January" },
+    "s2-s6": { confirmed: "I used the evenings" },
+  };
+  const plan = exploreStaying(a);
+  assert.equal(plan.written, true);
+  assert.equal(plan.change, "Four days a week");
+  assert.equal(plan.test, "I used the evenings");
+  assert.equal(exploreStayingSheets(plan), 2);
+});
+
+test("what S7 says wins over the pages behind it", () => {
+  const a: Answers = {
+    "s2-s1": { change: "A first thought" },
+    "s2-s7": { change: "Four days a week, with Friday outdoors", choice: "Go further with this change" },
+  };
+  assert.equal(exploreStaying(a).change, "Four days a week, with Friday outdoors");
+  assert.equal(exploreStaying(a).choice, "Go further with this change");
 });

@@ -32,7 +32,6 @@
     "options": "mine",
     "5.1": "mine",
     "5.2": "ours",
-
     "s2-0.1": "mine",
     "s2-1.1": "read",
     "s2-1.2": "mine",
@@ -54,7 +53,6 @@
     "s2-5.1": "ours",
     "s2-5.2": "ours",
     "s2-5.3": "ours",
-
     "s3-0.1": "ours",
     "s3-1.1": "ours",
     "s3-1.2": "ours",
@@ -76,20 +74,41 @@
     "s3-5.4": "ours",
     "s3-5.5": "ours",
     "s3-5.6": "ours",
-    "change_plan": "ours"
+    "change_plan": "ours",
+    "s2-s1": "ours",
+    "s2-s2": "ours",
+    "s2-s3": "mine",
+    "s2-s4": "mine",
+    "s2-s5": "ours",
+    "s2-s6": "mine",
+    "s2-s7": "ours"
   },
   "mine_fields": {
     "note": "Fields inside a shared page that stay personal. A field is the unit an answer is stored under, so these need no new machinery: the page is shared, these boxes are not.",
-    "s3-2.2": ["biggest_fear"],
-    "s3-5.3": ["my_choice_hours", "blocks_back"],
-    "s3-5.4": ["what_i_need"]
+    "s3-2.2": [
+      "biggest_fear"
+    ],
+    "s3-5.3": [
+      "my_choice_hours",
+      "blocks_back"
+    ],
+    "s3-5.4": [
+      "what_i_need"
+    ]
   },
   "private_allowed": {
     "note": "Personal pages a person may keep private for good, even after both have written. Used from slice 2 (the comparison).",
-    "pages": ["2.3", "2.4", "3.1"]
+    "pages": [
+      "2.3",
+      "2.4",
+      "3.1"
+    ]
   },
   "agree_after": {
     "note": "Personal pages that ask for one agreed answer once both people have written: a working direction you share, and a decision you make together. Used from slice 2.",
-    "pages": ["5.1", "s3-4.2"]
+    "pages": [
+      "5.1",
+      "s3-4.2"
+    ]
   }
 }

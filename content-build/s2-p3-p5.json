@@ -318,7 +318,10 @@
       "title": "Part 3 · Check it from home",
       "length": "12–15 min",
       "url": null
-    }
+    },
+    "tips": [
+      "Exploring a change where you live? Skip Parts 3, 4 and 5. Your path continues with the staying path after Part 5: you check the change, test it in real life and write your Explore Summary (staying)."
+    ]
   },
   {
     "id": "s2-p4",
@@ -455,7 +458,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "In April and May 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited 25 plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. I eventually bought the third plot: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time. I signed a promissory contract in August 2024 and the deed at the notary in November. With a good lawyer, it went smoothly, and registering the sale took only about a month after that. With my financial plan already in place from Step 1, I felt comfortable committing when the opportunity came."
+          "text": "In the spring of 2024, I spent two months travelling through Portugal in a campervan. The trip cost about €4,000. I visited plots I had shortlisted and could stop wherever I wanted. I was surprised by how connected I felt to one region and how little I felt in another. No amount of reading could have told me that. Buying was not the plan for the trip. I visited 25 plots, with prices from about €30,000 to €200,000. Location, any area classified as urban (building) land, and existing buildings all affected the price. I eventually bought the third plot: 2.5 hectares. I felt at home on the land and in the surrounding area, and kept thinking about it as I visited the others. On a second visit, I met the owners. They showed me things I had missed the first time. I signed a promissory contract that summer, and the deed at the notary a few months later. With a good lawyer, it went smoothly, and registering the sale took only about a month after that. With my financial plan already in place from Step 1, I felt comfortable committing when the opportunity came."
         },
         "tips": [
           "I took two lessons from that trip. Visit a place twice before deciding: you notice more the second time. And compare several places. Seeing the other plots helped me understand why the third one felt right."
@@ -544,7 +547,10 @@
       "title": "Part 4 · Test it in real life",
       "length": "8–12 min",
       "url": null
-    }
+    },
+    "tips": [
+      "Exploring a change where you live? Your real-life test is in the staying path, after Part 5."
+    ]
   },
   {
     "id": "s2-p5",
@@ -690,7 +696,11 @@
         "title": "If you decide to stay",
         "optional": true,
         "intro": [
-          "You may discover that the life you want does not require another country. If you scored where you live now in Part 1 or Part 2 and it came out best, you have checked that, not assumed it. Staying is a real result. Your answers usually point to one of four things:"
+          "You may discover, after Parts 3 to 5, that the life you want does not require another country. Staying is a real result. Your answers usually point to one of four things:",
+          "What I want is here, but my life needs to be organised differently. Focus on time, work, home and people, and take that change through the staying path below.",
+          "What I want is somewhere else, but the time is not right. Look at what needs to change in money, family, work or health. Write down what must be in place before you go, and by when.",
+          "I wanted a change more than a different place. Use your Life Picture from Step 1 to choose one concrete change, and take it through the staying path below.",
+          "What I want is in my own country, but in another region. Take your region shortlist from Part 2 into Step 3, and plan it like any other move: the money, the timing and the people involved."
         ],
         "intro_bullets": [
           "What I want is here, but my life needs to be organised differently. Focus on time, work, home and people.",
@@ -733,7 +743,8 @@
         },
         "tips": [
           "Put a review date in your calendar today. A decision to wait is only a decision if it has a date."
-        ]
+        ],
+        "kicker": "Leaning towards staying?"
       }
     ],
     "result": "My Explore Summary. One place, one honest picture, and your decision about what comes next.",
@@ -741,6 +752,9 @@
       "title": "Part 5 · Bring it together",
       "length": "8–10 min",
       "url": null
-    }
+    },
+    "tips": [
+      "Exploring a change where you live? Your summary is My Explore Summary (staying), at the end of the staying path."
+    ]
   }
 ]

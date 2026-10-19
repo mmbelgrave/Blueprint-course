@@ -707,3 +707,37 @@ export const hasSecondVoice = (t: Together) =>
 /** Both names, for the cover and the foot: "Mwata and Renata". */
 export const bothNames = (mine: string, theirs: string | null) =>
   theirs ? `${mine} and ${theirs}` : mine;
+
+/* ────────────────────── the staying route, in Step 2 ────────────────────── */
+
+export type ExploreStaying = ReturnType<typeof exploreStaying>;
+
+/**
+ * My Explore Summary (staying), from S7 (workbook Rev.01c).
+ *
+ * The same rule as everywhere else in this file: every word is the person's
+ * own, and a page they did not write produces no sheet at all.
+ */
+export function exploreStaying(a: Answers) {
+  const f = (field: string) => text(a, "s2-s7", field);
+  const plan = {
+    change: f("change") || text(a, "s2-s1", "change"),
+    gives: f("gives_keeps") || text(a, "s2-s1", "gives"),
+    reasons: f("reasons"),
+    notGive: f("not_give") || text(a, "s2-s1", "still_hard"),
+    money: f("money"),
+    rules: f("rules"),
+    hours: f("hours"),
+    people: f("people"),
+    test: f("test") || text(a, "s2-s6", "confirmed"),
+    unknowns: f("unknowns"),
+    choice: f("choice"),
+    nextStep: f("next_step"),
+    reviewWhen: f("review_when"),
+  };
+  const written = Boolean(plan.change || plan.reasons || plan.test || plan.choice);
+  return { ...plan, written };
+}
+
+/** One sheet or two, or none when nobody took the staying path. */
+export const exploreStayingSheets = (plan: ExploreStaying): number => (plan.written ? 2 : 0);

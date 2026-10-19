@@ -8,11 +8,13 @@
  */
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Rule, RunningHead, Sheet, Standfirst } from "./chrome";
 import { AmountBars, Hub, Quote, ScoreBars, Statement, money } from "./charts";
-import type { Step2, Together } from "@/lib/report";
+import { exploreStayingSheets, type ExploreStaying, type Step2, type Together } from "@/lib/report";
+import { ExploreStayingSheets } from "./explore-staying";
 import { SideBySide } from "./two-voices";
 
 export function Step2Doc({
   r,
+  staying,
   two,
   mine = "",
   who,
@@ -20,6 +22,8 @@ export function Step2Doc({
   currency,
 }: {
   r: Step2;
+  /** The staying route's own summary, when they took that path (Rev.01c). */
+  staying?: ExploreStaying;
   /** The other person's answers, when there is one (6.8 slice 3). */
   two?: Together;
   /** This person’s own name, for the blocks that name both. */
@@ -28,7 +32,11 @@ export function Step2Doc({
   when: string;
   currency: string;
 }) {
-  const foot = (n: number) => <PageFoot who={who} page={n} of={3} />;
+  // The staying summary adds its own sheets, so the page count follows the
+  // route this person actually took.
+  const extra = staying ? exploreStayingSheets(staying) : 0;
+  const of = 3 + extra;
+  const foot = (n: number) => <PageFoot who={who} page={n} of={of} />;
   const scores = r.regions.length > 0 ? r.regions : r.countries;
   // The one they chose, which is not always the one with the highest total.
   const chosen = scores.find((s) => r.chose.toLowerCase().includes(s.label.toLowerCase()))?.label;
@@ -205,6 +213,9 @@ export function Step2Doc({
         </Body>
         {foot(3)}
       </Sheet>
+
+      {/* The staying route’s own result, when that is the route they took. */}
+      {staying && <ExploreStayingSheets plan={staying} who={who} when={when} page={4} of={of} />}
     </>
   );
 }

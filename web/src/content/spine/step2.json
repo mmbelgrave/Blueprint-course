@@ -601,6 +601,246 @@
           ]
         }
       ]
+    },
+    {
+      "id": "s2-p6",
+      "number": 6,
+      "label": "The staying path",
+      "title": "Check and test your change",
+      "optional": true,
+      "time": "3–5 hours, plus a test",
+      "finish": {
+        "id": "explore_staying",
+        "title": "My Explore Summary (staying)",
+        "description": "Your change, checked and tested, and what comes next."
+      },
+      "exercises": [
+        {
+          "id": "s2-s1",
+          "number": "S1",
+          "title": "Describe the change",
+          "fields": [
+            {
+              "id": "change",
+              "type": "long_text"
+            },
+            {
+              "id": "gives",
+              "type": "long_text"
+            },
+            {
+              "id": "keep",
+              "type": "long_text"
+            },
+            {
+              "id": "still_hard",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s2-s2",
+          "number": "S2",
+          "title": "The money check at the changed income",
+          "fields": [
+            {
+              "id": "money",
+              "type": "table",
+              "row_count": 5,
+              "columns": [
+                {
+                  "id": "now",
+                  "kind": "money"
+                },
+                {
+                  "id": "after",
+                  "kind": "money"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-s3",
+          "number": "S3",
+          "title": "The rules at work or at home",
+          "fields": [
+            {
+              "id": "rules",
+              "type": "table",
+              "row_count": 6,
+              "columns": [
+                {
+                  "id": "found",
+                  "kind": "long_text"
+                },
+                {
+                  "id": "date",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-s4",
+          "number": "S4",
+          "title": "Time: who decides your week after the change?",
+          "fields": [
+            {
+              "id": "week",
+              "type": "table",
+              "row_count": 4,
+              "columns": [
+                {
+                  "id": "now",
+                  "kind": "number"
+                },
+                {
+                  "id": "after",
+                  "kind": "number"
+                },
+                {
+                  "id": "certainty",
+                  "kind": "choice"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-s5",
+          "number": "S5",
+          "title": "The people involved",
+          "fields": [
+            {
+              "id": "people",
+              "type": "table",
+              "rows": 5,
+              "columns": [
+                {
+                  "id": "who",
+                  "kind": "text"
+                },
+                {
+                  "id": "means",
+                  "kind": "text"
+                },
+                {
+                  "id": "needs",
+                  "kind": "text"
+                },
+                {
+                  "id": "agreed",
+                  "kind": "text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "s2-s6",
+          "number": "S6",
+          "title": "Test your change in real life",
+          "fields": [
+            {
+              "id": "test",
+              "type": "long_text"
+            },
+            {
+              "id": "how",
+              "type": "long_text"
+            },
+            {
+              "id": "costs",
+              "type": "long_text"
+            },
+            {
+              "id": "questions",
+              "type": "long_text"
+            },
+            {
+              "id": "dates",
+              "type": "short_text"
+            },
+            {
+              "id": "confirmed",
+              "type": "long_text"
+            },
+            {
+              "id": "changed",
+              "type": "long_text"
+            },
+            {
+              "id": "still_test",
+              "type": "long_text"
+            }
+          ]
+        },
+        {
+          "id": "s2-s7",
+          "number": "S7",
+          "title": "My Explore Summary (staying)",
+          "fields": [
+            {
+              "id": "change",
+              "type": "long_text"
+            },
+            {
+              "id": "gives_keeps",
+              "type": "long_text"
+            },
+            {
+              "id": "reasons",
+              "type": "long_text"
+            },
+            {
+              "id": "not_give",
+              "type": "long_text"
+            },
+            {
+              "id": "money",
+              "type": "long_text"
+            },
+            {
+              "id": "rules",
+              "type": "long_text"
+            },
+            {
+              "id": "hours",
+              "type": "long_text"
+            },
+            {
+              "id": "people",
+              "type": "long_text"
+            },
+            {
+              "id": "test",
+              "type": "long_text"
+            },
+            {
+              "id": "unknowns",
+              "type": "long_text"
+            },
+            {
+              "id": "choice",
+              "type": "single_choice"
+            },
+            {
+              "id": "next_step",
+              "type": "short_text"
+            },
+            {
+              "id": "review_when",
+              "type": "short_text"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

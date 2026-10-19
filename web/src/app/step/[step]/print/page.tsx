@@ -25,7 +25,16 @@ import { Body, Footnote, Headline, Kicker, PageFoot, RunningHead, Sheet } from "
 import { Step1Doc } from "@/components/report/step1";
 import { Step2Doc } from "@/components/report/step2";
 import { Step3Doc } from "@/components/report/step3";
-import { bothNames, changePlan, step1Report, step2Report, step3Report, togetherReport, type Answers } from "@/lib/report";
+import {
+  bothNames,
+  changePlan,
+  exploreStaying,
+  step1Report,
+  step2Report,
+  step3Report,
+  togetherReport,
+  type Answers,
+} from "@/lib/report";
 import { usePair } from "@/lib/pair-client";
 import { stepsFinished } from "@/lib/blueprint";
 import { getStep, partItems, PRODUCT, type StepContent } from "@/lib/content";
@@ -178,6 +187,7 @@ function Document({ step }: { step: StepContent }) {
       {n === 2 && (
         <Step2Doc
           r={step2Report(a)}
+          staying={exploreStaying(a)}
           two={two}
           mine={mine}
           who={who}
