@@ -173,6 +173,27 @@ async function sweepWithdrawals(
     amount_cents: number | null;
     currency: string | null;
   })[]) {
+    /*
+      * A purchase that is open again, with no end date on it, is somebody who
+      * changed their mind (R7-2). The sweep leaves it alone rather than
+      * taking the access away a second time, whatever the withdrawal row
+      * still says.
+      */
+    if (row.entitlement_id) {
+      const { data: live } = await admin
+        .from("entitlements")
+        .select("status, ended_at")
+        .eq("id", row.entitlement_id)
+        .maybeSingle();
+      if (live && live.status === "active" && !live.ended_at) {
+        await admin
+          .from("withdrawals")
+          .update({ status: "cancelled", note: "The purchase is open again; the withdrawal was not carried out." })
+          .eq("id", row.id);
+        continue;
+      }
+    }
+
     const acts = sweepActs(row, now);
     if (acts.length === 0) continue;
     if (dry) {

@@ -1337,3 +1337,415 @@ answer the same way.
 **Checked after**: 223 tests (including the new gate tests and the rewritten
 conflict tests), typecheck, lint, and a production build with all five routes
 in it.
+
+# Review round 7 — LLM2 (Reviewer), 2026-10-19
+
+`git diff b71674e..HEAD` on main (152 files, 10,539 insertions, 892 deletions — the brief rounds this to 151 and ~10,350),
+read against `REVIEW-BRIEF-round-7.md`, the three migrations in `web/supabase/`
+and the three workbooks in `Belgrave, M.M/My Purpose/`. The app is live and all
+three migrations are on the live database, so **§ Needs a migration or a hand
+repair** below is kept separate from the code findings.
+
+Nothing was edited. Everything I measured was measured against a local preview
+on throwaway fixtures outside the repository; the one script I ran against a
+modified content file ran against a copy in a scratch folder, not against
+`step3-content.json`.
+
+Where the brief says "I wrote both, so check them", I checked them. Two of
+LLM1's beliefs are right, one attack lands harder than he expected, and the
+two findings I would act on first are not on his list at all.
+
+## Confirmed
+
+### R7-1. Anybody can end a stranger's access by typing their email address, and the sweep then deletes their account (HIGH)
+
+- **Where:** `src/app/api/withdraw/route.ts:133` (POST, no session required),
+  `:166-168` (the address typed wins over the session), `:224` and `:250-251` (the row,
+  then `entitlements.ended_at`), `src/app/api/retention/route.ts:217-229`
+  (`delete-data`), `src/lib/withdrawal.ts:329-346` (`sweepActs`).
+- **What happens:** an unauthenticated `POST /api/withdraw` with a body of
+  `{"email":"someone@else.com"}` is accepted. Nothing proves the sender owns
+  that address. If the address belongs to an account with an active purchase,
+  the route writes `entitlements.ended_at` three days out (`:251`), and the
+  access rules (`src/lib/access.ts:42-43`) then refuse that purchase from the
+  third day on. Thirty days after that, the daily sweep's `delete-data` branch
+  deletes the whole account — answers, pictures, chats, notes — on day 33.
+- **Why the design does not stop it:** three defences exist and none of them
+  stops the first request, which is the one that does the damage. The
+  confirmation email goes to the victim, who has three days to notice it and
+  reply; the "one open request per address" rule (`:173-190`) then works for
+  the attacker, because the victim's own request returns the `already` branch
+  and writes nothing; and the per-address limit of five a day is keyed on an
+  address the attacker chooses.
+- **This is not promise 3's fault.** "A withdrawal is never refused" is right,
+  and the row should still be written for anything that arrives. What does not
+  have to follow from an unverified request is the write at `:251`. A signed-in
+  owner's request can end access immediately; a public one can write the row,
+  send the letter, and leave `ended_at` null until either the owner confirms
+  through a link in that letter or Mwata matches it by hand — which is already
+  what happens to every public request that matches nothing.
+- **How to check a fix:** signed out, `curl -X POST /api/withdraw` with a real
+  customer's address, then read that customer's `entitlements` row. Expect
+  `ended_at` still null, a withdrawal row present, and the letter sent.
+
+### R7-2. Undoing a withdrawal by hand does not survive the next sweep, and the account is deleted anyway (HIGH)
+
+- **Where:** `src/app/api/retention/route.ts:155-160` (every row that is not
+  `cancelled`, every day, forever), `:203-213` (`revoke`), `:217-229`
+  (`delete-data`), `src/app/api/admin/entitlements/route.ts:40` (the repair
+  button), and nothing anywhere that writes `withdrawals.status = 'cancelled'`.
+- **What happens:** the withdrawal letter says "If you did not make this
+  request, reply to this email and we will stop it." The tool for stopping it
+  is the admin entitlements route, which sets `status: "active", ended_at:
+  null`. That repairs access — until the next sweep. The sweep re-reads the
+  withdrawal row, sees `access_ends_at` in the past, sets the entitlement back
+  to `revoked`, and once 30 days have passed since `access_ends_at` runs
+  `delete-data` in the same pass. The "bought again" guard at `:227` reads the
+  entitlement rows *after* that same run's revoke, so it sees `revoked`,
+  `counts()` is false, and `deleteEverything` runs.
+- **Impact:** the only correct repair is `update withdrawals set status =
+  'cancelled'` in SQL. There is no button for it — the admin board lists
+  withdrawals read-only (`src/app/admin/page.tsx:554`). Somebody who presses
+  the button that looks like the repair will believe they fixed it and lose the
+  person's account a month later.
+- **Severity:** high because it is silent, delayed, and destroys data that
+  cannot be restored (the privacy pages say truthfully that there are no
+  backups).
+- **How to check a fix:** with a test account, file a withdrawal, restore the
+  entitlement with the admin route, then run `/api/retention?dry=1` and expect
+  no acts for that row. A `cancelled` status written by the same repair, or a
+  sweep that skips a withdrawal whose entitlement is active again, both close
+  it.
+
+### R7-3. The `already` branch tells a stranger whether an address bought the course (MEDIUM — this is promise 4)
+
+- **Where:** `src/app/api/withdraw/route.ts:173-190`.
+- **What is wrong:** the branch returns `requestedAt`, `accessEndsAt` and
+  `refundDeadline` to whoever asks, signed in or not. `accessEndsAt` is
+  non-null only when the address matched a purchase that was still active
+  (`:224`). So a caller who files one withdrawal for an address and then files
+  a second learns, from `accessEndsAt` being a date rather than null, that the
+  address holds a real purchase. The file's own header says the opposite: "The
+  screen a stranger sees never says whether the address matched a purchase."
+- **It is also outside the rate limit.** The branch returns at `:183`, before
+  the counting at `:192-207`, so it can be polled without limit.
+- **Fix:** return the same neutral shape as a first public request —
+  `{requestedAt, refundDeadline, emailed}` and nothing about access — and keep
+  the dates for the signed-in branch, which already knows who it is talking to.
+- **How to check:** signed out, POST the same address twice and diff the two
+  JSON bodies. They should be indistinguishable.
+
+### R7-4. A mover who has not named a place loses the three sheets they filled in (MEDIUM — this is attack 5)
+
+- **Where:** `src/lib/report.ts:555-561` (`movingWritten`),
+  `src/components/report/step2.tsx:44-45` (`movingSheets`, `of`).
+- **What is wrong:** `movingWritten` looks at five things — `s2-5.1.place`,
+  `s2-5.1.choice`, and the row tables of `s2-1.2`, `s2-2.3` and `s2-3.1`. The
+  three moving sheets read far more than that: the hub of travel times comes
+  from `s2-3.3.daily` (`:509-517`), and `monthlyCost`, `incomeThere`, `legal`,
+  `unknowns`, `nextStep` and `reviewWhen` all come from other fields of
+  `s2-5.1` (`:562-567`). None of those six counts as "written".
+- **Measured, in the preview:** two fixtures identical except for one field.
+  Both have the daily-life check filled in (hospital 25 min, work 20 min, shops
+  8 min, airport 1 h 10), the legal check, the monthly cost, the income, the
+  unknowns and the next step, plus staying answers on S1 to S7.
+
+  | `s2-5.1.place` | sheets printed | what is on them |
+  | --- | --- | --- |
+  | empty | 2 | the staying summary only |
+  | `"Central Portugal, near Tomar"` | 5 | the hub, "What I learned here", "The next checks", then the staying summary |
+
+  The person in the first row wrote everything the person in the second row
+  wrote. Three sheets of it are simply not printed, and the footer says 01 / 02,
+  so nothing on the page suggests anything is missing.
+- **Who hits it:** somebody who has done the research but has not settled on a
+  place — which is the ordinary state of a Step 2 reader — and who also looked
+  at the staying path. The staying content is what flips `extra` to 2 and lets
+  `movingSheets` go false.
+- **Fix:** decide it from what the sheets actually read. `movingWritten` should
+  be true when any of `spokes`, `countries`, `regions`, `guess`, `found`,
+  `income`, `monthlyCost`, `incomeThere`, `legal`, `unknowns`, `place` or
+  `choice` has something in it.
+- **How to check:** the two fixtures above, or in the app: fill 3.3 and the
+  money boxes of 5.1, fill S1, leave 5.1's place empty, and print Step 2.
+
+### R7-5. Long answers run past A4 on two Step 3 sheets, and the splitting rule cannot help (MEDIUM — this is attack 4)
+
+- **Where:** `src/lib/report.ts:672-682` (`changePlanHeight`,
+  `changePlanSheets`), `src/components/report/change-plan.tsx:32-95` (what the
+  split moves), `src/components/report/step3.tsx:173-209` (sheet four, which
+  has no rule at all).
+- **Measured:** every sheet's own `offsetHeight` against the A4 box of 1123px,
+  in the preview at a 1280×1400 viewport (the same box the project's print
+  script uses).
+
+  | Step 3 sheet | Sample B | long answers |
+  | --- | --- | --- |
+  | 1 the decision | 1123 | 1123 |
+  | 2 money | 1123 | 1123 |
+  | 3 risk and a way back | 1123 | 1123 |
+  | 4 the order I will do this in | 1123 | **1212 (+89)** |
+  | 5 my change plan (1 of 2) | 1123 | **1205 (+82)** |
+  | 6 what it rests on (2 of 2) | 1123 | **1130 (+7)** |
+
+  Sample B is exactly 1123 on all six, which is what LLM1 measured and is
+  correct. The long fixture uses five timeline steps — the table's own cap at
+  `report.ts:652`, not an unrealistic number — and fills every change-plan box,
+  2,764 characters in all. `changePlanHeight` returns 1,997 for it, so the
+  split *was* applied; sheet 1 still overflowed, because the split only moves
+  the money, the people and Plan B to sheet 2 and leaves the headline, the pull
+  quote, "In place by", "What I keep", "The small test I run first" and all five
+  steps on sheet 1. There is no three-sheet option.
+- **Impact:** a printed page with the footer in the wrong place and the last
+  lines cut, or a ragged extra page from the browser's own pagination. It is
+  the person's own plan that is cut.
+- **Fix, in order of honesty:** measure instead of estimating (render, read
+  `offsetHeight`, then decide), or let the plan run to three sheets, or move
+  "What I keep" and "The small test" to the second sheet when the steps are
+  many. Sheet four needs a rule of its own either way.
+- **How to check:** the fixture is `change_plan` with every box at 250 to 400
+  characters and five rows in `s3-5.1.steps`; print Step 3 and read each
+  sheet's `offsetHeight`.
+
+### R7-6. The consent record proves the two ticks, not the disclosure the person read (MEDIUM)
+
+- **Where:** `src/lib/consent.ts:19-20` ("Bump this when any wording below
+  changes") and `:38-47` (`CONSENT_TEXT`), against
+  `src/components/ai-consent.tsx:121-136`.
+- **What is wrong:** the version covers the two checkbox sentences. The
+  material facts are not in them. "Anthropic… is in the United States", "it
+  does not use what you write to train its models", "it deletes what it
+  receives within 30 days" and the link to the notes all live in the component,
+  outside `CONSENT_TEXT` and outside the version. Change the sub-processor, the
+  30 days or the training sentence and every stored row still says
+  `2026-10-19`, nobody is asked again, and the record no longer shows what was
+  agreed to.
+- **Why it matters here:** this is the one table whose whole purpose is to be
+  evidence later. Everything else about it is right — append-only, server-side,
+  session-bound — and this is the gap in it.
+- **Fix:** move those paragraphs into `consent.ts` next to `WORDING_VERSION`,
+  so "below" is true, and render them from there. A hash of the rendered screen
+  stored on the row would be stronger still.
+
+### R7-7. The privacy page promises a three-year consent record that deleting an account destroys (MEDIUM)
+
+- **Where:** `src/app/privacy/page.tsx:143-146` — "What you agreed to, when,
+  and the wording you read are kept for 3 years after that consent ends" —
+  against `web/supabase/2026-10-18-consents.sql:25`, `user_id … on delete
+  cascade`.
+- **What is wrong:** deleting the account deletes the consent rows the same
+  second. The brief's decision 3 covers the deletion itself, and I am not
+  reporting that as a bug. What is a defect is the published sentence, which is
+  live and states a retention the code does not keep. One of the two has to
+  change, and the sentence is the cheaper one while the lawyer has not answered.
+- **If the FK is the one that changes, it needs a migration** — see below.
+
+### R7-8. A staying reader who has only started gets two near-empty A4 sheets (LOW–MEDIUM)
+
+- **Where:** `src/lib/report.ts:822` (`exploreStayingSheets` is 2 whenever
+  `written`), `:817` (`written` is true from `change` alone, and `change`
+  falls back to `s2-s1.change`).
+- **Measured:** with `s2-s1.change` set and nothing else on the staying pages,
+  Step 2 prints two sheets. Sheet 1 is a cover line and the headline "The
+  change, and what it rests on"; sheet 2 is the headline "The rules, the people,
+  and the test" followed only by the standing sentence about Step 3. Total text
+  on the two sheets: 220 and 222 characters, most of it furniture.
+- **Impact:** the mover's document is sized from an estimate; the stayer's is
+  not sized at all. This is the "half-empty sheet" half of attack 4, and it
+  lands on the route the repositioning is for.
+- **Fix:** require more than `change` before printing anything (`reasons`,
+  `test` or `choice`, as `written` already suggests), and fold the second sheet
+  into the first when the blocks it carries are empty.
+
+### R7-9. "Special categories" can be recorded on its own through the API (LOW)
+
+- **Where:** `src/app/api/consent/route.ts:44-48`.
+- **What happens:** `if (answer.ai === false) answer.ai_special = false` only
+  fires when `ai:false` is in the *same* request. `POST {"special":true}` alone
+  writes a granted `ai_special` row whatever the `ai` row says, and
+  `consentState` will then report `special: true` with `ai: false`.
+- **Not reachable from the screens.** The settings box is only rendered when
+  `state.ai` (`consent-settings.tsx:74`), and the consent screen sends
+  `special: ai && special` (`ai-consent.tsx:110`). I checked the pair LLM1
+  asked about and his belief is right: switching the first box off in Settings
+  sends `{ai:false}` and the route forces the special row off with it; switching
+  it back on later does not revive it, because the newest special row is a
+  refusal.
+- **Fix:** make the invariant the route's, not the caller's — ignore `special`
+  unless the stored or incoming `ai` is granted.
+
+### R7-10. After a wording change the app tells people they switched their AI partner off (LOW — this is attack 1)
+
+- **Where:** `src/lib/consent.ts:124` (`SWITCHED_OFF`), used at
+  `draft/route.ts:45`, `partner/route.ts:62`, `profile/route.ts:30`.
+- **What happens when `WORDING_VERSION` changes, confirmed by reading the
+  rules:** `mustAsk` goes true for everybody, `aiAllowed` goes false, and the
+  next AI request is refused — which is what LLM1 believed, and it is right.
+  The panel shows the consent screen again on the next load
+  (`PartnerPanel.tsx:98-106`). But a page already open gets the 403 text "Your
+  AI partner is switched off. You can switch it on again in My settings", which
+  is not what happened: they did not switch anything off, and Settings will show
+  the box already ticked at the old wording.
+- **Why it matters today rather than in theory:** `consents` is empty on the
+  live database, so this is the message every existing customer meets on their
+  first AI request after this deploy if their panel was already open.
+- **Fix:** give the version-bump case its own sentence ("We have updated what
+  we ask you to agree to — please read it again"), and let the client reload the
+  consent state on a 403 so the screen appears without a page refresh.
+
+### R7-11. A recorded travel time of "1 h 10" prints as "1 h" (LOW)
+
+- **Where:** `src/lib/report.ts:356-370` (`travelTime`), used by the hub at
+  `:509-517`.
+- **What happens:** the loop returns on the first number-and-unit it finds, so
+  "1 h 10" becomes "1 h" and "1 hour 40" becomes "1 h". The footnote under the
+  hub says "Travel times as I recorded them", which is then not quite true, and
+  the error is always in the flattering direction.
+- **Fix:** take a trailing number as minutes when the unit was hours, or print
+  the answer as recorded when it does not parse cleanly.
+
+## Promise by promise
+
+| | Promise | Verdict |
+| --- | --- | --- |
+| 1 | No word reaches Anthropic without a consent record | **Holds.** Three routes import the SDK (`draft`, `partner`, `profile`), each calls `mayUseAi` before the client is built (lines 45/78, 62/144, 30/46), the admin view asks `mayFounderRead` (`admin/participants/[id]/route.ts:25`), and there is no fourth caller of `anthropicClient()`. Note the test only asserts that `mayUseAi(` appears somewhere in the file (`tests/gates.test.ts:87`), so it would pass if the gate ran after the call; today the order is right in all three. |
+| 2 | A consent record cannot be forged or quietly changed | **Holds.** The route takes the id from the session and the body cannot carry one (`api/consent/route.ts:33-56`); the table has a select-only policy and no insert policy, and the trigger refuses UPDATE (`2026-10-18-consents.sql`). Live, signed out: 0 rows readable, writes refused with 42501. |
+| 3 | A withdrawal is never refused | **Holds.** The only exits are 400 (unreadable body, no address), 429, 500 and 503, and the row is written before any matching. See R7-1: the problem is not a refusal, it is what an unverified acceptance is allowed to write. |
+| 4 | A stranger's screen never reveals whether an address bought anything | **Broken in one branch** — R7-3. The first-request path is clean. |
+| 5 | Access ends three calendar days later, the refund is unaffected | **Holds.** `accessEndsAt` is the last second of the third day in Lisbon, `ended_at` carries it, `counts()` reads it (`access.ts:42-43`), and both entitlement queries select it. The sweep only tidies — except in R7-2, where tidying goes further than tidying. |
+| 6 | Order and withdrawal records outlive "Delete everything" | **Holds.** `withdrawals.user_id` and `entitlement_id` are `on delete set null` (`2026-10-19-withdrawals.sql:43-44`), `entitlements.user_id` likewise (`:85-101`), and `deleteEverything` only removes pictures, ends the seat and deletes the auth user. |
+| 7 | The workbook's words are not in any public file | **Holds, and I tested the gate rather than trusting it.** I planted a real Step 3 passage in `.next/static/chunks/__leak-test.js`; `check-public-bundle.mjs` exited 1 and named the file. Removed, re-run, clean: "25 passages checked against 93 public files". It runs as `postbuild`, so the deploy fails. |
+| 8 | A person who stays is never second class | **Mostly holds, two gaps.** Their own two sheets print, `isStaying` and `inPlaceLine` name the change and not a move, S7 is draftable (`drafts.ts:27-37`, every field id still present in the content) and the memory field is "places, or a change where you live" (`profile-fields.ts:18`). The gaps are R7-8 (their document is the only one not sized) and R7-5 (their change plan is the sheet that overflows). |
+| 9 | Every answer already written still belongs to its field | **Holds.** Field ids were diffed across all three content files: the only removal is Step 1's `learn_next`, `assumptions` kept its id, nothing in `web/src` reads `learn_next`, and 0 of the 20 live answer rows contain it. |
+
+## Attack by attack
+
+1. **The consent version gate.** Both of LLM1's beliefs are right: the next
+   request is refused, and `ai_special` is forced false when the first box is
+   switched off. Two leftovers: R7-10 (the refusal says the wrong thing) and
+   R7-9 (the forcing is per-request, not an invariant).
+2. **The rate limit.** Yes, a person can be locked out by somebody else, and
+   the global ceiling is the smaller half of it. The sharper one is the "one
+   open request per address" rule: once anybody has filed for your address, your
+   own request takes the `already` branch and writes nothing, so the person who
+   needs the 14-day deadline cannot file. The trade is the right one for the
+   global ceiling — thirty in ten minutes is generous and an owner who is
+   refused can email — but I would exempt a signed-in owner's request from the
+   ceiling and let it supersede an open public row rather than be absorbed by it.
+3. **S7 against S1.** Not backwards anywhere. `exploreStaying` reads
+   `f("change") || text(a,"s2-s1","change")`, and the same shape for `gives`,
+   `not_give` and `test` (`report.ts:800-806`): S7 wins and the earlier page is
+   only a fallback. `changePlan` reads `change_plan` directly with no fallback at
+   all, so there is nothing to get backwards.
+4. **The sheet-splitting rules.** Lands — R7-5 for the overflow and R7-8 for
+   the half-empty sheet.
+5. **`movingWritten`.** Lands in the direction LLM1 feared most — R7-4,
+   somebody loses pages of their own work. The other direction is safe:
+   `movingSheets` is `r.movingWritten || extra === 0`, so a person with nothing
+   written still gets the three sheets rather than none.
+6. **The daily sweep.** One other way, and it is R7-2. The "bought again" guard
+   itself is sound for the case it was written for, but it reads the entitlement
+   after the same run's revoke, which is why a hand repair does not survive.
+7. **The content pipeline.** Both run, both honest. `check-together`: 76 pages,
+   all accounted for (32 mine, 41 ours, 3 read). I added an unclassified
+   exercise to a scratch copy of `step3-content.json` and it exited 1 naming the
+   page, so the gate is real. `check-content` against the two workbooks LLM1
+   changed this round, extracted from the .docx myself: Step 3 Rev.01b, 781
+   workbook sentences against 818 app sentences, 14 and 11 unmatched; Step 2
+   Rev.01c, 859 against 892, 31 and 8. I read every unmatched line. They are
+   front matter (the copyright line, "your answers are your own"), printed-book
+   furniture ("How this workbook works", "Where to check it yourself:", "Can you
+   skip this part?"), and labels the app splits differently from the book — the
+   four S7 choices, for instance, are in the app as `options` and in the book as
+   four sentences that continue past the label. LLM1's description of what
+   remains is accurate; his counts I can now confirm rather than take on trust.
+
+## Needs a migration or a hand repair (live database)
+
+Nothing in this round's findings needs a migration to fix. Two things need the
+live database touched by hand, and they should be done before or separately
+from any deploy:
+
+1. **If any withdrawal has to be undone, the row must be cancelled in SQL**
+   (R7-2). Restoring the entitlement is not enough and is actively undone:
+   ```sql
+   update public.withdrawals set status = 'cancelled' where id = <id>;
+   ```
+   and only then restore the purchase with the admin route. Until R7-2 is
+   fixed, treat "reply to this email and we will stop it" as a two-step repair.
+2. **R7-7 is a choice between a sentence and a migration.** Changing the
+   privacy text needs no migration. Keeping the three-year promise instead
+   means `consents.user_id` going to `on delete set null` plus a sweep that
+   deletes consent rows three years after the consent ended — a migration on a
+   live table, and one the lawyer's answer may make unnecessary. I would change
+   the sentence now and revisit when he answers.
+
+No rollback of the three migrations is needed for anything I found. The
+`withdrawals` table, the `consents` table and the nullable
+`entitlements.user_id` are all doing what the brief says they do.
+
+## Checks that ran
+
+- `npm test` — 315 tests, 315 pass, 0 fail. `npx tsc --noEmit` clean. `npm run
+  lint` clean. `npm run build` clean, and `postbuild` reported "public bundle:
+  clean. 25 passages checked against 93 public files."
+- The planted leak described under promise 7, and its removal.
+- Live, with the anon key and no session: `consents` and `withdrawals` return 0
+  rows; inserts are refused with 42501. `consents` is empty, so every AI request
+  on the live app is refused until each person answers the new screen — which is
+  expected, and is R7-10's practical edge.
+- Every printed sheet of Step 2 and Step 3 measured at A4 on four fixtures:
+  Sample B, Sample B with long answers, a mover with no place named, and a
+  staying reader who has only started.
+- `check-together.mjs`, `check-content.mjs` against Step 2 Rev.01c and Step 3
+  Rev.01b (extracted from the .docx with `My Purpose/_build/docx-to-text.js`),
+  and the unclassified-page test in a scratch copy.
+- Field ids diffed across all three content files against the 20 live answer
+  rows (promise 9).
+- Read in full: `withdraw/route.ts`, `consent/route.ts`, `consent.ts`,
+  `consent-server.ts`, `retention/route.ts`, `withdrawal.ts`, `access.ts`,
+  `access-server.ts`, `ai-consent.tsx`, `consent-settings.tsx`,
+  `change-plan.tsx`, `explore-staying.tsx`, `step2.tsx`, `step3.tsx`,
+  `report.ts`, `drafts.ts`, `forget-account.ts`, `gates.test.ts`, the three
+  migrations and the privacy and terms pages.
+
+## What I could not check, and what it would take
+
+- **The consent screen as a screen, signed in.** Preview mode draws "Your AI
+  partner works when you are signed in", so the screen never renders there. I
+  read it line by line and found R7-6 that way, but nobody has seen it as a
+  page. It would take one signed-in account and two minutes; I did not use the
+  live accounts because this round carried no permission to act on them.
+- **A real purchase, withdrawal or refund.** Still Lemon Squeezy test mode in
+  Mwata's script. R7-1 and R7-2 are both reasoned from the code and from the
+  sweep's own dry output, not from a real order. R7-1 can be checked against a
+  throwaway entitlement row without any money moving; R7-2 needs one sweep run
+  after a hand repair, which `?dry=1` will show without deleting anything.
+- **Emails as delivered mail.** I read every letter the code builds. Nothing
+  was sent.
+- **The staying route as a person.** Still Mwata's test script. My four
+  fixtures are fixtures; R7-4 and R7-8 are the two places I would expect his
+  pass to feel wrong rather than see wrong, because both fail by leaving things
+  out quietly.
+- **`check-content` against Step 1 Rev.01e.** The repository's `step1-v19.txt`
+  is an older revision, and I compared only the two workbooks this round
+  changed. Running it against Rev.01e needs one more `docx-to-text.js` pass.
+
+## The fix list, in order
+
+1. **R7-1** — stop an unverified public withdrawal from writing
+   `entitlements.ended_at`. Code only, and it closes the deletion chain.
+2. **R7-2** — make the repair complete: cancel the withdrawal row, or skip a
+   withdrawal whose entitlement is active again. Until then, the SQL above.
+3. **R7-4** — widen `movingWritten` to everything the three sheets read, so
+   nobody's research goes unprinted.
+4. **R7-3** — make the `already` branch neutral, and move it below the rate
+   limit.
+5. **R7-5** — measure the change plan instead of estimating it, and give sheet
+   four a rule.
+6. **R7-6** — move the disclosure paragraphs next to `WORDING_VERSION`.
+7. **R7-7** — change the privacy sentence (or decide the migration).
+8. **R7-8** — require more than one line before printing the staying sheets,
+   and fold the second when it is empty.
+9. **R7-10**, **R7-9**, **R7-11** — the wording after a version bump, the
+   special-categories invariant, and "1 h 10".

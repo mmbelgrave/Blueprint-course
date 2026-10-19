@@ -173,6 +173,8 @@ export function whenIn(at: Date | string, timeZone: string | null): { text: stri
 const day = (at: Date | string) => new Date(at).toLocaleDateString("en-GB", { dateStyle: "long", timeZone: HOME_ZONE });
 
 export type Receipt = {
+  /** True when the asker proved the purchase is theirs (R7-1). */
+  verified?: boolean;
   email: string;
   name: string | null;
   orderEntered: string | null;
@@ -232,6 +234,20 @@ export function withdrawalMail(r: Receipt) {
       "access ends, or sooner if you ask us.",
       "",
     );
+  } else if (r.matchedOrder) {
+    // Matched, but nobody proved it was them: the letter is also the warning
+    // to somebody whose address was typed in by another person.
+    lines.push(
+      "Your access has not changed yet. The request did not come from your",
+      "signed-in account and did not carry your order number, so we have left",
+      "everything as it is and will check it by hand.",
+      "",
+      "If this was you, reply with the order number from your Lemon Squeezy",
+      "receipt, or sign in and ask again from My settings, and it goes through",
+      "at once. If it was not you, reply and say so: nothing has been taken",
+      "away, and we will stop it here.",
+      "",
+    );
   } else {
     lines.push(
       "We could not match your email address to a purchase, so no access has",
@@ -266,7 +282,11 @@ export function withdrawalNotice(r: Receipt) {
     `Order we matched: ${r.matchedOrder ?? "NONE - match this by hand"}`,
     `Refund in full: ${money(r.amountCents, r.currency)}`,
     `Refund due by: ${day(refundDeadline(r.requestedAt))}`,
-    r.endsAt ? `Their access ends on ${day(r.endsAt)}.` : "No access was ended, because nothing matched.",
+    r.endsAt
+      ? `Their access ends on ${day(r.endsAt)}.`
+      : r.matchedOrder
+        ? "No access was ended: the request did not prove it came from them (no sign-in, no order number). Check it is really them, then end it from Admin."
+        : "No access was ended, because nothing matched.",
     "",
     "Refund it in full in Lemon Squeezy. The app ends the access on its own and",
     "marks the request done when the refund webhook arrives.",
@@ -345,4 +365,28 @@ export function sweepActs(w: OpenWithdrawal, now: Date | string = new Date()): S
     }
   }
   return acts;
+}
+
+/**
+ * Did this request prove the purchase belongs to the person asking?
+ *
+ * Review round 7 (R7-1): anybody can type anybody's address into the public
+ * page, so an address on its own proves nothing. Recording the request is
+ * still right, and the owner of the address still gets the letter. What may
+ * not follow from an unproved request is ending somebody's access.
+ *
+ * Two things prove it: a session on the account that owns the purchase, or
+ * the order number from that purchase's own receipt.
+ */
+export function provesOwnership(a: {
+  sessionUserId?: string | null;
+  ownerId?: string | null;
+  orderEntered?: string | null;
+  orderId?: string | null;
+}): boolean {
+  if (!a.ownerId) return false;
+  if (a.sessionUserId && a.sessionUserId === a.ownerId) return true;
+  const typed = (a.orderEntered ?? "").trim();
+  const real = (a.orderId ?? "").trim();
+  return Boolean(typed && real && typed === real);
 }

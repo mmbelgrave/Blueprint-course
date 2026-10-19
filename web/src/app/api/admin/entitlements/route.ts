@@ -72,5 +72,33 @@ export async function PATCH(request: Request) {
     .eq("id", id);
 
   if (error) return fail(500, "That was not saved.");
+
+  /*
+   * Giving a purchase back is how "reply to this email if you change your
+   * mind" is kept. The withdrawal has to be closed with it, or the daily
+   * sweep takes the access away again tomorrow and deletes the account a
+   * month later (review round 7, R7-2).
+   */
+  if (status === "active") {
+    const { data: stopped } = await auth.admin
+      .from("withdrawals")
+      .update({ status: "cancelled", note: "Changed their mind: access given back from Admin." })
+      .eq("entitlement_id", id)
+      .eq("status", "received")
+      .select("email");
+    for (const row of (stopped ?? []) as { email: string }[]) {
+      await auth.admin
+        .from("webhook_events")
+        .insert({
+          source: "withdrawal",
+          event: "withdrawal_cancelled",
+          email: row.email,
+          outcome: "done",
+          detail: "Access was given back from Admin, so the withdrawal is closed.",
+        })
+        .then(() => undefined, () => undefined);
+    }
+  }
+
   return Response.json({ ok: true });
 }

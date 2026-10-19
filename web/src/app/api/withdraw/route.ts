@@ -32,6 +32,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 import { supabaseServer } from "@/lib/supabase-server";
 import {
   accessEndsAt,
+  provesOwnership,
   refundDeadline,
   refundPromise,
   windowFor,
@@ -172,21 +173,12 @@ export async function POST(request: Request) {
    */
   const { data: open } = await admin
     .from("withdrawals")
-    .select("requested_at, access_ends_at, refund_deadline")
+    .select("id, requested_at, access_ends_at, refund_deadline")
     .ilike("email", email)
     .eq("status", "received")
     .order("requested_at", { ascending: false })
     .limit(1)
     .maybeSingle();
-  if (open) {
-    return Response.json({
-      already: true,
-      requestedAt: open.requested_at,
-      accessEndsAt: open.access_ends_at,
-      refundDeadline: open.refund_deadline,
-      emailed: true,
-    });
-  }
 
   const dayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
   const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
@@ -217,12 +209,92 @@ export async function POST(request: Request) {
     ? await findPurchase(admin, { email, orderEntered })
     : await findPurchase(admin, { userId: signedIn?.id, orderEntered });
 
+  /*
+   * Who is asking (review round 7, R7-1).
+   *
+   * Anybody may type anybody's address into the public page. Recording that
+   * is right: the law cares about the declaration, and the person who owns
+   * the address gets the letter either way. Acting on it is not. An
+   * unverified request used to write `ended_at` on somebody else's purchase,
+   * which took their course away three days later and, thirty days after
+   * that, had the sweep delete their account.
+   *
+   * So a request ends access only when it came from the person whose purchase
+   * it is: signed in on that account, or carrying the order number from their
+   * own receipt. Everything else is recorded, answered and left for Mwata,
+   * who has the list and the two emails.
+   */
+  const verified = provesOwnership({
+    sessionUserId: signedIn?.id,
+    ownerId: found?.userId,
+    orderEntered,
+    orderId: found?.row.order_id,
+  });
+
   const requestedAt = new Date();
   const deadline = refundDeadline(requestedAt);
-  // Access only ends where there is access to end, and never for a purchase
-  // that was already refunded or closed.
-  const endsAt = found && found.row.status === "active" ? accessEndsAt(requestedAt) : null;
+  // Access only ends where there is access to end, for a purchase that is
+  // still open, and only on a request we can tie to its owner.
+  const endsAt = verified && found && found.row.status === "active" ? accessEndsAt(requestedAt) : null;
   const where = windowFor(found?.row.created_at ?? requestedAt);
+
+  if (open) {
+    /*
+     * One open request per address stands. What a later request may still do
+     * is prove itself: somebody who asked from the public page and then
+     * signed in, or came back with their order number, finishes the job on
+     * the row that is already there rather than being told "we have it" while
+     * nothing happens.
+     */
+    if (verified && !open.access_ends_at && found) {
+      await admin
+        .from("withdrawals")
+        .update({
+          matched_order_id: found.row.order_id,
+          user_id: found.userId,
+          entitlement_id: found.row.id,
+          product: found.row.product,
+          amount_cents: found.row.amount_cents,
+          currency: found.row.currency,
+          access_ends_at: endsAt?.toISOString() ?? null,
+          note: "Proved by the person themselves on a later request.",
+        })
+        .eq("id", open.id);
+      if (endsAt) {
+        await admin.from("entitlements").update({ ended_at: endsAt.toISOString() }).eq("id", found.row.id);
+      }
+      const letter: Receipt = {
+        email,
+        name,
+        orderEntered,
+        matchedOrder: found.row.order_id,
+        product: found.row.product,
+        amountCents: found.row.amount_cents,
+        currency: found.row.currency,
+        requestedAt: open.requested_at,
+        timeZone,
+        endsAt,
+        window: windowFor(found.row.created_at),
+      };
+      const told = await sendMail(email, withdrawalMail(letter));
+      await sendMail(SUPPORT, withdrawalNotice(letter));
+      return Response.json({
+        already: true,
+        requestedAt: open.requested_at,
+        emailed: told,
+        ...(signedIn ? { accessEndsAt: endsAt?.toISOString() ?? null, refundDeadline: open.refund_deadline } : {}),
+      });
+    }
+
+    // Otherwise: the same neutral answer as a first request, so that pressing
+    // the button twice tells a stranger nothing a first press would not.
+    return Response.json({
+      already: true,
+      requestedAt: open.requested_at,
+      emailed: true,
+      ...(signedIn ? { accessEndsAt: open.access_ends_at, refundDeadline: open.refund_deadline } : {}),
+    });
+  }
 
   const { error: saved } = await admin.from("withdrawals").insert({
     email,
@@ -239,6 +311,7 @@ export async function POST(request: Request) {
     refund_deadline: deadline.toISOString(),
     access_ends_at: endsAt?.toISOString() ?? null,
     source: signedIn ? "app" : "public",
+    note: verified ? null : "Not proved: no sign-in and no matching order number. Access was not ended.",
   });
   if (saved) return fail(500, "That could not be saved. Please email info@maderealblueprint.com.");
 

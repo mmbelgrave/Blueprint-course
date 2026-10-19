@@ -7,6 +7,7 @@ import {
   accessIsOver,
   daysBetween,
   homeDay,
+  provesOwnership,
   refundDeadline,
   refundPromise,
   reminderMail,
@@ -196,4 +197,32 @@ test("a request we could not match promises nothing it cannot keep", () => {
 
 test("a matched request still promises plainly", () => {
   assert.match(withdrawalMail(receipt()).text, /You withdrew inside the 14 days, so we refund/);
+});
+
+/*
+ * R7-1, review round 7. An email address is not proof of anything: anybody
+ * can type anybody's into the public page. The request is still recorded and
+ * still answered; what must not follow from it is ending somebody's access,
+ * because three days later they lose the course and thirty days after that
+ * the sweep deletes the account.
+ */
+test("an address alone proves nothing", () => {
+  assert.equal(provesOwnership({ ownerId: "u1" }), false);
+  assert.equal(provesOwnership({ ownerId: "u1", orderEntered: "", orderId: "9762789" }), false);
+  assert.equal(provesOwnership({ ownerId: "u1", orderEntered: "9762789" }), false);
+  assert.equal(provesOwnership({ ownerId: "u1", orderEntered: "123", orderId: "9762789" }), false);
+});
+
+test("a session on the account that owns the purchase proves it", () => {
+  assert.equal(provesOwnership({ sessionUserId: "u1", ownerId: "u1" }), true);
+  // Signed in as somebody else is not proof.
+  assert.equal(provesOwnership({ sessionUserId: "u2", ownerId: "u1" }), false);
+});
+
+test("the order number from the receipt proves it", () => {
+  assert.equal(provesOwnership({ ownerId: "u1", orderEntered: " 9762789 ", orderId: "9762789" }), true);
+});
+
+test("nothing proves a purchase nobody owns", () => {
+  assert.equal(provesOwnership({ sessionUserId: "u1", orderEntered: "9762789", orderId: "9762789" }), false);
 });

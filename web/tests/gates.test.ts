@@ -172,3 +172,31 @@ test("every build checks that the workbook is not in a public file", () => {
   assert.match(pkg.scripts.postbuild ?? "", /check-public-bundle/);
   assert.match(read("../scripts/check-public-bundle.mjs"), /process\.exit\(1\)/);
 });
+
+/*
+ * R7-1 and R7-2, review round 7. Two rules that live in routes rather than in
+ * a function, so they are read here.
+ */
+test("a withdrawal only ends access when somebody proved it is theirs", () => {
+  const source = read("app/api/withdraw/route.ts");
+  // The one place that writes an end date on a purchase.
+  const writes = [...source.matchAll(/update\(\{ ended_at[^}]*\}\)/g)];
+  assert.ok(writes.length > 0, "nothing ends access any more");
+  assert.match(source, /provesOwnership\(/);
+  // Both writes sit behind the proof, which is what `endsAt` carries.
+  assert.doesNotMatch(
+    source,
+    /const endsAt = found && found\.row\.status === "active"/,
+    "endsAt is back to following a bare email match",
+  );
+});
+
+test("giving a purchase back closes the withdrawal with it", () => {
+  // Otherwise the next sweep revokes it again and deletes the account thirty
+  // days later, and "reply if you change your mind" is a promise nobody can
+  // keep.
+  const admin = read("app/api/admin/entitlements/route.ts");
+  assert.match(admin, /from\("withdrawals"\)[\s\S]{0,200}status: "cancelled"/);
+  const sweep = read("app/api/retention/route.ts");
+  assert.match(sweep, /live\.status === "active" && !live\.ended_at/);
+});
