@@ -1316,7 +1316,15 @@ answer the same way.
   who answered the pages and never copied them forward gets their own colours
   instead of five blanks. The summary still wins where it was filled in.
   Checked on the printed page with the summary table deleted.
-- R5-5 (an old public chunk
+- R5-5 is **closed** (19 October 2026): the address from round 4 now answers
+  410 Gone, so Vercel has expired that deployment's files. The current public
+  bundle was fetched from the live site and checked against 12 passages of
+  teaching text from all three steps: none of them is in it. Page titles are,
+  which is the spine and is public by design. `web/scripts/check-public-bundle.mjs`
+  now runs after every build, Vercel's included, so a leak fails the deploy
+  instead of waiting for a review. It was proved against the server build,
+  where the prose does live, and finds it there.
+- (was R5-5: an old public chunk
   may sit in an edge cache), and the admin overview asking for 1000 accounts in
   one call.
 - Slice 3: two voices in the result documents.

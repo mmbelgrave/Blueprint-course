@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "node scripts/check-public-bundle.mjs",
     "start": "next start",
     "lint": "eslint",
     "predev": "node scripts/sync-content.mjs",

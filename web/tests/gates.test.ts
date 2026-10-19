@@ -12,7 +12,8 @@ import { test } from "node:test";
  * fails here rather than in somebody's hands.
  */
 
-const read = (path: string) => readFileSync(new URL(`../src/${path}`, import.meta.url), "utf8");
+const read = (path: string) =>
+  readFileSync(new URL(path.startsWith("../") ? `../${path.slice(3)}` : `../src/${path}`, import.meta.url), "utf8");
 
 /** Every route that hands something over on the strength of a purchase. */
 const DOORS = [
@@ -162,3 +163,12 @@ test("the order record outlives the account", () => {
   assert.match(sql, /references auth\.users \(id\) on delete set null/);
 });
 
+
+test("every build checks that the workbook is not in a public file", () => {
+  // R4-1 put the whole of Step 1 in a public chunk; R5-5 found the old chunk
+  // still being served a round later. The script is what stops it coming
+  // back, and this is what stops the script being quietly unhooked.
+  const pkg = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8"));
+  assert.match(pkg.scripts.postbuild ?? "", /check-public-bundle/);
+  assert.match(read("../scripts/check-public-bundle.mjs"), /process\.exit\(1\)/);
+});
