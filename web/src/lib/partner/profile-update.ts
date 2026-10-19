@@ -25,7 +25,7 @@ Rules:
 - Keep each item short: a few words per list item, one or two sentences for text items.
 - Write the notes in the NOTES LANGUAGE given below. When you quote the person's own words, keep them exactly as they wrote them, in their language.
 - Take each item from the pages it belongs to (Step 1 unless said otherwise): life_picture from 1.2, the Part 1 summary and 5.1; happy_moments_theme from 1.1 and 0.1; values only from the words chosen in 1.4; must_haves and dealbreakers from 1.4; wheel_scores from the wheel in 2.1; time from the week and "who decides" tables in 2.1, the two time questions in 3.5, and the Part 2 summary; strengths from 2.2; beliefs from 2.4; options from 4.1 and 4.2; fears from what worries the person in the Part 4 summary; open_questions from any "biggest question", "still don't know" or "unknown" answers. If that page is empty, leave the item empty.
-- "money": costs now and in the new life, one-time costs, income sources and how sure they are, months of savings. Only what they wrote.
+- "money": costs now and after the change, one-time costs, income sources and how sure they are, months of savings. Only what they wrote.
 - "places": countries, regions and places they are exploring in Step 2, what they found and what they chose.
 - "patterns_and_tensions": for example "values freedom, but chooses the most secure option". Neutral, never judging.
 - Items listed as LOCKED were corrected by the person: return them exactly as given.

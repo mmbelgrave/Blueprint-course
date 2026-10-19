@@ -56,7 +56,7 @@ export function formatMoney(amount: number, currency: string) {
 export function tableFieldTotal(field: Field, value: unknown, columnId: string): Total {
   const cols = field.columns ?? [];
   const at = cols.findIndex((c) => c.id === "certainty");
-  // The mark sits behind the column it describes: "In my new life | known /
+  // The mark sits behind the column it describes: "After the change | known /
   // estimate / unknown". It says nothing about what that cost is today.
   const describes = at > 0 ? cols[at - 1].id : undefined;
   const certainty = at >= 0 && describes === columnId ? "certainty" : undefined;

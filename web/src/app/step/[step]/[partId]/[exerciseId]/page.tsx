@@ -225,7 +225,7 @@ function DeeperHint({ exercise, sources }: { exercise: Exercise; sources: Record
   const currency = profile?.currency ?? "EUR";
   return (
     <p className="rounded-lg bg-sand p-3 text-sm">
-      Your costs in your new life plus 30%: <strong>{formatMoney(t.value * 1.3, currency)}</strong> per month
+      Your costs after the change plus 30%: <strong>{formatMoney(t.value * 1.3, currency)}</strong> per month
       (instead of {formatMoney(t.value, currency)}).{t.complete ? "" : " Not complete yet."}
     </p>
   );
@@ -241,7 +241,7 @@ function Step1MoneyHint({ exercise, sources }: { exercise: Exercise; sources: Re
   if (!t.filled) return null;
   return (
     <p className="rounded-lg bg-sand p-3 text-sm">
-      Your total in Step 1 (3.2, in my new life):{" "}
+      Your total in Step 1 (3.2, after the change):{" "}
       <strong>{formatMoney(t.value, profile?.currency ?? "EUR")}</strong> per month.
       {t.complete ? "" : " Not complete yet."}
     </p>
