@@ -17,7 +17,8 @@ export async function proxy(request: NextRequest) {
           for (const { name, value } of list) request.cookies.set(name, value);
           response = NextResponse.next({ request });
           for (const { name, value, options } of list) {
-            response.cookies.set(name, value, options);
+            // Secure in production: see the note in lib/supabase-server.ts.
+            response.cookies.set(name, value, { ...options, secure: process.env.NODE_ENV === "production" });
           }
         },
       },

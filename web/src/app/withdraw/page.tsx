@@ -41,10 +41,15 @@ export default function WithdrawPage() {
     <Shell>
       <div className="mx-auto max-w-2xl rounded-2xl bg-white p-6 sm:p-8">
         <h1 className="text-2xl font-bold text-pine">Withdraw from contract</h1>
+        {/* The lawyer's intro, word for word (D1), and then the guarantee, which
+            the published terms already promise. */}
         <p className="mt-2 text-stone">
-          You may withdraw within 14 days of buying, without giving a reason, and we refund the full price to the
-          payment method you used. Beyond those 14 days our own 30-day guarantee applies, and that is a full refund
-          too.
+          You can withdraw from your purchase of Phase 1 of The Made Real Blueprint within 14 days of buying, without
+          giving a reason. You do not need to sign in.
+        </p>
+        <p className="mt-2 text-stone">
+          We refund the full price to the payment method you used. Beyond those 14 days our own 30-day guarantee
+          applies, and that is a full refund too.
         </p>
 
         {mine?.signedIn && (mine.purchase || mine.already) ? (

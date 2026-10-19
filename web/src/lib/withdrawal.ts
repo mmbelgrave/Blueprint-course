@@ -234,11 +234,15 @@ export function withdrawalMail(r: Receipt) {
 
   lines.push(
     "Reply to this email if you change your mind, or if anything above is wrong.",
+    "If you did not make this request, reply to this email and we will stop it.",
     "",
     "Mwata",
-    "The Made Real Blueprint",
+    "Belgrave Management, Unipessoal Lda",
+    "info@maderealblueprint.com",
   );
-  return { subject: `Your withdrawal from ${productName(r.product)}`, text: lines.join("\n") };
+  // The subject is the lawyer's (D1), so somebody searching their inbox for
+  // the words the terms used finds this.
+  return { subject: "We received your withdrawal", text: lines.join("\n") };
 }
 
 /** The note to Mwata, which exists to make the refund happen the same day. */

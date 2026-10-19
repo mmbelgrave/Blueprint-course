@@ -17,7 +17,7 @@
  */
 
 /** Bump this when any wording below changes. */
-export const WORDING_VERSION = "2026-10-18";
+export const WORDING_VERSION = "2026-10-19";
 
 export type ConsentKind = "ai" | "ai_special" | "founder_access";
 
@@ -29,13 +29,20 @@ export type ConsentRow = {
 };
 
 /** The words people read. Kept here so a version always means one text. */
+/*
+ * The words are the lawyer's, from section D2 of "Legal text to paste" of
+ * 18 October, split into two boxes: the sentence about what is sent, and the
+ * sentence about sensitive information. Splitting them is what makes the
+ * second one an explicit consent somebody can refuse on its own.
+ */
 export const CONSENT_TEXT: Record<ConsentKind, string> = {
   ai:
-    "I agree that my AI partner may read what I write and send it to Anthropic, " +
-    "a company in the United States, so it can reply.",
+    "I agree that what I write in the chat, and the earlier answers my AI partner needs, " +
+    "are sent to Anthropic in the United States so my AI partner can reply. " +
+    "I can withdraw this at any time in Settings.",
   ai_special:
-    "I also agree that it may read special categories of data if I choose to write them, " +
-    "for example about my health, my beliefs, my sexual orientation or my political opinions.",
+    "If I choose to write sensitive information (for example about health, religion, sexual orientation " +
+    "or political opinions), I explicitly consent to it being processed in this way.",
   founder_access: "Mwata may read my answers and my AI summary to guide me.",
 };
 
@@ -117,6 +124,8 @@ export function rowsToWrite(
 export const SWITCHED_OFF = "Your AI partner is switched off. You can switch it on again in My settings.";
 
 /** Always under the chat box (legal review, part 1, point 8). */
-export const AI_REMINDER = "You are talking to an AI, not a person.";
+export const AI_REMINDER =
+  "You are talking to an AI, not a person. It can be wrong, and it does not give legal, tax, " +
+  "immigration, medical or financial advice.";
 export const SENSITIVE_REMINDER =
   "Please avoid health details and other sensitive data unless you want your AI partner to use them.";

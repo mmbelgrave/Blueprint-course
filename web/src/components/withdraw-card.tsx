@@ -247,7 +247,7 @@ export function WithdrawForm() {
 
       <p className="mt-4">
         <button className="btn btn-primary" disabled={busy || !email.trim()}>
-          {busy ? "One moment…" : "Withdraw from contract here"}
+          {busy ? "One moment…" : "Confirm withdrawal"}
         </button>
       </p>
       <p className="mt-2 text-sm text-stone">

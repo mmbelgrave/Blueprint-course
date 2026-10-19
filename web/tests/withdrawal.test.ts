@@ -91,7 +91,7 @@ const receipt = (over: Partial<Receipt> = {}): Receipt => ({
 
 test("the letter states their clock, UTC, and what they typed", () => {
   const { subject, text } = withdrawalMail(receipt());
-  assert.match(subject, /Phase 1/);
+  assert.equal(subject, "We received your withdrawal");
   assert.match(text, /Hello Renata,/);
   assert.match(text, /You withdrew from the contract for Phase 1 of The Made Real Blueprint\./);
   assert.match(text, /\(Europe\/Lisbon\)/);
