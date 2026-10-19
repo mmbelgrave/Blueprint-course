@@ -8,6 +8,7 @@ import {
   consentState,
   founderAllowed,
   latest,
+  expiredConsentIds,
   rowsToWrite,
   type ConsentRow,
 } from "../src/lib/consent.ts";
@@ -103,4 +104,57 @@ test("the words a version stands for are the words on the screen", () => {
   assert.match(screen, /CONSENT_TEXT\.ai_special\b/);
   assert.ok(CONSENT_TEXT.ai.includes("Anthropic"));
   assert.ok(CONSENT_TEXT.ai_special.includes("health"));
+});
+
+/*
+ * The consent history sweep (19 October). The current row of each kind stays
+ * while it stands; the trail behind it goes three years after it stopped.
+ */
+const numbered = (
+  id: number,
+  kind: string,
+  granted: boolean,
+  at: string,
+): ConsentRow & { id: number } => ({ id, kind, granted, wording_version: WORDING_VERSION, recorded_at: at });
+
+test("a consent that still stands is never deleted, however old", () => {
+  const rows = [numbered(1, "ai", true, "2019-01-01T10:00:00Z")];
+  assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), []);
+});
+
+test("a superseded row goes three years after it was superseded", () => {
+  const rows = [
+    numbered(1, "ai", true, "2020-01-01T10:00:00Z"),
+    numbered(2, "ai", false, "2023-01-01T10:00:00Z"),
+    numbered(3, "ai", true, "2024-01-01T10:00:00Z"),
+  ];
+  // On 19 October 2026 the first row ended in January 2023, over three years
+  // ago; the second ended in January 2024, which is not yet three years.
+  assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), [1]);
+  // A day before its third birthday, nothing goes.
+  assert.deepEqual(expiredConsentIds(rows, "2022-12-31T10:00:00Z"), []);
+});
+
+test("a refusal is its own ending, and goes three years later", () => {
+  const rows = [numbered(1, "ai", false, "2023-01-01T10:00:00Z")];
+  assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), [1]);
+  assert.deepEqual(expiredConsentIds(rows, "2025-10-19T10:00:00Z"), []);
+});
+
+test("deleting the last row only means the person is asked again", () => {
+  const rows = [numbered(1, "ai", false, "2020-01-01T10:00:00Z")];
+  assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), [1]);
+  // Which is the same state as somebody who was never asked.
+  assert.equal(consentState([]).mustAsk, true);
+});
+
+test("each kind is counted on its own", () => {
+  const rows = [
+    numbered(1, "ai", true, "2020-01-01T10:00:00Z"),
+    numbered(2, "ai", true, "2024-01-01T10:00:00Z"),
+    numbered(3, "founder_access", true, "2020-01-01T10:00:00Z"),
+  ];
+  // The old AI row was replaced in 2024, so it is not three years old yet;
+  // the founder tick from 2020 still stands, so it stays.
+  assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), []);
 });

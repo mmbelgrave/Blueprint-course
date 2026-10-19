@@ -239,6 +239,12 @@ export function welcomeMail(o: {
     "",
     ...middle,
     "",
+    // Terms §9: the way out, in the letter that brings somebody in. It costs
+    // two lines, and it is the one thing a buyer cannot be expected to go
+    // looking for.
+    "Changed your mind? You have 14 days to withdraw, without giving a reason,",
+    "and we refund the full price: https://app.maderealblueprint.com/withdraw",
+    "",
     "Mwata",
     "The Made Real Blueprint",
   ].join("\n");

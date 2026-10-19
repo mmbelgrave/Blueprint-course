@@ -18,6 +18,7 @@
  * `?dry=1` reports what it would do and changes nothing. Use that first.
  */
 import { counts, type Entitlement } from "@/lib/access";
+import { CONSENT_HISTORY_YEARS, expiredConsentIds, type ConsentRow } from "@/lib/consent";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { deleteEverything } from "@/lib/forget-account";
 import { decide, quietMail, type Account } from "@/lib/retention";
@@ -128,8 +129,9 @@ export async function GET(request: Request) {
   }
 
   const withdrawals = await sweepWithdrawals(admin, now, dry, detail);
+  const consents = await sweepConsents(admin, now, dry, detail);
 
-  return Response.json({ ok: true, dry, ...done, withdrawals, ...(dry ? { detail } : {}) });
+  return Response.json({ ok: true, dry, ...done, withdrawals, consents, ...(dry ? { detail } : {}) });
 }
 
 /**
@@ -269,4 +271,54 @@ async function sendMail(to: string, mail: { subject: string; text: string }): Pr
     console.error("retention email could not be sent:", e);
     return false;
   }
+}
+
+/**
+ * Consent history, three years after a consent ended.
+ *
+ * What stays is the row that says what is allowed today. What goes is the
+ * trail behind it: a tick from four years ago that was switched off three
+ * years ago has done its job, and keeping it is keeping personal data for no
+ * reason anybody could give.
+ *
+ * The table refuses an update, so this is the only hand that ever changes it,
+ * and it only ever removes whole rows.
+ */
+async function sweepConsents(
+  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
+  now: Date,
+  dry: boolean,
+  detail: string[],
+) {
+  const { data, error } = await admin.from("consents").select("id, user_id, kind, granted, wording_version, recorded_at");
+  if (error) {
+    console.error("consent sweep: could not read consents:", error.message);
+    return { deleted: 0, failed: 0 };
+  }
+
+  const rows = (data ?? []) as (ConsentRow & { id: number; user_id: string })[];
+  const byUser = new Map<string, (ConsentRow & { id: number; user_id: string })[]>();
+  for (const row of rows) {
+    const mine = byUser.get(row.user_id) ?? [];
+    mine.push(row);
+    byUser.set(row.user_id, mine);
+  }
+
+  const going: number[] = [];
+  for (const mine of byUser.values()) going.push(...expiredConsentIds(mine, now));
+  if (going.length === 0) return { deleted: 0, failed: 0 };
+
+  if (dry) {
+    detail.push(`consents: ${going.length} rows older than ${CONSENT_HISTORY_YEARS} years would go`);
+    return { deleted: going.length, failed: 0 };
+  }
+
+  const { error: gone } = await admin.from("consents").delete().in("id", going);
+  if (gone) {
+    console.error("consent sweep: could not delete:", gone.message);
+    await log(admin, "consent_history_failed", "", gone.message, "failed");
+    return { deleted: 0, failed: going.length };
+  }
+  await log(admin, "consent_history_deleted", "", `${going.length} consent rows, ended over ${CONSENT_HISTORY_YEARS} years ago.`);
+  return { deleted: going.length, failed: 0 };
 }

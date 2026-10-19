@@ -129,3 +129,45 @@ export const AI_REMINDER =
   "immigration, medical or financial advice.";
 export const SENSITIVE_REMINDER =
   "Please avoid health details and other sensitive data unless you want your AI partner to use them.";
+
+/**
+ * How long a consent record is kept after the consent it records has ended.
+ *
+ * Three years, which is the period on both privacy pages. A row ends when a
+ * newer row of the same kind replaces it, or, for the newest row, when that
+ * row is itself a refusal: the consent stopped at that minute.
+ *
+ * The current row of each kind is never deleted while it still stands. It is
+ * the proof that what the app does today is allowed.
+ */
+export const CONSENT_HISTORY_YEARS = 3;
+
+type Numbered = ConsentRow & { id: number };
+
+/** When this row stopped being the operative consent, or null if it still is. */
+function endedAt(rows: Numbered[], row: Numbered): string | null {
+  const newer = rows
+    .filter((r) => r.kind === row.kind && new Date(r.recorded_at).getTime() > new Date(row.recorded_at).getTime())
+    .sort((a, b) => new Date(a.recorded_at).getTime() - new Date(b.recorded_at).getTime())[0];
+  if (newer) return newer.recorded_at;
+  // The newest row of its kind. A refusal ends a consent the moment it is
+  // written; a grant has not ended at all.
+  return row.granted ? null : row.recorded_at;
+}
+
+/**
+ * The consent rows that may go today.
+ *
+ * Deleting the last row of a kind simply means the person is asked again, so
+ * nothing breaks and nothing is assumed.
+ */
+export function expiredConsentIds(rows: Numbered[], now: Date | string = new Date()): number[] {
+  const cutoff = new Date(now);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - CONSENT_HISTORY_YEARS);
+  const out: number[] = [];
+  for (const row of rows) {
+    const ended = endedAt(rows, row);
+    if (ended && new Date(ended).getTime() <= cutoff.getTime()) out.push(row.id);
+  }
+  return out;
+}
