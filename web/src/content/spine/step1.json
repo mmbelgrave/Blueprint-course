@@ -25,6 +25,14 @@
           "title": "Four questions",
           "fields": [
             {
+              "id": "clarity_score",
+              "type": "short_text"
+            },
+            {
+              "id": "clarity_why",
+              "type": "long_text"
+            },
+            {
               "id": "moment",
               "type": "long_text"
             },
@@ -54,10 +62,10 @@
       "id": "p1",
       "number": 1,
       "label": "Part 1",
-      "title": "Picture your new life",
+      "title": "Picture the life you want",
       "time": "75–100 min",
       "video": {
-        "title": "Part 1 · Picture your new life",
+        "title": "Part 1 · Picture the life you want",
         "length": "12–16 min",
         "url": null
       },
@@ -105,7 +113,7 @@
         },
         {
           "id": "1.2",
-          "title": "A normal day in your new life",
+          "title": "A normal day in the life you want",
           "fields": [
             {
               "id": "day",
@@ -531,7 +539,7 @@
         },
         {
           "id": "3.2",
-          "title": "What does your life cost per month, now and in your new life?",
+          "title": "What does your life cost per month, now and after the change?",
           "fields": [
             {
               "id": "costs",
@@ -618,7 +626,7 @@
               "rows": [
                 {
                   "id": "income",
-                  "label": "1. My income per month in my new life (from 3.4)",
+                  "label": "1. My income per month after the change (from 3.4)",
                   "example": "€1,600",
                   "from": {
                     "exercise": "3.4",
@@ -628,7 +636,7 @@
                 },
                 {
                   "id": "costs",
-                  "label": "2. My costs per month in my new life (from 3.2)",
+                  "label": "2. My costs per month after the change (from 3.2)",
                   "example": "€2,000",
                   "from": {
                     "exercise": "3.2",
@@ -860,7 +868,7 @@
       "finish": {
         "id": "working_direction",
         "title": "My Working Direction",
-        "description": "What you want to explore, what you take with you, and your next step."
+        "description": "A one-page picture of the life you want, the questions to settle, and your next step."
       },
       "exercises": [
         {
@@ -889,10 +897,6 @@
             },
             {
               "id": "assumptions",
-              "type": "long_text"
-            },
-            {
-              "id": "learn_next",
               "type": "long_text"
             },
             {
@@ -929,6 +933,14 @@
             },
             {
               "id": "two_years",
+              "type": "long_text"
+            },
+            {
+              "id": "clarity_now",
+              "type": "short_text"
+            },
+            {
+              "id": "clarity_changed",
               "type": "long_text"
             }
           ]

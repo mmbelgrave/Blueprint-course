@@ -12,17 +12,17 @@
       "Start with three numbers:"
     ],
     "intro_bullets": [
-      "What does my new life cost per month? (3.2)",
+      "What does the life you want cost per month? (3.2)",
       "What does the change itself cost, one time? (3.3)",
       "What comes in per month? (3.4)"
     ],
     "intro_after": "In 3.5, you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
     "tips": [
       "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total isn't complete yet. It never counts as zero.",
-      "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the new-life column unknown wherever you still need information."
+      "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the After the change column unknown wherever you still need information."
     ],
     "setup": {
-      "intro": "Choose one version of your new life to cost first. Keep a move to Portugal separate from a plan to work fewer hours at home. Start with the version you most want to explore. You can repeat the exercise for another version later.",
+      "intro": "Choose one version of the life you want to cost first. Keep a move to Portugal separate from a plan to work fewer hours at home. Start with the version you most want to explore. You can repeat the exercise for another version later.",
       "fields": [
         {
           "id": "version",
@@ -79,12 +79,12 @@
       },
       {
         "id": "3.2",
-        "title": "What does your life cost per month, now and in your new life?",
+        "title": "What does your life cost per month, now and after the change?",
         "intro": [
           "Yearly costs are easy to miss when you think in months: insurance, car repairs, gifts, a holiday, the dentist. Divide them by twelve and include them in the table, unless you have already counted them elsewhere. For example, 1,200 a year for insurance, repairs and gifts adds 100 a month."
         ],
         "start_here": {
-          "prompt": "Write the costs per month. In the last column, mark each new-life number: known, estimate or unknown.",
+          "prompt": "Write the costs per month. In the last column, mark each number in the After the change column: known, estimate or unknown.",
           "fields": [
             {
               "id": "costs",
@@ -112,7 +112,7 @@
                 },
                 {
                   "id": "new_life",
-                  "label": "In my new life",
+                  "label": "After the change",
                   "kind": "money"
                 },
                 {
@@ -209,7 +209,7 @@
           }
         ],
         "start_here": {
-          "prompt": "List your current income sources and those you expect in your new life. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the new-life column and note the gross amount alongside it for later. Keep gross amounts out of the total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
+          "prompt": "List your current income sources and those you expect after the change. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the After the change column and note the gross amount alongside it for later. Keep gross amounts out of the total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
           "fields": [
             {
               "id": "income",
@@ -228,7 +228,7 @@
                 },
                 {
                   "id": "new_life",
-                  "label": "In my new life",
+                  "label": "After the change",
                   "kind": "money"
                 },
                 {
@@ -272,7 +272,7 @@
         },
         "example": {
           "who": "Lucas, 29",
-          "text": "Now: salary as a graphic designer. In my new life: that salary stops; my employer won't let me work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
+          "text": "Now: salary as a graphic designer. After the change: that salary stops; my employer won't let me work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
         }
       },
       {
@@ -293,7 +293,7 @@
               "rows": [
                 {
                   "id": "income",
-                  "label": "1. My income per month in my new life (from 3.4)",
+                  "label": "1. My income per month after the change (from 3.4)",
                   "example": "€1,600",
                   "from": {
                     "exercise": "3.4",
@@ -303,7 +303,7 @@
                 },
                 {
                   "id": "costs",
-                  "label": "2. My costs per month in my new life (from 3.2)",
+                  "label": "2. My costs per month after the change (from 3.2)",
                   "example": "€2,000",
                   "from": {
                     "exercise": "3.2",
@@ -430,7 +430,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "A few years ago, I had savings in different accounts but no clear plan. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
+          "text": "A few years ago, I had savings in different accounts but no clear plan. The Your Roadmap 2022 programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
         },
         "go_further": "Want to go further? A module called Your Money Plan is planned for later; it is not part of this course. It will cover goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
       }
@@ -450,7 +450,7 @@
           "id": "monthly_costs",
           "type": "long_text",
           "lines": 2,
-          "label": "What my new life costs per month, and how sure I am"
+          "label": "What the life I want costs per month, and how sure I am"
         },
         {
           "id": "one_time",

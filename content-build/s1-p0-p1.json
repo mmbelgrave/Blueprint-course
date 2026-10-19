@@ -21,12 +21,26 @@
         "start_here": {
           "fields": [
             {
+              "id": "clarity_score",
+              "type": "short_text",
+              "heading": "Before you start: how clear is your picture?",
+              "hint": "Give one honest number. How clear is the life you want, from 1 (not clear at all) to 10 (very clear)? You score it again at the end of this step, so you can see what changed.",
+              "label": "My clarity score today, from 1 to 10"
+            },
+            {
+              "id": "clarity_why",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What makes it this number"
+            },
+            {
               "id": "moment",
               "type": "long_text",
               "lines": 3,
               "marker": "A",
               "label": "One moment that felt good",
-              "hint": "Think of one moment in the last few years when you felt content, engaged or proud. What happened? What made it possible?"
+              "hint": "Think of one moment in the last few years when you felt content, engaged or proud. What happened? What made it possible?",
+              "heading": "Your four questions"
             },
             {
               "id": "normal_day",
@@ -112,7 +126,7 @@
     "id": "p1",
     "number": 1,
     "label": "Part 1",
-    "title": "Picture your new life",
+    "title": "Picture the life you want",
     "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
     "intro": [
       "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" You will answer both. Here, we begin with the life you want, then look at the place and the money.",
@@ -125,7 +139,7 @@
       "You do not need the whole picture. You need enough of it to take the next step. The rest becomes clear after that."
     ],
     "time": "75–100 min",
-    "route_title": "Picture your new life",
+    "route_title": "Picture the life you want",
     "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you plan to build a life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
     "finish": {
       "id": "life_picture",
@@ -206,7 +220,7 @@
                 "Calm, meaning, freedom, being useful"
               ]
             ],
-            "after": "The third one is the most important. The activity may not be possible in your new life. The need comes with you wherever you go."
+            "after": "The third one is the most important. The activity may not fit the life you want. The need comes with you wherever you go."
           }
         ],
         "watch_out": [
@@ -239,12 +253,12 @@
       },
       {
         "id": "1.2",
-        "title": "A normal day in your new life",
+        "title": "A normal day in the life you want",
         "promise": "Not a holiday. A normal Tuesday. Because most days are normal days.",
         "intro": [
-          "Now you turn those ingredients into a day.",
+          "Now you turn those ingredients into a day. This is the same exercise as the free Ordinary Tuesday PDF. Did you do it already? Bring your answer, and add to it here.",
           "We use an ordinary day because that is what most of your life will be. It can feel less exciting than imagining a big change, but it gives you a useful question: would I enjoy the everyday life that comes with it?",
-          "An ordinary day also gives you something to test. You can visit a place and try living a normal Tuesday there. It is much harder to test a word like \"happiness\"."
+          "An ordinary day also gives you something to test. You can visit a place, or change one day of your week where you live, and try living a normal Tuesday. It is much harder to test a word like \"happiness\"."
         ],
         "tables": [
           {
@@ -366,7 +380,7 @@
         },
         "story": {
           "status": "ready",
-          "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I didn't have two million euros, but I realised I didn't need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. In August 2024, I signed for the land, and by the end of that year it was officially mine. Today, I am building the life I pictured."
+          "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I didn't have two million euros. But taking money out of the picture showed me what I really wanted, and it turned out I didn't need much money to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In the spring of 2024, I travelled through Portugal to see it for myself. That summer, I signed for the land, and by the end of the year it was officially mine. Today, I am building the life I pictured."
         }
       },
       {
@@ -454,7 +468,7 @@
               "columns": [
                 {
                   "id": "must_have",
-                  "label": "What my new life needs",
+                  "label": "What the life I want needs",
                   "kind": "text"
                 },
                 {
@@ -570,6 +584,12 @@
           "label": "What I want to keep"
         },
         {
+          "id": "responsible",
+          "type": "long_text",
+          "lines": 2,
+          "label": "What I am responsible for: people I care for, work, money"
+        },
+        {
           "id": "essentials",
           "type": "long_text",
           "lines": 2,
@@ -595,7 +615,7 @@
       "result": "My Life Picture. What you want more of, what you keep, what is essential, and what is still open."
     },
     "video": {
-      "title": "Part 1 · Picture your new life",
+      "title": "Part 1 · Picture the life you want",
       "length": "12–16 min",
       "url": null
     }

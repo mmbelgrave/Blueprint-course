@@ -4,7 +4,7 @@
     "number": 4,
     "label": "Part 4",
     "title": "Compare your options",
-    "promise": "Moving far away is one option. It is not the only one.",
+    "promise": "Moving is one option. Changing your work, your time or your home where you are is another.",
     "intro_title": "Why we compare instead of decide",
     "intro": [
       "You now have a picture of the life you want, an honest starting point, and a first money check. Before choosing a direction, put a few options side by side.",
@@ -32,8 +32,8 @@
               "row_labels": [
                 "A",
                 "B",
-                "C",
-                "D"
+                "C  Stay, but change:",
+                "D  Change nothing"
               ],
               "columns": [
                 {
@@ -65,6 +65,9 @@
         },
         "tips": [
           "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and tests it. A four-week stay is a better test, but it comes later and costs more. Start with the cheap version."
+        ],
+        "story": [
+          "My first test was on paper, and it cost nothing: I listed what my life needed and compared countries against it. Only after that did I do a bigger test. In the spring of 2024, I spent two months in a campervan, travelling through every region of Portugal. The trip was not meant for buying. It was meant to see whether my picture held up outside the photos."
         ]
       },
       {
@@ -258,18 +261,18 @@
     "promise": "A clear next direction, which you can still change.",
     "intro_title": "A direction is not a decision.",
     "intro": [
-      "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
+      "You do not have to commit to anything here. Your Working Direction is a one-page picture of the life you want and the questions you still need to settle. It says what you will explore next. Change it when what you learn points you elsewhere.",
       "Make your next step specific. It should be small enough to complete within two weeks, have a date, and teach you something. \"Read more about Portugal\" gives you no clear question or deadline. \"Call two people who moved there and ask what surprised them, before the 15th\" gives you both.",
       "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier, and include one line about your time. For example: \"I can take a day off when the weather is good, without asking anyone.\" You will return to this answer in Step 8.",
       "You make the final decision in Step 3, after you have explored your options."
     ],
     "time": "30 min",
     "route_title": "Choose your working direction",
-    "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Are other people moving with you? Ask each of them to fill in their own page first. Then sit together and compare.",
+    "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Is anyone else affected by this choice? Ask each of them to fill in their own page first. Then sit together and compare.",
     "finish": {
       "id": "working_direction",
       "title": "My Working Direction",
-      "description": "What you want to explore, what you take with you, and your next step."
+      "description": "A one-page picture of the life you want, the questions to settle, and your next step."
     },
     "exercises": [
       {
@@ -316,14 +319,8 @@
             {
               "id": "assumptions",
               "type": "long_text",
-              "lines": 2,
-              "label": "Assumptions I still need to check"
-            },
-            {
-              "id": "learn_next",
-              "type": "long_text",
-              "lines": 2,
-              "label": "What I need to learn next"
+              "lines": 3,
+              "label": "Questions to settle"
             },
             {
               "id": "willing_to_give",
@@ -373,6 +370,19 @@
               "type": "long_text",
               "lines": 2,
               "label": "In two years, how I will know this worked"
+            },
+            {
+              "id": "clarity_now",
+              "type": "short_text",
+              "heading": "How clear is your picture now?",
+              "hint": "Score it again, without looking back at your first number. Then compare the two.",
+              "label": "My clarity score now, from 1 to 10"
+            },
+            {
+              "id": "clarity_changed",
+              "type": "long_text",
+              "lines": 2,
+              "label": "What changed since the start, and what is still unclear"
             }
           ]
         },
@@ -380,7 +390,7 @@
         "choice_explanations": [
           "I have a direction I want to investigate. Step 2 is waiting for you.",
           "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-          "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 3 tests your change and ends with your staying route: a plan for the change where you are.",
+          "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 2 helps you check and test your change, and Step 3 ends with your staying route: a plan for the change where you are.",
           "I am not ready to choose yet. Your page shows what you need to learn first.",
           "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is also a decision."
         ],
@@ -413,12 +423,8 @@
               "Daily time outside. Work I choose. No commute over 30 minutes."
             ],
             [
-              "Assumptions I still need to check",
-              "That we can live on about 80% of my income. That my manager will agree in writing. That one day less does not become five days of work in four."
-            ],
-            [
-              "What I need to learn next",
-              "What a year on 80% really costs us, using our own numbers."
+              "Questions to settle",
+              "Can we live on about 80% of my income, and what does a year on 80% really cost us? Will my manager agree in writing? Will one day less turn into five days of work in four?"
             ],
             [
               "What I am willing to invest: time, money, comfort",
@@ -508,7 +514,7 @@
         }
       }
     ],
-    "result": "My Working Direction. What you want to explore, what you take with you, and your next step.",
+    "result": "My Working Direction. A one-page picture of the life you want, the questions to settle, and your next step.",
     "video": {
       "title": "Part 5 · Choose your working direction",
       "length": "8–10 min",

@@ -225,7 +225,7 @@ export function Step1Doc({
             <div className="mt-8">
               <Kicker>My next small step, within two weeks</Kicker>
               <Pull className="mt-3">{r.nextStep}</Pull>
-              {r.assumptions && <p className="mt-3 text-[10.5pt] text-stone">Still to check: {r.assumptions}</p>}
+              {r.assumptions && <p className="mt-3 text-[10.5pt] text-stone">Questions to settle: {r.assumptions}</p>}
             </div>
           )}
 

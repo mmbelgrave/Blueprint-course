@@ -63,7 +63,7 @@ const docBlob = norm(docText);
 const missing = sentences(docText).filter((s) => !jsonBlob.includes(s));
 const extra = sentences(jsonText).filter((s) => !docBlob.includes(s));
 
-const show = (label, list, limit = 40) => {
+const show = (label, list, limit = Number(process.env.SHOW ?? 40)) => {
   console.log(`\n=== ${label}: ${list.length} ===`);
   list.slice(0, limit).forEach((s) => console.log("  · " + (s.length > 150 ? s.slice(0, 150) + "…" : s)));
   if (list.length > limit) console.log(`  … and ${list.length - limit} more`);

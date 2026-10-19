@@ -1,6 +1,6 @@
 {
-  "version": 21,
-  "source": "The Made Real Blueprint - Step 1 Picture workbook - Rev.01b.docx (October 2026)",
+  "version": 22,
+  "source": "The Made Real Blueprint - Step 1 Picture workbook - Rev.01e.docx (October 2026)",
   "source_note": "The workbook's opening line 'You have read the Introduction' is left out in the app: the Introduction is a separate document and is not part of the app.",
   "schema_notes": {
     "ids": "Part, exercise, summary and field IDs are stable keys for saved answers. Do not rename them when only the wording changes.",
@@ -67,7 +67,7 @@
       "items": [
         [
           "Must-have",
-          "something your new life really needs."
+          "something the life you want really needs."
         ],
         [
           "Dealbreaker",
@@ -107,7 +107,7 @@
         ],
         [
           "Part 1",
-          "Picture your new life",
+          "Picture the life you want",
           "75–100 min",
           "My Life Picture"
         ],
@@ -161,12 +161,26 @@
           "start_here": {
             "fields": [
               {
+                "id": "clarity_score",
+                "type": "short_text",
+                "heading": "Before you start: how clear is your picture?",
+                "hint": "Give one honest number. How clear is the life you want, from 1 (not clear at all) to 10 (very clear)? You score it again at the end of this step, so you can see what changed.",
+                "label": "My clarity score today, from 1 to 10"
+              },
+              {
+                "id": "clarity_why",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What makes it this number"
+              },
+              {
                 "id": "moment",
                 "type": "long_text",
                 "lines": 3,
                 "marker": "A",
                 "label": "One moment that felt good",
-                "hint": "Think of one moment in the last few years when you felt content, engaged or proud. What happened? What made it possible?"
+                "hint": "Think of one moment in the last few years when you felt content, engaged or proud. What happened? What made it possible?",
+                "heading": "Your four questions"
               },
               {
                 "id": "normal_day",
@@ -252,7 +266,7 @@
       "id": "p1",
       "number": 1,
       "label": "Part 1",
-      "title": "Picture your new life",
+      "title": "Picture the life you want",
       "promise": "Most people know exactly what they do not want. Now we find out what you really want.",
       "intro": [
         "A big life change often starts with \"Where shall I go?\" or \"Can I afford it?\" You will answer both. Here, we begin with the life you want, then look at the place and the money.",
@@ -265,7 +279,7 @@
         "You do not need the whole picture. You need enough of it to take the next step. The rest becomes clear after that."
       ],
       "time": "75–100 min",
-      "route_title": "Picture your new life",
+      "route_title": "Picture the life you want",
       "talk": "Share your normal day with your partner or a close friend. Ask: \"Do you see me in this picture? What surprises you?\" If you plan to build a life together, each of you should write your own normal day first. Then compare and talk about where your pictures differ.",
       "finish": {
         "id": "life_picture",
@@ -346,7 +360,7 @@
                   "Calm, meaning, freedom, being useful"
                 ]
               ],
-              "after": "The third one is the most important. The activity may not be possible in your new life. The need comes with you wherever you go."
+              "after": "The third one is the most important. The activity may not fit the life you want. The need comes with you wherever you go."
             }
           ],
           "watch_out": [
@@ -379,12 +393,12 @@
         },
         {
           "id": "1.2",
-          "title": "A normal day in your new life",
+          "title": "A normal day in the life you want",
           "promise": "Not a holiday. A normal Tuesday. Because most days are normal days.",
           "intro": [
-            "Now you turn those ingredients into a day.",
+            "Now you turn those ingredients into a day. This is the same exercise as the free Ordinary Tuesday PDF. Did you do it already? Bring your answer, and add to it here.",
             "We use an ordinary day because that is what most of your life will be. It can feel less exciting than imagining a big change, but it gives you a useful question: would I enjoy the everyday life that comes with it?",
-            "An ordinary day also gives you something to test. You can visit a place and try living a normal Tuesday there. It is much harder to test a word like \"happiness\"."
+            "An ordinary day also gives you something to test. You can visit a place, or change one day of your week where you live, and try living a normal Tuesday. It is much harder to test a word like \"happiness\"."
           ],
           "tables": [
             {
@@ -506,7 +520,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I didn't have two million euros, but I realised I didn't need that much to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In April 2024, I travelled to Portugal to see it for myself. In August 2024, I signed for the land, and by the end of that year it was officially mine. Today, I am building the life I pictured."
+            "text": "In 2023, while I was living in Bali, I answered the two-million question: what would you do with two million euros? My answer was clear: buy land in Portugal and build a self-sufficient life. I didn't have two million euros. But taking money out of the picture showed me what I really wanted, and it turned out I didn't need much money to begin. My first step cost nothing. I listed what that life needed and compared countries against it. You will see how in Step 2. In the spring of 2024, I travelled through Portugal to see it for myself. That summer, I signed for the land, and by the end of the year it was officially mine. Today, I am building the life I pictured."
           }
         },
         {
@@ -594,7 +608,7 @@
                 "columns": [
                   {
                     "id": "must_have",
-                    "label": "What my new life needs",
+                    "label": "What the life I want needs",
                     "kind": "text"
                   },
                   {
@@ -710,6 +724,12 @@
             "label": "What I want to keep"
           },
           {
+            "id": "responsible",
+            "type": "long_text",
+            "lines": 2,
+            "label": "What I am responsible for: people I care for, work, money"
+          },
+          {
             "id": "essentials",
             "type": "long_text",
             "lines": 2,
@@ -735,7 +755,7 @@
         "result": "My Life Picture. What you want more of, what you keep, what is essential, and what is still open."
       },
       "video": {
-        "title": "Part 1 · Picture your new life",
+        "title": "Part 1 · Picture the life you want",
         "length": "12–16 min",
         "url": null
       }
@@ -968,7 +988,7 @@
             },
             {
               "status": "ready",
-              "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I decided. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: more say over my time."
+              "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I was in control of my time. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: more say over my time."
             }
           ]
         },
@@ -1108,7 +1128,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk, which led me to his Perfect Life programme. I started it in Leiden and continued during a two-month sabbatical in Bali at the end of 2021, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, run my own business, and help people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
+            "text": "In 2020, I sold my house in the Netherlands to travel the world. Then COVID stopped those plans. I rented an apartment in Leiden and used the time to think. Someone gave me a book by Michael Pilarczyk. A few months later, it led me to his programme Your Roadmap 2022. I started it in early 2022, just after arriving in Bali for a two-month sabbatical, when I was finding out whether that life suited me. I wrote down what I wanted: to live near the sea, in a warm climate, run my own business, and help people. It felt right. I returned to the Netherlands, left my job, and moved to Bali on my own with two bags. I could not control the interruption, but I could decide what to do with the time."
           }
         },
         {
@@ -1221,7 +1241,7 @@
           ],
           "story": {
             "status": "ready",
-            "text": "I asked my mother and my brother to write down how they saw me. Some of what they said made me proud: that I was reliable, caring, and there when someone needed help. Other parts were harder to read. Both said, in their own words, that I sometimes reacted before really listening. I was defensive at first, but I recognised the truth in it. Since then, I have worked on listening, especially in my relationship. Exercises that help me notice my body and emotions have taught me to pause and ask: do I have room to listen properly right now? I still need to practise, but I have become much better at it. Their feedback helped me see something I had missed on my own."
+            "text": "I asked my mother and my brother to write down how they saw me. Some of what they said made me proud: that I was reliable, caring, and there when someone needed help. Hearing that also told me something useful: helping people had to be part of my new life. Other parts were harder to read. Both said, in their own words, that I sometimes reacted before really listening. I was defensive at first, but I recognised the truth in it. Since then, I have worked on listening, especially in my relationship. Exercises that help me notice my body and emotions have taught me to pause and ask: do I have room to listen properly right now? I still need to practise, but I have become much better at it. Their feedback helped me see something I had missed on my own."
           }
         }
       ],
@@ -1294,17 +1314,17 @@
         "Start with three numbers:"
       ],
       "intro_bullets": [
-        "What does my new life cost per month? (3.2)",
+        "What does the life you want cost per month? (3.2)",
         "What does the change itself cost, one time? (3.3)",
         "What comes in per month? (3.4)"
       ],
       "intro_after": "In 3.5, you put those three together in one simple check, with an example next to it. Mark how sure you are about every number. A figure you have checked and one you have guessed can look identical on paper. Use the same three labels throughout: known, estimate, unknown.",
       "tips": [
         "Use an estimate if you have one, and mark it as an estimate. If you do not know, write \"unknown\" and how you will check. An unknown number means your total isn't complete yet. It never counts as zero.",
-        "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the new-life column unknown wherever you still need information."
+        "Start with one recent bank statement and a calculator. Fill in today's costs first, because you can look those up. Leave the After the change column unknown wherever you still need information."
       ],
       "setup": {
-        "intro": "Choose one version of your new life to cost first. Keep a move to Portugal separate from a plan to work fewer hours at home. Start with the version you most want to explore. You can repeat the exercise for another version later.",
+        "intro": "Choose one version of the life you want to cost first. Keep a move to Portugal separate from a plan to work fewer hours at home. Start with the version you most want to explore. You can repeat the exercise for another version later.",
         "fields": [
           {
             "id": "version",
@@ -1361,12 +1381,12 @@
         },
         {
           "id": "3.2",
-          "title": "What does your life cost per month, now and in your new life?",
+          "title": "What does your life cost per month, now and after the change?",
           "intro": [
             "Yearly costs are easy to miss when you think in months: insurance, car repairs, gifts, a holiday, the dentist. Divide them by twelve and include them in the table, unless you have already counted them elsewhere. For example, 1,200 a year for insurance, repairs and gifts adds 100 a month."
           ],
           "start_here": {
-            "prompt": "Write the costs per month. In the last column, mark each new-life number: known, estimate or unknown.",
+            "prompt": "Write the costs per month. In the last column, mark each number in the After the change column: known, estimate or unknown.",
             "fields": [
               {
                 "id": "costs",
@@ -1394,7 +1414,7 @@
                   },
                   {
                     "id": "new_life",
-                    "label": "In my new life",
+                    "label": "After the change",
                     "kind": "money"
                   },
                   {
@@ -1491,7 +1511,7 @@
             }
           ],
           "start_here": {
-            "prompt": "List your current income sources and those you expect in your new life. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the new-life column and note the gross amount alongside it for later. Keep gross amounts out of the total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
+            "prompt": "List your current income sources and those you expect after the change. Use income after tax and other deductions. If you do not know your future take-home pay, write \"unknown\" in the After the change column and note the gross amount alongside it for later. Keep gross amounts out of the total: they are not what reaches your account. You will work through tax in Step 3 with a professional.",
             "fields": [
               {
                 "id": "income",
@@ -1510,7 +1530,7 @@
                   },
                   {
                     "id": "new_life",
-                    "label": "In my new life",
+                    "label": "After the change",
                     "kind": "money"
                   },
                   {
@@ -1554,7 +1574,7 @@
           },
           "example": {
             "who": "Lucas, 29",
-            "text": "Now: salary as a graphic designer. In my new life: that salary stops; my employer won't let me work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
+            "text": "Now: salary as a graphic designer. After the change: that salary stops; my employer won't let me work from abroad. Freelance work for two current clients (agreed), renting out a room (hoped), design workshops later (hoped)."
           }
         },
         {
@@ -1575,7 +1595,7 @@
                 "rows": [
                   {
                     "id": "income",
-                    "label": "1. My income per month in my new life (from 3.4)",
+                    "label": "1. My income per month after the change (from 3.4)",
                     "example": "€1,600",
                     "from": {
                       "exercise": "3.4",
@@ -1585,7 +1605,7 @@
                   },
                   {
                     "id": "costs",
-                    "label": "2. My costs per month in my new life (from 3.2)",
+                    "label": "2. My costs per month after the change (from 3.2)",
                     "example": "€2,000",
                     "from": {
                       "exercise": "3.2",
@@ -1712,7 +1732,7 @@
           },
           "story": {
             "status": "ready",
-            "text": "A few years ago, I had savings in different accounts but no clear plan. The Perfect Life programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
+            "text": "A few years ago, I had savings in different accounts but no clear plan. The Your Roadmap 2022 programme helped me set financial goals for the life I wanted. I could then see which investments to start and what budget I needed for my first house in Bali. I also set a monthly budget for my daily life and checked it every month. Before moving, I made sure I had twelve months of living costs saved. That gave me time to build my new life without the immediate pressure of running out of money and having to return. Knowing the numbers made the big decisions easier. My picture told me what I wanted; my plan showed me whether I could afford it."
           },
           "go_further": "Want to go further? A module called Your Money Plan is planned for later; it is not part of this course. It will cover goals, a budget, investments and your \"freedom date\": the moment your investments could pay for your life."
         }
@@ -1732,7 +1752,7 @@
             "id": "monthly_costs",
             "type": "long_text",
             "lines": 2,
-            "label": "What my new life costs per month, and how sure I am"
+            "label": "What the life I want costs per month, and how sure I am"
           },
           {
             "id": "one_time",
@@ -1784,7 +1804,7 @@
       "number": 4,
       "label": "Part 4",
       "title": "Compare your options",
-      "promise": "Moving far away is one option. It is not the only one.",
+      "promise": "Moving is one option. Changing your work, your time or your home where you are is another.",
       "intro_title": "Why we compare instead of decide",
       "intro": [
         "You now have a picture of the life you want, an honest starting point, and a first money check. Before choosing a direction, put a few options side by side.",
@@ -1812,8 +1832,8 @@
                 "row_labels": [
                   "A",
                   "B",
-                  "C",
-                  "D"
+                  "C  Stay, but change:",
+                  "D  Change nothing"
                 ],
                 "columns": [
                   {
@@ -1845,6 +1865,9 @@
           },
           "tips": [
             "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and tests it. A four-week stay is a better test, but it comes later and costs more. Start with the cheap version."
+          ],
+          "story": [
+            "My first test was on paper, and it cost nothing: I listed what my life needed and compared countries against it. Only after that did I do a bigger test. In the spring of 2024, I spent two months in a campervan, travelling through every region of Portugal. The trip was not meant for buying. It was meant to see whether my picture held up outside the photos."
           ]
         },
         {
@@ -2038,18 +2061,18 @@
       "promise": "A clear next direction, which you can still change.",
       "intro_title": "A direction is not a decision.",
       "intro": [
-        "You do not have to commit to a move here. A Working Direction says what you will explore next and what you need to learn before deciding. Change it when what you learn points you elsewhere.",
+        "You do not have to commit to anything here. Your Working Direction is a one-page picture of the life you want and the questions you still need to settle. It says what you will explore next. Change it when what you learn points you elsewhere.",
         "Make your next step specific. It should be small enough to complete within two weeks, have a date, and teach you something. \"Read more about Portugal\" gives you no clear question or deadline. \"Call two people who moved there and ask what surprised them, before the 15th\" gives you both.",
         "The last line looks two years ahead. How will you know this has worked? Describe it through the ordinary days you wrote about earlier, and include one line about your time. For example: \"I can take a day off when the weather is good, without asking anyone.\" You will return to this answer in Step 8.",
         "You make the final decision in Step 3, after you have explored your options."
       ],
       "time": "30 min",
       "route_title": "Choose your working direction",
-      "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Are other people moving with you? Ask each of them to fill in their own page first. Then sit together and compare.",
+      "talk": "Tell one person about your working direction this week. Saying it out loud makes it more real. Is anyone else affected by this choice? Ask each of them to fill in their own page first. Then sit together and compare.",
       "finish": {
         "id": "working_direction",
         "title": "My Working Direction",
-        "description": "What you want to explore, what you take with you, and your next step."
+        "description": "A one-page picture of the life you want, the questions to settle, and your next step."
       },
       "exercises": [
         {
@@ -2096,14 +2119,8 @@
               {
                 "id": "assumptions",
                 "type": "long_text",
-                "lines": 2,
-                "label": "Assumptions I still need to check"
-              },
-              {
-                "id": "learn_next",
-                "type": "long_text",
-                "lines": 2,
-                "label": "What I need to learn next"
+                "lines": 3,
+                "label": "Questions to settle"
               },
               {
                 "id": "willing_to_give",
@@ -2153,6 +2170,19 @@
                 "type": "long_text",
                 "lines": 2,
                 "label": "In two years, how I will know this worked"
+              },
+              {
+                "id": "clarity_now",
+                "type": "short_text",
+                "heading": "How clear is your picture now?",
+                "hint": "Score it again, without looking back at your first number. Then compare the two.",
+                "label": "My clarity score now, from 1 to 10"
+              },
+              {
+                "id": "clarity_changed",
+                "type": "long_text",
+                "lines": 2,
+                "label": "What changed since the start, and what is still unclear"
               }
             ]
           },
@@ -2160,7 +2190,7 @@
           "choice_explanations": [
             "I have a direction I want to investigate. Step 2 is waiting for you.",
             "I want to compare two or more directions. Step 2 helps you explore them side by side.",
-            "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 3 tests your change and ends with your staying route: a plan for the change where you are.",
+            "I want to build the life I want where I am. Staying is a real result. It takes the same work: deciding, planning, and building. A good first step: take back two blocks of your week in the next three months. Step 2 helps you check and test your change, and Step 3 ends with your staying route: a plan for the change where you are.",
             "I am not ready to choose yet. Your page shows what you need to learn first.",
             "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is also a decision."
           ],
@@ -2193,12 +2223,8 @@
                 "Daily time outside. Work I choose. No commute over 30 minutes."
               ],
               [
-                "Assumptions I still need to check",
-                "That we can live on about 80% of my income. That my manager will agree in writing. That one day less does not become five days of work in four."
-              ],
-              [
-                "What I need to learn next",
-                "What a year on 80% really costs us, using our own numbers."
+                "Questions to settle",
+                "Can we live on about 80% of my income, and what does a year on 80% really cost us? Will my manager agree in writing? Will one day less turn into five days of work in four?"
               ],
               [
                 "What I am willing to invest: time, money, comfort",
@@ -2288,7 +2314,7 @@
           }
         }
       ],
-      "result": "My Working Direction. What you want to explore, what you take with you, and your next step.",
+      "result": "My Working Direction. A one-page picture of the life you want, the questions to settle, and your next step.",
       "video": {
         "title": "Part 5 · Choose your working direction",
         "length": "8–10 min",
@@ -2300,8 +2326,8 @@
     "title": "What comes next",
     "intro": "You have made your picture clearer, looked honestly at your life and your money, and chosen a Working Direction.",
     "bullets": [
-      "Want to investigate a direction? Step 2, Explore, helps you check it. The questions work for Portugal and for other places.",
-      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Then test that change in Step 3, which ends with your staying route.",
+      "Want to investigate a direction? Step 2, Explore, helps you check it. The questions work for a change where you live and for a move. The rules and examples cover Portugal.",
+      "Building the life you want where you are? Choose one change from your staying option. Write what you will change in the next three months, and how you will notice if it helps. Talk it through with the people it affects. Then follow the staying path in Step 2 to check and test that change. Step 3 ends with your staying route.",
       "Not ready yet? Your page tells you what to learn first."
     ],
     "tips": [
