@@ -57,7 +57,9 @@ export default function Privacy() {
           page, and any question you send from the Help page. We use this to run the app for you, remember your
           progress and let you print or save your results. The legal basis is our contract with you (Art. 6(1)(b)
           GDPR). Your sign-in code also rests on our legitimate interest in keeping accounts secure (Art. 6(1)(f)
-          GDPR).
+          GDPR). Your AI partner: your consent (Art. 6(1)(a) GDPR). The log of how much you used it: our legitimate
+          interest in the daily limit and the costs (Art. 6(1)(f) GDPR). Order records: a legal obligation (Art.
+          6(1)(c) GDPR).
         </p>
         <p>
           Only your email address is required, because it is how you sign in. Your first name and your currency make
@@ -85,8 +87,9 @@ export default function Privacy() {
 
         <h2 className="font-semibold">Who reads it</h2>
         <p>
-          Nobody reads your answers but you. Mwata can read them only if you tick the optional box in Settings. You
-          can change that at any time. With it off, nobody at our company reads what you write.
+          With both switches off, nobody reads your answers but you. Mwata can read them only if you tick the
+          optional box in Settings, and your AI partner reads them only if you switch it on. You can change either at
+          any time. With both off, nobody at our company and no AI reads what you write.
         </p>
 
         <h2 className="font-semibold">Please keep the sensitive things out</h2>
@@ -154,7 +157,9 @@ export default function Privacy() {
             What my AI partner knows
           </Link>{" "}
           and choose Delete everything. Your answers, your pictures, your chats, the notes, your questions and your
-          account are gone at once. You can also make your AI partner forget one single topic and keep the rest.
+          account are gone at once, apart from the order record and the withdrawal record, which we have to keep for
+          the reasons in &ldquo;How long&rdquo; above. You can also make your AI partner forget one single topic and
+          keep the rest.
         </p>
 
         <h2 className="font-semibold">Your rights</h2>
@@ -162,7 +167,7 @@ export default function Privacy() {
           You may ask what is stored about you, ask for a copy in a common file format, ask for a correction, ask for
           all of it to be deleted, ask us to limit how we use it, or object to it. You can withdraw any consent at any
           time. You can object at any time to processing based on our legitimate interest, which here is the security
-          of your sign-in. Write to{" "}
+          of your sign-in and the AI usage log. Write to{" "}
           <a href="mailto:info@maderealblueprint.com" className="text-pine underline">
             info@maderealblueprint.com
           </a>
