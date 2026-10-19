@@ -111,7 +111,10 @@ export function BlueprintDoc({
           <Headline>Keep the life in the plan</Headline>
           {r.values.length > 0 && (
             <Standfirst>
-              {r.values.join(", ")}. The move is only worth it if ordinary days make more room for these.
+              {r.values.join(", ")}.{" "}
+              {r.staying
+                ? "The change is only worth it if ordinary days make more room for these."
+                : "The move is only worth it if ordinary days make more room for these."}
             </Standfirst>
           )}
 

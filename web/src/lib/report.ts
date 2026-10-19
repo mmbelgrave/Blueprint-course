@@ -199,12 +199,52 @@ export const DAILY_ROWS: { label: string; short: string }[] = [
 export type Light = { name: string; colour: "green" | "amber" | "red" | "unknown"; note?: string; when?: string };
 
 /** The five lights as the summary page recorded them. */
+/*
+ * Each light is decided on its own page before it is carried into the summary
+ * table, and plenty of people stop after the page (review round 4, R4-9).
+ * These are the pages, in the order of LIGHT_NAMES.
+ */
+const LIGHT_PAGES = [
+  { page: "s3-1.1", colour: "money_light", when: "money_green_by", note: "" },
+  { page: "s3-1.2", colour: "papers_light", when: "papers_green_by", note: "papers" },
+  { page: "s3-1.3", colour: "people_light", when: "people_green_by", note: "people" },
+  { page: "s3-1.4", colour: "place_light", when: "place_green_by", note: "place" },
+  { page: "s3-1.5", colour: "planb_light", when: "planb_green_by", note: "what_then" },
+];
+
+const colourOf = (raw: string): Light["colour"] => {
+  const v = raw.trim().toLowerCase();
+  return v.startsWith("green") ? "green" : v.startsWith("amber") ? "amber" : v.startsWith("red") ? "red" : "unknown";
+};
+
+/**
+ * The five lights.
+ *
+ * The summary table wins where it was filled in, because that is where the
+ * person brought the five together and looked at them side by side. Where a
+ * row was left empty, the page behind it answers instead: somebody who set
+ * the light on 1.1 to 1.5 and never copied them forward wrote those answers,
+ * and a document of five dashes would be the app losing them.
+ */
 export function lightsOf(a: Answers): Light[] {
   const rows = rowsOf(a, "green_lights", "lights");
   return LIGHT_NAMES.map((name, i) => {
-    const raw = cell(rows, i, "colour").toLowerCase();
-    const colour = raw.startsWith("green") ? "green" : raw.startsWith("amber") ? "amber" : raw.startsWith("red") ? "red" : "unknown";
-    return { name, colour, note: cell(rows, i, "turns_green") || undefined, when: cell(rows, i, "by_when") || undefined };
+    const summary = colourOf(cell(rows, i, "colour"));
+    if (summary !== "unknown") {
+      return {
+        name,
+        colour: summary,
+        note: cell(rows, i, "turns_green") || undefined,
+        when: cell(rows, i, "by_when") || undefined,
+      };
+    }
+    const page = LIGHT_PAGES[i];
+    return {
+      name,
+      colour: colourOf(text(a, page.page, page.colour)),
+      note: (page.note ? text(a, page.page, page.note) : "") || undefined,
+      when: text(a, page.page, page.when) || undefined,
+    };
   });
 }
 
@@ -220,6 +260,10 @@ export const openLights = (l: Light[]) => l.filter((x) => x.colour === "amber" |
  */
 export type Cascade = { steps: { label: string; amount: number; kind: "start" | "take" | "keep" | "end" }[]; left: number | null };
 
+/** True when the decision on the table is a change at home, not a move. */
+export const isStaying = (a: Answers): boolean =>
+  /change where i am|where i am|stay/i.test(text(a, "s3-4.2", "decision"));
+
 export function savingsCascade(a: Answers): Cascade | null {
   const rows = rowsOf(a, "s3-1.1", "check_one");
   const at = (i: number) => num(cell(rows, i, "amount"));
@@ -229,7 +273,7 @@ export function savingsCascade(a: Answers): Cascade | null {
   const taken = (
     [
       { label: "Deciding costs", amount: at(1) ?? 0, kind: "take" },
-      { label: "Moving costs", amount: at(2) ?? 0, kind: "take" },
+      { label: isStaying(a) ? "The change itself" : "Moving costs", amount: at(2) ?? 0, kind: "take" },
       { label: "Tied-up deposits", amount: at(3) ?? 0, kind: "take" },
       { label: "Emergency reserve", amount: at(4) ?? 0, kind: "keep" },
       { label: "Return fund", amount: at(5) ?? 0, kind: "keep" },
@@ -245,6 +289,27 @@ export function savingsCascade(a: Answers): Cascade | null {
     ],
     left,
   };
+}
+
+/**
+ * How to attach a "when" to a sentence.
+ *
+ * The workbook asks for a date, and plenty of people write a period instead:
+ * "in the first week", "the third month after the change". "before In the
+ * first week" is the app reading its own label out loud, so a value that is
+ * not a date is simply put in its own sentence.
+ */
+const MONTHS = /^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/i;
+export const looksLikeADate = (value: string): boolean => {
+  const v = value.trim();
+  return /^\d/.test(v) || MONTHS.test(v);
+};
+
+/** ", before 14 March" for a date, ". In the first week" for anything else. */
+export function whenSuffix(value: string | undefined, preposition: string): string {
+  const v = (value ?? "").trim();
+  if (!v) return ".";
+  return looksLikeADate(v) ? `, ${preposition} ${noStop(v)}.` : `. ${noStop(v)}.`;
 }
 
 /** The three figures under the cascade: runway, runway under stress, runway wanted. */
@@ -547,6 +612,8 @@ export function blueprintReport(a: Answers) {
     accept: text(a, "1.4", "let_go"),
     twoYears: text(a, "5.1", "two_years"),
     dealbreakers: text(a, "1.4", "dealbreakers"),
+    /* So the document can name the change this person actually decided on. */
+    staying: isStaying(a),
   };
 }
 

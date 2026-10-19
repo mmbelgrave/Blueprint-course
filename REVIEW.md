@@ -1311,7 +1311,12 @@ answer the same way.
   modules of the free kind, so an exercise added under a paid module cannot be
   handed out by `/api/workbook?free=`. `web/tests/free-pdf.test.ts` holds the
   rule, since the route takes that branch before any access check runs.
-- R4-9 (the five lights read one table only), R5-5 (an old public chunk
+- R4-9 is **fixed** (19 October 2026): `lightsOf` falls back to the light on
+  each of 1.1 to 1.5 where the summary row is empty, row by row, so somebody
+  who answered the pages and never copied them forward gets their own colours
+  instead of five blanks. The summary still wins where it was filled in.
+  Checked on the printed page with the summary table deleted.
+- R5-5 (an old public chunk
   may sit in an edge cache), and the admin overview asking for 1000 accounts in
   one call.
 - Slice 3: two voices in the result documents.

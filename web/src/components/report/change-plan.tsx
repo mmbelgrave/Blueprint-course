@@ -11,7 +11,7 @@
  */
 import { Body, Footnote, Headline, Kicker, PageFoot, Pull, RunningHead, Rule, Sheet } from "./chrome";
 import { Steps } from "./charts";
-import type { ChangePlan } from "@/lib/report";
+import { looksLikeADate, noStop, type ChangePlan } from "@/lib/report";
 
 export function ChangePlanSheet({
   plan,
@@ -103,7 +103,9 @@ export function ChangePlanSheet({
         )}
 
         <Footnote>
-          {plan.checkIns ? `I look at this again on ${plan.checkIns}. ` : ""}
+          {plan.checkIns
+            ? `I look at this again${looksLikeADate(plan.checkIns) ? " on" : ":"} ${noStop(plan.checkIns)}. `
+            : ""}
           Staying is a decision like any other, and this is the plan that goes with it.
         </Footnote>
       </Body>

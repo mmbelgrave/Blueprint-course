@@ -15,7 +15,7 @@ import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Rule, Run
 import { ConditionRows, Lights, Numbered, Steps } from "./charts";
 import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { noStop, openLights, type ChangePlan, type Step3, type Together } from "@/lib/report";
+import { noStop, openLights, whenSuffix, type ChangePlan, type Step3, type Together } from "@/lib/report";
 import { coverWords } from "@/lib/report";
 import { Agreed, SideBySide } from "./two-voices";
 
@@ -97,7 +97,7 @@ export function Step3Doc({
           {r.firstStep && (
             <Footnote>
               My first step: {noStop(r.firstStep)}
-              {r.firstStepDate ? `, before ${r.firstStepDate}` : ""}.
+              {whenSuffix(r.firstStepDate, "before")}
             </Footnote>
           )}
         </Body>
