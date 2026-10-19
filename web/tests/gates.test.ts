@@ -161,3 +161,4 @@ test("the order record outlives the account", () => {
   assert.match(sql, /alter table public\.entitlements alter column user_id drop not null/);
   assert.match(sql, /references auth\.users \(id\) on delete set null/);
 });
+

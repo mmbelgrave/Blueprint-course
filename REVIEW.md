@@ -1307,7 +1307,11 @@ answer the same way.
 
 - The two-account test is Mwata's to run: nothing here has been exercised by a
   second person since these fixes.
-- R4-9 (the five lights read one table only), R4-10, R5-5 (an old public chunk
+- R4-10 is **fixed** (19 October 2026): `freeItemById` now searches only
+  modules of the free kind, so an exercise added under a paid module cannot be
+  handed out by `/api/workbook?free=`. `web/tests/free-pdf.test.ts` holds the
+  rule, since the route takes that branch before any access check runs.
+- R4-9 (the five lights read one table only), R5-5 (an old public chunk
   may sit in an edge cache), and the admin overview asking for 1000 accounts in
   one call.
 - Slice 3: two voices in the result documents.

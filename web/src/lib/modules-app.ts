@@ -124,8 +124,19 @@ export function freeThingsIn(m: ModuleDef): { kind: "lesson" | "page"; href: str
   return out;
 }
 
-/** A free exercise, which is a PDF rather than a page. */
-export const freeItemById = (id: string) => modules.flatMap((x) => x.items ?? []).find((i) => i.id === id);
+/**
+ * A free exercise, which is a PDF rather than a page.
+ *
+ * Only modules of the free kind are searched (review round 4, R4-10). The
+ * workbook route takes the `free=` branch before it asks anybody about
+ * purchases, so this lookup is the whole gate: an item added under a paid
+ * module must not become free by sitting in the same list of items.
+ */
+export const freeItemById = (id: string) =>
+  modules
+    .filter((m) => m.kind === "free")
+    .flatMap((x) => x.items ?? [])
+    .find((i) => i.id === id);
 
 export { watchedKey };
 export { lessonKey } from "@/lib/modules";
