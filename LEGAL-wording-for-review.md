@@ -12,8 +12,12 @@ had consented under the old sign-up wording are being asked again: their old
 consent does not count, and until they answer the new screen, nothing they
 write is sent to Anthropic.
 
-The app's privacy page is the only page of this that is published. The Terms
-and the website footer (your sections A2 and C2) are not changed yet.
+Your sections A2 and C2 are done too, as of 19 October: Terms §9 now points
+to the withdrawal page and says access ends three days after we receive the
+notice, and "Withdraw from contract" is in the footer of every page. The
+backups row in the website privacy note said deleted data could sit in a
+provider's backup for seven days, which contradicted the app, and now says
+there are none.
 
 ---
 
@@ -73,8 +77,10 @@ section 2 below.
    says so in both places. Mwata's decision: three days is a grace period for
    somebody who changes their mind, and nobody should lose what they have
    written the second they press a button. The refund is unaffected and always
-   the full price. Calendar days, not working days, so the date is one anybody
-   can count. **Please confirm the wording is acceptable.**
+   the full price. Three days, counted as calendar days, so the date is one
+   anybody can count; the same three days are now in Terms §9, in the
+   acknowledgement email, in the banner and on the app privacy page.
+   **Please confirm the wording is acceptable.**
 
 2. **Two consent boxes, not one.** Your D2 label covers the processing and the
    special categories in one sentence. It is split in two, with your words,
@@ -124,13 +130,10 @@ section 2 below.
 
 ## 3. Still open for you
 
-1. **Is the online withdrawal function required for this product?** The
-   requirement we found sits in Directive 2023/2673, which covers distance
-   contracts for financial services. For digital content, Directive 2011/83
-   appears to require the information, the 14 days and a model form, which the
-   published terms already give. The button is built either way. The question
-   is whether it is a duty with a deadline, and whether Portugal's transposition
-   prescribes a label or wording.
+1. **Does Art. 11a (introduced by Directive 2023/2673) apply to this digital
+   course? What label and wording does Portugal's transposition require, and
+   does the duty fall on us, Lemon Squeezy, or both?** The button is built
+   either way, labelled "Withdraw from contract here".
 2. **Is "access ends three days after the request" acceptable**, with the
    refund unaffected? See point 1 above.
 3. **Does the withdrawal record have to outlive a deleted account?** It does:

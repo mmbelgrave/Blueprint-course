@@ -131,7 +131,7 @@ test("a refunded purchase makes a free account again", () => {
 /*
  * A purchase that has ended (Terms §9, 18 October).
  *
- * A withdrawal sets `ended_at` three working days ahead rather than closing
+ * A withdrawal sets `ended_at` three days ahead rather than closing
  * the purchase on the spot, so the person keeps their answers while they
  * think. The access rules have to respect that date without anything having
  * to run on time.

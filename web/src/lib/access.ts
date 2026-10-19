@@ -25,7 +25,7 @@ export type AccessConfig = {
  * What a person holds. Only "active" counts; a refund or a revoke ends it.
  *
  * `ended_at` is when it stops opening anything. A refund sets it to the moment
- * the money went back; a withdrawal sets it three working days ahead, so the
+ * the money went back; a withdrawal sets it three days ahead, so the
  * person keeps their answers for a few days after pressing the button (Terms
  * §9). A date in the future changes nothing; a date in the past closes the
  * purchase without waiting for any job to run.
