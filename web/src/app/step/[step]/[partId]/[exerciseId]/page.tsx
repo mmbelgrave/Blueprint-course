@@ -311,12 +311,12 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
   const resultPageId = part.summary?.id ?? part.result_page;
   const isResultPage = exercise.id === resultPageId;
   /*
-    * Both feedback questions are asked once per part, on the last page that
-    * asks something of you — never on Start, never on the page that only
-    * gathers the result (Mwata, 20 October).
-    */
-  const lastQuestionPage = part.exercises.filter((e) => !e.optional && e.id !== resultPageId).at(-1)?.id;
-  const feedbackHere = part.number !== 0 && exercise.id === lastQuestionPage;
+   * Both feedback questions are asked once per part, on its last page,
+   * whatever that page is: the summary, an extra page, or the one page a
+   * Start has. Simple to say and simple to find (Mwata, 20 October), where
+   * "the last page that asks something" put them on 2.4 instead of 2.6.
+   */
+  const feedbackHere = exercise.id === partItems(part).at(-1)?.id;
   const changeStatus = async (status: "done" | "in_progress") => {
     setStatusError(!(await setStatus(exercise.id, status)));
   };
