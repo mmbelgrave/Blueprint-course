@@ -144,7 +144,7 @@ function StepOverview({ step }: { step: StepContent }) {
         <JourneyMotif phase="Choose it" note="Steps 1 and 2 are the choosing: what you want, and where it could work." />
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
         {next && started && (
           <Link href={hrefOf(next)} className="btn btn-primary">
             Continue where I stopped

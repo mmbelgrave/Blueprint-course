@@ -133,9 +133,11 @@ function ConsentForm() {
         )}
       </section>
 
-      <button className="btn btn-primary" disabled={saving}>
-        {saving ? "Saving…" : "Let's begin"}
-      </button>
+      <p className="flex justify-center">
+        <button className="btn btn-primary" disabled={saving}>
+          {saving ? "Saving…" : "Let's begin"}
+        </button>
+      </p>
       {error && (
         <p role="alert" className="text-ochre">
           This was not saved. Please check your internet and try again.

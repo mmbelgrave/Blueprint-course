@@ -4,8 +4,8 @@
  *
  * The part feedback — stars and a comment at the end of a part — answers "how
  * did that feel". This answers something smaller and more useful: did this
- * page land. On every exercise page, so that when somebody gets stuck Mwata
- * learns which page did it, not which part.
+ * page land. Once per part, at the end of its questions, so that when
+ * somebody gets stuck Mwata learns which page did it, not which part.
  *
  * It is deliberately two words and two buttons. A form at the foot of every
  * page would be ignored by the third page and resented by the tenth; one line

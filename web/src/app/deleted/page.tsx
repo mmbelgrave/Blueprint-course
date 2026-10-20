@@ -18,9 +18,11 @@ function Message() {
           Mwata.
         </p>
       )}
-      <Link href="/" className="btn btn-ghost">
-        Back to the start
-      </Link>
+      <p className="flex justify-center">
+        <Link href="/" className="btn btn-ghost">
+          Back to the start
+        </Link>
+      </p>
     </div>
   );
 }

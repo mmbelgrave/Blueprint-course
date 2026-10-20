@@ -155,7 +155,7 @@ export function AiConsentScreen({ onNotNow }: { onNotNow?: () => void }) {
         </span>
       </label>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
+      <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
         <button type="button" className="btn btn-primary" disabled={!agree || busy} onClick={() => answer(true)}>
           {busy ? "Saving…" : "Switch on my AI partner"}
         </button>

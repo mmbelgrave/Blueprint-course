@@ -66,7 +66,7 @@ function ProfileItem({
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
           />
-          <div className="flex gap-2">
+          <div className="flex justify-center gap-2">
             <button
               className="btn btn-primary py-1.5 text-sm"
               disabled={busy}

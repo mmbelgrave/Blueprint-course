@@ -39,7 +39,7 @@ export default function Welcome() {
           </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 text-center">
           <Link href={user ? "/modules" : "/signin"} className="btn btn-primary text-lg">
             {user ? "Continue" : "Sign in"}
           </Link>

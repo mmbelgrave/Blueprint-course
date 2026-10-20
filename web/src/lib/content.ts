@@ -202,6 +202,8 @@ export type Part = {
    */
   video?: { title: string; length: string | null; url: string | null; audio_url?: string | null };
   summary?: Summary;
+  /** The page that holds this part's result, when it is not the summary. */
+  result_page?: string;
   go_further?: string;
   /** Part 5 has no summary page; it states its result directly. */
   result?: string;

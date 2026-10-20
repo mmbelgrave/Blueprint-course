@@ -64,7 +64,7 @@ export function SignInForm({
           workbook right away. Your answers stay in this browser only.
         </p>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary mx-auto"
           onClick={async () => {
             await auth.sendMagicLink("");
             await goIn();
@@ -119,7 +119,7 @@ export function SignInForm({
               onChange={(e) => setCode(cleanCode(e.target.value))}
             />
           </label>
-          <button className="btn btn-primary" disabled={busy || code.length < MIN_CODE}>
+          <button className="btn btn-primary mx-auto" disabled={busy || code.length < MIN_CODE}>
             {busy ? "One moment…" : "Sign in"}
           </button>
         </form>
@@ -178,7 +178,7 @@ export function SignInForm({
         />
       </label>
       {beforeButton}
-      <button className="btn btn-primary" disabled={busy}>
+      <button className="btn btn-primary mx-auto" disabled={busy}>
         {busy ? "Sending…" : sendLabel}
       </button>
       {problem && (

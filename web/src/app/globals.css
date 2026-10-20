@@ -184,6 +184,21 @@ table,
 }
 
 /*
+ * A button on its own line sits in the middle (Mwata, 20 October: "centre the
+ * button, default for all buttons"). Only when it is alone in its block, so a
+ * button that belongs beside a sentence stays where the sentence put it.
+ */
+p:has(> .btn:only-child),
+div:has(> .btn:only-child) {
+  text-align: center;
+}
+/* And mx-auto on a button means the same thing, inline-flex notwithstanding. */
+.btn.mx-auto {
+  display: flex;
+  width: fit-content;
+}
+
+/*
  * Listening rather than watching (spec §6.4).
  *
  * The sound-only file has no picture in it, so the player would show a black

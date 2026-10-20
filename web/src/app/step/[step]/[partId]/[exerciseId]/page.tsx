@@ -304,10 +304,19 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
   const [statusError, setStatusError] = useState(false);
   const [drafts, setDrafts] = useState<Drafts>({});
   const canDraft = draftFields(exercise).length > 0;
-  // Feedback once per part: on its summary page, or on its last required page.
-  const feedbackHere = part.summary
-    ? exercise.kind === "summary"
-    : exercise.id === part.exercises.filter((e) => !e.optional).at(-1)?.id;
+  /*
+   * The page a part ends on. Usually its summary; six parts have no summary
+   * and name the exercise that carries their result instead.
+   */
+  const resultPageId = part.summary?.id ?? part.result_page;
+  const isResultPage = exercise.id === resultPageId;
+  /*
+    * Both feedback questions are asked once per part, on the last page that
+    * asks something of you — never on Start, never on the page that only
+    * gathers the result (Mwata, 20 October).
+    */
+  const lastQuestionPage = part.exercises.filter((e) => !e.optional && e.id !== resultPageId).at(-1)?.id;
+  const feedbackHere = part.number !== 0 && exercise.id === lastQuestionPage;
   const changeStatus = async (status: "done" | "in_progress") => {
     setStatusError(!(await setStatus(exercise.id, status)));
   };
@@ -558,31 +567,25 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
         )}
 
         {/*
-         * What this part ends with. On the page it is written on it only says
-         * so; on the last exercise before it, it is the way there (Mwata,
-         * 20 October), because somebody who has just finished the questions
-         * should not have to go looking for the page that gathers them.
+         * What this part ends with, on the one page that holds it: the summary,
+         * or the exercise the content names as the result. It said different
+         * things on different pages before, and on some it was a link and on
+         * others plain text (Mwata, 20 October). Now it says it once, with the
+         * way to read the result back.
          */}
-        {(() => {
-          const onLast = exercise.id === part.exercises.at(-1)?.id;
-          if (!isSummary && !onLast) return null;
-          const result = (
-            <>
+        {isResultPage && (
+          <div className="rounded-2xl bg-success-soft p-4 text-center">
+            <p>
               <span className="font-semibold text-success">✓ Result: {part.finish.title}</span>
               {part.finish.description && <>. {part.finish.description}</>}
-            </>
-          );
-          return !isSummary && part.summary ? (
-            <Link
-              href={exerciseHref(stepNumber, part.id, part.summary.id)}
-              className="block rounded-2xl bg-success-soft p-4 hover:ring-1 hover:ring-success"
-            >
-              {result} <span className="whitespace-nowrap font-semibold text-success">Write it →</span>
-            </Link>
-          ) : (
-            <p className="rounded-2xl bg-success-soft p-4">{result}</p>
-          );
-        })()}
+            </p>
+            <p className="mt-3">
+              <Link href={`/step/${stepNumber}/print`} className="btn btn-primary">
+                See my Step {stepNumber} result
+              </Link>
+            </p>
+          </div>
+        )}
 
         {/* One row: a step back, what this page is for, a step on, and the way
             out to the overview (Mwata, 20 October). */}
@@ -618,12 +621,6 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             </p>
           )}
         </div>
-
-        {(exercise.id === "5.1" || exercise.id === "s2-5.1") && (
-          <Link href={`/step/${stepNumber}/print`} className="btn btn-primary">
-            See and save {part.finish.title} as PDF
-          </Link>
-        )}
 
 {/* A page you each answer yourself: the two answers side by side, once you
             have both written (6.8). Nothing for a person alone. */}

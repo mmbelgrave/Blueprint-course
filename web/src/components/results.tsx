@@ -56,7 +56,7 @@ export function DraftHelper({ pageId, onDrafts }: { pageId: string; onDrafts: (d
       </p>
       <button
         type="button"
-        className="btn btn-ghost text-sm"
+        className="btn btn-ghost mx-auto text-sm"
         disabled={busy}
         onClick={async () => {
           setBusy(true);
@@ -166,7 +166,7 @@ export function PartFeedback({ partId }: { partId: string }) {
         />
       </label>
       <button
-        className="btn btn-primary text-sm"
+        className="btn btn-primary mx-auto text-sm"
         disabled={rating === null || state === "saving" || !user}
         onClick={async () => {
           if (!user) return;

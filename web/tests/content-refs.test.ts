@@ -144,3 +144,42 @@ test("every story and example carries its own words", () => {
     }
   }
 });
+
+/*
+ * Every part ends somewhere. Most end on a summary; the six that do not name
+ * the exercise that carries their result, so the app can say "✓ Result" on
+ * exactly one page of a part and put the way to read it there. Before this,
+ * two page ids were hard-coded in the app and the other four parts ended with
+ * a line nobody could click (Mwata, 20 October).
+ */
+test("every part names the page its result is written on", () => {
+  for (const step of steps) {
+    for (const part of step.parts as unknown as {
+      id: string;
+      exercises: AnyPage[];
+      summary?: AnyPage;
+      result_page?: string;
+      finish?: { title?: string };
+    }[]) {
+      assert.ok(part.finish?.title?.trim(), `${part.id}: no result to show`);
+      if (part.summary) {
+        assert.equal(part.result_page, undefined, `${part.id}: a summary and a result page`);
+        continue;
+      }
+      assert.ok(part.result_page, `${part.id}: no summary and no result page`);
+      assert.ok(
+        part.exercises.some((e) => e.id === part.result_page),
+        `${part.id}: result page ${part.result_page} is not one of its pages`,
+      );
+    }
+  }
+});
+
+/*
+ * And the browser has to know it: the shape is what the page reads, so a
+ * result page left out of the spine is a part with no result again.
+ */
+test("the spine carries the result page", () => {
+  const shape = (spine1 as unknown as { parts: { id: string; result_page?: string }[] }).parts;
+  assert.equal(shape.find((p) => p.id === "p5")?.result_page, "5.1");
+});

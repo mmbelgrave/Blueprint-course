@@ -12,6 +12,7 @@
       "number": 0,
       "label": "Start",
       "title": "The decision on the table",
+      "result_page": "s3-0.1",
       "time": "30–40 min",
       "finish": {
         "id": "decision_question",
@@ -539,6 +540,7 @@
       "number": 4,
       "label": "Part 4",
       "title": "Make your decision",
+      "result_page": "s3-4.2",
       "time": "30–45 min",
       "video": {
         "title": "Part 4 · Make your decision",

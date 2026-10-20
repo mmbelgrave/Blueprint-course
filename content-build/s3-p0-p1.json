@@ -163,7 +163,8 @@
         ]
       }
     ],
-    "result": "My Decision Question. The exact decision you are testing in this step."
+    "result": "My Decision Question. The exact decision you are testing in this step.",
+    "result_page": "s3-0.1"
   },
   {
     "id": "s3-p1",
