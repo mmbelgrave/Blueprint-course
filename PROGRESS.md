@@ -1017,6 +1017,37 @@ was removed with the meetings, §3.3 still called Step 2 closed with the wrong
 page count and did not mention Step 3, and two comments explained a tick
 nobody is asked for.
 
+## "Delete everything" deleted the account too (20 Oct 2026)
+
+Mwata pressed **Delete everything** on his own account to empty his workbook.
+It deleted the sign-in account with it. What the screen told him, as a person
+who owns the course, was that it would delete his answers, pictures, chats,
+AI notes, results and feedback. It did not say the account would go, and only
+the wording for a free account ever did.
+
+What it actually did: with the service role key present, the route deleted the
+auth user, and every table cascades from there. So the answers went, the
+pictures went, the profile went, and his purchase lost the user it was
+attached to. The entitlement row itself survived, with `user_id` set to null,
+which is the one piece of luck in this: the record of what he bought on
+8 October is still there and can be pointed at his new account.
+
+The answers cannot come back. The free Supabase plan keeps no backups, which
+is the second reason to be on Pro before the first paying customer.
+
+**The fix.** The button now empties the eleven tables that hold what a person
+wrote and leaves the account and the entitlement standing: somebody who paid
+for the course can start their workbook again without losing the course. A
+second tick, with its own warning, closes the account as well. The rows are
+deleted by name either way rather than relying on the cascade, so a failure
+halfway through cannot sign somebody out of an account that still holds their
+answers.
+
+A test now reads the SQL: every table keyed to a person has to be in one of
+two lists, emptied or kept on purpose with a reason written beside it.
+`private_pages` was in neither, and is emptied now. The privacy page says
+what the two choices do.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
