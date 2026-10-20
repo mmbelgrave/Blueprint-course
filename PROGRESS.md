@@ -964,8 +964,8 @@ everything that got in the way. What changed, in the order he found it:
   on another, and two page ids were hard-coded for the only two PDF buttons
   there were. The content names the result page now (`result_page`), so all six
   parts without a summary behave like the ones with one.
-- **"Was this page clear?"** is asked once per part, on the last page that asks
-  something: four times in Step 1 rather than twenty-three.
+- **"Was this page clear?"** is asked once per part, on the last page of that
+  part, whatever that page is: six times in Step 1 rather than twenty-three.
 - **A button standing on its own line stands in the middle**, as the default.
 
 Also seeded: his own account has an answer on every Step 1 page
