@@ -193,7 +193,16 @@ export async function POST(request: Request) {
       .select("id", { count: "exact", head: true })
       .gte("requested_at", tenMinutesAgo),
   ]);
-  if ((mine.count ?? 0) >= PER_EMAIL_PER_DAY || (everyone.count ?? 0) >= EVERYONE_PER_TEN_MINUTES) {
+  /*
+   * The global ceiling is there to stop the page being used as a mailbox by
+   * somebody else. It must not stand between a person and their own 14 days
+   * (review round 7, attack 2): a signed-in person asking about their own
+   * address is not the flood, so the ceiling does not apply to them. Their
+   * own daily limit still does.
+   */
+  const ownRequest = Boolean(signedIn && (!typed || typed.toLowerCase() === (signedIn.email ?? "").toLowerCase()));
+  const flooded = !ownRequest && (everyone.count ?? 0) >= EVERYONE_PER_TEN_MINUTES;
+  if ((mine.count ?? 0) >= PER_EMAIL_PER_DAY || flooded) {
     // Deliberately not "you have done this too often": the person on the other
     // end may be the victim of it rather than the cause.
     return fail(429, "We already have a request from that address. Please email info@maderealblueprint.com.");

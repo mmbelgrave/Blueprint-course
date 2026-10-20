@@ -48,6 +48,17 @@ export async function POST(request: Request) {
   if (answer.ai === false) answer.ai_special = false;
   else if (typeof body.special === "boolean") answer.ai_special = body.special;
 
+  /*
+   * Special categories ride on the first box in the database too, not only on
+   * the screen (review round 7, R7-9). A request that ticks the second alone,
+   * when the first was never granted, would record a consent to something
+   * that cannot happen.
+   */
+  if (answer.ai_special === true && answer.ai !== true) {
+    const now = await myConsent(auth.user.id);
+    if (!now?.ai) delete answer.ai_special;
+  }
+
   if (Object.keys(answer).length === 0) return fail(400, "There was nothing to record.");
 
   const done = await recordConsent(auth.user.id, answer, body.from === "settings" ? "settings" : "app");

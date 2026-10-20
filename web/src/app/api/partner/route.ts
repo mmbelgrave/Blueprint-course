@@ -3,8 +3,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { isFreeAccount, myAccess } from "@/lib/access-server";
 import type { Answers, Profile } from "@/lib/backend";
-import { SWITCHED_OFF } from "@/lib/consent";
-import { mayUseAi } from "@/lib/consent-server";
+import { whyNoAi } from "@/lib/consent-server";
 import { findExercise } from "@/lib/content";
 import { anthropicClient } from "@/lib/partner/client";
 import { contextMessage, HELPERS, partnerRequest, type HelperType } from "@/lib/partner/prompt";
@@ -59,7 +58,8 @@ export async function POST(request: Request) {
    * Settings stops the very next request. Older wording does not count: if the
    * words changed, the person is asked again before anything is sent.
    */
-  if (!(await mayUseAi(user.id))) return fail(403, SWITCHED_OFF);
+  const refused = await whyNoAi(user.id);
+  if (refused) return fail(403, refused);
 
   const { data: profileRow } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
   /*

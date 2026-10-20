@@ -12,7 +12,7 @@
  * as it was.
  */
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, Pull, RunningHead, Rule, Sheet } from "./chrome";
-import type { ExploreStaying } from "@/lib/report";
+import { stayingTailWritten, type ExploreStaying } from "@/lib/report";
 
 export function ExploreStayingSheets({
   plan,
@@ -28,6 +28,9 @@ export function ExploreStayingSheets({
   of: number;
 }) {
   if (!plan.written) return null;
+  /* Nothing found out yet means no second sheet, and the closing lines stay
+     with the first one (review round 7, R7-8). */
+  const tail = stayingTailWritten(plan);
   const pair = (left: { k: string; v: string }, right: { k: string; v: string }) => (
     <div className="mt-8 grid grid-cols-2 gap-x-10">
       {[left, right]
@@ -43,7 +46,7 @@ export function ExploreStayingSheets({
 
   return (
     <>
-      <Sheet>
+      <Sheet last={!tail}>
         <Cover
           kicker="The Made Real Blueprint / Step 2"
           headline={plan.change || "The change I am exploring"}
@@ -61,41 +64,51 @@ export function ExploreStayingSheets({
           )}
           <Rule />
           {pair({ k: "Money after the change", v: plan.money }, { k: "My week", v: plan.hours })}
+          {!tail && <Closing plan={plan} />}
         </Body>
         <PageFoot who={who} page={page} of={of} />
       </Sheet>
 
-      <Sheet last>
-        <RunningHead where="Step 2 · Explore" />
-        <Body>
-          <Kicker>What I found out</Kicker>
-          <Headline>The rules, the people, and the test</Headline>
-          {pair({ k: "Rules at work or home", v: plan.rules }, { k: "The people involved", v: plan.people })}
-          {plan.test && (
-            <div className="mt-8">
-              <Kicker>What my test showed</Kicker>
-              <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.test}</p>
-            </div>
-          )}
-          {plan.choice && (
-            <>
-              <Rule />
-              <Kicker>What I choose now</Kicker>
-              <p className="display mt-3 text-[17pt] leading-tight">{plan.choice}</p>
-              {plan.nextStep && (
-                <p className="mt-3 text-[11pt]">
-                  My next small step, within two weeks: {plan.nextStep}
-                </p>
-              )}
-            </>
-          )}
-          <Footnote>
-            {plan.reviewWhen ? `I review what I learned: ${plan.reviewWhen}. ` : ""}
-            Step 3 checks this change with the five green lights and ends with the plan that goes with it.
-          </Footnote>
-        </Body>
-        <PageFoot who={who} page={page + 1} of={of} />
-      </Sheet>
+      {tail && (
+        <Sheet last>
+          <RunningHead where="Step 2 · Explore" />
+          <Body>
+            <Kicker>What I found out</Kicker>
+            <Headline>The rules, the people, and the test</Headline>
+            {pair({ k: "Rules at work or home", v: plan.rules }, { k: "The people involved", v: plan.people })}
+            {plan.test && (
+              <div className="mt-8">
+                <Kicker>What my test showed</Kicker>
+                <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.test}</p>
+              </div>
+            )}
+            {plan.choice && (
+              <>
+                <Rule />
+                <Kicker>What I choose now</Kicker>
+                <p className="display mt-3 text-[17pt] leading-tight">{plan.choice}</p>
+                {plan.nextStep && (
+                  <p className="mt-3 text-[11pt]">
+                    My next small step, within two weeks: {plan.nextStep}
+                  </p>
+                )}
+              </>
+            )}
+            <Closing plan={plan} />
+          </Body>
+          <PageFoot who={who} page={page + 1} of={of} />
+        </Sheet>
+      )}
     </>
+  );
+}
+
+/** The line about reviewing, and what Step 3 does next. */
+function Closing({ plan }: { plan: ExploreStaying }) {
+  return (
+    <Footnote>
+      {plan.reviewWhen ? `I review what I learned: ${plan.reviewWhen}. ` : ""}
+      Step 3 checks this change with the five green lights and ends with the plan that goes with it.
+    </Footnote>
   );
 }

@@ -1,7 +1,7 @@
 /*
  * Consent on the server, where the answer counts.
  *
- * Every AI route asks `mayUseAi` before a single word leaves the app, and
+ * Every AI route asks `whyNoAi` before a single word leaves the app, and
  * every admin view of somebody's answers asks `mayFounderRead`. Both read the
  * consents table live, so a tick switched off in Settings stops the next
  * request rather than the next session.
@@ -15,7 +15,8 @@
  * plain to the next person reading this.
  */
 import {
-  aiAllowed,
+  aiRefusal,
+  CONSENT_UNREADABLE,
   consentState,
   founderAllowed,
   rowsToWrite,
@@ -48,10 +49,16 @@ export async function consentRows(userId: string): Promise<ConsentRow[] | null> 
   return (data ?? []) as ConsentRow[];
 }
 
-/** May this person's words be sent to Anthropic at all? */
-export async function mayUseAi(userId: string): Promise<boolean> {
+/**
+ * May this person's words be sent to Anthropic at all, and if not, why not?
+ *
+ * Null means yes. Everything else is the sentence the person sees, because
+ * the three reasons for refusing are three different pieces of news (review
+ * round 7, R7-10). An unreadable table says so rather than blaming them.
+ */
+export async function whyNoAi(userId: string): Promise<string | null> {
   const rows = await consentRows(userId);
-  return rows !== null && aiAllowed(rows);
+  return rows === null ? CONSENT_UNREADABLE : aiRefusal(rows);
 }
 
 /** May Mwata read this person's answers and AI notes? */

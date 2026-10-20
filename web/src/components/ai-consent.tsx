@@ -16,7 +16,7 @@
  */
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CONSENT_TEXT, type ConsentState } from "@/lib/consent";
+import { CONSENT_DISCLOSURE, CONSENT_TEXT, type ConsentState } from "@/lib/consent";
 
 type Snapshot = { state: ConsentState | null; failed: boolean };
 
@@ -119,20 +119,17 @@ export function AiConsentScreen({ onNotNow }: { onNotNow?: () => void }) {
   return (
     <div className="mt-4 rounded-lg bg-sand p-4">
       <p className="font-semibold text-pine">Your AI partner is optional</p>
-      <p className="mt-2 text-sm">
-        If you switch it on, what you write in this chat, your answers on this page and your earlier answers are sent
-        to Anthropic, the company whose AI model it uses. Anthropic is in the United States. It does not use what you
-        write to train its models, and it deletes what it receives within 30 days, unless the law requires otherwise
-        or a message is flagged for misuse. Your AI partner also keeps short notes about your answers, which you can
-        read and delete under{" "}
+      {CONSENT_DISCLOSURE.map((paragraph) => (
+        <p key={paragraph.slice(0, 24)} className="mt-2 text-sm">
+          {paragraph}
+        </p>
+      ))}
+      <p className="mt-1 text-sm text-stone">
+        You can read and delete those notes under{" "}
         <Link href="/me" className="underline">
           What my AI partner knows
         </Link>
         .
-      </p>
-      <p className="mt-2 text-sm">
-        Please avoid special categories of data, for example health, religion, sexual orientation or political
-        opinions, unless you want your AI partner to take them into account.
       </p>
 
       <label className="mt-4 flex gap-3 text-sm">

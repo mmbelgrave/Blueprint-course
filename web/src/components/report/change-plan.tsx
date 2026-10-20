@@ -11,137 +11,124 @@
  *
  * A full plan does not fit on one A4 sheet, and printing one that spills
  * leaves a ragged page with no running head and the footer in the wrong
- * place. So a long plan is two sheets: the steps on the first, the money,
- * the people and Plan B on the second. Where it fits, it stays one.
+ * place. So the blocks are packed onto as many sheets as they need, in the
+ * order they read: `changePlanLayout` decides, one list of blocks per sheet,
+ * and this draws what it is given. A short plan is still one sheet.
  */
 import { Body, Footnote, Headline, Kicker, PageFoot, Pull, RunningHead, Rule, Sheet } from "./chrome";
 import { Steps } from "./charts";
-import { changePlanSheets, inPlaceLine, looksLikeADate, noStop, type ChangePlan } from "@/lib/report";
+import { changePlanLayout, inPlaceLine, looksLikeADate, noStop, type ChangePlan, type PlanBlock } from "@/lib/report";
 
 type Props = {
   plan: ChangePlan;
   who: string;
   where: string;
+  /** The page number of the first of these sheets. */
   page: number;
   of: number;
   last?: boolean;
 };
 
 export function ChangePlanSheet({ plan, who, where, page, of, last = false }: Props) {
-  if (!plan.written) return null;
-  const split = changePlanSheets(plan) === 2;
+  const sheets = changePlanLayout(plan);
+  if (sheets.length === 0) return null;
+
   return (
     <>
-      <Sheet last={last && !split}>
-        <RunningHead where={where} />
-        <Body>
-          <Kicker>If I am staying</Kicker>
-          <Headline>My change plan</Headline>
-          {plan.change && <Pull className="mt-5">{plan.change}</Pull>}
-          {inPlaceLine(plan.inPlace) && (
-            <p className="mt-3 text-[11pt] text-stone">{inPlaceLine(plan.inPlace)}</p>
-          )}
-          {/* Rev.01b: what they hold on to, and the test before the change. */}
-          {plan.keep && (
-            <div className="mt-6">
-              <Kicker>What I keep</Kicker>
-              <p className="mt-2 whitespace-pre-line text-[11pt] leading-relaxed">{plan.keep}</p>
-            </div>
-          )}
-          {plan.smallTest && (
-            <div className="mt-6">
-              <Kicker>The small test I run first</Kicker>
-              <p className="mt-2 whitespace-pre-line text-[11pt] leading-relaxed">{plan.smallTest}</p>
-            </div>
-          )}
-
-          {plan.steps.length > 0 ? (
-            <div className="mt-8">
-              <Steps
-                steps={plan.steps.map((s) => ({
-                  when: s.when,
-                  what: s.what,
-                  note: s.note ? `What must be true first: ${s.note}` : undefined,
-                }))}
-              />
-            </div>
-          ) : (
-            plan.firstThree.length > 0 && (
-              <div className="mt-8">
-                <Kicker>My first three steps</Kicker>
-                <ol className="mt-4">
-                  {plan.firstThree.slice(0, 4).map((s, i) => (
-                    <li key={s} className="grid grid-cols-[14mm_1fr] border-b border-line py-3 last:border-0">
-                      <span className="display text-[15pt] leading-none text-ochre">{i + 1}</span>
-                      <span className="text-[11pt]">{s}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )
-          )}
-
-          {/*
-              The money row shares the first sheet only when the plan is short
-              enough to stay on one. Rev.01b added "What I keep" and "The small
-              test I run first" above the steps, and those two plus the money
-              row ran the sheet 103px past A4.
-           */}
-          {!split && (
-            <>
-              <MoneyRow plan={plan} />
-              <PeopleAndPlanB plan={plan} />
-            </>
-          )}
-        </Body>
-        <PageFoot who={who} page={page} of={of} />
-      </Sheet>
-
-      {split && (
-        <Sheet last={last}>
+      {sheets.map((blocks, i) => (
+        <Sheet key={blocks.join("-") || i} last={last && i === sheets.length - 1}>
           <RunningHead where={where} />
           <Body>
             <Kicker>If I am staying</Kicker>
-            <Headline>What it rests on, and the way back</Headline>
-            <MoneyRow plan={plan} first />
-            <PeopleAndPlanB plan={plan} />
+            <Headline>{headline(i, blocks)}</Headline>
+            {i === 0 && (
+              <>
+                {plan.change && <Pull className="mt-5">{plan.change}</Pull>}
+                {inPlaceLine(plan.inPlace) && (
+                  <p className="mt-3 text-[11pt] text-stone">{inPlaceLine(plan.inPlace)}</p>
+                )}
+              </>
+            )}
+            {blocks.map((block) => (
+              <PlanPart key={block} block={block} plan={plan} first={blocks[0] === block} />
+            ))}
+            {i === sheets.length - 1 && (
+              <Footnote>
+                {plan.checkIns
+                  ? `I look at this again${looksLikeADate(plan.checkIns) ? " on" : ":"} ${noStop(plan.checkIns)}. `
+                  : ""}
+                Staying is a decision like any other, and this is the plan that goes with it.
+              </Footnote>
+            )}
           </Body>
-          <PageFoot who={who} page={page + 1} of={of} />
+          <PageFoot who={who} page={page + i} of={of} />
         </Sheet>
-      )}
+      ))}
     </>
   );
 }
 
-/** The money and the hours, which belong beside the steps. */
-function MoneyRow({ plan, first = false }: { plan: ChangePlan; first?: boolean }) {
-  if (!plan.incomeBuffer && !plan.hours) return null;
-  return (
-    <>
-      {!first && <Rule />}
-      <div className={`grid grid-cols-2 gap-x-10 ${first ? "mt-8" : ""}`}>
-        {plan.incomeBuffer && (
-          <div>
-            <Kicker>Money and buffer</Kicker>
-            <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.incomeBuffer}</p>
-          </div>
-        )}
-        {plan.hours && (
-          <div>
-            <Kicker>Hours I decide, before and after</Kicker>
-            <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.hours}</p>
-          </div>
-        )}
-      </div>
-    </>
-  );
+/** What this sheet is called, which follows what is on it. */
+function headline(index: number, blocks: PlanBlock[]): string {
+  if (index === 0) return "My change plan";
+  if (blocks.includes("steps")) return "The order I will do it in";
+  return "What it rests on, and the way back";
 }
 
-/** Who is in it, the first 90 days, Plan B and the check-in. */
-function PeopleAndPlanB({ plan }: { plan: ChangePlan }) {
-  return (
-    <>
-      {(plan.whoITell || plan.first90) && (
+/** One block of the plan. The order they come in is the order they read in. */
+function PlanPart({ block, plan, first }: { block: PlanBlock; plan: ChangePlan; first: boolean }) {
+  switch (block) {
+    /* Rev.01b: what they hold on to, and the test before the change. */
+    case "keep":
+      return <Prose label="What I keep" text={plan.keep} gap="mt-6" />;
+    case "smallTest":
+      return <Prose label="The small test I run first" text={plan.smallTest} gap="mt-6" />;
+    case "steps":
+      return plan.steps.length > 0 ? (
+        <div className="mt-8">
+          <Steps
+            steps={plan.steps.map((s) => ({
+              when: s.when,
+              what: s.what,
+              note: s.note ? `What must be true first: ${s.note}` : undefined,
+            }))}
+          />
+        </div>
+      ) : (
+        <div className="mt-8">
+          <Kicker>My first three steps</Kicker>
+          <ol className="mt-4">
+            {plan.firstThree.slice(0, 4).map((s, i) => (
+              <li key={s} className="grid grid-cols-[14mm_1fr] border-b border-line py-3 last:border-0">
+                <span className="display text-[15pt] leading-none text-ochre">{i + 1}</span>
+                <span className="text-[11pt]">{s}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      );
+    case "money":
+      return (
+        <>
+          {!first && <Rule />}
+          <div className={`grid grid-cols-2 gap-x-10 ${first ? "mt-8" : ""}`}>
+            {plan.incomeBuffer && (
+              <div>
+                <Kicker>Money and buffer</Kicker>
+                <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.incomeBuffer}</p>
+              </div>
+            )}
+            {plan.hours && (
+              <div>
+                <Kicker>Hours I decide, before and after</Kicker>
+                <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.hours}</p>
+              </div>
+            )}
+          </div>
+        </>
+      );
+    case "people":
+      return (
         <div className="mt-8 grid grid-cols-2 gap-x-10">
           {plan.whoITell && (
             <div>
@@ -156,28 +143,20 @@ function PeopleAndPlanB({ plan }: { plan: ChangePlan }) {
             </div>
           )}
         </div>
-      )}
+      );
+    case "uncertain":
+      return <Prose label="What is still uncertain" text={plan.uncertain} />;
+    case "planB":
+      return <Prose label="My Plan B" text={plan.planB} />;
+  }
+}
 
-      {plan.uncertain && (
-        <div className="mt-8">
-          <Kicker>What is still uncertain</Kicker>
-          <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.uncertain}</p>
-        </div>
-      )}
-
-      {plan.planB && (
-        <div className="mt-8">
-          <Kicker>My Plan B</Kicker>
-          <p className="mt-3 whitespace-pre-line text-[11pt] leading-relaxed">{plan.planB}</p>
-        </div>
-      )}
-
-      <Footnote>
-        {plan.checkIns
-          ? `I look at this again${looksLikeADate(plan.checkIns) ? " on" : ":"} ${noStop(plan.checkIns)}. `
-          : ""}
-        Staying is a decision like any other, and this is the plan that goes with it.
-      </Footnote>
-    </>
+function Prose({ label, text, gap = "mt-8" }: { label: string; text: string; gap?: string }) {
+  if (!text) return null;
+  return (
+    <div className={gap}>
+      <Kicker>{label}</Kicker>
+      <p className="mt-2 whitespace-pre-line text-[11pt] leading-relaxed">{text}</p>
+    </div>
   );
 }

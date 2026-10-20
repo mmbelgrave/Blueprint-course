@@ -84,7 +84,7 @@ const AI_ROUTES = ["app/api/partner/route.ts", "app/api/draft/route.ts", "app/ap
 test("no AI route sends a word without a consent record", () => {
   for (const route of AI_ROUTES) {
     const source = read(route);
-    assert.match(source, /mayUseAi\(/, `${route} sends words to Anthropic without asking mayUseAi`);
+    assert.match(source, /whyNoAi\(/, `${route} sends words to Anthropic without asking whyNoAi`);
     assert.doesNotMatch(
       source,
       /consent_ai/,

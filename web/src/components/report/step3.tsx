@@ -15,7 +15,7 @@ import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Rule, Run
 import { ConditionRows, Lights, Numbered, Steps } from "./charts";
 import { ChangePlanSheet } from "./change-plan";
 import { MoneySheet } from "./money-sheet";
-import { changePlanSheets } from "@/lib/report";
+import { changePlanSheets, orderLayout } from "@/lib/report";
 import { noStop, openLights, whenSuffix, type ChangePlan, type Step3, type Together } from "@/lib/report";
 import { coverWords } from "@/lib/report";
 import { Agreed, SideBySide } from "./two-voices";
@@ -40,7 +40,14 @@ export function Step3Doc({
   when: string;
   currency: string;
 }) {
-  const of = 4 + changePlanSheets(plan);
+  /*
+   * Sheet 4 used to be one sheet whatever was written on it, and ran 94px
+   * past A4 for somebody who filled every box and all five steps (review
+   * round 7, R7-5). It now takes a second sheet when it needs one, and the
+   * numbering follows.
+   */
+  const order = orderLayout(r);
+  const of = 3 + order.length + changePlanSheets(plan);
   const open = openLights(r.lights);
   const cover = coverWords(r.decision || "My decision");
 
@@ -169,48 +176,57 @@ export function Step3Doc({
         <PageFoot who={who} page={3} of={of} />
       </Sheet>
 
-      {/* ──────────────────────────── four ───────────────────────────── */}
-      <Sheet last={!plan.written}>
-        <RunningHead where="Step 3 · Decide" />
-        <Body>
-          <Kicker>From decision to action</Kicker>
-          <Headline>The order I will do this in</Headline>
-          {r.conditions && <Standfirst>{r.conditions}</Standfirst>}
+      {/* ──────────────────── four, and five when it is needed ───────────────── */}
+      {order.map((blocks, i) => (
+        <Sheet key={blocks.join("-") || i} last={!plan.written && i === order.length - 1}>
+          <RunningHead where="Step 3 · Decide" />
+          <Body>
+            <Kicker>From decision to action</Kicker>
+            <Headline>{i === 0 ? "The order I will do this in" : "What I come back to"}</Headline>
+            {i === 0 && r.conditions && <Standfirst>{r.conditions}</Standfirst>}
 
-          {r.steps.length > 0 && (
-            <div className="mt-9">
-              <Steps
-                steps={r.steps.map((s) => ({
-                  when: s.when,
-                  what: s.what,
-                  note: s.note ? `What must be true first: ${s.note}` : undefined,
-                }))}
-              />
-            </div>
-          )}
+            {blocks.includes("steps") && r.steps.length > 0 && (
+              <div className="mt-9">
+                <Steps
+                  steps={r.steps.map((s) => ({
+                    when: s.when,
+                    what: s.what,
+                    note: s.note ? `What must be true first: ${s.note}` : undefined,
+                  }))}
+                />
+              </div>
+            )}
 
-          {r.rentOrBuy && (
-            <>
-              <Rule />
-              <Kicker>A commitment I keep for later</Kicker>
-              <p className="display mt-3 text-[18pt] leading-snug text-pine">{r.rentOrBuy}</p>
-            </>
-          )}
+            {blocks.includes("commitment") && r.rentOrBuy && (
+              <>
+                <Rule />
+                <Kicker>A commitment I keep for later</Kicker>
+                <p className="display mt-3 text-[18pt] leading-snug text-pine">{r.rentOrBuy}</p>
+              </>
+            )}
 
-          {(r.reviewWhen || r.wouldChange) && (
-            <div className="mt-8">
-              <Kicker>{r.reviewWhen ? `Look again / ${r.reviewWhen}` : "When I look again"}</Kicker>
-              {r.wouldChange && <p className="mt-3 text-[11pt] leading-relaxed">{r.wouldChange}</p>}
-            </div>
-          )}
+            {blocks.includes("lookAgain") && (r.reviewWhen || r.wouldChange) && (
+              <div className="mt-8">
+                <Kicker>{r.reviewWhen ? `Look again / ${r.reviewWhen}` : "When I look again"}</Kicker>
+                {r.wouldChange && <p className="mt-3 text-[11pt] leading-relaxed">{r.wouldChange}</p>}
+              </div>
+            )}
 
-          {r.whoDecided && <Footnote>Decided with: {r.whoDecided}</Footnote>}
-        </Body>
-        <PageFoot who={who} page={4} of={of} />
-      </Sheet>
+            {i === order.length - 1 && r.whoDecided && <Footnote>Decided with: {r.whoDecided}</Footnote>}
+          </Body>
+          <PageFoot who={who} page={4 + i} of={of} />
+        </Sheet>
+      ))}
 
-      {/* ──────────────────────────── five ───────────────────────────── */}
-      <ChangePlanSheet plan={plan} who={who} where="Step 3 · Decide" page={5} of={of} last />
+      {/* ──────────────────── the staying plan, when there is one ───────────── */}
+      <ChangePlanSheet
+        plan={plan}
+        who={who}
+        where="Step 3 · Decide"
+        page={4 + order.length}
+        of={of}
+        last
+      />
     </>
   );
 }

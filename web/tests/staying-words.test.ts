@@ -4,8 +4,10 @@ import {
   blueprintReport,
   exploreStaying,
   exploreStayingSheets,
-  changePlanHeight,
+  stayingTailWritten,
+  changePlanLayout,
   changePlanSheets,
+  orderLayout,
   isStaying,
   lightsOf,
   looksLikeADate,
@@ -151,7 +153,7 @@ test("a short plan is one sheet", () => {
     planB: "Keep the evenings and ask again in six months.",
   });
   assert.equal(changePlanSheets(short), 1);
-  assert.ok(changePlanHeight(short) < 900);
+  assert.deepEqual(changePlanLayout(short), [["steps", "planB"]]);
 });
 
 test("a full plan is two, rather than spilling onto a ragged page", () => {
@@ -170,8 +172,80 @@ test("a full plan is two, rather than spilling onto a ragged page", () => {
     planB:
       "If four days is refused, I keep the two evenings and ask again after six months, with one unpaid day a month meanwhile. If the lower pay does not add up, I go back to five days for a season rather than spend the reserve.",
   });
-  assert.ok(changePlanHeight(full) > 900, `measured ${Math.round(changePlanHeight(full))}`);
   assert.equal(changePlanSheets(full), 2);
+  // The steps lead the second sheet, so the first is not the half-empty one.
+  assert.deepEqual(changePlanLayout(full), [
+    ["steps", "money"],
+    ["people", "planB"],
+  ]);
+});
+
+/*
+ * Review round 7, R7-5: every box filled at the length somebody who writes a
+ * lot writes, and all five steps. Two sheets were not enough — the first ran
+ * 35px past A4 with the split already applied, and there was no third. These
+ * are the lengths of the fixture that was measured in the browser.
+ */
+test("a plan with every box full runs to three sheets rather than spilling", () => {
+  const long = planOf({
+    change: "x".repeat(289),
+    inPlace: "In the fourth month",
+    keep: "x".repeat(305),
+    smallTest: "x".repeat(297),
+    steps: Array.from({ length: 5 }, (_, i) => ({ what: `Step ${i + 1}`, when: "Soon", note: "Something first" })),
+    incomeBuffer: "x".repeat(289),
+    hours: "x".repeat(270),
+    whoITell: "x".repeat(289),
+    first90: "x".repeat(275),
+    uncertain: "x".repeat(297),
+    planB: "x".repeat(285),
+  });
+  const sheets = changePlanLayout(long);
+  assert.equal(sheets.length, 3, `got ${JSON.stringify(sheets)}`);
+  // Nothing is dropped, and nothing is printed twice.
+  const all = sheets.flat();
+  assert.equal(new Set(all).size, all.length);
+  assert.deepEqual(
+    [...all].sort(),
+    ["keep", "money", "people", "planB", "smallTest", "steps", "uncertain"],
+  );
+});
+
+test("the order sheet takes a second sheet when the answers are long", () => {
+  const order = (over: Record<string, unknown> = {}) =>
+    orderLayout({
+      conditions: "",
+      steps: [],
+      rentOrBuy: "",
+      reviewWhen: "",
+      wouldChange: "",
+      ...over,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+  // Sample B's own answers: one sheet, as it prints today.
+  assert.equal(
+    order({
+      conditions: "x".repeat(120),
+      steps: Array.from({ length: 3 }, (_, i) => ({ what: `Step ${i + 1}` })),
+      reviewWhen: "In 8 weeks",
+    }).length,
+    1,
+  );
+
+  // The long fixture, which measured 1217px against A4's 1123.
+  const long = order({
+    conditions: "x".repeat(262),
+    steps: Array.from({ length: 5 }, (_, i) => ({ what: `Step ${i + 1}`, when: "Soon", note: "First this" })),
+    rentOrBuy: "x".repeat(101),
+    reviewWhen: "The last Friday of April",
+    wouldChange: "x".repeat(236),
+  });
+  assert.equal(long.length, 2, `got ${JSON.stringify(long)}`);
+  assert.deepEqual(long[1], ["lookAgain"]);
+
+  // An empty Part 4 still prints its sheet, so the numbering holds.
+  assert.deepEqual(order(), [[]]);
 });
 
 /*
@@ -195,6 +269,43 @@ test("the staying summary is read from S7, and falls back to the pages behind it
   assert.equal(plan.change, "Four days a week");
   assert.equal(plan.test, "I used the evenings");
   assert.equal(exploreStayingSheets(plan), 2);
+});
+
+/*
+ * Review round 7, R7-8: the second sheet carries what they found out. With
+ * none of that written it was a headline and one standing sentence, so the
+ * closing lines move onto the first sheet and the second is not printed.
+ */
+test("nothing found out yet means one sheet, not two", () => {
+  const a: Answers = {
+    "s2-s7": {
+      change: "Four days a week in the same job",
+      gives_keeps: "Daylight after work, and the job I keep",
+      reasons: "Everything I said is essential is already here",
+      money: "2,360 a month against 2,198 of costs",
+      hours: "16 hours a week now, 26 after",
+    },
+  };
+  const plan = exploreStaying(a);
+  assert.equal(plan.written, true);
+  assert.equal(stayingTailWritten(plan), false);
+  assert.equal(exploreStayingSheets(plan), 1);
+});
+
+test("the rules, the people, the test or the choice earn the second sheet", () => {
+  for (const tail of [{ rules: "Two months' notice" }, { people: "My sister" }, { test: "Six evenings of eight" }, { choice: "Go further with this change" }]) {
+    const plan = exploreStaying({
+      "s2-s7": {
+        change: "Four days a week",
+        gives_keeps: "Daylight",
+        reasons: "It is already here",
+        money: "2,360 against 2,198",
+        ...tail,
+      },
+    });
+    assert.equal(stayingTailWritten(plan), true, JSON.stringify(tail));
+    assert.equal(exploreStayingSheets(plan), 2, JSON.stringify(tail));
+  }
 });
 
 test("what S7 says wins over the pages behind it", () => {

@@ -866,6 +866,29 @@ The app had nothing for that, so:
   financial advice. No founding-member gating yet — everyone who signs in can
   ask, which is right while the first 12 are all founding members.
 
+## Review round 7, all eleven findings (20 Oct 2026)
+
+LLM2 reviewed everything since round 6 and found two HIGH, five MEDIUM and
+four LOW. Both HIGH were real and are closed: an email address alone could end
+a stranger's access (and the sweep would then delete their account), and an
+admin undo left the withdrawal row saying "received" so the sweep deleted the
+account anyway. The first was proved end to end on a throwaway purchase.
+
+The printed documents no longer guess their own height. Every block is measured
+and packed onto as many sheets as the answers need, and the constants behind
+that were read off the browser with `design/screenshots/measure-sheets.mjs`,
+which is now in the repository. Sample B is unchanged at six sheets; a person
+who fills every box gets eight rather than a cut page.
+
+Also: three different sentences for the three reasons an AI request is refused
+(nobody is told they switched something off when the wording changed), the
+consent record now covers the disclosure and not only the two ticks, the
+privacy page says what actually happens to consent rows when an account is
+deleted, a staying reader who has only started gets one sheet instead of two
+empty ones, and "1 h 10" prints as "1 h 10".
+
+The detail of each finding and what changed is in `REVIEW.md`, round 7.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan

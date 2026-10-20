@@ -4,8 +4,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { isFreeAccount, myAccess } from "@/lib/access-server";
 import type { Answers } from "@/lib/backend";
-import { SWITCHED_OFF } from "@/lib/consent";
-import { mayUseAi } from "@/lib/consent-server";
+import { whyNoAi } from "@/lib/consent-server";
 import { findExercise } from "@/lib/content";
 import { draftFields } from "@/lib/drafts";
 import { anthropicClient } from "@/lib/partner/client";
@@ -42,7 +41,8 @@ export async function POST(request: Request) {
   if (!found || !draftFields(found.exercise).length) return fail(400, "This page has no draft.");
 
   // Consent first, every time (legal review of 18 October, part 1).
-  if (!(await mayUseAi(user.id))) return fail(403, SWITCHED_OFF);
+  const refused = await whyNoAi(user.id);
+  if (refused) return fail(403, refused);
 
   const { data: profileRow } = await supabase
     .from("profiles")

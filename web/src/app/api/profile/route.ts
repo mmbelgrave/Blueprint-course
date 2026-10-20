@@ -2,8 +2,7 @@
 // answers. Called by the browser after a page is marked as done.
 import Anthropic from "@anthropic-ai/sdk";
 import type { Answers } from "@/lib/backend";
-import { SWITCHED_OFF } from "@/lib/consent";
-import { mayUseAi } from "@/lib/consent-server";
+import { whyNoAi } from "@/lib/consent-server";
 import { anthropicClient } from "@/lib/partner/client";
 import { updateProfile } from "@/lib/partner/profile-update";
 import { applyPersonChoices, type AiProfile } from "@/lib/profile-fields";
@@ -27,7 +26,8 @@ export async function POST() {
   if (!user) return fail(401, "Please sign in again.");
 
   // Consent first, every time (legal review of 18 October, part 1).
-  if (!(await mayUseAi(user.id))) return fail(403, SWITCHED_OFF);
+  const refused = await whyNoAi(user.id);
+  if (refused) return fail(403, refused);
 
   const { data: profileRow } = await supabase
     .from("profiles")

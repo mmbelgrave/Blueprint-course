@@ -142,8 +142,9 @@ export default function Privacy() {
           of how much you used your AI partner is kept for 12 months, and questions you send from Help for 12 months
           after we last spoke. An order has to be kept as long as tax law says, which is generally 10 years, so after
           you delete your account the order record is all that is left. What you agreed to, when, and the wording you
-          read are kept for 3 years after that consent ends, so we can show it was given and when it stopped. There are
-          no separate backups of the app&rsquo;s database.
+          read are kept while you have an account, and for up to 3 years after a consent ends, so we can show it was
+          given and when it stopped. If you delete your account, those records go with it. There are no separate
+          backups of the app&rsquo;s database.
         </p>
         <p>
           If you withdraw from your purchase, your access ends three days later and your answers are deleted 30 days

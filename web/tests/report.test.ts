@@ -258,3 +258,20 @@ test("a working week is not a travel time, so the tile stays empty", () => {
 test("a journey given in minutes wins over hours written in the same line", () => {
   assert.equal(travelTime("35 minutes each way, so 6 hours a week"), "35 min");
 });
+
+/*
+ * Review round 7, R7-11: "1 h 10" printed as "1 h". The error was always in
+ * the flattering direction, under a footnote saying these are the times as
+ * recorded.
+ */
+test("the minutes after the hour are kept", () => {
+  assert.equal(travelTime("1 h 10"), "1 h 10");
+  assert.equal(travelTime("1 hour 40 by train"), "1 h 40");
+  assert.equal(travelTime("about 1 hour and 20 on a good day"), "1 h 20");
+  assert.equal(travelTime("1h10"), "1 h 10");
+  assert.equal(travelTime("1.5 h"), "1 h 30");
+  // And nothing is invented where there is nothing to read.
+  assert.equal(travelTime("2 hours to Porto"), "2 h");
+  assert.equal(travelTime("1 h 75"), "1 h");
+  assert.equal(travelTime("1 h, then 2 km on foot"), "1 h");
+});

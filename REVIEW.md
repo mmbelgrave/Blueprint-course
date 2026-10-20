@@ -1749,3 +1749,41 @@ No rollback of the three migrations is needed for anything I found. The
    and fold the second when it is empty.
 9. **R7-10**, **R7-9**, **R7-11** — the wording after a version bump, the
    special-categories invariant, and "1 h 10".
+
+---
+
+# Fixes and rechecks — round 7 (LLM1, 2026-10-20)
+
+All eleven findings are done. Nothing was disputed: both HIGH findings were
+reproduced in the code before being changed, and R7-5 was measured in the
+browser rather than argued about.
+
+| # | Finding | What changed | Checked |
+| --- | --- | --- | --- |
+| R7-1 | An email address alone ended a stranger's access, and the sweep then deleted their account | `provesOwnership` (`lib/withdrawal.ts`): access ends only when the request came from the person whose purchase it is — signed in on that account, or carrying the order number from their own receipt. Everything else is still recorded, answered and emailed, with `note` saying it was not proved. A later request that does prove itself upgrades the open row instead of being absorbed by it. | End to end on a throwaway purchase: a stranger's request left `ended_at` null; the owner signing in set it to the third day. Both rows deleted afterwards. |
+| R7-2 | Undoing a withdrawal left the row saying "received", so the sweep deleted the account anyway | The admin PATCH now also sets `withdrawals.status = 'cancelled'` and logs it, and the sweep skips (and cancels) any withdrawal whose entitlement is active again with no end date. | Both halves against the live database; Mwata's own test row is the cancelled one. |
+| R7-3 | The `already` branch told a stranger whether an address had bought the course, and sat outside the rate limit | The public answer is now the same neutral shape as a first request; the dates go only to a signed-in caller. The branch moved below the counting, so it cannot be polled. | Two identical POSTs from outside, signed out, give indistinguishable bodies. |
+| R7-4 | A mover who had not named a place lost the three sheets they filled in | `movingWritten` now reads all nineteen signals the three sheets print from, not the place alone. | Unit tests, and Sample B still prints the staying route only. |
+| R7-5 | Long answers ran 94px and 35px past A4, with the split applied and no third sheet | The estimate is gone. Every block is sized on its own and packed in the order it reads (`changePlanLayout`, `orderLayout`), onto as many sheets as the answers need, with the footnote's height held back so the last sheet always has room. Sheet four of My Decision has a rule for the first time, and page numbers follow. The constants were read off the browser: the body box is 922px, a line of body text 24px, a full-width line about 105 characters, a half-width column about 48. | Three fixtures measured sheet by sheet at 1280x1400: every sheet at 1123px, the fullest at 897 of 922. Sample B is unchanged at six sheets; the full fixture takes eight. |
+| R7-6 | The consent record proved the two ticks, not the disclosure the person read | The four material facts (Anthropic, the United States, no training, 30 days) are now `CONSENT_DISCLOSURE` in `lib/consent.ts`, next to `WORDING_VERSION`, and the screen renders them from there. Changing them changes the version, so everybody is asked again. | The screen reads as before; the test that reads the component for the lawyer's wording still passes. |
+| R7-7 | The privacy page promised a three-year consent record that deleting an account destroys | The sentence now says what is true: the records are kept while you have an account, and for up to three years after a consent ends, and deleting the account takes them with it. No migration. | The live page after the deploy. |
+| R7-8 | A staying reader who had only started got two near-empty sheets | `written` needs four of the eleven fields, and the second sheet is only printed when there is something found out to put on it (`stayingTailWritten`): the rules, the people, the test or the choice. Otherwise the closing lines stay on the first sheet. | A fixture with the change, the money and the week prints one sheet of 434px; Sample B still prints two. |
+| R7-9 | "Special categories" could be recorded on its own through the API | The route drops a special-categories tick that arrives without the first box being granted, so the invariant holds in the table and not only on the screen. | Unit test. |
+| R7-10 | After a wording change people were told they had switched their AI partner off | Three refusals, three sentences (`aiRefusal`): never asked, switched off, and "we have updated what we ask you to agree to". An unreadable table says so rather than blaming the person. A 403 also makes the panel read the consent state again, so the right screen appears without a reload. | Unit test for all three, plus the gates test, which now watches `whyNoAi` at every AI door. |
+| R7-11 | A recorded travel time of "1 h 10" printed as "1 h" | The minutes after the hour are read, including "1 hour 40", "1 h 10", "1h10" and "1.5 h". A trailing number that is a distance or another hour is still ignored. | Eight cases in `report.test.ts`. |
+
+One thing beyond the findings, from LLM2's attack 2: a signed-in person asking
+about their own address is no longer subject to the global ceiling of thirty
+requests in ten minutes. Their own daily limit still applies. Somebody else's
+abuse must not stand between a person and their own 14 days.
+
+Tests 327/327, typecheck, lint and the production build with the public-bundle
+check all pass.
+
+## What this leaves for Mwata
+
+1. `TEST-consent-and-withdrawal.md`, end to end, including the Lemon Squeezy
+   run on order 9762789.
+2. The lawyer's three questions in `LEGAL-wording-for-review.md`.
+3. Supabase Pro before the first paying customer, which is also when the "no
+   separate backups" sentence changes.

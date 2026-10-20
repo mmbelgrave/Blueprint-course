@@ -139,6 +139,13 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
         const body = await res.json().catch(() => ({}));
         undo();
         setError(body.error ?? "Your AI partner needs a moment. Please try again.");
+        /*
+         * A 403 means the consent behind this panel is no longer what the
+         * panel thinks it is: switched off in another tab, or the wording
+         * changed under an open page. Reading it again puts the right screen
+         * up without a reload (review round 7, R7-10).
+         */
+        if (res.status === 403) consent.reload();
         return;
       }
       const reader = res.body.getReader();

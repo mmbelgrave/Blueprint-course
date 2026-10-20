@@ -4,7 +4,11 @@ import { test } from "node:test";
 import {
   CONSENT_TEXT,
   WORDING_VERSION,
+  ASK_AGAIN,
+  NOT_ASKED_YET,
+  SWITCHED_OFF,
   aiAllowed,
+  aiRefusal,
   consentState,
   founderAllowed,
   latest,
@@ -23,6 +27,19 @@ const row = (
 test("no record means no AI", () => {
   assert.equal(aiAllowed([]), false);
   assert.equal(consentState([]).mustAsk, true);
+});
+
+/*
+ * Review round 7, R7-10: all three refusals used to say "you switched your AI
+ * partner off". Two of the three people had not.
+ */
+test("each refusal says what actually happened", () => {
+  assert.equal(aiRefusal([]), NOT_ASKED_YET);
+  assert.equal(aiRefusal([row("ai", false, "2026-10-19T10:00:00Z")]), SWITCHED_OFF);
+  // The same tick, recorded against wording we have since changed.
+  assert.equal(aiRefusal([row("ai", true, "2026-10-19T10:00:00Z", "2026-01-01")]), ASK_AGAIN);
+  // And nothing at all to say when the partner may run.
+  assert.equal(aiRefusal([row("ai", true, "2026-10-19T10:00:00Z")]), null);
 });
 
 test("a granted record at the current wording switches it on", () => {

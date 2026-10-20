@@ -28,6 +28,17 @@ export type ConsentRow = {
   recorded_at: string;
 };
 
+/**
+ * The disclosure above the boxes: what is sent, to whom, where they are, and
+ * what they do with it. Review round 7 (R7-6): the version covered the two
+ * checkbox sentences and not this, so Anthropic could be swapped for another
+ * company, or 30 days for 90, without anybody being asked again.
+ */
+export const CONSENT_DISCLOSURE = [
+  "If you switch it on, what you write in this chat, your answers on this page and your earlier answers are sent to Anthropic, the company whose AI model it uses. Anthropic is in the United States. It does not use what you write to train its models, and it deletes what it receives within 30 days, unless the law requires otherwise or a message is flagged for misuse. Your AI partner also keeps short notes about your answers, which you can read and delete under What my AI partner knows.",
+  "Please avoid special categories of data, for example health, religion, sexual orientation or political opinions, unless you want your AI partner to take them into account.",
+];
+
 /** The words people read. Kept here so a version always means one text. */
 /*
  * The words are the lawyer's, from section D2 of "Legal text to paste" of
@@ -122,6 +133,34 @@ export function rowsToWrite(
 
 /** The AI partner message when consent was given once and then withdrawn. */
 export const SWITCHED_OFF = "Your AI partner is switched off. You can switch it on again in My settings.";
+
+/*
+ * The three refusals, which look the same to the code and nothing like each
+ * other to the person reading them (review round 7, R7-10).
+ *
+ * "Switched off" is true only when they switched it off. A wording change asks
+ * everybody again, and telling those people they had turned something off
+ * would be wrong twice over: they did not, and Settings will show the box
+ * still ticked. Somebody who has never answered has not refused anything
+ * either. And a consents table we cannot read is our fault, not theirs.
+ */
+export const ASK_AGAIN =
+  "We have updated what we ask you to agree to. Please read it once more and agree, and your AI partner carries on.";
+export const NOT_ASKED_YET = "Your AI partner asks for your agreement first. Open the panel and you will be asked.";
+export const CONSENT_UNREADABLE = "Your AI partner could not be reached just now. Please reload the page.";
+
+/**
+ * Null when the AI partner may run; otherwise the sentence to show.
+ *
+ * The same rule as `aiAllowed`, which is deliberate: one rule decides, and
+ * this only adds which of the three things happened.
+ */
+export function aiRefusal(rows: ConsentRow[], version: string = WORDING_VERSION): string | null {
+  if (aiAllowed(rows, version)) return null;
+  const ai = latest(rows, "ai");
+  if (!ai) return NOT_ASKED_YET;
+  return ai.wording_version === version ? SWITCHED_OFF : ASK_AGAIN;
+}
 
 /** Always under the chat box (legal review, part 1, point 8). */
 export const AI_REMINDER =

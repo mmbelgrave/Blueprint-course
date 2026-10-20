@@ -358,13 +358,28 @@ export function travelTime(answer: string): string | null {
     /\bhours?\b[^.]*\b(?:a|per)\s+week\b|\bhours?\s+instead\s+of\b|\bworking\s+hours?\b|\b(?:days?|hours?)\s+a\s+week\b/i.test(
       answer,
     );
-  for (const m of answer.matchAll(/(\d+)\s*(minutes?|mins?|hours?|hrs?|h|km)\b/gi)) {
+  for (const m of answer.matchAll(/(\d+)(?:[.,](\d+))?\s*(minutes?|mins?|hours?|hrs?|h|km)(?=\b|\d)/gi)) {
     const n = Number(m[1]);
-    const unit = m[2].toLowerCase();
+    const fraction = m[2] ? Number(`0.${m[2]}`) : 0;
+    const unit = m[3].toLowerCase();
     if (unit === "km") return `${n} km`;
     if (unit.startsWith("m")) return `${n} min`;
     // Hours: a journey, not a week. Twelve is already a long way to travel.
-    if (!aboutWork && n <= 12) return `${n} h`;
+    if (aboutWork || n > 12) continue;
+    /*
+     * The minutes after the hour (review round 7, R7-11). "1 h 10" and
+     * "1 hour 40" used to print as "1 h", which is always wrong in the
+     * flattering direction, under a footnote that says these are the times
+     * as recorded. A half hour written as "1.5 h" counts the same way.
+     */
+    const rest = answer.slice(m.index + m[0].length);
+    const after = /^[\s,]*(?:and\s+)?(\d{1,2})\s*(?:minutes?|mins?|m\b)?/i.exec(rest);
+    const minutes = fraction
+      ? Math.round(fraction * 60)
+      : after && Number(after[1]) > 0 && Number(after[1]) < 60 && !/^\s*\d{1,2}\s*(?:km|h\b|hours?|hrs?)/i.test(rest)
+        ? Number(after[1])
+        : 0;
+    return minutes ? `${n} h ${minutes}` : `${n} h`;
   }
   return null;
 }
@@ -551,13 +566,31 @@ export function step2Report(a: Answers) {
     guess,
     found,
     income,
-    /** True when Parts 3 to 5 were answered, rather than the staying path. */
+    /*
+     * True when any of the place work was done, so the sheets built from it
+     * are printed (review round 7, R7-4: a mover who had researched a place
+     * but not yet named it lost three sheets of their own work).
+     */
     movingWritten: Boolean(
       text(a, "s2-5.1", "place") ||
         text(a, "s2-5.1", "choice") ||
+        text(a, "s2-5.1", "where") ||
+        text(a, "s2-5.1", "reasons") ||
+        text(a, "s2-5.1", "monthly_cost") ||
+        text(a, "s2-5.1", "legal") ||
+        text(a, "s2-5.1", "unknowns") ||
+        text(a, "country_choice", "country") ||
+        text(a, "region_shortlist", "shortlist") ||
+        text(a, "test_visit", "where_when") ||
+        text(a, "test_visit", "confirmed") ||
+        text(a, "s2-4.3", "ordinary_week") ||
+        text(a, "s2-3.2", "legal") ||
+        text(a, "s2-3.1", "income_there") ||
         Object.keys(rowsOf(a, "s2-1.2", "scores")).length > 0 ||
         Object.keys(rowsOf(a, "s2-2.3", "scores")).length > 0 ||
-        Object.keys(rowsOf(a, "s2-3.1", "costs")).length > 0,
+        Object.keys(rowsOf(a, "s2-3.1", "costs")).length > 0 ||
+        Object.keys(rowsOf(a, "s2-3.3", "daily")).length > 0 ||
+        Object.keys(rowsOf(a, "s2-4.2", "notes")).length > 0,
     ),
     monthlyCost: text(a, "s2-5.1", "monthly_cost"),
     incomeThere: text(a, "s2-5.1", "income"),
@@ -660,26 +693,153 @@ export function changePlan(a: Answers) {
   return { ...plan, written };
 }
 
-/*
- * Roughly how tall this plan prints, in pixels of A4 at 96dpi.
+/* ---------------------------------------------------------------------------
+ * How many sheets of paper a result needs (review round 7, R7-5).
  *
- * Measured against the real sheet rather than guessed: a step row is about
- * 95px, prose runs about half a pixel per character in these two columns, and
- * the kicker, headline, pull quote and footnote are about 140px between them.
- * The body of a sheet holds about 900px once the running head and the page
- * foot have taken theirs.
+ * The old rule added up one number for the whole plan and chose one sheet or
+ * two. Two was not always enough: somebody who fills every box and all five
+ * steps ran 94px past A4 with the split already applied, and the person's own
+ * plan was the thing cut off.
+ *
+ * So the blocks are measured one at a time and packed in the order they read,
+ * onto as many sheets as they need. The numbers below are not guesses: each
+ * one was read off the printed sheet in a headless browser at 1280x1400, the
+ * same box the print script uses, against a fixture with every box at 250 to
+ * 400 characters.
+ *
+ *   the body box of one sheet         922px   (1123 less the head and the foot)
+ *   the kicker and the headline        78px
+ *   one line of 11pt body text         24px
+ *   the small ochre label              18px, and 8px under it
+ *   a step in the timeline             95px
+ *   a full-width line holds          ~105 characters
+ *   a half-width column holds         ~48 characters
+ *   a standfirst line holds            ~80 characters (it is set narrower)
+ *
+ * Every one of those was read back from the browser and then checked against
+ * two fixtures: Sample B, whose fourth sheet lands on 771 of the 922, and a
+ * fixture with every box full, whose blocks come to 1,024 and now take two
+ * sheets. The budget is set ten pixels under the real box, the
+ * characters-per-line figures are rounded down, so the estimate
+ * errs towards an extra sheet rather than a cut line, and the footnote's
+ * height is held back on every sheet so the last one always has room for it.
+ * ------------------------------------------------------------------------- */
+
+const LINE = 24;
+const LABEL = 18 + 8;
+/** What the body of one sheet holds, once the running head and the foot have theirs. */
+const BUDGET = 905;
+/** Held back for the closing footnote, which lands on the last sheet. */
+const FOOTNOTE = 51;
+/** The kicker and the headline at the top of a sheet. */
+const HEADING = 78;
+
+const lineCount = (s: string, perLine: number) => (s?.trim() ? Math.ceil(s.trim().length / perLine) : 0);
+
+/** A block of prose across the full width, with its label and the gap above it. */
+const proseHeight = (s: string, gap = 32) => (s?.trim() ? gap + LABEL + lineCount(s, 100) * LINE : 0);
+
+/** Two of them side by side: the taller column decides the height. */
+const pairHeight = (a: string, b: string) =>
+  a?.trim() || b?.trim() ? 32 + LABEL + Math.max(lineCount(a, 48), lineCount(b, 48)) * LINE : 0;
+
+/**
+ * The person's own sentence at the top of the change plan, which is set
+ * larger the shorter it is (see `Pull`), so its height is not linear.
  */
-export function changePlanHeight(plan: ChangePlan): number {
-  const prose = [plan.change, plan.inPlace, plan.keep, plan.smallTest, plan.incomeBuffer, plan.hours, plan.whoITell, plan.first90, plan.uncertain, plan.planB]
-    .filter(Boolean)
-    .join(" ");
-  const steps = plan.steps.length > 0 ? plan.steps.length * 95 : plan.firstThree.slice(0, 4).length * 60;
-  return 140 + steps + prose.length * 0.5;
+const pullHeight = (s: string) => {
+  const n = s?.trim().length ?? 0;
+  if (!n) return 0;
+  if (n <= 46) return 20 + lineCount(s, 40) * 29;
+  if (n <= 110) return 20 + lineCount(s, 50) * 23;
+  return 20 + lineCount(s, 95) * 26;
+};
+
+/** The parts of a change plan, in the order they read. */
+export type PlanBlock = "keep" | "smallTest" | "steps" | "money" | "people" | "uncertain" | "planB";
+
+/**
+ * Pack the blocks of a change plan onto sheets, in order.
+ *
+ * An empty list means there is no plan to print. Anything else is one list of
+ * blocks per sheet, and the closing footnote goes on the last of them.
+ */
+export function changePlanLayout(plan: ChangePlan): PlanBlock[][] {
+  if (!plan.written) return [];
+  const steps = plan.steps.length
+    ? 32 + plan.steps.length * 95
+    : plan.firstThree.length
+      ? 32 + Math.min(plan.firstThree.length, 4) * 60
+      : 0;
+  const height: Record<PlanBlock, number> = {
+    keep: proseHeight(plan.keep, 24),
+    smallTest: proseHeight(plan.smallTest, 24),
+    steps,
+    money: pairHeight(plan.incomeBuffer, plan.hours),
+    people: pairHeight(plan.whoITell, plan.first90),
+    uncertain: proseHeight(plan.uncertain),
+    planB: proseHeight(plan.planB),
+  };
+  /* The first sheet also carries the person's own sentence and the date. */
+  const opening = HEADING + pullHeight(plan.change) + (inPlaceLine(plan.inPlace) ? 35 : 0);
+  return pack(["keep", "smallTest", "steps", "money", "people", "uncertain", "planB"], height, opening, FOOTNOTE);
 }
 
-/** One sheet, or two when it will not fit on one. */
-export const changePlanSheets = (plan: ChangePlan): number =>
-  !plan.written ? 0 : changePlanHeight(plan) > 900 ? 2 : 1;
+/** One sheet, or as many as the answers need. */
+export const changePlanSheets = (plan: ChangePlan): number => changePlanLayout(plan).length;
+
+/**
+ * The same packing for any sheet: blocks in order, a new sheet when the next
+ * one will not fit, and never a sheet whose only content is the footnote.
+ */
+function pack<Block extends string>(
+  order: Block[],
+  height: Record<Block, number>,
+  opening: number,
+  footnote: number,
+): Block[][] {
+  const sheets: Block[][] = [[]];
+  let left = BUDGET - footnote - opening;
+  for (const block of order) {
+    const tall = height[block];
+    if (!tall) continue;
+    if (tall > left && sheets[sheets.length - 1].length > 0) {
+      sheets.push([]);
+      left = BUDGET - footnote - HEADING;
+    }
+    sheets[sheets.length - 1].push(block);
+    left -= tall;
+  }
+  return sheets;
+}
+
+/* ---------------------------------------------------------------------------
+ * "The order I will do this in", the fourth sheet of My Decision, which had
+ * no rule of its own at all and ran 94px over on the same fixture.
+ * ------------------------------------------------------------------------- */
+
+export type OrderBlock = "conditions" | "steps" | "commitment" | "lookAgain";
+
+export function orderLayout(r: {
+  conditions: string;
+  steps: { what: string; when?: string; note?: string }[];
+  rentOrBuy: string;
+  reviewWhen: string;
+  wouldChange: string;
+}): OrderBlock[][] {
+  const height: Record<OrderBlock, number> = {
+    /* The standfirst under the headline, set narrower than the body. */
+    conditions: r.conditions?.trim() ? 12 + lineCount(r.conditions, 80) * LINE : 0,
+    steps: r.steps.length ? 36 + r.steps.length * 95 : 0,
+    /* A rule, a label, and one or two lines of display type. */
+    commitment: r.rentOrBuy?.trim() ? 64 + 18 + lineCount(r.rentOrBuy, 55) * 27 : 0,
+    lookAgain: r.reviewWhen?.trim() || r.wouldChange?.trim() ? 32 + 18 + 12 + lineCount(r.wouldChange, 100) * LINE : 0,
+  };
+  /* "Decided with" is one line, so less is held back here than on the plan. */
+  const sheets = pack(["conditions", "steps", "commitment", "lookAgain"], height, HEADING, 36);
+  // Nothing written at all still prints the sheet, empty but numbered.
+  return sheets[0].length === 0 ? [[]] : sheets;
+}
 
 export type Blueprint = ReturnType<typeof blueprintReport>;
 
@@ -814,9 +974,28 @@ export function exploreStaying(a: Answers) {
     nextStep: f("next_step"),
     reviewWhen: f("review_when"),
   };
-  const written = Boolean(plan.change || plan.reasons || plan.test || plan.choice);
+  /*
+   * Enough to be worth two sheets of A4. One line in S1 and nothing else gave
+   * a staying reader two almost empty pages (review round 7, R7-8), which
+   * reads as the app shrugging at their work.
+   */
+  const filled = [plan.change, plan.gives, plan.reasons, plan.notGive, plan.money, plan.rules, plan.hours, plan.people, plan.test, plan.unknowns, plan.choice]
+    .filter((v) => (v ?? "").trim().length > 0).length;
+  const written = filled >= 4;
   return { ...plan, written };
 }
 
+/**
+ * Is there anything for the second sheet to carry?
+ *
+ * It holds what they found out: the rules, the people, the test and the
+ * choice. Without any of those it was a headline and the standing sentence
+ * about Step 3, which is a sheet of paper saying nothing (review round 7,
+ * R7-8), so the closing lines move onto the first sheet instead.
+ */
+export const stayingTailWritten = (plan: ExploreStaying): boolean =>
+  Boolean(plan.rules?.trim() || plan.people?.trim() || plan.test?.trim() || plan.choice?.trim());
+
 /** One sheet or two, or none when nobody took the staying path. */
-export const exploreStayingSheets = (plan: ExploreStaying): number => (plan.written ? 2 : 0);
+export const exploreStayingSheets = (plan: ExploreStaying): number =>
+  !plan.written ? 0 : stayingTailWritten(plan) ? 2 : 1;
