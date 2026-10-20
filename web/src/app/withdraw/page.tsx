@@ -34,12 +34,17 @@ export default function WithdrawPage() {
 
   useEffect(() => {
     let gone = false;
+    /* Anything other than an answer we understand means the form, not a page
+       that waits for ever. */
+    const nobody: Mine = { signedIn: false, purchase: null };
     fetch("/api/withdraw", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
+      .then((r) => (r.ok ? r.json() : nobody))
       .then((data) => {
-        if (!gone && data) setMine(data);
+        if (!gone) setMine(data ?? nobody);
       })
-      .catch(() => undefined);
+      .catch(() => {
+        if (!gone) setMine(nobody);
+      });
     return () => {
       gone = true;
     };
