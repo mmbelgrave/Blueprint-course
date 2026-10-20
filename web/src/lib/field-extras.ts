@@ -111,11 +111,15 @@ export function fieldExtras(
     if (field.type !== "table") return undefined;
     const extras: FieldExtras = {};
 
-    // "Country 1:" + the name the person wrote in the list field.
+    /*
+     * The name they wrote, on its own. It used to read "Country 1: Portugal",
+     * which spends half the column on the word Country (Mwata, 20 October).
+     * A column nobody has named keeps the placeholder, without its colon.
+     */
     if (field.column_names_from) {
       const names = (answers[exercise.id]?.[field.column_names_from.field] ?? []) as string[];
       extras.columnLabels = Object.fromEntries(
-        (field.columns ?? []).map((c, i) => [c.id, names[i]?.trim() ? `${c.label} ${names[i].trim()}` : c.label]),
+        (field.columns ?? []).map((c, i) => [c.id, names[i]?.trim() || c.label.replace(/:\s*$/, "")]),
       );
     }
 

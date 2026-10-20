@@ -6,10 +6,24 @@
 // matters), not the brand motif: the motif must always be exactly three lines.
 import Link from "next/link";
 import type { ExerciseStatus } from "@/lib/backend";
-import { partItems, type StepContent } from "@/lib/content";
+import { displayNumber, partItems, type Part, type StepContent } from "@/lib/content";
 import { exerciseHref, partProgress } from "@/lib/progress";
 
 type Statuses = Record<string, ExerciseStatus>;
+
+/**
+ * What to call a part on the rail.
+ *
+ * Usually its number. The staying route in Step 2 numbers its pages S1 to S7,
+ * after the workbook, and the rail called it "6" · a number that appears
+ * nowhere on those pages (Mwata, 20 October). The pages decide.
+ */
+function railLabel(part: Part) {
+  if (part.id.includes("p0")) return "Start";
+  const first = String(displayNumber(partItems(part)[0]) ?? "");
+  const letter = /^([A-Za-z])/.exec(first)?.[1];
+  return `${letter ? letter.toUpperCase() : part.number} · ${part.title}`;
+}
 
 /** One line for the whole step: how far you are, and which part you are in. */
 export function PartRail({
@@ -78,18 +92,37 @@ export function PartRail({
         })}
       </div>
 
+      {/*
+       * The name of a part opens the part: every page in it, to jump straight
+       * to (Mwata, 20 October, who wanted to reach 3.3 without walking there).
+       * A <details>, so it needs nothing of React to open and closes again
+       * with Escape.
+       */}
       <div className="mt-1.5 hidden gap-1.5 sm:flex">
         {parts.map((part, i) => (
-          <Link
-            key={part.id}
-            href={exerciseHref(n, part.id, partItems(part)[0].id)}
-            style={{ flex: totals[i] }}
-            className={`truncate text-center text-xs hover:underline ${
-              part.id === currentPartId ? "font-semibold text-ochre" : "text-stone"
-            }`}
-          >
-            {part.id.includes("p0") ? "Start" : `${part.number} · ${part.title}`}
-          </Link>
+          <details key={part.id} className="relative min-w-0" style={{ flex: totals[i] }}>
+            <summary
+              className={`cursor-pointer list-none truncate text-center text-xs hover:underline ${
+                part.id === currentPartId ? "font-semibold text-ochre" : "text-stone"
+              }`}
+            >
+              {railLabel(part)}
+            </summary>
+            <div className="absolute left-1/2 z-20 mt-1 w-60 -translate-x-1/2 rounded-xl border border-line bg-white p-1.5 text-left shadow-lg">
+              {partItems(part).map((e) => (
+                <Link
+                  key={e.id}
+                  href={exerciseHref(n, part.id, e.id)}
+                  className={`block truncate rounded-lg px-2 py-1 text-xs hover:bg-sand ${
+                    e.id === currentExerciseId ? "font-semibold text-ochre" : "text-pine"
+                  }`}
+                >
+                  {displayNumber(e)} {e.title}
+                  {statuses[e.id] === "done" && <span className="text-success"> ✓</span>}
+                </Link>
+              ))}
+            </div>
+          </details>
         ))}
       </div>
     </section>

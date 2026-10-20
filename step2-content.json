@@ -306,8 +306,7 @@
           }
         }
       ],
-      "result": "What I Am Looking For. The measuring stick you use for every place in this step.",
-      "result_page": "s2-0.1"
+      "result": "What I Am Looking For. The measuring stick you use for every place in this step."
     },
     {
       "id": "s2-p1",
@@ -648,42 +647,9 @@
           "intro": [
             "This section focuses on Portugal. If you are considering another country, use the same questions to understand its regions.",
             "Mainland Portugal is divided into 18 districts, plus the two island regions, Madeira and the Azores. For statistics, the mainland is often grouped into five regions: North, Centre, Lisbon area, Alentejo and Algarve.",
-            "The weather is not the same everywhere, and the differences are bigger than most people expect for a small country. The national weather institute, IPMA, classifies the climate of the mainland like this:"
+            "The weather is not the same everywhere, and the differences are bigger than most people expect for a small country. Look up the place you are considering rather than the country, and look at the winter months, not only the summer ones."
           ],
           "tables": [
-            {
-              "place": "before",
-              "header": [
-                "Where",
-                "What the climate is like"
-              ],
-              "rows": [
-                [
-                  "Most of the mainland",
-                  "Temperate, with a dry summer"
-                ],
-                [
-                  "Inland Douro valley (part of Bragança district) and most areas south of the Montejunto–Estrela mountain line",
-                  "Warm, dry summers (climate type Csa)"
-                ],
-                [
-                  "Almost all areas north of that mountain line, plus the west coast of Alentejo and the Algarve",
-                  "Milder, dry summers (climate type Csb)"
-                ],
-                [
-                  "A small area in the Beja district, in the Alentejo",
-                  "Dry steppe climate (type BSk)"
-                ],
-                [
-                  "Madeira",
-                  "Warm, dry summers (Csa)"
-                ],
-                [
-                  "Azores",
-                  "Eastern islands: mild, dry summers (Csb). Central and western islands: ocean climate, wetter all year (Cfb)"
-                ]
-              ]
-            },
             {
               "place": "after",
               "lead": "Beyond the weather: what else changes from region to region. Weather is often the first difference you notice. These four areas also vary between municipalities and can surprise newcomers. For now, know which questions to ask. A more detailed Portugal module, planned for later, will cover each one.",
@@ -708,7 +674,6 @@
             }
           ],
           "where_to_check": [
-            "IPMA, Climate normals and climate classification, ipma.pt (checked 20 September 2026). IPMA also publishes average temperature and rainfall per month for weather stations across the country, for the periods 1971–2000, 1981–2010 and 1991–2020. Look up the station closest to the place you are considering, and look at the winter months, not only the summer ones.",
             "Building and land-use rules are set locally. Start with the town or municipal council where the place is: its website, or its planning office. Most countries also have a national website that publishes the local plans. Ask the council, or a local fire service or forestry office, whether there is a fire risk and whether owners have to clear land. For water, find out whether mains water reaches the address. If not, check whether a well or borehole needs a permit and who issues it; this is usually the national or regional environment agency. Write down the source and the date you checked. In Portugal: the câmara municipal and pcgt.dgterritorio.gov.pt (land use), sgifr.gov.pt (fire safety) and apambiente.pt (wells and boreholes). Checked 27 September 2026."
           ],
           "tips": [
@@ -962,24 +927,8 @@
               }
             ]
           },
-          "tables": [
-            {
-              "place": "after",
-              "lead": "For Portugal, the official information below covers two different routes. Start with the one that applies to your passport:",
-              "rows": [
-                [
-                  "If you hold an EU, EEA, Andorran or Swiss passport",
-                  "You can enter and stay without a visa. If you stay longer than three months, request a registration certificate at the câmara municipal (town hall) in the area where you live. The official page says you must do this within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."
-                ],
-                [
-                  "If you hold any other passport",
-                  "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid for four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."
-                ]
-              ]
-            }
-          ],
           "tips": [
-            "Rules like these change, and details matter more than summaries. Treat the two paragraphs above as a map, not as advice: open the official pages yourself, for your own situation, and write down the date. If your case is not simple, pay a lawyer for one hour. It is the cheapest hour you will spend."
+            "Rules like these change, and details matter more than summaries. Open the official pages for the country you are looking at, for your own situation, and write down the date you checked. If your case is not simple, pay a lawyer for one hour. It is the cheapest hour you will spend."
           ]
         },
         {
@@ -1594,8 +1543,7 @@
       },
       "tips": [
         "Exploring a change where you live? Your summary is My Explore Summary (staying), at the end of the staying path."
-      ],
-      "result_page": "s2-5.1"
+      ]
     },
     {
       "id": "s2-p6",
@@ -2009,8 +1957,7 @@
             ]
           }
         }
-      ],
-      "result_page": "s2-s7"
+      ]
     }
   ],
   "closing": {

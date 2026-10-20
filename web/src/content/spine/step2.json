@@ -12,7 +12,6 @@
       "number": 0,
       "label": "Start",
       "title": "What I am looking for",
-      "result_page": "s2-0.1",
       "time": "20–30 min",
       "finish": {
         "id": "looking_for",
@@ -575,7 +574,6 @@
       "number": 5,
       "label": "Part 5",
       "title": "Bring it together",
-      "result_page": "s2-5.1",
       "time": "45 min",
       "video": {
         "title": "Part 5 · Bring it together",
@@ -698,7 +696,6 @@
       "label": "The staying path",
       "title": "Check and test your change",
       "optional": true,
-      "result_page": "s2-s7",
       "time": "3–5 hours, plus a test",
       "finish": {
         "id": "explore_staying",

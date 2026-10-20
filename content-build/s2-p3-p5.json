@@ -123,24 +123,8 @@
             }
           ]
         },
-        "tables": [
-          {
-            "place": "after",
-            "lead": "For Portugal, the official information below covers two different routes. Start with the one that applies to your passport:",
-            "rows": [
-              [
-                "If you hold an EU, EEA, Andorran or Swiss passport",
-                "You can enter and stay without a visa. If you stay longer than three months, request a registration certificate at the câmara municipal (town hall) in the area where you live. The official page says you must do this within 30 days after those first three months, and that you bring a valid ID or passport plus a declaration about your situation: that you work there, that you have enough means and health cover, or that you are studying. Source: aima.gov.pt, checked 20 September 2026."
-              ],
-              [
-                "If you hold any other passport",
-                "You normally need a visa before you travel, from a Portuguese consulate. The official visa portal divides long-stay visas into temporary stay visas (for stays under one year) and residency visas (valid for four months and giving two entries, during which you apply for your residence permit with AIMA), plus a separate visa for skilled job seekers. Which one fits you depends on your purpose: work, remote work, study, income from outside, family. Source: vistos.mne.gov.pt, checked 20 September 2026."
-              ]
-            ]
-          }
-        ],
         "tips": [
-          "Rules like these change, and details matter more than summaries. Treat the two paragraphs above as a map, not as advice: open the official pages yourself, for your own situation, and write down the date. If your case is not simple, pay a lawyer for one hour. It is the cheapest hour you will spend."
+          "Rules like these change, and details matter more than summaries. Open the official pages for the country you are looking at, for your own situation, and write down the date you checked. If your case is not simple, pay a lawyer for one hour. It is the cheapest hour you will spend."
         ]
       },
       {
@@ -755,7 +739,6 @@
     },
     "tips": [
       "Exploring a change where you live? Your summary is My Explore Summary (staying), at the end of the staying path."
-    ],
-    "result_page": "s2-5.1"
+    ]
   }
 ]

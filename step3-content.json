@@ -301,8 +301,7 @@
           ]
         }
       ],
-      "result": "My Decision Question. The exact decision you are testing in this step.",
-      "result_page": "s3-0.1"
+      "result": "My Decision Question. The exact decision you are testing in this step."
     },
     {
       "id": "s3-p1",
@@ -1385,8 +1384,7 @@
         "title": "Part 4 · Make your decision",
         "length": "10–12 min",
         "url": null
-      },
-      "result_page": "s3-4.2"
+      }
     },
     {
       "id": "s3-p5",

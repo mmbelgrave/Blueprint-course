@@ -376,6 +376,9 @@ function GrowingCell({
   );
 }
 
+/** What a score column offers. The value kept is the first character. */
+const SCORES = ["2 · good for me", "1 · maybe", "0 · no"];
+
 function Table({ field, value, onChange, currency, extras }: FieldProps) {
   const base = tableRows(field);
   const extra = Math.max(0, (extras?.rowCount ?? 0) - base.length);
@@ -394,6 +397,11 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
     onChange({ ...data, [rowKey]: { ...data[rowKey], [colId]: v } });
 
   const narrow = (c: TableColumn) => c.kind !== "text" && c.kind !== "long_text";
+  /*
+   * A table of nothing but scores is a grid: every column the same width, so
+   * the eye runs down it. Anything with writing in it keeps its own widths.
+   */
+  const evenColumns = cols.length > 1 && cols.every((c) => c.kind === "score");
 
   /** Score columns (2 / 1 / 0): the sum, and how many boxes are still empty (the research list). */
   const scoreTotal = (colId: string) => {
@@ -407,12 +415,20 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
     <div className="space-y-2">
       <div className="overflow-x-auto rounded-xl border border-line bg-white">
         <table
-          className="rtable w-full border-collapse text-left"
+          className={`rtable w-full border-collapse text-left ${evenColumns ? "sm:table-fixed" : ""}`}
           style={{
             // Scroll sideways only when the columns really do not fit.
             minWidth: `${(hasLabels ? 9 : 0) + cols.reduce((w, c) => w + (narrow(c) ? 7 : 11), 0)}rem`,
           }}
         >
+          {evenColumns && (
+            <colgroup>
+              {hasLabels && <col style={{ width: "28%" }} />}
+              {cols.map((c) => (
+                <col key={c.id} style={{ width: `${72 / cols.length}%` }} />
+              ))}
+            </colgroup>
+          )}
           <thead className="bg-sand/60 text-sm">
             <tr>
               {hasLabels && <th className="p-2 pl-3 font-medium">{field.row_header}</th>}
@@ -449,8 +465,10 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                           onChange={(e) => setCell(key, c.id, e.target.value)}
                         >
                           <option value="" />
-                          {c.options?.map((o) => (
-                            <option key={o}>{o}</option>
+                          {(c.options ?? (c.kind === "score" ? SCORES : [])).map((o) => (
+                            <option key={o} value={o.slice(0, 1)}>
+                              {o}
+                            </option>
                           ))}
                         </select>
                       ) : c.kind === "long_text" ? (

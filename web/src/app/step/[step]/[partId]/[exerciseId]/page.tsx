@@ -25,7 +25,6 @@ import {
   type Located,
   type Part,
 } from "@/lib/content";
-import { PageClear } from "@/components/page-clear";
 import { ComparePanel } from "@/components/compare-panel";
 import { pageKind } from "@/lib/together-app";
 import { SharedNote } from "@/components/shared-note";
@@ -305,18 +304,13 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
   const [drafts, setDrafts] = useState<Drafts>({});
   const canDraft = draftFields(exercise).length > 0;
   /*
-   * The page a part ends on. Usually its summary; six parts have no summary
-   * and name the exercise that carries their result instead.
+   * The last page of the part, whatever it is: the summary, the extra page
+   * after it, or the one page a Start has. The result is shown there and the
+   * part is asked about there, and nowhere else (Mwata, 20 October). Naming a
+   * result page in the content put the result on 5.1 while the part ended on
+   * 5.2; the end of a part is the end of a part.
    */
-  const resultPageId = part.summary?.id ?? part.result_page;
-  const isResultPage = exercise.id === resultPageId;
-  /*
-   * Both feedback questions are asked once per part, on its last page,
-   * whatever that page is: the summary, an extra page, or the one page a
-   * Start has. Simple to say and simple to find (Mwata, 20 October), where
-   * "the last page that asks something" put them on 2.4 instead of 2.6.
-   */
-  const feedbackHere = exercise.id === partItems(part).at(-1)?.id;
+  const atPartEnd = exercise.id === partItems(part).at(-1)?.id;
   const changeStatus = async (status: "done" | "in_progress") => {
     setStatusError(!(await setStatus(exercise.id, status)));
   };
@@ -566,14 +560,9 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           <p className="rounded-2xl border border-line p-4 text-stone">{exercise.go_further}</p>
         )}
 
-        {/*
-         * What this part ends with, on the one page that holds it: the summary,
-         * or the exercise the content names as the result. It said different
-         * things on different pages before, and on some it was a link and on
-         * others plain text (Mwata, 20 October). Now it says it once, with the
-         * way to read the result back.
-         */}
-        {isResultPage && (
+        {/* What this part ends with, on the page it ends on, with the way
+            to read the result back. */}
+        {atPartEnd && (
           <div className="rounded-2xl bg-success-soft p-4 text-center">
             <p>
               <span className="font-semibold text-success">✓ Result: {part.finish.title}</span>
@@ -626,12 +615,10 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             have both written (6.8). Nothing for a person alone. */}
         {pageKind(exercise.id) === "mine" && <ComparePanel key={exercise.id} exercise={exercise} />}
 
-        {/* Both questions at the end of a part, and nowhere else: which page
-            was unclear, and how the part felt. Asking on every page was asking
-            too often to be answered honestly (Mwata, 20 October). */}
-        {!free && feedbackHere && <PageClear key={exercise.id} exerciseId={exercise.id} />}
-
-        {feedbackHere && <PartFeedback partId={part.id} />}
+        {/* One question at the end of a part, and nowhere else. "Was this
+            page clear?" stood right beside it asking much the same thing, so
+            it is gone from every page (Mwata, 20 October). */}
+        {atPartEnd && <PartFeedback partId={part.id} />}
 
         {showTalk && (
           <Card tone="talk" title="Talk about it" collapsible={false}>
