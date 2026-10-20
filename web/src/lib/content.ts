@@ -351,6 +351,18 @@ export function partItems(part: Part): Exercise[] {
   return part.summary ? [...part.exercises, summaryAsExercise(part, part.summary)] : part.exercises;
 }
 
+/**
+ * The staying route: the part whose pages are lettered rather than numbered
+ * (S1 to S7 in Step 2), for somebody whose change is not a move. It ends in
+ * its own summary, which gets its own sheets inside the step's document, so
+ * the rail and the result button both call it by its letter rather than by a
+ * part number that appears nowhere on its pages (Mwata, 20 October).
+ */
+export const letteredRoute = (part: Part) => {
+  const first = String(displayNumber(partItems(part)[0]) ?? "");
+  return /^([A-Za-z])/.exec(first)?.[1]?.toUpperCase();
+};
+
 export type Located = { step: StepContent; part: Part; exercise: Exercise };
 
 /** Every page of every step, in order. */

@@ -376,8 +376,8 @@ function GrowingCell({
   );
 }
 
-/** What a score column offers. The value kept is the first character. */
-const SCORES = ["2 · good for me", "1 · maybe", "0 · no"];
+/** What a score column offers: 2 = good for me, 1 = maybe, 0 = no. */
+const SCORES = ["2", "1", "0"];
 
 function Table({ field, value, onChange, currency, extras }: FieldProps) {
   const base = tableRows(field);
@@ -403,9 +403,17 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
    */
   const evenColumns = cols.length > 1 && cols.every((c) => c.kind === "score");
 
-  /** Score columns (2 / 1 / 0): the sum, and how many boxes are still empty (the research list). */
+  /*
+   * Score columns (2 / 1 / 0): the sum, and how many boxes are still empty,
+   * which is the research list. Only what the dropdown can show is counted,
+   * so a value left over from another scale reads as empty here as well as
+   * in its own cell, rather than adding a number nobody can see.
+   */
   const scoreTotal = (colId: string) => {
-    const values = rows.map(({ key }) => data[key]?.[colId]).filter((v) => v !== undefined && v !== "");
+    const allowed = new Set(cols.find((c) => c.id === colId)?.options ?? SCORES);
+    const values = rows
+      .map(({ key }) => data[key]?.[colId])
+      .filter((v): v is string => typeof v === "string" && allowed.has(v));
     const sum = values.reduce((s, v) => s + Number(v), 0);
     const empty = rows.length - values.length;
     return values.length ? `${sum}${empty ? ` · ${empty} empty` : ""}` : "—";
