@@ -17,6 +17,7 @@ import {
   watchedKey,
   type Lesson,
   type ModuleDef,
+  type ModuleVideo,
   type StepSummary,
   type Workbook,
 } from "@/lib/modules";
@@ -35,6 +36,21 @@ export const buyUrl = raw.buy_url;
 export const notifyUrl = raw.notify_url;
 
 export const moduleById = (id: string) => modules.find((m) => m.id === id);
+
+/**
+ * The file name of the still for one video.
+ *
+ * Taken from our own content, never from the request, and only ever a plain
+ * file name. A video nobody has chosen a frame for keeps Bunny's own
+ * "thumbnail.jpg".
+ */
+export function posterFileOf(videoId: string): string {
+  const videos: ModuleVideo[] = [];
+  for (const m of modules) if ((m as { video?: ModuleVideo }).video) videos.push((m as { video?: ModuleVideo }).video!);
+  for (const step of [1, 2, 3]) for (const lesson of lessonsOf(step)) if (lesson.video) videos.push(lesson.video);
+  const named = videos.find((v) => v.url === videoId)?.poster_file;
+  return named && /^[\w.-]+\.(jpg|jpeg|png|webp)$/i.test(named) ? named : "thumbnail.jpg";
+}
 export const stepIdOf = (step: number) => `step-${step}`;
 
 /**

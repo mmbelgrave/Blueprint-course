@@ -19,7 +19,23 @@
  * Nothing is imported here, so this can be tested on its own.
  */
 
-export type ModuleVideo = { title: string; length: string | null; url: string | null; audio_url?: string | null };
+export type ModuleVideo = {
+  title: string;
+  length: string | null;
+  url: string | null;
+  audio_url?: string | null;
+  /**
+   * The still Bunny serves for this video.
+   *
+   * Bunny's own thumbnail sits at "thumbnail.jpg", which is the default. The
+   * moment somebody picks a different frame in the dashboard, Bunny replaces
+   * it with a file of that frame's own name and "thumbnail.jpg" stops
+   * existing — so the name is written here, beside the video (20 October: the
+   * Introduction's first frame was blank sand, and a frame with Mwata in it
+   * was chosen instead).
+   */
+  poster_file?: string | null;
+};
 export type Workbook = { name: string; file: string | null; updated: string | null };
 
 export type ModuleKind = "free" | "lesson" | "phase";

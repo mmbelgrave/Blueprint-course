@@ -11,6 +11,7 @@
  * not be kept by anything in between.
  */
 import { folderUrl, looksLikeVideoId } from "@/lib/bunny";
+import { posterFileOf } from "@/lib/modules-app";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 import { mayWatch } from "@/lib/video-access";
 
@@ -39,5 +40,5 @@ export async function GET(request: Request) {
   if (!allowed.ok) return fail(allowed.status, allowed.error);
 
   const { folder } = folderUrl({ cdn, videoId, key });
-  return Response.redirect(`${folder}thumbnail.jpg`, 302);
+  return Response.redirect(`${folder}${posterFileOf(videoId)}`, 302);
 }
