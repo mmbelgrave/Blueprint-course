@@ -33,10 +33,14 @@ export default function ModulePage() {
   const course = moduleById(moduleId);
 
   const free = isFree(entitlements);
-  const state = stateOf(course!, entitlements);
-  // "buy" still opens: a phase has to be seen before anyone buys it. "coming"
-  // does not, because there is nothing behind the door yet.
-  if (!course || state === "coming") {
+  /*
+   * "buy" still opens: a phase has to be seen before anyone buys it. "coming"
+   * does not, because there is nothing behind the door yet. A module id that
+   * does not exist at all (an old link, a typo) is asked about last: reading
+   * its state first threw, and the page answered "Something went wrong"
+   * instead of the sentence written here (20 October).
+   */
+  if (!course || stateOf(course, entitlements) === "coming") {
     return (
       <Shell ownHeader>
         <RequireUser>
@@ -51,6 +55,7 @@ export default function ModulePage() {
     );
   }
 
+  const state = stateOf(course, entitlements);
   const back = null;
 
   const header = (
