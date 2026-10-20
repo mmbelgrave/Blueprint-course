@@ -87,9 +87,9 @@ export default function Privacy() {
 
         <h2 className="font-semibold">Who reads it</h2>
         <p>
-          With both switches off, nobody reads your answers but you. Mwata can read them only if you tick the
-          optional box in Settings, and your AI partner reads them only if you switch it on. You can change either at
-          any time. With both off, nobody at our company and no AI reads what you write.
+          Nobody reads your answers but you. Your AI partner reads them only if you switch it on, and you can switch
+          it off again at any time. Mwata cannot read them at all: the app has no way to show him what you wrote.
+          What he does see is how far people have come and the feedback they send him, with no answers in it.
         </p>
 
         <h2 className="font-semibold">Please keep the sensitive things out</h2>

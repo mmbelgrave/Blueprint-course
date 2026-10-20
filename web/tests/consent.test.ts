@@ -10,7 +10,6 @@ import {
   aiAllowed,
   aiRefusal,
   consentState,
-  founderAllowed,
   latest,
   expiredConsentIds,
   rowsToWrite,
@@ -88,14 +87,6 @@ test("the AI partner works with the first tick alone", () => {
   assert.equal(consentState(rows).special, false);
 });
 
-test("Mwata's access is not re-asked when the AI wording changes", () => {
-  // It is a separate tick with its own words. Bumping the AI wording must not
-  // quietly close a door somebody deliberately opened.
-  const rows = [row("founder_access", true, "2026-09-01T10:00:00Z", "2026-09-01")];
-  assert.equal(founderAllowed(rows), true);
-  assert.equal(consentState(rows).founder, true);
-});
-
 test("nothing is written when the answer is the one already recorded", () => {
   const rows = [row("ai", true, "2026-10-18T10:00:00Z")];
   assert.deepEqual(rowsToWrite(rows, { ai: true }), []);
@@ -171,7 +162,8 @@ test("each kind is counted on its own", () => {
     numbered(2, "ai", true, "2024-01-01T10:00:00Z"),
     numbered(3, "founder_access", true, "2020-01-01T10:00:00Z"),
   ];
-  // The old AI row was replaced in 2024, so it is not three years old yet;
-  // the founder tick from 2020 still stands, so it stays.
+  // The old AI row was replaced in 2024, so it is not three years old yet.
+  // The third is a kind we stopped asking for in October 2026; it is still
+  // the newest of its kind, so it stands and is not swept away.
   assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), []);
 });

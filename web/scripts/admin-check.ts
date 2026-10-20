@@ -9,7 +9,7 @@ async function main() {
   const participants = await buildOverview(admin);
   console.log(`participants: ${participants.length}`);
   for (const p of participants) {
-    console.log(`\n${p.name || "(no name)"} — started ${p.started?.slice(0, 10)}, last active ${p.lastActivity?.slice(0, 10) ?? "—"}, may read answers: ${p.consentFounder}`);
+    console.log(`\n${p.name || "(no name)"} — started ${p.started?.slice(0, 10)}, last active ${p.lastActivity?.slice(0, 10) ?? "—"}`);
     for (const s of p.progress) {
       console.log(`  Step ${s.step}: ${s.parts.map((x) => `${x.label} ${x.done}/${x.total}`).join(" · ")}`);
     }

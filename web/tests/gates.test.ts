@@ -109,10 +109,21 @@ test("every route that reaches for Anthropic is on that list", () => {
   }
 });
 
-test("the admin view of somebody's answers asks the consents table", () => {
-  const source = read("app/api/admin/participants/[id]/route.ts");
-  assert.match(source, /mayFounderRead\(/);
-  assert.doesNotMatch(source, /consent_founder_access/);
+/*
+ * Nobody but the person reads their answers (Mwata, 20 October). The consent
+ * that let him read them is gone, and so is the page it opened; what is left
+ * to protect is that no admin route quietly reads the answers anyway.
+ */
+test("no admin route reads anybody's answers", () => {
+  const dir = new URL("../src/app/api/admin/", import.meta.url);
+  for (const entry of readdirSync(dir, { recursive: true }) as string[]) {
+    const path = String(entry).replaceAll("\\", "/");
+    if (!path.endsWith("route.ts")) continue;
+    const source = read(`app/api/admin/${path}`);
+    for (const table of ['from("answers")', 'from("part_results")', 'from("conversations")', 'from("ai_profile")']) {
+      assert.ok(!source.includes(table), `app/api/admin/${path} reads ${table}`);
+    }
+  }
 });
 
 test("consent rows are written on the server only", () => {

@@ -346,7 +346,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           ) : (
             <>
               <div className="rounded-2xl bg-white p-4 sm:p-5">
-                <PartRail content={step} statuses={statuses} currentPartId={part.id} />
+                <PartRail content={step} statuses={statuses} currentPartId={part.id} currentExerciseId={exercise.id} />
               </div>
               <p className="mt-3 text-sm text-stone">
                 <Link href={stepHref(stepNumber)} className="hover:underline">

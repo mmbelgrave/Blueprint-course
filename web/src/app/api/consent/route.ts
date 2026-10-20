@@ -42,7 +42,6 @@ export async function POST(request: Request) {
 
   const answer: Partial<Record<ConsentKind, boolean>> = {};
   if (typeof body.ai === "boolean") answer.ai = body.ai;
-  if (typeof body.founder === "boolean") answer.founder_access = body.founder;
   // Special categories ride on the first tick. Agreeing to the second while
   // refusing the first would be a consent to something that never happens.
   if (answer.ai === false) answer.ai_special = false;

@@ -19,7 +19,7 @@
 /** Bump this when any wording below changes. */
 export const WORDING_VERSION = "2026-10-19";
 
-export type ConsentKind = "ai" | "ai_special" | "founder_access";
+export type ConsentKind = "ai" | "ai_special";
 
 export type ConsentRow = {
   kind: string;
@@ -54,7 +54,6 @@ export const CONSENT_TEXT: Record<ConsentKind, string> = {
   ai_special:
     "If I choose to write sensitive information (for example about health, religion, sexual orientation " +
     "or political opinions), I explicitly consent to it being processed in this way.",
-  founder_access: "Mwata may read my answers and my AI summary to guide me.",
 };
 
 /** The newest row of this kind, or null. Rows may arrive in any order. */
@@ -72,8 +71,6 @@ export type ConsentState = {
   ai: boolean;
   /** Special categories of data are covered as well. */
   special: boolean;
-  /** Mwata may read this person's answers. */
-  founder: boolean;
   /** Nobody has answered the current wording yet: show the whole screen. */
   mustAsk: boolean;
   /** When the AI answer was recorded, for the line in Settings. */
@@ -84,12 +81,10 @@ export type ConsentState = {
 export function consentState(rows: ConsentRow[], version: string = WORDING_VERSION): ConsentState {
   const ai = latest(rows, "ai");
   const special = latest(rows, "ai_special");
-  const founder = latest(rows, "founder_access");
   const current = (row: ConsentRow | null) => !!row && row.wording_version === version;
   return {
     ai: current(ai) && ai!.granted,
     special: current(special) && special!.granted,
-    founder: !!founder?.granted,
     mustAsk: !current(ai),
     aiRecordedAt: ai?.recorded_at ?? null,
     version,
@@ -99,11 +94,6 @@ export function consentState(rows: ConsentRow[], version: string = WORDING_VERSI
 /** The one rule the AI routes ask about. */
 export function aiAllowed(rows: ConsentRow[], version: string = WORDING_VERSION): boolean {
   return consentState(rows, version).ai;
-}
-
-/** The one rule the admin routes ask about. */
-export function founderAllowed(rows: ConsentRow[]): boolean {
-  return consentState(rows).founder;
 }
 
 /**
@@ -124,7 +114,7 @@ export function rowsToWrite(
     const granted = answer[kind];
     if (typeof granted !== "boolean") continue;
     const now = latest(rows, kind);
-    const sameWords = kind === "founder_access" || now?.wording_version === version;
+    const sameWords = now?.wording_version === version;
     if (now && sameWords && now.granted === granted) continue;
     out.push({ kind, granted, wording_version: version });
   }

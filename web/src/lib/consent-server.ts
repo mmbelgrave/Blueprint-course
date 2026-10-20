@@ -1,9 +1,8 @@
 /*
  * Consent on the server, where the answer counts.
  *
- * Every AI route asks `whyNoAi` before a single word leaves the app, and
- * every admin view of somebody's answers asks `mayFounderRead`. Both read the
- * consents table live, so a tick switched off in Settings stops the next
+ * Every AI route asks `whyNoAi` before a single word leaves the app. It reads
+ * the consents table live, so a tick switched off in Settings stops the next
  * request rather than the next session.
  *
  * The reads use the service key and take the user id as an argument. Every
@@ -18,7 +17,6 @@ import {
   aiRefusal,
   CONSENT_UNREADABLE,
   consentState,
-  founderAllowed,
   rowsToWrite,
   WORDING_VERSION,
   type ConsentKind,
@@ -59,12 +57,6 @@ export async function consentRows(userId: string): Promise<ConsentRow[] | null> 
 export async function whyNoAi(userId: string): Promise<string | null> {
   const rows = await consentRows(userId);
   return rows === null ? CONSENT_UNREADABLE : aiRefusal(rows);
-}
-
-/** May Mwata read this person's answers and AI notes? */
-export async function mayFounderRead(userId: string): Promise<boolean> {
-  const rows = await consentRows(userId);
-  return rows !== null && founderAllowed(rows);
 }
 
 /** Everything the screens need to draw the ticks. */

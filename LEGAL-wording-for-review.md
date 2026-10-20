@@ -57,9 +57,15 @@ UTC, the version of the wording they read, and the value of each box.
 Switching a tick off in Settings adds a row saying so rather than changing the
 row that recorded the tick, and the database refuses an update. Change a word
 in the wording and the version changes with it, so everybody is asked again
-rather than being held to words they never saw. The same table records the
-separate "Mwata may read my answers" tick, and the server checks that table
-before any AI request and before any view of somebody's answers.
+rather than being held to words they never saw. The server checks that table
+before any AI request.
+
+There used to be a third tick, "Mwata may read my answers and my AI summary
+to guide me", for a service with meetings in it. That service is no longer
+offered, so the tick is gone and so is the screen it opened: the app now has
+no way to show anybody's answers to Mwata at all. The rows that recorded it
+stay in the table, because they are the record that it was given and when it
+ended.
 
 Your notice, in full, sits under the AI partner's name on every page: "You are
 talking to an AI, not a person. It can be wrong, and it does not give legal,

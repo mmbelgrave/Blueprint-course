@@ -37,7 +37,7 @@ export function ConsentSettings() {
     );
   }
 
-  async function change(what: "ai" | "special" | "founder", value: boolean) {
+  async function change(what: "ai" | "special", value: boolean) {
     setBusy(what);
     setError(false);
     const ok = await saveConsent({ [what]: value }, "settings");
@@ -88,20 +88,6 @@ export function ConsentSettings() {
           </span>
         </label>
       )}
-
-      <label className="flex gap-3">
-        <input
-          type="checkbox"
-          className="mt-1.5 h-5 w-5 shrink-0 accent-pine"
-          checked={state.founder}
-          disabled={busy !== null}
-          onChange={(e) => change("founder", e.target.checked)}
-        />
-        <span>
-          {CONSENT_TEXT.founder_access}
-          <span className="block text-sm text-stone">You can change this at any time.</span>
-        </span>
-      </label>
 
       <p className="text-sm text-stone">
         Each of these is saved the moment you change it, with the date and the words you read.

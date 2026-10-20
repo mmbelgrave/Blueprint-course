@@ -118,7 +118,6 @@ export async function buildOverview(admin: SupabaseClient) {
       name: (profile?.first_name as string) || "",
       started: (profile?.created_at as string) ?? u.created_at,
       lastActivity: last,
-      consentFounder: consentFor(u.id).founder,
       consentAi: consentFor(u.id).ai,
       // Where the sign-up link was shared, and whether they asked to hear
       // about new things (§6.2). Nothing is sent yet; this is the list.

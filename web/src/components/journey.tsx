@@ -16,10 +16,13 @@ export function PartRail({
   content,
   statuses,
   currentPartId,
+  currentExerciseId,
 }: {
   content: StepContent;
   statuses: Statuses;
   currentPartId?: string;
+  /** The page being read, so the marker can stand on it. */
+  currentExerciseId?: string;
 }) {
   const n = content.step.number;
   const parts = content.parts;
@@ -49,13 +52,25 @@ export function PartRail({
           const doneHere = items.filter((e) => statuses[e.id] === "done").length;
           const here = part.id === currentPartId;
           const share = items.length ? (doneHere / items.length) * 100 : 0;
+          /*
+           * The filled part of the line is what is done; the marker is where
+           * you are standing. They are not the same thing, and tying the
+           * marker to the first made it sit at the end of the part for
+           * somebody rereading a page they had finished (Mwata, 20 October:
+           * "at 1.1 it already moves all the way to the end"). It now stands
+           * on the page being read, in the middle of that page's share of the
+           * line, and falls back to the progress only when no page is named.
+           */
+          const at = items.findIndex((e) => e.id === currentExerciseId);
+          const where =
+            here && at >= 0 ? ((at + 0.5) / items.length) * 100 : Math.max(share, 4);
           return (
             <div key={part.id} className="relative h-1.5 rounded-full bg-sage" style={{ flex: totals[i] }}>
               <div className="h-full rounded-full bg-pine" style={{ width: `${share}%` }} />
               {here && (
                 <span
                   className="absolute -top-1 h-3.5 w-[7px] -translate-x-1/2 rounded-full bg-ochre"
-                  style={{ left: `${Math.max(share, 4)}%` }}
+                  style={{ left: `${where}%` }}
                 />
               )}
             </div>

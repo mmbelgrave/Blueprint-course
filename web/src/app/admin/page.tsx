@@ -1,6 +1,5 @@
 "use client";
 // Admin overview (brief 4.7). Only the admin gets data: the server checks.
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
 import { products } from "@/lib/access-app";
@@ -11,7 +10,6 @@ type Participant = {
   name: string;
   started: string;
   lastActivity: string | null;
-  consentFounder: boolean;
   consentAi: boolean;
   cameFrom: string;
   wantsUpdates: boolean;
@@ -227,13 +225,10 @@ function ParticipantCard({ p }: { p: Participant }) {
       <Owns p={p} />
 
       <div className="border-t border-line pt-3 text-sm">
-        {p.consentFounder ? (
-          <Link href={`/admin/${p.id}`} className="btn btn-ghost py-1.5 text-sm">
-            Read answers and AI notes
-          </Link>
-        ) : (
-          <p className="text-stone">No consent to read answers. You see progress and feedback only.</p>
-        )}
+        {/* Nobody's answers are shown here. Progress and feedback only
+            (Mwata, 20 October: the consent to read answers is gone, and so
+            is the page it opened). */}
+        <p className="text-stone">Progress and feedback only. Answers belong to the person who wrote them.</p>
         {!p.consentAi && <p className="mt-1 text-stone">AI partner switched off by this person.</p>}
       </div>
     </li>

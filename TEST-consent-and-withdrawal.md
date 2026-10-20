@@ -42,8 +42,8 @@ panel, for example Step 1, page 0.1.
    - [ ] A reply streams in.
 6. Go to **My settings**.
    - [ ] "Who may read your answers" shows the AI tick on, with the date you
-         agreed, the special-categories tick underneath it, and the "Mwata may
-         read" tick.
+         agreed, and the special-categories tick underneath it. There is no
+         third tick: Mwata cannot read anybody's answers any more.
 7. Switch the AI tick off, go back to the exercise, send a message.
    - [ ] It refuses: "Your AI partner is switched off."
 8. Switch it back on in Settings.
