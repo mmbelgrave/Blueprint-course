@@ -36,7 +36,8 @@ export function AccountWithdraw() {
       <h2 className="text-xl font-semibold text-pine">Withdraw from contract</h2>
       <p className="mt-1 text-sm text-stone">
         Within 14 days of buying you may withdraw without giving a reason, and we refund the full price. After that,
-        our 30-day guarantee gives you the same thing.
+        our own 30-day guarantee gives you the same money back: email info@maderealblueprint.com with your order
+        number and a line or two about what did not work for you.
       </p>
       <div className="mt-3">
         <WithdrawCard purchase={mine.purchase} already={mine.already ?? null} />

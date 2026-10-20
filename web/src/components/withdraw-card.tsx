@@ -155,7 +155,7 @@ export function WithdrawCard({ purchase, already }: { purchase: Purchase | null;
       )}
 
       {step === "start" ? (
-        <p className="mt-3">
+        <p className="mt-3 flex justify-center">
           <button type="button" className="btn btn-ghost" onClick={() => setStep("confirm")}>
             Withdraw from contract here
           </button>
@@ -245,12 +245,12 @@ export function WithdrawForm() {
         </label>
       </div>
 
-      <p className="mt-4">
+      <p className="mt-4 flex justify-center">
         <button className="btn btn-primary" disabled={busy || !email.trim()}>
           {busy ? "One moment…" : "Confirm withdrawal"}
         </button>
       </p>
-      <p className="mt-2 text-sm text-stone">
+      <p className="mt-2 text-center text-sm text-stone">
         You do not have to give a reason. We send you a confirmation by email, with the date and time.
       </p>
 

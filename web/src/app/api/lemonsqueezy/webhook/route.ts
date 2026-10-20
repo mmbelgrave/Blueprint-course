@@ -162,6 +162,24 @@ export async function POST(request: Request) {
       return Response.json({ ok: true, ignored: "seen before" });
     }
 
+    /*
+     * A partner who has just bought their own copy. The seat is not ended
+     * here — that is the buyer's seat, not ours to take away in the middle of
+     * a webhook — but it is written down where Mwata reads it.
+     */
+    const { data: seats } = await admin
+      .from("partner_seats")
+      .select("buyer_id")
+      .eq("partner_id", userId)
+      .eq("status", "active");
+    if ((seats ?? []).length > 0) {
+      await log(
+        "opened",
+        `${order.email} was a partner on somebody else's seat and has now bought their own. Their answers are still in that household: end the seat if they want their own.`,
+        order,
+      );
+    }
+
     const sent = await sendWelcome(order, decision.product, isNew);
     await log(
       "opened",

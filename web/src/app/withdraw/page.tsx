@@ -17,12 +17,20 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/Shell";
+import { useApp } from "@/lib/app-state";
 import { WithdrawCard, WithdrawForm, type Done, type Purchase } from "@/components/withdraw-card";
 
 type Mine = { signedIn: boolean; purchase: Purchase | null; already?: Done | null };
 
 export default function WithdrawPage() {
   const [mine, setMine] = useState<Mine | null>(null);
+  /*
+   * Which of the two shapes belongs here is known before the purchase is:
+   * the app has already asked who is signed in. Drawing the public form
+   * while that was still in the post, and swapping it a second later, made
+   * the page look as though it had changed its mind.
+   */
+  const { user, loading } = useApp();
 
   useEffect(() => {
     let gone = false;
@@ -49,18 +57,20 @@ export default function WithdrawPage() {
         </p>
         <p className="mt-2 text-stone">
           We refund the full price to the payment method you used. Beyond those 14 days our own 30-day guarantee
-          applies, and that is a full refund too.
+          applies: email <span className="text-pine">info@maderealblueprint.com</span> with your order number, and
+          tell us in a line or two what did not work for you. That is our own promise rather than a legal right, and
+          the reason is what lets us improve the course; the full refund does not depend on it.
         </p>
 
-        {mine?.signedIn && (mine.purchase || mine.already) ? (
-          <div className="mt-6">
+        <div className="mt-6">
+          {loading || (user && !mine) ? (
+            <p className="text-sm text-stone">One moment…</p>
+          ) : mine?.signedIn && (mine.purchase || mine.already) ? (
             <WithdrawCard purchase={mine.purchase} already={mine.already ?? null} />
-          </div>
-        ) : (
-          <div className="mt-6">
+          ) : (
             <WithdrawForm />
-          </div>
-        )}
+          )}
+        </div>
 
         <p className="mt-8 border-t border-line pt-6 text-sm text-stone">
           You can also email <span className="text-pine">info@maderealblueprint.com</span>, or use the model

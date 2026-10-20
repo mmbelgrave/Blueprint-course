@@ -103,16 +103,26 @@ export async function GET() {
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return Response.json({ signedIn: false });
 
-  const found = await findPurchase(admin, { userId: auth.user.id });
+  /*
+   * Both questions at once. Asking about withdrawals by person rather than by
+   * purchase is what makes that possible, and the open row is matched to the
+   * purchase here instead.
+   */
+  const [found, open] = await Promise.all([
+    findPurchase(admin, { userId: auth.user.id }),
+    admin
+      .from("withdrawals")
+      .select("entitlement_id, requested_at, access_ends_at, refund_deadline, status")
+      .eq("user_id", auth.user.id)
+      .eq("status", "received")
+      .order("requested_at", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => data),
+  ]);
   if (!found) return Response.json({ signedIn: true, purchase: null, email: auth.user.email ?? "" });
 
-  const { data: open } = await admin
-    .from("withdrawals")
-    .select("requested_at, access_ends_at, refund_deadline, status")
-    .eq("entitlement_id", found.row.id)
-    .eq("status", "received")
-    .maybeSingle();
-
+  const mine = open && open.entitlement_id === found.row.id ? open : null;
   const where = windowFor(found.row.created_at);
   return Response.json({
     signedIn: true,
@@ -127,7 +137,7 @@ export async function GET() {
       refunded: found.row.status === "refunded",
     },
     promise: refundPromise(where),
-    already: open ?? null,
+    already: mine,
   });
 }
 

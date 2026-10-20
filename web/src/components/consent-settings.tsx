@@ -52,7 +52,7 @@ export function ConsentSettings() {
       <label className="flex gap-3">
         <input
           type="checkbox"
-          className="mt-1.5 h-5 w-5 accent-pine"
+          className="mt-1.5 h-5 w-5 shrink-0 accent-pine"
           checked={state.ai}
           disabled={busy !== null}
           onChange={(e) => change("ai", e.target.checked)}
@@ -75,7 +75,7 @@ export function ConsentSettings() {
         <label className="ml-8 flex gap-3">
           <input
             type="checkbox"
-            className="mt-1.5 h-5 w-5 accent-pine"
+            className="mt-1.5 h-5 w-5 shrink-0 accent-pine"
             checked={state.special}
             disabled={busy !== null}
             onChange={(e) => change("special", e.target.checked)}
@@ -92,7 +92,7 @@ export function ConsentSettings() {
       <label className="flex gap-3">
         <input
           type="checkbox"
-          className="mt-1.5 h-5 w-5 accent-pine"
+          className="mt-1.5 h-5 w-5 shrink-0 accent-pine"
           checked={state.founder}
           disabled={busy !== null}
           onChange={(e) => change("founder", e.target.checked)}

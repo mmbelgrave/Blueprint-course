@@ -174,6 +174,28 @@ async function move(
   if (error) return fail(500, "We could not move it. Please try again.");
 
   await admin.from("purchase_claims").update({ used_at: new Date().toISOString() }).eq("id", row!.id);
+
+  /*
+   * A seat does not travel with the purchase, and it should not be dragged
+   * across quietly: the shared answers live on the old account's rows, so
+   * moving the seat would leave the pair looking at an empty household. It
+   * is rare enough to sort out by hand, and this is how Mwata hears about it.
+   */
+  const { data: seats } = await admin
+    .from("partner_seats")
+    .select("email")
+    .eq("buyer_id", owner)
+    .neq("status", "ended");
+  if ((seats ?? []).length > 0) {
+    await admin.from("webhook_events").insert({
+      source: "claim",
+      event: "seat_left_behind",
+      email,
+      outcome: "opened",
+      detail: `The purchase moved, but the partner seat with ${seats![0].email} stayed on the old account along with the answers they share. Move it by hand if they still plan together.`,
+    });
+  }
+
   await admin.from("webhook_events").insert({
     source: "claim",
     event: "purchase_moved",

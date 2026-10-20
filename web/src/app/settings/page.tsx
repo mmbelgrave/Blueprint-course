@@ -106,8 +106,7 @@ function SettingsForm({ profile }: { profile: Profile }) {
 }
 
 export default function SettingsPage() {
-  const { entitlements, profile } = useApp();
-  const free = isFree(entitlements);
+  const { profile } = useApp();
   return (
     <Shell>
       <RequireUser>
@@ -159,15 +158,18 @@ export default function SettingsPage() {
               there, and the way two people swap accounts on one laptop. */}
           <SignOutCard />
 
-          {/* A free account has no footer, so the notice that covers it lives
-              here: the last line on the page, quietly. */}
-          {free && (
-            <p className="mt-8 text-center text-sm text-stone">
-              <Link href="/privacy" className="underline">
-                Privacy
-              </Link>
-            </p>
-          )}
+          {/* The two pages the app has to keep within reach. They used to sit
+              in the footer of every page; this is where somebody looks for
+              them, and the footer is quieter for it. */}
+          <p className="mt-8 text-center text-sm text-stone">
+            <Link href="/privacy" className="underline">
+              Privacy
+            </Link>
+            <span className="mx-2">·</span>
+            <a href="https://maderealblueprint.com/terms.html" className="underline">
+              Terms
+            </a>
+          </p>
         </div>
       </RequireUser>
     </Shell>

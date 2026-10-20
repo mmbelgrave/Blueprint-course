@@ -9,7 +9,7 @@ import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { PRODUCT } from "@/lib/content";
 import { Tabs, TABS_ROOM, tabsFor } from "@/components/tabs";
-import { resetIsAdmin, useIsAdmin } from "@/lib/use-is-admin";
+import { useIsAdmin } from "@/lib/use-is-admin";
 
 export function Shell({
   children,
@@ -21,9 +21,8 @@ export function Shell({
   /** The page draws its own head on a phone, so this one steps aside there. */
   ownHeader?: boolean;
 }) {
-  const { user, entitlements, signOut } = useApp();
+  const { user, entitlements } = useApp();
   const free = isFree(entitlements);
-  const router = useRouter();
   const path = usePathname();
   const isAdmin = useIsAdmin(!!user);
 
@@ -60,24 +59,11 @@ export function Shell({
                   </Link>
                 );
               })}
-              <Link href="/help" className="text-pine hover:underline">
-                Help
-              </Link>
               {isAdmin && (
                 <Link href="/admin" className="font-semibold text-ochre hover:underline">
                   Admin
                 </Link>
               )}
-              <button
-                className="text-stone hover:underline"
-                onClick={async () => {
-                  resetIsAdmin();
-                  await signOut();
-                  router.push("/");
-                }}
-              >
-                Sign out
-              </button>
             </nav>
           )}
         </div>
@@ -87,25 +73,13 @@ export function Shell({
         {children}
       </main>
       {user && <Tabs free={free} />}
-      {!free && (
-        <footer
-          className={`mt-12 border-t border-line px-4 py-6 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
-        >
-          <Link href="/privacy" className="hover:underline">
-            Privacy
-          </Link>
-          <span className="mx-2">·</span>
-          <a href="https://maderealblueprint.com/terms.html" className="hover:underline">
-            Terms
-          </a>
-          <span className="mx-2">·</span>
-          <Link href="/withdraw" className="hover:underline">
-            Withdraw from contract
-          </Link>
-          <span className="mx-2">·</span>
-          This app uses an AI partner. It helps you think. You decide.
-        </footer>
-      )}
+      {/* One line, on every page. The two links it used to carry are at the
+          foot of My settings, where somebody goes looking for them. */}
+      <footer
+        className={`mt-12 border-t border-line px-4 py-6 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
+      >
+        This app uses an AI partner. It helps you think. You decide.
+      </footer>
     </div>
   );
 }
