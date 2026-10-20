@@ -557,9 +557,10 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           </p>
         )}
 
-        {/* One row: a step back, what this page is for, a step on. */}
+        {/* One row: a step back, what this page is for, a step on, and the way
+            out to the overview (Mwata, 20 October). */}
         <div className="border-t border-line pt-6">
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             {!free && <PageArrow direction="back" target={prevHere} step={stepNumber} />}
             {done ? (
               <span className="flex flex-col items-center gap-0.5">
@@ -577,6 +578,9 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
               </button>
             )}
             {!free && <PageArrow direction="on" target={nextHere} step={stepNumber} />}
+            <Link href={free ? "/modules" : stepLessonsHref(stepNumber)} className="btn btn-primary">
+              {free ? "Back to the modules" : "Back to overview"}
+            </Link>
           </div>
           <p className="mt-3 text-center">
             <SaveIndicator />
@@ -609,22 +613,6 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           </Card>
         )}
 
-        {/*
-         * One way out, to the overview this page was started from (Mwata,
-         * 20 October). The row of page numbers that used to sit here let you
-         * hop sideways, but it made the overview feel optional, and the
-         * overview is where the video, the workbook and the next lesson are.
-         */}
-        <nav aria-label="The way back" className="print:hidden">
-          <p className="flex justify-center">
-            <Link
-              href={free ? "/modules" : stepLessonsHref(stepNumber)}
-              className="btn btn-ghost"
-            >
-              {free ? "Back to the modules" : "Back to overview"}
-            </Link>
-          </p>
-        </nav>
       </article>
 
       <aside className="lg:sticky lg:top-6 lg:self-start">
