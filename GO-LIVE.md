@@ -34,7 +34,7 @@ add these seven. Copy each value from your own `web/.env.local` file.
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API (secret) |
 | `ANTHROPIC_API_KEY` | console.anthropic.com → API Keys (secret) |
 | `ANTHROPIC_WORKSPACE_ID` | only if your key sits outside a workspace |
-| `ADMIN_EMAIL` | the address you sign in with, so you get the Admin page |
+| `ADMIN_EMAIL` | the address you sign in with, so you get the Admin page. Several, separated by commas, while you move it from one address to another |
 | `RESEND_API_KEY` | Resend → API keys (secret). Without it, questions from the Help page are saved but no email reaches you |
 | `NEXT_PUBLIC_INVITE_ONLY` | only if you close sign-up (step 4); leave it out while anyone may start an account |
 

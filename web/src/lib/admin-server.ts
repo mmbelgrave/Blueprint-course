@@ -1,15 +1,17 @@
-// Admin access (brief 4.7): only the account whose email is ADMIN_EMAIL.
+// Admin access (brief 4.7): only an account whose email is in ADMIN_EMAIL.
 // Checked on the server for every admin request — hiding a link is not security.
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { adminEmails } from "@/lib/admin-emails";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export async function isAdminRequest(): Promise<boolean> {
-  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
-  if (!adminEmail || !process.env.NEXT_PUBLIC_SUPABASE_URL) return false;
+  const allowed = adminEmails();
+  if (!allowed.length || !process.env.NEXT_PUBLIC_SUPABASE_URL) return false;
   const supabase = await supabaseServer();
   const data = await sessionUser(supabase);
-  return data.user?.email?.toLowerCase() === adminEmail;
+  const email = data.user?.email?.toLowerCase();
+  return Boolean(email && allowed.includes(email));
 }
 
 /** The service-role client for an admin request, or a ready error response. */
