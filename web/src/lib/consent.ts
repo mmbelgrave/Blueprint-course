@@ -8,9 +8,10 @@
  *   - `ai_special` is a second, optional tick: explicit consent for special
  *     categories of data. The AI works without it.
  *   - Changing the words bumps WORDING_VERSION, and everybody is asked again.
- *   - `founder_access` is not tied to the version. It is a separate tick in
- *     Settings with its own words, and bumping the AI wording must not quietly
- *     close a door the person deliberately opened.
+ *   - `founder_access` was a third tick, "Mwata may read my answers", removed
+ *     on 20 October 2026 with the service that needed it. Nothing asks for it
+ *     any more; its rows stay in the table as the record that it was given and
+ *     when it ended, so anything reading history still has to expect the kind.
  *
  * Nothing here reads the database. The rows come from the server, and these
  * rules are applied in the same way on the server and in the browser.

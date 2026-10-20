@@ -16,6 +16,7 @@ export type Profile = {
    * again by accident.
    */
   consent_ai?: boolean;
+  /** Historical. The tick was removed on 20 October 2026; nothing writes it. */
   consent_founder_access?: boolean;
   /** Where the sign-up link was shared (§6.2). Null when we do not know. */
   came_from?: string | null;

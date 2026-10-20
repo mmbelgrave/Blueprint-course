@@ -61,19 +61,23 @@ Keys live in `web/.env.local` and in Vercel. They never reach the browser.
   Supabase can send (6 to 10).
 
 ### 3.2 Before you start
-One screen: first name, currency for the money questions, and two permissions —
-the AI partner may read my answers (required to use it), and Mwata may read my
-answers and my AI notes (optional, changeable later in Settings).
+One screen: first name, currency for the money questions, and one permission:
+the AI partner may read my answers, which is required to use it and can be
+withdrawn later in Settings. A second tick, "Mwata may read my answers", was
+removed on 20 October 2026 with the service that needed it; the app has no way
+to show anybody's answers to Mwata.
 
 ### 3.3 The workbooks
-- **Step 1 Picture** — 6 parts, 21 pages, 5 part summaries. Built from the issued
-  workbook, **version 21**.
-- **Step 2 Explore** — 6 parts, 17 pages, 4 summaries. Built and in the
-  repository, but **closed** until its workbook is final (`journey.json`,
-  `in_app: false`, note "opens soon"). The overview greys it; the step page, any
-  page inside it and its print page all say "not open yet". Nobody's answers are
-  touched. Setting `in_app` back to true opens it, nothing else.
-- **Steps 3 to 8** are listed on the overview as "being written".
+- **Step 1 Picture** — 6 parts, 21 pages, 5 part summaries, content **version 22**.
+- **Step 2 Explore** — 7 parts, 24 pages, 4 summaries, content **version 10**.
+  The seventh part is the staying route (S1 to S7), for somebody whose change
+  is not a move.
+- **Step 3 Decide** — 6 parts, 18 pages, 4 summaries, content **version 2**.
+- All three are open in the app (`journey.json`, `in_app: true`). **Steps 4 to
+  8** are listed on the overview as "being written"; setting `in_app` to true
+  is what opens one, and nothing else.
+- Every part names where its result is written: its summary, or `result_page`
+  for the six parts that have none. The app shows the result on that page only.
 
 **Field types:** `long_text`, `short_text`, `list`, `table`, `calculation`,
 `checkbox_pick`, `single_choice`, `yes_no`, `number`, `heading`, `image_board`.
