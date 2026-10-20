@@ -1001,6 +1001,11 @@ What Mwata asked for after that walk:
   "6", a number that appears nowhere on them.
 - **The name of a part on the rail opens the part**: every page in it, with a
   tick on what is done, to jump straight to 3.3 without walking there.
+- **The score dropdown is 2, 1 and 0**, and a total counts only what the
+  dropdown can show. Sample answers seeded on a 1-to-5 scale were invisible in
+  their cells and still added up underneath; those rows are rescaled.
+- **The staying route’s button says "See my staying summary"**, because that is
+  the part of the Step 2 document it opens.
 
 Also brought up to date: §3.2 of the spec still asked for the permission that
 was removed with the meetings, §3.3 still called Step 2 closed with the wrong
