@@ -2176,13 +2176,9 @@
             "I am not ready to choose yet. Your page shows what you need to learn first.",
             "I want to keep the life I have. You may find that your life already fits. Write down what you want to protect, and leave the questions about change blank where they do not apply. Keeping a good life is also a decision."
           ],
-          "example": {
-            "who": "Tom, 58",
-            "text": "What I choose now: not ready yet. While doing this workbook, my wife and I realised we want different things. She wants to stay close to our grandchildren. I want to live by the sea. We will each write our own normal day first, then talk about what we both need. That feels like progress, even without a decision."
-          },
           "example_page": {
-            "title": "A completed page",
-            "intro": "Rosa is made up, and she stays. Look at how every line is filled in, including the parts she does not know yet.",
+            "title": "Made-up example: a completed page",
+            "intro": "Rosa is made up. Look at how every line is filled in, including the parts she does not know yet.",
             "rows": [
               [
                 "My life picture in three sentences",

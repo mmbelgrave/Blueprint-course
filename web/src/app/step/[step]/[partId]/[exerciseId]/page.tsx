@@ -629,8 +629,10 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             have both written (6.8). Nothing for a person alone. */}
         {pageKind(exercise.id) === "mine" && <ComparePanel key={exercise.id} exercise={exercise} />}
 
-        {/* The small question on every page, and the part question once. */}
-        {!free && <PageClear key={exercise.id} exerciseId={exercise.id} />}
+        {/* Both questions at the end of a part, and nowhere else: which page
+            was unclear, and how the part felt. Asking on every page was asking
+            too often to be answered honestly (Mwata, 20 October). */}
+        {!free && feedbackHere && <PageClear key={exercise.id} exerciseId={exercise.id} />}
 
         {feedbackHere && <PartFeedback partId={part.id} />}
 

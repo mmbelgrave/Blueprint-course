@@ -367,7 +367,7 @@ function GrowingCell({
       aria-label={aria}
       title={value || undefined}
       rows={here ? Math.max(4, rows) : rows}
-      className="field-input resize-y transition-[height]"
+      className={`field-input transition-[height] ${here ? "resize-y" : "resize-none overflow-hidden"}`}
       value={value}
       onFocus={() => setHere(true)}
       onBlur={() => setHere(false)}
