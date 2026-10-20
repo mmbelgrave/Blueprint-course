@@ -10,7 +10,7 @@ import type {
   Profile,
   UserData,
 } from "./types";
-import { NotInvitedError } from "./types";
+import { NotInvitedError, SessionGoneError } from "./types";
 
 /**
  * Closed mode. When NEXT_PUBLIC_INVITE_ONLY is "true", a code is only sent to
@@ -87,6 +87,14 @@ export const supabaseAuth: AuthProvider = {
     await supabaseBrowser().auth.signOut();
   },
 };
+
+/** Postgres says this when the token is expired or no longer valid. */
+function expiredSession(error: { code?: string; message?: string } | null): boolean {
+  if (!error) return false;
+  const code = error.code ?? "";
+  const message = (error.message ?? "").toLowerCase();
+  return code.startsWith("PGRST30") || message.includes("jwt") || message.includes("invalid authentication");
+}
 
 export const supabaseStore: DataStore = {
   async loadDraft(userId, pageId) {
@@ -177,14 +185,33 @@ export const supabaseStore: DataStore = {
   },
   async load(userId) {
     const sb = supabaseBrowser();
-    const [profile, answers, statuses, entitlements] = await Promise.all([
-      sb.from("profiles").select("*").eq("user_id", userId).maybeSingle(),
-      sb.from("answers").select("exercise_id, field_id, value"),
-      sb.from("exercise_status").select("exercise_id, status"),
-      // Row-level security keeps this to the person's own rows; the server
-      // checks again before it hands anything over.
-      sb.from("entitlements").select("product, status, ended_at"),
-    ]);
+    const ask = () =>
+      Promise.all([
+        sb.from("profiles").select("*").eq("user_id", userId).maybeSingle(),
+        sb.from("answers").select("exercise_id, field_id, value"),
+        sb.from("exercise_status").select("exercise_id, status"),
+        // Row-level security keeps this to the person's own rows; the server
+        // checks again before it hands anything over.
+        sb.from("entitlements").select("product, status, ended_at"),
+      ]);
+
+    /*
+     * A token that has run out looks like a refusal, not like a connection
+     * that failed, and the two need different answers. The project's own logs
+     * caught this: four requests, four 401s, and a screen saying we could not
+     * load answers that were sitting there untouched. So: ask for a new token
+     * with the refresh token we hold, and try once more. If that is refused
+     * too, this browser is simply signed out, and saying so is the honest
+     * thing.
+     */
+    let got = await ask();
+    if (got.some((r) => expiredSession(r.error))) {
+      const { error } = await sb.auth.refreshSession();
+      if (error) throw new SessionGoneError();
+      got = await ask();
+      if (got.some((r) => expiredSession(r.error))) throw new SessionGoneError();
+    }
+    const [profile, answers, statuses, entitlements] = got;
     for (const r of [profile, answers, statuses, entitlements]) if (r.error) throw r.error;
 
     const data: UserData = {

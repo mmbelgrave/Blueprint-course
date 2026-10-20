@@ -49,6 +49,21 @@ export class NotInvitedError extends Error {
   }
 }
 
+/**
+ * The sign-in in this browser is no longer good, and could not be renewed.
+ *
+ * It is not a failure to load: there is nothing wrong with the connection or
+ * with their answers, and "We could not load your answers" is the wrong thing
+ * to say about it. The app treats it as signed out, and the sign-in page says
+ * the true thing: ask for a new code.
+ */
+export class SessionGoneError extends Error {
+  constructor() {
+    super("That sign-in has expired.");
+    this.name = "SessionGoneError";
+  }
+}
+
 export interface AuthProvider {
   mode: "supabase" | "local";
   getUser(): Promise<AppUser | null>;

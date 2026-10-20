@@ -12,6 +12,7 @@ import {
 import {
   auth,
   isSupabaseConfigured,
+  SessionGoneError,
   store,
   type AppUser,
   type Answers,
@@ -101,7 +102,10 @@ async function loadEverything(): Promise<Loaded> {
     try {
       const user = await auth.getUser();
       return { user, data: user ? await store.load(user.id) : null };
-    } catch {
+    } catch (e) {
+      // A sign-in that has run out is not a failure to load: the person is
+      // signed out, and the sign-in page is where they can do something.
+      if (e instanceof SessionGoneError) return { user: null, data: null };
       if (attempt === 0) await new Promise((wait) => setTimeout(wait, 900));
     }
   }
