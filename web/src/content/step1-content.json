@@ -1847,9 +1847,10 @@
           "tips": [
             "A good test is small, cheap and quick, and it can prove you wrong. \"Book a trip\" is not a test. \"Call three people who live there and ask what a Tuesday in February looks like\" costs nothing and tests it. A four-week stay is a better test, but it comes later and costs more. Start with the cheap version."
           ],
-          "story": [
-            "My first test was on paper, and it cost nothing: I listed what my life needed and compared countries against it. Only after that did I do a bigger test. In the spring of 2024, I spent two months in a campervan, travelling through every region of Portugal. The trip was not meant for buying. It was meant to see whether my picture held up outside the photos."
-          ]
+          "story": {
+            "status": "ready",
+            "text": "My first test was on paper, and it cost nothing: I listed what my life needed and compared countries against it. Only after that did I do a bigger test. In the spring of 2024, I spent two months in a campervan, travelling through every region of Portugal. The trip was not meant for buying. It was meant to see whether my picture held up outside the photos."
+          }
         },
         {
           "id": "4.2",

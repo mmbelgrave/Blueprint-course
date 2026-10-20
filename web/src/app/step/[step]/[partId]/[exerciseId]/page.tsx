@@ -438,9 +438,11 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             </div>
             <Bullets items={exercise.start_here.bullets} className="text-stone" />
             <Step1MoneyHint exercise={exercise} sources={sources} />
-            {asList(exercise.example).map((ex) => (
-              <ExampleFold key={ex.who + ex.text.slice(0, 20)} example={ex} />
-            ))}
+            {asList(exercise.example)
+              .filter((ex) => ex?.text)
+              .map((ex) => (
+                <ExampleFold key={ex.who + ex.text.slice(0, 20)} example={ex} />
+              ))}
             {canDraft && <DraftHelper pageId={exercise.id} onDrafts={setDrafts} />}
             <Fields
               storeId={exercise.id}
@@ -541,11 +543,16 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
             <p>{exercise.staying}</p>
           </Card>
         )}
-        {asList(exercise.story).map((s) => (
-          <Card key={s.text.slice(0, 30)} tone="story" title="Mwata's story">
-            <p>{s.text}</p>
-          </Card>
-        ))}
+        {/* Written as { status, text }, but a bare string has slipped in
+            before and took the page with it (20 October). Either reads. */}
+        {asList(exercise.story)
+          .map((s) => (typeof s === "string" ? s : s?.text))
+          .filter((text): text is string => Boolean(text?.trim()))
+          .map((text) => (
+            <Card key={text.slice(0, 30)} tone="story" title="Mwata's story">
+              <p>{text}</p>
+            </Card>
+          ))}
         {exercise.go_further && (
           <p className="rounded-2xl border border-line p-4 text-stone">{exercise.go_further}</p>
         )}

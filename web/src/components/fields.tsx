@@ -343,6 +343,39 @@ function CheckboxPick({ field, value, onChange }: Omit<FieldProps, "currency">) 
   );
 }
 
+/**
+ * A cell that shows one line and opens to four while you are in it.
+ *
+ * Table columns are narrower than what people write in them, and on a phone
+ * there is no hover to fall back on. Hovering still shows the whole answer;
+ * tapping in gives room to read and to write (Mwata, 20 October).
+ */
+function GrowingCell({
+  aria,
+  value,
+  rows,
+  onChange,
+}: {
+  aria: string;
+  value: string;
+  rows: number;
+  onChange: (text: string) => void;
+}) {
+  const [here, setHere] = useState(false);
+  return (
+    <textarea
+      aria-label={aria}
+      title={value || undefined}
+      rows={here ? Math.max(4, rows) : rows}
+      className="field-input resize-y transition-[height]"
+      value={value}
+      onFocus={() => setHere(true)}
+      onBlur={() => setHere(false)}
+      onChange={(e) => onChange(e.target.value)}
+    />
+  );
+}
+
 function Table({ field, value, onChange, currency, extras }: FieldProps) {
   const base = tableRows(field);
   const extra = Math.max(0, (extras?.rowCount ?? 0) - base.length);
@@ -421,24 +454,22 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                           ))}
                         </select>
                       ) : c.kind === "long_text" ? (
-                        <textarea
-                          aria-label={aria}
+                        <GrowingCell
+                          aria={aria}
+                          value={v}
                           rows={2}
-                          /* The box is small and the answer is not: hovering
-                             shows the whole of it. */
+                          onChange={(text) => setCell(key, c.id, text)}
+                        />
+                      ) : c.kind === "money" || c.kind === "number" ? (
+                        <input
+                          aria-label={aria}
                           title={v || undefined}
-                          className="field-input resize-y"
+                          className="field-input text-right"
                           value={v}
                           onChange={(e) => setCell(key, c.id, e.target.value)}
                         />
                       ) : (
-                        <input
-                          aria-label={aria}
-                          title={v || undefined}
-                          className={`field-input ${c.kind === "money" || c.kind === "number" ? "text-right" : ""}`}
-                          value={v}
-                          onChange={(e) => setCell(key, c.id, e.target.value)}
-                        />
+                        <GrowingCell aria={aria} value={v} rows={1} onChange={(text) => setCell(key, c.id, text)} />
                       )}
                     </td>
                   );

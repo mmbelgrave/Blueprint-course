@@ -21,6 +21,10 @@ import spine1 from "../src/content/spine/step1.json" with { type: "json" };
 type AnyPage = { id: string; start_here?: { fields?: unknown[] }; go_deeper?: { fields?: unknown[] } };
 type AnyStep = { parts: { exercises: AnyPage[]; summary?: AnyPage }[] };
 
+type AnyStory = AnyPage & { story?: unknown; example?: unknown };
+type Written = { who?: string; text?: string };
+const asList = (v: unknown): Written[] =>
+  v === undefined || v === null ? [] : ((Array.isArray(v) ? v : [v]) as Written[]);
 const steps = [step1, step2, step3] as unknown as AnyStep[];
 const pages = steps.flatMap((s) => s.parts.flatMap((p) => [...p.exercises, ...(p.summary ? [p.summary] : [])]));
 const byId = new Map(pages.map((p) => [p.id, p]));
@@ -113,6 +117,30 @@ test("every page Step 3 copies from is named correctly", () => {
     for (const key of referencedFields(page as never)) {
       const [from] = splitRef(key);
       if (expected[from]) assert.equal(stepNameOf(from), expected[from], `${page.id} reads ${key}`);
+    }
+  }
+});
+
+/*
+ * A story is { status, text }. One was written as a bare string during the
+ * Rev.01e port, the page read .text off it, and 4.1 answered "Something went
+ * wrong" from 19 October until Mwata walked into it (20 October). The page no
+ * longer trusts the shape; this makes sure the content keeps it.
+ */
+test("every story and example carries its own words", () => {
+  for (const step of steps) {
+    for (const part of step.parts) {
+      for (const page of [...part.exercises, ...(part.summary ? [part.summary] : [])] as AnyStory[]) {
+        const where = page.id;
+        for (const story of asList(page.story)) {
+          assert.equal(typeof story, "object", `${where}: a story is written as a bare string`);
+          assert.ok((story as { text?: string })?.text?.trim(), `${where}: a story with no text`);
+        }
+        for (const example of asList(page.example)) {
+          assert.ok(example?.text?.trim(), `${where}: an example with no text`);
+          assert.ok(example?.who?.trim(), `${where}: an example with nobody in it`);
+        }
+      }
     }
   }
 });
