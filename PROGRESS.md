@@ -1006,6 +1006,11 @@ What Mwata asked for after that walk:
   their cells and still added up underneath; those rows are rescaled.
 - **The staying route’s button says "See my staying summary"**, because that is
   the part of the Step 2 document it opens.
+- **Both staying routes are marked in the content** (`staying_route`), so Step 3
+  part 5 is an "S" on the rail as well, with the same button. Step 2 letters
+  its staying pages and Step 3 numbers its own, so the pages could not be the
+  rule. And the Blueprint’s first headline no longer opens with a full stop
+  for somebody who has no new place to name.
 
 Also brought up to date: §3.2 of the spec still asked for the permission that
 was removed with the meetings, §3.3 still called Step 2 closed with the wrong
