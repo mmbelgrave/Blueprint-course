@@ -4,7 +4,8 @@ import type Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 import type { Answers } from "@/lib/backend";
-import { displayTitle, findExercise } from "@/lib/content";
+import { displayTitle } from "@/lib/content";
+import { findPage } from "@/lib/content-server";
 import { draftFields, draftSourcePages } from "@/lib/drafts";
 import { answersWithoutForgotten, type AiProfile } from "@/lib/profile-fields";
 import { allAnswersText } from "./prompt";
@@ -40,7 +41,7 @@ export async function draftPage(
   aiProfile: AiProfile,
   language = "en",
 ): Promise<{ drafts: Drafts; usage: Anthropic.Beta.BetaUsage } | null> {
-  const found = findExercise(exerciseId);
+  const found = findPage(exerciseId);
   if (!found) return null;
   const fields = draftFields(found.exercise);
   if (!fields.length) return null;

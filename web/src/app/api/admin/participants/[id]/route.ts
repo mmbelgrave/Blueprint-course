@@ -2,9 +2,10 @@
 // ONLY when that person ticked "Mwata may read my answers" — checked here, on the server.
 import type { NextRequest } from "next/server";
 import { requireAdmin } from "@/lib/admin-server";
-import { answerText, exerciseAnswersText } from "@/lib/answer-text";
+import { answerText } from "@/lib/answer-text";
+import { allSteps, answersTextOf } from "@/lib/content-server";
 import { mayFounderRead } from "@/lib/consent-server";
-import { displayTitle, partItems, setupKey, steps } from "@/lib/content";
+import { displayTitle, partItems, setupKey } from "@/lib/content";
 import { PROFILE_FIELDS, type AiProfile } from "@/lib/profile-fields";
 
 export const runtime = "nodejs";
@@ -37,7 +38,8 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/admin/parti
   for (const a of answerRows.data ?? []) (answers[a.exercise_id] ??= {})[a.field_id] = a.value;
 
   // Answers in workbook order: step → part → page. Only pages with text.
-  const workbook = steps.map((s) => ({
+  // The words come from the server's own copy: the spine has none (20 Oct).
+  const workbook = allSteps().map((s) => ({
     step: `Step ${s.step.number} · ${s.step.title}`,
     parts: s.parts
       .map((p) => {
@@ -45,7 +47,7 @@ export async function GET(_req: NextRequest, ctx: RouteContext<"/api/admin/parti
           .map((f) => ({ label: f.label ?? f.id, text: answerText(f, answers[setupKey(p)]?.[f.id]) }))
           .filter((x) => x.text);
         const pages = partItems(p)
-          .map((e) => ({ title: displayTitle(e), text: exerciseAnswersText(e.id, answers[e.id]) }))
+          .map((e) => ({ title: displayTitle(e), text: answersTextOf(e.id, answers[e.id]) }))
           .filter((x) => x.text);
         return {
           part: `${p.label} · ${p.title}`,

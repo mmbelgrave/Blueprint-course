@@ -19,6 +19,7 @@ import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
 import step3Raw from "@/content/step3-content.json";
 import { accessConfig } from "@/lib/access-app";
+import { exerciseAnswerLines } from "@/lib/answer-text";
 import { summaryAsExercise, type Exercise, type Part, type StepContent } from "@/lib/content";
 import { referencedFields, splitRef } from "@/lib/content-refs";
 
@@ -58,6 +59,27 @@ export function sourceFieldsFor(exercise: Exercise): { key: string; step: number
     if (field) out.push({ key, step: page.step.step.number, field });
   }
   return out;
+}
+
+/** Every step, with its words. Only the server may read these. */
+export const allSteps = (): StepContent[] => ALL;
+
+/**
+ * One page's answers as readable lines, with the real labels.
+ *
+ * The same as `exerciseAnswerLines`, except that it hands over the page from
+ * the full content rather than from the spine, which is what makes the labels
+ * exist at all.
+ */
+export function answerLinesOf(exerciseId: string, values: Record<string, unknown> | undefined, separator = "; ") {
+  const page = findPage(exerciseId);
+  return page ? exerciseAnswerLines(exerciseId, values, page.exercise, separator) : [];
+}
+
+/** The same as one block of text, for the AI partner and for the admin view. */
+export function answersTextOf(exerciseId: string, values: Record<string, unknown> | undefined): string | null {
+  const lines = answerLinesOf(exerciseId, values).map((l) => `- ${l.label}: ${l.text}`);
+  return lines.length ? lines.join("\n") : null;
 }
 
 /** One page, wherever it lives, so a route can hand over exactly that much. */

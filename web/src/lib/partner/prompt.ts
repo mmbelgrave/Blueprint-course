@@ -4,9 +4,10 @@ import type Anthropic from "@anthropic-ai/sdk";
 import type { BetaMessageStreamParams } from "@anthropic-ai/sdk/resources/beta/messages/messages";
 import step1Raw from "@/content/step1-content.json";
 import step2Raw from "@/content/step2-content.json";
-import { answerText, exerciseAnswersText } from "@/lib/answer-text";
+import { answerText } from "@/lib/answer-text";
+import { allSteps, answersTextOf, findPage } from "@/lib/content-server";
 import type { Answers, Profile } from "@/lib/backend";
-import { displayTitle, findExercise, steps } from "@/lib/content";
+import { displayTitle } from "@/lib/content";
 import { answersWithoutForgotten, PROFILE_FIELDS, type AiProfile } from "@/lib/profile-fields";
 import { HELPER_LABELS } from "./protocol";
 
@@ -111,7 +112,7 @@ export function partnerRequest(messages: Anthropic.Beta.BetaMessageParam[]): Bet
 /** Every answer of both steps as readable text (except the page `skip`). */
 export function allAnswersText(answers: Answers, skip = "") {
   const blocks: string[] = [];
-  for (const step of steps) {
+  for (const step of allSteps()) {
     for (const part of step.parts) {
       if (!part.setup) continue;
       const values = answers[`${part.id}-setup`];
@@ -124,8 +125,8 @@ export function allAnswersText(answers: Answers, skip = "") {
   }
   for (const id of Object.keys(answers)) {
     if (id === skip) continue;
-    const found = findExercise(id);
-    const text = found ? exerciseAnswersText(id, answers[id]) : null;
+    const found = findPage(id);
+    const text = found ? answersTextOf(id, answers[id]) : null;
     if (found && text) blocks.push(`Step ${found.step.step.number}, ${displayTitle(found.exercise)}:\n${text}`);
   }
   return blocks.join("\n\n");
@@ -138,7 +139,7 @@ export function contextMessage(opts: {
   answers: Answers;
   exerciseId: string;
 }) {
-  const found = findExercise(opts.exerciseId);
+  const found = findPage(opts.exerciseId);
   const kind = found?.exercise.kind === "summary" ? 'a "What does this tell me?" page' : "an exercise";
   const where = found
     ? `Step ${found.step.step.number} (${found.step.step.title}), ${found.part.label} · ${found.part.title}: ${displayTitle(found.exercise)}`
@@ -147,7 +148,7 @@ export function contextMessage(opts: {
   const forgotten = ai._forgotten ?? [];
   // "Forget this": the answers behind a forgotten note are hidden, except on the page the person is on.
   const answers = answersWithoutForgotten(opts.answers, forgotten, opts.exerciseId);
-  const current = exerciseAnswersText(opts.exerciseId, answers[opts.exerciseId]);
+  const current = answersTextOf(opts.exerciseId, answers[opts.exerciseId]);
   const others = allAnswersText(answers, opts.exerciseId);
   // Only the notes themselves; not the bookkeeping (corrected / forgotten / date).
   const notes = Object.fromEntries(
