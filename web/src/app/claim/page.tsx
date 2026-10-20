@@ -85,10 +85,16 @@ function ClaimForm() {
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="display text-3xl text-pine">Bought it, but cannot get in?</h1>
+      <h1 className="display text-3xl text-pine">Paid with one email, signed in with another?</h1>
       <p className="mt-3 text-stone">
-        This happens when the email you paid with is not the one you signed in with. Write the address you paid with
-        and we send a code to it. Your course then moves to {thisAccount} with everything you have already written.
+        Your course opens the account you paid from. If you then sign in with a different address — the one your
+        payment went through, such as PayPal, a work address, or one with a typo in it — you land in an empty
+        account and your course looks as though it never arrived. It did: it is sitting on the other address.
+      </p>
+      <p className="mt-3 text-stone">
+        Write the address you paid with below. We send a {CODE_LENGTH}-digit code to it, and when you type that code
+        the course moves to {thisAccount} with everything you have already written. The address you paid with keeps
+        nothing afterwards: a purchase opens one account, and you choose which one.
       </p>
 
       {stage === "email" ? (
@@ -155,7 +161,8 @@ function ClaimForm() {
       {problem && <p className="mt-4 rounded-lg bg-ochre-soft p-3 text-sm">{problem}</p>}
 
       <p className="mt-8 border-t border-line pt-4 text-center text-sm text-stone">
-        Still stuck? <Link href="/help" className="text-pine underline">Ask Mwata</Link> and he will open it by hand.
+        No longer able to read that address, or the code never arrives?{" "}
+        <Link href="/help" className="text-pine underline">Ask Mwata</Link> and he will open it by hand.
       </p>
     </div>
   );

@@ -136,8 +136,11 @@ export function WithdrawCard({ purchase, already }: { purchase: Purchase | null;
   return (
     <div>
       <p className="text-sm text-stone">
-        {purchase.product === "phase1" ? "Phase 1" : purchase.product}, bought on {day(purchase.boughtAt)} for{" "}
-        {price(purchase.amountCents, purchase.currency)}
+        {purchase.product === "phase1" ? "Phase 1" : purchase.product}, bought on{" "}
+        <strong className="text-ochre">{day(purchase.boughtAt)}</strong>
+        {/* The amount only when we know it. "For the price you paid" told
+            nobody anything they did not already know. */}
+        {purchase.amountCents === null ? "" : ` for ${price(purchase.amountCents, purchase.currency)}`}
         {purchase.orderId ? `, order ${purchase.orderId}` : ""}.
       </p>
 
@@ -156,7 +159,7 @@ export function WithdrawCard({ purchase, already }: { purchase: Purchase | null;
 
       {step === "start" ? (
         <p className="mt-3 flex justify-center">
-          <button type="button" className="btn btn-ghost" onClick={() => setStep("confirm")}>
+          <button type="button" className="btn btn-primary" onClick={() => setStep("confirm")}>
             Withdraw from contract here
           </button>
         </p>
