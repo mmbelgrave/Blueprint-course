@@ -64,9 +64,6 @@ function ClaimForm() {
     setStage("done");
   };
 
-  // Named when we know it, so the person can see which account they are about
-  // to move the course to. Preview mode has no accounts and so no address.
-  const thisAccount = user?.email ? `this account, ${user.email},` : "this account";
 
   if (stage === "done") {
     return (
@@ -86,17 +83,11 @@ function ClaimForm() {
   return (
     <div className="mx-auto max-w-md">
       <h1 className="display text-3xl text-pine">Paid with one email, signed in with another?</h1>
+      {/* The same words as in Help, where people meet this first. */}
       <p className="mt-3 text-stone">
-        Your course belongs to the email address you paid with. Sign in with a different address and you get a new,
-        empty account. Your course is not lost. It is waiting on the other address.
-      </p>
-      <p className="mt-3 text-stone">
-        This happens easily: you pay through PayPal, or with your work address, or you type one letter wrong.
-      </p>
-      <p className="mt-3 text-stone">
-        Write the address you paid with below. We send a {CODE_LENGTH}-digit code to it. Type that code here, and
-        your course moves to {thisAccount} with everything you have already written. The old address then has
-        nothing: a course belongs to one account, and you choose which one.
+        Your course belongs to the email address you paid with. Sign in with a different address and you get an
+        empty account. Give us the address you paid with and we move your course to the account you are in now,
+        with everything you have written. It takes a minute and a code from your inbox.
       </p>
 
       {stage === "email" ? (
