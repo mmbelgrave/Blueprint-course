@@ -375,7 +375,7 @@
               "id": "clarity_now",
               "type": "short_text",
               "heading": "How clear is your picture now?",
-              "hint": "Score it again, without looking back at your first number. Then compare the two.",
+              "hint": "One honest number. How clear is the life you want now, from 1 (not clear at all) to 10 (very clear)?",
               "label": "My clarity score now, from 1 to 10"
             },
             {

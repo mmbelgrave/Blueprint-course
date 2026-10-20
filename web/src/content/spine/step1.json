@@ -25,14 +25,6 @@
           "title": "Four questions",
           "fields": [
             {
-              "id": "clarity_score",
-              "type": "short_text"
-            },
-            {
-              "id": "clarity_why",
-              "type": "long_text"
-            },
-            {
               "id": "moment",
               "type": "long_text"
             },
@@ -55,7 +47,32 @@
         "id": "first_picture",
         "title": "My First Picture",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "more_of",
+            "type": "long_text"
+          },
+          {
+            "id": "keep",
+            "type": "long_text"
+          },
+          {
+            "id": "daily_life",
+            "type": "long_text"
+          },
+          {
+            "id": "two_directions",
+            "type": "long_text"
+          },
+          {
+            "id": "action",
+            "type": "long_text"
+          },
+          {
+            "id": "test_later",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {
@@ -223,7 +240,36 @@
         "id": "life_picture",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "needs_patterns",
+            "type": "long_text"
+          },
+          {
+            "id": "more_of",
+            "type": "long_text"
+          },
+          {
+            "id": "keep",
+            "type": "long_text"
+          },
+          {
+            "id": "responsible",
+            "type": "long_text"
+          },
+          {
+            "id": "essentials",
+            "type": "long_text"
+          },
+          {
+            "id": "tensions",
+            "type": "long_text"
+          },
+          {
+            "id": "unknowns",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {
@@ -485,7 +531,32 @@
         "id": "starting_point",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "today",
+            "type": "long_text"
+          },
+          {
+            "id": "time",
+            "type": "long_text"
+          },
+          {
+            "id": "strengths",
+            "type": "long_text"
+          },
+          {
+            "id": "stopped_before",
+            "type": "long_text"
+          },
+          {
+            "id": "beliefs_to_check",
+            "type": "long_text"
+          },
+          {
+            "id": "unknowns",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {
@@ -730,7 +801,36 @@
         "id": "money_picture",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "monthly_costs",
+            "type": "long_text"
+          },
+          {
+            "id": "one_time",
+            "type": "long_text"
+          },
+          {
+            "id": "income_sure",
+            "type": "long_text"
+          },
+          {
+            "id": "income_hoped",
+            "type": "long_text"
+          },
+          {
+            "id": "first_check",
+            "type": "long_text"
+          },
+          {
+            "id": "money_words",
+            "type": "long_text"
+          },
+          {
+            "id": "unknowns",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {
@@ -851,7 +951,28 @@
         "id": "options",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "keep",
+            "type": "long_text"
+          },
+          {
+            "id": "let_go",
+            "type": "long_text"
+          },
+          {
+            "id": "must_be_true",
+            "type": "long_text"
+          },
+          {
+            "id": "risks",
+            "type": "long_text"
+          },
+          {
+            "id": "find_out",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {

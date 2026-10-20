@@ -313,7 +313,27 @@
         "id": "green_lights",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "lights",
+            "type": "table",
+            "row_count": 5,
+            "columns": [
+              {
+                "id": "colour",
+                "kind": "choice"
+              },
+              {
+                "id": "turns_green",
+                "kind": "text"
+              },
+              {
+                "id": "by_when",
+                "kind": "text"
+              }
+            ]
+          }
+        ]
       }
     },
     {
@@ -407,7 +427,24 @@
         "id": "risks",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "biggest",
+            "type": "long_text"
+          },
+          {
+            "id": "signs",
+            "type": "long_text"
+          },
+          {
+            "id": "prevent",
+            "type": "long_text"
+          },
+          {
+            "id": "anywhere",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {
@@ -473,7 +510,28 @@
         "id": "first_timeline",
         "title": "What does this tell me?",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "easy_steps",
+            "type": "long_text"
+          },
+          {
+            "id": "hard_steps",
+            "type": "long_text"
+          },
+          {
+            "id": "first_step",
+            "type": "long_text"
+          },
+          {
+            "id": "first_step_date",
+            "type": "short_text"
+          },
+          {
+            "id": "extra_time",
+            "type": "long_text"
+          }
+        ]
       }
     },
     {
@@ -751,7 +809,52 @@
         "id": "change_plan",
         "title": "My Change Plan",
         "kind": "summary",
-        "fields": []
+        "fields": [
+          {
+            "id": "the_change",
+            "type": "long_text"
+          },
+          {
+            "id": "keep",
+            "type": "long_text"
+          },
+          {
+            "id": "in_place_date",
+            "type": "short_text"
+          },
+          {
+            "id": "small_test",
+            "type": "long_text"
+          },
+          {
+            "id": "first_three",
+            "type": "long_text"
+          },
+          {
+            "id": "income_buffer",
+            "type": "long_text"
+          },
+          {
+            "id": "who_i_tell",
+            "type": "long_text"
+          },
+          {
+            "id": "first_90",
+            "type": "long_text"
+          },
+          {
+            "id": "uncertain",
+            "type": "long_text"
+          },
+          {
+            "id": "plan_b",
+            "type": "long_text"
+          },
+          {
+            "id": "check_in_dates",
+            "type": "short_text"
+          }
+        ]
       }
     }
   ]

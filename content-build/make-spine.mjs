@@ -30,7 +30,14 @@ const boneOfField = (f) => ({
   ...(f.count ? { count: f.count } : {}),
 });
 
-const fieldsOf = (ex) => [...(ex.start_here?.fields ?? []), ...(ex.go_deeper?.fields ?? [])];
+/*
+ * A page keeps its fields under start_here and go_deeper. A part summary
+ * keeps them at the top, so without the last line here every summary went
+ * into the spine with no fields at all. That is what made "Help me draft
+ * this" answer "This page has no draft" on every summary page: the route
+ * reads the shape, and the shape said there was nothing to write (20 Oct).
+ */
+const fieldsOf = (ex) => [...(ex.start_here?.fields ?? []), ...(ex.go_deeper?.fields ?? []), ...(ex.fields ?? [])];
 
 const boneOfExercise = (ex, kind) => ({
   id: ex.id,

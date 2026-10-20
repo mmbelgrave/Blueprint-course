@@ -21,19 +21,6 @@
         "start_here": {
           "fields": [
             {
-              "id": "clarity_score",
-              "type": "short_text",
-              "heading": "Before you start: how clear is your picture?",
-              "hint": "Give one honest number. How clear is the life you want, from 1 (not clear at all) to 10 (very clear)? You score it again at the end of this step, so you can see what changed.",
-              "label": "My clarity score today, from 1 to 10"
-            },
-            {
-              "id": "clarity_why",
-              "type": "long_text",
-              "lines": 2,
-              "label": "What makes it this number"
-            },
-            {
               "id": "moment",
               "type": "long_text",
               "lines": 3,

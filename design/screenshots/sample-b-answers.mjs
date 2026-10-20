@@ -22,9 +22,6 @@ const table = (rows) => Object.fromEntries(rows.map((r, i) => [`r${i}`, r]));
 
 const answers = {
   "0.1": {
-    clarity_score: "4",
-    clarity_why:
-      "I know what I do not want much better than what I do want. I can picture the evening; I cannot picture the year.",
     moment:
       "A Friday in September when I took a day off for no reason. I spent it in my sister's garden, moved three wheelbarrows of soil, and ate outside. I did not look at my phone until the evening.",
     normal_day:
