@@ -153,16 +153,23 @@ function DeleteEverything() {
   // things it never had are about to be deleted.
   const free = isFree(entitlements);
   const [sure, setSure] = useState(false);
+  const [alsoAccount, setAlsoAccount] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   return (
     <section className="mt-10 space-y-3 rounded-2xl border-2 border-ochre p-5">
-      <h2 className="text-xl font-semibold text-pine">Delete everything</h2>
+      <h2 className="text-xl font-semibold text-pine">Delete everything I wrote</h2>
       <p>
         {free
-          ? "This deletes everything you have written here, and the account itself. It cannot be undone."
+          ? "This deletes everything you have written here. It cannot be undone."
           : "This deletes your workbook answers, your pictures, your chats with your AI partner, what your AI partner knows about you, your results and your feedback. It cannot be undone."}
+      </p>
+      {/* The course somebody paid for is not something they wrote, and it
+          used to go with the rest (Mwata, 20 October). */}
+      <p className="text-stone">
+        Your sign-in and what you have bought stay, so you can start again with an empty workbook. Tick the second box
+        if you want the account gone as well.
       </p>
       <label className="flex gap-3">
         <input
@@ -171,7 +178,21 @@ function DeleteEverything() {
           checked={sure}
           onChange={(e) => setSure(e.target.checked)}
         />
-        <span>I understand that everything will be deleted.</span>
+        <span>I understand that everything I wrote will be deleted.</span>
+      </label>
+      <label className="flex gap-3">
+        <input
+          type="checkbox"
+          className="mt-1.5 h-5 w-5 accent-ochre"
+          checked={alsoAccount}
+          onChange={(e) => setAlsoAccount(e.target.checked)}
+        />
+        <span>
+          Delete my account as well.{" "}
+          {free
+            ? "I will not be able to sign in with this address again."
+            : "I understand that this also ends my access to what I bought, and that it cannot be given back."}
+        </span>
       </label>
       <div className="flex justify-center">
       <button
@@ -185,7 +206,11 @@ function DeleteEverything() {
             // server cannot reach the picture store, and this screen promises
             // that everything goes. The server deletes them again if it can.
             if (picturesAvailable && user) await deleteAllPictures(user.id).catch(() => undefined);
-            const res = await fetch("/api/account/delete", { method: "POST" });
+            const res = await fetch("/api/account/delete", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ account: alsoAccount }),
+            });
             const body = await res.json();
             if (!res.ok) throw new Error(body.error);
             // Also forget what this browser remembers (last page opened) — review R2 concern 3.
@@ -207,7 +232,7 @@ function DeleteEverything() {
           }
         }}
       >
-        {busy ? "Deleting…" : "Delete everything"}
+        {busy ? "Deleting…" : alsoAccount ? "Delete everything and my account" : "Delete everything I wrote"}
       </button>
       </div>
       {error && (

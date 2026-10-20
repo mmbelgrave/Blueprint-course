@@ -1,41 +1,65 @@
-// "Delete everything": all answers, chats, notes, results, feedback, the
-// profile — and the account itself when the server has the service role key.
-import { deletePictures } from "@/lib/forget-account";
+/*
+ * "Delete everything I wrote", and, separately, "delete my account as well".
+ *
+ * These used to be one button that always did both, because the service role
+ * key was present and deleting the sign-in account cascades every row away.
+ * Somebody who had paid for the course and wanted to start their workbook
+ * again lost the course with it (Mwata, 20 October), and the screen never
+ * said that would happen.
+ *
+ * So the rows are deleted by name, and the account is only closed when the
+ * person asks for that in so many words. What is kept when the account stays:
+ * the purchase, the consent record and the withdrawal record, which are the
+ * three things we have to be able to show.
+ */
+import { deletePictures, WRITTEN_BY_PERSON } from "@/lib/forget-account";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
-// Every table the person can delete their own rows from (row-level security).
-const OWN_TABLES = ["answers", "exercise_status", "conversations", "ai_profile", "part_results", "feedback", "profiles"];
-
-export async function POST() {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ error: "Not available in preview mode." }, { status: 503 });
+export async function POST(request: Request) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL)
+    return Response.json({ error: "Not available in preview mode." }, { status: 503 });
   const supabase = await supabaseServer();
   const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return Response.json({ error: "Please sign in again." }, { status: 401 });
 
-  const admin = supabaseAdmin();
-  if (admin) {
-    await deletePictures(admin, user.id);
-    // Deleting the account removes every row too (all tables cascade on the user).
-    const { error } = await admin.auth.admin.deleteUser(user.id);
-    if (!error) {
-      await supabase.auth.signOut();
-      return Response.json({ deleted: true, accountDeleted: true });
-    }
-    console.error("account delete: could not delete the user, deleting rows instead");
-  }
+  // Asked for in the body, never assumed: the default is to keep the account.
+  const body = await request.json().catch(() => ({}) as { account?: unknown });
+  const alsoAccount = (body as { account?: unknown }).account === true;
 
-  for (const table of OWN_TABLES) {
-    const { error } = await supabase.from(table).delete().eq("user_id", user.id);
+  const admin = supabaseAdmin();
+  if (admin) await deletePictures(admin, user.id);
+
+  /*
+   * The rows go first, by name, whether or not the account follows. Deleting
+   * the account would cascade them away, but then a failure halfway through
+   * would leave somebody signed out of an account that still holds their
+   * answers, and nothing here would know which tables had gone.
+   */
+  const db = admin ?? supabase;
+  for (const table of WRITTEN_BY_PERSON) {
+    const { error } = await db.from(table).delete().eq("user_id", user.id);
     if (error) {
       console.error(`account delete: failed on ${table}`);
       return Response.json({ error: "Not everything could be deleted. Please try again." }, { status: 500 });
     }
   }
+
+  if (alsoAccount && admin) {
+    const { error } = await admin.auth.admin.deleteUser(user.id);
+    if (error) {
+      console.error("account delete: the rows are gone, the account is not");
+      await supabase.auth.signOut();
+      return Response.json({ deleted: true, accountDeleted: false, accountKept: "failed" });
+    }
+    await supabase.auth.signOut();
+    return Response.json({ deleted: true, accountDeleted: true });
+  }
+
   await supabase.auth.signOut();
-  // Without the service role key the sign-in account (email) itself remains.
-  return Response.json({ deleted: true, accountDeleted: false });
+  // Without the service role key the account cannot be closed from here.
+  return Response.json({ deleted: true, accountDeleted: false, accountKept: alsoAccount ? "failed" : "asked" });
 }

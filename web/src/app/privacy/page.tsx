@@ -158,10 +158,11 @@ export default function Privacy() {
           <Link href="/me" className="text-pine underline">
             What my AI partner knows
           </Link>{" "}
-          and choose Delete everything. Your answers, your pictures, your chats, the notes, your questions and your
-          account are gone at once, apart from the order record and the withdrawal record, which we have to keep for
-          the reasons in &ldquo;How long&rdquo; above. You can also make your AI partner forget one single topic and
-          keep the rest.
+          and choose Delete everything I wrote. Your answers, your pictures, your chats, the notes, your questions
+          and your progress are gone at once. Your sign-in account and what you have bought stay, so you can start
+          again, unless you also tick &ldquo;Delete my account as well&rdquo;, which closes the account and ends your
+          access to what you bought. Either way the order record and the withdrawal record stay, for the reasons in
+          &ldquo;How long&rdquo; above. You can also make your AI partner forget one single topic and keep the rest.
         </p>
 
         <h2 className="font-semibold">Your rights</h2>
