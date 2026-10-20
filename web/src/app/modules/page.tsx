@@ -17,14 +17,20 @@ export default function Modules() {
     <Shell ownHeader>
       <RequireUser>
         <section className="space-y-6">
+          {/*
+           * On a phone this page is its own masthead: the bar at the top is
+           * hidden there, so the mark and the name are shown here instead. On
+           * a laptop that bar is directly above, and saying it twice is once
+           * too many (Mwata, 20 October).
+           */}
           <header className="text-center">
-            <span className="flex justify-center">
+            <span className="flex justify-center sm:hidden">
               <Mark size={58} />
             </span>
-            <h1 className="mt-3 text-3xl text-pine">
+            <h1 className="mt-3 text-3xl text-pine sm:mt-0">
               {profile?.first_name ? `Welcome, ${profile.first_name}.` : "Welcome."}
             </h1>
-            <p className="mt-1 text-lg text-stone">{PRODUCT.name}</p>
+            <p className="mt-1 text-lg text-stone sm:hidden">{PRODUCT.name}</p>
           </header>
 
           <ul className="space-y-4">
