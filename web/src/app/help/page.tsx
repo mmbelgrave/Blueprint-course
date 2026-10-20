@@ -160,9 +160,9 @@ function AskForm() {
       <section className="space-y-3 rounded-2xl border border-line p-5">
         <h2 className="text-xl text-pine">Paid with one email, signed in with another?</h2>
         <p className="text-center text-sm text-stone">
-          Your course opens the account you paid from, so signing in with a different address lands you in an empty
-          one. Give us the address you paid with and the course moves to the account you are in now, with everything
-          you have written. It takes a minute and a code from your inbox.
+          Your course belongs to the email address you paid with. Sign in with a different address and you get an
+          empty account. Give us the address you paid with and we move your course to the account you are in now,
+          with everything you have written. It takes a minute and a code from your inbox.
         </p>
         <div className="flex justify-center">
           <Link className="btn btn-ghost" href="/claim">

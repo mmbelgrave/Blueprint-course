@@ -87,14 +87,16 @@ function ClaimForm() {
     <div className="mx-auto max-w-md">
       <h1 className="display text-3xl text-pine">Paid with one email, signed in with another?</h1>
       <p className="mt-3 text-stone">
-        Your course opens the account you paid from. If you then sign in with a different address — the one your
-        payment went through, such as PayPal, a work address, or one with a typo in it — you land in an empty
-        account and your course looks as though it never arrived. It did: it is sitting on the other address.
+        Your course belongs to the email address you paid with. Sign in with a different address and you get a new,
+        empty account. Your course is not lost. It is waiting on the other address.
       </p>
       <p className="mt-3 text-stone">
-        Write the address you paid with below. We send a {CODE_LENGTH}-digit code to it, and when you type that code
-        the course moves to {thisAccount} with everything you have already written. The address you paid with keeps
-        nothing afterwards: a purchase opens one account, and you choose which one.
+        This happens easily: you pay through PayPal, or with your work address, or you type one letter wrong.
+      </p>
+      <p className="mt-3 text-stone">
+        Write the address you paid with below. We send a {CODE_LENGTH}-digit code to it. Type that code here, and
+        your course moves to {thisAccount} with everything you have already written. The old address then has
+        nothing: a course belongs to one account, and you choose which one.
       </p>
 
       {stage === "email" ? (
