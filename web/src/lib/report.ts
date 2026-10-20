@@ -110,6 +110,20 @@ export function coverWords(sentence: string): { headline: string; tail?: string;
 export const noStop = (value: string) => value.trim().replace(/[.;,]+$/, "");
 
 /** The first clause of a sentence: up to the first comma, dash or semicolon. */
+/**
+ * The Blueprint's first headline: where this is, and what was decided.
+ *
+ * Somebody who is staying has no new place to name, and the line used to
+ * open with the full stop that would have followed it (Mwata, 20 October).
+ * Whichever of the two they wrote, the line reads as a sentence.
+ */
+export function decisionLine(place: string, decision: string): string {
+  const where = firstClause(place, 56).trim();
+  const what = decision.trim() ? `${noStop(decision)}.` : "";
+  if (where && what) return `${where}. ${what}`;
+  return where ? `${where}.` : what;
+}
+
 export function firstClause(value: string, most = 70): string {
   const clean = noStop(value.replace(/\s+/g, " "));
   const cut = clean.search(/[,;—–]/);

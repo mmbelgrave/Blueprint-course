@@ -11,6 +11,7 @@ import {
   LIGHT_NAMES,
   WHEEL_AREAS,
   coverWords,
+  decisionLine,
   durationIn,
   firstClause,
   inPlaceLine,
@@ -274,4 +275,19 @@ test("the minutes after the hour are kept", () => {
   assert.equal(travelTime("2 hours to Porto"), "2 h");
   assert.equal(travelTime("1 h 75"), "1 h");
   assert.equal(travelTime("1 h, then 2 km on foot"), "1 h");
+});
+
+/*
+ * Sheet 1 of the Blueprint names the place and the decision. Somebody who is
+ * staying has no new place, and the headline opened with the full stop that
+ * would have followed one (Mwata, 20 October).
+ */
+test("the Blueprint's first headline reads as a sentence, with or without a place", () => {
+  assert.equal(
+    decisionLine("Around Góis, inland from Coimbra", "I will rent for a year"),
+    "Around Góis, inland from Coimbra. I will rent for a year.",
+  );
+  assert.equal(decisionLine("", "I will change where I am"), "I will change where I am.");
+  assert.equal(decisionLine("Around Góis", ""), "Around Góis.");
+  assert.equal(decisionLine("", ""), "");
 });

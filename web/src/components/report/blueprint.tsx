@@ -19,8 +19,7 @@ import { MoneySheet } from "./money-sheet";
 import {
   changePlanSheets,
   durationIn,
-  firstClause,
-  noStop,
+  decisionLine,
   openLights,
   WAKING_HOURS,
   type Blueprint,
@@ -82,10 +81,7 @@ export function BlueprintDoc({
           </div>
 
           <Kicker>What I am choosing now</Kicker>
-          <Headline>
-            {firstClause(r.place, 56)}
-            {r.decision ? `. ${noStop(r.decision)}.` : "."}
-          </Headline>
+          <Headline>{decisionLine(r.place, r.decision)}</Headline>
           {r.conditions && <Standfirst>{r.conditions}</Standfirst>}
 
           <div className="mt-10">
