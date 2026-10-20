@@ -411,6 +411,7 @@
           ]
         }
       }
-    ]
+    ],
+    "staying_route": true
   }
 ]

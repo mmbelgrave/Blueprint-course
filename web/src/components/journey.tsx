@@ -6,7 +6,7 @@
 // matters), not the brand motif: the motif must always be exactly three lines.
 import Link from "next/link";
 import type { ExerciseStatus } from "@/lib/backend";
-import { displayNumber, letteredRoute, partItems, type Part, type StepContent } from "@/lib/content";
+import { displayNumber, partItems, type Part, type StepContent } from "@/lib/content";
 import { exerciseHref, partProgress } from "@/lib/progress";
 
 type Statuses = Record<string, ExerciseStatus>;
@@ -20,7 +20,7 @@ type Statuses = Record<string, ExerciseStatus>;
  */
 function railLabel(part: Part) {
   if (part.id.includes("p0")) return "Start";
-  return `${letteredRoute(part) ?? part.number} · ${part.title}`;
+  return `${part.staying_route ? "S" : part.number} · ${part.title}`;
 }
 
 /** One line for the whole step: how far you are, and which part you are in. */

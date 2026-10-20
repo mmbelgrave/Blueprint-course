@@ -182,3 +182,28 @@ test("the shape ends every part on the same page as the words do", () => {
     assert.equal(here, there, `${part.id} ends on a different page in the shape`);
   }
 });
+
+/*
+ * The two staying routes say so in the content. The app calls them "S" on the
+ * rail and names their own summary on the result button, and it cannot work
+ * that out from the page numbers: Step 2 letters them S1 to S7 and Step 3
+ * numbers them 5.1 to 5.6, after their workbooks (Mwata, 20 October).
+ */
+test("the staying routes are marked, and nothing else is", () => {
+  const marked: string[] = [];
+  for (const step of steps) {
+    for (const part of step.parts as unknown as { id: string; staying_route?: boolean }[]) {
+      if (part.staying_route) marked.push(part.id);
+    }
+  }
+  assert.deepEqual(marked.sort(), ["s2-p6", "s3-p5"]);
+});
+
+/* And the browser reads the shape, so the mark has to survive the spine. */
+test("the shape carries the staying mark", () => {
+  const shape = (spine1 as unknown as { parts: { staying_route?: boolean }[] }).parts;
+  assert.ok(
+    shape.every((p) => !p.staying_route),
+    "Step 1 has no staying route",
+  );
+});

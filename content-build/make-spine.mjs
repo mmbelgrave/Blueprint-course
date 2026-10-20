@@ -54,6 +54,7 @@ const boneOfPart = (p) => ({
   label: p.label,
   title: p.title,
   ...(p.optional ? { optional: true } : {}),
+  ...(p.staying_route ? { staying_route: true } : {}),
   time: p.time,
   ...(p.video ? { video: p.video } : {}),
   finish: p.finish,

@@ -1714,7 +1714,8 @@
           ]
         }
       },
-      "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in."
+      "result": "My Change Plan. Your change where you are, with a date, a first step and a check-in.",
+      "staying_route": true
     }
   ],
   "closing": {

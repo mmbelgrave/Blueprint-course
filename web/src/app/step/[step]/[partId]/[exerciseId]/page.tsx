@@ -16,7 +16,6 @@ import {
   displayNumber,
   displayTitle,
   findExercise,
-  letteredRoute,
   partItems,
   setupKey,
   stepExercises,
@@ -573,7 +572,7 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
               <Link href={`/step/${stepNumber}/print`} className="btn btn-primary">
                 {/* The staying route has its own summary, with its own
                     sheets inside the step's document (Mwata, 20 October). */}
-                {letteredRoute(part) ? "See my staying summary" : `See my Step ${stepNumber} result`}
+                {part.staying_route ? "See my staying summary" : `See my Step ${stepNumber} result`}
               </Link>
             </p>
           </div>

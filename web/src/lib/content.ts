@@ -136,6 +136,14 @@ export type Exercise = {
   /** The one line under the title. */
   promise?: string;
   optional?: boolean;
+  /**
+   * The staying route: the part for somebody whose change is not a move. It
+   * ends in its own summary, with its own sheets inside the step's document,
+   * so the rail calls it S and its result button names the staying summary
+   * (Mwata, 20 October). Step 2 letters its pages S1 to S7 and Step 3 numbers
+   * its own 5.1 to 5.6, after their workbooks, so the part says it instead.
+   */
+  staying_route?: boolean;
   intro?: Text;
   intro_bullets?: string[];
   tables?: InfoTable[];
@@ -180,6 +188,14 @@ export type Part = {
   number: number;
   label: string;
   optional?: boolean;
+  /**
+   * The staying route: the part for somebody whose change is not a move. It
+   * ends in its own summary, with its own sheets inside the step's document,
+   * so the rail calls it S and its result button names the staying summary
+   * (Mwata, 20 October). Step 2 letters its pages S1 to S7 and Step 3 numbers
+   * its own 5.1 to 5.6, after their workbooks, so the part says it instead.
+   */
+  staying_route?: boolean;
   title: string;
   route_title?: string;
   promise: string;
@@ -350,18 +366,6 @@ export const displayTitle = (e: Exercise) => `${displayNumber(e)} ${e.title}`;
 export function partItems(part: Part): Exercise[] {
   return part.summary ? [...part.exercises, summaryAsExercise(part, part.summary)] : part.exercises;
 }
-
-/**
- * The staying route: the part whose pages are lettered rather than numbered
- * (S1 to S7 in Step 2), for somebody whose change is not a move. It ends in
- * its own summary, which gets its own sheets inside the step's document, so
- * the rail and the result button both call it by its letter rather than by a
- * part number that appears nowhere on its pages (Mwata, 20 October).
- */
-export const letteredRoute = (part: Part) => {
-  const first = String(displayNumber(partItems(part)[0]) ?? "");
-  return /^([A-Za-z])/.exec(first)?.[1]?.toUpperCase();
-};
 
 export type Located = { step: StepContent; part: Part; exercise: Exercise };
 

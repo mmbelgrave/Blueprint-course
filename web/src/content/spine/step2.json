@@ -696,6 +696,7 @@
       "label": "The staying path",
       "title": "Check and test your change",
       "optional": true,
+      "staying_route": true,
       "time": "3–5 hours, plus a test",
       "finish": {
         "id": "explore_staying",

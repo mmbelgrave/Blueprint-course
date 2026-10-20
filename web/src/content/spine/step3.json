@@ -664,6 +664,7 @@
       "label": "Staying route",
       "title": "Your staying route",
       "optional": true,
+      "staying_route": true,
       "time": "1–2 hours",
       "finish": {
         "id": "change_plan",

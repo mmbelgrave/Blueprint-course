@@ -1957,7 +1957,8 @@
             ]
           }
         }
-      ]
+      ],
+      "staying_route": true
     }
   ],
   "closing": {
