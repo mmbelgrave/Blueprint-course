@@ -16,7 +16,7 @@ import { PRODUCT } from "@/lib/content";
 import { seatInvitation } from "@/lib/seat-email";
 import { sendMail } from "@/lib/send-mail";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -43,7 +43,7 @@ export async function GET() {
   // Preview mode: no accounts, so no seat to give.
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ seat: null, mayInvite: false });
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in again.");
   const admin = supabaseAdmin();
   if (!admin) return Response.json({ seat: null, mayInvite: false });
@@ -63,7 +63,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

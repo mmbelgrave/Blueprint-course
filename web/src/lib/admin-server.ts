@@ -2,13 +2,13 @@
 // Checked on the server for every admin request — hiding a link is not security.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export async function isAdminRequest(): Promise<boolean> {
   const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
   if (!adminEmail || !process.env.NEXT_PUBLIC_SUPABASE_URL) return false;
   const supabase = await supabaseServer();
-  const { data } = await supabase.auth.getUser();
+  const data = await sessionUser(supabase);
   return data.user?.email?.toLowerCase() === adminEmail;
 }
 

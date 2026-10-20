@@ -44,11 +44,18 @@ export function supabaseBrowser() {
 
 export const supabaseAuth: AuthProvider = {
   mode: "supabase",
+  /*
+   * The token is checked here, against the project's public signing key,
+   * rather than by asking the auth server: this is the first thing every
+   * screen waits for. A session older than the key rotation, or a browser
+   * without WebCrypto, falls back to the auth server inside getClaims.
+   */
   async getUser() {
-    const { data, error } = await supabaseBrowser().auth.getUser();
+    const { data, error } = await supabaseBrowser().auth.getClaims();
     // "No session" means signed out; any other error (network) must not look like that.
     if (error && error.name !== "AuthSessionMissingError") throw error;
-    return data.user ? { id: data.user.id, email: data.user.email ?? null } : null;
+    const claims = data?.claims as { sub?: string; email?: string } | undefined;
+    return claims?.sub ? { id: claims.sub, email: claims.email ?? null } : null;
   },
   async sendMagicLink(email) {
     const { error } = await supabaseBrowser().auth.signInWithOtp({

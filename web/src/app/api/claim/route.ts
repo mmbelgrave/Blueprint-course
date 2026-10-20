@@ -24,7 +24,7 @@ import {
 } from "@/lib/claim";
 import { findAccountByEmail } from "@/lib/find-account";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     return fail(503, "Preview mode has no accounts, so there is nothing to move here.");
   }
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in first, then come back here.");
 
   const admin = supabaseAdmin();

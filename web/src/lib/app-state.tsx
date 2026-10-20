@@ -88,13 +88,24 @@ const Ctx = createContext<AppState | null>(null);
 
 type Loaded = { user: AppUser | null; data: UserData | null } | "error";
 
+/*
+ * Everything this person has, at startup.
+ *
+ * One failed request used to be enough for "We could not load your answers",
+ * which is a frightening screen for a hiccup: a sleeping database, a train
+ * tunnel, a phone changing network. So it asks twice, a second apart, and
+ * only then says so. Nothing is written here, so asking again is free.
+ */
 async function loadEverything(): Promise<Loaded> {
-  try {
-    const user = await auth.getUser();
-    return { user, data: user ? await store.load(user.id) : null };
-  } catch {
-    return "error";
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const user = await auth.getUser();
+      return { user, data: user ? await store.load(user.id) : null };
+    } catch {
+      if (attempt === 0) await new Promise((wait) => setTimeout(wait, 900));
+    }
   }
+  return "error";
 }
 
 export function AppProvider({ children }: { children: React.ReactNode }) {

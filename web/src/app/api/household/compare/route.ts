@@ -11,7 +11,7 @@
 import { comparePage, compareStep, householdOf, setPrivate } from "@/lib/household-server";
 import { fullStep } from "@/lib/content-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 import { pageKind } from "@/lib/together-app";
 
 export const runtime = "nodejs";
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
   // Preview mode: one person in one browser, so there is nobody to compare with.
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ role: "alone" });
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return fail(503, "That is not set up yet.");
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

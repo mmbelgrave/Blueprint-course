@@ -10,7 +10,7 @@ import { contextMessage, HELPERS, partnerRequest, type HelperType } from "@/lib/
 import { STATUS_MARK, type PartnerStatus } from "@/lib/partner/protocol";
 import { answersIMaySee } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return fail(503, "Please sign in to use your AI partner.");
 
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

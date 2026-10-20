@@ -12,7 +12,7 @@
 import { comparePage, householdOf, otherName } from "@/lib/household-server";
 import { fullStep } from "@/lib/content-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 import { pageKind } from "@/lib/together-app";
 
 export const runtime = "nodejs";
@@ -33,7 +33,7 @@ function personalPages(steps: number[]): string[] {
 
 export async function GET(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return Response.json({ error: "Please sign in again." }, { status: 401 });
 

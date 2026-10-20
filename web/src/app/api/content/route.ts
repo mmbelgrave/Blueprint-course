@@ -15,7 +15,7 @@ import type { Entitlement } from "@/lib/access";
 import { pageFor, stepFor } from "@/lib/access-app";
 import { myAccess } from "@/lib/access-server";
 import { freePagesOf, fullStep, findPage, sourceFieldsFor, stepChrome } from "@/lib/content-server";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
   let entitlements: Entitlement[] = [];
   if (!open) {
     const supabase = await supabaseServer();
-    const { data: auth } = await supabase.auth.getUser();
+    const auth = await sessionUser(supabase);
     if (!auth.user) return fail(401, "Please sign in again.");
     // Read with the person's own session, so row-level security still
     // decides, and widened by the seat they sit on (6.8).

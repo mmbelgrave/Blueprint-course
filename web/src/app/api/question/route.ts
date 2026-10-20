@@ -7,7 +7,7 @@
 import { steps } from "@/lib/content";
 import { checkQuestion, supportTopics, topicLabel, type QuestionDraft } from "@/lib/support";
 import { sendQuestionMail } from "@/lib/support-email";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -17,7 +17,7 @@ const TOPICS = supportTopics(steps.map((s) => s.step));
 
 export async function GET() {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in again.");
 
   const { data, error } = await supabase
@@ -40,7 +40,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

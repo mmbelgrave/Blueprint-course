@@ -23,7 +23,12 @@ export async function proxy(request: NextRequest) {
         },
       },
     });
-    await supabase.auth.getUser();
+    /*
+     * Only to keep the cookie fresh. It decides nothing and trusts nothing:
+     * every route checks the token itself (lib/supabase-server.ts). Asking the
+     * auth server here would put a network journey in front of every page.
+     */
+    await supabase.auth.getSession();
   } catch (error) {
     // Wrong settings or Supabase unreachable: still show the page, which
     // then shows its own "could not load" message instead of a blank screen.

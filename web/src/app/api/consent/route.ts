@@ -10,7 +10,7 @@
  */
 import { WORDING_VERSION, type ConsentKind } from "@/lib/consent";
 import { myConsent, recordConsent } from "@/lib/consent-server";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -19,7 +19,7 @@ const fail = (status: number, error: string) => Response.json({ error }, { statu
 export async function GET() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ configured: false });
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in again.");
 
   const state = await myConsent(auth.user.id);
@@ -30,7 +30,7 @@ export async function GET() {
 export async function POST(request: Request) {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return fail(503, "That is not set up yet.");
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in again.");
 
   let body: Record<string, unknown>;

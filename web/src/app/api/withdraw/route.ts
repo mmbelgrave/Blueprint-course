@@ -29,7 +29,7 @@
 import { findAccountByEmail } from "@/lib/find-account";
 import { sendMail } from "@/lib/send-mail";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 import {
   accessEndsAt,
   provesOwnership,
@@ -100,7 +100,7 @@ export async function GET() {
   if (!admin) return fail(503, "That is not set up yet.");
 
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return Response.json({ signedIn: false });
 
   /*
@@ -153,7 +153,7 @@ export async function POST(request: Request) {
   }
 
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const signedIn = auth.user;
 
   const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");

@@ -2,7 +2,7 @@
 // profile — and the account itself when the server has the service role key.
 import { deletePictures } from "@/lib/forget-account";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -12,7 +12,7 @@ const OWN_TABLES = ["answers", "exercise_status", "conversations", "ai_profile",
 export async function POST() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return Response.json({ error: "Not available in preview mode." }, { status: 503 });
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return Response.json({ error: "Please sign in again." }, { status: 401 });
 

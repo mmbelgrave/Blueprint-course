@@ -8,7 +8,7 @@ import { updateProfile } from "@/lib/partner/profile-update";
 import { applyPersonChoices, type AiProfile } from "@/lib/profile-fields";
 import { answersIMaySee } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -21,7 +21,7 @@ export async function POST() {
     return fail(503, "The AI partner is not set up yet.");
   }
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

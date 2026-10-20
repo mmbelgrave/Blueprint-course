@@ -21,6 +21,8 @@ export async function GET() {
     return Response.json({ error: "Preview mode keeps your answers in this browser only." }, { status: 503 });
   }
   const supabase = await supabaseServer();
+  /* The only route that still asks the auth server: the export prints the day
+     the account was made, and that is not in the token. */
   const { data: auth } = await supabase.auth.getUser();
   const user = auth.user;
   if (!user) return Response.json({ error: "Please sign in again." }, { status: 401 });

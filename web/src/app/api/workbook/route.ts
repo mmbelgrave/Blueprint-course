@@ -15,7 +15,7 @@ import { accessConfig, requirePurchase } from "@/lib/access-app";
 import { isFreeAccount, myAccess } from "@/lib/access-server";
 import { freeItemById, moduleById, workbookOf } from "@/lib/modules-app";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -26,7 +26,7 @@ const fail = (status: number, error: string) => Response.json({ error }, { statu
 
 export async function GET(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in again.");
 
   const params = new URL(request.url).searchParams;

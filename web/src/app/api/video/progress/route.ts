@@ -4,7 +4,7 @@
 //
 // Row-level security means a person can only ever read or write their own row;
 // this route uses their own session, not the service role.
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -12,7 +12,7 @@ const fail = (status: number, error: string) => Response.json({ error }, { statu
 
 export async function GET(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   if (!auth.user) return fail(401, "Please sign in again.");
 
   const ids = new URL(request.url).searchParams.get("ids");
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

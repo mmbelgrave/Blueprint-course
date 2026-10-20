@@ -11,7 +11,7 @@
  * not be kept by anything in between.
  */
 import { folderUrl, looksLikeVideoId } from "@/lib/bunny";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 import { mayWatch } from "@/lib/video-access";
 
 export const runtime = "nodejs";
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   if (!cdn || !key) return fail(503, "Video is not set up yet.");
 
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 

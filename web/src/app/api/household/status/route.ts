@@ -8,7 +8,7 @@
  */
 import { householdOf, writeSharedStatus } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { supabaseServer } from "@/lib/supabase-server";
+import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
 
@@ -17,7 +17,7 @@ const STATUSES = ["not_started", "in_progress", "done"];
 
 export async function POST(request: Request) {
   const supabase = await supabaseServer();
-  const { data: auth } = await supabase.auth.getUser();
+  const auth = await sessionUser(supabase);
   const user = auth.user;
   if (!user) return fail(401, "Please sign in again.");
 
