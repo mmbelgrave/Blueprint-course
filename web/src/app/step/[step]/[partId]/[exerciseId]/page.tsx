@@ -157,7 +157,7 @@ function ExampleFold({ example }: { example: { who: string; text: string } }) {
       {open && (
         <div className="mt-2 rounded-xl bg-sage p-4">
           <p className="display text-pine">Made-up example: {example.who}</p>
-          <p className="mt-1">{example.text}</p>
+          <p className="mt-1 whitespace-pre-line">{example.text}</p>
           <p className="mt-2 text-sm text-stone">Your answer can be completely different.</p>
         </div>
       )}
@@ -550,12 +550,32 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           <p className="rounded-2xl border border-line p-4 text-stone">{exercise.go_further}</p>
         )}
 
-        {(isSummary || (!part.summary && exercise.id === part.exercises.at(-1)!.id)) && (
-          <p className="rounded-2xl bg-success-soft p-4">
-            <span className="font-semibold text-success">✓ Result: {part.finish.title}</span>
-            {part.finish.description && <>. {part.finish.description}</>}
-          </p>
-        )}
+        {/*
+         * What this part ends with. On the page it is written on it only says
+         * so; on the last exercise before it, it is the way there (Mwata,
+         * 20 October), because somebody who has just finished the questions
+         * should not have to go looking for the page that gathers them.
+         */}
+        {(() => {
+          const onLast = exercise.id === part.exercises.at(-1)?.id;
+          if (!isSummary && !onLast) return null;
+          const result = (
+            <>
+              <span className="font-semibold text-success">✓ Result: {part.finish.title}</span>
+              {part.finish.description && <>. {part.finish.description}</>}
+            </>
+          );
+          return !isSummary && part.summary ? (
+            <Link
+              href={exerciseHref(stepNumber, part.id, part.summary.id)}
+              className="block rounded-2xl bg-success-soft p-4 hover:ring-1 hover:ring-success"
+            >
+              {result} <span className="whitespace-nowrap font-semibold text-success">Write it →</span>
+            </Link>
+          ) : (
+            <p className="rounded-2xl bg-success-soft p-4">{result}</p>
+          );
+        })()}
 
         {/* One row: a step back, what this page is for, a step on, and the way
             out to the overview (Mwata, 20 October). */}

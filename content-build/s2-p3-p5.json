@@ -149,7 +149,7 @@
         "title": "The daily life check",
         "intro": [
           "Now look at everyday life. You can answer many of these questions from home with a map, official websites, and a few messages.",
-          "Look at time too. A place can give you more say over your time, but it can also bring new must-dos: land to clear, a house to maintain, paperwork, longer drives to shops and doctors. More land does not automatically mean more freedom."
+          "Look at time too. A place can give you more say over your time, but it can also bring new must do's: land to clear, a house to maintain, paperwork, longer drives to shops and doctors. More land does not automatically mean more freedom."
         ],
         "start_here": {
           "prompt": "Answer for each place on your shortlist.",
@@ -173,7 +173,7 @@
                 "How much local language will I need?",
                 "What may be built or changed there (municipal plan)",
                 "Fire risk and the land clearing required",
-                "New must-dos this place would bring (land, house, paperwork, travel)"
+                "New must do's this place would bring (land, house, paperwork, travel)"
               ],
               "columns": [
                 {

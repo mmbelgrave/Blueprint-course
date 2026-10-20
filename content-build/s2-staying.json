@@ -148,7 +148,7 @@
         "number": "S4",
         "title": "Time: who decides your week after the change?",
         "intro": [
-          "In Step 1 you sorted your week into time fixed by others, must-dos and your own choice. Do it again for the week after the change. A change can free time, but it can also bring new must-dos: a business to run, a course, more admin."
+          "In Step 1 you sorted your week into time fixed by others, must do's and your own choice. Do it again for the week after the change. A change can free time, but it can also bring new must do's: a business to run, a course, more admin."
         ],
         "start_here": {
           "fields": [
@@ -158,9 +158,9 @@
               "row_header": "My week",
               "row_labels": [
                 "Fixed by others",
-                "Must-dos",
+                "Must do's",
                 "My choice",
-                "New must-dos this change brings"
+                "New must do's this change brings"
               ],
               "columns": [
                 {

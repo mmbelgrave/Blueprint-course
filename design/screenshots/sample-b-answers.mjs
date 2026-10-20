@@ -117,7 +117,7 @@ const answers = {
       row(["now", "14"], ["want", "6"]),
     ]),
     most_time_back: "The two hours a day on screens, and the evening work that nobody asked for.",
-    // Rows: fixed by others, must-dos, my choice. The third row is the one
+    // Rows: fixed by others, must do's, my choice. The third row is the one
     // the documents draw.
     decides: table([
       row(["now", "52"], ["want", "42"]),

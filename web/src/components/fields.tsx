@@ -424,6 +424,9 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                         <textarea
                           aria-label={aria}
                           rows={2}
+                          /* The box is small and the answer is not: hovering
+                             shows the whole of it. */
+                          title={v || undefined}
                           className="field-input resize-y"
                           value={v}
                           onChange={(e) => setCell(key, c.id, e.target.value)}
@@ -431,6 +434,7 @@ function Table({ field, value, onChange, currency, extras }: FieldProps) {
                       ) : (
                         <input
                           aria-label={aria}
+                          title={v || undefined}
                           className={`field-input ${c.kind === "money" || c.kind === "number" ? "text-right" : ""}`}
                           value={v}
                           onChange={(e) => setCell(key, c.id, e.target.value)}

@@ -399,7 +399,7 @@ Object.assign(answers, {
     today:
       "Work and money are steady; free time and home are where the gaps are. Family and friends is the one area I would not want to trade for anything.",
     time:
-      "52 hours a week are fixed by other people and 28 go on must-dos. 32 are mine. I want that to be 60, and the first block back is Wednesday afternoon.",
+      "52 hours a week are fixed by other people and 28 go on must do's. 32 are mine. I want that to be 60, and the first block back is Wednesday afternoon.",
     strengths:
       "I have done a hard change before: I ran my father's care for two years while keeping every client. Lotte's directness and Hendrik's loyalty are things I can lean on again.",
     stopped_before:

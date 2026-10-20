@@ -1505,7 +1505,7 @@
               {
                 "id": "must_dos",
                 "type": "long_text",
-                "label": "Must-dos I stop, share or simplify"
+                "label": "Must do's I stop, share or simplify"
               },
               {
                 "id": "blocks_back",
@@ -1513,7 +1513,7 @@
                 "label": "Two blocks of my week I take back first."
               }
             ],
-            "prompt": "Your home and your week are where a change becomes real. In Step 1 you sorted your week into time fixed by others, must-dos and your own choice. Look at it again: what moves to \"my choice\" after this change?"
+            "prompt": "Your home and your week are where a change becomes real. In Step 1 you sorted your week into time fixed by others, must do's and your own choice. Look at it again: what moves to \"my choice\" after this change?"
           }
         },
         {

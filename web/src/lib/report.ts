@@ -152,7 +152,7 @@ export const WHEEL_AREAS = [
 ];
 
 /** 2.1 "Who decides my week" — the third row is the one that matters. */
-export const DECIDES_ROWS = ["Fixed by others", "Must-dos", "My choice"];
+export const DECIDES_ROWS = ["Fixed by others", "Must do's", "My choice"];
 const MY_CHOICE_ROW = 2;
 /** The workbook's own figure: 16 waking hours a day, seven days. */
 export const WAKING_HOURS = 112;

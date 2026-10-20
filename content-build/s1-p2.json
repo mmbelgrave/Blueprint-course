@@ -109,16 +109,16 @@
               "id": "decides_intro",
               "type": "heading",
               "heading": "Then look at who decides",
-              "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must-dos: cleaning, groceries, admin. The problem is being busy with what others decide."
+              "hint": "Many people don't lack time. They lack say over it. Work and travel fill the week, and the weekend fills up with must do's: cleaning, groceries, admin. The problem is being busy with what others decide."
             },
             {
               "id": "decides",
               "type": "table",
               "row_header": "Who decides my week?",
-              "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must-dos: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of the hours you are awake each week (about 112: 16 hours a day, 7 days) is really yours.",
+              "hint": "Sort the same normal week into three kinds of time. Fixed by others: hours someone else decides, such as work, meetings and work travel. Must do's: tasks that have to happen, such as housework, shopping, admin and care. My choice: time you decide about yourself, even when you are busy. Then work out which share of the hours you are awake each week (about 112: 16 hours a day, 7 days) is really yours.",
               "row_labels": [
                 "Fixed by others",
-                "Must-dos",
+                "Must do's",
                 "My choice"
               ],
               "columns": [
@@ -183,8 +183,8 @@
               "id": "drop",
               "type": "long_text",
               "lines": 2,
-              "label": "Must-dos I can drop, simplify, share or outsource",
-              "hint": "Look at your must-dos first. Which can you drop, simplify, share or outsource? Then look at one fixed block. Could you move it, shorten it, or ask for it to be different?"
+              "label": "Must do's I can drop, simplify, share or outsource",
+              "hint": "Look at your must do's first. Which can you drop, simplify, share or outsource? Then look at one fixed block. Could you move it, shorten it, or ask for it to be different?"
             },
             {
               "id": "fixed_block",
@@ -200,16 +200,10 @@
             }
           ]
         },
-        "example": [
-          {
-            "who": "Lucas, 29",
-            "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager."
-          },
-          {
-            "who": "Lucas, 29",
-            "text": "Fixed by others: 50 hours of work and travel. Must-dos: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of the hours I am awake each week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
-          }
-        ],
+        "example": {
+          "who": "Lucas, 29",
+          "text": "Work and travel: 50 hours now, 38 wanted. Screens without a purpose: 12 now, 5 wanted. Outside: 2 now, 8 wanted. The biggest change is my commute, eight hours a week. That does not need a new country. It needs a conversation with my manager.\n\nFixed by others: 50 hours of work and travel. Must do's: 25 hours, and most of Saturday goes to groceries and cleaning. My choice: 37 hours, about a third of the hours I am awake each week. Two changes: groceries delivered, and cleaning together on Thursday evening. That gives me Saturday morning back. Next, I will ask whether I can work from home on Fridays."
+        },
         "go_deeper": {
           "prompt": "Which area has the biggest gap? Which area pulls you most toward change, and which one makes change most difficult?",
           "fields": [
@@ -224,10 +218,6 @@
           {
             "status": "ready",
             "text": "I first used the wheel of life after a year in Bali. Work was going well, and I gave home and surroundings a 9. My relationship and personal growth each scored 5. That helped me decide where to focus and write down a few actions. I have done the exercise every year since. It is encouraging to see the difference: personal growth went from 5 to 8. But the wheel also showed me that a good score can change. As Bali became busier, with more buildings, traffic and pollution, my score for home and surroundings fell from 9 to 6. I had to ask myself whether Bali was still the home I wanted."
-          },
-          {
-            "status": "ready",
-            "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I was in control of my time. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: more say over my time."
           }
         ]
       },
@@ -446,6 +436,10 @@
               "lines": 3
             }
           ]
+        },
+        "story": {
+          "status": "ready",
+          "text": "The year I renovated the ruin was one of the busiest of my life. Yet it felt completely different from my years in an office, because I was in control of my time. When the renovation needed me, I did no consultancy work that day. When Tuesday was sunny, I took the day off and caught up on Sunday. Busy, but by my own choice. For me, that is what this is about: more say over my time."
         }
       },
       {
