@@ -973,6 +973,40 @@ Also seeded: his own account has an answer on every Step 1 page
 out again), so the printed result and the partner can be read with words in
 them.
 
+## The second walk, and Step 2 stops being about Portugal (20 Oct 2026)
+
+Every page of Steps 1 to 3 was walked on the live site, 76 of them, plus the
+three result documents and the account pages. Two things were broken and are
+fixed: `/modules/<anything>` answered "Something went wrong" (the page read a
+module's state before checking the module existed), and scoring a country was
+impossible, because a score column has no options in the content and the
+dropdown held one empty line. It offers 2, 1 and 0 now, with what they mean.
+
+What Mwata asked for after that walk:
+
+- **The result sits on the last page of a part.** It was on 5.1 while Step 1
+  part 5 ran on to 5.2, and on 5.1 while Step 2 part 5 ran on to 5.3. The
+  content named a result page for half a day; it does not any more, because
+  the end of a part is the end of a part.
+- **"Was this page clear?" is gone from every page.** It stood beside "How
+  did this part feel?" asking much the same thing. The part question stays,
+  once per part, at the end. Nothing writes page notes now; the rows that
+  were already answered stay where they are.
+- **A score table is an even grid**, and a column is called by the name the
+  person wrote: "Portugal", not "Country 1: Portugal".
+- **2.2 loses the climate table and the IPMA source under it; 3.2 loses the
+  two Portuguese residence routes.** Both were Portugal-only in a part about
+  choosing any country.
+- **The rail calls the staying route "S"**, after its own pages, instead of
+  "6", a number that appears nowhere on them.
+- **The name of a part on the rail opens the part**: every page in it, with a
+  tick on what is done, to jump straight to 3.3 without walking there.
+
+Also brought up to date: §3.2 of the spec still asked for the permission that
+was removed with the meetings, §3.3 still called Step 2 closed with the wrong
+page count and did not mention Step 3, and two comments explained a tick
+nobody is asked for.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
