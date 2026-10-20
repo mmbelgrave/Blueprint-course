@@ -923,6 +923,56 @@ empty ones, and "1 h 10" prints as "1 h 10".
 
 The detail of each finding and what changed is in `REVIEW.md`, round 7.
 
+## Mwata walks the app, page by page (20 Oct 2026)
+
+He went through Step 1 as a reader rather than as its author, and wrote down
+everything that got in the way. What changed, in the order he found it:
+
+- The **consent to let Mwata read answers** is gone. The meetings it was for
+  are not part of the offer any more, so the tick, the database column that
+  carried it and the admin page that read answers were removed together. The
+  admin pages now show progress and feedback and nothing anybody wrote.
+- **The step rail** marks where you are, not how far you have come: at 1.1 the
+  marker sat at the end of the part because it followed the count of finished
+  pages.
+- **0.1's "my clarity score today, 1 to 10"** is gone. It asked for a number
+  before anybody had anything to be clear about.
+- **"Help me draft this" works again**, and only where it belongs. The browser
+  holds the shape of a page and not its words (round 4), and three places had
+  been left reading the shape: the draft route, the partner's prompt and the
+  answer text the partner is given. A summary page is the only place that now
+  offers a draft, which is what Mwata chose when asked: the AI drafts the
+  gathering-up, never the thinking.
+- **A table cell opens when you tap it.** One line at rest, four while you
+  write, and the whole answer on hover for a mouse.
+- **4.1 answered "Something went wrong."** One story had been written as a bare
+  string during the Rev.01e port and the page read `.text` off it. Fixed in the
+  content, and the page no longer trusts the shape.
+- **5.1 showed two made-up examples**, a few lines from Tom and then Rosa's
+  whole completed page. Rosa stayed and says plainly that she is made up.
+- **Must-dos reads "must do's"**, 2.1 keeps one example and one story (the
+  second moved to 2.4), and "the middle statement" is "the second statement".
+- **The video shows its own first frame.** Bunny's automatic thumbnail was a
+  black frame; the hand-picked one is `thumbnail_58133333.jpg` and the modules
+  file names it. An earlier conclusion here was wrong and is worth remembering:
+  a plain `curl` of the video gets a 403 because Bunny refuses requests with no
+  referrer. Nothing was broken.
+- **One "Back to overview" button**, green, beside the page arrows, instead of
+  the row of page chips.
+- **One result per part**, on the page that holds it, with a button that opens
+  the step document. The green line used to be a link on one page, plain text
+  on another, and two page ids were hard-coded for the only two PDF buttons
+  there were. The content names the result page now (`result_page`), so all six
+  parts without a summary behave like the ones with one.
+- **"Was this page clear?"** is asked once per part, on the last page that asks
+  something: four times in Step 1 rather than twenty-three.
+- **A button standing on its own line stands in the middle**, as the default.
+
+Also seeded: his own account has an answer on every Step 1 page
+(`web/scripts/seed-my-answers.cjs`, and `clear-my-answers.cjs` to take them
+out again), so the printed result and the partner can be read with words in
+them.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
