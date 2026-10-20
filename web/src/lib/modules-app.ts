@@ -36,6 +36,17 @@ export const notifyUrl = raw.notify_url;
 
 export const moduleById = (id: string) => modules.find((m) => m.id === id);
 export const stepIdOf = (step: number) => `step-${step}`;
+
+/**
+ * Where a step's lessons are listed: the page with the videos on it.
+ *
+ * This is the overview people start from and come back to (Mwata, 20 Oct):
+ * watch the video, do the exercises, come back for the next one.
+ */
+export const stepLessonsHref = (step: number) => {
+  const owner = modules.find((m) => (m.steps as number[] | undefined)?.includes(step));
+  return owner ? `/modules/${owner.id}/${stepIdOf(step)}` : "/dashboard";
+};
 export const workbookOf = (stepId: string) => workbooks[stepId];
 
 /** Which steps this person owns. Until buying exists, every released step. */

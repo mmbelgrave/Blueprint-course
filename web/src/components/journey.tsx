@@ -2,95 +2,14 @@
 // Where am I, and how do I get somewhere else.
 //   PartRail   — the whole step as one line: a segment per part, sized by how
 //                long the part is, with an ochre marker on the part you are in.
-//   PageChips  — the pages of one part, with their state.
 // The rail is a line diagram (Pine on Sand, Ochre marking the one point that
 // matters), not the brand motif: the motif must always be exactly three lines.
 import Link from "next/link";
 import type { ExerciseStatus } from "@/lib/backend";
-import { displayNumber, displayTitle, partItems, type Part, type StepContent } from "@/lib/content";
+import { partItems, type StepContent } from "@/lib/content";
 import { exerciseHref, partProgress } from "@/lib/progress";
 
 type Statuses = Record<string, ExerciseStatus>;
-
-const stateOf = (id: string, statuses: Statuses, here: boolean) =>
-  here ? "here" : statuses[id] === "done" ? "done" : statuses[id] ? "started" : "open";
-
-/** ✓ done · ½ started · nothing yet. Never colour alone. */
-const CHIP: Record<string, string> = {
-  here: "bg-pine text-sand border-pine",
-  done: "border-pine text-pine",
-  started: "border-pine text-pine",
-  open: "border-line text-stone bg-white",
-};
-
-/** Only "done" gets a mark: a half sign on a page you merely opened says nothing. */
-function ChipMark({ state }: { state: string }) {
-  if (state === "done") return <span className="text-success" aria-hidden>✓</span>;
-  return null;
-}
-
-export function PageChips({
-  step,
-  part,
-  statuses,
-  currentId,
-  lead,
-  trailing,
-  nextPart,
-}: {
-  step: number;
-  part: Part;
-  statuses: Statuses;
-  currentId?: string;
-  lead?: string;
-  /** A last chip in the same row, for the way back out. */
-  trailing?: { href: string; label: string };
-  /** On the last page of a part: the way into the next one, in the same row. */
-  nextPart?: Part;
-}) {
-  const items = partItems(part);
-  const onLastPage = currentId === items.at(-1)?.id;
-  return (
-    <div className="flex flex-wrap items-center justify-center gap-1.5">
-      {lead && <span className="mr-0.5 text-sm text-stone">{lead}</span>}
-      {items.map((e) => {
-        const state = stateOf(e.id, statuses, e.id === currentId);
-        const label =
-          e.id === currentId ? displayTitle(e) : displayNumber(e);
-        return (
-          <Link
-            key={e.id}
-            href={exerciseHref(step, part.id, e.id)}
-            aria-current={e.id === currentId ? "page" : undefined}
-            title={displayTitle(e)}
-            className={`inline-flex items-center gap-1 rounded-lg border-[1.75px] px-2 py-0.5 text-sm font-medium ${CHIP[state]}`}
-          >
-            <ChipMark state={state} />
-            {label}
-            {e.optional && <span className="text-xs font-normal opacity-70">optional</span>}
-          </Link>
-        );
-      })}
-      {nextPart && onLastPage && (
-        <Link
-          href={exerciseHref(step, nextPart.id, partItems(nextPart)[0].id)}
-          title={`${nextPart.label} · ${nextPart.title}`}
-          className="inline-flex items-center gap-1 rounded-lg border-[1.75px] border-pine bg-pine px-2 py-0.5 text-sm font-medium text-sand"
-        >
-          {nextPart.label.replace("Part ", "P")} →
-        </Link>
-      )}
-      {trailing && (
-        <Link
-          href={trailing.href}
-          className="inline-flex items-center gap-1 rounded-lg border-[1.75px] border-pine bg-sage px-2 py-0.5 text-sm font-medium text-pine"
-        >
-          {trailing.label}
-        </Link>
-      )}
-    </div>
-  );
-}
 
 /** One line for the whole step: how far you are, and which part you are in. */
 export function PartRail({

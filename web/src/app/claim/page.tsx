@@ -67,7 +67,7 @@ function ClaimForm() {
 
   if (stage === "done") {
     return (
-      <div className="mx-auto max-w-md text-center">
+      <div className="mx-auto max-w-md rounded-2xl bg-white p-6 text-center sm:p-8">
         <h1 className="display text-3xl text-pine">That is yours now.</h1>
         <p className="mt-3">
           Your course has moved to {user?.email ? `this account, ${user.email}` : "this account"}. Everything you had
@@ -81,7 +81,7 @@ function ClaimForm() {
   }
 
   return (
-    <div className="mx-auto max-w-md">
+    <div className="mx-auto max-w-md rounded-2xl bg-white p-6 sm:p-8">
       <h1 className="display text-3xl text-pine">Paid with one email, signed in with another?</h1>
       {/* The same words as in Help, where people meet this first. */}
       <p className="mt-3 text-stone">

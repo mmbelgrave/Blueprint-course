@@ -32,7 +32,8 @@ import { SharedNote } from "@/components/shared-note";
 import { DraftHelper, PartFeedback, type Drafts } from "@/components/results";
 import { Fold } from "@/components/fold";
 import { VideoSlot } from "@/components/video-slot";
-import { PageChips, PartRail } from "@/components/journey";
+import { PartRail } from "@/components/journey";
+import { stepLessonsHref } from "@/lib/modules-app";
 import { draftFields } from "@/lib/drafts";
 import { fieldExtras } from "@/lib/field-extras";
 import { helpHref } from "@/lib/support";
@@ -608,19 +609,21 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
           </Card>
         )}
 
-        {/* The pages of this part, and the way back out, in one line. */}
-        <nav aria-label="The pages of this part" className={free ? "hidden" : "print:hidden"}>
-          <PageChips
-            step={stepNumber}
-            part={part}
-            statuses={statuses}
-            currentId={exercise.id}
-            lead={`${part.label}:`}
-            nextPart={step.parts[step.parts.indexOf(part) + 1]}
-            trailing={
-              free ? { href: "/modules", label: "Back to the modules" } : { href: "/dashboard", label: "Back to overview" }
-            }
-          />
+        {/*
+         * One way out, to the overview this page was started from (Mwata,
+         * 20 October). The row of page numbers that used to sit here let you
+         * hop sideways, but it made the overview feel optional, and the
+         * overview is where the video, the workbook and the next lesson are.
+         */}
+        <nav aria-label="The way back" className="print:hidden">
+          <p className="flex justify-center">
+            <Link
+              href={free ? "/modules" : stepLessonsHref(stepNumber)}
+              className="btn btn-ghost"
+            >
+              {free ? "Back to the modules" : "Back to overview"}
+            </Link>
+          </p>
         </nav>
       </article>
 
