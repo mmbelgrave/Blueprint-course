@@ -866,6 +866,47 @@ The app had nothing for that, so:
   financial advice. No founding-member gating yet — everyone who signs in can
   ask, which is right while the first 12 are all founding members.
 
+## How fast the live app is, measured (20 Oct 2026)
+
+Mwata said the free exercise took a while to download and to open. It was
+measured rather than guessed, with `web/scripts/speed-check.cjs`: public pages
+as anybody fetches them, and everything behind a sign-in with a throwaway
+account that is deleted at the end. Three runs each, from Portugal, against
+app.maderealblueprint.com (Vercel, Paris) and Supabase (AWS, Ireland).
+
+| What | Warm | Worst seen |
+| --- | --- | --- |
+| Any page: /, /free, /withdraw, /privacy, /signin | 70–150 ms | 570 ms |
+| Signed-in pages: /settings, /modules, /dashboard | 120–170 ms | 560 ms |
+| `/api/consent` | 500–800 ms | 1.0 s |
+| `/api/content` (a step) | 620–940 ms | 1.2 s |
+| `/api/withdraw` (what the withdrawal screens wait for) | 550–900 ms | 4.6 s |
+| The free exercise: our route, then the PDF | 490 ms + 90 ms | 2.5 s |
+
+The pages themselves are quick. What is slow is every route that has to ask
+who you are: about half a second of it is the serverless function starting and
+the sign-in being checked against Supabase over the network, before any
+question about the person is asked at all. A function that has been idle takes
+2 to 5 seconds on its first request, which is what Mwata met: at this traffic,
+most requests are somebody's first.
+
+What was done: `/api/withdraw` asked Supabase three times in a row (who, what
+they bought, whether they have already asked). The two that do not depend on
+each other now go together. The free exercise is 222 KB and takes 90 ms to
+come down; the waiting was never the file.
+
+What would take the rest off, in order of effect:
+
+1. **Keep the functions warm.** Vercel's Fluid compute, or any paid plan
+   setting that stops instances sleeping, removes the 2–5 second first
+   requests. This is a plan decision, not code.
+2. **Check the sign-in without a network call.** Supabase can verify the token
+   locally with JWT signing keys instead of asking its auth server on every
+   request: roughly 150–300 ms off every signed-in route. It needs the project
+   switched to signing keys, then one change in `supabase-server.ts`.
+3. **Fewer route calls per screen.** Done for the withdrawal screens. The
+   exercise pages ask for consent, content and answers separately.
+
 ## Review round 7, all eleven findings (20 Oct 2026)
 
 LLM2 reviewed everything since round 6 and found two HIGH, five MEDIUM and
