@@ -145,7 +145,7 @@ export async function POST(request: Request) {
   const admin = supabaseAdmin();
   if (!admin) return fail(503, "That is not set up yet.");
 
-  let body: { email?: unknown; order?: unknown; name?: unknown; timeZone?: unknown };
+  let body: { email?: unknown; order?: unknown; name?: unknown; timeZone?: unknown; reason?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -170,6 +170,12 @@ export async function POST(request: Request) {
   const email = looksLikeEmail(typed) ? typed : (signedIn?.email ?? "");
   const orderEntered = str(body.order, 100) || null;
   const name = str(body.name, 120) || null;
+  /*
+   * Only offered after the 14 days, and optional even there. The screen
+   * decides whether to ask; this keeps whatever arrives, within reason, and
+   * never makes anything depend on it.
+   */
+  const reason = str(body.reason, 500) || null;
   const timeZone = str(body.timeZone, 60) || null;
 
   if (!email || !looksLikeEmail(email)) {
@@ -315,7 +321,9 @@ export async function POST(request: Request) {
     });
   }
 
-  const { error: saved } = await admin.from("withdrawals").insert({
+  /* Loosely typed so the optional reason can be added without the client
+     insisting the row shape is wrong. */
+  const row: Record<string, unknown> = {
     email,
     name,
     order_entered: orderEntered,
@@ -331,7 +339,19 @@ export async function POST(request: Request) {
     access_ends_at: endsAt?.toISOString() ?? null,
     source: signedIn ? "app" : "public",
     note: verified ? null : "Not proved: no sign-in and no matching order number. Access was not ended.",
-  });
+  };
+
+  /*
+   * The reason is written down when there is a column for it. If the
+   * migration has not been run yet, the withdrawal still goes through without
+   * it: a withdrawal is never refused, least of all over a box that was
+   * optional in the first place (promise 3).
+   */
+  let { error: saved } = await admin.from("withdrawals").insert(reason ? { ...row, reason } : row);
+  if (saved && reason && /reason/i.test(saved.message)) {
+    console.error("withdrawals.reason is missing — run supabase/2026-10-20-withdrawal-reason.sql");
+    ({ error: saved } = await admin.from("withdrawals").insert(row));
+  }
   if (saved) return fail(500, "That could not be saved. Please email info@maderealblueprint.com.");
 
   /*
@@ -355,6 +375,7 @@ export async function POST(request: Request) {
     timeZone,
     endsAt,
     window: where,
+    reason,
   };
 
   const sent = await sendMail(email, withdrawalMail(receipt));

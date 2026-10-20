@@ -79,6 +79,27 @@ Use a private window, so you are signed out.
 5. Press the button a second time with the same address.
    - [ ] It says we already have a request from that address.
 
+## 3b. The reason box, inside and outside the 14 days (2 minutes)
+
+Only in My settings, or on the withdrawal page signed in, because that is where
+the app knows which of the two windows you are in. Run this before section 4,
+on your own account, and press **Keep my course** at the end of each.
+
+1. Your purchase is less than 14 days old. Press **Withdraw from contract
+   here**.
+   - [ ] The box asks nothing. Two buttons, no field, no question about why.
+2. After your 14 days have passed (or ask me to move the date back for a
+   minute), press it again.
+   - [ ] Above the buttons: "If you like, tell us what did not work
+         (optional)", a box to write in, and the line saying your refund does
+         not depend on it.
+   - [ ] Leaving it empty still goes through.
+   - [ ] What you write arrives in the letter to info@maderealblueprint.com,
+         under "What they said did not work:".
+
+This needs `web/supabase/2026-10-20-withdrawal-reason.sql` run once. Without
+it the withdrawal still goes through; only the words are not kept.
+
 ## 4. The real thing, on the real order (20 minutes, then two waits)
 
 Order 9762789 on **nutricao.renata@hotmail.com**, the only real purchase in

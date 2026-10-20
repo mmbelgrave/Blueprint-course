@@ -175,6 +175,8 @@ const day = (at: Date | string) => new Date(at).toLocaleDateString("en-GB", { da
 export type Receipt = {
   /** True when the asker proved the purchase is theirs (R7-1). */
   verified?: boolean;
+  /** Their own words, when we asked and they wrote something. */
+  reason?: string | null;
   email: string;
   name: string | null;
   orderEntered: string | null;
@@ -282,6 +284,10 @@ export function withdrawalNotice(r: Receipt) {
     `Order we matched: ${r.matchedOrder ?? "NONE - match this by hand"}`,
     `Refund in full: ${money(r.amountCents, r.currency)}`,
     `Refund due by: ${day(refundDeadline(r.requestedAt))}`,
+    r.reason ? "" : null,
+    r.reason ? `What they said did not work:` : null,
+    r.reason ? r.reason : null,
+    r.reason ? "" : null,
     r.endsAt
       ? `Their access ends on ${day(r.endsAt)}.`
       : r.matchedOrder
@@ -290,9 +296,24 @@ export function withdrawalNotice(r: Receipt) {
     "",
     "Refund it in full in Lemon Squeezy. The app ends the access on its own and",
     "marks the request done when the refund webhook arrives.",
-  ];
+  ].filter((line) => line !== null);
   return { subject: `Withdrawal: ${r.email}`, text: lines.join("\n") };
 }
+
+/**
+ * Whether to offer the box at all.
+ *
+ * Inside the 14 days the law is plain: the withdrawal needs no reason and we
+ * do not ask for one, because a question in that place reads as a condition.
+ * Afterwards it is our own guarantee, and the terms already invite a line or
+ * two. Optional there, and it changes nothing either way.
+ */
+export const mayAskWhy = (window: Window): boolean => window !== "withdrawal";
+
+/** The words above the box, so the screen and the record cannot drift apart. */
+export const WHY_LABEL = "If you like, tell us what did not work (optional)";
+export const WHY_NOTE =
+  "After the 14 days this is our own 30-day guarantee rather than the legal right to withdraw. A line or two helps me make the course better. Your refund does not depend on it, and you can leave this empty.";
 
 /** The nudge on day seven, when the money has still not gone back. */
 export function reminderMail(r: {

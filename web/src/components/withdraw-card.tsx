@@ -12,6 +12,7 @@
  * email address in the box, and the matching happens afterwards.
  */
 import { useState } from "react";
+import { mayAskWhy, WHY_LABEL, WHY_NOTE } from "@/lib/withdrawal";
 
 export type Purchase = {
   orderId: string | null;
@@ -108,11 +109,12 @@ export function WithdrawCard({ purchase, already }: { purchase: Purchase | null;
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<Done | null>(already ?? null);
   const [problem, setProblem] = useState<string | null>(null);
+  const [why, setWhy] = useState("");
 
   async function confirm() {
     setBusy(true);
     setProblem(null);
-    const { done: ok, problem: bad } = await send({});
+    const { done: ok, problem: bad } = await send({ reason: why.trim() || null });
     if (ok) setDone(ok);
     if (bad) setProblem(bad);
     setBusy(false);
@@ -170,6 +172,26 @@ export function WithdrawCard({ purchase, already }: { purchase: Purchase | null;
             can change your mind, and your answers stay until then. We refund{" "}
             {price(purchase.amountCents, purchase.currency)} to the payment method you used, within 14 days.
           </p>
+          {/* Only after the 14 days, and never as a condition. */}
+          {mayAskWhy(purchase.window) && (
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-pine" htmlFor="why">
+                {WHY_LABEL}
+              </label>
+              <textarea
+                id="why"
+                rows={3}
+                maxLength={500}
+                className="field-input mt-1 w-full"
+                value={why}
+                disabled={busy}
+                onChange={(e) => setWhy(e.target.value)}
+                placeholder="It was not what I expected because…"
+              />
+              <p className="mt-1 text-sm text-stone">{WHY_NOTE}</p>
+            </div>
+          )}
+
           <p className="mt-3 flex flex-wrap justify-center gap-2">
             <button type="button" className="btn btn-primary" disabled={busy} onClick={confirm}>
               {busy ? "One moment…" : "Confirm withdrawal"}

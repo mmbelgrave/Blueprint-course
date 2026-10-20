@@ -7,6 +7,7 @@ import {
   accessIsOver,
   daysBetween,
   homeDay,
+  mayAskWhy,
   provesOwnership,
   refundDeadline,
   refundPromise,
@@ -225,4 +226,40 @@ test("the order number from the receipt proves it", () => {
 
 test("nothing proves a purchase nobody owns", () => {
   assert.equal(provesOwnership({ sessionUserId: "u1", orderEntered: "9762789", orderId: "9762789" }), false);
+});
+
+/*
+ * The reason box (20 October). Inside the 14 days the law needs no reason and
+ * asking for one reads as a condition; after that it is our own guarantee and
+ * the terms invite a line or two, optional.
+ */
+test("the box is only offered after the 14 days", () => {
+  assert.equal(mayAskWhy("withdrawal"), false);
+  assert.equal(mayAskWhy("guarantee"), true);
+  assert.equal(mayAskWhy("closed"), true);
+});
+
+test("what they wrote reaches Mwata, and nothing changes when they write nothing", () => {
+  const base: Receipt = {
+    email: "someone@example.com",
+    name: "Sam",
+    orderEntered: "9762789",
+    matchedOrder: "9762789",
+    product: "phase1",
+    amountCents: 9900,
+    currency: "EUR",
+    requestedAt: new Date("2026-11-20T09:00:00Z"),
+    timeZone: "Europe/Lisbon",
+    endsAt: new Date("2026-11-23T22:59:59Z"),
+    window: "guarantee",
+  };
+  const said = withdrawalNotice({ ...base, reason: "Step 2 was more work than I expected." }).text;
+  assert.match(said, /What they said did not work:/);
+  assert.match(said, /Step 2 was more work than I expected./);
+  // The refund is the same letter either way.
+  assert.match(said, /Refund it in full in Lemon Squeezy/);
+
+  const silent = withdrawalNotice(base).text;
+  assert.doesNotMatch(silent, /What they said/);
+  assert.match(silent, /Their access ends on 23 November 2026./);
 });
