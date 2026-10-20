@@ -5,7 +5,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { isFreeAccount, myAccess } from "@/lib/access-server";
 import type { Answers } from "@/lib/backend";
 import { whyNoAi } from "@/lib/consent-server";
-import { findExercise } from "@/lib/content";
+import { findPage } from "@/lib/content-server";
 import { draftFields } from "@/lib/drafts";
 import { anthropicClient } from "@/lib/partner/client";
 import { draftPage } from "@/lib/partner/draft";
@@ -37,7 +37,9 @@ export async function POST(request: Request) {
   } catch {
     return fail(400, "Something went wrong. Please try again.");
   }
-  const found = findExercise(exerciseId);
+  /* The full page, not the spine: the shape the browser gets has no fields
+     on it, so draftFields would say no to every page (20 October). */
+  const found = findPage(exerciseId);
   if (!found || !draftFields(found.exercise).length) return fail(400, "This page has no draft.");
 
   // Consent first, every time (legal review of 18 October, part 1).
