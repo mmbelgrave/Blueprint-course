@@ -9,6 +9,7 @@ import {
   homeDay,
   mayAskWhy,
   provesOwnership,
+  purchaseRow,
   refundDeadline,
   refundPromise,
   reminderMail,
@@ -262,4 +263,31 @@ test("what they wrote reaches Mwata, and nothing changes when they write nothing
   const silent = withdrawalNotice(base).text;
   assert.doesNotMatch(silent, /What they said/);
   assert.match(silent, /Their access ends on 23 November 2026./);
+});
+
+/*
+ * Which entitlement a withdrawal is about.
+ *
+ * The two owner accounts hold a granted entitlement so that every step is
+ * open to them without buying anything (Mwata, 21 October). A grant is not a
+ * purchase: no order, no money, nothing to refund, and the page should not
+ * offer to withdraw from it.
+ */
+test("a granted account has nothing to withdraw from", () => {
+  const granted = [{ id: 1, status: "active", source: "granted", order_id: null }];
+  assert.equal(purchaseRow(granted), null);
+});
+
+test("the purchase is the one that was paid for, whatever else is on the account", () => {
+  const rows = [
+    { id: 3, status: "active", source: "granted", order_id: null },
+    { id: 2, status: "active", source: "lemonsqueezy", order_id: "9762789" },
+    { id: 1, status: "refunded", source: "lemonsqueezy", order_id: "9000001" },
+  ];
+  assert.equal(purchaseRow(rows)?.id, 2);
+  // A typed order number chooses between purchases, and a wrong one is ignored.
+  assert.equal(purchaseRow(rows, "9000001")?.id, 1);
+  assert.equal(purchaseRow(rows, "not a number")?.id, 2);
+  // Nothing open: the most recent purchase, never the grant.
+  assert.equal(purchaseRow([rows[0], rows[2]])?.id, 1);
 });

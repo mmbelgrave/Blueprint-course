@@ -33,6 +33,7 @@ import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 import {
   accessEndsAt,
   provesOwnership,
+  purchaseRow,
   refundDeadline,
   refundPromise,
   windowFor,
@@ -57,6 +58,7 @@ type Row = {
   user_id: string | null;
   product: string;
   status: string;
+  source: string;
   order_id: string | null;
   amount_cents: number | null;
   currency: string | null;
@@ -64,7 +66,7 @@ type Row = {
   ended_at: string | null;
 };
 
-const FIELDS = "id, user_id, product, status, order_id, amount_cents, currency, created_at, ended_at";
+const FIELDS = "id, user_id, product, status, source, order_id, amount_cents, currency, created_at, ended_at";
 const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s);
 
 /**
@@ -85,14 +87,8 @@ async function findPurchase(
     .select(FIELDS)
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
-  const rows = (data ?? []) as Row[];
-  if (rows.length === 0) return null;
-  const typed = who.orderEntered?.trim();
-  const row =
-    (typed ? rows.find((r) => r.order_id === typed) : undefined) ??
-    rows.find((r) => r.status === "active") ??
-    rows[0];
-  return { row, userId };
+  const row = purchaseRow((data ?? []) as Row[], who.orderEntered);
+  return row ? { row, userId } : null;
 }
 
 export async function GET() {

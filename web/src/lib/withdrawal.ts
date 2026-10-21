@@ -310,6 +310,33 @@ export function withdrawalNotice(r: Receipt) {
  */
 export const mayAskWhy = (window: Window): boolean => window !== "withdrawal";
 
+/** One row of the entitlements table, as the withdrawal pages read it. */
+export type Held = { id: number; status: string; source?: string | null; order_id?: string | null };
+
+/**
+ * Which of somebody's entitlements a withdrawal is about.
+ *
+ * A granted account is not a purchase: no order, no money, nothing to refund
+ * and no contract to withdraw from. The two owner accounts hold one so that
+ * every step is open to them without buying anything (Mwata, 21 October), and
+ * the withdrawal page offered them a refund of nothing.
+ *
+ * Of what is left, the order number they typed decides, then any purchase
+ * that is still open, then the most recent one. A typed number that matches
+ * nothing is ignored rather than fatal: it was only ever a way of choosing
+ * between several, never the thing that proves anything.
+ */
+export function purchaseRow<T extends Held>(rows: T[], orderEntered?: string | null): T | null {
+  const bought = rows.filter((r) => r.source !== "granted");
+  if (!bought.length) return null;
+  const typed = orderEntered?.trim();
+  return (
+    (typed ? bought.find((r) => r.order_id === typed) : undefined) ??
+    bought.find((r) => r.status === "active") ??
+    bought[0]
+  );
+}
+
 /** The words above the box, so the screen and the record cannot drift apart. */
 export const WHY_LABEL = "If you like, tell us what did not work (optional)";
 export const WHY_NOTE =
