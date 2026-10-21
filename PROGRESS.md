@@ -1048,6 +1048,30 @@ two lists, emptied or kept on purpose with a reason written beside it.
 `private_pages` was in neither, and is emptied now. The privacy page says
 what the two choices do.
 
+## Who holds what (21 Oct 2026)
+
+After the deletion, the five accounts were sorted out for good:
+
+| Account | What it holds |
+| --- | --- |
+| mmbelgrave@hotmail.com | `full`, granted: "owner account, not a purchase" |
+| info@maderealblueprint.com | the same |
+| michael.g.lundby@gmail.com | `phase1`, granted, founder and first reader |
+| nutricao.renata@hotmail.com | `phase1`, bought through Lemon Squeezy (order 9762789) |
+| info@belgraveconsultancy.com | the partner seat on that purchase, no entitlement of its own |
+
+`full` covers steps 1 to 8 (access.json), so Step 4 and everything after it
+open for the two owner accounts the day they are released. Nothing to buy,
+nothing to remember, and no code that treats an address as special.
+
+A grant is not a purchase, so the withdrawal pages ignore granted rows: no
+order, no money, nothing to refund, no contract to withdraw from. The rule
+for which entitlement a withdrawal is about now lives in lib/withdrawal.ts
+with its own tests.
+
+ADMIN_EMAIL also takes a list now, so the admin can move from one address to
+another without a gap.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
