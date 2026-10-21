@@ -14,6 +14,7 @@ type Participant = {
   cameFrom: string;
   wantsUpdates: boolean;
   free: boolean;
+  seatWith?: string;
   progress: {
     step: number;
     title: string;
@@ -137,7 +138,8 @@ function ParticipantCard({ p }: { p: Participant }) {
         <p className="text-sm text-stone">
           Started {day(p.started)} · Last active {day(p.lastActivity)}
           <span className="block">
-            {p.free ? "Free account" : "Has the course"} · came from {p.cameFrom}
+            {p.free ? "Free account" : p.seatWith ? `On a seat with ${p.seatWith}` : "Has the course"} · came from{" "}
+            {p.cameFrom}
             {p.wantsUpdates ? " · wants updates" : ""}
           </span>
         </p>

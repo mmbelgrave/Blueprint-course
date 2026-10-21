@@ -59,6 +59,21 @@ export function endingSoon(entitlements: Entitlement[], now: Date | string = new
   return dates[0] ?? null;
 }
 
+/**
+ * Does this person hold the course at all, their own or through a seat?
+ *
+ * A partner holds no entitlement of their own: their access is read from the
+ * buyer's when the app loads. The admin list asked only about their own rows
+ * and called the one person in a household who did not pay a free account
+ * (Mwata, 21 October).
+ *
+ * A withdrawal sets `ended_at` three days ahead rather than closing the door
+ * at once, so the date decides here too, through `counts`.
+ */
+export function holdsCourse(mine: Entitlement[], theirBuyers: Entitlement[] = [], now?: Date | string): boolean {
+  return [...mine, ...theirBuyers].some((e) => counts(e, now ?? new Date()));
+}
+
 export type Verdict =
   | { open: true; because: "free" | "owned" }
   | { open: false; why: "not-released" | "not-bought" };

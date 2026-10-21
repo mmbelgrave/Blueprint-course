@@ -2,6 +2,7 @@
 // progress per part, last activity, feedback and AI usage. No answer texts.
 // Server-only; needs the service-role client.
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { holdsCourse } from "@/lib/access";
 import { estimateCostUsd } from "@/lib/admin-server";
 import type { ExerciseStatus } from "@/lib/backend";
 import { everyAccount } from "@/lib/accounts";
@@ -29,7 +30,7 @@ export async function buildOverview(admin: SupabaseClient) {
     admin.from("page_feedback").select("user_id, exercise_id, clear, comment, updated_at").order("updated_at"),
     admin
       .from("entitlements")
-      .select("id, user_id, product, status, source, order_id, amount_cents, currency, test_mode, created_at")
+      .select("id, user_id, product, status, source, order_id, amount_cents, currency, test_mode, created_at, ended_at")
       .order("created_at", { ascending: false }),
     admin
       .from("questions")
@@ -40,6 +41,22 @@ export async function buildOverview(admin: SupabaseClient) {
     // table is the record (legal review of 18 October).
     admin.from("consents").select("user_id, kind, granted, wording_version, recorded_at"),
   ]);
+
+  /*
+   * The seats, read on their own and allowed to fail: before the migration is
+   * run the table is not there, and the admin page must still open. A partner
+   * holds no entitlement of their own — their access is read from the buyer's
+   * when the app loads — so without this the one person in the household who
+   * did not pay was listed as a free account (Mwata, 21 October).
+   */
+  const seatRows = await (async () => {
+    try {
+      const { data } = await admin.from("partner_seats").select("buyer_id, partner_id, status").neq("status", "ended");
+      return (data ?? []) as { buyer_id: string; partner_id: string | null; status: string }[];
+    } catch {
+      return [];
+    }
+  })();
   for (const r of [profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents]) {
     if (r.error) throw new Error(`Could not read the database: ${r.error.message}`);
   }
@@ -71,6 +88,12 @@ export async function buildOverview(admin: SupabaseClient) {
   const entitlementBy = byUser(entitlements.data);
   const usageBy = byUser(usage.data);
   const profileBy = new Map((profiles.data ?? []).map((p) => [p.user_id as string, p]));
+
+  /** Who each partner shares a purchase with. */
+  const buyerOf = new Map<string, string>();
+  for (const s of seatRows) if (s.partner_id) buyerOf.set(s.partner_id, s.buyer_id);
+  const held = (id: string | undefined) =>
+    ((entitlementBy.get(id ?? "") ?? []) as unknown as { status: "active" | "refunded" | "revoked"; product: string; ended_at?: string | null }[]);
 
   const topics = supportTopics(steps.map((s) => s.step));
 
@@ -123,7 +146,10 @@ export async function buildOverview(admin: SupabaseClient) {
       // about new things (§6.2). Nothing is sent yet; this is the list.
       cameFrom: sourceLabel(profile?.came_from as string | null),
       wantsUpdates: !!profile?.wants_updates,
-      free: (entitlementBy.get(u.id) ?? []).every((e) => e.status !== "active"),
+      // Their own purchase, or the one their seat is on. Neither is "free".
+      free: !holdsCourse(held(u.id), held(buyerOf.get(u.id))),
+      /** The address they share a purchase with, when they are the partner. */
+      seatWith: buyerOf.has(u.id) ? (users.find((x) => x.id === buyerOf.get(u.id))?.email ?? "") : "",
       progress,
       feedback: (feedbackBy.get(u.id) ?? []).map((f) => ({
         part: partName.get(f.part_id as string) ?? (f.part_id as string),

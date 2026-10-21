@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   closedBecause,
+  holdsCourse,
   isFreeAccount,
   itemAccess,
   lessonAccess,
@@ -156,4 +157,34 @@ test("no end date means no end", () => {
   const plain: Entitlement[] = [{ product: "phase1", status: "active" }];
   assert.deepEqual(ownedSteps(plain, config), [1, 2, 3]);
   assert.deepEqual(ownedSteps([{ product: "phase1", status: "active", ended_at: null }], config), [1, 2, 3]);
+});
+
+/*
+ * Who has the course, for the admin list and the money behind it.
+ *
+ * A partner holds nothing of their own: their access is read from the buyer's
+ * entitlement when the app loads. The list asked only about their own rows,
+ * so the one person in a household who did not pay was counted as a free
+ * account, with their AI usage counted as the cost of a free account
+ * (Mwata, 21 October).
+ */
+test("a seat is access, and so is your own purchase", () => {
+  const bought: Entitlement[] = [{ product: "phase1", status: "active" }];
+  assert.equal(holdsCourse(bought), true, "their own purchase");
+  assert.equal(holdsCourse([], bought), true, "the purchase their seat is on");
+  assert.equal(holdsCourse([], []), false, "nothing at all");
+});
+
+test("a refund ends it, for the partner as well as the buyer", () => {
+  const refunded: Entitlement[] = [{ product: "phase1", status: "refunded" }];
+  assert.equal(holdsCourse(refunded), false);
+  assert.equal(holdsCourse([], refunded), false);
+});
+
+test("a withdrawal counts until the day it says, for both of them", () => {
+  const ending: Entitlement[] = [{ product: "phase1", status: "active", ended_at: "2026-10-24T00:00:00Z" }];
+  assert.equal(holdsCourse(ending, [], "2026-10-22T00:00:00Z"), true);
+  assert.equal(holdsCourse([], ending, "2026-10-22T00:00:00Z"), true);
+  assert.equal(holdsCourse(ending, [], "2026-10-25T00:00:00Z"), false);
+  assert.equal(holdsCourse([], ending, "2026-10-25T00:00:00Z"), false);
 });
