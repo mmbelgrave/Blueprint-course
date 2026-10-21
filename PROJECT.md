@@ -441,14 +441,14 @@ home page (§6.3), with its video and its PDF, and no exercises of its own.
 On the overview it sits above the three phases, as the way in. It is free
 (§6.2), so anyone signed in can watch the welcome video and read the workbook.
 
-### 6.3b "How this app works" needs rewriting
-The guide at the top of the overview explains the exercises and nothing else.
-With workbooks to download, videos to watch, free and bought steps, a tab bar
-and a light-or-dark choice, it has to explain the app as a whole: what you get
-per step (video, workbook, exercises), **how to download a workbook**, how the
-AI partner works and what it remembers, where your results and PDFs are, how to
-ask a question, and how to change how the app looks. Mwata approves the wording
-before it goes in, as with all content.
+### 6.3b "How this app works"
+**Rewritten.** The guide explains the app as a whole: the two ways to use it
+(Modules with the videos and the workbook PDFs, Exercises with the same
+workbook inside the app), how an exercise is built, what the app does for you,
+and the videos. It names the four places in the navigation bar, where the
+results and the PDFs are, how to ask a question, how the AI partner works and
+what it remembers, and, since 21 October, that the app follows the device's
+light or dark setting and can be set by hand in Settings.
 
 ### 6.4 Video
 **Can video live inside the app?** It can be stored in the app's own storage and
@@ -591,15 +591,21 @@ step results in order, with my name, the date and the copyright line.
   law requires for the order (Lemon Squeezy holds the invoice); the answers
   follow the person's own choice.
 
-### 6.7 Feedback on every page
-**Built 10 October.** The part feedback (stars and a comment, §3.7) stays. At
-the foot of each exercise page there is now a small, optional line: **"Was this
-page clear?"** yes / not quite, and "not quite" opens a box for what was
-missing. One row per person per page (`page_feedback`), so changing your mind
-replaces the answer rather than adding a second one. Admin leads with **"Where
-people got stuck"**: the pages with the most "not quite", the comments
-underneath, pages named rather than people. Founding members give their
-promised feedback here, without meetings.
+### 6.7 Feedback at the end of a part
+**Built 10 October, narrowed 20 and 21 October.** "Was this page clear?" ran at
+the foot of every exercise page for ten days. Walking the whole course, Mwata
+found it standing beside "How did this part feel?" asking much the same thing
+twice, and the pair of them made the end of a part into a form. The page
+question is gone from the app, and "Where people got stuck" is gone from Admin
+with it.
+
+What stays is one question per part, on the last page of that part: the stars
+and the comment of §3.7, which is where founding members give the feedback they
+promised, without meetings.
+
+The `page_feedback` table and the rows already in it stay as they are. Nothing
+writes to it any more, and "Delete everything I wrote" still empties it, so
+somebody who deletes their data does not leave answers behind.
 
 ### 6.8 A partner seat
 Each purchase may invite **one partner** (the terms allow use with the people

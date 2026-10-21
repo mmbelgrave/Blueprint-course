@@ -7,7 +7,7 @@ import { estimateCostUsd } from "@/lib/admin-server";
 import type { ExerciseStatus } from "@/lib/backend";
 import { everyAccount } from "@/lib/accounts";
 import { consentState, type ConsentRow } from "@/lib/consent";
-import { displayTitle, partItems, steps } from "@/lib/content";
+import { steps } from "@/lib/content";
 import { partProgress } from "@/lib/progress";
 import { sourceLabel } from "@/lib/signup-source";
 import { supportTopics, topicLabel } from "@/lib/support";
@@ -18,7 +18,7 @@ const latest = (a: string | null, b: string | null | undefined) => (!b ? a : !a 
 
 export async function buildOverview(admin: SupabaseClient) {
   // prettier-ignore
-  const [users, profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents] = await Promise.all([
+  const [users, profiles, statuses, answers, chats, feedback, entitlements, questions, usage, consents] = await Promise.all([
     everyAccount(admin),
     admin
       .from("profiles")
@@ -27,7 +27,6 @@ export async function buildOverview(admin: SupabaseClient) {
     admin.from("answers").select("user_id, updated_at"),
     admin.from("conversations").select("user_id, created_at"),
     admin.from("feedback").select("user_id, part_id, rating, comment, created_at").order("created_at"),
-    admin.from("page_feedback").select("user_id, exercise_id, clear, comment, updated_at").order("updated_at"),
     admin
       .from("entitlements")
       .select("id, user_id, product, status, source, order_id, amount_cents, currency, test_mode, created_at, ended_at")
@@ -57,7 +56,7 @@ export async function buildOverview(admin: SupabaseClient) {
       return [];
     }
   })();
-  for (const r of [profiles, statuses, answers, chats, feedback, pageNotes, entitlements, questions, usage, consents]) {
+  for (const r of [profiles, statuses, answers, chats, feedback, entitlements, questions, usage, consents]) {
     if (r.error) throw new Error(`Could not read the database: ${r.error.message}`);
   }
 
@@ -83,7 +82,6 @@ export async function buildOverview(admin: SupabaseClient) {
   const answerBy = byUser(answers.data);
   const chatBy = byUser(chats.data);
   const feedbackBy = byUser(feedback.data);
-  const pageNoteBy = byUser(pageNotes.data);
   const questionBy = byUser(questions.data);
   const entitlementBy = byUser(entitlements.data);
   const usageBy = byUser(usage.data);
@@ -100,14 +98,6 @@ export async function buildOverview(admin: SupabaseClient) {
   // Part names for the feedback list ("Step 1 · Part 2").
   const partName = new Map<string, string>();
   for (const s of steps) for (const p of s.parts) partName.set(p.id, `Step ${s.step.number} · ${p.label}`);
-
-  // Page names for "was this clear?" ("Step 1 · 1.2 A normal day…").
-  const pageName = new Map<string, string>();
-  for (const s of steps) {
-    for (const p of s.parts) {
-      for (const e of partItems(p)) pageName.set(e.id, `Step ${s.step.number} · ${displayTitle(e)}`);
-    }
-  }
 
   const participants = users.map((u) => {
     const profile = profileBy.get(u.id);
@@ -156,13 +146,6 @@ export async function buildOverview(admin: SupabaseClient) {
         rating: f.rating as number | null,
         comment: (f.comment as string) ?? "",
         date: f.created_at as string,
-      })),
-      pageNotes: (pageNoteBy.get(u.id) ?? []).map((n) => ({
-        page: pageName.get(n.exercise_id as string) ?? (n.exercise_id as string),
-        pageId: n.exercise_id as string,
-        clear: !!n.clear,
-        comment: (n.comment as string) ?? "",
-        date: n.updated_at as string,
       })),
       owns: (entitlementBy.get(u.id) ?? []).map((e) => ({
         id: e.id as number,
