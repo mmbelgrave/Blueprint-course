@@ -1072,6 +1072,44 @@ with its own tests.
 ADMIN_EMAIL also takes a list now, so the admin can move from one address to
 another without a gap.
 
+## The lawyer round, block A (24 Oct 2026)
+
+A lawyer read the website, the terms, the privacy notes and the app. The
+website was already updated; this is the app catching up. Seven items: five
+are done, one waits for Dutch legal wording, one waits for the database
+upgrade.
+
+- **A1** A purchase sends the lawyer's own confirmation letter, with the terms
+  of the day attached as a dated PDF. A link is not a durable medium, so every
+  version is printed once with `web/scripts/print-terms.cjs` and kept under
+  public/terms for ever; the letter attaches the version that applied on the
+  purchase date and names it. The old welcome email is gone.
+- **A2** The withdrawal confirmation carries a reference (W- and the row's own
+  number), the day the refund is due, and the sentence that fixes the date.
+  Tested for real: answered in 2.5 seconds, letter sent, nothing matched, no
+  access changed. The Dutch page is listed sentence by sentence in
+  WITHDRAWAL-dutch-wording-needed.md and waits for the lawyer.
+- **A3** "The Blueprint is self-study..." in the footer of every page, under
+  the AI banner, on the first screen and in the printed Blueprint. The money
+  sentence on every page that adds up money, decided by the page from its own
+  fields rather than by a list of ids.
+- **A4** The notice under the email field names the controller and links to
+  the privacy page, with the updates box under it, on /free and /signin alike.
+  The box is recorded as a consent with its own wording version, and only
+  after the code from the inbox has been typed.
+- **A5** Consent records outlive the account by three years, as the privacy
+  page now says. The foreign key that used to throw them away with the account
+  is dropped.
+- **A6** Backups: untouched, as instructed, until the database is on the paid
+  plan. The pictures are not in "Everything I wrote", which is worth a sentence
+  when that wording is written.
+- **A7** Nothing of an AI chat is logged on Vercel. The routes print a stop
+  reason and token counts, never message text, and there is no analytics
+  package in the app at all.
+
+Two SQL files wait for Mwata: `2026-10-24-updates-consent.sql` and
+`2026-10-24-consent-records.sql`.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan
