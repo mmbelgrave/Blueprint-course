@@ -495,7 +495,7 @@ const answers = {
   },
   "s3-5.1": {
     steps: table([
-      row(["step", "Ask my manager for a meeting"], ["first", "A month of figures I believe"], ["how_long", "One meeting"], ["start_by", "First week"]),
+      row(["step", "Ask my manager for a meeting"], ["first", "Nothing yet. This one is a conversation, not a request"], ["how_long", "One meeting"], ["start_by", "First week"]),
       row(["step", "Live on four-fifths pay on paper"], ["first", "Last three months of spending in front of me"], ["how_long", "2 weeks"], ["start_by", "First month"]),
       row(["step", "Put the request in writing"], ["first", "A yes in principle"], ["how_long", "My notice period"], ["start_by", "Second month"]),
       row(["step", "Take a corner of a neighbour's allotment"], ["first", "Tools and boots"], ["how_long", "A weekend"], ["start_by", "Third month"]),
@@ -534,7 +534,7 @@ const answers = {
       "Four days a week in the same job, with Friday outdoors, and two evenings a week that end at six.",
     keep: "My job and the people in it, the flat, my sister ten minutes away, and the Thursday market.",
     in_place_date: "In the fourth month",
-    small_test: "Four weeks of evenings that end at six, and one unpaid Friday, before I ask for anything.",
+    small_test: "Four weeks of evenings that end at six, and one unpaid Friday, before I put the request in writing.",
     first_three:
       "Ask for the meeting, in the first week. Live on four-fifths pay on paper, in the first month. Put the request in writing with my notice period, in the second month.",
     income_buffer:
