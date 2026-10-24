@@ -13,7 +13,7 @@
  */
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 import { Shell } from "@/components/Shell";
 import { SignInForm } from "@/components/sign-in-form";
 import { useApp } from "@/lib/app-state";
@@ -34,33 +34,14 @@ const WHAT_YOU_GET = [
 
 function FreeSignUp() {
   const from = cleanSource(useSearchParams().get("from"));
-  const [updates, setUpdates] = useState(false);
 
-  // Kept together, so whichever of the two changes last is the one that counts.
+  // Where the link was shared waits in this browser while they fetch the code.
+  // The updates tick is part of the form itself (lawyer, 24 October).
   useEffect(() => {
-    rememberSignup({ from, wants_updates: updates });
-  }, [from, updates]);
+    rememberSignup({ from });
+  }, [from]);
 
-  return (
-    <SignInForm
-      goTo="/modules"
-      sendLabel="Send me a code"
-      beforeButton={
-        <label className="flex items-start gap-3">
-          <input
-            type="checkbox"
-            className="mt-1 h-5 w-5 shrink-0"
-            checked={updates}
-            onChange={(e) => setUpdates(e.target.checked)}
-          />
-          <span className="text-sm text-stone">
-            Send me an occasional update when something new is ready.{" "}
-            <span className="block">You can stop this at any time, and signing up does not subscribe you.</span>
-          </span>
-        </label>
-      }
-    />
-  );
+  return <SignInForm goTo="/modules" sendLabel="Send me a code" />;
 }
 
 export default function FreePage() {

@@ -127,6 +127,10 @@ export default function Privacy() {
           standard contractual clauses approved by the European Commission, or both. The privacy note on our website
           gives the details.
         </p>
+        <p>
+          If you tick the box for occasional updates, your email address is also stored by MailerLite, which sends
+          them. You can stop at any time with the unsubscribe link.
+        </p>
 
         <h2 className="font-semibold">What the app stores in your browser</h2>
         <p>

@@ -15,6 +15,8 @@ import { useState } from "react";
 import { useApp } from "@/lib/app-state";
 import { cleanCode, friendlySignInError, MAX_CODE, MIN_CODE } from "@/lib/auth-errors";
 import { auth, isSupabaseConfigured, NotInvitedError } from "@/lib/backend";
+import { DATA_CONTROLLER_NOTICE, PRIVACY_LINK_TEXT, UPDATES_BOX } from "@/lib/legal";
+import { rememberSignup, takeUpdatesTick } from "@/lib/signup-source";
 
 export function SignInForm({
   goTo = "/modules",
@@ -23,7 +25,7 @@ export function SignInForm({
 }: {
   /** Where to land once signed in. */
   goTo?: string;
-  /** Something to show under the email box: the updates tick on /free. */
+  /** Something to show under the email box, above the notice. */
   beforeButton?: React.ReactNode;
   sendLabel?: string;
 }) {
@@ -33,11 +35,24 @@ export function SignInForm({
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
   const [notInvited, setNotInvited] = useState(false);
+  const [updates, setUpdates] = useState(false);
   const linkError = useSearchParams().get("error") === "link";
   const { reload } = useApp();
   const router = useRouter();
 
   const goIn = async () => {
+    /*
+     * The list is joined here and nowhere earlier: only somebody who has typed
+     * the code from their inbox is on it (lawyer, 24 October). A person who
+     * ticked the box and never finished sign-in is not.
+     */
+    if (takeUpdatesTick()) {
+      await fetch("/api/updates", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ granted: true }),
+      }).catch(() => undefined);
+    }
     await reload();
     router.push(goTo);
   };
@@ -178,19 +193,32 @@ export function SignInForm({
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      {/* What the address is for, next to the field that asks for it, and
-          the way to read the rest. It is kept apart from the optional update
-          tick below, and from the AI consent, which is a separate question
-          asked on its own screen (external review, 23 October). */}
+      {beforeButton}
+
+      {/* Word for word from the lawyer, 24 October: who is responsible, what
+          the address is for, and the way to read the rest. The box below is
+          the only other thing it is ever used for, and the AI consent is a
+          separate question asked on its own screen. */}
       <p className="text-sm text-stone">
-        We use your email address to send you a sign-in code and to keep your answers with your account. Nothing else,
-        and never for advertising.{" "}
+        {DATA_CONTROLLER_NOTICE}{" "}
         <Link href="/privacy" className="underline">
-          How we handle your data
+          {PRIVACY_LINK_TEXT}
         </Link>
         .
       </p>
-      {beforeButton}
+
+      <label className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          className="mt-1 h-5 w-5 shrink-0"
+          checked={updates}
+          onChange={(e) => {
+            setUpdates(e.target.checked);
+            rememberSignup({ wants_updates: e.target.checked });
+          }}
+        />
+        <span className="text-sm text-stone">{UPDATES_BOX}</span>
+      </label>
       <button className="btn btn-primary mx-auto" disabled={busy}>
         {busy ? "Sending…" : sendLabel}
       </button>

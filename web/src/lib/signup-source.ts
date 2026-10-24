@@ -35,13 +35,39 @@ type Waiting = { from: string | null; wants_updates: boolean };
 
 const KEY = "blueprint-signup-v1";
 
-export function rememberSignup(waiting: Waiting) {
+/** What is waiting now, or nothing at all. */
+function waiting(): Waiting {
+  const empty: Waiting = { from: null, wants_updates: false };
   try {
-    window.sessionStorage.setItem(KEY, JSON.stringify(waiting));
+    const raw = window.sessionStorage.getItem(KEY);
+    if (!raw) return empty;
+    const parsed = JSON.parse(raw) as Partial<Waiting>;
+    return { from: cleanSource(parsed.from), wants_updates: parsed.wants_updates === true };
+  } catch {
+    return empty;
+  }
+}
+
+/**
+ * Keep one of the two answers. They are written from different places now:
+ * the source by the /free page, the updates tick by the sign-in form itself
+ * (lawyer, 24 October), so one may never wipe out the other.
+ */
+export function rememberSignup(part: Partial<Waiting>) {
+  try {
+    window.sessionStorage.setItem(KEY, JSON.stringify({ ...waiting(), ...part }));
   } catch {
     // Storage blocked: the account is made anyway, we simply do not know where from.
   }
 }
+
+/**
+ * Did they tick the updates box before fetching their code?
+ *
+ * Read, not taken: the consent page still needs it, because somebody new has
+ * no profile row for the answer to land in until they finish that screen.
+ */
+export const takeUpdatesTick = (): boolean => waiting().wants_updates;
 
 /** Read it once, on the consent page, and forget it. */
 export function takeSignup(): Waiting {
