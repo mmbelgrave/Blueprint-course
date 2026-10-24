@@ -155,6 +155,7 @@ async function sweepLogs(
   detail: string[],
 ) {
   const out = { deleted: 0, failed: 0 };
+  const said: string[] = [];
   for (const table of ["usage_log", "questions"] as const) {
     const { data, error } = await admin.from(table).select("id, created_at");
     if (error) {
@@ -162,6 +163,7 @@ async function sweepLogs(
       continue;
     }
     const going = olderThan((data ?? []) as { id: number; created_at: string | null }[], LOG_MONTHS, now);
+    said.push(`${table}: ${going.length} of ${(data ?? []).length}`);
     if (going.length === 0) continue;
 
     if (dry) {
@@ -173,12 +175,27 @@ async function sweepLogs(
     const { error: gone } = await admin.from(table).delete().in("id", going);
     if (gone) {
       console.error(`log sweep: could not delete from ${table}:`, gone.message);
-      await log(admin, `${table}_prune_failed`, "", gone.message, "failed");
+      said[said.length - 1] += " (could not delete)";
       out.failed += going.length;
       continue;
     }
-    await log(admin, `${table}_pruned`, "", `${going.length} rows older than ${LOG_MONTHS} months.`);
     out.deleted += going.length;
+  }
+
+  /*
+   * The line that says it ran. Zero is the usual answer and is worth writing
+   * down: without it, "nothing was deleted" and "nothing happened" look the
+   * same in Admin.
+   */
+  const what = said.length ? said.join(", ") : "nothing to read";
+  if (!dry) {
+    await log(
+      admin,
+      "logs_swept",
+      "",
+      `Older than ${LOG_MONTHS} months, deleted: ${what}.`,
+      out.failed ? "failed" : "opened",
+    );
   }
   return out;
 }

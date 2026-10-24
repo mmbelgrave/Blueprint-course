@@ -326,15 +326,15 @@ Object.assign(answers, {
     what_go_means: "A twelve-month rental, not a purchase. My flat here rented out, not sold.",
     when_roughly: "June 2027",
     who_decides: "Me. Lotte and Hendrik are consulted, and both already know.",
-    decide_by: "1 May 2027",
+    decide_by: "1 March 2027",
     if_not_yet:
       "Six more months of saving, the Thursday at home, and the same decision again in December with better figures.",
   },
   green_lights: {
     lights: table([
-      row(["colour", "Amber"], ["turns_green", "Two remote clients signed, or €200 off the monthly costs"], ["by_when", "30 April 2027"]),
+      row(["colour", "Amber"], ["turns_green", "Two remote clients signed, or €200 off the monthly costs"], ["by_when", "28 February 2027"]),
       row(["colour", "Green"], ["turns_green", "Residency file checked by my lawyer and ready to send"], ["by_when", "Done, 4 March 2027"]),
-      row(["colour", "Amber"], ["turns_green", "Lotte and I agree the dates I come back each year"], ["by_when", "30 April 2027"]),
+      row(["colour", "Amber"], ["turns_green", "Lotte and I agree the dates I come back each year"], ["by_when", "28 February 2027"]),
       row(["colour", "Green"], ["turns_green", "The April visit confirmed the house and the village"], ["by_when", "Done"]),
       row(["colour", "Green"], ["turns_green", "The flat is rented out for the first year, not sold"], ["by_when", "Done"]),
     ]),
@@ -343,7 +343,7 @@ Object.assign(answers, {
     steps: table([
       row(["step", "Move the bookkeeping fully online"], ["undo", "Easy"], ["first", "Nothing — this one I can do on my own"], ["when", "March 2027"]),
       row(["step", "Rent out my flat, rather than sell it"], ["undo", "Fairly easy"], ["first", "An agent who will manage it while I am away"], ["when", "April 2027"]),
-      row(["step", "Give notice at the office, three months"], ["undo", "Hardest"], ["first", "Two clients confirmed in writing"], ["when", "April 2027"]),
+      row(["step", "Give notice at the office, three months"], ["undo", "Hardest"], ["first", "Two clients confirmed in writing, which they were in February"], ["when", "April 2027"]),
       row(["step", "Sign the twelve-month rental near Góis"], ["undo", "Hard"], ["first", "Notice given, and the flat let"], ["when", "May 2027"]),
       row(["step", "Apply for residency"], ["undo", "Fairly easy"], ["first", "A signed rental contract as proof of address"], ["when", "June 2027"]),
     ]),
@@ -366,15 +366,15 @@ Object.assign(answers, {
     reasons:
       "The money works: a 22-month runway once the return fund is set aside, and that is before a single new client. The place held up on a second visit, alone. And staying costs me another four years of the same week.",
     lights:
-      "Papers, Place and Plan B are green. Money and People were the last two ambers, and both had to turn green by 30 April: two clients in writing, and the dates with Lotte fixed. They did, which is why this is a Go and not a wait.",
+      "Papers, Place and Plan B are green. Money and People were the last two ambers, and both had to turn green by the end of February: two clients in writing, and the dates with Lotte fixed. They did, which is why this is a Go and not a wait.",
     conditions:
       "Nothing I cannot undo until the lights are green: the two client agreements in writing and the dates with Lotte agreed before I give notice, the flat rented out before I sign anything in Portugal, and the €8,000 reserve untouched.",
     who_decided: "Lotte knows and agrees. Hendrik has confirmed the work continues wherever I sit.",
-    first_step: "Sign the twelve-month rental on the house near Góis, now that both client agreements are in writing and the flat is let",
-    first_step_date: "4 May 2027",
+    first_step: "Move the bookkeeping fully online, so the address stops mattering",
+    first_step_date: "2 March 2027",
     review_when: "1 April 2028, after the first winter",
     would_change:
-      "If neither new client had signed by 30 April and the costs had held at €2,360, I would have postponed by six months rather than start on a shrinking runway. The same rule stands for the move itself: a landlord who will not sign twelve months, and I wait.",
+      "If neither new client had signed by the end of February and the costs had held at €2,360, I would have postponed by six months rather than start on a shrinking runway. The same rule stands for the move itself: a landlord who will not sign twelve months, and I wait.",
   },
 });
 
@@ -504,7 +504,7 @@ Object.assign(answers, {
     },
     adviser_questions: "Where I pay tax in the first year, and what happens to my Dutch pension if I deregister.",
     money_light: "Amber",
-    money_green_by: "Two remote clients signed, or €200 off the monthly costs. By 30 April 2027, before I give notice.",
+    money_green_by: "Two remote clients signed, or €200 off the monthly costs. By 28 February 2027, before I decide.",
   },
   "s3-1.4": {
     place: "A rented house with land around Góis, inland from Coimbra.",

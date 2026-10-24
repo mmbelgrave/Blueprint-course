@@ -53,7 +53,14 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const DOCUMENTS = [
   { url: "/step/1/print", file: "01 My Working Direction.pdf" },
   { url: "/step/2/print", file: "02 My Explore Summary.pdf" },
-  { url: "/step/3/print", file: "03 My Decision.pdf" },
+  /*
+   * In the app, somebody who is staying gets one Step 3 document with the
+   * change plan inside it. For the website samples the two are printed
+   * apart, so neither sample shows the same sheets twice (Mwata, 24
+   * October). A buyer's own download still carries both, one after the
+   * other.
+   */
+  { url: "/step/3/print", file: "03 My Decision.pdf", without: "if i am staying" },
   { url: "/phase/1/print", file: "04 My Blueprint Phase 1.pdf" },
   // The staying plan on its own, for somebody whose decision was to change
   // where they are. Skipped when the answers carry no change plan.
@@ -149,6 +156,22 @@ const answers = readFileSync(answersPath, "utf8");
 const who = JSON.parse(answers).profile?.first_name ?? "somebody";
 mkdirSync(outDir, { recursive: true });
 
+const problems = [];
+
+/**
+ * How many pages are really in the file.
+ *
+ * A PDF says so in its page tree. Counting the sheets in the browser answers
+ * a different question, and the difference between the two is what shows an
+ * overflow.
+ */
+function countPages(file) {
+  const bytes = readFileSync(file).toString("latin1");
+  const counts = [...bytes.matchAll(/\/Count\s+(\d+)/g)].map((m) => Number(m[1]));
+  if (counts.length) return Math.max(...counts);
+  return (bytes.match(/\/Type\s*\/Page[^s]/g) ?? []).length;
+}
+
 const chrome = await Chrome.start();
 try {
   await chrome.send("Page.enable");
@@ -164,6 +187,19 @@ try {
 
   for (const doc of DOCUMENTS) {
     await chrome.open(`${APP}${doc.url}`);
+
+    if (doc.without) {
+      const left = await chrome.evaluate(`(() => {
+        const sheets = [...document.querySelectorAll('[class*="210mm"]')];
+        const going = sheets.filter((s) => s.innerText.toLowerCase().includes(${JSON.stringify(doc.without)}));
+        for (const sheet of going) sheet.remove();
+        return sheets.length - going.length;
+      })()`);
+      if (left === 0) {
+        console.log(`  ${doc.file}: nothing left once the "${doc.without}" sheets are out, skipped`);
+        continue;
+      }
+    }
 
     if (doc.only) {
       const kept = await chrome.evaluate(`(() => {
@@ -189,9 +225,37 @@ try {
     });
     const path = join(outDir, doc.file);
     writeFileSync(path, Buffer.from(data, "base64"));
-    const pages = await chrome.evaluate('document.querySelectorAll(\'[class*="210mm"]\').length');
-    console.log(`  ${doc.file}: ${pages} page${pages === 1 ? "" : "s"}`);
+    const sheets = await chrome.evaluate('document.querySelectorAll(\'[class*="210mm"]\').length');
+
+    /*
+     * A sheet taller than the paper spills a few millimetres onto a page of
+     * its own, which arrives carrying nothing but the footer. The browser
+     * never says so and the sheet count never changes, so the only way to
+     * catch it is to count the pages in the file and compare (Mwata,
+     * 24 October).
+     */
+    const printed = countPages(path);
+    const tall = await chrome.evaluate(`(() => {
+      return [...document.querySelectorAll('[class*="210mm"]')]
+        .map((s, i) => ({ sheet: i + 1, mm: Math.round((s.scrollHeight / (96 / 25.4)) * 10) / 10 }))
+        .filter((s) => s.mm > 297.2);
+    })()`);
+    const over = printed > sheets;
+    console.log(
+      `  ${doc.file}: ${sheets} sheet${sheets === 1 ? "" : "s"}, ${printed} printed page${printed === 1 ? "" : "s"}` +
+        (over ? "  <-- A PAGE WITH ONLY THE FOOTER" : ""),
+    );
+    if (over) {
+      for (const s of tall) console.log(`      sheet ${s.sheet} is ${s.mm}mm, and the paper is 297mm`);
+      problems.push(doc.file);
+    }
   }
 } finally {
   chrome.stop();
+}
+
+if (problems.length) {
+  console.error(`\nThese documents end on a page with only the footer: ${problems.join(", ")}.`);
+  console.error("Shorten what is on the last sheet, or give it a sheet of its own, and print again.");
+  process.exit(1);
 }
