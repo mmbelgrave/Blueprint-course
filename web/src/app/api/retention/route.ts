@@ -188,7 +188,9 @@ async function sweepLogs(
    * same in Admin.
    */
   const what = said.length ? said.join(", ") : "nothing to read";
-  if (!dry) {
+  if (dry) {
+    detail.push(`logs: older than ${LOG_MONTHS} months, would delete: ${what}`);
+  } else {
     await log(
       admin,
       "logs_swept",
