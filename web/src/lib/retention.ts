@@ -18,6 +18,14 @@ export const QUIET_MONTHS = 24;
 export const GRACE_DAYS = 30;
 export const ACCESS_YEARS = 3;
 /**
+ * One short reminder before the deletion (lawyer, 24 October, item B5).
+ *
+ * Seven days before the thirty are up, so somebody who missed the first
+ * letter still has a week to sign in. One reminder and no more: a third
+ * letter is nagging, and the first two already said what happens.
+ */
+export const REMINDER_DAYS = 7;
+/**
  * The privacy note: "The log of how much you used your AI partner is kept for
  * 12 months, and questions you send from Help for 12 months after we last
  * spoke." Both were a promise nothing kept until 24 October; now the sweep
@@ -29,6 +37,15 @@ export const ACCESS_YEARS = 3;
  */
 export const LOG_MONTHS = 12;
 
+/**
+ * How long a chat with the AI partner is kept (lawyer, 24 October, item B3).
+ *
+ * Twelve months from the day it was written, swept daily like the other logs.
+ * The same twelve months are used for the chats and notes of somebody who
+ * switched their AI partner off and chose to keep them.
+ */
+export const CHAT_MONTHS = 12;
+
 export type Account = {
   id: string;
   email: string;
@@ -38,11 +55,15 @@ export type Account = {
   boughtAt: string | null;
   /** When we emailed them about the silence, or null if we have not. */
   warnedAt: string | null;
+  /** When we sent the one reminder, or null if we have not. */
+  remindedAt?: string | null;
 };
 
 export type Verdict =
   | { act: "keep"; because: string }
   | { act: "warn"; quietSince: string }
+  /** The one short reminder, seven days before the deletion. */
+  | { act: "remind"; warnedOn: string }
   | { act: "delete"; warnedOn: string }
   /** They came back after the email: the notice is torn up. */
   | { act: "forget"; because: string };
@@ -101,6 +122,16 @@ export function decide(account: Account, now: Date): Verdict {
   if (warned <= daysBefore(today, GRACE_DAYS)) {
     return { act: "delete", warnedOn: account.warnedAt! };
   }
+
+  /*
+   * The last week before the deletion. Sent once: the row keeps the minute,
+   * so tomorrow's sweep leaves them alone.
+   */
+  const remindFrom = daysBefore(today, GRACE_DAYS - REMINDER_DAYS);
+  if (!account.remindedAt && warned <= remindFrom) {
+    return { act: "remind", warnedOn: account.warnedAt! };
+  }
+
   return { act: "keep", because: "written to, still inside the 30 days" };
 }
 
@@ -147,5 +178,40 @@ export function quietMail(o: { name?: string; appUrl: string; email: string }) {
     "The Made Real Blueprint",
   ].join("\n");
 
-  return { subject: "Your Made Real Blueprint account, after two quiet years", text };
+  return { subject: "Your Made Real Blueprint account, after at least two quiet years", text };
+}
+
+/**
+ * The reminder, seven days before the account goes (item B5).
+ *
+ * Short on purpose: the first letter explained everything, and this one only
+ * has to say how little time is left and what one sign-in does.
+ */
+export function quietReminderMail(o: { name?: string; appUrl: string; email: string; goesOn: string }) {
+  const hello = o.name ? `Hello ${o.name},` : "Hello,";
+  const text = [
+    hello,
+    "",
+    "A short reminder. We wrote to you about your quiet Made Real Blueprint",
+    `account. If nothing changes, it is deleted on ${o.goesOn}, with everything`,
+    "in it.",
+    "",
+    `To keep it, sign in at ${o.appUrl} with this address (${o.email}) before`,
+    "that date. One sign-in is enough, and the deletion is called off.",
+    "",
+    "To keep a copy of your answers instead, sign in and use Download the file",
+    "under Everything I wrote.",
+    "",
+    "Mwata",
+    "The Made Real Blueprint",
+  ].join("\n");
+
+  return { subject: "Seven days left: your Made Real Blueprint account", text };
+}
+
+/** The day a warned account is deleted, for the reminder to name. */
+export function deletionDay(warnedAt: string, graceDays: number = GRACE_DAYS): string {
+  const day = new Date(warnedAt);
+  day.setDate(day.getDate() + graceDays);
+  return day.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 }

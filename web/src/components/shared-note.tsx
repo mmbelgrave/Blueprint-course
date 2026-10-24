@@ -30,14 +30,15 @@ export function SharedNote({ exercise }: { exercise: Exercise }) {
     <>
       {kind === "ours" && (
         <p className="rounded-2xl bg-success-soft px-4 py-3 text-sm">
-          <strong className="text-success">You answer this one together.</strong> Either of you can write here, and
-          what you write is on {them}&rsquo;s screen too.
+          <strong className="text-success">Your partner can read and change this.</strong> You answer this one
+          together, and either of you can write here.
         </p>
       )}
       {kind === "mine" && (
         <p className="rounded-2xl bg-ochre-soft px-4 py-3 text-sm">
-          <strong className="text-ochre">You each answer this one yourself.</strong> {them} cannot see what you write
-          here, and you cannot see theirs.
+          <strong className="text-ochre">Your partner will see this once you have both written.</strong> Until then
+          {" "}
+          {them} cannot see what you write here, and you cannot see theirs.
         </p>
       )}
       {mine.map(([key, clash]) => (

@@ -28,6 +28,8 @@ import {
 } from "@/lib/lemonsqueezy";
 import { termsFor, termsUrl } from "@/lib/terms-versions";
 import { findAccountByEmail } from "@/lib/find-account";
+import { endSeat } from "@/lib/seat-end";
+import { tellPartnerNow } from "@/lib/seat-notify";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const runtime = "nodejs";
@@ -124,13 +126,26 @@ export async function POST(request: Request) {
       // A purchase whose account was deleted keeps the row but loses the
       // person, and there is no seat left to end.
       for (const row of ((ended ?? []) as { user_id: string | null }[]).filter((r) => r.user_id)) {
-        const { data: seat } = await admin
+        const { data: seats } = await admin
           .from("partner_seats")
-          .update({ status: "ended", ended_at: new Date().toISOString(), ended_reason: "refund" })
+          .select("buyer_id, email, partner_id, status")
           .eq("buyer_id", row.user_id)
-          .neq("status", "ended")
-          .select("email");
-        for (const s of (seat ?? []) as { email: string }[]) seatsEnded.push(s.email);
+          .neq("status", "ended");
+        for (const seat of (seats ?? []) as {
+          buyer_id: string;
+          email: string;
+          partner_id: string | null;
+          status: string;
+        }[]) {
+          /*
+           * Ending the seat also records the ending against the partner, so
+           * the daily sweep writes to them at once and deletes their own
+           * answers thirty days later (item B4d).
+           */
+          await endSeat(admin, seat, "refund").catch(() => undefined);
+          if (seat.partner_id) await tellPartnerNow(admin, seat.partner_id).catch(() => undefined);
+          seatsEnded.push(seat.email);
+        }
       }
       await log(
         "closed",

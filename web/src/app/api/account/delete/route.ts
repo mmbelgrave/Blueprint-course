@@ -12,7 +12,8 @@
  * the purchase, the consent record and the withdrawal record, which are the
  * three things we have to be able to show.
  */
-import { deletePictures, WRITTEN_BY_PERSON } from "@/lib/forget-account";
+import { WRITTEN_BY_PERSON } from "@/lib/forget-account";
+import { closeSeatsFor, deletePictures } from "@/lib/forget-account-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
@@ -49,6 +50,12 @@ export async function POST(request: Request) {
   }
 
   if (alsoAccount && admin) {
+    /*
+     * The seat before the account (item B4d). A buyer's seat row goes with
+     * their account, so the ending has to be written down first, or the
+     * partner is never told and their answers sit there for ever.
+     */
+    await closeSeatsFor(admin, user.id).catch(() => undefined);
     const { error } = await admin.auth.admin.deleteUser(user.id);
     if (error) {
       console.error("account delete: the rows are gone, the account is not");

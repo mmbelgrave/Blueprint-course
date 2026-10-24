@@ -18,10 +18,35 @@
  * `?dry=1` reports what it would do and changes nothing. Use that first.
  */
 import { counts, type Entitlement } from "@/lib/access";
-import { CONSENT_HISTORY_YEARS, expiredConsentIds, orphanedConsentIds, type ConsentRow } from "@/lib/consent";
+import {
+  aiOffSince,
+  CONSENT_HISTORY_YEARS,
+  expiredConsentIds,
+  orphanedConsentIds,
+  type ConsentRow,
+} from "@/lib/consent";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { deleteEverything } from "@/lib/forget-account";
-import { decide, LOG_MONTHS, olderThan, quietMail, type Account } from "@/lib/retention";
+import { deleteEverything } from "@/lib/forget-account-server";
+import {
+  CHAT_MONTHS,
+  decide,
+  deletionDay,
+  LOG_MONTHS,
+  olderThan,
+  quietMail,
+  quietReminderMail,
+  type Account,
+} from "@/lib/retention";
+import {
+  asDay,
+  deleteDay,
+  endSeat,
+  INVITATION_DAYS,
+  PARTNER_ANSWERS,
+  SEAT_DATA_DAYS,
+  seatEndedMail,
+  type Ending,
+} from "@/lib/seat-end";
 import { reminderMail, sweepActs, type OpenWithdrawal } from "@/lib/withdrawal";
 
 export const runtime = "nodejs";
@@ -66,10 +91,31 @@ export async function GET(request: Request) {
     if (data.users.length < PER_PAGE) break;
   }
 
-  const [{ data: bought }, { data: notices }] = await Promise.all([
+  const [{ data: bought }, warnings] = await Promise.all([
     admin.from("entitlements").select("user_id, created_at").eq("status", "active"),
-    admin.from("retention_notice").select("user_id, warned_at"),
+    admin.from("retention_notice").select("user_id, warned_at, reminded_at"),
   ]);
+
+  /*
+   * The notices have to be readable, or nothing here may run.
+   *
+   * Without them every warned account looks unwarned and would be written to
+   * again, which restarts a 30-day clock that was nearly up. The reminder
+   * column arrived on 24 October, so a database where that migration has not
+   * been run is the likely reason, and it is read again without it.
+   */
+  let notices = warnings.data as { user_id: string; warned_at: string; reminded_at?: string | null }[] | null;
+  /* Without that column there is nowhere to write that a reminder was sent,
+     so no reminder is sent: one letter a night is worse than none. */
+  const mayRemind = !warnings.error;
+  if (warnings.error) {
+    console.error("retention: the notices could not be read:", warnings.error.message);
+    const again = await admin.from("retention_notice").select("user_id, warned_at");
+    if (again.error) {
+      return Response.json({ error: "The retention notices could not be read, so nothing was done." }, { status: 503 });
+    }
+    notices = again.data as { user_id: string; warned_at: string }[];
+  }
 
   const latestPurchase = new Map<string, string>();
   for (const row of bought ?? []) {
@@ -78,8 +124,13 @@ export async function GET(request: Request) {
     if (!latestPurchase.has(id) || when > latestPurchase.get(id)!) latestPurchase.set(id, when);
   }
   const warnedOn = new Map((notices ?? []).map((n) => [n.user_id as string, n.warned_at as string]));
+  const remindedOn = new Map(
+    (notices ?? []).map((n) => [n.user_id as string, (n.reminded_at as string | null) ?? null]),
+  );
 
-  const done = { checked: users.length, warned: 0, deleted: 0, forgotten: 0, failed: 0 };
+  const done = { checked: users.length, warned: 0, reminded: 0, deleted: 0, forgotten: 0, failed: 0 };
+  /** Which tally each verdict belongs to, so a new verdict cannot be lost. */
+  const bucket = { warn: "warned", remind: "reminded", delete: "deleted", forget: "forgotten" } as const;
   const detail: string[] = [];
 
   for (const u of users) {
@@ -89,13 +140,15 @@ export async function GET(request: Request) {
       lastSeen: u.lastSeen,
       boughtAt: latestPurchase.get(u.id) ?? null,
       warnedAt: warnedOn.get(u.id) ?? null,
+      remindedAt: remindedOn.get(u.id) ?? null,
     };
     const verdict = decide(account, now);
     if (verdict.act === "keep") continue;
+    if (verdict.act === "remind" && !mayRemind) continue;
 
     if (dry) {
       detail.push(`${verdict.act}: ${u.email}`);
-      done[verdict.act === "warn" ? "warned" : verdict.act === "delete" ? "deleted" : "forgotten"] += 1;
+      done[bucket[verdict.act]] += 1;
       continue;
     }
 
@@ -117,6 +170,24 @@ export async function GET(request: Request) {
         continue;
       }
 
+      /*
+       * The one reminder, seven days before the deletion (item B5). The
+       * minute is written only when the letter left, so a failure is tried
+       * again tomorrow rather than counted as sent.
+       */
+      if (verdict.act === "remind") {
+        const goesOn = deletionDay(verdict.warnedOn);
+        const sent = await sendMail(
+          u.email,
+          quietReminderMail({ name: u.name, appUrl: APP_URL, email: u.email, goesOn }),
+        );
+        if (!sent) throw new Error("the reminder could not be sent");
+        await admin.from("retention_notice").update({ reminded_at: now.toISOString() }).eq("user_id", u.id);
+        await log(admin, "quiet_account_reminded", u.email, `Seven days before the deletion on ${goesOn}.`);
+        done.reminded += 1;
+        continue;
+      }
+
       await deleteEverything(admin, u.id);
       await log(admin, "quiet_account_deleted", u.email, `Written to on ${verdict.warnedOn}, no sign-in since.`);
       done.deleted += 1;
@@ -131,8 +202,20 @@ export async function GET(request: Request) {
   const withdrawals = await sweepWithdrawals(admin, now, dry, detail);
   const consents = await sweepConsents(admin, now, dry, detail, new Set(users.map((u) => u.id)));
   const logs = await sweepLogs(admin, now, dry, detail);
+  const chats = await sweepChats(admin, now, dry, detail);
+  const seats = await sweepSeats(admin, now, dry, detail);
 
-  return Response.json({ ok: true, dry, ...done, withdrawals, consents, logs, ...(dry ? { detail } : {}) });
+  return Response.json({
+    ok: true,
+    dry,
+    ...done,
+    withdrawals,
+    consents,
+    logs,
+    chats,
+    seats,
+    ...(dry ? { detail } : {}),
+  });
 }
 
 /**
@@ -330,6 +413,275 @@ async function sweepWithdrawals(
   }
 
   return tally;
+}
+
+/**
+ * Chats, and the chats and notes of somebody who switched the AI off (B3).
+ *
+ * Two promises in one sweep, because they are about the same two tables:
+ *
+ *   - A chat with the AI partner is kept for twelve months from the day it
+ *     was written, then deleted, whoever wrote it.
+ *   - Somebody who switches their AI partner off is asked whether to delete
+ *     their chats and notes now or keep them switched off. If they keep them,
+ *     both go twelve months after the AI partner went off. The notes are
+ *     otherwise left alone: they stay until the person deletes them, or until
+ *     the quiet-account routine above takes the whole account.
+ */
+async function sweepChats(
+  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
+  now: Date,
+  dry: boolean,
+  detail: string[],
+) {
+  const out = { deleted: 0, notes: 0, failed: 0 };
+  const said: string[] = [];
+
+  /* Old chats, line by line. */
+  const { data, error } = await admin.from("conversations").select("id, created_at");
+  if (error) {
+    console.error("chat sweep: could not read conversations:", error.message);
+    said.push("chats: could not be read");
+  } else {
+    const going = olderThan((data ?? []) as { id: number; created_at: string | null }[], CHAT_MONTHS, now);
+    said.push(`chats: ${going.length} of ${(data ?? []).length}`);
+    if (going.length > 0) {
+      if (dry) {
+        out.deleted += going.length;
+      } else {
+        const { error: gone } = await admin.from("conversations").delete().in("id", going);
+        if (gone) {
+          console.error("chat sweep: could not delete chats:", gone.message);
+          said[said.length - 1] += " (could not delete)";
+          out.failed += going.length;
+        } else {
+          out.deleted += going.length;
+        }
+      }
+    }
+  }
+
+  /*
+   * The people who switched the AI partner off and kept what it had made.
+   * Twelve months later both go. Somebody who switched it on again has no
+   * "off" minute any more and is left alone.
+   */
+  const cutoff = new Date(now);
+  cutoff.setMonth(cutoff.getMonth() - CHAT_MONTHS);
+  const { data: rows, error: consentError } = await admin
+    .from("consents")
+    .select("user_id, kind, granted, wording_version, recorded_at");
+  if (consentError) {
+    console.error("chat sweep: could not read consents:", consentError.message);
+    said.push("switched off: could not be read");
+  } else {
+    const byUser = new Map<string, ConsentRow[]>();
+    for (const row of (rows ?? []) as (ConsentRow & { user_id: string })[]) {
+      const mine = byUser.get(row.user_id) ?? [];
+      mine.push(row);
+      byUser.set(row.user_id, mine);
+    }
+    const longOff: string[] = [];
+    for (const [userId, mine] of byUser) {
+      const off = aiOffSince(mine);
+      if (off && new Date(off).getTime() <= cutoff.getTime()) longOff.push(userId);
+    }
+    said.push(`switched off over ${CHAT_MONTHS} months ago: ${longOff.length}`);
+    for (const userId of longOff) {
+      if (dry) {
+        out.notes += 1;
+        continue;
+      }
+      const first = await admin.from("conversations").delete().eq("user_id", userId);
+      const second = await admin.from("ai_profile").delete().eq("user_id", userId);
+      if (first.error || second.error) {
+        out.failed += 1;
+        continue;
+      }
+      out.notes += 1;
+    }
+  }
+
+  const what = said.join(", ");
+  if (dry) {
+    detail.push(`chats: older than ${CHAT_MONTHS} months, would delete: ${what}`);
+  } else {
+    await log(
+      admin,
+      "chats_swept",
+      "",
+      `Older than ${CHAT_MONTHS} months, deleted: ${what}.`,
+      out.failed ? "failed" : "opened",
+    );
+  }
+  return out;
+}
+
+/**
+ * The partner seat: invitations nobody used, and seats whose purchase has
+ * gone (items B4b and B4d).
+ *
+ * Three jobs, in order:
+ *
+ *   1. An invitation that has stood for thirty days is thrown away, and with
+ *      it the only thing it held: an email address. The account that was made
+ *      in advance goes too, if nobody ever signed in to it.
+ *   2. A seat whose buyer no longer has access is ended. That normally
+ *      happens at the moment of the refund or the withdrawal; this is the net
+ *      underneath, for an entitlement that simply ran out.
+ *   3. For every ending: the partner is written to at once, with the date and
+ *      how to download their answers, and thirty days later their own answers
+ *      are deleted. The shared answers are the buyer's rows and stay where
+ *      they are.
+ */
+async function sweepSeats(
+  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
+  now: Date,
+  dry: boolean,
+  detail: string[],
+) {
+  const out = { expired: 0, ended: 0, told: 0, dataDeleted: 0, failed: 0 };
+
+  const { data: seats, error } = await admin
+    .from("partner_seats")
+    .select("buyer_id, email, partner_id, status, invited_at, joined_at")
+    .neq("status", "ended");
+  if (error) console.error("seat sweep: could not read seats:", error.message);
+
+  const old = new Date(now);
+  old.setDate(old.getDate() - INVITATION_DAYS);
+
+  for (const seat of (seats ?? []) as {
+    buyer_id: string;
+    email: string;
+    partner_id: string | null;
+    status: string;
+    invited_at: string | null;
+    joined_at: string | null;
+  }[]) {
+    try {
+      /* 1. An invitation nobody used. */
+      if (seat.status === "invited" && seat.invited_at && new Date(seat.invited_at).getTime() <= old.getTime()) {
+        if (dry) {
+          detail.push(`invitation to ${seat.email} would expire`);
+          out.expired += 1;
+          continue;
+        }
+        await admin.from("partner_seats").delete().eq("buyer_id", seat.buyer_id);
+        /*
+         * The account made in advance, when it was only ever made for this
+         * invitation: never signed in, nothing written, nothing bought, and
+         * made no earlier than the invitation itself.
+         */
+        if (seat.partner_id) {
+          const { data: who } = await admin.auth.admin.getUserById(seat.partner_id);
+          const account = who?.user;
+          const madeForThis =
+            account &&
+            !account.last_sign_in_at &&
+            new Date(account.created_at).getTime() >= new Date(seat.invited_at).getTime() - 60_000;
+          if (madeForThis) {
+            const [{ data: profile }, { data: bought }] = await Promise.all([
+              admin.from("profiles").select("user_id").eq("user_id", seat.partner_id).maybeSingle(),
+              admin.from("entitlements").select("id").eq("user_id", seat.partner_id).limit(1),
+            ]);
+            if (!profile && (bought ?? []).length === 0) {
+              await admin.auth.admin.deleteUser(seat.partner_id).catch(() => undefined);
+            }
+          }
+        }
+        await log(admin, "seat_invitation_expired", seat.email, `Not used within ${INVITATION_DAYS} days.`);
+        out.expired += 1;
+        continue;
+      }
+
+      /* 2. A seat whose purchase has gone. */
+      const { data: theirs } = await admin
+        .from("entitlements")
+        .select("product, status, ended_at")
+        .eq("user_id", seat.buyer_id);
+      const buyerIsIn = ((theirs ?? []) as Entitlement[]).some((e) => counts(e, now));
+      if (!buyerIsIn) {
+        if (dry) {
+          detail.push(`seat with ${seat.email} would end: the purchase has gone`);
+          out.ended += 1;
+          continue;
+        }
+        await endSeat(admin, seat, "access_ended");
+        await log(admin, "seat_ended", seat.email, "The buyer no longer has access.");
+        out.ended += 1;
+      }
+    } catch (e) {
+      out.failed += 1;
+      console.error("seat sweep:", seat.email, e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  /* 3. Every ending that is not finished with. */
+  const { data: endings, error: endingError } = await admin
+    .from("partner_endings")
+    .select("id, partner_id, email, ended_at, notified_at, data_deleted_at")
+    .is("data_deleted_at", null);
+  if (endingError) {
+    // The table may not exist yet on a database where the migration has not
+    // been run. Everything above has already done its work.
+    console.error("seat sweep: could not read endings:", endingError.message);
+    return out;
+  }
+
+  for (const ending of (endings ?? []) as Ending[]) {
+    const goes = deleteDay(ending.ended_at);
+    try {
+      if (!ending.notified_at) {
+        if (dry) {
+          detail.push(`${ending.email} would be told their seat ended`);
+          out.told += 1;
+        } else {
+          const sent = await sendMail(
+            ending.email,
+            seatEndedMail({
+              appUrl: APP_URL,
+              email: ending.email,
+              endedOn: asDay(ending.ended_at),
+              deleteOn: asDay(goes),
+            }),
+          );
+          if (sent) {
+            await admin.from("partner_endings").update({ notified_at: now.toISOString() }).eq("id", ending.id);
+            await log(admin, "seat_partner_told", ending.email, `The seat ended on ${asDay(ending.ended_at)}.`);
+            out.told += 1;
+          }
+        }
+      }
+
+      if (goes.getTime() <= now.getTime()) {
+        if (dry) {
+          detail.push(`${ending.email}: their own answers would be deleted`);
+          out.dataDeleted += 1;
+          continue;
+        }
+        /*
+         * Their own writing only. The shared answers live on the buyer's
+         * rows and are not this person's to take away, and their account
+         * stays: they may be using it for something else.
+         */
+        for (const table of PARTNER_ANSWERS) {
+          const { error: gone } = await admin.from(table).delete().eq("user_id", ending.partner_id);
+          if (gone) throw new Error(`${table}: ${gone.message}`);
+        }
+        await admin.from("partner_endings").update({ data_deleted_at: now.toISOString() }).eq("id", ending.id);
+        await log(admin, "seat_partner_answers_deleted", ending.email, `${SEAT_DATA_DAYS} days after the seat ended.`);
+        out.dataDeleted += 1;
+      }
+    } catch (e) {
+      out.failed += 1;
+      const why = e instanceof Error ? e.message : String(e);
+      console.error("seat sweep:", ending.email, why);
+      await log(admin, "seat_sweep_failed", ending.email, why, "failed");
+    }
+  }
+
+  return out;
 }
 
 async function log(
