@@ -122,6 +122,44 @@ export function seatEndedMail(o: { appUrl: string; email: string; endedOn: strin
   return { subject: "Your seat on The Made Real Blueprint has ended", text };
 }
 
+/**
+ * Why a partner's account went, in one sentence for the buyer.
+ *
+ * The lawyer's condition of 24 October: a partner's account follows the
+ * quiet-account rule like anybody else's, provided the buyer is told when the
+ * seat closes, so they can invite their partner again.
+ */
+export type SeatClosedReason = "inactive" | "asked" | "other";
+
+const WHY: Record<SeatClosedReason, string> = {
+  inactive:
+    "They had not signed in for two years, so their account was closed, which is what our privacy note says happens.",
+  asked: "They asked for their account to be deleted.",
+  other: "Their account has been closed.",
+};
+
+/** What the buyer is told when the other seat empties. */
+export function seatClosedMail(o: { appUrl: string; partnerEmail: string; reason: SeatClosedReason }) {
+  const text = [
+    "Hello,",
+    "",
+    `The partner seat that came with your purchase was held by ${o.partnerEmail}.`,
+    WHY[o.reason],
+    "",
+    "The seat is now free, so you can invite someone again whenever you like:",
+    `open My settings at ${o.appUrl}/settings and send a new invitation.`,
+    "",
+    "Your own access and everything you have written are not affected. The",
+    "pages the two of you answered together are still here, with you, without",
+    "their name on them.",
+    "",
+    "Mwata",
+    "The Made Real Blueprint",
+  ].join("\n");
+
+  return { subject: "Your partner seat is free again", text };
+}
+
 /** The day the partner's answers go, from the day the seat ended. */
 export function deleteDay(endedAt: string, days: number = SEAT_DATA_DAYS): Date {
   const day = new Date(endedAt);

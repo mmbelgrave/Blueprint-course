@@ -10,6 +10,8 @@
  */
 import { WORDING_VERSION, type ConsentKind } from "@/lib/consent";
 import { myConsent, recordConsent } from "@/lib/consent-server";
+import { clearSharedNotes } from "@/lib/shared-notes-server";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -69,5 +71,22 @@ export async function POST(request: Request) {
 
   const done = await recordConsent(auth.user.id, answer, body.from === "settings" ? "settings" : "app");
   if (!done) return fail(503, "That could not be saved. Please try again.");
-  return Response.json({ ...done.state, written: done.written, version: WORDING_VERSION });
+
+  /*
+   * Switching the AI partner off in a household takes the notes made from the
+   * shared pages away from both people (lawyer, 24 October, addition to item
+   * B2). It runs after the consent is recorded, never before: the record is
+   * the part that must not be lost, and this is tidying up after it.
+   */
+  let sharedNotesCleared = 0;
+  if (answer.ai === false) {
+    sharedNotesCleared = await clearSharedNotes(supabaseAdmin(), auth.user.id);
+  }
+
+  return Response.json({
+    ...done.state,
+    written: done.written,
+    version: WORDING_VERSION,
+    sharedNotesCleared,
+  });
 }

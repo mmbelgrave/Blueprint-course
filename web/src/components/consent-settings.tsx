@@ -16,6 +16,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { saveConsent, useAiConsent } from "@/components/ai-consent";
+import { useApp } from "@/lib/app-state";
 import { CONSENT_TEXT, SENSITIVE_TEXT } from "@/lib/consent";
 import { CHAT_MONTHS } from "@/lib/retention";
 
@@ -25,7 +26,7 @@ const day = (iso: string | null) =>
     : new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
 /** Asked once, the moment the AI partner is switched off. */
-function AfterSwitchingOff({ onDone }: { onDone: () => void }) {
+function AfterSwitchingOff({ onDone, inHousehold }: { onDone: () => void; inHousehold: boolean }) {
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState<string | null>(null);
 
@@ -35,6 +36,14 @@ function AfterSwitchingOff({ onDone }: { onDone: () => void }) {
       <p className="mt-1 text-sm">
         They are still here. You can delete them now, or keep them in case you switch your AI partner on again.
       </p>
+      {/* The lawyer's addition of 24 October: either of you switching off
+          takes the shared-page notes from both. The server has already done
+          it by the time this shows. */}
+      {inHousehold && (
+        <p className="mt-1 text-sm text-stone">
+          The notes made from the pages you answer together have already been deleted, for both of you.
+        </p>
+      )}
       <p className="mt-3 flex flex-wrap justify-center gap-2">
         <button
           type="button"
@@ -73,6 +82,7 @@ function AfterSwitchingOff({ onDone }: { onDone: () => void }) {
 }
 
 export function ConsentSettings() {
+  const { household } = useApp();
   const { state, loading, failed } = useAiConsent();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState(false);
@@ -151,6 +161,7 @@ export function ConsentSettings() {
 
       {askAboutChats && !state.ai && !erased && (
         <AfterSwitchingOff
+          inHousehold={household.role !== "alone"}
           onDone={() => {
             setAskAboutChats(false);
             setErased(true);

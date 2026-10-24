@@ -1,12 +1,28 @@
-# Privacy sentences for Block B, for approval before publishing
+# Privacy sentences for Block B: approved and published
 
-Item B6. Block B is built, so these are the sentences the privacy notes now
-owe people. **Nothing here has been published.** The app privacy page and the
-website note still say what they said on 24 October, except the one change you
-approved that day (Help questions, 12 months).
+Item B6. **Approved by the lawyer on 24 October 2026 and published the same
+day** on the app privacy page, with his three additions:
 
-Each block below says where it goes and what is true today in the app, so the
-lawyer can check the wording against the behaviour.
+- B2 gained his sentence about either partner switching the AI partner off.
+  The app now deletes the shared-page notes in both accounts the moment
+  either of them switches off.
+- B4 gained his two sentences about asking for something to be removed from a
+  shared page. Help has a topic of its own for those requests, so they are
+  logged and findable, and the rights section already promises an answer
+  within one month.
+- B4 also gained a paragraph saying that a partner account closed for being
+  inactive closes the seat, that the buyer is told, and that they can invite
+  again. The buyer now gets that letter.
+
+He confirmed B1 with one condition, which is built: the people who already had
+an account see the new first screen at their next sign-in, not only new
+sign-ups.
+
+Still not published: the same section in the **website** note, and the terms.
+See TERMS-6A-partner-seat-draft.md, because the section 6A he wants the
+sentence added to does not exist yet.
+
+Each block below is what went live, with what is true in the app under it.
 
 ---
 
@@ -42,7 +58,9 @@ the app behaves differently either way.
 > them, and your own pages are not affected. A note made from a page you
 > answered together is shown to both of you, and either of you can delete it,
 > which deletes it for both. Each of you gives your own agreement; neither of
-> you can give it for the other.
+> you can give it for the other. If either of you switches your AI partner
+> off, it stops using the pages you answered together, and the notes made
+> from them are deleted for both of you.
 
 **True today:** every AI request is refused on a shared page unless both
 people have a current, granted AI consent, and the shared answers are left
@@ -90,7 +108,14 @@ off in Settings asks the question and offers "Delete my chats and notes now".
 > without the partner's name on them. If the buyer deletes their answers or
 > their account, the shared answers are deleted for the partner as well, and
 > the screen says so before they press the button. If the partner deletes
-> their account, the seat closes and their own answers go with it.
+> their account, the seat closes and their own answers go with it. If a page
+> you answered together contains something about you that you want removed,
+> ask me and I will remove it, unless there is a reason not to. I am
+> responsible for both accounts.
+>
+> If your partner's account is closed because they have not signed in for 24
+> months, the seat closes. We email you when that happens, and you can invite
+> your partner again. Your own three years of access are not affected.
 
 **True today:** all of it. The letter, the 30-day deletion and the expiry of
 unused invitations are done by the daily routine, which writes a line in the
@@ -111,12 +136,18 @@ the account would go.
 
 ---
 
-## One question for the lawyer
+## The question we asked, and the answer
 
 A partner's account follows the same quiet-account rule as anybody else's: 24
 months without signing in, a letter, a reminder, and deletion 30 days later.
-The buyer's three years of access do not protect the partner's account,
-because the three years are the buyer's purchase. So a partner who never signs
-in can lose their account while the seat is still open. That seems right to
-us, and the seat simply closes, but it is the one place where the two rules
-meet and it is worth a second opinion.
+The buyer's three years do not protect it, because the three years are the
+buyer's purchase.
+
+The lawyer agreed, and said so in place of his earlier advice that the partner
+should follow the buyer's three years: the partner is not a party to the
+purchase, a letter, a reminder and 30 days is fair notice, and deleting is the
+safer position for data protection. He set two conditions, and both are met.
+The privacy section says so, in the paragraph above, and the buyer is emailed
+when the seat closes so they can invite their partner again. The same sentence
+is still owed by the terms, which is what TERMS-6A-partner-seat-draft.md is
+for.

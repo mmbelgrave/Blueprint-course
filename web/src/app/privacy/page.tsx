@@ -16,6 +16,11 @@ import { Shell } from "@/components/Shell";
  * consent screen has two boxes rather than one, so the sensitive-data
  * paragraph points at the second box.
  *
+ * The five blocks for Block B were approved by the lawyer on 24 October, with
+ * his own additions: the sentence about either partner switching the AI
+ * partner off, and the two sentences about asking for something to be removed
+ * from a shared page. They are published here as approved.
+ *
  * Nothing on this page is changed without the lawyer seeing it. The website
  * note at maderealblueprint.com/privacy.html covers the business as a whole;
  * this page covers the app.
@@ -84,6 +89,14 @@ export default function Privacy() {
           Your AI partner makes no decisions about you. Nothing it writes has any legal effect, nothing about your
           account is decided automatically, and it gives no legal, tax, immigration, medical or financial advice.
         </p>
+        <p>
+          If you share the course with a partner, some pages are answered together. Your AI partner only reads those
+          pages, and only keeps notes about them, if both of you have switched your AI partner on. Until then it stays
+          out of them, and your own pages are not affected. A note made from a page you answered together is shown to
+          both of you, and either of you can delete it, which deletes it for both. Each of you gives your own
+          agreement; neither of you can give it for the other. If either of you switches your AI partner off, it stops
+          using the pages you answered together, and the notes made from them are deleted for both of you.
+        </p>
 
         <h2 className="font-semibold">Who reads it</h2>
         <p>
@@ -92,14 +105,47 @@ export default function Privacy() {
           What he does see is how far people have come and the feedback they send him, with no answers in it.
         </p>
 
+        <h2 className="font-semibold">If you share the course with a partner</h2>
+        <p>
+          One purchase comes with one seat, for the person you are planning this with. Each of you has your own
+          account, your own answers and your own AI partner. The pages you answer together are stored once, with the
+          person who bought the course, and either of you can read and change them. The pages you each answer alone
+          are yours; your partner sees them only once you have both written, and three of them you can keep private
+          for good.
+        </p>
+        <p>
+          The invitation email tells your partner what we store before they sign in. We use their address for the
+          invitation and for their sign-in codes, and for nothing else. An invitation nobody uses is deleted after 30
+          days, and so is the address.
+        </p>
+        <p>
+          If the purchase ends, by withdrawal, refund, or because the buyer deletes their account, the seat ends too.
+          We email the partner the same day with the date and how to download their answers, and their own answers are
+          deleted 30 days later. The pages the two of them answered together stay with the buyer, without the
+          partner&rsquo;s name on them. If the buyer deletes their answers or their account, the shared answers are
+          deleted for the partner as well, and the screen says so before they press the button. If the partner deletes
+          their account, the seat closes and their own answers go with it. If a page you answered together contains
+          something about you that you want removed,{" "}
+          <Link href="/help?topic=my-data" className="text-pine underline">
+            ask me
+          </Link>{" "}
+          and I will remove it, unless there is a reason not to. I am responsible for both accounts.
+        </p>
+        <p>
+          If your partner&rsquo;s account is closed because they have not signed in for 24 months, the seat closes. We
+          email you when that happens, and you can invite your partner again. Your own three years of access are not
+          affected.
+        </p>
+
         <h2 className="font-semibold">Please keep the sensitive things out</h2>
         <p>
-          The exercises ask about your life, so write honestly. Please avoid special categories of data, such as
-          health, religion, sexual orientation or political opinions, unless you want your AI partner to take them
-          into account. If you choose to write them, you give your explicit consent (Art. 9(2)(a) GDPR) to processing
-          them as described here, through the second box shown before your first AI chat. The app does not check what
-          you type. You can withdraw this consent at any time in Settings, and delete everything under What my AI
-          partner knows.
+          The exercises ask about your life, so write honestly. Please avoid details about health, religion, sexual
+          orientation or political opinions, unless you want them in your answers. If you choose to write them, the
+          app stores them with your answers. We ask you once, on your first screen, whether you agree to that, and you
+          can give or take back that agreement at any time in Settings. It is optional, and the app works the same
+          without it. If you switch your AI partner on, a second, separate box asks whether such details may also go
+          to the AI model. Both are your explicit consent (Art. 9(2)(a) GDPR). The app does not check what you type.
+          You can delete what your AI partner has made of it under What my AI partner knows.
         </p>
 
         <h2 className="font-semibold">Your pictures</h2>
@@ -141,10 +187,14 @@ export default function Privacy() {
 
         <h2 className="font-semibold">How long</h2>
         <p>
-          As long as you use the Blueprint. If you do not sign in for 24 months, I email you first, and if there is
-          no reply within 30 days I delete the account. If you bought the course, this applies only once three years
-          have passed since your purchase. Sign-in codes last an hour. The log of how much you used your AI partner
-          is kept for 12 months, and questions you send from Help for 12 months from the day you send them. An order
+          As long as you use the Blueprint. If you do not sign in for 24 months, I email you first, and send one
+          short reminder seven days before the deletion. If there is no reply within 30 days I delete the account. If
+          you bought the course, this applies only once three years have passed since your purchase. Sign-in codes
+          last an hour. Your chats with your AI partner are kept for 12 months from the day you write them, then
+          deleted automatically. The notes your AI partner keeps stay until you delete them. If you switch your AI
+          partner off, we ask you whether to delete your chats and notes at once or keep them switched off. If you
+          keep them, they are deleted 12 months after you switched it off. The log of how much you used your AI
+          partner is kept for 12 months, and questions you send from Help for 12 months from the day you send them. An order
           has to be kept as long as tax law says, which is generally 10 years, so after you delete your account the
           order record is all that is left. A record that you gave or withdrew consent, with only the date and the
           wording version, is kept for 3 years after your last choice or after you delete your account. The basis is

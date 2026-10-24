@@ -21,7 +21,7 @@ import {
   type ConsentRow,
 } from "../src/lib/consent.ts";
 import { CHAT_MONTHS, decide, deletionDay, quietMail, quietReminderMail, type Account } from "../src/lib/retention.ts";
-import { deleteDay, PARTNER_ANSWERS, seatEndedMail, SEAT_DATA_DAYS } from "../src/lib/seat-end.ts";
+import { deleteDay, PARTNER_ANSWERS, seatClosedMail, seatEndedMail, SEAT_DATA_DAYS } from "../src/lib/seat-end.ts";
 
 const row = (kind: string, granted: boolean, at: string, version = WORDING_VERSION): ConsentRow => ({
   kind,
@@ -54,7 +54,12 @@ test("a no is a record too, so nobody is asked twice", () => {
 });
 
 test("the words the version stands for are the words on the screens", () => {
-  for (const file of ["../src/app/onboarding/page.tsx", "../src/components/consent-settings.tsx"]) {
+  for (const file of [
+    "../src/app/onboarding/page.tsx",
+    "../src/components/consent-settings.tsx",
+    // The same screen for the people who already had an account.
+    "../src/components/sensitive-screen.tsx",
+  ]) {
     const screen = readFileSync(new URL(file, import.meta.url), "utf8");
     assert.match(screen, /SENSITIVE_TEXT\.lead/);
     assert.match(screen, /SENSITIVE_TEXT\.box/);
@@ -63,6 +68,40 @@ test("the words the version stands for are the words on the screens", () => {
   assert.ok(SENSITIVE_TEXT.lead.includes("sexual orientation or political opinions"));
   assert.ok(SENSITIVE_TEXT.box.includes("stores them with my answers"));
   assert.ok(SENSITIVE_TEXT.footnote.startsWith("Optional."));
+});
+
+/** The privacy page, with its JSX wrapping ironed out. */
+const privacyPage = () =>
+  readFileSync(new URL("../src/app/privacy/page.tsx", import.meta.url), "utf8").replace(/\s+/g, " ");
+
+test("the privacy page carries the wording the lawyer approved", () => {
+  const page = privacyPage();
+  for (const sentence of [
+    // B1, as approved
+    "Please avoid details about health, religion, sexual orientation or political opinions, unless you want them in your answers.",
+    "We ask you once, on your first screen, whether you agree to that",
+    // B2, with his added sentence
+    "A note made from a page you answered together is shown to both of you, and either of you can delete it, which deletes it for both.",
+    "If either of you switches your AI partner off, it stops using the pages you answered together, and the notes made from them are deleted for both of you.",
+    // B3
+    "Your chats with your AI partner are kept for 12 months from the day you write them, then deleted automatically.",
+    "they are deleted 12 months after you switched it off",
+    // B4, with his two additions
+    "An invitation nobody uses is deleted after 30 days, and so is the address.",
+    "and I will remove it, unless there is a reason not to. I am responsible for both accounts.",
+    "the seat closes. We email you when that happens, and you can invite your partner again.",
+    // B5
+    "send one short reminder seven days before the deletion",
+  ]) {
+    assert.ok(page.includes(sentence), "missing from the privacy page: " + sentence.slice(0, 60));
+  }
+});
+
+test("the old sentence that pointed at the AI box is gone", () => {
+  // It said the sensitive consent was given "through the second box shown
+  // before your first AI chat", which stopped being true when the question
+  // moved to the first screen.
+  assert.ok(!privacyPage().includes("through the second box shown before your first AI chat"));
 });
 
 /* ---------------------------------------------------------------- B2 */
@@ -149,6 +188,25 @@ test("the letter says when the seat ended and when the answers go", () => {
   assert.ok(mail.text.includes("Download the file"));
   // No sign-in link: the code is asked for, never sent.
   assert.ok(!/\/signin/.test(mail.text));
+});
+
+test("the buyer is told the seat is free, and why", () => {
+  const inactive = seatClosedMail({
+    appUrl: "https://app.maderealblueprint.com",
+    partnerEmail: "ben@example.com",
+    reason: "inactive",
+  });
+  assert.ok(inactive.text.includes("ben@example.com"));
+  assert.ok(inactive.text.includes("had not signed in for two years"));
+  assert.ok(inactive.text.includes("invite someone again"));
+  assert.ok(inactive.text.includes("not affected"), "the buyer keeps their own access");
+  const asked = seatClosedMail({
+    appUrl: "https://app.maderealblueprint.com",
+    partnerEmail: "ben@example.com",
+    reason: "asked",
+  });
+  assert.ok(asked.text.includes("asked for their account to be deleted"));
+  assert.equal(asked.subject, "Your partner seat is free again");
 });
 
 /* ---------------------------------------------------------------- B5 */

@@ -27,6 +27,14 @@ export function supportTopics(steps: { number: number; title: string }[]): Topic
     ...steps.map((s) => ({ id: `step-${s.number}`, label: `Step ${s.number} ${s.title}` })),
     { id: "app", label: "The app itself (something is not working)" },
     { id: "payment", label: "Payment" },
+    /*
+     * The lawyer, 24 October: a partner needs a way to ask for something
+     * about them to be taken off a page the two of them answered together,
+     * and those requests have to be logged and answered within a month. Every
+     * question here is already stored and emailed, so it only needed a topic
+     * of its own to be findable among the rest.
+     */
+    { id: "my-data", label: "My data (remove something, or ask what is stored)" },
   ];
 }
 

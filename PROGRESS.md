@@ -1189,6 +1189,50 @@ the two real chats from 5 October alone. Nothing else was due: no quiet
 account, no log row, no consent history, and the live seat was looked at and
 left open, because the buyer still has access.
 
+### The lawyer approved Block B, with three additions (24 October 2026)
+
+All five items confirmed. His additions, built and published the same day:
+
+- **B2.** "If either of you switches your AI partner off, it stops using the
+  pages you answered together, and the notes made from them are deleted for
+  both of you." The first half was the gate; the second half is new. A
+  withdrawal now empties the five shared-page notes in both accounts, because
+  the other copy is made of the same shared answers, so leaving it would keep
+  the withdrawing person's words in a note they have just asked us to stop
+  making. The notes are emptied, not marked forgotten: forgetting is a
+  standing instruction somebody gives on purpose, and a withdrawal is not one.
+  Said in Settings at the moment it happens.
+- **B4.** Two sentences about asking for something about you to be taken off a
+  shared page, ending "I am responsible for both accounts". Help has a topic
+  of its own now, "My data", so such a request is stored and findable among
+  the rest, and the rights section already promises an answer within a month.
+  The privacy sentence links straight to it.
+- **B4, from the answer to our question.** A partner's account follows the
+  quiet-account rule like anybody else's, which replaces his earlier advice
+  that it should follow the buyer's three years, on two conditions. Both are
+  met: the privacy section says so, and the buyer now gets a letter when the
+  seat closes, saying why and that they can invite somebody again.
+
+And his one condition on B1: the people who already had an account must see
+the new first screen at their next sign-in, not only new sign-ups. They do.
+RequireUser stands the screen in front of the app once, for anybody with a
+profile and no answer at the current wording. It cannot be stepped past
+without answering, because Continue with an empty box is an answer, and it
+never appears when the consent table cannot be read or in preview mode: a
+question nobody can answer must not lock anybody out of their own workbook.
+
+B4f is settled: no per-change history. He agreed the reasoning, and the
+fallback if it is ever disputed is to take the text out by hand.
+
+The privacy page is published with all five blocks. Two things are not: the
+same section in the website note, and the terms. The sentence he wants added
+to Terms 6A has nowhere to go, because there is no section 6A: the partner
+seat is not in the contract at all. TERMS-6A-partner-seat-draft.md drafts it
+from wording he has already approved, with two other places where the terms
+have fallen behind the app, and says what publishing costs: a dated version, a
+new PDF, the website, and Mwata deciding whether it is a second version or an
+amendment to the 24 October one.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan

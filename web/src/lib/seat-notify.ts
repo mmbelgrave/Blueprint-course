@@ -13,10 +13,29 @@
  * imports nothing, so the tests can read it with plain node.
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { asDay, deleteDay, seatEndedMail, type Ending } from "@/lib/seat-end";
+import { asDay, deleteDay, seatClosedMail, seatEndedMail, type Ending, type SeatClosedReason } from "@/lib/seat-end";
 import { sendMail } from "@/lib/send-mail";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.maderealblueprint.com";
+
+/**
+ * Tell the buyer that the other seat is empty again (lawyer, 24 October).
+ *
+ * The buyer's own access is untouched, so this is news rather than a warning:
+ * the seat is free and they can invite somebody again. Their address comes
+ * from their account, because the seat row is about to be gone.
+ */
+export async function tellBuyerSeatClosed(
+  admin: SupabaseClient,
+  buyerId: string,
+  partnerEmail: string,
+  reason: SeatClosedReason,
+): Promise<boolean> {
+  const { data } = await admin.auth.admin.getUserById(buyerId);
+  const to = data?.user?.email;
+  if (!to) return false;
+  return sendMail(to, seatClosedMail({ appUrl: APP_URL, partnerEmail, reason }));
+}
 
 /** Write to this partner about the ending that has not been told yet. */
 export async function tellPartnerNow(admin: SupabaseClient, partnerId: string): Promise<boolean> {

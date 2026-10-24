@@ -8,7 +8,8 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { endSeat } from "@/lib/seat-end";
-import { tellPartnerNow } from "@/lib/seat-notify";
+import type { SeatClosedReason } from "@/lib/seat-end";
+import { tellBuyerSeatClosed, tellPartnerNow } from "@/lib/seat-notify";
 
 /**
  * The seat, when one of the two people leaves (lawyer, 24 October, item B4).
@@ -22,7 +23,12 @@ import { tellPartnerNow } from "@/lib/seat-notify";
  * recorded so the partner is written to and their own answers go thirty days
  * later.
  */
-export async function closeSeatsFor(admin: SupabaseClient, userId: string) {
+export async function closeSeatsFor(
+  admin: SupabaseClient,
+  userId: string,
+  /** Why this account is going, for the letter to the buyer. */
+  reason: SeatClosedReason = "asked",
+) {
   const { data: seats } = await admin
     .from("partner_seats")
     .select("buyer_id, email, partner_id, status")
@@ -47,6 +53,11 @@ export async function closeSeatsFor(admin: SupabaseClient, userId: string) {
       .update({ changed_by: null })
       .eq("changed_by", userId)
       .then(() => undefined, () => undefined);
+    /*
+     * And the buyer is told, so they know the seat is free again (lawyer,
+     * 24 October). Their own access is not affected, which the letter says.
+     */
+    await tellBuyerSeatClosed(admin, seat.buyer_id, seat.email, reason).catch(() => undefined);
   }
 }
 
@@ -74,14 +85,19 @@ export async function deletePictures(admin: SupabaseClient, userId: string) {
  * itself could not be removed, so a caller never reports a deletion that did
  * not happen.
  */
-export async function deleteEverything(admin: SupabaseClient, userId: string) {
+export async function deleteEverything(
+  admin: SupabaseClient,
+  userId: string,
+  /** Why, for the letter the other person in a household gets. */
+  reason: SeatClosedReason = "asked",
+) {
   await deletePictures(admin, userId);
   /*
    * The seat first, while the rows are still there to read. A buyer who
    * leaves takes the seat row with them, so the ending has to be written
    * down before the account goes (item B4d).
    */
-  await closeSeatsFor(admin, userId);
+  await closeSeatsFor(admin, userId, reason);
   const { error } = await admin.auth.admin.deleteUser(userId);
   if (error) throw new Error(`the account could not be deleted: ${error.message}`);
 }

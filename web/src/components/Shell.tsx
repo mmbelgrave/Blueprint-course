@@ -2,7 +2,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useAiConsent } from "@/components/ai-consent";
 import { Lockup } from "@/components/brand";
+import { SensitiveScreen } from "@/components/sensitive-screen";
 import { isFree } from "@/lib/access-app";
 import { endingSoon } from "@/lib/access";
 import { useApp } from "@/lib/app-state";
@@ -118,9 +120,32 @@ export function RequireUser({
 }) {
   const { loading, loadError, user, profile, reload } = useApp();
   const router = useRouter();
+  const consent = useAiConsent();
   // After a failed load we know nothing, so never redirect: show "Try again".
   const needsSignIn = !loading && !loadError && !user;
   const needsOnboarding = !loading && !loadError && user && !profile && !allowNoProfile;
+  /*
+   * The sensitive-details question, for the people who already had an account
+   * when it was added (lawyer, 24 October, item B1). Everybody who signs up
+   * now meets it on the first screen; these people meet it here, once, at
+   * their next sign-in.
+   *
+   * Only when the answer is genuinely missing: a consent table that cannot be
+   * read, or preview mode, must never stand in front of the app. The two
+   * pages that pass allowNoProfile ask their own questions, so they are left
+   * alone.
+   */
+  const mustAskSensitive =
+    isSupabaseConfigured &&
+    !allowNoProfile &&
+    !loading &&
+    !loadError &&
+    Boolean(user) &&
+    Boolean(profile) &&
+    !consent.loading &&
+    !consent.failed &&
+    consent.state !== null &&
+    consent.state.sensitiveAsked === false;
 
   useEffect(() => {
     if (needsSignIn) router.replace("/signin");
@@ -141,5 +166,6 @@ export function RequireUser({
   if (loading || needsSignIn || needsOnboarding) {
     return <p className="py-16 text-center text-stone">One moment…</p>;
   }
+  if (mustAskSensitive) return <SensitiveScreen />;
   return <>{children}</>;
 }

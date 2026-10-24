@@ -188,7 +188,7 @@ export async function GET(request: Request) {
         continue;
       }
 
-      await deleteEverything(admin, u.id);
+      await deleteEverything(admin, u.id, "inactive");
       await log(admin, "quiet_account_deleted", u.email, `Written to on ${verdict.warnedOn}, no sign-in since.`);
       done.deleted += 1;
     } catch (e) {
