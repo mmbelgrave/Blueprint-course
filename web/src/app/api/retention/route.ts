@@ -21,7 +21,7 @@ import { counts, type Entitlement } from "@/lib/access";
 import { CONSENT_HISTORY_YEARS, expiredConsentIds, type ConsentRow } from "@/lib/consent";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { deleteEverything } from "@/lib/forget-account";
-import { decide, quietMail, type Account } from "@/lib/retention";
+import { decide, LOG_MONTHS, olderThan, quietMail, type Account } from "@/lib/retention";
 import { reminderMail, sweepActs, type OpenWithdrawal } from "@/lib/withdrawal";
 
 export const runtime = "nodejs";
@@ -130,8 +130,57 @@ export async function GET(request: Request) {
 
   const withdrawals = await sweepWithdrawals(admin, now, dry, detail);
   const consents = await sweepConsents(admin, now, dry, detail);
+  const logs = await sweepLogs(admin, now, dry, detail);
 
-  return Response.json({ ok: true, dry, ...done, withdrawals, consents, ...(dry ? { detail } : {}) });
+  return Response.json({ ok: true, dry, ...done, withdrawals, consents, logs, ...(dry ? { detail } : {}) });
+}
+
+/**
+ * The two logs the privacy note puts a year on.
+ *
+ * "The log of how much you used your AI partner is kept for 12 months, and
+ * questions you send from Help for 12 months after we last spoke." Nothing
+ * kept either promise until now: a question from the first week would have
+ * sat there for as long as the account did.
+ *
+ * Both tables are swept whole rather than per person, because the promise is
+ * about the row and not about who wrote it. Neither is anybody's work: the
+ * usage log is a count of requests, and a question has already been answered
+ * by email.
+ */
+async function sweepLogs(
+  admin: NonNullable<ReturnType<typeof supabaseAdmin>>,
+  now: Date,
+  dry: boolean,
+  detail: string[],
+) {
+  const out = { deleted: 0, failed: 0 };
+  for (const table of ["usage_log", "questions"] as const) {
+    const { data, error } = await admin.from(table).select("id, created_at");
+    if (error) {
+      console.error(`log sweep: could not read ${table}:`, error.message);
+      continue;
+    }
+    const going = olderThan((data ?? []) as { id: number; created_at: string | null }[], LOG_MONTHS, now);
+    if (going.length === 0) continue;
+
+    if (dry) {
+      detail.push(`${table}: ${going.length} rows older than ${LOG_MONTHS} months would go`);
+      out.deleted += going.length;
+      continue;
+    }
+
+    const { error: gone } = await admin.from(table).delete().in("id", going);
+    if (gone) {
+      console.error(`log sweep: could not delete from ${table}:`, gone.message);
+      await log(admin, `${table}_prune_failed`, "", gone.message, "failed");
+      out.failed += going.length;
+      continue;
+    }
+    await log(admin, `${table}_pruned`, "", `${going.length} rows older than ${LOG_MONTHS} months.`);
+    out.deleted += going.length;
+  }
+  return out;
 }
 
 /**

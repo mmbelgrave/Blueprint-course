@@ -1,6 +1,15 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { ACCESS_YEARS, GRACE_DAYS, QUIET_MONTHS, decide, quietMail, type Account } from "../src/lib/retention.ts";
+import {
+  ACCESS_YEARS,
+  GRACE_DAYS,
+  LOG_MONTHS,
+  QUIET_MONTHS,
+  decide,
+  olderThan,
+  quietMail,
+  type Account,
+} from "../src/lib/retention.ts";
 
 const NOW = new Date("2027-06-01T09:00:00Z");
 
@@ -91,4 +100,33 @@ test("the email says how to stay, and never carries a way in", () => {
   assert.match(text, /deleted after/);
   // §3.1: the code is asked for by the person, never sent on their behalf.
   assert.ok(!/code is|your code/i.test(text.replace("you ask", "")));
+});
+
+/*
+ * The two logs the privacy note puts a year on: the AI usage log, and the
+ * questions people send from Help. The page promised 12 months from the start
+ * and nothing deleted either of them until 24 October, which an external
+ * review found.
+ */
+test("a log row goes once it is older than the year we promised", () => {
+  const rows = [
+    { id: 1, created_at: "2026-05-31T23:00:00Z" }, // just over a year old
+    { id: 2, created_at: "2026-06-02T09:00:00Z" }, // just under
+    { id: 3, created_at: "2024-01-01T00:00:00Z" }, // long over
+  ];
+  assert.deepEqual(olderThan(rows, LOG_MONTHS, NOW), [1, 3]);
+});
+
+test("a row with no date is left alone", () => {
+  assert.deepEqual(olderThan([{ id: 7, created_at: null }], LOG_MONTHS, NOW), []);
+  assert.deepEqual(olderThan([{ id: 8, created_at: "not a date" }], LOG_MONTHS, NOW), []);
+});
+
+test("nothing to sweep is not an error", () => {
+  assert.deepEqual(olderThan([], LOG_MONTHS, NOW), []);
+});
+
+/* The promise itself, so changing it is a deliberate act. */
+test("the year in the code is the year on the privacy page", () => {
+  assert.equal(LOG_MONTHS, 12);
 });

@@ -17,6 +17,17 @@
 export const QUIET_MONTHS = 24;
 export const GRACE_DAYS = 30;
 export const ACCESS_YEARS = 3;
+/**
+ * The privacy note: "The log of how much you used your AI partner is kept for
+ * 12 months, and questions you send from Help for 12 months after we last
+ * spoke." Both were a promise nothing kept until 24 October; now the sweep
+ * keeps them.
+ *
+ * The app does not know when we last spoke, because Mwata answers a question
+ * by email, outside it. So a question goes 12 months after it was sent, which
+ * is never later than the promise and usually sooner.
+ */
+export const LOG_MONTHS = 12;
 
 export type Account = {
   id: string;
@@ -94,6 +105,25 @@ export function decide(account: Account, now: Date): Verdict {
 }
 
 /** The email. No link to sign in: §3.1 says the code is asked for, never sent. */
+/**
+ * The rows of a log that are older than we said we would keep them.
+ *
+ * Ids only, so the caller does the deleting and this stays a rule. A row with
+ * no date is left alone: something is wrong with it, and a sweep that cannot
+ * read a date is the last thing that should decide to delete it.
+ */
+export function olderThan(
+  rows: { id: number; created_at: string | null }[],
+  months: number,
+  now: Date | string,
+): number[] {
+  const cutoff = monthsBefore(new Date(now).getTime(), months);
+  return rows.filter((r) => {
+    const when = at(r.created_at);
+    return when !== null && when < cutoff;
+  }).map((r) => r.id);
+}
+
 export function quietMail(o: { name?: string; appUrl: string; email: string }) {
   const hello = o.name ? `Hello ${o.name},` : "Hello,";
   const text = [
