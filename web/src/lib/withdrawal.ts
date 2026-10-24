@@ -175,6 +175,13 @@ const day = (at: Date | string) => new Date(at).toLocaleDateString("en-GB", { da
 export type Receipt = {
   /** True when the asker proved the purchase is theirs (R7-1). */
   verified?: boolean;
+  /**
+   * The number on this withdrawal, so a person can quote it and we can find
+   * it: W- and the row's own id (lawyer, 24 October).
+   */
+  reference?: string | null;
+  /** The day the refund is due, 14 days from the day we received it. */
+  refundBy?: Date | string | null;
   /** Their own words, when we asked and they wrote something. */
   reason?: string | null;
   email: string;
@@ -221,8 +228,12 @@ export function withdrawalMail(r: Receipt) {
     `  Order number: ${r.orderEntered || "(not given)"}`,
     `  Name: ${r.name || "(not given)"}`,
     "",
+    ...(r.reference ? [`Reference: ${r.reference}`, ""] : []),
     promise,
     `${r.amountCents === null ? "" : `That is ${money(r.amountCents, r.currency)}. `}You do not have to do anything else.`,
+    ...(r.refundBy ? ["", `The refund is due by ${day(r.refundBy)}, which is 14 days from today.`] : []),
+    "",
+    "The date of this message is the date of your withdrawal.",
     "",
   ];
 

@@ -343,10 +343,15 @@ export async function POST(request: Request) {
    * it: a withdrawal is never refused, least of all over a box that was
    * optional in the first place (promise 3).
    */
-  let { error: saved } = await admin.from("withdrawals").insert(reason ? { ...row, reason } : row);
+  let reference: string | null = null;
+  let { data: written, error: saved } = await admin
+    .from("withdrawals")
+    .insert(reason ? { ...row, reason } : row)
+    .select("id")
+    .maybeSingle();
   if (saved && reason && /reason/i.test(saved.message)) {
     console.error("withdrawals.reason is missing — run supabase/2026-10-20-withdrawal-reason.sql");
-    ({ error: saved } = await admin.from("withdrawals").insert(row));
+    ({ data: written, error: saved } = await admin.from("withdrawals").insert(row).select("id").maybeSingle());
   }
   if (saved) return fail(500, "That could not be saved. Please email info@maderealblueprint.com.");
 
@@ -359,9 +364,14 @@ export async function POST(request: Request) {
     await admin.from("entitlements").update({ ended_at: endsAt.toISOString() }).eq("id", found.row.id);
   }
 
+  // W- and the row's own number: short enough to read out, unique for ever.
+  if (written?.id) reference = `W-${String(written.id).padStart(6, "0")}`;
+
   const receipt: Receipt = {
     email,
     name,
+    reference,
+    refundBy: deadline,
     orderEntered,
     matchedOrder: found?.row.order_id ?? null,
     product: found?.row.product ?? null,

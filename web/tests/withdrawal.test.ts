@@ -291,3 +291,54 @@ test("the purchase is the one that was paid for, whatever else is on the account
   // Nothing open: the most recent purchase, never the grant.
   assert.equal(purchaseRow([rows[0], rows[2]])?.id, 1);
 });
+
+/*
+ * What the confirmation has to show (lawyer, 24 October): the statement as
+ * the person gave it, the time in their zone and in UTC, a reference, the
+ * refund deadline, the day access ends, and the sentence that fixes the date.
+ */
+test("the confirmation carries the reference, the refund date and the date rule", () => {
+  const { text } = withdrawalMail({
+    email: "anna@example.com",
+    name: "Anna",
+    orderEntered: "9762789",
+    matchedOrder: "9762789",
+    product: "phase1",
+    amountCents: 9900,
+    currency: "EUR",
+    requestedAt: "2026-10-24T09:00:00Z",
+    timeZone: "Europe/Lisbon",
+    endsAt: "2026-10-27T09:00:00Z",
+    window: "withdrawal",
+    reference: "W-000007",
+    refundBy: "2026-11-07T09:00:00Z",
+  });
+  assert.match(text, /Reference: W-000007/);
+  assert.match(text, /The refund is due by 7 November 2026, which is 14 days from today\./);
+  assert.match(text, /The date of this message is the date of your withdrawal\./);
+  // The statement, exactly as it was given.
+  assert.match(text, /Email: anna@example\.com/);
+  assert.match(text, /Order number: 9762789/);
+  assert.match(text, /Name: Anna/);
+  // Both clocks.
+  assert.match(text, /UTC/);
+});
+
+test("a letter with no reference and no refund date still reads properly", () => {
+  const { text } = withdrawalMail({
+    email: "nobody@example.com",
+    name: null,
+    orderEntered: null,
+    matchedOrder: null,
+    product: null,
+    amountCents: null,
+    currency: null,
+    requestedAt: "2026-10-24T09:00:00Z",
+    timeZone: null,
+    endsAt: null,
+    window: "withdrawal",
+  });
+  assert.ok(!text.includes("Reference:"));
+  assert.ok(!text.includes("The refund is due by"));
+  assert.match(text, /The date of this message is the date of your withdrawal\./);
+});
