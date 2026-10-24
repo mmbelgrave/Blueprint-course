@@ -15,6 +15,7 @@
 import { Body, Cover, Footnote, Headline, Kicker, PageFoot, PageSetup, Pull, Rule, RunningHead, Sheet, Standfirst } from "./chrome";
 import { BigNumbers, ConditionRows, Lights, NeedRows, PhaseDots, ShareBars } from "./charts";
 import { ChangePlanSheet } from "./change-plan";
+import { SELF_STUDY } from "@/lib/legal";
 import { MoneySheet } from "./money-sheet";
 import {
   changePlanSheets,
@@ -102,8 +103,8 @@ export function BlueprintDoc({
 
           <Footnote>
             {two?.name ? "Our own answers" : "My own answers"} across the three steps of Phase 1, gathered on one
-            document. It shows what {two?.name ? "we think" : "I think"} today, with the open work visible. It is not
-            advice, and it is not a recommendation to move.
+            document. It shows what {two?.name ? "we think" : "I think"} today, with the open work visible.{" "}
+            {SELF_STUDY}
           </Footnote>
         </Body>
         <PageFoot who={who} page={1} of={of} />

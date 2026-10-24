@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AiConsentScreen, AiSwitchedOff, useAiConsent } from "@/components/ai-consent";
 import { AI_REMINDER, SENSITIVE_REMINDER } from "@/lib/consent";
+import { SELF_STUDY } from "@/lib/legal";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured, store, type ChatMessage } from "@/lib/backend";
 import { HELPER_LABELS, STATUS_MARK, type PartnerHelper, type PartnerStatus } from "@/lib/partner/protocol";
@@ -20,6 +21,7 @@ function Header() {
         <p className="text-sm text-stone">I help you think. You decide.</p>
         {/* Said out loud, on every page, not once at sign-up (legal review, part 1). */}
         <p className="text-xs text-stone">{AI_REMINDER}</p>
+        <p className="text-xs text-stone">{SELF_STUDY}</p>
       </div>
     </div>
   );

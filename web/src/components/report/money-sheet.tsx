@@ -16,6 +16,7 @@ import { Body, Footnote, Headline, Kicker, PageFoot, RunningHead, Sheet } from "
 import { AmountBars, BigNumbers, Waterfall, money } from "./charts";
 import type { Cascade } from "@/lib/report";
 import type { MoneyThread } from "@/lib/blueprint";
+import { MONEY_CHECK_NOTE } from "@/lib/legal";
 
 export function MoneySheet({
   m,
@@ -116,7 +117,7 @@ export function MoneySheet({
             ? `My runway divides the money left to live on (${money(Math.max(0, cascade.left ?? 0), currency)}), not my savings: the reserve and the return fund are kept out of it on purpose. `
             : ""}
           {m.complete ? "" : "Some costs behind these totals are still marked unknown, so the month is not finished yet. "}
-          Nothing here is advice; these are my own figures.
+          Nothing here is advice; these are my own figures. {MONEY_CHECK_NOTE}
         </Footnote>
       </Body>
       <PageFoot who={who} page={page} of={of} />

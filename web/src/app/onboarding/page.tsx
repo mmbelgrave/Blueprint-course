@@ -5,6 +5,7 @@ import { useState } from "react";
 import { RequireUser, Shell } from "@/components/Shell";
 import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
+import { SELF_STUDY } from "@/lib/legal";
 import { takeSignup } from "@/lib/signup-source";
 
 const CURRENCIES = ["EUR", "USD", "GBP", "CHF", "AUD", "CAD", "ZAR", "BRL"];
@@ -47,6 +48,8 @@ function ConsentForm() {
     >
       <section className="space-y-3">
         <h2 className="text-xl font-semibold text-pine">Before you start</h2>
+        {/* What this is, before anything else (lawyer, 24 October). */}
+        <p>{SELF_STUDY}</p>
         <p>You will share personal things here. So you should know what happens with them.</p>
         {free ? (
           <ul className="list-disc space-y-2 pl-6">

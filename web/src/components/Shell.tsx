@@ -8,6 +8,7 @@ import { endingSoon } from "@/lib/access";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured } from "@/lib/backend";
 import { PRODUCT } from "@/lib/content";
+import { SELF_STUDY } from "@/lib/legal";
 import { Tabs, TABS_ROOM, tabsFor } from "@/components/tabs";
 import { useIsAdmin } from "@/lib/use-is-admin";
 
@@ -78,7 +79,10 @@ export function Shell({
       <footer
         className={`mt-12 border-t border-line px-4 py-6 text-center text-sm text-stone print:hidden ${user ? TABS_ROOM : ""}`}
       >
-        This app uses an AI partner. It helps you think. You decide.
+        <p>This app uses an AI partner. It helps you think. You decide.</p>
+        {/* Word for word from the lawyer, 24 October. The sentence lives in
+            lib/legal.ts, so the same words appear everywhere it belongs. */}
+        <p className="mt-2">{SELF_STUDY}</p>
       </footer>
     </div>
   );

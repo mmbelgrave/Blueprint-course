@@ -34,6 +34,8 @@ import { VideoSlot } from "@/components/video-slot";
 import { PartRail } from "@/components/journey";
 import { stepLessonsHref } from "@/lib/modules-app";
 import { draftFields } from "@/lib/drafts";
+import { MONEY_CHECK_NOTE } from "@/lib/legal";
+import { countsMoney } from "@/lib/money-pages";
 import { fieldExtras } from "@/lib/field-extras";
 import { helpHref } from "@/lib/support";
 import { exerciseHref, partProgress, rememberLastExercise, stepHref } from "@/lib/progress";
@@ -425,6 +427,12 @@ function ExerciseBody({ located, sources }: { located: Located; sources: Record<
               </div>
             ))}
           </div>
+        )}
+
+        {/* Every page that adds up money says what the sum is and is not
+            (lawyer, 24 October). The page decides, not a list of ids. */}
+        {countsMoney(exercise) && (
+          <p className="rounded-2xl border border-line p-4 text-sm text-stone">{MONEY_CHECK_NOTE}</p>
         )}
 
         {/* In a household: who answers this one, and the question when both

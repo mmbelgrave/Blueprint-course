@@ -12,6 +12,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
 import { ALSO_READS, referencedFields, splitRef } from "../src/lib/content-refs.ts";
+import { countsMoney } from "../src/lib/money-pages.ts";
 import { stepNameOf } from "../src/lib/content-refs.ts";
 import step1 from "../src/content/step1-content.json" with { type: "json" };
 import step2 from "../src/content/step2-content.json" with { type: "json" };
@@ -206,4 +207,21 @@ test("the shape carries the staying mark", () => {
     shape.every((p) => !p.staying_route),
     "Step 1 has no staying route",
   );
+});
+
+/*
+ * The lawyer's money note goes on every page that adds up money (24 October).
+ * The page decides, from its own fields, so a new money page cannot be
+ * forgotten and a page that only counts hours does not carry it.
+ */
+test("the money note lands on the money pages, and only those", () => {
+  const counted: string[] = [];
+  for (const step of steps) {
+    for (const part of step.parts) {
+      for (const page of [...part.exercises, ...(part.summary ? [part.summary] : [])]) {
+        if (countsMoney(page as never)) counted.push(page.id);
+      }
+    }
+  }
+  assert.deepEqual(counted.sort(), ["3.2", "3.3", "3.4", "3.5", "4.2", "s2-3.1", "s2-s2", "s3-1.1"]);
 });
