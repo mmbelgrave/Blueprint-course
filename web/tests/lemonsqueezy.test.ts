@@ -4,6 +4,7 @@
  * it is tested on its own, away from the database and the network.
  */
 import assert from "node:assert/strict";
+import { readdirSync, statSync } from "node:fs";
 import { createHmac } from "node:crypto";
 import { test } from "node:test";
 import {
@@ -11,9 +12,10 @@ import {
   productFor,
   readOrder,
   verifySignature,
-  welcomeMail,
+  purchaseMail,
   type Order,
 } from "../src/lib/lemonsqueezy.ts";
+import { TERMS_VERSIONS, termsFor } from "../src/lib/terms-versions.ts";
 
 const LIVE = "live-secret";
 const TEST = "test-secret";
@@ -167,22 +169,54 @@ test("an event we do not handle is left alone", () => {
   assert.equal(decideAccess(orderOf(raw), "live", config).act, "ignore");
 });
 
-/* ──────────────────────────── the welcome email ───────────────────────── */
+/* ───────────────────── the purchase confirmation ──────────────────────── */
 
-test("the welcome email carries no code and no link to sign in with", () => {
-  const { subject, text } = welcomeMail({
+/*
+ * The lawyer's own words, which is why this test reads like a transcript:
+ * what it confirms is that nothing was quietly reworded, and that nothing
+ * invites the buyer to sign in with anything but a code they ask for.
+ */
+test("the confirmation says who sold what, for how much, and how to get out of it", () => {
+  const { subject, text } = purchaseMail({
     name: "Anna de Vries",
-    productName: "Phase 1 · Choose it",
-    appUrl: "https://app.maderealblueprint.com",
-    email: "anna@example.com",
+    orderRef: "MRB-1042",
+    boughtOn: "24 October 2026",
+    paid: "EUR 99.00 including VAT",
+    termsVersion: "24 October 2026",
   });
-  assert.match(subject, /Phase 1/);
-  assert.match(text, /Hello Anna,/, "their first name, not their full name");
-  assert.match(text, /anna@example\.com/, "which address to sign in with");
-  assert.ok(!/\/auth|token=|code is|your code/i.test(text), "no sign-in link and no code (§3.1)");
+  assert.equal(subject, "Your purchase: The Made Real Blueprint, Phase 1 (order MRB-1042)");
+  assert.match(text, /^Hello Anna,/, "their first name, not their full name");
+  assert.match(text, /Belgrave Management, Unipessoal Lda/);
+  assert.match(text, /NIPC 518428338/);
+  assert.match(text, /EUR 99\.00 including VAT, one payment\. Order MRB-1042, 24 October 2026\./);
+  assert.match(text, /Your access lasts at least three years from today\./);
+  assert.match(text, /withdraw within 14 days of today, without giving a/);
+  assert.match(text, /30-day money-back guarantee/);
+  assert.match(text, /The terms are attached \(version of 24 October 2026\)/);
+  assert.ok(!/token=|your code is/i.test(text), "no sign-in link and no code (§3.1)");
 });
 
-test("no name still makes a sentence", () => {
-  const { text } = welcomeMail({ name: "", productName: "Phase 1", appUrl: "x", email: "a@b.c" });
+test("no name, no price and no attachment still make a letter", () => {
+  const { text } = purchaseMail({ name: "", orderRef: "9762789", boughtOn: "15 October 2026", paid: null, termsVersion: null });
   assert.match(text, /^Hello,/);
+  assert.match(text, /EUR 99 including VAT, one payment\. Order 9762789, 15 October 2026\./);
+  assert.match(text, /^The terms are at https:\/\/maderealblueprint\.com\/terms\.$/m, "no promise of an attachment that is not there");
+});
+
+/* The dated copies: one for every version, and no version without a copy. */
+test("every version of the terms has its file, and every file its version", () => {
+  const listed = TERMS_VERSIONS.map((t) => t.file).sort();
+  const onDisk = readdirSync("public/terms")
+    .filter((f) => f.endsWith(".pdf"))
+    .sort();
+  assert.deepEqual(listed, onDisk);
+  for (const t of TERMS_VERSIONS) {
+    assert.ok(statSync(`public/terms/${t.file}`).size > 10_000, `${t.file} looks empty`);
+  }
+});
+
+test("a purchase gets the version that applied on the day", () => {
+  assert.equal(termsFor("2026-10-24")?.version, "24 October 2026");
+  assert.equal(termsFor("2027-03-01")?.version, "24 October 2026");
+  assert.equal(termsFor("2026-10-15"), null, "before the first copy was kept");
 });

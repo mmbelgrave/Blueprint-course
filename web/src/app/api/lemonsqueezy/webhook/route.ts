@@ -20,12 +20,13 @@
  */
 import {
   decideAccess,
+  purchaseMail,
   readOrder,
   verifySignature,
-  welcomeMail,
   type Mode,
   type Order,
 } from "@/lib/lemonsqueezy";
+import { termsFor, termsUrl } from "@/lib/terms-versions";
 import { findAccountByEmail } from "@/lib/find-account";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
@@ -180,10 +181,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const sent = await sendWelcome(order, decision.product, isNew);
+    const confirmation = await sendConfirmation(order);
     await log(
       "opened",
-      `${decision.product} for ${order.email}${isNew ? ", new account" : ""}${sent ? "" : ", welcome email NOT sent"}.`,
+      `${decision.product} for ${order.email}${isNew ? ", new account" : ""}. ${
+        confirmation.sent
+          ? `Confirmation sent${confirmation.attached ? ` with the terms of ${confirmation.version}` : " WITHOUT the terms"}.`
+          : "The confirmation was NOT sent."
+      }`,
       order,
     );
     return Response.json({ ok: true });
@@ -233,30 +238,70 @@ async function findOrCreateAccount(
 }
 
 
-/** Returns false when there is no key or Resend refuses; the order stands. */
-async function sendWelcome(order: Order, product: string, isNew: boolean): Promise<boolean> {
+/**
+ * The confirmation, with the terms of the day attached (lawyer, 24 October).
+ *
+ * The attachment is fetched from the app's own address rather than read off
+ * the disk: a file in public/ is served by the edge, not by the function, and
+ * a confirmation that cannot find its PDF still has to go out. When the fetch
+ * fails the letter is sent without it and says so, and the line in Admin says
+ * so too, which is how anybody finds out.
+ */
+async function sendConfirmation(order: Order): Promise<{ sent: boolean; attached: boolean; version: string | null }> {
   const key = process.env.RESEND_API_KEY;
-  if (!key) return false;
-  const { subject, text } = welcomeMail({
+  const nothing = { sent: false, attached: false, version: null };
+  if (!key) return nothing;
+
+  const boughtAt = new Date();
+  const terms = termsFor(boughtAt);
+  let attachment: { filename: string; content: string } | null = null;
+  if (terms) {
+    try {
+      const got = await fetch(termsUrl(APP_URL, terms));
+      if (got.ok) {
+        const bytes = Buffer.from(await got.arrayBuffer());
+        attachment = {
+          filename: `The Made Real Blueprint - terms ${terms.version}.pdf`,
+          content: bytes.toString("base64"),
+        };
+      } else {
+        console.error("terms pdf refused:", got.status, terms.file);
+      }
+    } catch (e) {
+      console.error("terms pdf could not be fetched:", (e as Error).message);
+    }
+  }
+
+  const { subject, text } = purchaseMail({
     name: order.name,
-    productName: order.productName || (product === "phase1" ? "Phase 1 · Choose it" : "The Made Real Blueprint"),
-    appUrl: APP_URL,
-    email: order.email,
-    isNew,
+    orderRef: order.reference || order.orderId,
+    boughtOn: boughtAt.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }),
+    paid:
+      order.totalCents === null
+        ? null
+        : `${order.currency ?? "EUR"} ${(order.totalCents / 100).toFixed(2)} including VAT`,
+    termsVersion: attachment ? terms?.version ?? null : null,
   });
+
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: [order.email], subject, text }),
+      body: JSON.stringify({
+        from: FROM,
+        to: [order.email],
+        subject,
+        text,
+        ...(attachment ? { attachments: [attachment] } : {}),
+      }),
     });
     if (!res.ok) {
-      console.error("welcome email refused by Resend:", res.status, await res.text());
-      return false;
+      console.error("confirmation refused by Resend:", res.status, await res.text());
+      return nothing;
     }
-    return true;
+    return { sent: true, attached: Boolean(attachment), version: terms?.version ?? null };
   } catch (e) {
-    console.error("welcome email could not be sent:", e);
-    return false;
+    console.error("confirmation could not be sent:", (e as Error).message);
+    return nothing;
   }
 }

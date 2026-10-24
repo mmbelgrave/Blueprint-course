@@ -191,63 +191,60 @@ export function decideAccess(
   return { act: "open", product };
 }
 
-/* ──────────────────────────── the welcome email ───────────────────────── */
+/* ─────────────────────── the purchase confirmation ────────────────────── */
 
 /**
- * Sent once, when the order opens something. It carries no sign-in link and no
- * code: §3.1 says the email with the code is asked for by the person, at the
- * moment they want it, and never sent on anyone's behalf.
+ * The confirmation a buyer has to be given, on a durable medium, with the
+ * terms of the day attached (lawyer, 24 October).
+ *
+ * Every word of it is the lawyer's. The only things filled in are the ones
+ * that differ per buyer: their first name, the order, the day, what they
+ * paid, and which version of the terms is attached. Nothing is added to it,
+ * and nothing is left out: a sentence that does not fit is a question for
+ * the lawyer, not an edit here.
  */
-export function welcomeMail(o: {
+export function purchaseMail(o: {
   name: string;
-  productName: string;
-  appUrl: string;
-  email: string;
-  /** False when this address already had an account — a Phase 1 buyer coming back. */
-  isNew?: boolean;
+  /** The order as the buyer sees it on their receipt. */
+  orderRef: string;
+  /** The day they bought, written out: "24 October 2026". */
+  boughtOn: string;
+  /** What they paid, written out: "EUR 99.00". Null when we do not know. */
+  paid: string | null;
+  /** The version of the terms attached, or null when none is attached. */
+  termsVersion: string | null;
 }) {
   const hello = o.name ? `Hello ${o.name.split(" ")[0]},` : "Hello,";
-
-  /*
-   * Somebody coming back for the rest does not need the course explained to
-   * them again. What they do need to hear is that everything they already
-   * wrote is still there: that is what people worry about when they buy the
-   * next part of something they have already started.
-   */
-  const middle =
-    o.isNew === false
-      ? [
-          `Go to ${o.appUrl} and sign in as usual, with ${o.email}. Everything you have`,
-          "already written is where you left it, and the new steps are simply open.",
-        ]
-      : [
-          `Go to ${o.appUrl} and sign in with this email address: ${o.email}. There is no`,
-          "password: you ask for a code, it arrives here, and you type it in.",
-          "",
-          "Inside you will find the videos, the workbook to download, and every exercise",
-          "to answer in the app if you prefer. Your answers are saved as you write, and",
-          "you can download all of them whenever you like.",
-          "",
-          "Take your time with it. Step 1 is where you work out what you actually",
-          "want.",
-        ];
+  const price = o.paid ?? "EUR 99 including VAT";
+  const terms = o.termsVersion
+    ? `The terms are attached (version of ${o.termsVersion}) and at https://maderealblueprint.com/terms.`
+    : "The terms are at https://maderealblueprint.com/terms.";
 
   const text = [
     hello,
     "",
-    `Thank you. ${o.productName} is open for you.`,
+    "Thank you. This email confirms your purchase from Belgrave Management, Unipessoal Lda",
+    "(The Life You Choose), NIPC 518428338, Rua Doutora Maria Adelaide Moura Ferreira, s/n,",
+    "Passarela, 6290-093 Lagarinhos, Gouveia, Portugal, info@maderealblueprint.com.",
     "",
-    ...middle,
+    "You bought: Phase 1 of The Made Real Blueprint (PDF workbooks for Steps 1 to 3 and",
+    `access to the app). ${price}, one payment. Order ${o.orderRef}, ${o.boughtOn}.`,
     "",
-    // Terms §9: the way out, in the letter that brings somebody in. It costs
-    // two lines, and it is the one thing a buyer cannot be expected to go
-    // looking for.
-    "Changed your mind? You have 14 days to withdraw, without giving a reason,",
-    "and we refund the full price: https://app.maderealblueprint.com/withdraw",
+    "Your access lasts at least three years from today. Sign in at app.maderealblueprint.com",
+    "with this email address. You get a code by email.",
+    "",
+    "Your right to withdraw: you can withdraw within 14 days of today, without giving a",
+    "reason, and we refund the full price. Use \"Withdraw from contract here\":",
+    "https://app.maderealblueprint.com/withdraw. You can also email us, or use the model",
+    "form in the terms. On top of that we have a 30-day money-back guarantee: email us with",
+    "your order number.",
+    "",
+    terms,
+    "Privacy: https://maderealblueprint.com/privacy.html.",
     "",
     "Mwata",
-    "The Made Real Blueprint",
   ].join("\n");
 
-  return { subject: `${o.productName} is open: how to start`, text };
+  return { subject: `Your purchase: The Made Real Blueprint, Phase 1 (order ${o.orderRef})`, text };
 }
+
