@@ -332,9 +332,9 @@ Object.assign(answers, {
   },
   green_lights: {
     lights: table([
-      row(["colour", "Amber"], ["turns_green", "Two remote clients signed, or €200 off the monthly costs"], ["by_when", "30 June 2027"]),
+      row(["colour", "Amber"], ["turns_green", "Two remote clients signed, or €200 off the monthly costs"], ["by_when", "30 April 2027"]),
       row(["colour", "Green"], ["turns_green", "Residency file checked by my lawyer and ready to send"], ["by_when", "Done, 4 March 2027"]),
-      row(["colour", "Amber"], ["turns_green", "Lotte and I agree the dates I come back each year"], ["by_when", ""]),
+      row(["colour", "Amber"], ["turns_green", "Lotte and I agree the dates I come back each year"], ["by_when", "30 April 2027"]),
       row(["colour", "Green"], ["turns_green", "The April visit confirmed the house and the village"], ["by_when", "Done"]),
       row(["colour", "Green"], ["turns_green", "The flat is rented out for the first year, not sold"], ["by_when", "Done"]),
     ]),
@@ -360,21 +360,21 @@ Object.assign(answers, {
   },
   "s3-4.2": {
     question: "Am I ready to rent a house with land near Góis for twelve months, from June 2027?",
-    decision: "Go",
+    decision: "Go and move",
     must_haves_met:
       "All four essentials are met and no dealbreaker is broken. Neighbours is only partly met, and I accept that for a year.",
     reasons:
       "The money works: a 22-month runway once the return fund is set aside, and that is before a single new client. The place held up on a second visit, alone. And staying costs me another four years of the same week.",
     lights:
-      "Papers, Place and Plan B are green. Money stays amber until two clients sign. People stays amber until Lotte and I fix the dates.",
+      "Papers, Place and Plan B are green. Money and People were the last two ambers, and both had to turn green by 30 April: two clients in writing, and the dates with Lotte fixed. They did, which is why this is a Go and not a wait.",
     conditions:
-      "The flat is rented out before I sign anything in Portugal, and the €8,000 reserve stays untouched.",
+      "Nothing I cannot undo until the lights are green: the two client agreements in writing and the dates with Lotte agreed before I give notice, the flat rented out before I sign anything in Portugal, and the €8,000 reserve untouched.",
     who_decided: "Lotte knows and agrees. Hendrik has confirmed the work continues wherever I sit.",
-    first_step: "Sign the twelve-month rental on the house near Góis, after the April 2027 visit",
+    first_step: "Sign the twelve-month rental on the house near Góis, now that both client agreements are in writing and the flat is let",
     first_step_date: "4 May 2027",
     review_when: "1 April 2028, after the first winter",
     would_change:
-      "If neither new client signs by June and the costs hold at €2,360, I postpone by six months rather than start on a shrinking runway.",
+      "If neither new client had signed by 30 April and the costs had held at €2,360, I would have postponed by six months rather than start on a shrinking runway. The same rule stands for the move itself: a landlord who will not sign twelve months, and I wait.",
   },
 });
 
@@ -504,7 +504,7 @@ Object.assign(answers, {
     },
     adviser_questions: "Where I pay tax in the first year, and what happens to my Dutch pension if I deregister.",
     money_light: "Amber",
-    money_green_by: "Two remote clients signed, or €200 off the monthly costs. By 30 June 2027.",
+    money_green_by: "Two remote clients signed, or €200 off the monthly costs. By 30 April 2027, before I give notice.",
   },
   "s3-1.4": {
     place: "A rented house with land around Góis, inland from Coimbra.",
@@ -573,7 +573,7 @@ Object.assign(answers, {
     easy_steps: "Moving the bookkeeping fully online, and letting the flat rather than selling it. March and April.",
     hard_steps: "Giving notice at the office, and signing a twelve-month rental. Not before the income is in writing.",
     first_step: "Move the bookkeeping fully online, so the address stops mattering.",
-    first_step_date: "4 May 2027",
+    first_step_date: "2 March 2027",
     extra_time: "Six weeks between the rental signature and the move, for the paperwork to be slower than promised.",
   },
 });

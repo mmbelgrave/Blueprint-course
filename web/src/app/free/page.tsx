@@ -19,11 +19,17 @@ import { SignInForm } from "@/components/sign-in-form";
 import { useApp } from "@/lib/app-state";
 import { cleanSource, rememberSignup } from "@/lib/signup-source";
 
-/** What a free account opens, in the person's words rather than in page ids. */
+/**
+ * What a free account opens, in the person's words rather than in page ids.
+ *
+ * Only what is there today. The third line used to promise the first video of
+ * Step 1; the part videos are not recorded yet, so it said something the
+ * account could not do (external review, 23 October).
+ */
 const WHAT_YOU_GET = [
-  "The Introduction: the welcome video, so you know what you are walking into.",
-  "The Ordinary Tuesday: one normal day in the life you want, in enough detail to test it.",
-  "The first video of Step 1, so you know who you would be working with.",
+  "The Introduction: a short welcome video, so you know what you are walking into.",
+  "The Ordinary Tuesday: one normal day in the life you want, written out in enough detail to test it.",
+  "Your own account, so what you write is still there when you come back.",
 ];
 
 function FreeSignUp() {
@@ -65,9 +71,13 @@ export default function FreePage() {
       <section className="mx-auto max-w-md space-y-6">
         <header className="text-center">
           <h1 className="text-3xl text-pine">Try it for free</h1>
+          {/* No claim about what "most people" find useful: nobody has
+              measured that. What the exercise does, instead (external
+              review, 23 October). */}
           <p className="mt-2 text-stone">
-            Make a free account and start with the part most people find the most useful. Nothing to pay, and nothing
-            that runs out.
+            Make a free account and write one exercise from Step 1: an ordinary day in the life you want, hour by hour.
+            It works the same way whether you are thinking of moving abroad or of changing something where you live.
+            Nothing to pay, and nothing that runs out.
           </p>
         </header>
 

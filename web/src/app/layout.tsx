@@ -18,8 +18,9 @@ const display = Newsreader({
 });
 
 export const metadata: Metadata = {
-  title: "The Made Real Blueprint — Portugal Edition",
-  description: "Make a clear picture of the life you really want, with an AI partner next to you.",
+  title: "The Made Real Blueprint, Phase 1",
+  description:
+    "Steps 1 to 3: picture the life you want, find out where it could work, and decide. For moving abroad and for changing something where you live.",
 };
 
 /*

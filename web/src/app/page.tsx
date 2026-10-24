@@ -52,9 +52,14 @@ export default function Welcome() {
       </section>
 
       <section className="mt-10 max-w-2xl border-t border-line pt-6 text-stone">
+        {/* The same name and the same promise as the website: Phase 1 is
+            Steps 1 to 3, and staying is as real an outcome as moving
+            (external review, 23 October). */}
         <p>
-          {PRODUCT.name} · {PRODUCT.edition}. The Blueprint has {journey.steps.length} steps in three phases: choose
-          it, build it, live it. {live === 1 ? "The first one is open now" : `The first ${live === 2 ? "two" : live} are open now`}; the
+          {PRODUCT.name}, Phase 1. Steps 1 to 3: picture the life you want, find out where it could work, and decide.
+          It is for people thinking of moving abroad and for people who want to change something where they live. The
+          whole Blueprint has {journey.steps.length} steps in three phases: choose it, build it, live it.{" "}
+          {live === 1 ? "The first one is open now" : `The first ${live === 2 ? "two" : live} are open now`}; the
           rest follow.
         </p>
         <p className="mt-3">

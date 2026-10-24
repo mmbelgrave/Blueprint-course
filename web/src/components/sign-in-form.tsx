@@ -9,6 +9,7 @@
  * /free for people arriving from a shared link (§6.2). They must stay one piece
  * of code, because the rule above is easy to break twice.
  */
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useApp } from "@/lib/app-state";
@@ -177,6 +178,18 @@ export function SignInForm({
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
+      {/* What the address is for, next to the field that asks for it, and
+          the way to read the rest. It is kept apart from the optional update
+          tick below, and from the AI consent, which is a separate question
+          asked on its own screen (external review, 23 October). */}
+      <p className="text-sm text-stone">
+        We use your email address to send you a sign-in code and to keep your answers with your account. Nothing else,
+        and never for advertising.{" "}
+        <Link href="/privacy" className="underline">
+          How we handle your data
+        </Link>
+        .
+      </p>
       {beforeButton}
       <button className="btn btn-primary mx-auto" disabled={busy}>
         {busy ? "Sending…" : sendLabel}
