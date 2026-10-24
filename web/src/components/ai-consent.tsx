@@ -79,9 +79,14 @@ export function useAiConsent() {
   };
 }
 
-/** Send an answer. Returns false if it could not be written. */
+/**
+ * Send an answer. Returns false if it could not be written.
+ *
+ * `sensitive` is the box from the first screen (lawyer, 24 October, item B1).
+ * It is not part of the AI question and can be sent on its own.
+ */
 export async function saveConsent(
-  answer: { ai?: boolean; special?: boolean; founder?: boolean },
+  answer: { ai?: boolean; special?: boolean; sensitive?: boolean; founder?: boolean },
   from: "app" | "settings" = "app",
 ): Promise<boolean> {
   try {

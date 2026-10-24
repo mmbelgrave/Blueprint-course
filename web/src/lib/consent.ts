@@ -20,7 +20,10 @@
 /** Bump this when any wording below changes. */
 export const WORDING_VERSION = "2026-10-19";
 
-export type ConsentKind = "ai" | "ai_special";
+export type ConsentKind = "ai" | "ai_special" | "sensitive";
+
+/** The two ticks the AI partner asks for, which share one wording version. */
+export type AiConsentKind = "ai" | "ai_special";
 
 export type ConsentRow = {
   kind: string;
@@ -47,7 +50,7 @@ export const CONSENT_DISCLOSURE = [
  * sentence about sensitive information. Splitting them is what makes the
  * second one an explicit consent somebody can refuse on its own.
  */
-export const CONSENT_TEXT: Record<ConsentKind, string> = {
+export const CONSENT_TEXT: Record<AiConsentKind, string> = {
   ai:
     "I agree that what I write in the chat, and the earlier answers my AI partner needs, " +
     "are sent to Anthropic in the United States so my AI partner can reply. " +
@@ -57,8 +60,39 @@ export const CONSENT_TEXT: Record<ConsentKind, string> = {
     "or political opinions), I explicitly consent to it being processed in this way.",
 };
 
+/*
+ * The sensitive-details screen, asked once after the first sign-in (lawyer,
+ * 24 October, item B1).
+ *
+ * This is not the AI tick. It is about the app itself keeping such details
+ * with the answers, which is true whether or not anybody ever switches an AI
+ * partner on, so it is asked on its own and recorded on its own. The words
+ * are the lawyer's and are not to be changed here without changing the
+ * version below.
+ */
+export const SENSITIVE_WORDING_VERSION = "2026-10-24";
+
+export const SENSITIVE_TEXT = {
+  lead:
+    "The exercises ask about your life. Please avoid details about health, religion, sexual orientation or " +
+    "political opinions, unless you want them in your answers.",
+  box:
+    "If I choose to write such details, I agree that the app stores them with my answers, as explained in the " +
+    "privacy note.",
+  footnote:
+    "Optional. You can take it back in Settings. The app works the same without it. Please just leave those " +
+    "details out.",
+};
+
+/** Which words each kind is recorded against. */
+export const VERSION_OF: Record<ConsentKind, string> = {
+  ai: WORDING_VERSION,
+  ai_special: WORDING_VERSION,
+  sensitive: SENSITIVE_WORDING_VERSION,
+};
+
 /** The newest row of this kind, or null. Rows may arrive in any order. */
-export function latest(rows: ConsentRow[], kind: ConsentKind): ConsentRow | null {
+export function latest(rows: ConsentRow[], kind: string): ConsentRow | null {
   let newest: ConsentRow | null = null;
   for (const row of rows) {
     if (row.kind !== kind) continue;
@@ -72,6 +106,10 @@ export type ConsentState = {
   ai: boolean;
   /** Special categories of data are covered as well. */
   special: boolean;
+  /** The app may keep sensitive details with the answers, if the person writes any. */
+  sensitive: boolean;
+  /** They have answered the sensitive-details screen at its current wording. */
+  sensitiveAsked: boolean;
   /** Nobody has answered the current wording yet: show the whole screen. */
   mustAsk: boolean;
   /** When the AI answer was recorded, for the line in Settings. */
@@ -83,9 +121,14 @@ export function consentState(rows: ConsentRow[], version: string = WORDING_VERSI
   const ai = latest(rows, "ai");
   const special = latest(rows, "ai_special");
   const current = (row: ConsentRow | null) => !!row && row.wording_version === version;
+  /* The sensitive-details answer has its own words, so its own version. */
+  const sensitive = latest(rows, "sensitive");
+  const sensitiveCurrent = !!sensitive && sensitive.wording_version === SENSITIVE_WORDING_VERSION;
   return {
     ai: current(ai) && ai!.granted,
     special: current(special) && special!.granted,
+    sensitive: sensitiveCurrent && sensitive!.granted,
+    sensitiveAsked: sensitiveCurrent,
     mustAsk: !current(ai),
     aiRecordedAt: ai?.recorded_at ?? null,
     version,
@@ -108,16 +151,18 @@ export function aiAllowed(rows: ConsentRow[], version: string = WORDING_VERSION)
 export function rowsToWrite(
   rows: ConsentRow[],
   answer: Partial<Record<ConsentKind, boolean>>,
-  version: string = WORDING_VERSION,
+  /** Only to answer "what if the words were these": each kind knows its own. */
+  version?: string,
 ): { kind: ConsentKind; granted: boolean; wording_version: string }[] {
   const out: { kind: ConsentKind; granted: boolean; wording_version: string }[] = [];
   for (const kind of Object.keys(answer) as ConsentKind[]) {
     const granted = answer[kind];
     if (typeof granted !== "boolean") continue;
+    const words = version ?? VERSION_OF[kind];
     const now = latest(rows, kind);
-    const sameWords = now?.wording_version === version;
+    const sameWords = now?.wording_version === words;
     if (now && sameWords && now.granted === granted) continue;
-    out.push({ kind, granted, wording_version: version });
+    out.push({ kind, granted, wording_version: words });
   }
   return out;
 }
@@ -151,6 +196,20 @@ export function aiRefusal(rows: ConsentRow[], version: string = WORDING_VERSION)
   const ai = latest(rows, "ai");
   if (!ai) return NOT_ASKED_YET;
   return ai.wording_version === version ? SWITCHED_OFF : ASK_AGAIN;
+}
+
+/**
+ * The minute somebody switched their AI partner off, or null.
+ *
+ * Needed by the sweep that clears chats and notes a year after the AI went
+ * off (lawyer, 24 October, item B3). Older wording does not count as off:
+ * those people were never asked again, and their chats are not waiting for a
+ * deletion they did not choose.
+ */
+export function aiOffSince(rows: ConsentRow[], version: string = WORDING_VERSION): string | null {
+  const ai = latest(rows, "ai");
+  if (!ai || ai.granted) return null;
+  return ai.wording_version === version ? ai.recorded_at : null;
 }
 
 /** Always under the chat box (legal review, part 1, point 8). */

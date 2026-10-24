@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { saveConsent } from "@/components/ai-consent";
 import { RequireUser, Shell } from "@/components/Shell";
 import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
+import { SENSITIVE_TEXT } from "@/lib/consent";
 import { SELF_STUDY } from "@/lib/legal";
 import { takeSignup } from "@/lib/signup-source";
 
@@ -18,6 +20,8 @@ function ConsentForm() {
   const router = useRouter();
   const [firstName, setFirstName] = useState(profile?.first_name ?? "");
   const [currency, setCurrency] = useState(profile?.currency ?? "EUR");
+  // The sensitive-details box, empty until they tick it themselves.
+  const [sensitive, setSensitive] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
 
@@ -39,6 +43,15 @@ function ConsentForm() {
             came_from: signup.from ?? profile?.came_from ?? null,
             wants_updates: signup.wants_updates || (profile?.wants_updates ?? false),
           });
+          /*
+           * The sensitive-details answer, recorded either way (lawyer, 24
+           * October, item B1): a no is the record that they were asked and
+           * left it empty, and it is why nobody is asked twice. It must not
+           * hold up the start, so a failure here is not an error on screen:
+           * the box is in Settings as well, and nothing in the app depends
+           * on it.
+           */
+          await saveConsent({ sensitive }).catch(() => undefined);
           router.push("/modules");
         } catch {
           setError(true);
@@ -121,6 +134,27 @@ function ConsentForm() {
             <span className="text-stone">(needed to use the app)</span>
           </span>
         </label>
+
+        {/*
+            The sensitive-details question, in its own box (lawyer, 24
+            October, item B1). It is deliberately not the AI question: this
+            one is about the app keeping such details with the answers, and it
+            is true whether or not an AI partner is ever switched on. Optional,
+            unticked, and the form is sent whatever they choose.
+         */}
+        <div className="space-y-3 rounded-lg bg-sand p-4">
+          <p>{SENSITIVE_TEXT.lead}</p>
+          <label className="flex gap-3">
+            <input
+              type="checkbox"
+              className="mt-1.5 h-5 w-5 accent-pine"
+              checked={sensitive}
+              onChange={(e) => setSensitive(e.target.checked)}
+            />
+            <span>{SENSITIVE_TEXT.box}</span>
+          </label>
+          <p className="text-sm text-stone">{SENSITIVE_TEXT.footnote}</p>
+        </div>
 
         {/*
             Nothing about the AI partner is asked here (legal review of 18

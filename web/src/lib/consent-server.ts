@@ -14,11 +14,11 @@
  * plain to the next person reading this.
  */
 import {
+  aiAllowed,
   aiRefusal,
   CONSENT_UNREADABLE,
   consentState,
   rowsToWrite,
-  WORDING_VERSION,
   type ConsentKind,
   type ConsentRow,
   type ConsentState,
@@ -59,6 +59,18 @@ export async function whyNoAi(userId: string): Promise<string | null> {
   return rows === null ? CONSENT_UNREADABLE : aiRefusal(rows);
 }
 
+/**
+ * Has the other person in a household switched their AI partner on?
+ *
+ * Null when the question could not be answered, which every caller treats as
+ * no: the shared pages stay out of the AI partner's reach unless both ticks
+ * can be shown (lawyer, 24 October, item B2).
+ */
+export async function aiOnFor(userId: string): Promise<boolean | null> {
+  const rows = await consentRows(userId);
+  return rows === null ? null : aiAllowed(rows);
+}
+
 /** Everything the screens need to draw the ticks. */
 export async function myConsent(userId: string): Promise<ConsentState | null> {
   const rows = await consentRows(userId);
@@ -82,7 +94,8 @@ export async function recordConsent(
   const rows = await consentRows(userId);
   if (rows === null) return null;
 
-  const wanted = rowsToWrite(rows, answer, WORDING_VERSION);
+  /* No version is passed: each kind is recorded against its own words. */
+  const wanted = rowsToWrite(rows, answer);
   if (wanted.length > 0) {
     const { error } = await admin.from("consents").insert(wanted.map((row) => ({ ...row, user_id: userId, source })));
     if (error) {

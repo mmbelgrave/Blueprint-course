@@ -42,6 +42,13 @@ export async function POST(request: Request) {
 
   const answer: Partial<Record<ConsentKind, boolean>> = {};
   if (typeof body.ai === "boolean") answer.ai = body.ai;
+  /*
+   * The sensitive-details tick stands on its own (lawyer, 24 October, item
+   * B1): it is about this app keeping such details with the answers, not
+   * about the AI partner, so it is neither required by nor tied to the ticks
+   * above. It is recorded against its own wording version.
+   */
+  if (typeof body.sensitive === "boolean") answer.sensitive = body.sensitive;
   // Special categories ride on the first tick. Agreeing to the second while
   // refusing the first would be a consent to something that never happens.
   if (answer.ai === false) answer.ai_special = false;
