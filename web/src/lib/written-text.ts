@@ -73,12 +73,12 @@ export function writtenText({
 }
 
 /** "my-blueprint-everything-i-wrote-2026-10-09.txt" */
-export function fileName(what: string, day = new Date()): string {
+export function fileName(what: string, day = new Date(), extension = "txt"): string {
   const slug = what
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
-  return `${slug}-${day.toISOString().slice(0, 10)}.txt`;
+  return `${slug}-${day.toISOString().slice(0, 10)}.${extension}`;
 }
 
 /**

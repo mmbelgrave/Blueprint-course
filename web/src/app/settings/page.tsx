@@ -124,11 +124,17 @@ export default function SettingsPage() {
             <p className="mt-1 text-sm text-stone">
               Everything you have written, to read, to print, or to keep as a file. Your answers are your own.
             </p>
+            {/* What is actually in the file, said before they press it
+                (Mwata, 24 October). The pictures used to be left behind. */}
+            <p className="mt-1 text-sm text-stone">
+              The file is a zip: your answers as a document to read, the same answers as a data file, and the
+              pictures you added, in a folder.
+            </p>
             <p className="mt-3 flex flex-wrap justify-center gap-2">
               <Link href="/answers" className="btn btn-ghost">
                 Everything I wrote
               </Link>
-              <a href="/api/account/export" className="btn btn-ghost">
+              <a href="/api/account/download" className="btn btn-ghost">
                 Download the file
               </a>
             </p>

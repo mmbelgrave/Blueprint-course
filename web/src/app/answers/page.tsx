@@ -4,7 +4,8 @@
  * the answers underneath. Printable, so the browser's print window saves it as
  * a PDF — the same way the step results and the Blueprint are saved.
  *
- * This is the readable copy. The file for machines is /api/account/export.
+ * This is the readable copy on screen. The file to keep is /api/account/download,
+ * a zip with this document, the data file and the pictures.
  */
 import Link from "next/link";
 import { RequireUser, Shell } from "@/components/Shell";
@@ -12,7 +13,6 @@ import { useApp } from "@/lib/app-state";
 import { exerciseAnswerLines } from "@/lib/answer-text";
 import { displayTitle, partItems, PRODUCT, steps } from "@/lib/content";
 import { useStepsContent } from "@/lib/use-step-content";
-import { downloadText, fileName, writtenText } from "@/lib/written-text";
 
 export default function MyAnswers() {
   const { answers, profile, statuses } = useApp();
@@ -48,20 +48,6 @@ export default function MyAnswers() {
 
   const pagesDone = Object.values(statuses).filter((s) => s === "done").length;
 
-  const asText = () =>
-    writtenText({
-      title: `${PRODUCT.name} — Everything I wrote`,
-      who: profile?.first_name ?? undefined,
-      when: today,
-      note: `${pagesDone} ${pagesDone === 1 ? "page" : "pages"} marked done.`,
-      sections: written.flatMap(({ step, parts }) =>
-        parts.map(({ part, pages }) => ({
-          title: `Step ${step.step.number} · ${step.step.title} — ${part.label} · ${part.title}`,
-          pages: pages.map(({ page, lines }) => ({ title: displayTitle(page), lines })),
-        })),
-      ),
-      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name}. Your answers are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.`,
-    });
 
   return (
     <Shell>
@@ -71,9 +57,15 @@ export default function MyAnswers() {
             <button className="btn btn-primary" onClick={() => window.print()}>
               Print or save as PDF
             </button>
-            <button className="btn btn-ghost" onClick={() => downloadText(fileName("everything I wrote"), asText())}>
+            {/* The zip, which carries this same document, the data file and
+                the pictures (Mwata, 24 October). */}
+            <a className="btn btn-ghost" href="/api/account/download">
               Download the file
-            </button>
+            </a>
+          </p>
+          <p className="mb-6 text-center text-sm text-stone">
+            The file is a zip: this document, the same answers as a data file, and the pictures you added, in a
+            folder.
           </p>
         </div>
 
