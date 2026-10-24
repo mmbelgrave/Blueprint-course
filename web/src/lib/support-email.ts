@@ -15,7 +15,11 @@ export type QuestionMail = {
   topicLabel: string;
   page?: string;
   question: string;
-  /** Link to this person's page in Admin, so progress is one click away. */
+  /**
+   * Link to the Admin list, so progress is one click away. It used to point
+   * at the person's own page, which was deleted on 20 October with the
+   * consent that allowed reading anybody's answers (Mwata, 24 October).
+   */
   adminUrl?: string;
 };
 
@@ -29,7 +33,7 @@ export function questionMail(q: QuestionMail) {
   const reply = [`Reply by email: ${q.email}`];
 
   const lines = [`${who} asked a question about ${about}.`, "", q.question.trim(), "", "---", ...reply];
-  if (q.adminUrl) lines.push(`Their progress: ${q.adminUrl}`);
+  if (q.adminUrl) lines.push(`Progress and feedback: ${q.adminUrl}`);
   lines.push("", "Sent from the Blueprint app.");
 
   return { subject: `Question from ${who}: ${about}`, text: lines.join("\n") };

@@ -8,7 +8,7 @@ const base = {
   topicLabel: "Step 1 Picture",
   page: "1.2 A normal day in your new life",
   question: "  Can I answer in Dutch?  ",
-  adminUrl: "https://app.maderealblueprint.com/admin/abc",
+  adminUrl: "https://app.maderealblueprint.com/admin",
 };
 
 test("the subject says who asked and about what", () => {
@@ -23,12 +23,12 @@ test("the body holds the question, the way back and nothing else", () => {
   assert.match(text, /^Anna asked a question about Step 1 Picture, 1\.2 A normal day/);
   assert.match(text, /\n\nCan I answer in Dutch\?\n\n/, "the question stands on its own, trimmed");
   assert.match(text, /Reply by email: anna@example\.com/);
-  assert.match(text, /Their progress: https:\/\/app\.maderealblueprint\.com\/admin\/abc/);
+  assert.match(text, /Progress and feedback: https:\/\/app\.maderealblueprint\.com\/admin$/m);
 });
 
 test("no page and no admin link still reads properly", () => {
   const { subject, text } = questionMail({ ...base, page: undefined, adminUrl: undefined });
   assert.equal(subject, "Question from Anna: Step 1 Picture");
-  assert.ok(!text.includes("Their progress"));
+  assert.ok(!text.includes("Progress and feedback"));
   assert.ok(!text.includes("undefined"));
 });

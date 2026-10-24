@@ -7,6 +7,7 @@
 import { steps } from "@/lib/content";
 import { checkQuestion, supportTopics, topicLabel, type QuestionDraft } from "@/lib/support";
 import { sendQuestionMail } from "@/lib/support-email";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
 export const runtime = "nodejs";
@@ -83,8 +84,36 @@ export async function POST(request: Request) {
     topicLabel: topicLabel(TOPICS, draft.topic),
     page: draft.page,
     question: draft.question,
-    adminUrl: new URL(`/admin/${user.id}`, request.url).toString(),
+    adminUrl: new URL("/admin", request.url).toString(),
   });
+
+  /*
+   * Whether it reached Mwata's inbox, written where Admin shows it.
+   *
+   * The question is saved either way and the screen says "sent" either way,
+   * which is right for the person asking: their question has arrived. But a
+   * question nobody was told about is a question that waits, and until now
+   * the only way to know was to open the inbox (Mwata, 24 October). The
+   * withdrawal flow has recorded this from the start; questions now do too.
+   */
+  const admin = supabaseAdmin();
+  if (admin) {
+    await admin
+      .from("webhook_events")
+      .insert({
+        source: "question",
+        event: "question_asked",
+        email: user.email ?? "",
+        outcome: emailed ? "done" : "failed",
+        detail: `${topicLabel(TOPICS, draft.topic)}${draft.page ? `, ${draft.page}` : ""}. ${
+          emailed ? "Emailed to support." : "The email was NOT sent: the question is in Admin only."
+        }`,
+      })
+      .then(
+        () => undefined,
+        () => undefined,
+      );
+  }
 
   return Response.json({ ok: true, emailed });
 }
