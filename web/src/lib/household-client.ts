@@ -21,6 +21,13 @@ export type Household = {
   otherName: string | null;
   /** Who last wrote each shared answer, keyed "exercise/field". */
   changed: Record<string, { who: "me" | "them"; at: string }>;
+  /**
+   * May the AI partner work on the pages you answer together?
+   *
+   * True only when both of you have switched it on (item B2), and always
+   * true for somebody working alone, who has no shared pages.
+   */
+  aiShared: boolean;
   /** When the browser last had the truth, for the conflict check on save. */
   at: string;
 };
@@ -38,6 +45,7 @@ export const workingAlone = (at = new Date().toISOString()): Household => ({
   waiting: false,
   otherName: null,
   changed: {},
+  aiShared: true,
   at,
 });
 
@@ -98,6 +106,7 @@ export async function fetchHousehold(): Promise<HouseholdLoad | null> {
         waiting: Boolean(data.waiting),
         otherName: data.other?.name ?? null,
         changed: data.shared?.changed ?? {},
+        aiShared: data.aiShared === true,
         at,
       },
       answers: (data.shared?.answers ?? {}) as Answers,

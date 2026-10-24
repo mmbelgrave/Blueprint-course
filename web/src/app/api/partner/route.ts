@@ -8,7 +8,7 @@ import { findExercise } from "@/lib/content";
 import { anthropicClient } from "@/lib/partner/client";
 import { contextMessage, HELPERS, partnerRequest, type HelperType } from "@/lib/partner/prompt";
 import { STATUS_MARK, type PartnerStatus } from "@/lib/partner/protocol";
-import { answersIMaySee } from "@/lib/household-server";
+import { answersIMaySee, whyNotHere } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
@@ -60,6 +60,14 @@ export async function POST(request: Request) {
    */
   const refused = await whyNoAi(user.id);
   if (refused) return fail(403, refused);
+
+  /*
+   * And on a page the two of them answer together, both of them have to have
+   * agreed (lawyer, 24 October, item B2). The page is the test, so nothing
+   * changes on anybody's own pages.
+   */
+  const notHere = await whyNotHere(supabaseAdmin(), user.id, exerciseId);
+  if (notHere) return fail(403, notHere);
 
   const { data: profileRow } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
   /*

@@ -2,7 +2,9 @@
 // The AI partner panel: helper buttons, a chat per page, replies that stream in.
 import { useEffect, useRef, useState } from "react";
 import { AiConsentScreen, AiSwitchedOff, useAiConsent } from "@/components/ai-consent";
+import { AI_WAITS_FOR_BOTH } from "@/lib/ai-sharing";
 import { AI_REMINDER, SENSITIVE_REMINDER } from "@/lib/consent";
+import { pageKind } from "@/lib/together-app";
 import { SELF_STUDY } from "@/lib/legal";
 import { useApp } from "@/lib/app-state";
 import { isSupabaseConfigured, store, type ChatMessage } from "@/lib/backend";
@@ -28,7 +30,7 @@ function Header() {
 }
 
 export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
-  const { user, answers } = useApp();
+  const { user, answers, household } = useApp();
   const consent = useAiConsent();
   const [asking, setAsking] = useState(false);
   // Each visit starts with an empty chat. Earlier messages on this page are still
@@ -106,6 +108,24 @@ export function PartnerPanel({ exerciseId }: { exerciseId: string }) {
         ) : (
           <AiSwitchedOff onAsk={() => setAsking(true)} />
         )}
+      </div>
+    );
+  }
+
+  /*
+   * A page the two of them answer together, and the other one has not
+   * switched their AI partner on (lawyer, 24 October, item B2). Their words
+   * are on this page as well as this person's, so nothing is sent. The server
+   * refuses the same request; this is what the person reads.
+   */
+  if (household.role !== "alone" && !household.aiShared && pageKind(exerciseId) === "ours") {
+    return (
+      <div className="rounded-2xl bg-white p-5 shadow-sm">
+        <Header />
+        <p className="mt-4 rounded-lg bg-sand p-3 text-sm text-stone">
+          {AI_WAITS_FOR_BOTH} Your own pages are not affected, and{" "}
+          {household.otherName ?? "your partner"} can switch theirs on in My settings.
+        </p>
       </div>
     );
   }

@@ -8,9 +8,12 @@
  * household and the page before it opens.
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { AI_OFF_ON_SHARED, sharedPagesAllowed, withoutSharedAnswers, type PairAi } from "@/lib/ai-sharing";
+import { INVITATION_DAYS } from "@/lib/seat-end";
+import { aiOnFor } from "@/lib/consent-server";
 import { conflict, householdFrom, mayWriteShared, type Conflict, type Household, type Seat } from "@/lib/household";
 import { mayCompare, waitingBecause } from "@/lib/together";
-import { mayKeepPrivate, sharedAnswer, sharedStatus } from "@/lib/together-app";
+import { mayKeepPrivate, pageKind, sharedAnswer, sharedStatus } from "@/lib/together-app";
 
 type Admin = SupabaseClient;
 
@@ -60,6 +63,19 @@ export async function householdOf(admin: Admin, userId: string): Promise<{ house
  */
 export async function joinAndRead(admin: Admin, userId: string): Promise<{ household: Household; seat: Seat | null }> {
   let seat = await seatOf(admin, userId);
+  /*
+   * An invitation stands for thirty days (lawyer, 24 October, item B4b). The
+   * daily sweep throws the old ones away; this is the same rule at the door,
+   * so an invitation from last year cannot be used in the hours before the
+   * sweep notices it.
+   */
+  if (seat && seat.status === "invited" && seat.partner_id === userId && seat.invited_at) {
+    const old = new Date();
+    old.setDate(old.getDate() - INVITATION_DAYS);
+    if (new Date(seat.invited_at).getTime() <= old.getTime()) {
+      return { household: householdFrom(userId, null), seat: null };
+    }
+  }
   if (seat && seat.status === "invited" && seat.partner_id === userId) {
     const { data } = await admin
       .from("partner_seats")
@@ -70,6 +86,39 @@ export async function joinAndRead(admin: Admin, userId: string): Promise<{ house
     seat = (data as Seat | null) ?? { ...seat, status: "active" };
   }
   return { household: householdFrom(userId, seat), seat };
+}
+
+/**
+ * Both AI partners in this household, or not (lawyer, 24 October, item B2).
+ *
+ * A shared page carries two people's words, so one person's tick is not
+ * enough to send it anywhere. A household with nobody in the second seat is
+ * not a pair at all: those pages are this person's own writing.
+ */
+export async function sharedAi(admin: Admin, household: Household, userId: string): Promise<PairAi> {
+  if (!household.otherId) return { pair: false, mineOn: true, theirsOn: true };
+  const [mine, theirs] = await Promise.all([aiOnFor(userId), aiOnFor(household.otherId)]);
+  return { pair: true, mineOn: mine === true, theirsOn: theirs };
+}
+
+/**
+ * May this person's AI partner work on this page? Null means yes.
+ *
+ * Asked by every AI route before anything is sent. The page decides: a page
+ * they answer alone is theirs, whatever the other person has chosen.
+ */
+export async function whyNotHere(admin: Admin | null, userId: string, exerciseId: string): Promise<string | null> {
+  if (!admin) return null;
+  if (pageKind(exerciseId) !== "ours") return null;
+  let household: Household;
+  try {
+    ({ household } = await householdOf(admin, userId));
+  } catch {
+    /* A seat we cannot read is not a reason to send a shared page away. */
+    return AI_OFF_ON_SHARED;
+  }
+  if (household.role === "alone") return null;
+  return sharedPagesAllowed(await sharedAi(admin, household, userId)) ? null : AI_OFF_ON_SHARED;
 }
 
 export type SharedState = {
@@ -289,7 +338,20 @@ export async function answersIMaySee(
   if (!admin) return answers;
 
   const { household } = await householdOf(admin, userId);
-  if (household.role === "alone" || household.ownerId === userId) return answers;
+  if (household.role === "alone") return answers;
+
+  /*
+   * The pages they answer together, only when both of them have switched
+   * their AI partner on (item B2). Until then those answers are left out of
+   * everything that is sent and out of the notes that are kept, for both
+   * people: the buyer's own rows hold the shared answers, so leaving the
+   * buyer alone here would have shared them anyway.
+   */
+  if (!sharedPagesAllowed(await sharedAi(admin, household, userId))) {
+    return withoutSharedAnswers(answers, sharedAnswer);
+  }
+
+  if (household.ownerId === userId) return answers;
 
   const shared = await sharedState(admin, household);
   for (const [exerciseId, fields] of Object.entries(shared.answers)) {

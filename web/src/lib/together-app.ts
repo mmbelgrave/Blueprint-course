@@ -6,6 +6,8 @@
  * is the one that counts.
  */
 import togetherRaw from "@/content/together.json";
+import { notesFromSharedPages } from "@/lib/ai-sharing";
+import { PROFILE_SOURCES } from "@/lib/profile-fields";
 import {
   AGREED_FIELD,
   asksForAgreement,
@@ -36,3 +38,11 @@ export const wantsAgreement = (exerciseId: string) => asksForAgreement(togetherC
 export const agreedField = AGREED_FIELD;
 export const canSeeTheirs = (state: CompareState) => mayCompare(state);
 export const whyWaiting = (state: CompareState) => waitingBecause(state);
+
+/*
+ * Which of the AI partner's notes are made from pages the household answers
+ * together (lawyer, 24 October, item B2). Those notes are about both people,
+ * so both may see them and either may delete them.
+ */
+export const sharedNoteKeys = (): string[] =>
+  notesFromSharedPages(PROFILE_SOURCES, (page) => pageKind(page) === "ours");

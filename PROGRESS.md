@@ -1117,6 +1117,78 @@ The lawyer also answered A2.1: a Dutch withdrawal page is not required, the
 contract and everything around it being English. The sentence list is kept,
 marked closed, in case a Dutch offer ever changes the answer.
 
+## Block B of the lawyer's review (24 October 2026)
+
+Approved by Mwata the same afternoon and built in one go. The whole of it is
+about other people: the second person in a household, and what happens to
+somebody's words when they stop asking for them.
+
+- **B1** The sensitive-details question, on the first screen after the first
+  sign-in, in the lawyer's three sentences, optional and empty. It is not the
+  AI question and is recorded on its own, as consent kind `sensitive` with its
+  own wording version, including a no: that is the record that says nobody has
+  to be asked twice. The same box is in Settings, where it can be given or
+  taken back. Six sentences in the workbook content that invited a health
+  detail were reworded (eight places, one of them twice over). The wheel area
+  "Health and energy" and the value words "Health" and "Faith" were left
+  alone: those are a score and a choice from a list, not an invitation to
+  write a detail, and changing them would change the exercise.
+- **B2** The AI partner and the pages a household answers together. Both
+  people have to have switched it on, or the shared pages are out of reach:
+  the chat and the draft are refused there, and the shared answers are left
+  out of what is sent and out of the notes that are kept, for the buyer as
+  well, whose own rows hold them. Five of the fifteen notes are drawn from
+  shared pages (time, money, options, places, and the patterns note). Those
+  say so, and deleting one deletes it in both accounts, which is the one thing
+  the browser cannot do on its own, so it goes through a route.
+- **B3** Chats go twelve months after they were written, swept daily with a
+  line in the admin log. The notes stay until the person deletes them.
+  Switching the AI partner off now asks the question: delete the chats and
+  notes now, or keep them switched off. Kept, they go twelve months after the
+  AI went off, which is worked out from the consent history rather than from a
+  new column.
+- **B4** The seat. The invitation now carries the privacy facts before anybody
+  signs in. An invitation nobody uses expires after thirty days, with the
+  address, and the account that was made in advance goes with it when nobody
+  ever signed in to it; the door checks the same thirty days, so an old
+  invitation cannot be used in the hours before the sweep. A seat whose
+  purchase has gone ends, the partner is written to the same day with the date
+  and how to download their answers, and their own answers are deleted thirty
+  days later, while the shared ones stay with the buyer without their name.
+  The buyer's delete screen says that the shared answers go for the partner
+  too. Both pages carry the lawyer's labels word for word.
+- **B5** The first quiet-account letter says "after at least two quiet years",
+  and one short reminder goes seven days before the deletion, with the date.
+
+New: `web/src/lib/ai-sharing.ts`, `web/src/lib/seat-end.ts`,
+`web/src/lib/forget-account-server.ts`, `web/src/app/api/ai/erase/route.ts`,
+`web/src/app/api/notes/shared/route.ts`, `web/supabase/2026-10-24-block-b.sql`,
+`web/tests/block-b.test.ts`, `PRIVACY-sentences-block-b.md`.
+
+`forget-account.ts` is now the two lists and nothing else. It may not import
+anything: the test that walks the SQL and checks that every table of a person
+is accounted for loads it with plain node, which cannot resolve `@/`.
+
+Proved: 379 tests, a clean build, and one dry run of the daily routine against
+the live database with two probe chat lines dated fourteen months back, which
+it counted ("chats: 2 of 5") and would have deleted. The probe rows were
+removed by hand. The routine was also run while `2026-10-24-block-b.sql` had
+not been run, to be sure that deploying before the migration is harmless: it
+reported the missing column and the missing table, did nothing, and in
+particular did not write to anybody a second time.
+
+Mwata ran `2026-10-24-block-b.sql` on 24 October, and it was proved against
+the live database: a consent row of kind `sensitive` is accepted (probe row
+written and removed, the three real rows untouched),
+`retention_notice.reminded_at` reads, and `partner_endings` is there and empty.
+
+The daily routine was then run for real, with two probe chat lines dated
+fourteen months back. It wrote one line in Admin, "chats_swept: Older than 12
+months, deleted: chats: 2 of 4, switched off over 12 months ago: 0", and left
+the two real chats from 5 October alone. Nothing else was due: no quiet
+account, no log row, no consent history, and the live seat was looked at and
+left open, because the buyer still has access.
+
 ## Decided, waiting on launch
 
 - **Supabase Pro before the first paying customer** (2 Oct 2026): the free plan

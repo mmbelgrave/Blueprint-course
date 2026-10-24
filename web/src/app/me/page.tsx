@@ -7,7 +7,9 @@ import { isFree } from "@/lib/access-app";
 import { useApp } from "@/lib/app-state";
 import { deleteAllPictures, picturesAvailable } from "@/lib/backend/pictures";
 import { isSupabaseConfigured, store } from "@/lib/backend";
+import { SHARED_NOTE_NOTE } from "@/lib/ai-sharing";
 import { isEmptyItem, PROFILE_FIELDS, type AiProfile, type ProfileKey } from "@/lib/profile-fields";
+import { sharedNoteKeys } from "@/lib/together-app";
 
 type Field = (typeof PROFILE_FIELDS)[number];
 
@@ -19,11 +21,19 @@ function ProfileItem({
   field,
   profile,
   onSave,
+  onForget,
+  shared,
   locked: pageBusy,
 }: {
   field: Field;
   profile: AiProfile;
   onSave: (next: AiProfile) => Promise<void>;
+  /**
+   * Forgetting a note made from a shared page, which takes it away for both
+   * people (item B2). Given only for those notes, and only in a household.
+   */
+  onForget?: (forget: boolean) => Promise<void>;
+  shared?: boolean;
   /** True while the notes are being updated: no changes then (review R2-1). */
   locked: boolean;
 }) {
@@ -44,12 +54,23 @@ function ProfileItem({
       setSaving(false);
     }
   };
+  /** Forget, or allow again: on both sides when the note is a shared one. */
+  const forgetIt = async (forget: boolean, mine: AiProfile) => {
+    if (!onForget) return save(mine);
+    setSaving(true);
+    try {
+      await onForget(forget);
+    } finally {
+      setSaving(false);
+    }
+  };
   const without = (list: ProfileKey[] | undefined) => (list ?? []).filter((k) => k !== field.key);
 
   return (
     <li className="rounded-2xl bg-white p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="font-semibold text-pine">{field.label}</h2>
+        {shared && <span className="text-xs text-stone">{SHARED_NOTE_NOTE}</span>}
         {corrected && <span className="text-xs text-success">You corrected this</span>}
         {forgotten && (
           <span className="text-xs text-stone">Forgotten. Your AI partner does not use this topic</span>
@@ -118,7 +139,7 @@ function ProfileItem({
               <button
                 className="text-pine underline"
                 disabled={busy}
-                onClick={() => save({ ...profile, _forgotten: without(profile._forgotten) })}
+                onClick={() => forgetIt(false, { ...profile, _forgotten: without(profile._forgotten) })}
               >
                 Allow again
               </button>
@@ -127,7 +148,7 @@ function ProfileItem({
                 className="text-stone underline"
                 disabled={busy}
                 onClick={() =>
-                  save({
+                  forgetIt(true, {
                     ...profile,
                     [field.key]: field.kind === "list" ? [] : "",
                     // The patterns note may mention this topic; it is rebuilt at the next update.
@@ -148,7 +169,7 @@ function ProfileItem({
 }
 
 function DeleteEverything() {
-  const { entitlements, signOut, user } = useApp();
+  const { entitlements, household, signOut, user } = useApp();
   // A free account has no pictures and no AI partner, so it is not told that
   // things it never had are about to be deleted.
   const free = isFree(entitlements);
@@ -165,6 +186,10 @@ function DeleteEverything() {
           ? "This deletes everything you have written here. It cannot be undone."
           : "This deletes your workbook answers, your pictures, your chats with your AI partner, what your AI partner knows about you, your results and your feedback. It cannot be undone."}
       </p>
+      {/* The pages the two of them answered together are stored on the
+          buyer's rows, so the buyer deleting takes them from both (lawyer,
+          24 October, item B4e). Said before the tick, not after. */}
+      {household.role === "buyer" && <p>Shared answers will also be deleted for your partner.</p>}
       {/* The course somebody paid for is not something they wrote, and it
           used to go with the rest (Mwata, 20 October). */}
       <p className="text-stone">
@@ -245,7 +270,7 @@ function DeleteEverything() {
 }
 
 function PartnerKnows() {
-  const { user } = useApp();
+  const { user, household } = useApp();
   const [profile, setProfile] = useState<AiProfile | null>(null);
   const [state, setState] = useState<"loading" | "ready" | "error">("loading");
   const [updating, setUpdating] = useState(false);
@@ -275,6 +300,29 @@ function PartnerKnows() {
       setNote(null);
     } catch {
       setNote("This was not saved. Please check your internet and try again.");
+    }
+  };
+
+  /*
+   * The notes drawn from the pages the household answers together. They are
+   * about both people, so forgetting one forgets it on both sides, and the
+   * server does that rather than the browser (item B2).
+   */
+  const inAHousehold = household.role !== "alone";
+  const shared = new Set(inAHousehold ? sharedNoteKeys() : []);
+  const forgetShared = async (key: ProfileKey, forget: boolean) => {
+    try {
+      const res = await fetch("/api/notes/shared", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ key, forget }),
+      });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.error);
+      setProfile(body.profile as AiProfile);
+      setNote(null);
+    } catch (e) {
+      setNote((e as Error).message || "This was not saved. Please check your internet and try again.");
     }
   };
 
@@ -311,7 +359,15 @@ function PartnerKnows() {
           )}
           <ul className="mt-6 space-y-4">
             {PROFILE_FIELDS.map((f) => (
-              <ProfileItem key={f.key} field={f} profile={profile ?? {}} onSave={save} locked={updating} />
+              <ProfileItem
+                key={f.key}
+                field={f}
+                profile={profile ?? {}}
+                onSave={save}
+                shared={shared.has(f.key)}
+                onForget={shared.has(f.key) ? (forget) => forgetShared(f.key, forget) : undefined}
+                locked={updating}
+              />
             ))}
           </ul>
           {/* After the notes: ask your AI partner to read your answers again. */}

@@ -10,7 +10,7 @@ import { draftFields } from "@/lib/drafts";
 import { anthropicClient } from "@/lib/partner/client";
 import { draftPage } from "@/lib/partner/draft";
 import type { AiProfile } from "@/lib/profile-fields";
-import { answersIMaySee } from "@/lib/household-server";
+import { answersIMaySee, whyNotHere } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
@@ -45,6 +45,10 @@ export async function POST(request: Request) {
   // Consent first, every time (legal review of 18 October, part 1).
   const refused = await whyNoAi(user.id);
   if (refused) return fail(403, refused);
+
+  // A page the household answers together needs both of them (item B2).
+  const notHere = await whyNotHere(supabaseAdmin(), user.id, exerciseId);
+  if (notHere) return fail(403, notHere);
 
   const { data: profileRow } = await supabase
     .from("profiles")

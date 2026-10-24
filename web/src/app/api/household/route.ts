@@ -10,7 +10,8 @@
  * person's first name. Never one of their personal answers.
  */
 import { myEntitlements } from "@/lib/access-server";
-import { householdEntitlements, joinAndRead, otherName, sharedState } from "@/lib/household-server";
+import { sharedPagesAllowed } from "@/lib/ai-sharing";
+import { householdEntitlements, joinAndRead, otherName, sharedAi, sharedState } from "@/lib/household-server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sessionUser, supabaseServer } from "@/lib/supabase-server";
 
@@ -51,10 +52,13 @@ export async function GET() {
   }
   if (household.role === "alone") return Response.json({ role: "alone", at });
 
-  const [shared, name, mine] = await Promise.all([
+  const [shared, name, mine, ai] = await Promise.all([
     sharedState(admin, household),
     otherName(admin, household),
     myEntitlements(supabase),
+    // Whether the AI partner may work on the shared pages (item B2), so the
+    // panel can say why it is quiet there instead of looking broken.
+    sharedAi(admin, household, user.id),
   ]);
   const entitlements = await householdEntitlements(admin, household, mine);
 
@@ -70,6 +74,7 @@ export async function GET() {
     waiting: household.waiting,
     other: household.otherId ? { name } : null,
     shared: { answers: shared.answers, statuses: shared.statuses, changed },
+    aiShared: sharedPagesAllowed(ai),
     entitlements,
     at,
   });
