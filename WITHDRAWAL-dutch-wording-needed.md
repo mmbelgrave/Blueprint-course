@@ -1,4 +1,13 @@
-# The Dutch withdrawal page: the sentences that need the lawyer's words
+# The Dutch withdrawal page: closed, and kept in case it comes back
+
+**Settled on 24 October 2026: not needed.** The lawyer answered that a Dutch
+withdrawal page is not required. The contract, the terms, the workbooks and
+the app are English, and the withdrawal page belongs to the contract.
+
+The list below is kept as it was, because the answer could change if the
+Dutch acquisition pages ever grow into a Dutch offer. Nothing in the app is
+waiting on it.
+
 
 24 October 2026. Item A2.1 asks for a Dutch version of
 `app.maderealblueprint.com/withdraw`, with a language switch at the top. The

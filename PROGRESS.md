@@ -1107,8 +1107,15 @@ upgrade.
   reason and token counts, never message text, and there is no analytics
   package in the app at all.
 
-Two SQL files wait for Mwata: `2026-10-24-updates-consent.sql` and
-`2026-10-24-consent-records.sql`.
+Both SQL files were run on 24 October and proved against the live database:
+a consent row of kind `updates` is accepted, so the box can record itself,
+and a row whose person is not an account is accepted too, which is the
+foreign key being gone. Both probe rows were removed; the three real rows
+are untouched.
+
+The lawyer also answered A2.1: a Dutch withdrawal page is not required, the
+contract and everything around it being English. The sentence list is kept,
+marked closed, in case a Dutch offer ever changes the answer.
 
 ## Decided, waiting on launch
 
