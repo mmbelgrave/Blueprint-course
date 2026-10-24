@@ -39,7 +39,7 @@ export function Shell({
             wide ? "max-w-7xl lg:pr-[25rem]" : "max-w-4xl"
           }`}
         >
-          <Link href={user ? "/modules" : "/"} aria-label={`${PRODUCT.name} — ${PRODUCT.edition}`}>
+          <Link href={user ? "/modules" : "/"} aria-label={PRODUCT.name}>
             <Lockup />
           </Link>
           {/* The same four places the phone has along the bottom, named the

@@ -63,7 +63,7 @@ export default function ModulePage() {
       back="/modules"
       backLabel="Back to the modules"
       title={course.name}
-      blurb={course.edition ? `${course.edition} · ${course.blurb ?? ""}`.replace(/ · $/, "") : course.blurb}
+      blurb={course.blurb}
       percent={course.kind === "phase" && !free ? phaseProgress(course, statuses).percent : undefined}
     />
   );

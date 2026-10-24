@@ -60,7 +60,7 @@ export default function MyAnswers() {
           pages: pages.map(({ page, lines }) => ({ title: displayTitle(page), lines })),
         })),
       ),
-      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. Your answers are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.`,
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name}. Your answers are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.`,
     });
 
   return (
@@ -80,7 +80,7 @@ export default function MyAnswers() {
         <article className="mx-auto max-w-[210mm] rounded-2xl bg-white p-8 print:max-w-none print:rounded-none print:p-0">
           <header className="border-b border-line pb-5">
             <p className="text-sm font-semibold uppercase tracking-widest text-ochre">
-              {PRODUCT.name} · {PRODUCT.edition}
+              {PRODUCT.name}
             </p>
             <h1 className="mt-2 text-3xl text-pine">Everything I wrote</h1>
             <p className="mt-1 text-stone">
@@ -128,7 +128,7 @@ export default function MyAnswers() {
           )}
 
           <footer className="mt-10 border-t border-line pt-4 text-xs text-stone">
-            © {new Date().getFullYear()} {PRODUCT.copyright_holder} · {PRODUCT.name} — {PRODUCT.edition}. Your answers
+            © {new Date().getFullYear()} {PRODUCT.copyright_holder} · {PRODUCT.name}. Your answers
             are your own. This copy is for your personal use; the workbook text and layout may not be copied or shared.
           </footer>
         </article>

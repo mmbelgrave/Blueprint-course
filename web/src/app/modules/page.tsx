@@ -53,7 +53,6 @@ export default function Modules() {
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <span>
                       <h2 className={`text-xl ${state === "open" ? "text-pine" : "text-stone"}`}>{m.name}</h2>
-                      {m.edition && <span className="block text-sm text-stone">{m.edition}</span>}
                     </span>
                     {state === "coming" && <span className="text-sm text-stone">coming soon</span>}
                     {watched && <span className="text-sm text-success">✓ watched</span>}

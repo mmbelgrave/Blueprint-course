@@ -124,7 +124,7 @@ function Document({ step }: { step: StepContent }) {
           lines: exerciseAnswerLines(page.id, answers[page.id], page, "\n"),
         })),
       })),
-      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
     });
 
   /*

@@ -76,7 +76,7 @@ function Blueprint({ phase }: { phase: { name: string; steps: number[] } }) {
           },
         ];
       }),
-      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name} — ${PRODUCT.edition}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
+      footer: `© ${new Date().getFullYear()} ${PRODUCT.copyright_holder} · ${PRODUCT.name}. My answers are my own. This copy is for my personal use; the workbook text and layout may not be copied or shared.`,
     });
 
   // "Download" on the Phase page is a link to this page asking for the file.

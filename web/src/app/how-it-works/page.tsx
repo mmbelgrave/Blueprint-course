@@ -12,7 +12,7 @@ export default function HowItWorks() {
       <article className="mx-auto max-w-2xl space-y-6">
         <header>
           <p className="text-sm font-semibold tracking-wide text-ochre">
-            {PRODUCT.name} · {PRODUCT.edition}
+            {PRODUCT.name}
           </p>
           <h1 className="mt-1 text-3xl text-pine">{appGuide.title}</h1>
           <p className="mt-2 text-lg">{appGuide.intro}</p>

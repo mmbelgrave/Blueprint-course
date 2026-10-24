@@ -55,8 +55,6 @@ export type ModuleDef = {
   kind: ModuleKind;
   name: string;
   blurb?: string;
-  /** Which edition a phase belongs to; a later phase may not be Portugal. */
-  edition?: string;
   /** free: the things on offer. */
   items?: FreeItem[];
   /** lesson: its own video and workbook (the Introduction). */
