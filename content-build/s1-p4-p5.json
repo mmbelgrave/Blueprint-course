@@ -182,7 +182,7 @@
               "id": "staying",
               "type": "table",
               "rows": 1,
-              "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? What would it cost in time, energy, or happiness? Write down both to make the comparison fair.",
+              "hint": "Ask two questions about staying. What would it protect: people, work, a home, a routine that works? What would it cost in time, energy, or happiness? Write down both to make the comparison fair.",
               "columns": [
                 {
                   "id": "protects",

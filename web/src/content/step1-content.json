@@ -1060,8 +1060,8 @@
           "promise": "An earlier attempt tells you something useful.",
           "intro": [
             "Most of us have tried to change something before: a plan we never started, a move we postponed, or a business that remained an idea. Look at what stopped you and sort it into three groups.",
-            "Outside your control: rules changing, illness, a pandemic. You cannot prevent these. You can plan for them, with a reserve, a fallback, or a slower timeline.",
-            "Things you can partly influence: money, work, health, and the people around you. You do not decide these alone, but what you do changes them over time.",
+            "Outside your control: rules changing, a pandemic, a market that turns. You cannot prevent these. You can plan for them, with a reserve, a fallback, or a slower timeline.",
+            "Things you can partly influence: money, work, and the people around you. You do not decide these alone, but what you do changes them over time.",
             "Inside your control: the approach you chose, the information you never gathered, the conversation you avoided, the moment you stopped asking. These are worth studying, because you can do them differently this time.",
             "An earlier attempt can involve all three. Separating them helps you see what to prepare for, what to work on over time, and what to do differently now."
           ],
@@ -1072,8 +1072,8 @@
                 "id": "causes",
                 "type": "checkbox_pick",
                 "options": [
-                  "Something outside my control (rules, illness, events)",
-                  "Something I can influence over time (money, work, health, people)",
+                  "Something outside my control (rules, events, bad luck)",
+                  "Something I can influence over time (money, work, people)",
                   "Not enough support or information",
                   "My priorities changed",
                   "The approach did not work",
@@ -1963,7 +1963,7 @@
                 "id": "staying",
                 "type": "table",
                 "rows": 1,
-                "hint": "Ask two questions about staying. What would it protect: people, work, health, a home, a routine that works? What would it cost in time, energy, or happiness? Write down both to make the comparison fair.",
+                "hint": "Ask two questions about staying. What would it protect: people, work, a home, a routine that works? What would it cost in time, energy, or happiness? Write down both to make the comparison fair.",
                 "columns": [
                   {
                     "id": "protects",
