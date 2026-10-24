@@ -22,7 +22,7 @@ import { Shell } from "@/components/Shell";
  */
 export const metadata = { title: "Your privacy" };
 
-const UPDATED = "19 October 2026";
+const UPDATED = "24 October 2026";
 
 export default function Privacy() {
   return (
