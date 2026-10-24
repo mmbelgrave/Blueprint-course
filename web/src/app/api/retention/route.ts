@@ -18,7 +18,7 @@
  * `?dry=1` reports what it would do and changes nothing. Use that first.
  */
 import { counts, type Entitlement } from "@/lib/access";
-import { CONSENT_HISTORY_YEARS, expiredConsentIds, type ConsentRow } from "@/lib/consent";
+import { CONSENT_HISTORY_YEARS, expiredConsentIds, orphanedConsentIds, type ConsentRow } from "@/lib/consent";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { deleteEverything } from "@/lib/forget-account";
 import { decide, LOG_MONTHS, olderThan, quietMail, type Account } from "@/lib/retention";
@@ -129,7 +129,7 @@ export async function GET(request: Request) {
   }
 
   const withdrawals = await sweepWithdrawals(admin, now, dry, detail);
-  const consents = await sweepConsents(admin, now, dry, detail);
+  const consents = await sweepConsents(admin, now, dry, detail, new Set(users.map((u) => u.id)));
   const logs = await sweepLogs(admin, now, dry, detail);
 
   return Response.json({ ok: true, dry, ...done, withdrawals, consents, logs, ...(dry ? { detail } : {}) });
@@ -378,6 +378,8 @@ async function sweepConsents(
   now: Date,
   dry: boolean,
   detail: string[],
+  /** Everybody who still has an account, so the rest are records of nobody. */
+  stillHere: Set<string>,
 ) {
   const { data, error } = await admin.from("consents").select("id, user_id, kind, granted, wording_version, recorded_at");
   if (error) {
@@ -394,11 +396,27 @@ async function sweepConsents(
   }
 
   const going: number[] = [];
-  for (const mine of byUser.values()) going.push(...expiredConsentIds(mine, now));
+  let orphans = 0;
+  for (const [userId, mine] of byUser) {
+    /*
+     * A deleted account leaves its records behind on purpose since 24 October.
+     * They go three years after the last of them, all together.
+     */
+    if (!stillHere.has(userId)) {
+      const old = orphanedConsentIds(mine, now);
+      going.push(...old);
+      orphans += old.length;
+      continue;
+    }
+    going.push(...expiredConsentIds(mine, now));
+  }
   if (going.length === 0) return { deleted: 0, failed: 0 };
 
   if (dry) {
-    detail.push(`consents: ${going.length} rows older than ${CONSENT_HISTORY_YEARS} years would go`);
+    detail.push(
+      `consents: ${going.length} rows older than ${CONSENT_HISTORY_YEARS} years would go` +
+        (orphans ? `, ${orphans} of them from accounts that are gone` : ""),
+    );
     return { deleted: going.length, failed: 0 };
   }
 
@@ -408,6 +426,12 @@ async function sweepConsents(
     await log(admin, "consent_history_failed", "", gone.message, "failed");
     return { deleted: 0, failed: going.length };
   }
-  await log(admin, "consent_history_deleted", "", `${going.length} consent rows, ended over ${CONSENT_HISTORY_YEARS} years ago.`);
+  await log(
+    admin,
+    "consent_history_deleted",
+    "",
+    `${going.length} consent rows, ended over ${CONSENT_HISTORY_YEARS} years ago` +
+      (orphans ? `, ${orphans} from accounts that are gone.` : "."),
+  );
   return { deleted: going.length, failed: 0 };
 }

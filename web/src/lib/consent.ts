@@ -201,3 +201,23 @@ export function expiredConsentIds(rows: Numbered[], now: Date | string = new Dat
   }
   return out;
 }
+
+/**
+ * The records of somebody who is no longer here.
+ *
+ * Since 24 October a deleted account leaves its consent rows standing: the
+ * privacy page promises that the proof is kept for three years after the last
+ * choice "or after you delete your account", and a cascade would have thrown
+ * it away the same minute. What is left is an id that names nobody, a date
+ * and a version of some words.
+ *
+ * Three years after the last of those rows, they go too. The whole person's
+ * rows go together: half a history proves nothing.
+ */
+export function orphanedConsentIds(rows: Numbered[], now: Date | string = new Date()): number[] {
+  if (rows.length === 0) return [];
+  const cutoff = new Date(now);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - CONSENT_HISTORY_YEARS);
+  const last = Math.max(...rows.map((r) => new Date(r.recorded_at).getTime()));
+  return last <= cutoff.getTime() ? rows.map((r) => r.id) : [];
+}

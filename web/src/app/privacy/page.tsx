@@ -141,13 +141,14 @@ export default function Privacy() {
 
         <h2 className="font-semibold">How long</h2>
         <p>
-          As long as you use the Blueprint. If you have not signed in for 24 months, we email you first. If there is
-          no reply within 30 days, the account and everything in it are deleted. Sign-in codes last an hour. The log
-          of how much you used your AI partner is kept for 12 months, and questions you send from Help for 12 months
-          from the day you send them. An order has to be kept as long as tax law says, which is generally 10 years,
-          so after you delete your account the order record is all that is left. What you agreed to, when, and the
-          wording you read are kept while you have an account, and for up to 3 years after a consent ends, so we can
-          show it was given and when it stopped. If you delete your account, those records go with it. There are no
+          As long as you use the Blueprint. If you do not sign in for 24 months, I email you first, and if there is
+          no reply within 30 days I delete the account. If you bought the course, this applies only once three years
+          have passed since your purchase. Sign-in codes last an hour. The log of how much you used your AI partner
+          is kept for 12 months, and questions you send from Help for 12 months from the day you send them. An order
+          has to be kept as long as tax law says, which is generally 10 years, so after you delete your account the
+          order record is all that is left. A record that you gave or withdrew consent, with only the date and the
+          wording version, is kept for 3 years after your last choice or after you delete your account. The basis is
+          my legitimate interest in being able to show that I asked properly (Art. 6(1)(f) GDPR). There are no
           separate backups of the app&rsquo;s database.
         </p>
         <p>

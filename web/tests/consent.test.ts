@@ -12,6 +12,7 @@ import {
   consentState,
   latest,
   expiredConsentIds,
+  orphanedConsentIds,
   rowsToWrite,
   type ConsentRow,
 } from "../src/lib/consent.ts";
@@ -166,4 +167,28 @@ test("each kind is counted on its own", () => {
   // The third is a kind we stopped asking for in October 2026; it is still
   // the newest of its kind, so it stands and is not swept away.
   assert.deepEqual(expiredConsentIds(rows, "2026-10-19T10:00:00Z"), []);
+});
+
+/*
+ * A deleted account leaves its consent records standing (lawyer, 24 October):
+ * "kept for 3 years after your last choice or after you delete your account".
+ * They used to cascade away with the account, which is the opposite.
+ */
+test("the records of somebody who is gone wait three years, then go together", () => {
+  const rows = [
+    numbered(1, "ai", true, "2023-01-01T10:00:00Z"),
+    numbered(2, "ai", false, "2023-06-01T10:00:00Z"),
+    numbered(3, "updates", true, "2023-06-01T10:00:00Z"),
+  ];
+  // Two years after the last of them: nothing goes.
+  assert.deepEqual(orphanedConsentIds(rows, "2025-06-01T10:00:00Z"), []);
+  // Three years and a day: the whole history goes at once.
+  assert.deepEqual(orphanedConsentIds(rows, "2026-06-02T10:00:00Z"), [1, 2, 3]);
+});
+
+test("one row and no history is still a record with a clock on it", () => {
+  const one = [numbered(9, "updates", true, "2026-10-24T09:00:00Z")];
+  assert.deepEqual(orphanedConsentIds(one, "2029-10-23T09:00:00Z"), []);
+  assert.deepEqual(orphanedConsentIds(one, "2029-10-25T09:00:00Z"), [9]);
+  assert.deepEqual(orphanedConsentIds([], "2029-10-25T09:00:00Z"), []);
 });
